@@ -12,16 +12,16 @@ namespace LarpPortal.Classes
 {
     public class cEmptyClass
     {
-       
-        private string strSomeValue = "";
+
+        private string _someValue = "";
 
         public string SomeValue
         {
-            get
-            { return strSomeValue; }
-            set
-            {strSomeValue = value;}
+            get { return _someValue; }
+            set { _someValue = value; }
         }
+
+
 
         private cEmptyClass()
         {
@@ -44,7 +44,7 @@ namespace LarpPortal.Classes
                 DataTable ldt = cUtilities.LoadDataTable("uspGetSomeData", slParams, "DefaultSQLConnection", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-                    strSomeValue = ldt.Rows[0]["SomeValue"].ToString();
+                    _someValue = ldt.Rows[0]["SomeValue"].ToString();
                 }
             }
             catch (Exception ex)
