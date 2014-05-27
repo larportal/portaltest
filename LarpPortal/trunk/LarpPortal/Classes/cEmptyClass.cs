@@ -14,6 +14,14 @@ namespace LarpPortal.Classes
     {
 
         private string _someValue = "";
+        private DateTime? _aNullableDateValue = null; // putting a ? after the type when defining a field, property, or any variable allows that field to be null 
+
+        public DateTime? ANullableDateValue
+        {
+            get { return _aNullableDateValue; }
+            set { _aNullableDateValue = value; }
+        }
+
 
         public string SomeValue
         {
