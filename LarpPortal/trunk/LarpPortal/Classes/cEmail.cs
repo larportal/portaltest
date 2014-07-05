@@ -20,6 +20,7 @@ namespace LarpPortal.Classes
         private DateTime _DateChanged = DateTime.Now;
         private DateTime? _DateDeleted = null;
         private string _UserName = "";
+        private Int32 _UserID = -1;
 
         // ID for the EMail Address
         public Int32 EMailID
@@ -65,11 +66,13 @@ namespace LarpPortal.Classes
         }
 
         // Passing an ID of -1 should produce the devault values, and on update should generate a new record. 
-        public cEMail(Int32 intEMailID, string strUserName)
+        public cEMail(Int32 intEMailID, string strUserName, Int32 intUserID)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
             _UserName = strUserName;
+            _UserID = intUserID;
+            _EMailID = intEMailID;
             try
             {
                 SortedList slParams = new SortedList();
@@ -109,14 +112,14 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList();
+                slParams.Add("@UserID", _UserID);
                 slParams.Add("@EMailID", _EMailID);
                 slParams.Add("@EmailAddress", _EMailAddress);
                 slParams.Add("@Comments", _Comments);
                 //slParams.Add("@DateAdded", _DateAdded);
                 //slParams.Add("@DateChanged", _DateChanged);
                 //slParams.Add("@DateDeleted", _DateDeleted);
-                cUtilities.PerformNonQueryBoolean("InsUpdMDBEmails", slParams, "LARPortal", _UserName);
-                blnReturn = true;
+                blnReturn = cUtilities.PerformNonQueryBoolean("InsUpdMDBEmails", slParams, "LARPortal", _UserName);
             }
             catch (Exception ex)
             {
