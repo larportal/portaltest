@@ -74,12 +74,12 @@ namespace LarpPortal.Classes
         {
             get {return _DateDeleted;}
         }
-        private void cAddress()
+        private cAddress()
         {
 
         }
 
-        public void cAddress(Int32 intID, string strUserName, Int32 intUserID)
+        public cAddress(Int32 intID, string strUserName, Int32 intUserID)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
