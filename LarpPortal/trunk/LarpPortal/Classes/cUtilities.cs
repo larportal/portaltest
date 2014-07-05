@@ -13,7 +13,6 @@ using System.DirectoryServices;
 using LarpPortal.Classes;
 using Excel;
 
-
 namespace LarpPortal.Classes
 {
     [Serializable()]
@@ -101,7 +100,6 @@ namespace LarpPortal.Classes
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            string strParam = "";
             SqlConnection lconn = new SqlConnection(ConfigurationManager.ConnectionStrings[strLConn].ConnectionString);
             SqlCommand lcmd = new SqlCommand();
             lcmd.CommandText = strStoredProc;
@@ -242,14 +240,15 @@ namespace LarpPortal.Classes
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
             ArrayList alList = new ArrayList();
-            int intIndex = 0;
+            
             strString = strString.Trim();
             int intLength = strString.Length;
             try
             {
                 do
                 {
-                    intIndex = strString.IndexOf(strSeperator);
+                    int intIndex = 0;
+                    intIndex = strString.IndexOf(strSeperator, StringComparison.CurrentCulture);
                     if (intIndex > 2)
                     {
                         alList.Add(strString.Substring(0, intIndex));
@@ -314,7 +313,6 @@ namespace LarpPortal.Classes
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            string strParam = "";
             SqlConnection lconn = new SqlConnection(ConfigurationManager.ConnectionStrings[strLConn].ConnectionString);
             SqlCommand lcmd = new SqlCommand();
             lcmd.CommandText = strStoredProc;
@@ -350,11 +348,11 @@ namespace LarpPortal.Classes
             SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
             DataTable ldt = new DataTable();
             String strReturn = "";
-            Boolean blnCanConvert = false;
             Int32 intReturn = 0;
-            long number1 = 0;
             try
             {
+                long number1 = 0;
+                Boolean blnCanConvert = false;
                 lconn.Open();
                 ldsa.Fill(ldt);
                 if (ldt.Rows.Count > 0)
@@ -458,7 +456,7 @@ namespace LarpPortal.Classes
         {
             string strReturn = strPath.ToUpper();
             string strSharesPath = ReturnDefaultValue("SharesPath", "");
-            if (strReturn.IndexOf("TMC-ERPDPLY-1") > -1)
+            if (strReturn.IndexOf("TMC-ERPDPLY-1", StringComparison.CurrentCulture) > -1)
             {
                 strReturn = @"/ECSMT/HTMLUPload/";
             }
@@ -518,7 +516,7 @@ namespace LarpPortal.Classes
         {
             string strReturn = strPath.ToUpper();
             string strSharesPath = ReturnDefaultValue("SharesPath", "");
-            if (strReturn.IndexOf("TMC-ERPDPLY-1") > -1)
+            if (strReturn.IndexOf("TMC-ERPDPLY-1", StringComparison.CurrentCulture) > -1)
             {
                 strReturn = @"/ECSMT/HTMLUPload/";
             }
