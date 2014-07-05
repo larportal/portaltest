@@ -91,7 +91,7 @@ namespace LarpPortal.Classes
 
             string lsSQLCmd = lobjRoutines.FormatSQLCmd(pvsCmd);
 
-            if ((pvsAddInfo != null) &&
+            if ((!String.IsNullOrEmpty(pvsAddInfo)) &&
                  (pvsAddInfo != ""))
             {
                 lsSQLCmd += "<br>" + pvsAddInfo.Replace(Environment.NewLine, "<BR>");
