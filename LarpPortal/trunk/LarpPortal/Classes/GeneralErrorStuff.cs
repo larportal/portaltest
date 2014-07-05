@@ -2,6 +2,7 @@ using System;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Text;
+using System.Globalization;
 
 namespace LarpPortal.Classes
 {
@@ -61,27 +62,27 @@ namespace LarpPortal.Classes
                     lsErrorText += "Error: pvException is null" + "<br><br>";
 
                 if ( pvException.Message != null )
-                    lsErrorText += "Message: " + pvException.Message.ToString() + "<br><br>";
+                    lsErrorText += "Message: " + pvException.Message.ToString(CultureInfo.CurrentCulture) + "<br><br>";
                 else
                     lsErrorText += "Message: pvException.Message is null" + "<br><br>";
 
                 if (pvException.Source != null)
-                    lsErrorText += "Source: " + pvException.Source.ToString() + "<br>" + "<br>";
+                    lsErrorText += "Source: " + pvException.Source.ToString(CultureInfo.CurrentCulture) + "<br>" + "<br>";
                 if (pvException.TargetSite != null)
                     lsErrorText += "TargetSite: " + pvException.TargetSite.ToString() + "<br><br>";
                 if (pvException.StackTrace != null)
-                    lsErrorText += "StackTrace: " + pvException.StackTrace.ToString() + "<br><br>";
+                    lsErrorText += "StackTrace: " + pvException.StackTrace.ToString(CultureInfo.CurrentCulture) + "<br><br>";
 
                 if (pvException.InnerException != null)
                 {
                     if ( pvException.InnerException != null )
                         lsErrorText += "Message: " + pvException.InnerException.ToString() + "<br>" + "<br>";
                     if (pvException.InnerException.Source != null)
-                        lsErrorText += "Source: " + pvException.InnerException.Source.ToString() + "<br>" + "<br>";
+                        lsErrorText += "Source: " + pvException.InnerException.Source.ToString(CultureInfo.CurrentCulture) + "<br>" + "<br>";
                     if (pvException.InnerException.TargetSite != null)
                         lsErrorText += "TargetSite: " + pvException.InnerException.TargetSite.ToString() + "<br>" + "<br>";
                     if (pvException.InnerException.StackTrace != null)
-                        lsErrorText += "StackTrace: " + pvException.InnerException.StackTrace.ToString() + "<br>" + "<br>";
+                        lsErrorText += "StackTrace: " + pvException.InnerException.StackTrace.ToString(CultureInfo.CurrentCulture) + "<br>" + "<br>";
                 }
             }
             catch
@@ -114,15 +115,15 @@ namespace LarpPortal.Classes
                 lsErrorText += "Location of Error: " + pvsLocation + "<br><br>";
                 lsErrorText += "Error is on machine " + pvsComputerName + "<br><br>";
                 lsErrorText += "Error: " + SQLExcept.ToString() + "<br><br>";
-                lsErrorText += "Line Number: " + SQLExcept.LineNumber.ToString() + "<br><br>";
-                lsErrorText += "Message: " + SQLExcept.Message.ToString() + "<br><br>";
-                lsErrorText += "Class: " + SQLExcept.Class.ToString() + "<br><br>";
-                lsErrorText += "Number: " + SQLExcept.Number.ToString() + "<br><br>";
-                lsErrorText += "Procedure: " + SQLExcept.Procedure.ToString() + "<br><br>";
-                lsErrorText += "Server: " + SQLExcept.Server.ToString() + "<br><br>";
-                lsErrorText += "Source: " + SQLExcept.Source.ToString() + "<br><br>";
-                lsErrorText += "State: " + SQLExcept.State.ToString() + "<br><br>";
-                lsErrorText += "StackTrace: " + pvSQLException.StackTrace.ToString() + "<br><br>";
+                lsErrorText += "Line Number: " + SQLExcept.LineNumber.ToString(CultureInfo.CurrentCulture) + "<br><br>";
+                lsErrorText += "Message: " + SQLExcept.Message.ToString(CultureInfo.CurrentCulture) + "<br><br>";
+                lsErrorText += "Class: " + SQLExcept.Class.ToString(CultureInfo.CurrentCulture) + "<br><br>";
+                lsErrorText += "Number: " + SQLExcept.Number.ToString(CultureInfo.CurrentCulture) + "<br><br>";
+                lsErrorText += "Procedure: " + SQLExcept.Procedure.ToString(CultureInfo.CurrentCulture) + "<br><br>";
+                lsErrorText += "Server: " + SQLExcept.Server.ToString(CultureInfo.CurrentCulture) + "<br><br>";
+                lsErrorText += "Source: " + SQLExcept.Source.ToString(CultureInfo.CurrentCulture) + "<br><br>";
+                lsErrorText += "State: " + SQLExcept.State.ToString(CultureInfo.CurrentCulture) + "<br><br>";
+                lsErrorText += "StackTrace: " + pvSQLException.StackTrace.ToString(CultureInfo.CurrentCulture) + "<br><br>";
             }
             return lsErrorText;
         }
