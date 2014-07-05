@@ -260,8 +260,14 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Classes\cAddress.cs" />
+    <Compile Include="Classes\cCampaignBase.cs" />
+    <Compile Include="Classes\cEmail.cs" />
     <Compile Include="Classes\cEmptyClass.cs" />
     <Compile Include="Classes\ClientErrors.cs" />
+    <Compile Include="Classes\cPhone.cs" />
+    <Compile Include="Classes\cSite.cs" />
+    <Compile Include="Classes\cUser.cs" />
     <Compile Include="Classes\cUtilities.cs" />
     <Compile Include="Classes\ExtensionMethods.cs" />
     <Compile Include="Classes\GeneralErrorStuff.cs" />
