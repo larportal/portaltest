@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -36,6 +37,11 @@ namespace LarpPortal.Classes
         public static Boolean ToBoolean(this string value)
         {
             return Convert.ToBoolean(value.Trim());
+        }
+
+        public static string ToUIString(this string value)
+        {
+            return value.ToString(CultureInfo.CurrentUICulture);
         }
     }
 }
