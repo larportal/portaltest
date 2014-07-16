@@ -203,7 +203,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@Comments", _Comments);
                 cUtilities.PerformNonQueryBoolean("InsUpdSTSites", slParams, "LarpPortal", _UserName);
                 _SitePhone.SaveUpdate();
-                _SiteAddress.SaveUpdate();
+                _SiteAddress.SaveUpdate(_UserID);
             }
             catch (Exception ex)
             {
