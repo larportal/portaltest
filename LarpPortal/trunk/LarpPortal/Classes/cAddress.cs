@@ -15,7 +15,7 @@ namespace LarpPortal.Classes
         /// <summary>
         /// Table: MDBAddresses Field: AddressID  Notes: This field identifies the address record
         /// </summary>
-        private int _IntAddressID = 0;
+        private int _IntAddressID = -1;
         public int IntAddressID
         {
             get { return _IntAddressID; }
@@ -181,7 +181,7 @@ namespace LarpPortal.Classes
         /// </summary>
         /// <param name="intAddressID">ID for Address</param>
         /// <param name="userName">User ID</param>
-        public cAddress(int intAddressID, string strUserNameParam)
+        public cAddress(int intAddressID, string strUserNameParam, int intuserID)
         {
             strUserName = strUserNameParam;
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
@@ -191,7 +191,7 @@ namespace LarpPortal.Classes
             //so lets say we wanted to load data into this class from a sql query called uspGetSomeData thats take two paraeters @Parameter1 and @Parameter2
             SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
             slParams.Add("@Parameter1", intAddressID);
-
+            slParams.Add("@Parameter2", intuserID);
 
             try
             {
@@ -225,38 +225,34 @@ namespace LarpPortal.Classes
         /// <summary>
         /// Deletes, Updates, or Creates Address in the database
         /// </summary>
-        /// <param name="option">String argument to tell the function what to do. u for Update, d for Delete, c for Create, defaults to update</param>
+        /// <param name="option">String argument to tell the function what to do. u for Update, d for Delete, i for insert, defaults to update</param>
         /// <returns>True on success</returns>
-        public Boolean bUpdate(String option = "u")
+        public Boolean SaveUpdate(int userID, bool delete = false)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
             Boolean bUpdateComplete = false;
             SortedList slParams = new SortedList();
-            slParams.Add("@Paramater4", _StrAddress1);
-            slParams.Add("@Paramater5", _StrAddress2);
-            slParams.Add("@Paramater6", _StrCity);
-            slParams.Add("@Paramater7", _StrStateID);
-            slParams.Add("@Paramater8", _StrPostalCode);
-            slParams.Add("@Paramater9", _StrCountry);
             try
             {
-                switch (option.ToLower())
+                if(delete)
                 {
-                    case "u":
-                        slParams.Add("@Paramater10", _IntAddressID);
-                        bUpdateComplete = cUtilities.PerformNonQueryBoolean("upsUpdateAddress", slParams, "DefaultSQLConnection", strUserName);
-                        break;
-                    case "d":
-                        slParams.Clear();
-                        slParams.Add("@Paramater1", _IntAddressID);
-                        bUpdateComplete = cUtilities.PerformNonQueryBoolean("upsDeleteAddress", slParams, "DefaultSQLConnection", strUserName);
-                        break;
-                    case "c":
-                        bUpdateComplete = cUtilities.PerformNonQueryBoolean("upsCreateAddress", slParams, "DefaultSQLConnection", strUserName);
-                        break;
-                    default:
-                        break;
+                    slParams.Add("@Paramater1", userID);
+                    slParams.Add("@Paramater2", _IntAddressID);
+                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("upsDelMDBAddresses", slParams, "DefaultSQLConnection", strUserName);
+                }
+                else
+                {
+                    slParams.Add("@Paramater1", userID);
+                    slParams.Add("@Paramater2", _IntAddressID);
+                    slParams.Add("@Paramater3", _StrAddress1);
+                    slParams.Add("@Paramater4", _StrAddress2);
+                    slParams.Add("@Paramater5", _StrCity);
+                    slParams.Add("@Paramater6", _StrStateID);
+                    slParams.Add("@Paramater7", _StrPostalCode);
+                    slParams.Add("@Paramater8", _StrCountry);
+                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("uspInsMDBAddresses", slParams, "DefaultSQLConnection", strUserName);
+                    
                 }
 
             }
@@ -270,9 +266,5 @@ namespace LarpPortal.Classes
 
         }
 
-        public string MapTo(cAddress Where)
-        {
-            return "http://maps.google.com/preview?q=" + this._StrGoogleString + "to" + Where.GoogleString;
-        }
     }
 }
