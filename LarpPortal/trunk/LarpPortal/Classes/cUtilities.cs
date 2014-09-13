@@ -559,6 +559,49 @@ namespace LarpPortal.Classes
             return blnReturn;
         }
 
+        public static DataSet LoadDataSet(string strStoredProc, SortedList slParameters, string strLConn, string strUserName, string strCallingMethod)
+        {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+            SqlConnection lconn = new SqlConnection(ConfigurationManager.ConnectionStrings[strLConn].ConnectionString);
+            SqlCommand lcmd = new SqlCommand();
+            lcmd.CommandText = strStoredProc;
+            lcmd.CommandType = CommandType.StoredProcedure;
+            lcmd.CommandTimeout = 0;   
+            lcmd.Connection = lconn;
+            if (slParameters.Count > 0) 
+            {
+                for (int i = 0; i < slParameters.Count; i++)
+                {
+                    lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                }
+            }
+            SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
+            DataSet  lds = new DataSet();
+            
+            try
+            {
+                lconn.Open();
+                ldsa.Fill(lds);
+            }
+            catch (SqlException exSQL)
+            {
+                ErrorAtServer lobjError = new ErrorAtServer();
+                lobjError.ProcessError(exSQL, lsRoutineName + ":" + strStoredProc, lcmd, strUserName + strCallingMethod);
+            }
+            catch (Exception ex)
+            {
+                ErrorAtServer lobjError = new ErrorAtServer();
+                lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
+            }
+            finally
+            {
+                lconn.Close();
+            }
+
+            return lds;
+          }
+
  
     }
 }
