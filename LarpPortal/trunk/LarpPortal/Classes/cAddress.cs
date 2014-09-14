@@ -88,6 +88,15 @@ namespace LarpPortal.Classes
             set { _StrCountry = value; }
         }
         /// <summary>
+        /// Table MDBAddressed Field: Comments.
+        /// </summary>
+        private string _StrComments = "";
+        public string StrComments
+        {
+            get { return _StrComments; }
+            set { _StrComments = value; }
+        }
+        /// <summary>
         /// Table: MDBAddresses Field: DateAdded Notes: Date Added
         /// </summary>
         private DateTime _DateAdded = DateTime.Now;
@@ -208,6 +217,7 @@ namespace LarpPortal.Classes
                     if (ldt.Rows[0]["PostalCode"] != null) { _StrPostalCode = ldt.Rows[0]["PostalCode"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["Country"] != null) { _StrCountry = ldt.Rows[0]["Country"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["MDBStatesStateName"] != null) { _StateName = ldt.Rows[0]["MDBStatesStateName"].ToString(); } //Table Table MDBStates
+                    if (ldt.Rows[0]["Comments"] != null) { _StrComments = ldt.Rows[0]["Comments"].ToString(); }
                     _DateAdded = (DateTime)ldt.Rows[0]["DateAdded"];
                     _DateChanged = (DateTime)ldt.Rows[0]["DateChanged"];
                     _DateDeleted = (DateTime)ldt.Rows[0]["DateDeleted"];
@@ -251,6 +261,7 @@ namespace LarpPortal.Classes
                     slParams.Add("@Paramater6", _StrStateID);
                     slParams.Add("@Paramater7", _StrPostalCode);
                     slParams.Add("@Paramater8", _StrCountry);
+                    slParams.Add("@Parameter9", _StrComments);
                     bUpdateComplete = cUtilities.PerformNonQueryBoolean("uspInsMDBAddresses", slParams, "DefaultSQLConnection", strUserName);
                     
                 }
