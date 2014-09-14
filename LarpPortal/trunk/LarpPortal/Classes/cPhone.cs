@@ -25,9 +25,14 @@ namespace LarpPortal.Classes
         private string _Comments = "";
         private string _UserName = "";
 
+        public cPhone()
+        {
+        }
+
         public Int32 PhoneNumberID
         {
             get { return _PhoneNumberID; }
+            set { _PhoneNumberID = value; }
         }
         public Int32 PhoneTypeID
         {
@@ -68,11 +73,6 @@ namespace LarpPortal.Classes
         {
             get { return _Comments; }
             set { _Comments = value; }
-        }
-
-        private cPhone()
-        {
-
         }
 
         public cPhone(Int32 intPhoneNumberID, Int32 intUserID, string strUserName)
