@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -37,6 +37,7 @@ namespace LarpPortal.Classes
         public Int32 SiteID
         {
             get { return _SiteID; }
+            set { _SiteID = value; }
         }
         public string SiteName
         {
@@ -125,9 +126,8 @@ namespace LarpPortal.Classes
             get { return _DateDeleted; }
         }
 
-        private cSite()
+        public cSite()
         {
-            
         }
 
         public cSite(Int32 intSiteID, Int32 intUserID, string strUserName)
