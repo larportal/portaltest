@@ -12,6 +12,12 @@ namespace LarpPortal.Classes
     [Serializable()]
     public class cBank
     {
+       public cBank()
+        {
+            PlayerCPAuditID = -1;
+            RecordStatus = RecordStatuses.Active;
+        }
+
         private int _addedBy;
         private int _addedByID;
         private Boolean _allowCPDonation;
@@ -63,7 +69,7 @@ namespace LarpPortal.Classes
         private double _totalCP;
         private DateTime _transactionDate;
 
-
+        public RecordStatuses RecordStatus { get; set; }
         public int AddedBy      // This field will track the player who completed the transaction
         {
             get { return _addedBy; }
@@ -317,6 +323,23 @@ namespace LarpPortal.Classes
             get { return _transactionDate; }
             set { _transactionDate = value; }
         }
+
+        /// <summary>
+        /// This is called to retrieve a list of a players' points.
+        /// </summary>
+        /// <returns>
+        /// Returns a datatable containing all a players' points
+        /// </returns>
+        public int LoadPoints(int UserIDToLoad)
+        {
+            int inumPointRecords = 0;
+            SortedList slStoredProcParameters = new SortedList();
+            slStoredProcParameters.Add("@UserID", UserIDToLoad);
+            DataTable dtMyPoints = new DataTable();
+            dtMyPoints = cUtilities.LoadDataTable("uspGetMyPoints", slStoredProcParameters, "LARPortal", UserIDToLoad.ToString(), "LoadPoints");
+            return inumPointRecords;
+        }
+
         /// <summary>
         /// This is called to retrieve a list of a players' campaigns.
         /// </summary>
@@ -379,19 +402,5 @@ namespace LarpPortal.Classes
             return dtGameSystemPointOpportunities;
         }
 
-        /// <summary>
-        /// This is called to retrieve a list of a players' points.
-        /// </summary>
-        /// <returns>
-        /// Returns a datatable containing all a players' points
-        /// </returns>
-        public DataTable GetMyPoints(int UserID)
-        {
-            SortedList slStoredProcParameters = new SortedList();
-            slStoredProcParameters.Add("@UserID", UserID);
-            DataTable dtMyPoints = new DataTable();
-            dtMyPoints = cUtilities.LoadDataTable("uspGetMyPoints", slStoredProcParameters, "LARPortal", "rpierce", "GetMyPoints");
-            return dtMyPoints;
-        }
     }
 }
