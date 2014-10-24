@@ -12,7 +12,7 @@ namespace LarpPortal.Classes
 {
     public class cCampaignBase
     {
-
+        private Int32 _UserID = -1;
         private Int32 _CampaignID = -1;
         private string _CampaignName = "";
         private DateTime? _StartDate = null;
@@ -27,7 +27,7 @@ namespace LarpPortal.Classes
         private Int32 _MaxNumberOfGenres = 1;
         private string _PortalAccessType = "";
         private string _PortalAccessDescription = "";
-        private Int32 _PrimaryUserID = -1;
+        private Int32 _PrimaryOwnerID = -1;
         private string _WebPageDescription = "";
         private string _URL = "";
         private string _Logo = ""; // stored the file location for the logo image
@@ -82,7 +82,17 @@ namespace LarpPortal.Classes
         private Boolean _UserDefinedField3Use = false;
         private string _UserDefinedField4Value = "";
         private Boolean _UserDefinedField4Use = false;
+        private string _UserDefinedField5Value = "";
+        private Boolean _UserDefinedField5Use = false;
         private string _UserName = "";
+        private Int32 _ProjectedNumberOfEvents = 0;
+        private Int32 _ActualNumberOfEvents = 0;
+        private Int32 _MarketingCampaignSize = 0;
+        private Boolean _UseCampaignCharacters = false;
+        private Int32 _CampaignAddressID = -1;
+        private string _CSSFile = "";
+        private string _Comments = "";
+
 
         public Int32 CampaignID
         {
@@ -154,10 +164,10 @@ namespace LarpPortal.Classes
             get { return _PortalAccessDescription; }
             set { _PortalAccessDescription = value; }
         }
-        public Int32 PrimaryUserID
+        public Int32 PrimaryOwnerID
         {
-            get { return _PrimaryUserID; }
-            set { _PrimaryUserID = value; }
+            get { return _PrimaryOwnerID; }
+            set { _PrimaryOwnerID = value; }
         }
         public string WebPageDescription
         {
@@ -429,8 +439,51 @@ namespace LarpPortal.Classes
             get { return _UserDefinedField4Use; }
             set { _UserDefinedField4Use = value; }
         }
-
-
+        public string UserDefinedField5Value
+        {
+            get { return _UserDefinedField5Value; }
+            set { _UserDefinedField5Value = value; }
+        }
+        public Boolean UserDefinedField5Use
+        {
+            get { return _UserDefinedField5Use; }
+            set { _UserDefinedField5Use = value; }
+        }
+        public Int32 ProjectedNumberOfEvents
+        {
+            get { return _ProjectedNumberOfEvents; }
+            set {_ProjectedNumberOfEvents = value;}
+        }
+        public Int32 ActualNumberOfEvents
+        {
+            get { return _ActualNumberOfEvents; }
+            set { _ActualNumberOfEvents = value; }
+        }
+        public Int32 MarketingCampaignSize
+        {
+            get { return _MarketingCampaignSize; }
+            set { _MarketingCampaignSize = value; }
+        }
+        public Boolean UseCampaignCharacters
+        {
+            get { return _UseCampaignCharacters; }
+            set { _UseCampaignCharacters = value; }
+        }
+        public Int32 CampaignAddressID
+        {
+            get { return _CampaignAddressID; }
+            set { _CampaignAddressID = value; }
+        }
+        public string CSSFile
+        {
+            get { return _CSSFile; }
+            set { _CSSFile = value; }
+        }
+        public string Comments
+        {
+            get { return _Comments; }
+            set { _Comments = value; }
+        }
 
 
         private cCampaignBase()
@@ -438,7 +491,7 @@ namespace LarpPortal.Classes
 
         }
 
-        public cCampaignBase(Int32 intCampaignID, string strUserName)
+        public cCampaignBase(Int32 intCampaignID, string strUserName, Int32 intUserID)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
@@ -449,12 +502,91 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-                slParams.Add("@intCampaignID", _CampaignID);
+                slParams.Add("@CampaignID", _CampaignID);
 
-                DataTable ldt = cUtilities.LoadDataTable("uspGetCampaign", slParams, "DefaultSQLConnection", strUserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetCampaignByCampaignID", slParams, "DefaultSQLConnection", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-                   // _someValue = ldt.Rows[0]["SomeValue"].ToString();
+                    _ActualEndDate = Convert.ToDateTime(ldt.Rows[0]["ActualEndDate"].ToString().Trim());
+                    _ActualNumberOfEvents = ldt.Rows[0]["ActualNumberOfEvents"].ToString().Trim().ToInt32();
+                    _AllowCPDonation = ldt.Rows[0]["AllowCPDonation"].ToString().Trim().ToBoolean();
+                    _AnnualCharacterCPCap = ldt.Rows[0]["AnnualCharacterCap"].ToString().Trim().ToInt32();
+                    _CampaignAddressID = ldt.Rows[0]["CampaignAddress"].ToString().Trim().ToInt32();
+                    _CampaignName = ldt.Rows[0]["CampaignName"].ToString();
+                    _CancellationPolicy = ldt.Rows[0]["CancellationPolicy"].ToString().Trim();
+                    _CharacterApprovalLevel = ldt.Rows[0]["CharacterApprovalLevel"].ToString().Trim().ToInt32();
+                    _CharacterGeneratorURL = ldt.Rows[0]["CharacterGeneratorURL"].ToString().Trim();
+                    _CharacterHistoryApprovalLevel = ldt.Rows[0]["CharacterHistoryApprovalLevel"].ToString().Trim().ToInt32();
+                    _CharacterHistoryNotificationDeliverPref = ldt.Rows[0]["CharacterHistoryNotificationDeliveryPreference"].ToString().Trim().ToInt32();
+                    _CharacterHistoryNotificationEmail = ldt.Rows[0]["CharacterHistoryNotificationEmail"].ToString().Trim();
+                    _CharacterHistoryURL = ldt.Rows[0]["CharacterHistoryURL"].ToString().Trim();
+                    _CharacterNotificationDeliveryPref = ldt.Rows[0]["CharacterHistoryNotificationDeliveryPreference"].ToString().Trim().ToInt32();
+                    _CharacterNotificationEMail = ldt.Rows[0]["CharacterNotificationEmail"].ToString().Trim();
+                    _CharacterHistoryURL = ldt.Rows[0]["CharacterHistoryURL"].ToString().Trim();
+                    _CharacterNotificationDeliveryPref = ldt.Rows[0]["CharacterHistoryNotificationDeliveryPreference"].ToString().Trim().ToInt32();
+                    _CharacterNotificationEMail = ldt.Rows[0]["CharacterNotificationEmail"].ToString().Trim();
+                    _Comments = ldt.Rows[0]["Comments"].ToString().Trim();
+                    _CPNotificationEmail = ldt.Rows[0]["CPNotificationEmail"].ToString().Trim();
+                    _CPNotificationPreferenceDescription = ldt.Rows[0]["CPNotificationDeliveryPreference"].ToString().Trim();
+                    _CPNotificationPreferenceID = -1; //JRV TODO
+                    _CrossCampaignPosting = ldt.Rows[0]["CrossCampaignPosting"].ToString().Trim();
+                    _CSSFile = ldt.Rows[0]["CampaignCSSFile"].ToString().Trim();
+                    _EmergencyEventContact = ldt.Rows[0]["EmergencyEventContactInfo"].ToString().Trim();
+                    _EventCharacterCPCap = ldt.Rows[0]["EventCharacterCap"].ToString().Trim().ToInt32();
+                    _GameSystemID = ldt.Rows[0]["GameSystemID"].ToString().Trim().ToInt32();
+                    _GameSystemName = "GetFromGameSystemClass"; //JRV TODO
+                    _InfoRequestEmail = ldt.Rows[0]["InfoRequestEmail"].ToString().Trim();
+                    _InfoSkillApprovalLevel = ldt.Rows[0]["InfoSkillApprovalLevel"].ToString().Trim().ToInt32();
+                    _InfoSkillDeliveryPref = ldt.Rows[0]["InfoSkillDeliveryPreference"].ToString().Trim().ToInt32();
+                    _InfoSkillEMail = ldt.Rows[0]["InfoSkillEmail"].ToString().Trim();
+                    _InfoSkillURL = ldt.Rows[0]["InfoSkillURL"].ToString().Trim();
+                    _JoinRequestEmail = ldt.Rows[0]["JoinRequestEmail"].ToString().Trim();
+                    _Logo = ldt.Rows[0]["CampaignLogo"].ToString().Trim();
+                    _MarketingCampaignSize = ldt.Rows[0]["MarketingCampaignSize"].ToString().Trim().ToInt32();
+                    _MaximumCPPerYear = ldt.Rows[0]["MaximumCPPerYear"].ToString().Trim().ToInt32();
+                    _MaxNumberOfGenres = 0; //JRV ToDO
+                    _MembershipFee = Convert.ToDouble(ldt.Rows[0]["MembershipFee"].ToString().Trim());
+                    _MembershipFeeFrequency = ldt.Rows[0]["MembershipFeeFrequency"].ToString().Trim();
+                    _MinimumAge = ldt.Rows[0]["MinimumAge"].ToString().Trim().ToInt32();
+                    _MinimumAgeWithSupervision = ldt.Rows[0]["MinimumAgeWithSupervision"].ToString().Trim().ToInt32();
+                    _PELApprovalLevel = ldt.Rows[0]["PELApprovalLevel"].ToString().Trim().ToInt32();
+                    _PelNotificationDeliveryPref = ldt.Rows[0]["PELNotificationDeliveryPreference"].ToString().Trim().ToInt32();
+                    _PELNotificationEMail = ldt.Rows[0]["PELNotificationEmail"].ToString().Trim();
+                    _PELSubmissionURL = ldt.Rows[0]["PELSubmissionURL"].ToString().Trim();
+                    _PlayerApprovalRequired = ldt.Rows[0]["PlayerApprovalRequired"].ToString().Trim().ToBoolean();
+                    _PortalAccessDescription = ""; //JRV TODO
+                    _PortalAccessType = ldt.Rows[0]["PortalAccessType"].ToString().Trim();
+                    _PrimaryOwnerID = ldt.Rows[0]["PrimaryOwnerID"].ToString().Trim().ToInt32();
+                    _ProductionSkillEMail = ldt.Rows[0]["ProductionSkillEmail"].ToString().Trim();
+                    _ProductionSkillURL = ldt.Rows[0]["ProductionSkillURL"].ToString().Trim();
+                    _ProjectedEndDate = Convert.ToDateTime( ldt.Rows[0]["ProductionSkillURL"].ToString().Trim());
+                    _ProjectedNumberOfEvents = ldt.Rows[0]["ProjectedNumberOfEvents"].ToString().Trim().ToInt32();
+                    _RulesFile = ldt.Rows[0]["CampaignRulesFile"].ToString().Trim();
+                    _RulesURL = ldt.Rows[0]["CampaignRulesURL"].ToString().Trim();
+                    _ShareLocationUseNotes = ldt.Rows[0]["ShareLocationUseNotes"].ToString().Trim();
+                    _StartDate = Convert.ToDateTime(ldt.Rows[0]["CampaignStartDate"].ToString().Trim());
+                    _StatusDescription = ""; //JRV TODO
+                    _StatusID = ldt.Rows[0]["StatusID"].ToString().Trim().ToInt32();
+                    _StyleDescription = "";
+                    _StyleID = ldt.Rows[0]["StyleID"].ToString().Trim().ToInt32();
+                    _TechLevelID = ldt.Rows[0]["TechLevelID"].ToString().Trim().ToInt32();
+                    _TechLevelName = "";// JRV TODO
+                    _TotalCharacterCPCap = ldt.Rows[0]["TotalCharacterCap"].ToString().Trim().ToInt32();
+                    _URL = ldt.Rows[0]["CampaignURL"].ToString().Trim();
+                    _UseCampaignCharacters = ldt.Rows[0]["UseCampaignCharacters"].ToString().Trim().ToBoolean();
+                    _UserDefinedField1Use = ldt.Rows[0]["UseUserDefinedField1"].ToString().Trim().ToBoolean();
+                    _UserDefinedField1Value = ldt.Rows[0]["UserDefinedField1"].ToString().Trim();
+                    _UserDefinedField2Use = ldt.Rows[0]["UseUserDefinedField2"].ToString().Trim().ToBoolean();
+                    _UserDefinedField2Value = ldt.Rows[0]["UserDefinedField2"].ToString().Trim();
+                    _UserDefinedField3Use = ldt.Rows[0]["UseUserDefinedField3"].ToString().Trim().ToBoolean();
+                    _UserDefinedField3Value = ldt.Rows[0]["UserDefinedField3"].ToString().Trim();
+                    _UserDefinedField4Use = ldt.Rows[0]["UseUserDefinedField4"].ToString().Trim().ToBoolean();
+                    _UserDefinedField4Value = ldt.Rows[0]["UserDefinedField4"].ToString().Trim();
+                    _UserDefinedField5Use = ldt.Rows[0]["UseUserDefinedField5"].ToString().Trim().ToBoolean();
+                    _UserDefinedField5Value = ldt.Rows[0]["UserDefinedField5"].ToString().Trim();
+                    _WebPageDescription = ldt.Rows[0]["CampaignWebPageDescription"].ToString().Trim();
+                    _WebPageSelectionComments = ldt.Rows[0]["CampaignWebPageSelectionComments"].ToString().Trim();
+                    _WorldID = -1; //JRV TODO
                 }
             }
             catch (Exception ex)
@@ -473,8 +605,78 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList();
                // slParams.Add("@Parmeter1", strParameter1)
-
-
+                slParams.Add("@UserID", -_UserID);
+                slParams.Add("@CampaignID", _CampaignID);
+                slParams.Add("@CampaignName", _CampaignName);
+                slParams.Add("@CampaignStartDate", _StartDate);
+                slParams.Add("@ProjectedEndDate", _ProjectedEndDate);
+                slParams.Add("@ActualEndDate", _ActualEndDate);
+                slParams.Add("@ProjectedNumberOfEvents", _ProjectedNumberOfEvents);
+                slParams.Add("@ActualNumberOfEvents", _ActualNumberOfEvents);
+                slParams.Add("@GameSystemID", _GameSystemID);
+                slParams.Add("@MarketingCampaignSize", _MarketingCampaignSize);
+                slParams.Add("@TechLevelID", _TechLevelID);
+                slParams.Add("@StyleID", _StyleID);
+                slParams.Add("@UseCampaignCharacters", _UseCampaignCharacters);
+                slParams.Add("@PortalAccessType", _PortalAccessType);
+                slParams.Add("@PrimaryOwnerID", _PrimaryOwnerID);
+                slParams.Add("@CampaignAddress", _CampaignAddressID);
+                slParams.Add("@CampaignWebPageDescription", _WebPageDescription);
+                slParams.Add("@CampaignURL", _URL);
+                slParams.Add("@CampaignLogo", _Logo);
+                slParams.Add("@CampaignCSSFile", _CSSFile);
+                slParams.Add("@CPNotificationEmail", _CPNotificationEmail);
+                slParams.Add("@CPNotificationDeliveryPreference", _CPNotificationPreferenceID);
+                slParams.Add("@MembershipFee", _MembershipFee);
+                slParams.Add("@MembershipFeeFrequency", _MembershipFeeFrequency);
+                slParams.Add("@EmergencyEventContactInfo", _EmergencyEventContact);
+                slParams.Add("@InfoRequestEmail", _InfoRequestEmail);
+                slParams.Add("@PlayerApprovalRequired", _PlayerApprovalRequired);
+                slParams.Add("@JoinRequestEmail", _JoinRequestEmail);
+                slParams.Add("@MinimumAge", _MinimumAge);
+                slParams.Add("@MinimumAgeWithSupervision", _MinimumAgeWithSupervision);
+                slParams.Add("@MaximumCPPerYear", _MaximumCPPerYear);
+                slParams.Add("@AllowCPDonation", _AllowCPDonation);
+                slParams.Add("@PELApprovalLevel", _PELApprovalLevel);
+                slParams.Add("@PELNotificationEmail", _PELNotificationEMail);
+                slParams.Add("@PELNotificationDeliveryPreference", _PelNotificationDeliveryPref);
+                slParams.Add("@PELSubmissionURL", _PELSubmissionURL);
+                slParams.Add("@CharacterApprovalLevel", _CharacterApprovalLevel);
+                slParams.Add("@CharacterNotificationEmail", _CharacterNotificationEMail);
+                slParams.Add("@CharacterNotificationDeliveryPreference", _CharacterNotificationDeliveryPref);
+                slParams.Add("@CharacterHistoryApprovalLevel", _CharacterHistoryApprovalLevel);
+                slParams.Add("@CharacterHistoryNotificationEmail", _CharacterHistoryNotificationEmail);
+                slParams.Add("@CharacterHistoryNotificationDeliveryPreference", _CharacterHistoryNotificationDeliverPref);
+                slParams.Add("@CharacterHistoryURL", _CharacterHistoryURL);
+                slParams.Add("@InfoSkillEmail", _InfoSkillEMail);
+                slParams.Add("@InfoSkillDeliveryPreference", _InfoSkillDeliveryPref);
+                slParams.Add("@InfoSkillApprovalLevel", _InfoSkillApprovalLevel);
+                slParams.Add("@InfoSkillURL", _InfoSkillURL);
+                slParams.Add("@ProductionSkillEmail", _ProductionSkillEMail);
+                slParams.Add("@ProductionSkillURL", _ProductionSkillURL);
+                slParams.Add("@CampaignWebPageSelectionComments", _WebPageSelectionComments);
+                slParams.Add("@CampaignRulesURL", _RulesURL);
+                slParams.Add("@CampaignRulesFile", _RulesFile);
+                slParams.Add("@CharacterGeneratorURL", _CharacterGeneratorURL);
+                slParams.Add("@ShareLocationUseNotes", _ShareLocationUseNotes);
+                slParams.Add("@StatusID", _StatusID);
+                slParams.Add("@CancellationPolicy", _CancellationPolicy);
+                slParams.Add("@CrossCampaignPosting", _CrossCampaignPosting);
+                slParams.Add("@EventCharacterCap", _EventCharacterCPCap);
+                slParams.Add("@AnnualCharacterCap", _AnnualCharacterCPCap);
+                slParams.Add("@TotalCharacterCap", _TotalCharacterCPCap);
+                slParams.Add("@UserDefinedField1", _UserDefinedField1Value);
+                slParams.Add("@UseUserDefinedField1", _UserDefinedField1Use);
+                slParams.Add("@UserDefinedField2", _UserDefinedField2Value);
+                slParams.Add("@UseUserDefinedField2", _UserDefinedField2Use);
+                slParams.Add("@UserDefinedField3", _UserDefinedField3Value);
+                slParams.Add("@UseUserDefinedField3", _UserDefinedField3Use);
+                slParams.Add("@UserDefinedField4", _UserDefinedField4Value);
+                slParams.Add("@UseUserDefinedField4", _UserDefinedField4Use);
+                slParams.Add("@UserDefinedField5", _UserDefinedField5Value);
+                slParams.Add("@UseUserDefinedField5", _UserDefinedField5Use);
+                slParams.Add("@Comments", _Comments);
+                cUtilities.PerformNonQuery("uspInsUpdCMCampaigns",slParams,"LARPortal",_UserName);
                 blnReturn = true;
             }
             catch(Exception ex)
