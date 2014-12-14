@@ -1,0 +1,75 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="LARPortal.master.cs" Inherits="LarpPortal.LARPortal" %>
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>	   <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>		   <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>		   <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>LARP Portal</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="bower_components/bootstrap-table/dist/bootstrap-table.min.css">
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+    <!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+    <div class="wrapper">
+        <header>
+            <img src="img/portal-small.png" alt="Larp Portal picture" height="160" width="227">
+            <div class="logo">
+                <h1>LARP Portal</h1>
+                <p>The Gateway To Managing Your LARPs</p>
+            </div>
+            <!-- .logo -->
+            <nav class="mainNav">
+                <ul>
+                    <li><a href="index.aspx">Home</a></li>
+                    <li><a href="index.aspx">Sign Up</a></li>
+                    <li><a href="index.aspx">Login</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FaceBook</a></li>
+                </ul>
+            </nav>
+            <div>
+                <nav class="logo">
+                    <asp:Label ID="lblLoginName" runat="server"></asp:Label>
+                </nav>
+            </div>
+            <nav class="userMainNav">
+                <asp:Repeater ID="menu_ul_1" runat="server">
+                    <HeaderTemplate>
+                        <ul>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <%# Eval("href_li")%>
+
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </ul>
+                    </FooterTemplate>
+
+                </asp:Repeater>
+            </nav>
+
+        </header>
+    <asp:ContentPlaceHolder ID="MainPage" runat="server" ></asp:ContentPlaceHolder>
+    </div>
+
+</body>
+</html>

@@ -15,6 +15,11 @@ using Excel;
 
 namespace LarpPortal.Classes
 {
+    public enum RecordStatuses
+    {
+        Active,
+        Delete
+    };
     [Serializable()]
     public class cUtilities
     {
@@ -61,10 +66,7 @@ namespace LarpPortal.Classes
             {
                 lconn.Close();
             }
-
             return ldt;
-
-
         }
 
         public static DataSet ReturnDataTableFromExcelWorksheet(string strSheetLocation, string strSheetName, string strUserName)
