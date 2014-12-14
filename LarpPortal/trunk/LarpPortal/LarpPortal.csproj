@@ -156,18 +156,63 @@
     <Content Include="Account\OpenAuthProviders.ascx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
+    <Content Include="AllMessages.aspx" />
+    <Content Include="CampaignInfo.aspx" />
+    <Content Include="CampaignInfoSetup.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\normalize.css" />
     <Content Include="ExternalDLLs\Excel.dll" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="GameSystemTest2.aspx" />
+    <Content Include="img\larpPortal.jpg" />
+    <Content Include="img\larpPortal.png" />
+    <Content Include="img\portal-small.png" />
+    <Content Include="img\portal.png" />
+    <Content Include="img\profilePG.png" />
+    <Content Include="img\rick.jpg" />
+    <Content Include="index.aspx" />
+    <Content Include="css\main.css" />
+    <Content Include="Inventory.aspx" />
+    <Content Include="larpPortal.jpg" />
+    <Content Include="LARPResume.aspx" />
+    <Content Include="Medical.aspx" />
+    <Content Include="MemberDemographics.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Account\Web.config" />
+    <Content Include="img\.gitignore" />
+    <Content Include="LARPortal.Master" />
+    <Content Include="PlayerResume.aspx" />
+    <Content Include="Preferences.aspx" />
+    <Content Include="PublicCalendar.aspx" />
+    <Content Include="PublicCampaigns.aspx" />
+    <Content Include="RSVPMessages.aspx" />
+    <Content Include="Security.aspx" />
+    <Content Include="UnreadMessages.aspx" />
+    <Content Include="Waivers.aspx" />
+    <Content Include="WebForm1.aspx" />
+    <Content Include="WebForm2.aspx" />
+    <Content Include="MemberProfile.master" />
+    <Content Include="LARPing.master" />
+    <Content Include="WhatIsLARPing.aspx" />
+    <Content Include="MemberMessages.master" />
+    <Content Include="MemberCampaigns.master" />
+    <Content Include="Characters.master" />
+    <Content Include="MemberPoints.master" />
+    <Content Include="MemberCalendar.master" />
+    <Content Include="MemberReports.master" />
+    <Content Include="MemberSites.master" />
+    <Content Include="PublicCampaigns.master" />
+    <Content Include="PublicCalendar.master" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="PlayerRoleTest.aspx" />
+    <Content Include="rick.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -250,6 +295,13 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="AllMessages.aspx.cs">
+      <DependentUpon>AllMessages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AllMessages.aspx.designer.cs">
+      <DependentUpon>AllMessages.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -260,14 +312,61 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="CampaignInfo.aspx.cs">
+      <DependentUpon>CampaignInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CampaignInfo.aspx.designer.cs">
+      <DependentUpon>CampaignInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CampaignInfoSetup.aspx.cs">
+      <DependentUpon>CampaignInfoSetup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CampaignInfoSetup.aspx.designer.cs">
+      <DependentUpon>CampaignInfoSetup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Characters.master.cs">
+      <DependentUpon>Characters.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Characters.master.designer.cs">
+      <DependentUpon>Characters.master</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\cActor.cs" />
     <Compile Include="Classes\cAddress.cs" />
+    <Compile Include="Classes\cBank.cs" />
+    <Compile Include="Classes\cCalendar.cs" />
     <Compile Include="Classes\cCampaignBase.cs" />
+    <Compile Include="Classes\cCharacter.cs" />
+    <Compile Include="Classes\cCharacterDeath.cs" />
+    <Compile Include="Classes\cCharacterRelationship.cs" />
+    <Compile Include="Classes\cCharacterSkill.cs" />
+    <Compile Include="Classes\cCharacterSkillSets.cs" />
+    <Compile Include="Classes\cCharacterStatus.cs" />
+    <Compile Include="Classes\cCharacterType.cs" />
+    <Compile Include="Classes\cDonations.cs" />
     <Compile Include="Classes\cEmail.cs" />
     <Compile Include="Classes\cEmptyClass.cs" />
+    <Compile Include="Classes\cGameSystem.cs" />
     <Compile Include="Classes\ClientErrors.cs" />
+    <Compile Include="Classes\cLogin.cs" />
+    <Compile Include="Classes\cPageTab.cs" />
     <Compile Include="Classes\cPhone.cs" />
+    <Compile Include="Classes\cPhoneTest.cs" />
+    <Compile Include="Classes\cPicture.cs" />
+    <Compile Include="Classes\cPlace.cs" />
+    <Compile Include="Classes\cPlayerRole.cs" />
+    <Compile Include="Classes\cPlayerRoles.cs" />
+    <Compile Include="Classes\cRace.cs" />
+    <Compile Include="Classes\cRole.cs" />
+    <Compile Include="Classes\cSchedule.cs" />
     <Compile Include="Classes\cSite.cs" />
+    <Compile Include="Classes\cTransaction.cs" />
+    <Compile Include="Classes\cTransactions.cs" />
     <Compile Include="Classes\cUser.cs" />
+    <Compile Include="Classes\cUserCampaign.cs" />
+    <Compile Include="Classes\cUserCharacter.cs" />
     <Compile Include="Classes\cUtilities.cs" />
     <Compile Include="Classes\ExtensionMethods.cs" />
     <Compile Include="Classes\GeneralErrorStuff.cs" />
@@ -286,11 +385,179 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="GameSystemTest2.aspx.cs">
+      <DependentUpon>GameSystemTest2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GameSystemTest2.aspx.designer.cs">
+      <DependentUpon>GameSystemTest2.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Inventory.aspx.cs">
+      <DependentUpon>Inventory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Inventory.aspx.designer.cs">
+      <DependentUpon>Inventory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LARPing.master.cs">
+      <DependentUpon>LARPing.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LARPing.master.designer.cs">
+      <DependentUpon>LARPing.master</DependentUpon>
+    </Compile>
+    <Compile Include="LARPortal.Master.cs">
+      <DependentUpon>LARPortal.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LARPortal.Master.designer.cs">
+      <DependentUpon>LARPortal.Master</DependentUpon>
+    </Compile>
+    <Compile Include="LARPResume.aspx.cs">
+      <DependentUpon>LARPResume.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LARPResume.aspx.designer.cs">
+      <DependentUpon>LARPResume.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Medical.aspx.cs">
+      <DependentUpon>Medical.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Medical.aspx.designer.cs">
+      <DependentUpon>Medical.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MemberCalendar.master.cs">
+      <DependentUpon>MemberCalendar.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberCalendar.master.designer.cs">
+      <DependentUpon>MemberCalendar.master</DependentUpon>
+    </Compile>
+    <Compile Include="MemberCampaigns.master.cs">
+      <DependentUpon>MemberCampaigns.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberCampaigns.master.designer.cs">
+      <DependentUpon>MemberCampaigns.master</DependentUpon>
+    </Compile>
+    <Compile Include="MemberDemographics.aspx.cs">
+      <DependentUpon>MemberDemographics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberDemographics.aspx.designer.cs">
+      <DependentUpon>MemberDemographics.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MemberMessages.master.cs">
+      <DependentUpon>MemberMessages.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberMessages.master.designer.cs">
+      <DependentUpon>MemberMessages.master</DependentUpon>
+    </Compile>
+    <Compile Include="MemberPoints.master.cs">
+      <DependentUpon>MemberPoints.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberPoints.master.designer.cs">
+      <DependentUpon>MemberPoints.master</DependentUpon>
+    </Compile>
+    <Compile Include="MemberProfile.master.cs">
+      <DependentUpon>MemberProfile.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberProfile.master.designer.cs">
+      <DependentUpon>MemberProfile.master</DependentUpon>
+    </Compile>
+    <Compile Include="MemberReports.master.cs">
+      <DependentUpon>MemberReports.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberReports.master.designer.cs">
+      <DependentUpon>MemberReports.master</DependentUpon>
+    </Compile>
+    <Compile Include="MemberSites.master.cs">
+      <DependentUpon>MemberSites.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberSites.master.designer.cs">
+      <DependentUpon>MemberSites.master</DependentUpon>
+    </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="PlayerResume.aspx.cs">
+      <DependentUpon>PlayerResume.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PlayerResume.aspx.designer.cs">
+      <DependentUpon>PlayerResume.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PlayerRoleTest.aspx.cs">
+      <DependentUpon>PlayerRoleTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PlayerRoleTest.aspx.designer.cs">
+      <DependentUpon>PlayerRoleTest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Preferences.aspx.cs">
+      <DependentUpon>Preferences.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Preferences.aspx.designer.cs">
+      <DependentUpon>Preferences.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicCalendar.aspx.cs">
+      <DependentUpon>PublicCalendar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PublicCalendar.aspx.designer.cs">
+      <DependentUpon>PublicCalendar.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PublicCalendar.master.cs">
+      <DependentUpon>PublicCalendar.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PublicCalendar.master.designer.cs">
+      <DependentUpon>PublicCalendar.master</DependentUpon>
+    </Compile>
+    <Compile Include="PublicCampaigns.aspx.cs">
+      <DependentUpon>PublicCampaigns.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PublicCampaigns.aspx.designer.cs">
+      <DependentUpon>PublicCampaigns.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PublicCampaigns.master.cs">
+      <DependentUpon>PublicCampaigns.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PublicCampaigns.master.designer.cs">
+      <DependentUpon>PublicCampaigns.master</DependentUpon>
+    </Compile>
+    <Compile Include="RSVPMessages.aspx.cs">
+      <DependentUpon>RSVPMessages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RSVPMessages.aspx.designer.cs">
+      <DependentUpon>RSVPMessages.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Security.aspx.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Security.aspx.designer.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -306,12 +573,47 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="UnreadMessages.aspx.cs">
+      <DependentUpon>UnreadMessages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UnreadMessages.aspx.designer.cs">
+      <DependentUpon>UnreadMessages.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Waivers.aspx.cs">
+      <DependentUpon>Waivers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Waivers.aspx.designer.cs">
+      <DependentUpon>Waivers.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm2.aspx.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm2.aspx.designer.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WhatIsLARPing.aspx.cs">
+      <DependentUpon>WhatIsLARPing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WhatIsLARPing.aspx.designer.cs">
+      <DependentUpon>WhatIsLARPing.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

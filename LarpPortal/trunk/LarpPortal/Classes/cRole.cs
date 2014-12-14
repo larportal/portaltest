@@ -12,9 +12,9 @@ using System.Data.SqlClient;
 namespace LarpPortal.Classes
 {
     [Serializable()]
-    public class cRoles
+    public class cRole
     {
-        public cRoles()
+        public cRole()
         {
             roleID = -1;
             campaignRoleID = -1;

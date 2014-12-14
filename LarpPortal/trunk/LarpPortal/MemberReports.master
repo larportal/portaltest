@@ -1,0 +1,27 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="MemberReports.master.cs" Inherits="LarpPortal.MemberReports" %>
+<asp:Content ID="LeftNavMemberReports" ContentPlaceHolderID="MainPage" runat="server">
+    <asp:Table runat="server">
+        <asp:TableRow>
+            <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
+              <div class="contentArea">
+				<nav class="userSubNav">
+                    <asp:Repeater ID="menu_ul_memberprofile" runat="server">
+                        <HeaderTemplate>
+                            <ul class="nav nav-pills">
+                        </HeaderTemplate>
+                        <ItemTemplate>
+                            <%# Eval("href_li")%>
+                        </ItemTemplate>
+                        <FooterTemplate>
+                            </ul>
+                        </FooterTemplate>
+                    </asp:Repeater>
+				</nav>
+              </div>
+            </asp:TableCell>
+            <asp:TableCell verticalalign="Top">
+                <asp:ContentPlaceHolder ID="ReportsContent" runat="server"></asp:ContentPlaceHolder>
+            </asp:TableCell>
+        </asp:TableRow>
+    </asp:Table>
+</asp:Content>
