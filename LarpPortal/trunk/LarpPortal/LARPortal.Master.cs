@@ -34,6 +34,12 @@ namespace LarpPortal
                 intSecurityRole = 0;
             }
             LoadTopTab(intSecurityRole, 0); // Talk to Jeff, 2nd Parameter is unread message count - We have agreed on a session variable
+            LoadPageFooter();
+            if (Session["PageFooter"] == null)
+            {
+                Session["PageFooter"] = " ";
+            }
+            lblPageFooter.Text = Session["PageFooter"].ToString();
         }
 
         public void LoadTopTab(int SecurityRole, int UnreadCount)
@@ -81,5 +87,15 @@ namespace LarpPortal
             menu_ul_1.DataSource = TopTabTable;
             menu_ul_1.DataBind();
         }
+
+        public void LoadPageFooter()
+        {
+            string SiteFoot = " ";
+            Classes.cLogin SiteFooter = new Classes.cLogin();
+            SiteFooter.SetPageFooter();
+            SiteFoot = SiteFooter.SiteFooter;
+            Session["PageFooter"] = SiteFoot;
+        }
+
     }
 }

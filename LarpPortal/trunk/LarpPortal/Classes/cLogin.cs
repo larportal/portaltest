@@ -31,6 +31,7 @@ namespace LarpPortal.Classes
         public string LastLoggedInLocation { get; set; }
         public int LastLoggedInCampaign { get; set; }
         public string SiteOperationalMode { get; set; }
+        public string SiteFooter { get; set; }
         public int SecurityRoleTabID { get; set; }
         public string SecurityRoleName { get; set; }
         public string CallsPageName { get; set; }
@@ -57,6 +58,26 @@ namespace LarpPortal.Classes
             foreach (DataRow dRow in dsMode.Tables["MDBParameters"].Rows)
             {
                 SiteOperationalMode = dRow["OperationalMode"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// This will check the parameters table of the site to see if the site is in test mode or production mode
+        /// Nothing needs to be passed.  The stored proc will return the mode and set the site to that mode.
+        /// Don't fuck with it unless you know what you're doing.
+        /// </summary>
+        public void SetPageFooter()
+        {
+            string SiteFooter;
+            string stStoredProc = "uspGetPageFooter";
+            string stCallingMethod = "cLogin.SetPageFooter";
+            SortedList slParameters = new SortedList();
+            DataSet dsFooter = new DataSet();
+            dsFooter = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsFooter.Tables[0].TableName = "MDBParameters";
+            foreach (DataRow dRow in dsFooter.Tables["MDBParameters"].Rows)
+            {
+                SiteFooter = dRow["ParameterValue"].ToString();
             }
         }
 

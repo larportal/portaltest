@@ -70,6 +70,10 @@
         </header>
     <asp:ContentPlaceHolder ID="MainPage" runat="server" ></asp:ContentPlaceHolder>
     </div>
-
+    		<footer>
+			<div>
+				<asp:Label ID="lblPageFooter" runat="server"></asp:Label>
+			</div>
+		</footer>
 </body>
 </html>

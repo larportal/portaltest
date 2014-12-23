@@ -14,7 +14,7 @@ namespace LarpPortal.Classes
     {
        public cDonations()
         {
-            RecordStatus = RecordStatuses.Active;
+            //RecordStatus = RecordStatuses.Active;
         }
 
         private DateTime _acceptedDate;
