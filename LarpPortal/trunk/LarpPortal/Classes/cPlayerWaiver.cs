@@ -109,7 +109,7 @@ namespace LarpPortal.Classes
                 if (ldt.Rows.Count > 0)
                 {
                       _PlayerProfileID = ldt.Rows[0]["PlayerProfileID"].ToString().ToInt32();
-                      _AcceptedDate = Convert.ToDateTime(ldt.Rows[0]["AcceptedDate"].ToString()));
+                      _AcceptedDate = Convert.ToDateTime(ldt.Rows[0]["AcceptedDate"].ToString());
                       _WaiverImage = ldt.Rows[0]["WaiverImage"].ToString();
                       _DeclinedDate = Convert.ToDateTime(ldt.Rows[0]["DeclinedDate"].ToString());
                       _DeclineApprovedBy = ldt.Rows[0]["DeclineApprovedByID"].ToString().ToInt32();

@@ -356,8 +356,15 @@
     <Compile Include="Classes\cPhoneTest.cs" />
     <Compile Include="Classes\cPicture.cs" />
     <Compile Include="Classes\cPlace.cs" />
+    <Compile Include="Classes\cPlayer.cs" />
+    <Compile Include="Classes\cPlayerInventory.cs" />
+    <Compile Include="Classes\cPlayerLARPResume.cs" />
+    <Compile Include="Classes\cPlayerMedical.cs" />
+    <Compile Include="Classes\cPlayerOccasionExceptions.cs" />
     <Compile Include="Classes\cPlayerRole.cs" />
     <Compile Include="Classes\cPlayerRoles.cs" />
+    <Compile Include="Classes\cPlayerSkill.cs" />
+    <Compile Include="Classes\cPlayerWaiver.cs" />
     <Compile Include="Classes\cRace.cs" />
     <Compile Include="Classes\cRole.cs" />
     <Compile Include="Classes\cSchedule.cs" />

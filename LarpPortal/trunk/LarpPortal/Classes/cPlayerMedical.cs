@@ -92,7 +92,7 @@ namespace LarpPortal.Classes
 		    get { return _PlayerMedicalID;}
 		    set { _PlayerMedicalID = value;}
 	    }
-	
+        private string _someValue;
         
 
 

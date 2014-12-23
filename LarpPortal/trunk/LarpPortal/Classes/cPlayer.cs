@@ -256,7 +256,7 @@ namespace LarpPortal.Classes
                 LoadInventory();
                 LoadLARPResumes();
                 LoadOccasionExceptions();
-                LoadSkills()
+                LoadSkills();
                 LoadWaivers();
             }
             catch (Exception ex)
