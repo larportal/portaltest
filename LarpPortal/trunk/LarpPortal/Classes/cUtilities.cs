@@ -15,11 +15,11 @@ using Excel;
 
 namespace LarpPortal.Classes
 {
-    public enum RecordStatuses
-    {
-        Active,
-        Delete
-    };
+    //public enum RecordStatuses
+    //{
+    //    Active,
+    //    Delete
+    //};
     [Serializable()]
     public class cUtilities
     {

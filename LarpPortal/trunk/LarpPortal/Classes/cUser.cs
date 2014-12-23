@@ -45,7 +45,7 @@ namespace LarpPortal.Classes
         private cBank _UserCPBank;
         //private List<cNoifications> _UserNotifications;
         //private cCalandar _UserCalandar;
-        private List<LARPortal.Classes.cCharacter> _UserCharacters;
+        private List<LarpPortal.Classes.cCharacter> _UserCharacters;
 
 
         public Int32 DeliveryPreferenceID
@@ -191,7 +191,7 @@ namespace LarpPortal.Classes
             get { return _UserCPBank; }
             set { _UserCPBank = value; }
         }
-        //public List<LARPortal.Classes.cCharacter> UserCharacters
+        //public List<LarpPortal.Classes.cCharacter> UserCharacters
         //{
         //    get { return _UserCharacters; }
         //    set { _UserCharacters = value; }
