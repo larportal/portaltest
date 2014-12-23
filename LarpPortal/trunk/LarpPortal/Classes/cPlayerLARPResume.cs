@@ -124,7 +124,7 @@ namespace LarpPortal.Classes
                       _Campaign = ldt.Rows[0]["Campaign"].ToString();
                       _AuthorGM = ldt.Rows[0]["AuthorGM"].ToString();
                     _Style = ldt.Rows[0]["Style"].ToString().ToInt32();
-                      _Genre = ldt.Rows[0].["Genre"].ToString().ToInt32();
+                      _Genre = ldt.Rows[0]["Genre"].ToString().ToInt32();
                       _RoleID = ldt.Rows[0]["RoleID"].ToString().ToInt32();
                       _StartDate = Convert.ToDateTime(ldt.Rows[0]["StartDate"].ToString());
                       _EndDate = Convert.ToDateTime(ldt.Rows[0]["EndDate"].ToString());
