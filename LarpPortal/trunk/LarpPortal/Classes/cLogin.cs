@@ -62,13 +62,10 @@ namespace LarpPortal.Classes
         }
 
         /// <summary>
-        /// This will check the parameters table of the site to see if the site is in test mode or production mode
-        /// Nothing needs to be passed.  The stored proc will return the mode and set the site to that mode.
-        /// Don't fuck with it unless you know what you're doing.
+        /// This will get the site footer from the database
         /// </summary>
         public void SetPageFooter()
         {
-            string SiteFooter;
             string stStoredProc = "uspGetPageFooter";
             string stCallingMethod = "cLogin.SetPageFooter";
             SortedList slParameters = new SortedList();
@@ -79,6 +76,7 @@ namespace LarpPortal.Classes
             {
                 SiteFooter = dRow["ParameterValue"].ToString();
             }
+
         }
 
         /// <summary>
