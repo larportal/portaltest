@@ -213,7 +213,7 @@ namespace LarpPortal.Classes
             try
             {
 
-                DataTable ldt = cUtilities.LoadDataTable("uspGetUserByLoginName", slParams, "LarpPortal", _LoginName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetUserByLoginName", slParams, "LARPortal", _LoginName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     _UserID = ldt.Rows[0]["UserID"].ToString().ToInt32();
@@ -255,7 +255,7 @@ namespace LarpPortal.Classes
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@intKeyID", _UserID);
                 slParams.Add("@strKeyType", "cUser");
-                DataTable ldt = cUtilities.LoadDataTable("uspGetAddressByKey", slParams, "LarpPortal", _LoginName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetAddressByKey", slParams, "LARPortal", _LoginName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach(DataRow ldr in ldt.Rows)
@@ -283,7 +283,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@intKeyID", _UserID);
                 slParams.Add("@strKeyType", "cUser");
 
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPhoneNumberByKeyInfo", slParams, "LarpPortal", _LoginName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPhoneNumberByKeyInfo", slParams, "LARPortal", _LoginName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
@@ -311,7 +311,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@intKeyID", _UserID);
                 slParams.Add("@strKeyType", "cUser");
 
-                DataTable ldt = cUtilities.LoadDataTable("uspGetEmailsByKeyInfo", slParams, "LarpPortal", _LoginName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetEmailsByKeyInfo", slParams, "LARPortal", _LoginName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
@@ -352,7 +352,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@LastLoggedInLocaton", _LastLoggedInLocation);
                 slParams.Add("@XRefNumber", _XRefNumber);
                 slParams.Add("@Comments", _Comments);
-                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBUsers", slParams, "LarpPortal", _LoginName);
+                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBUsers", slParams, "LARPortal", _LoginName);
 
 
 

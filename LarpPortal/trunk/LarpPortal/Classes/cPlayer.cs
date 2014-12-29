@@ -227,10 +227,10 @@ namespace LarpPortal.Classes
             slParams.Add("@UserID", _UserID);
             try
             {
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerProfileByUserID", slParams, "LarpPortal", strUserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerProfileByUserID", slParams, "LARPortal", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-                    _PlayerProfileID = ldt.Rows[0][PlayerProfileID].ToString().ToInt32();
+                    _PlayerProfileID = ldt.Rows[0]["PlayerProfileID"].ToString().ToInt32();
                     _AuthorName = ldt.Rows[0]["AuthorName"].ToString();
                     _DateOfBirth = Convert.ToDateTime(ldt.Rows[0]["DateOfBirth"].ToString());
                     _GenderStandared = ldt.Rows[0]["GenderStandard"].ToString();
@@ -294,7 +294,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@WriteUpLengthPreference", _WriteUpLengthPreference);
                 slParams.Add("@BackgroundKnowledge", _BackGroundKnowledge);
                 slParams.Add("@Comments", _Comments);
-                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerProfiles", slParams, "LarpPortal", _UserName);
+                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerProfiles", slParams, "LARPortal", _UserName);
             }
             catch (Exception ex)
             {
@@ -314,7 +314,7 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerInventoryByPlayerProfileID", slParams, "LarpPortal", _UserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerInventoryByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
@@ -339,7 +339,7 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerLarpResumesByPlayerProfileID", slParams, "LarpPortal", _UserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerLarpResumesByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
@@ -364,7 +364,7 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerOccasionExceptionsByPlayerProfileID", slParams, "LarpPortal", _UserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerOccasionExceptionsByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
@@ -389,7 +389,7 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerSkillsByPlayerProfileID", slParams, "LarpPortal", _UserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerSkillsByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
@@ -414,7 +414,7 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerWaiversByPlayerProfileID", slParams, "LarpPortal", _UserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerWaiversByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)

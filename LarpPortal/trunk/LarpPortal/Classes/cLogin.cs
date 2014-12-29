@@ -40,6 +40,8 @@ namespace LarpPortal.Classes
         public int TabCount { get; set; }
         public string TabClass { get; set; }
         public string TabIcon { get; set; }
+        public string WhatIsLARPingText { get; set; }
+        public string AboutUsText { get; set; }
         public List<cPageTab> lsPageTabs = new List<cPageTab>();
 
         /// <summary>
@@ -77,6 +79,40 @@ namespace LarpPortal.Classes
                 SiteFooter = dRow["ParameterValue"].ToString();
             }
 
+        }
+
+        /// <summary>
+        /// This will get the text from the database for What Is LARPing?
+        /// </summary>
+        public void getWhatIsLARPing()
+        {
+            string stStoredProc = "uspGetWhatIsLARPing";
+            string stCallingMethod = "cLogin.WhatIsLARPing";
+            SortedList slParameters = new SortedList();
+            DataSet dsWhatsLARPing = new DataSet();
+            dsWhatsLARPing = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsWhatsLARPing.Tables[0].TableName = "MDBParameters";
+            foreach (DataRow dRow in dsWhatsLARPing.Tables["MDBParameters"].Rows)
+            {
+                WhatIsLARPingText = dRow["Comments"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// This will get the text from the database for About Us
+        /// </summary>
+        public void getAboutUs()
+        {
+            string stStoredProc = "uspGetAboutUs";
+            string stCallingMethod = "cLogin.getAboutUs";
+            SortedList slParameters = new SortedList();
+            DataSet dsAboutUs = new DataSet();
+            dsAboutUs = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsAboutUs.Tables[0].TableName = "MDBParameters";
+            foreach (DataRow dRow in dsAboutUs.Tables["MDBParameters"].Rows)
+            {
+                AboutUsText = dRow["Comments"].ToString();
+            }
         }
 
         /// <summary>

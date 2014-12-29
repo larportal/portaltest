@@ -25,14 +25,9 @@ namespace LarpPortal.Classes
         private string _Comments = "";
         private string _UserName = "";
 
-        public cPhone()
-        {
-        }
-
         public Int32 PhoneNumberID
         {
             get { return _PhoneNumberID; }
-            set { _PhoneNumberID = value; }
         }
         public Int32 PhoneTypeID
         {
@@ -75,6 +70,11 @@ namespace LarpPortal.Classes
             set { _Comments = value; }
         }
 
+        private cPhone()
+        {
+
+        }
+
         public cPhone(Int32 intPhoneNumberID, Int32 intUserID, string strUserName)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
@@ -84,12 +84,13 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-                slParams.Add("@PhoneNumberID", _PhoneNumberID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetSomeData", slParams, "LarpPortal", _UserName, lsRoutineName);
+                slParams.Add("@intPhoneNumberID", _PhoneNumberID);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPhoneNumber", slParams, "LarpPortal", _UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     _PhoneTypeID = ldt.Rows[0]["PhoneTypeID"].ToString().Trim().ToInt32();
-                    GetPhoneTypeDescription();
+                    //GetPhoneTypeDescription();
+                    _PhoneTypeDescription = ldt.Rows[0]["PhoneType"].ToString();
                     _IDD = ldt.Rows[0]["IDD"].ToString();
                     _CountryCode = ldt.Rows[0]["CountryCode"].ToString();
                     _AreaCode = ldt.Rows[0]["AreaCode"].ToString();

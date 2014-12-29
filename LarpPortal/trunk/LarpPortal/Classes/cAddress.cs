@@ -88,15 +88,6 @@ namespace LarpPortal.Classes
             set { _StrCountry = value; }
         }
         /// <summary>
-        /// Table MDBAddressed Field: Comments.
-        /// </summary>
-        private string _StrComments = "";
-        public string StrComments
-        {
-            get { return _StrComments; }
-            set { _StrComments = value; }
-        }
-        /// <summary>
         /// Table: MDBAddresses Field: DateAdded Notes: Date Added
         /// </summary>
         private DateTime _DateAdded = DateTime.Now;
@@ -190,7 +181,8 @@ namespace LarpPortal.Classes
         /// </summary>
         /// <param name="intAddressID">ID for Address</param>
         /// <param name="userName">User ID</param>
-        public cAddress(int intAddressID, string strUserNameParam, int intuserID)
+        /// 
+        public cAddress(Int32 intAddressID, string strUserNameParam, int intuserID)
         {
             strUserName = strUserNameParam;
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
@@ -199,16 +191,14 @@ namespace LarpPortal.Classes
 
             //so lets say we wanted to load data into this class from a sql query called uspGetSomeData thats take two paraeters @Parameter1 and @Parameter2
             SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-            slParams.Add("@Parameter1", intAddressID);
-            slParams.Add("@Parameter2", intuserID);
+            slParams.Add("@intAddressID", intAddressID);
 
             try
             {
                 // SELECT AddressID, KeyID, AddressTypeID, KeyType, Address1, Address2, City, StateID, PostalCode, Country, MDBStates.StateName FROM MDBAddresses LEFT JOIN MDBStates ON MDBStates.StateID = MDBAddresses.StateID AND AddressID = @param
-                DataTable ldt = cUtilities.LoadDataTable("uspGetAddress", slParams, "DefaultSQLConnection", strUserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetAddress", slParams, "LARPortal", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-
                     _IntAddressID = intAddressID;//Table MDBAddresses
                     if (ldt.Rows[0]["Address1"] != null) { _StrAddress1 = ldt.Rows[0]["Address1"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["Address2"] != null) { _StrAddress2 = ldt.Rows[0]["Address2"].ToString(); } //Table MDBAddresses
@@ -217,7 +207,6 @@ namespace LarpPortal.Classes
                     if (ldt.Rows[0]["PostalCode"] != null) { _StrPostalCode = ldt.Rows[0]["PostalCode"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["Country"] != null) { _StrCountry = ldt.Rows[0]["Country"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["MDBStatesStateName"] != null) { _StateName = ldt.Rows[0]["MDBStatesStateName"].ToString(); } //Table Table MDBStates
-                    if (ldt.Rows[0]["Comments"] != null) { _StrComments = ldt.Rows[0]["Comments"].ToString(); }
                     _DateAdded = (DateTime)ldt.Rows[0]["DateAdded"];
                     _DateChanged = (DateTime)ldt.Rows[0]["DateChanged"];
                     _DateDeleted = (DateTime)ldt.Rows[0]["DateDeleted"];
@@ -232,6 +221,8 @@ namespace LarpPortal.Classes
             }
 
         }
+
+       
         /// <summary>
         /// Deletes, Updates, or Creates Address in the database
         /// </summary>
@@ -261,7 +252,6 @@ namespace LarpPortal.Classes
                     slParams.Add("@Paramater6", _StrStateID);
                     slParams.Add("@Paramater7", _StrPostalCode);
                     slParams.Add("@Paramater8", _StrCountry);
-                    slParams.Add("@Parameter9", _StrComments);
                     bUpdateComplete = cUtilities.PerformNonQueryBoolean("uspInsMDBAddresses", slParams, "DefaultSQLConnection", strUserName);
                     
                 }
