@@ -350,6 +350,9 @@
     <Compile Include="Classes\cEmptyClass.cs" />
     <Compile Include="Classes\cGameSystem.cs" />
     <Compile Include="Classes\ClientErrors.cs" />
+    <Compile Include="Classes\cLocation.cs" />
+    <Compile Include="Classes\cLocationMaintenance.cs" />
+    <Compile Include="Classes\cLocationType.cs" />
     <Compile Include="Classes\cLogin.cs" />
     <Compile Include="Classes\cPageTab.cs" />
     <Compile Include="Classes\cPhone.cs" />
@@ -369,6 +372,11 @@
     <Compile Include="Classes\cRole.cs" />
     <Compile Include="Classes\cSchedule.cs" />
     <Compile Include="Classes\cSite.cs" />
+    <Compile Include="Classes\cSiteAvailabilityDates.cs" />
+    <Compile Include="Classes\cSiteComment.cs" />
+    <Compile Include="Classes\cSiteContact.cs" />
+    <Compile Include="Classes\cSiteImage.cs" />
+    <Compile Include="Classes\cSitePolicy.cs" />
     <Compile Include="Classes\cTransaction.cs" />
     <Compile Include="Classes\cTransactions.cs" />
     <Compile Include="Classes\cUser.cs" />

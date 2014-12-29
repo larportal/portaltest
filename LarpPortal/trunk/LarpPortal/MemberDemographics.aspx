@@ -5,7 +5,7 @@ My Profile - Demographics - Placeholder page - in progress
     <div class="mainContent tab-content">
         <!-- DEMOGRAPHICS -->
         <section id="demographics" class="demographics tab-pane active">
-            <form role="form" class="form-horizontal form-condensed">
+            <div role="form" class="form-horizontal form-condensed">
                 <div class="col-sm-12">
                     <h1 class="col-sm-4">My Profile - <span>Demographics</span></h1>
                     <div class="panel-wrapper col-sm-1">
@@ -464,7 +464,7 @@ My Profile - Demographics - Placeholder page - in progress
                     </div>
                 </div>
                 <!-- .row -->
-            </form>
+            </div>
         </section>
         <!-- demographics -->
     </div>
