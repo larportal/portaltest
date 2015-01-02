@@ -223,12 +223,12 @@ namespace LarpPortal.Classes
 		            _MiddleName = ldt.Rows[0]["MiddleName"].ToString();
 		            _LastName = ldt.Rows[0]["LastName"].ToString();
 		            _NickName = ldt.Rows[0]["NickName"].ToString();
-		            _PrimaryPhoneNumberID = ldt.Rows[0]["PrimaryPhoneID"].ToString().ToInt32();
-		            _PrimaryAddressID = ldt.Rows[0]["PrimaryAddressID"].ToString().ToInt32();
+                    _PrimaryPhoneNumberID = ldt.Rows[0]["PrimaryPhoneID"].ToString().ToInt32();
+                    _PrimaryAddressID = ldt.Rows[0]["PrimaryAddressID"].ToString().ToInt32();
 		            _ForumUserName = ldt.Rows[0]["ForumUsername"].ToString();
 		            _NotificationPreference = ldt.Rows[0]["NotificationPreferenceID"].ToString().ToInt32();
 		            _DeliveryPreferenceID = ldt.Rows[0]["DeliveryPreferenceID"].ToString().ToInt32();
-		            _LastLoggedInLocation = ldt.Rows[0]["0LastLoggedInLocaton"].ToString();
+		            _LastLoggedInLocation = ldt.Rows[0]["LastLoggedInLocation"].ToString();
 		            _XRefNumber = ldt.Rows[0]["XRefNumber"].ToString().ToInt32();
 		            _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
                     _DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
