@@ -29,7 +29,7 @@ namespace LarpPortal
             Classes.cLogin OpsMode = new Classes.cLogin();
             OpsMode.SetSiteOperationalMode();
             SiteOpsMode = OpsMode.SiteOperationalMode;
-            //Session["OperationalMode"] = SiteOpsMode;
+            Session["OperationalMode"] = SiteOpsMode;
             txtName.Visible = false;
             txtLastLocation.Visible = false;
             txtUserID.Visible = false;
@@ -81,10 +81,10 @@ namespace LarpPortal
                     txtUserID.Text = Login.MemberID.ToString();
                     intUserID = Login.MemberID;
                     Session["LoginName"] = Login.FirstName;
-                    Session["Username"] = Login.Username;
-                    Session["UserID"] = Login.UserID;
+                    Session["Username"] = txtUserName.Text;
+                    Session["UserID"] = Login.MemberID;
                     // Write login entry to UserLoginAudit table
-
+                    Login.LoginAudit(Login.MemberID, txtUserName.Text,txtPassword.Text);
                     // Go to the default or last page visited
                     if(Session["WebPage"] == null)
                     {
