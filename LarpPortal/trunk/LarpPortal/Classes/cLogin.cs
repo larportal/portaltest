@@ -191,11 +191,14 @@ namespace LarpPortal.Classes
         /// <summary>
         /// This will save a record of the login in the login audit table
         /// </summary>
-        public void LoginAudit()
+        public void LoginAudit(int UserID, string Username, string Password)
         {
             string stStoredProc = "uspWriteLoginAudit";
             SortedList slParameters = new SortedList();
+            if (Email == null)
+                Email = "";
             slParameters.Add("@UserLoginAuditID", -1);
+            slParameters.Add("@Email", Email);
             slParameters.Add("@UserID", UserID);
             slParameters.Add("@Username", Username);
             slParameters.Add("@Password", Password);
