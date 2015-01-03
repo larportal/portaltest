@@ -33,7 +33,8 @@ namespace LarpPortal
             {
                 intSecurityRole = 0;
             }
-            LoadTopTab(intSecurityRole, 0); // Talk to Jeff, 2nd Parameter is unread message count - We have agreed on a session variable
+            LoadMainLinks();
+            LoadTopTab(intSecurityRole, 0); //TODO - Rick, talk to Jeff, 2nd Parameter is unread message count - We have agreed on a session variable
             LoadPageFooter();
             if (Session["PageFooter"] == null)
             {
@@ -42,8 +43,39 @@ namespace LarpPortal
             lblPageFooter.Text = Session["PageFooter"].ToString();
         }
 
+        public void LoadMainLinks()
+        {
+            // Load the main links at the top right of the master page.  These are the same for everyone.
+            int intTabsNeeded;
+            int SecurityRole = 1;
+            string hrefline;
+            string TabName;
+            string PageName;
+            string TabClass;
+            string TabIcon;
+            Classes.cLogin RoleTabs = new Classes.cLogin();
+            RoleTabs.LoadTabsBySecurityRole(SecurityRole);
+            intTabsNeeded = RoleTabs.TabCount - 1;
+            DataTable TopTabTable = new DataTable();
+            TopTabTable.Columns.Add("href_main");
+            for (int i = 0; i <= intTabsNeeded; i++)
+            {
+                PageName = RoleTabs.lsPageTabs[i].CallsPageName.ToString();
+                TabClass = RoleTabs.lsPageTabs[i].TabClass.ToString();
+                TabIcon = RoleTabs.lsPageTabs[i].TabIcon.ToString();
+                TabName = RoleTabs.lsPageTabs[i].TabName.ToString();
+                hrefline = "<li><a href=" + "\"" + PageName + "\"" + ">" + TabName + "</a></li>";
+                DataRow TopTabRow = TopTabTable.NewRow();
+                TopTabRow["href_main"] = hrefline;
+                TopTabTable.Rows.Add(TopTabRow);
+            }
+            menu_ul_main.DataSource = TopTabTable;
+            menu_ul_main.DataBind();
+        }
+
         public void LoadTopTab(int SecurityRole, int UnreadCount)
         {
+            // Load the user based security tabs on the master page.  These change based on user security levels.
             int intTabsNeeded;
             string hrefline;
             string TabName;
