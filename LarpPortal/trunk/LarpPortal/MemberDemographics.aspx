@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberProfile.master" AutoEventWireup="true" CodeBehind="MemberDemographics.aspx.cs" Inherits="LarpPortal.MemberDemographics" %>
 
 <asp:Content ID="MyProfileDemographics" ContentPlaceHolderID="Demographics" runat="server">
-My Profile - Demographics - Placeholder page - in progress
+<asp:Label ID="WIP" runat="server" BackColor="Yellow"> Profile - Demographics - Placeholder page - in progress</asp:Label>
     <div class="mainContent tab-content">
         <!-- DEMOGRAPHICS -->
         <section id="demographics" class="demographics tab-pane active">
@@ -16,17 +16,17 @@ My Profile - Demographics - Placeholder page - in progress
                     <div class="col-sm-7">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label for="user-demo-first-name" class="control-label col-sm-1">First</label>
+                                <asp:Label AssociatedControlID="txtFirstName" ID="lblFirstName" runat="server" CssClass="control-label col-sm-1">First</asp:Label>
                                 <div class="col-sm-3">
-                                    <input type="text" name="user-demo-first-name" id="user-demo-first-name" placeholder="First Name" value="Richard" class="form-control">
+                                    <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
-                                <label for="user-demo-m-name" class="control-label col-sm-1">MI</label>
+                                <asp:Label AssociatedControlID="txtMI" ID="lblMI" runat="server" CssClass="control-label col-sm-1">MI</asp:Label>
                                 <div class="col-sm-2">
-                                    <input type="text" name="user-demo-m-name" id="user-demo-m-name" maxlength="1" placeholder="" value="M" class="form-control">
+                                    <asp:TextBox ID="txtMI" runat="server" CssClass="form-control" MaxLength="1"></asp:TextBox>
                                 </div>
-                                <label for="user-demo-last-name" class="control-label col-sm-1">Last</label>
+                                <asp:Label AssociatedControlID="txtLastName" ID="lblLastName" runat="server" CssClass="control-label col-sm-1">Last</asp:Label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="user-demo-last-name" id="user-demo-last-name" placeholder="Last Name" value="Pierce" class="form-control">
+                                    <asp:TextBox ID="txtLastName" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
                             </div>
                             <!-- .formGroup -->
@@ -35,36 +35,30 @@ My Profile - Demographics - Placeholder page - in progress
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="col-sm-3">
-                                    <select class="col-sm-12">
-                                        <option selected disabled>Gender</option>
-                                        <option value="m">Male</option>
-                                        <option value="f">Female</option>
-                                        <option value="o">Other</option>
-                                    </select>
+                                    <asp:DropDownList ID="ddlGender" runat="server" CssClass="col-sm-12" AutoPostBack="true" OnSelectedIndexChanged="ddlGender_SelectedIndexChanged"></asp:DropDownList>
                                 </div>
                                 <!-- .gender -->
-                                <label for="user-demo-other-descrip" class="control-label sr-only">Other Description</label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="user-demo-other-descrip" id="user-demo-other-descrip" placeholder="Other Description" value="" class="form-control">
+                                    <asp:TextBox ID="txtGenderOther" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
-                                <label for="dob" class="control-label col-sm-1">DOB</label>
+                                <asp:Label AssociatedControlID="txtDOB" ID="lblDOB" runat="server" CssClass="control-label col-sm-1">DOB</asp:Label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="dob" id="dob" placeholder="mm-yyyy" value="" class="form-control">
+                                    <asp:TextBox ID="txtDOB" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
                             </div>
                             <!-- .formGroup -->
                         </div>
                         <!-- .contactInfoDemo -->
                         <div class="emergency col-sm-12">
-                            <h2>Emergency Contact Information</h2>
+                            <h4>Emergency Contact Information</h4>
                             <div class="form-group">
-                                <label for="user-demo-emergency" class="control-label col-sm-2">Name</label>
+                                <asp:Label AssociatedControlID="txtEmergencyName" ID="lblEmergencyName" runat="server" CssClass="control-label col-sm-2">Name</asp:Label>
                                 <div class="col-sm-5">
-                                    <input type="text" name="user-demo-emergency" id="user-demo-emergency" placeholder="Emergency Contact Name" value="Monique Pierce" class="form-control">
+                                    <asp:TextBox ID="txtEmergencyName" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
-                                <label for="user-demo-emergency-phone" class="control-label col-sm-1">Phone</label>
+                                <asp:Label AssociatedControlID="txtEmergencyPhone" ID="lblEmergencyPhone" runat="server" CssClass="control-label col-sm-1">Phone</asp:Label>
                                 <div class="col-sm-4">
-                                    <input type="text" name="user-demo-emergency-phone" id="user-demo-emergency-phone" placeholder="Phone #" value="203-414-3751" class="form-control">
+                                    <asp:TextBox ID="txtEmergencyPhone" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
                             </div>
                             <!-- .formGroup -->
@@ -75,27 +69,27 @@ My Profile - Demographics - Placeholder page - in progress
 
                     <div class="userNames col-sm-3">
                         <div class="form-group">
-                            <label for="userName" class="col-sm-2">User</label>
+                            <asp:Label AssociatedControlID="txtUsername" ID="lblUsername" runat="server" CssClass="col-sm-2">Username</asp:Label>
                             <div class="userName col-sm-9">
-                                <input type="text" name="userName" id="userName" placeholder="User Name" value="rgpierce@earthlink.net" class="form-control">
+                                <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="user-profile-nick-name" class="col-sm-2">Nick</label>
+                            <asp:Label AssociatedControlID="txtNickname" ID="lblNickname" runat="server" CssClass="col-sm-2">Nickname</asp:Label>
                             <div class="userName col-sm-9">
-                                <input type="text" name="user-profile-nick-name" id="user-profile-nick-name" placeholder="First Name" value="Rick" class="form-control">
+                                <asp:TextBox ID="txtNickname" runat="server" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="penName" class="col-sm-2">Pen</label>
+                            <asp:Label AssociatedControlID="txtPenname" ID="lblPenname" runat="server" CssClass="col-sm-2">Pen Name</asp:Label>
                             <div class="userName col-sm-9">
-                                <input type="text" name="penName" id="penName" placeholder="Pen Name" value="" class="form-control">
+                                <asp:TextBox ID="txtPenname" runat="server" CssClass="form-control"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="forumName" class="col-sm-2">Forum</label>
+                            <asp:Label AssociatedControlID="txtForumname" ID="lblForumname" runat="server" CssClass="col-sm-2">Forum Name</asp:Label>
                             <div class="userName col-sm-9">
-                                <input type="text" name="forumName" id="forumName" placeholder="Forum Name" value="" class="form-control">
+                                <asp:TextBox ID="txtForumname" runat="server" CssClass="form-control"></asp:TextBox>
                             </div>
                             <!-- .userName -->
                         </div>
@@ -117,7 +111,7 @@ My Profile - Demographics - Placeholder page - in progress
                     <!-- .userPhoto -->
                 </div>
 
-                <div class="col-sm-12">
+<%--                <div class="col-sm-12">
                     <div class=" col-sm-10">
                         <div class="panel-wrapper">
                             <div class="panel">
@@ -244,9 +238,9 @@ My Profile - Demographics - Placeholder page - in progress
                         </div>
                     </div>
                     <!-- .addresses -->
-                </div>
+                </div>--%>
 
-                <div class="col-sm-12">
+<%--                <div class="col-sm-12">
                     <div class="col-sm-6 panel-wrapper">
                         <div class="panel">
                             <div class="panel-header">
@@ -462,7 +456,7 @@ My Profile - Demographics - Placeholder page - in progress
                     <div class="edit-save col-sm-1">
                         <button type="submit" class="btn btn-default">Save</button>
                     </div>
-                </div>
+                </div>--%>
                 <!-- .row -->
             </div>
         </section>
