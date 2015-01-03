@@ -37,15 +37,17 @@
             </div>
             <!-- .logo -->
             <nav class="mainNav">
-                <ul>
-                    <li><a href="index.aspx">Home</a></li>
-                    <li><a href="index.aspx">Sign Up</a></li>
-                    <li><a href="index.aspx">Login</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">FaceBook</a></li>
-                </ul>
+                <asp:Repeater ID="menu_ul_main" runat="server">
+                    <HeaderTemplate>
+                        <ul>
+                    </HeaderTemplate>
+                    <ItemTemplate>
+                        <%# Eval("href_main")%>
+                    </ItemTemplate>
+                    <FooterTemplate>
+                        </ul>
+                    </FooterTemplate>
+                </asp:Repeater>
             </nav>
             <div>
                 <nav class="logo">
@@ -59,7 +61,6 @@
                     </HeaderTemplate>
                     <ItemTemplate>
                         <%# Eval("href_li")%>
-
                     </ItemTemplate>
                     <FooterTemplate>
                         </ul>
