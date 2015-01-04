@@ -7,7 +7,6 @@ using LarpPortal.Classes;
 using System.Reflection;
 using System.Collections;
 
-
 namespace LarpPortal.Classes
 {
     public class cUser
@@ -36,6 +35,9 @@ namespace LarpPortal.Classes
         private Int32 _DeliveryPreferenceID = -1;
         private string _DeliveryPreferenceString = "";
         private string _LastLoggedInLocation = "";
+        private cUserCampaign _UserCampaign;
+        private List<cUserCampaign> _UserCampaigns;
+        private int _LastLoggedInCampaign = 0;
         private Int32 _XRefNumber = -1;
         private string _Comments = "";
         private DateTime _DateAdded;
@@ -62,6 +64,11 @@ namespace LarpPortal.Classes
             get { return _LastLoggedInLocation; }
             set { _LastLoggedInLocation = value; }
         }        
+        public int LastLoggedInCampaign
+        {
+            get { return _LastLoggedInCampaign; }
+            set { _LastLoggedInCampaign = value; }
+        }
         public Int32 XRefNumber
         {
             get { return _XRefNumber; }
@@ -191,6 +198,11 @@ namespace LarpPortal.Classes
             get { return _UserCPBank; }
             set { _UserCPBank = value; }
         }
+        public List<cUserCampaign> UserCampaigns
+        {
+            get { return _UserCampaigns; }
+            set { _UserCampaigns = value; }
+        }
         //public List<LarpPortal.Classes.cCharacter> UserCharacters
         //{
         //    get { return _UserCharacters; }
@@ -229,6 +241,7 @@ namespace LarpPortal.Classes
 		            _NotificationPreference = ldt.Rows[0]["NotificationPreferenceID"].ToString().ToInt32();
 		            _DeliveryPreferenceID = ldt.Rows[0]["DeliveryPreferenceID"].ToString().ToInt32();
 		            _LastLoggedInLocation = ldt.Rows[0]["LastLoggedInLocation"].ToString();
+                    _LastLoggedInCampaign = ldt.Rows[0]["LastLoggedInCampaign"].ToString().ToInt32();
 		            _XRefNumber = ldt.Rows[0]["XRefNumber"].ToString().ToInt32();
 		            _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
                     _DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
@@ -318,6 +331,33 @@ namespace LarpPortal.Classes
                     {
                         cEMail cPh = new cEMail(ldr["EmailID"].ToString().Trim().ToInt32(),_LoginName,_UserID);
                         _UserEmails.Add(cPh);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorAtServer lobjError = new ErrorAtServer();
+                lobjError.ProcessError(ex, lsRoutineName, _LoginName + lsRoutineName);
+            }
+        }
+
+        private void LoadUserCampaigns()
+        {
+            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+            _UserCampaign = new cUserCampaign(_UserID, _LoginName); //TODO - RICK - Fix cUserCampaign and come back and add parameters
+            try
+            {
+                SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
+                slParams.Add("@UserID", _UserID);
+
+                DataTable ldt = cUtilities.LoadDataTable("uspGetMyCampaigns", slParams, "LARPortal", _LoginName, lsRoutineName);
+                if (ldt.Rows.Count > 0)
+                {
+                    foreach (DataRow ldr in ldt.Rows)
+                    {
+                        cUserCampaign cUC = new cUserCampaign(_UserID, _LoginName);
+                        _UserCampaigns.Add(cUC);
                     }
                 }
             }

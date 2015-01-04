@@ -1,11 +1,11 @@
-﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="MemberCampaigns.master.cs" Inherits="LarpPortal.MemberCampaigns" %>
-<asp:Content ID="LeftNavMemberCampaigns" ContentPlaceHolderID="MainPage" runat="server">
+﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="MemberCampaignsAdmin.master.cs" Inherits="LarpPortal.MemberCampaignsAdmin" %>
+<asp:Content ID="LeftNavMemberCampaignsAdmin" ContentPlaceHolderID="MainPage" runat="server">
     <asp:Table runat="server">
         <asp:TableRow>
             <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
               <div class="contentArea">
 				<nav class="userSubNav">
-                        <asp:Repeater ID="menu_ul_membercampaigns" runat="server">
+                        <asp:Repeater ID="menu_ul_membercampaignsadmin" runat="server">
                         <HeaderTemplate>
                             <ul class="nav nav-pills">
                         </HeaderTemplate>
@@ -20,7 +20,7 @@
               </div>
             </asp:TableCell>
             <asp:TableCell verticalalign="Top">
-                <asp:ContentPlaceHolder ID="MemberCampaignsContent" runat="server"></asp:ContentPlaceHolder>
+                <asp:ContentPlaceHolder ID="MemberCampaignsAdminContent" runat="server"></asp:ContentPlaceHolder>
             </asp:TableCell>
         </asp:TableRow>
     </asp:Table>

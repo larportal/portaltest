@@ -151,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="AboutUs.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Manage.aspx" />
     <Content Include="Account\OpenAuthProviders.ascx" />
@@ -165,6 +166,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\normalize.css" />
+    <Content Include="ddlUserCampaigns.ascx" />
     <Content Include="ExternalDLLs\Excel.dll" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GameSystemTest2.aspx" />
@@ -210,6 +212,7 @@
     <Content Include="MemberSites.master" />
     <Content Include="PublicCampaigns.master" />
     <Content Include="PublicCalendar.master" />
+    <Content Include="MemberCampaignsAdmin.master" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="PlayerRoleTest.aspx" />
     <Content Include="rick.jpg" />
@@ -260,6 +263,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutUs.aspx.cs">
+      <DependentUpon>AboutUs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AboutUs.aspx.designer.cs">
+      <DependentUpon>AboutUs.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Account\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -393,6 +403,13 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ddlUserCampaigns.ascx.cs">
+      <DependentUpon>ddlUserCampaigns.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ddlUserCampaigns.ascx.designer.cs">
+      <DependentUpon>ddlUserCampaigns.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -465,6 +482,13 @@
     </Compile>
     <Compile Include="MemberCampaigns.master.designer.cs">
       <DependentUpon>MemberCampaigns.master</DependentUpon>
+    </Compile>
+    <Compile Include="MemberCampaignsAdmin.master.cs">
+      <DependentUpon>MemberCampaignsAdmin.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberCampaignsAdmin.master.designer.cs">
+      <DependentUpon>MemberCampaignsAdmin.master</DependentUpon>
     </Compile>
     <Compile Include="MemberDemographics.aspx.cs">
       <DependentUpon>MemberDemographics.aspx</DependentUpon>

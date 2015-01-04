@@ -13,6 +13,15 @@ namespace LarpPortal {
     public partial class AllMessages {
         
         /// <summary>
+        /// WIP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label WIP;
+        
+        /// <summary>
         /// eventstable3 control.
         /// </summary>
         /// <remarks>

@@ -71,7 +71,7 @@ namespace LarpPortal
                     // Put up an invalid UserID Password combination message and put the focus back on the UserID field
                      Session["SecurityRole"] = 0;
                      lblInvalidLogin.Visible = true;
-
+                     Login.LoginFail(txtUserName.Text, txtPassword.Text);
                 }
                 else
                 {

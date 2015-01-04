@@ -43,7 +43,7 @@ namespace LarpPortal
                             ActiveState = ">";
                         }
                         PageName = "WhatIsLARPing.aspx";
-                        LineText = "What is LARPing?";
+                        LineText = "What is LARPing?<br>&nbsp;(Placeholder-Campaign in progress)";
                         break;
                     case 1:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing2")
@@ -135,8 +135,8 @@ namespace LarpPortal
                 DataRow LeftNavRow = LeftNavTable.NewRow();
                 LeftNavRow["href_li"] = hrefline;
                 LeftNavTable.Rows.Add(LeftNavRow);
-                menu_ul_memberprofile.DataSource = LeftNavTable;
-                menu_ul_memberprofile.DataBind();
+                menu_ul_membercampaigns.DataSource = LeftNavTable;
+                menu_ul_membercampaigns.DataBind();
             }
         }
     }

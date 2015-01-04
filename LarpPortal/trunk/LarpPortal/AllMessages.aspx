@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberMessages.master" AutoEventWireup="true" CodeBehind="AllMessages.aspx.cs" Inherits="LarpPortal.AllMessages" %>
-
 <asp:Content ID="AllMessages" ContentPlaceHolderID="MemberMessageContent" runat="server">
-All messages - Placeholder page - in progress
+<asp:Label ID="WIP" runat="server" BackColor="Yellow">All messages - Placeholder page - in progress</asp:Label>
 <div class="mainContent tab-content">
     <section id="total" class="tab-pane active">
         <form role="form" class="form-horizontal form-condensed">
