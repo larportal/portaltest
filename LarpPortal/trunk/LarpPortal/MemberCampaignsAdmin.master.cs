@@ -24,7 +24,7 @@ namespace LarpPortal
             string ActiveState;
             string PageName;
             string LineText;
-            int liLinesNeeded = 0; //REPLACE WITH NUMBER OF MENU ITEMS NEEDED 21 when done (22 but 0 base and all that)
+            int liLinesNeeded = 21; //REPLACE WITH NUMBER OF MENU ITEMS NEEDED 21 when done (22 but 0 base and all that)
             DataTable LeftNavTable = new DataTable();
             LeftNavTable.Columns.Add("href_li");
             ActiveState = ">";
@@ -36,7 +36,7 @@ namespace LarpPortal
                 switch (i)
                 {
                     case 0:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing")
+                        if (Session["ActiveLeftNav"].ToString() == "CampaignInfoSetup")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -44,11 +44,11 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing.aspx";
-                        LineText = "What is LARPing?<br>&nbsp;(Placeholder-Campaign in progress)";
+                        PageName = "CampaignInfoSetup.aspx";
+                        LineText = "Campaign Info";
                         break;
                     case 1:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing2")
+                        if (Session["ActiveLeftNav"].ToString() == "SetupInfo")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -56,11 +56,12 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing2.aspx";
-                        LineText = "Menu Item TBD 2";
+                        //PageName = "CampaignSetupInfo.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Set Up: Campaign Info";
                         break;
                     case 2:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing3")
+                        if (Session["ActiveLeftNav"].ToString() == "SetupPeople")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -68,12 +69,13 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing3.aspx";
-                        LineText = "Menu Item TBD 3";
+                        //PageName = "CampaignSetupPeople.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Set Up: Campaign People";
                         break;
 
                     case 3:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing4")
+                        if (Session["ActiveLeftNav"].ToString() == "SetupPeople")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -81,11 +83,12 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing4.aspx";
-                        LineText = "Menu Item TBD 4";
+                        //PageName = "CampaignSetupPlaces.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Set Up: Campaign Places";
                         break;
                     case 4:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing5")
+                        if (Session["ActiveLeftNav"].ToString() == "SetupRules")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -93,11 +96,12 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing5.aspx";
-                        LineText = "Menu Item TBD 5";
+                        //PageName = "CampaignSetupRules.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Set Up: Campaign Rules";
                         break;
                     case 5:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing6")
+                        if (Session["ActiveLeftNav"].ToString() == "SetupRulesIndex")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -105,8 +109,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing6.aspx";
-                        LineText = "Menu Item TBD 6";
+                        //PageName = "CampaignSetupRulesIndex.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Set Up: Campaign Rules Index";
                         break;
                     case 6:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing7")
@@ -117,7 +122,8 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing7.aspx";
+                        //PageName = "WhatIsLARPing7.aspx";
+                        PageName = "PageUnderConstruction.aspx";
                         LineText = "Menu Item TBD 7";
                         break;
                     case 7:
@@ -129,7 +135,8 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing8.aspx";
+                        //PageName = "WhatIsLARPing8.aspx";
+                        PageName = "PageUnderConstruction.aspx";
                         LineText = "Menu Item TBD 8";
                         break;
                     case 8:
@@ -141,8 +148,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing8.aspx";
-                        LineText = "Menu Item TBD 8";
+                        //PageName = "WhatIsLARPing8.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 9";
                         break;
                     case 9:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing8")
@@ -153,8 +161,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing8.aspx";
-                        LineText = "Menu Item TBD 8";
+                        //PageName = "WhatIsLARPing8.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 10";
                         break;
                     case 10:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing8")
@@ -165,8 +174,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing8.aspx";
-                        LineText = "Menu Item TBD 8";
+                        //PageName = "WhatIsLARPing8.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 11";
                         break;
                     case 11:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing8")
@@ -177,8 +187,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing8.aspx";
-                        LineText = "Menu Item TBD 8";
+                        //PageName = "WhatIsLARPing8.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 12";
                         break;
                     case 12:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing2")
@@ -189,8 +200,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing2.aspx";
-                        LineText = "Menu Item TBD 2";
+                        //PageName = "WhatIsLARPing2.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 13";
                         break;
                     case 13:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing3")
@@ -201,8 +213,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing3.aspx";
-                        LineText = "Menu Item TBD 3";
+                        //PageName = "WhatIsLARPing3.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 14";
                         break;
 
                     case 14:
@@ -214,8 +227,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing4.aspx";
-                        LineText = "Menu Item TBD 4";
+                        //PageName = "WhatIsLARPing4.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 15";
                         break;
                     case 15:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing5")
@@ -226,8 +240,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing5.aspx";
-                        LineText = "Menu Item TBD 5";
+                        //PageName = "WhatIsLARPing5.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 16";
                         break;
                     case 16:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing6")
@@ -238,8 +253,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing6.aspx";
-                        LineText = "Menu Item TBD 6";
+                        //PageName = "WhatIsLARPing6.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 17";
                         break;
                     case 17:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing7")
@@ -250,8 +266,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing7.aspx";
-                        LineText = "Menu Item TBD 7";
+                        //PageName = "WhatIsLARPing7.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 18";
                         break;
                     case 18:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing8")
@@ -262,8 +279,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing8.aspx";
-                        LineText = "Menu Item TBD 8";
+                        //PageName = "WhatIsLARPing8.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 19";
                         break;
                     case 19:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing8")
@@ -274,8 +292,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing8.aspx";
-                        LineText = "Menu Item TBD 8";
+                        //PageName = "WhatIsLARPing8.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 20";
                         break;
                     case 20:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing8")
@@ -286,8 +305,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing8.aspx";
-                        LineText = "Menu Item TBD 8";
+                        //PageName = "WhatIsLARPing8.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 21";
                         break;
                     case 21:
                         if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing8")
@@ -298,8 +318,9 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "WhatIsLARPing8.aspx";
-                        LineText = "Menu Item TBD 8";
+                        //PageName = "WhatIsLARPing8.aspx";
+                        PageName = "PageUnderConstruction.aspx";
+                        LineText = "Menu Item TBD 22";
                         break;
                 }
                 hrefline = "<li" + ActiveState + "<a href=" + "\"" + PageName + "\"" + " data-toggle=" + "\"" + "pill" + "\"" + ">" + LineText + "</a></li>";

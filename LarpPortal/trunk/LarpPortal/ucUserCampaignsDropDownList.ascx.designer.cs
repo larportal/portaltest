@@ -10,7 +10,16 @@
 namespace LarpPortal {
     
     
-    public partial class MemberCampaignsAdmin {
+    public partial class ucUserCampaignsDropDownList {
+        
+        /// <summary>
+        /// lblSelectCampaign control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSelectCampaign;
         
         /// <summary>
         /// ddlUserCampaigns control.
@@ -19,24 +28,6 @@ namespace LarpPortal {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::LarpPortal.ucUserCampaignsDropDownList ddlUserCampaigns;
-        
-        /// <summary>
-        /// menu_ul_membercampaignsadmin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater menu_ul_membercampaignsadmin;
-        
-        /// <summary>
-        /// MemberCampaignsAdminContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MemberCampaignsAdminContent;
+        protected global::System.Web.UI.WebControls.DropDownList ddlUserCampaigns;
     }
 }

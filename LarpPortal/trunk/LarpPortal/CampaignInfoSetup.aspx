@@ -1,7 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="CampaignInfoSetup.aspx.cs" Inherits="LarpPortal.CampaignInfoSetup" %>
-<asp:Content ID="CampaignInfoSetup" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaignsAdmin.master" AutoEventWireup="true" CodeBehind="CampaignInfoSetup.aspx.cs" Inherits="LarpPortal.CampaignInfoSetup" %>
+<asp:Content ID="CampaignInfoSetup" ContentPlaceHolderID="MemberCampaignsAdminContent" runat="server">
     <asp:Label ID="WIP" runat="server" BackColor="Yellow">Campaign Info Setup - Placeholder page - in progress</asp:Label>
-    			<div class="mainContent tab-content">
+<%--    			<div class="mainContent tab-content">
 
 				<section id="info" class="campaign-info tab-pane active">
 					<div role="form" class="form-horizontal form-condensed">
@@ -235,5 +235,5 @@
 						</div><!-- col-sm-12 -->
 					</div>
 				</section><!-- #info -->
-                </div>
+                </div>--%>
 </asp:Content>

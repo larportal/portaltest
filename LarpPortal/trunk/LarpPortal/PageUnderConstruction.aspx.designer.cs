@@ -10,15 +10,24 @@
 namespace LarpPortal {
     
     
-    public partial class ddlUserCampaigns {
+    public partial class PageUnderConstruction {
         
         /// <summary>
-        /// ddlUserCampaignList control.
+        /// imgUnderConstruction control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlUserCampaignList;
+        protected global::System.Web.UI.WebControls.Image imgUnderConstruction;
+        
+        /// <summary>
+        /// imgWorkers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgWorkers;
     }
 }
