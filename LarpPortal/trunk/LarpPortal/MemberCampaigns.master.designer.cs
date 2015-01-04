@@ -13,13 +13,13 @@ namespace LarpPortal {
     public partial class MemberCampaigns {
         
         /// <summary>
-        /// menu_ul_memberprofile control.
+        /// menu_ul_membercampaigns control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater menu_ul_memberprofile;
+        protected global::System.Web.UI.WebControls.Repeater menu_ul_membercampaigns;
         
         /// <summary>
         /// MemberCampaignsContent control.

@@ -10,15 +10,15 @@
 namespace LarpPortal {
     
     
-    public partial class CampaignInfo {
+    public partial class AboutUs {
         
         /// <summary>
-        /// WIP control.
+        /// lblAboutUs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label WIP;
+        protected global::System.Web.UI.WebControls.Label lblAboutUs;
     }
 }
