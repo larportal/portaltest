@@ -160,13 +160,13 @@
     <Content Include="AllMessages.aspx" />
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
+    <Content Include="img\construction.gif" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\normalize.css" />
-    <Content Include="ddlUserCampaigns.ascx" />
     <Content Include="ExternalDLLs\Excel.dll" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GameSystemTest2.aspx" />
@@ -183,6 +183,7 @@
     <Content Include="LARPResume.aspx" />
     <Content Include="Medical.aspx" />
     <Content Include="MemberDemographics.aspx" />
+    <Content Include="NoCurrentCampaignAssociations.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -190,12 +191,15 @@
     <Content Include="Account\Web.config" />
     <Content Include="img\.gitignore" />
     <Content Include="LARPortal.Master" />
+    <Content Include="PageUnderConstruction.aspx" />
     <Content Include="PlayerResume.aspx" />
     <Content Include="Preferences.aspx" />
     <Content Include="PublicCalendar.aspx" />
     <Content Include="PublicCampaigns.aspx" />
     <Content Include="RSVPMessages.aspx" />
     <Content Include="Security.aspx" />
+    <Content Include="img\ThisPageUnderConstruction.jpg" />
+    <Content Include="ucUserCampaignsDropDownList.ascx" />
     <Content Include="UnreadMessages.aspx" />
     <Content Include="Waivers.aspx" />
     <Content Include="WebForm1.aspx" />
@@ -403,13 +407,6 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ddlUserCampaigns.ascx.cs">
-      <DependentUpon>ddlUserCampaigns.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ddlUserCampaigns.ascx.designer.cs">
-      <DependentUpon>ddlUserCampaigns.ascx</DependentUpon>
-    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -533,6 +530,20 @@
       <DependentUpon>MemberSites.master</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="NoCurrentCampaignAssociations.aspx.cs">
+      <DependentUpon>NoCurrentCampaignAssociations.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NoCurrentCampaignAssociations.aspx.designer.cs">
+      <DependentUpon>NoCurrentCampaignAssociations.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PageUnderConstruction.aspx.cs">
+      <DependentUpon>PageUnderConstruction.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageUnderConstruction.aspx.designer.cs">
+      <DependentUpon>PageUnderConstruction.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PlayerResume.aspx.cs">
       <DependentUpon>PlayerResume.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -612,6 +623,13 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="ucUserCampaignsDropDownList.ascx.cs">
+      <DependentUpon>ucUserCampaignsDropDownList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ucUserCampaignsDropDownList.ascx.designer.cs">
+      <DependentUpon>ucUserCampaignsDropDownList.ascx</DependentUpon>
+    </Compile>
     <Compile Include="UnreadMessages.aspx.cs">
       <DependentUpon>UnreadMessages.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
