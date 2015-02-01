@@ -20,7 +20,7 @@ namespace LarpPortal.Classes
         private DateTime? _ActualEndDate = null;
         private Int32 _GameSystemID = -1;
         private string _GameSystemName = "";
-        private Int32 _TechLevelID = -1;
+        private Int32 _TechLevelID = -1;    //TODO - Redo - Should not be in Campaigns as it is multiply defined for any given campaign
         private string _TechLevelName = "";
         private Int32 _StyleID = -1;
         private string _StyleDescription = "";
@@ -496,6 +496,8 @@ namespace LarpPortal.Classes
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
             _UserName = strUserName;
+            _CampaignID = intCampaignID;
+            _UserID = intUserID;
             //so lets say we wanted to load data into this class from a sql query called uspGetSomeData thats take two paraeters @Parameter1 and @Parameter2
             
 
@@ -504,89 +506,129 @@ namespace LarpPortal.Classes
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@CampaignID", _CampaignID);
 
-                DataTable ldt = cUtilities.LoadDataTable("uspGetCampaignByCampaignID", slParams, "DefaultSQLConnection", strUserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetCampaignByCampaignID", slParams, "LARPortal", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-                    _ActualEndDate = Convert.ToDateTime(ldt.Rows[0]["ActualEndDate"].ToString().Trim());
-                    _ActualNumberOfEvents = ldt.Rows[0]["ActualNumberOfEvents"].ToString().Trim().ToInt32();
-                    _AllowCPDonation = ldt.Rows[0]["AllowCPDonation"].ToString().Trim().ToBoolean();
-                    _AnnualCharacterCPCap = ldt.Rows[0]["AnnualCharacterCap"].ToString().Trim().ToInt32();
-                    _CampaignAddressID = ldt.Rows[0]["CampaignAddress"].ToString().Trim().ToInt32();
+                    DateTime dtTemp;
+                    bool bTemp;
+                    int iTemp;
+                    double dTemp;
+                    if (DateTime.TryParse(ldt.Rows[0]["ActualEndDate"].ToString(), out dtTemp))
+                        _ActualEndDate = dtTemp;
+                    if (int.TryParse(ldt.Rows[0]["ActualNumberOfEvents"].ToString(), out iTemp))
+                        _ActualNumberOfEvents = iTemp;
+                    if (bool.TryParse(ldt.Rows[0]["AllowCPDonation"].ToString(), out bTemp))
+                        _AllowCPDonation = bTemp;
+                    if (int.TryParse(ldt.Rows[0]["AnnualCharacterCap"].ToString(), out iTemp))
+                        _AnnualCharacterCPCap = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["CampaignAddress"].ToString(), out iTemp))
+                        _CampaignAddressID = iTemp;
                     _CampaignName = ldt.Rows[0]["CampaignName"].ToString();
                     _CancellationPolicy = ldt.Rows[0]["CancellationPolicy"].ToString().Trim();
-                    _CharacterApprovalLevel = ldt.Rows[0]["CharacterApprovalLevel"].ToString().Trim().ToInt32();
+                    if (int.TryParse(ldt.Rows[0]["CharacterApprovalLevel"].ToString(), out iTemp))
+                        _CharacterApprovalLevel = iTemp;
                     _CharacterGeneratorURL = ldt.Rows[0]["CharacterGeneratorURL"].ToString().Trim();
-                    _CharacterHistoryApprovalLevel = ldt.Rows[0]["CharacterHistoryApprovalLevel"].ToString().Trim().ToInt32();
-                    _CharacterHistoryNotificationDeliverPref = ldt.Rows[0]["CharacterHistoryNotificationDeliveryPreference"].ToString().Trim().ToInt32();
+                    if (int.TryParse(ldt.Rows[0]["CharacterHistoryApprovalLevel"].ToString(), out iTemp))
+                        _CharacterHistoryApprovalLevel = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["CharacterHistoryNotificationDeliveryPreference"].ToString(), out iTemp))
+                        _CharacterHistoryNotificationDeliverPref = iTemp;
                     _CharacterHistoryNotificationEmail = ldt.Rows[0]["CharacterHistoryNotificationEmail"].ToString().Trim();
                     _CharacterHistoryURL = ldt.Rows[0]["CharacterHistoryURL"].ToString().Trim();
-                    _CharacterNotificationDeliveryPref = ldt.Rows[0]["CharacterHistoryNotificationDeliveryPreference"].ToString().Trim().ToInt32();
+                    if (int.TryParse(ldt.Rows[0]["CharacterHistoryNotificationDeliveryPreference"].ToString(), out iTemp))
+                        _CharacterNotificationDeliveryPref = iTemp;
                     _CharacterNotificationEMail = ldt.Rows[0]["CharacterNotificationEmail"].ToString().Trim();
                     _CharacterHistoryURL = ldt.Rows[0]["CharacterHistoryURL"].ToString().Trim();
-                    _CharacterNotificationDeliveryPref = ldt.Rows[0]["CharacterHistoryNotificationDeliveryPreference"].ToString().Trim().ToInt32();
+                    if (int.TryParse(ldt.Rows[0]["CharacterHistoryNotificationDeliveryPreference"].ToString(), out iTemp))
+                        _CharacterNotificationDeliveryPref = iTemp;
                     _CharacterNotificationEMail = ldt.Rows[0]["CharacterNotificationEmail"].ToString().Trim();
                     _Comments = ldt.Rows[0]["Comments"].ToString().Trim();
                     _CPNotificationEmail = ldt.Rows[0]["CPNotificationEmail"].ToString().Trim();
                     _CPNotificationPreferenceDescription = ldt.Rows[0]["CPNotificationDeliveryPreference"].ToString().Trim();
-                    _CPNotificationPreferenceID = -1; //JRV TODO
+                    _CPNotificationPreferenceID = -1; //TODO - RP - This was on Jack's to do list
                     _CrossCampaignPosting = ldt.Rows[0]["CrossCampaignPosting"].ToString().Trim();
                     _CSSFile = ldt.Rows[0]["CampaignCSSFile"].ToString().Trim();
                     _EmergencyEventContact = ldt.Rows[0]["EmergencyEventContactInfo"].ToString().Trim();
-                    _EventCharacterCPCap = ldt.Rows[0]["EventCharacterCap"].ToString().Trim().ToInt32();
-                    _GameSystemID = ldt.Rows[0]["GameSystemID"].ToString().Trim().ToInt32();
-                    _GameSystemName = "GetFromGameSystemClass"; //JRV TODO
+                    if (int.TryParse(ldt.Rows[0]["EventCharacterCap"].ToString(), out iTemp))
+                        _EventCharacterCPCap = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["GameSystemID"].ToString(), out iTemp))
+                        _GameSystemID = iTemp;
+                    _GameSystemName = "GetFromGameSystemClass"; //TODO - RP - Was on Jack's to do list
                     _InfoRequestEmail = ldt.Rows[0]["InfoRequestEmail"].ToString().Trim();
-                    _InfoSkillApprovalLevel = ldt.Rows[0]["InfoSkillApprovalLevel"].ToString().Trim().ToInt32();
-                    _InfoSkillDeliveryPref = ldt.Rows[0]["InfoSkillDeliveryPreference"].ToString().Trim().ToInt32();
+                    if (int.TryParse(ldt.Rows[0]["InfoSkillApprovalLevel"].ToString(), out iTemp))
+                        _InfoSkillApprovalLevel = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["InfoSkillDeliveryPreference"].ToString(), out iTemp))
+                        _InfoSkillDeliveryPref = iTemp;
                     _InfoSkillEMail = ldt.Rows[0]["InfoSkillEmail"].ToString().Trim();
                     _InfoSkillURL = ldt.Rows[0]["InfoSkillURL"].ToString().Trim();
                     _JoinRequestEmail = ldt.Rows[0]["JoinRequestEmail"].ToString().Trim();
                     _Logo = ldt.Rows[0]["CampaignLogo"].ToString().Trim();
-                    _MarketingCampaignSize = ldt.Rows[0]["MarketingCampaignSize"].ToString().Trim().ToInt32();
-                    _MaximumCPPerYear = ldt.Rows[0]["MaximumCPPerYear"].ToString().Trim().ToInt32();
-                    _MaxNumberOfGenres = 0; //JRV ToDO
-                    _MembershipFee = Convert.ToDouble(ldt.Rows[0]["MembershipFee"].ToString().Trim());
+                    if (int.TryParse(ldt.Rows[0]["MarketingCampaignSize"].ToString(), out iTemp))
+                        _MarketingCampaignSize = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["MaximumCPPerYear"].ToString(), out iTemp))
+                        _MaximumCPPerYear = iTemp;
+                    _MaxNumberOfGenres = 4; //TODO - RP - Was on Jack's to do list
+                    if (double.TryParse(ldt.Rows[0]["MembershipFee"].ToString(), out dTemp))
+                        _MembershipFee = dTemp;
                     _MembershipFeeFrequency = ldt.Rows[0]["MembershipFeeFrequency"].ToString().Trim();
-                    _MinimumAge = ldt.Rows[0]["MinimumAge"].ToString().Trim().ToInt32();
-                    _MinimumAgeWithSupervision = ldt.Rows[0]["MinimumAgeWithSupervision"].ToString().Trim().ToInt32();
-                    _PELApprovalLevel = ldt.Rows[0]["PELApprovalLevel"].ToString().Trim().ToInt32();
-                    _PelNotificationDeliveryPref = ldt.Rows[0]["PELNotificationDeliveryPreference"].ToString().Trim().ToInt32();
+                    if (int.TryParse(ldt.Rows[0]["MinimumAge"].ToString(), out iTemp))
+                        _MinimumAge = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["MinimumAgeWithSupervision"].ToString(), out iTemp))
+                        _MinimumAgeWithSupervision = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["PELApprovalLevel"].ToString(), out iTemp))
+                        _PELApprovalLevel = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["PELNotificationDeliveryPreference"].ToString(), out iTemp))
+                        _PelNotificationDeliveryPref = iTemp;
                     _PELNotificationEMail = ldt.Rows[0]["PELNotificationEmail"].ToString().Trim();
                     _PELSubmissionURL = ldt.Rows[0]["PELSubmissionURL"].ToString().Trim();
-                    _PlayerApprovalRequired = ldt.Rows[0]["PlayerApprovalRequired"].ToString().Trim().ToBoolean();
-                    _PortalAccessDescription = ""; //JRV TODO
+                    if (bool.TryParse(ldt.Rows[0]["PlayerApprovalRequired"].ToString(), out bTemp))
+                        _PlayerApprovalRequired = bTemp;
+                    _PortalAccessDescription = ""; //TODO - RP - Was on Jack's to do list
                     _PortalAccessType = ldt.Rows[0]["PortalAccessType"].ToString().Trim();
-                    _PrimaryOwnerID = ldt.Rows[0]["PrimaryOwnerID"].ToString().Trim().ToInt32();
+                    if (int.TryParse(ldt.Rows[0]["PrimaryOwnerID"].ToString(), out iTemp))
+                        _PrimaryOwnerID = iTemp;
                     _ProductionSkillEMail = ldt.Rows[0]["ProductionSkillEmail"].ToString().Trim();
                     _ProductionSkillURL = ldt.Rows[0]["ProductionSkillURL"].ToString().Trim();
-                    _ProjectedEndDate = Convert.ToDateTime( ldt.Rows[0]["ProductionSkillURL"].ToString().Trim());
-                    _ProjectedNumberOfEvents = ldt.Rows[0]["ProjectedNumberOfEvents"].ToString().Trim().ToInt32();
+                    if (DateTime.TryParse(ldt.Rows[0]["ProjectedEndDate"].ToString(), out dtTemp))
+                        _ProjectedEndDate = dtTemp;
+                    if (int.TryParse(ldt.Rows[0]["ProjectedNumberOfEvents"].ToString(), out iTemp))
+                        _ProjectedNumberOfEvents = iTemp;
                     _RulesFile = ldt.Rows[0]["CampaignRulesFile"].ToString().Trim();
                     _RulesURL = ldt.Rows[0]["CampaignRulesURL"].ToString().Trim();
                     _ShareLocationUseNotes = ldt.Rows[0]["ShareLocationUseNotes"].ToString().Trim();
-                    _StartDate = Convert.ToDateTime(ldt.Rows[0]["CampaignStartDate"].ToString().Trim());
-                    _StatusDescription = ""; //JRV TODO
-                    _StatusID = ldt.Rows[0]["StatusID"].ToString().Trim().ToInt32();
+                    if (DateTime.TryParse(ldt.Rows[0]["CampaignStartDate"].ToString(), out dtTemp))
+                        _StartDate = dtTemp;
+                    _StatusDescription = ""; //TODO - RP - Was on Jack's to do list
+                    if (int.TryParse(ldt.Rows[0]["StatusID"].ToString(), out iTemp))
+                        _StatusID = iTemp;
                     _StyleDescription = "";
-                    _StyleID = ldt.Rows[0]["StyleID"].ToString().Trim().ToInt32();
-                    _TechLevelID = ldt.Rows[0]["TechLevelID"].ToString().Trim().ToInt32();
-                    _TechLevelName = "";// JRV TODO
-                    _TotalCharacterCPCap = ldt.Rows[0]["TotalCharacterCap"].ToString().Trim().ToInt32();
+                    if (int.TryParse(ldt.Rows[0]["StyleID"].ToString(), out iTemp))
+                        _StyleID = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["TechLevelID"].ToString(), out iTemp))
+                        _TechLevelID = iTemp;
+                    _TechLevelName = "";//TODO - RP - Was on Jack's to do list
+                    if (int.TryParse(ldt.Rows[0]["TotalCharacterCap"].ToString(), out iTemp))
+                        _TotalCharacterCPCap = iTemp;
                     _URL = ldt.Rows[0]["CampaignURL"].ToString().Trim();
-                    _UseCampaignCharacters = ldt.Rows[0]["UseCampaignCharacters"].ToString().Trim().ToBoolean();
-                    _UserDefinedField1Use = ldt.Rows[0]["UseUserDefinedField1"].ToString().Trim().ToBoolean();
+                    if (bool.TryParse(ldt.Rows[0]["UseCampaignCharacters"].ToString(), out bTemp))
+                        _UseCampaignCharacters = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["UseUserDefinedField1"].ToString(), out bTemp))
+                        _UserDefinedField1Use = bTemp;
                     _UserDefinedField1Value = ldt.Rows[0]["UserDefinedField1"].ToString().Trim();
-                    _UserDefinedField2Use = ldt.Rows[0]["UseUserDefinedField2"].ToString().Trim().ToBoolean();
+                    if (bool.TryParse(ldt.Rows[0]["UseUserDefinedField2"].ToString(), out bTemp))
+                        _UserDefinedField2Use = bTemp;
                     _UserDefinedField2Value = ldt.Rows[0]["UserDefinedField2"].ToString().Trim();
-                    _UserDefinedField3Use = ldt.Rows[0]["UseUserDefinedField3"].ToString().Trim().ToBoolean();
+                    if (bool.TryParse(ldt.Rows[0]["UseUserDefinedField3"].ToString(), out bTemp))
+                        _UserDefinedField3Use = bTemp;
                     _UserDefinedField3Value = ldt.Rows[0]["UserDefinedField3"].ToString().Trim();
-                    _UserDefinedField4Use = ldt.Rows[0]["UseUserDefinedField4"].ToString().Trim().ToBoolean();
+                    if (bool.TryParse(ldt.Rows[0]["UseUserDefinedField4"].ToString(), out bTemp))
+                        _UserDefinedField4Use = bTemp;
                     _UserDefinedField4Value = ldt.Rows[0]["UserDefinedField4"].ToString().Trim();
-                    _UserDefinedField5Use = ldt.Rows[0]["UseUserDefinedField5"].ToString().Trim().ToBoolean();
+                    if (bool.TryParse(ldt.Rows[0]["UseUserDefinedField5"].ToString(), out bTemp))
+                        _UserDefinedField5Use = bTemp;
                     _UserDefinedField5Value = ldt.Rows[0]["UserDefinedField5"].ToString().Trim();
                     _WebPageDescription = ldt.Rows[0]["CampaignWebPageDescription"].ToString().Trim();
                     _WebPageSelectionComments = ldt.Rows[0]["CampaignWebPageSelectionComments"].ToString().Trim();
-                    _WorldID = -1; //JRV TODO
+                    _WorldID = -1; //TODO - RP - Was on Jack's to do list
                 }
             }
             catch (Exception ex)

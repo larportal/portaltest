@@ -36,7 +36,7 @@ namespace LarpPortal.Classes
         private string _DeliveryPreferenceString = "";
         private string _LastLoggedInLocation = "";
         private cUserCampaign _UserCampaign;
-        private List<cUserCampaign> _UserCampaigns;
+        private List<cUserCampaign> _UserCampaigns = new List<cUserCampaign>();
         private int _LastLoggedInCampaign = 0;
         private Int32 _XRefNumber = -1;
         private string _Comments = "";
@@ -77,6 +77,7 @@ namespace LarpPortal.Classes
         public Int32 UserID
         {
             get { return _UserID; }
+            set { _UserID = value; }
         }
         public string LoginName
         {
@@ -203,11 +204,6 @@ namespace LarpPortal.Classes
             get { return _UserCampaigns; }
             set { _UserCampaigns = value; }
         }
-        //public List<LarpPortal.Classes.cCharacter> UserCharacters
-        //{
-        //    get { return _UserCharacters; }
-        //    set { _UserCharacters = value; }
-        //}
                
         private cUser()
         {
@@ -250,6 +246,7 @@ namespace LarpPortal.Classes
                 LoadAddresses();
                 LoadPhones();
                 LoadEmails();
+
             }
             catch (Exception ex)
             {
@@ -340,33 +337,6 @@ namespace LarpPortal.Classes
                 lobjError.ProcessError(ex, lsRoutineName, _LoginName + lsRoutineName);
             }
         }
-
-        private void LoadUserCampaigns()
-        {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
-            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            _UserCampaign = new cUserCampaign(_UserID, _LoginName); //TODO - RICK - Fix cUserCampaign and come back and add parameters
-            try
-            {
-                SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-                slParams.Add("@UserID", _UserID);
-
-                DataTable ldt = cUtilities.LoadDataTable("uspGetMyCampaigns", slParams, "LARPortal", _LoginName, lsRoutineName);
-                if (ldt.Rows.Count > 0)
-                {
-                    foreach (DataRow ldr in ldt.Rows)
-                    {
-                        cUserCampaign cUC = new cUserCampaign(_UserID, _LoginName);
-                        _UserCampaigns.Add(cUC);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _LoginName + lsRoutineName);
-            }
-        }
        
         public Boolean Save()
         {
@@ -389,12 +359,11 @@ namespace LarpPortal.Classes
                 slParams.Add("@ForumUsername", _ForumUserName);
                 slParams.Add("@NotificationPreferenceID", _NotificationPreference);
                 slParams.Add("@DeliveryPreferenceID", _DeliveryPreferenceID);
-                slParams.Add("@LastLoggedInLocaton", _LastLoggedInLocation);
+                slParams.Add("@LastLoggedInLocation", _LastLoggedInLocation);
+                slParams.Add("@LastLoggedInCampaign", _LastLoggedInCampaign);
                 slParams.Add("@XRefNumber", _XRefNumber);
                 slParams.Add("@Comments", _Comments);
                 blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBUsers", slParams, "LARPortal", _LoginName);
-
-
 
                 blnReturn = true;
             }

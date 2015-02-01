@@ -151,6 +151,40 @@ namespace LarpPortal.Classes
         }
 
         /// <summary>
+        /// This will load the left bar navigation.
+        /// </summary>
+        public void LoadLeftNav(int CampaignID, string NavigationName)
+        {
+            int iTemp;
+            TabCount = 0;
+            string stStoredProc = "uspGetLeftNav";
+            string stCallingMethod = "cLogin.LoadLeftNav";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@SecurityRoleID", SecurityRoleID);
+            DataSet dsTabs = new DataSet();
+            dsTabs = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsTabs.Tables[0].TableName = "MDBSecurityRoleTabs";
+            foreach (DataRow dRow in dsTabs.Tables["MDBSecurityRoleTabs"].Rows)
+            {
+                TabCount = TabCount + 1;
+                if (int.TryParse(dRow["SecurityRoleTabID"].ToString(), out iTemp))
+                    SecurityRoleTabID = iTemp;
+                if (int.TryParse(dRow["SecurityRoleID"].ToString(), out iTemp))
+                    SecurityRoleID = iTemp;
+                if (int.TryParse(dRow["SortOrder"].ToString(), out iTemp))
+                    SortOrder = iTemp;
+                SecurityRoleName = dRow["SecurityRoleName"].ToString();
+                CallsPageName = dRow["CallsPageName"].ToString();
+                TabName = dRow["TabName"].ToString();
+                TabClass = dRow["TabClass"].ToString();
+                TabIcon = dRow["TabIcon"].ToString();
+                cPageTab PageTab = new cPageTab();
+                PageTab.Load(SecurityRoleTabID);
+                lsPageTabs.Add(PageTab);
+            }
+        }
+
+        /// <summary>
         /// This will load the login information about a member
         /// Must pass a username and password
         /// </summary>

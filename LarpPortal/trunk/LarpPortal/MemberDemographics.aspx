@@ -3,7 +3,6 @@
 <asp:Content ID="MyProfileDemographics" ContentPlaceHolderID="Demographics" runat="server">
 <asp:Label ID="WIP" runat="server" BackColor="Yellow"> Profile - Demographics - Placeholder page - in progress</asp:Label>
     <div class="mainContent tab-content">
-        <!-- DEMOGRAPHICS -->
         <section id="demographics" class="demographics tab-pane active">
             <div role="form" class="form-horizontal form-condensed">
                 <div class="col-sm-12">
@@ -29,15 +28,12 @@
                                     <asp:TextBox ID="txtLastName" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
                             </div>
-                            <!-- .formGroup -->
                         </div>
-                        <!-- .contactInfoName -->
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="col-sm-3">
                                     <asp:DropDownList ID="ddlGender" runat="server" CssClass="col-sm-12" AutoPostBack="true" OnSelectedIndexChanged="ddlGender_SelectedIndexChanged"></asp:DropDownList>
                                 </div>
-                                <!-- .gender -->
                                 <div class="col-sm-4">
                                     <asp:TextBox ID="txtGenderOther" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
@@ -46,9 +42,7 @@
                                     <asp:TextBox ID="txtDOB" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
                             </div>
-                            <!-- .formGroup -->
                         </div>
-                        <!-- .contactInfoDemo -->
                         <div class="emergency col-sm-12">
                             <h4>Emergency Contact Information</h4>
                             <div class="form-group">
@@ -61,11 +55,8 @@
                                     <asp:TextBox ID="txtEmergencyPhone" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
                             </div>
-                            <!-- .formGroup -->
                         </div>
-                        <!-- .emergency -->
                     </div>
-                    <!-- .contactInfo -->
 
                     <div class="userNames col-sm-3">
                         <div class="form-group">
@@ -91,9 +82,7 @@
                             <div class="userName col-sm-9">
                                 <asp:TextBox ID="txtForumname" runat="server" CssClass="form-control"></asp:TextBox>
                             </div>
-                            <!-- .userName -->
                         </div>
-                        <!-- .formGroup -->
 
                         <div class="uploadFile row col-sm-12">
                             <div class="input-group">
@@ -108,7 +97,6 @@
                     <div class="userPhoto col-sm-2">
                         <img src="img/rick.jpg" alt="User photo" width="150">
                     </div>
-                    <!-- .userPhoto -->
                 </div>
 
 <%--                <div class="col-sm-12">
