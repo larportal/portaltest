@@ -1,13 +1,56 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="MemberCampaigns.master.cs" Inherits="LarpPortal.MemberCampaigns" %>
+<%@ Register TagPrefix="UC1" TagName="UserCampaignDDL" Src="~/ucUserCampaignsDropDownList.ascx" %>
 <asp:Content ID="LeftNavMemberCampaigns" ContentPlaceHolderID="MainPage" runat="server">
     <asp:Table runat="server">
         <asp:TableRow>
             <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
               <div class="contentArea">
 				<nav class="userSubNav">
-                        <asp:Repeater ID="menu_ul_membercampaigns" runat="server">
+                        <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
+                        <ul class="nav nav-pills panel-wrapper list-unstyled scroll-500">
+                        <li class="active"><label class="tree-toggle"><a href="PageUnderConstruction.aspx" data-toggle="pill">Campaign Info</a></label></li>
+                        <li><a href="CampaignInfoSetup.aspx" data-toggle="pill">Set Up: Campaign Info</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Set Up: Campaign People</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Set Up: Campaign Places</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Set Up: Campaign Rules</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Set Up: Campaign Rules Index</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Campaign Messages</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">View Previous</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Send New</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Preview Scheduled</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Calendar</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Events</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Planning</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Defaults</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Marketing</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Food Options</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Assign Housing</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Record Payments</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Check-In</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Accept Donations</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Approve Check-Out</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Characters</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">NPC Info</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">NPC Items</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">NPC History</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Traits & Attributes</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Skill Headers & Types</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Skills</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Roles</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Assign Roles</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Roles</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Character Build Points</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Standard Points</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Other Points</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Assign Points</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Accept Points</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">PEL</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Inventory/Props</a></li>
+                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Site Location Use Setup</a></li>
+                        </ul>
+<%--                    <asp:Repeater ID="menu_ul_membercampaignsadmin" runat="server">
                         <HeaderTemplate>
-                            <ul class="nav nav-pills">
+                            <ul class="nav nav-pills panel-wrapper list-unstyled scroll-500">
                         </HeaderTemplate>
                         <ItemTemplate>
                             <%# Eval("href_li")%>
@@ -15,7 +58,7 @@
                         <FooterTemplate>
                             </ul>
                         </FooterTemplate>
-                    </asp:Repeater>
+                    </asp:Repeater>--%>
 				</nav>
               </div>
             </asp:TableCell>

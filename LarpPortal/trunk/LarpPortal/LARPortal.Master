@@ -51,7 +51,8 @@
             </nav>
             <div>
                 <nav class="logo">
-                    <asp:Label ID="lblLoginName" runat="server"></asp:Label>
+                    <h4><asp:Label ID="lblCampaignName" runat="server"></asp:Label></h4>
+                    <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label ID="lblLoginName" runat="server"></asp:Label>--%>
                 </nav>
             </div>
             <nav class="userMainNav">

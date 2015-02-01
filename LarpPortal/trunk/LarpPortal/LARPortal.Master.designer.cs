@@ -22,13 +22,13 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.Repeater menu_ul_main;
         
         /// <summary>
-        /// lblLoginName control.
+        /// lblCampaignName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblLoginName;
+        protected global::System.Web.UI.WebControls.Label lblCampaignName;
         
         /// <summary>
         /// menu_ul_1 control.

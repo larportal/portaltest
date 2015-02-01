@@ -21,12 +21,16 @@ namespace LarpPortal
             //Session["SecurityRole"] = 0;
             int i;
             int intSecurityRole;
+            if (Session["CampaignName"] == null)
+            {
+                Session["CampaignName"] = "";
+            }
+            lblCampaignName.Text = Session["CampaignName"].ToString();
             if (Session["LoginName"] == null)
             {
                 Session["LoginName"] = "Guest";
             }
-
-            lblLoginName.Text = "Welcome " + Session["LoginName"].ToString();
+            //lblLoginName.Text = "Welcome " + Session["LoginName"].ToString();
             if (int.TryParse(Session["SecurityRole"].ToString(), out i))
                 intSecurityRole = i;
             else
@@ -34,7 +38,7 @@ namespace LarpPortal
                 intSecurityRole = 0;
             }
             LoadMainLinks();
-            LoadTopTab(intSecurityRole, 0); //TODO - Rick, talk to Jeff, 2nd Parameter is unread message count - We have agreed on a session variable
+            LoadTopTab(intSecurityRole, 0); //TODO - Rick, talk to Jeff, 2nd Parameter is unread message count - We have agreed to use a session variable
             LoadPageFooter();
             if (Session["PageFooter"] == null)
             {
@@ -55,16 +59,23 @@ namespace LarpPortal
             string TabIcon;
             Classes.cLogin RoleTabs = new Classes.cLogin();
             RoleTabs.LoadTabsBySecurityRole(SecurityRole);
-            intTabsNeeded = RoleTabs.TabCount - 1;
+            intTabsNeeded = RoleTabs.TabCount;
             DataTable TopTabTable = new DataTable();
             TopTabTable.Columns.Add("href_main");
             for (int i = 0; i <= intTabsNeeded; i++)
             {
-                PageName = RoleTabs.lsPageTabs[i].CallsPageName.ToString();
-                TabClass = RoleTabs.lsPageTabs[i].TabClass.ToString();
-                TabIcon = RoleTabs.lsPageTabs[i].TabIcon.ToString();
-                TabName = RoleTabs.lsPageTabs[i].TabName.ToString();
-                hrefline = "<li><a href=" + "\"" + PageName + "\"" + ">" + TabName + "</a></li>";
+                if (i < intTabsNeeded)
+                {
+                    PageName = RoleTabs.lsPageTabs[i].CallsPageName.ToString();
+                    TabClass = RoleTabs.lsPageTabs[i].TabClass.ToString();
+                    TabIcon = RoleTabs.lsPageTabs[i].TabIcon.ToString();
+                    TabName = RoleTabs.lsPageTabs[i].TabName.ToString();
+                    hrefline = "<li><a href=" + "\"" + PageName + "\"" + ">" + TabName + "</a></li>";
+                }
+                else
+                {
+                    hrefline = "<li><b>Welcome " + Session["LoginName"].ToString() + "</b></li>";
+                }  
                 DataRow TopTabRow = TopTabTable.NewRow();
                 TopTabRow["href_main"] = hrefline;
                 TopTabTable.Rows.Add(TopTabRow);

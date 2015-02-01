@@ -17,39 +17,63 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ddlUserCampaigns.SelectedIndex = 0;
-            //ddlUserCampaigns.Items.Clear();
-            //string uName = "";
-            //string uPassword = "Password";
-            //int uID = 0;
-            //if (Session["Username"] != null)
-            //    uName = Session["Username"].ToString();
-            //if (Session["UserID"] != null)
-            //    uID = (Session["UserID"].ToString().ToInt32());
-            //Classes.cUser CampaignChoices = new Classes.cUser(uName, uPassword);
-            //List<cUserCampaign> listUserCampaigns = new List<cUserCampaign>();
-            //ddlUserCampaigns.DataTextField = "CampaignName";
-            //ddlUserCampaigns.DataValueField = "CampaignID";
-            //ddlUserCampaigns.DataSource = listUserCampaigns;
-            //ddlUserCampaigns.DataBind();
-            //TODO - Rick - If user has no campaign associations, redirect to NoCurrentCampaignAssociations.aspx
+            if(!IsPostBack)
+            {
+                ddlUserCampaigns.SelectedIndex = 0;
+                ddlUserCampaigns.Items.Clear();
+                string uName = "";
+                int uID = 0;
+                if (Session["Username"] != null)
+                    uName = Session["Username"].ToString();
+                if (Session["UserID"] != null)
+                    uID = (Session["UserID"].ToString().ToInt32());
+                Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
+                CampaignChoices.Load(uID);
+                if (CampaignChoices.CountOfUserCampaigns == 0)
+                    Response.Redirect("~/NoCurrentCampaignAssociations.aspx"); 
+                //TODO - Rick - Create NoCurrentCampaignAssociations.aspx
+                ddlUserCampaigns.DataTextField = "CampaignName";
+                ddlUserCampaigns.DataValueField = "CampaignID";
+                ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
+                ddlUserCampaigns.DataBind();
+                if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
+                {
+                    Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
+                    Response.Redirect(Request.RawUrl);
+                }
+            }
+
+        }
+
+        protected void ddlReorderList()
+        {
+
         }
 
         protected void ddlUserCampaigns_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //string otherdesc = txtGenderOther.Text;
-            //if(ddlGender.SelectedValue == "O")
-            //{
-            //    txtGenderOther.Visible = true;
-            //    if (otherdesc == "")
-            //        otherdesc = "Enter description";
-            //    txtGenderOther.Attributes.Add("Placeholder", otherdesc);
-            //    txtGenderOther.Focus();
-            //}
-            //else
-            //{
-            //    txtGenderOther.Visible = false;
-            //}
+            int intUserID;
+            string SelectedText;
+            string SelectedValue;
+            SelectedText = ddlUserCampaigns.SelectedItem.Text.ToString();
+            SelectedValue = ddlUserCampaigns.SelectedItem.Value.ToString();
+            if (Session["UserID"] == null)
+            {
+                intUserID = -1;    // In theory we can't actually get here so we should just go back to login
+                Response.Redirect("~/index.aspx");
+            }
+            else
+            {
+                intUserID = Session["UserID"].ToString().ToInt32();
+            }
+            Classes.cUser User = new Classes.cUser(Session["Username"].ToString(),"PasswordNotNeeded");
+            User.UserID = intUserID;
+            User.LastLoggedInCampaign = ddlUserCampaigns.SelectedItem.Value.ToInt32();
+            Session["CampaignID"] = ddlUserCampaigns.SelectedItem.Value.ToInt32();
+            Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
+            User.Save();
+            //TODO - Rick - If page is campaign related in any way, load campaign at top of code behind and set session variable CampaignName 
+            Response.Redirect(Request.RawUrl);
         }
     }
 }
