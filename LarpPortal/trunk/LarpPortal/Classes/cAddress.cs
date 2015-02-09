@@ -27,7 +27,7 @@ namespace LarpPortal.Classes
                 }
                 else
                 {
-                    // TODO add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
+                    // TODO-Jack-Add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
                 }
 
 
@@ -102,7 +102,7 @@ namespace LarpPortal.Classes
                 }
                 else
                 {
-                    // TODO add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
+                    // TODO-Jack-Add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace LarpPortal.Classes
                 }
                 else
                 {
-                    // TODO add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
+                    // TODO-Jack-Add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
                 }
             }
         }
@@ -140,7 +140,7 @@ namespace LarpPortal.Classes
                 }
                 else
                 {
-                    // TODO add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
+                    // TODO-Jack-Add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
                 }
             }
         }

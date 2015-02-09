@@ -122,8 +122,7 @@
                                     <h2>Setting Description</h2>
                                 </div>
                                 <div class="panel-body">
-                                    <div class="panel-container scroll-15">
-                                        <%--<h3><asp:Label ID="CampaignHeader" runat="server"></asp:Label></h3>--%>
+                                    <div id="ThisIsTheScroll" class="panel-container scroll-200">
                                         <asp:Label ID="CampaignDescription" runat="server"></asp:Label>
                                     </div>
                                 </div>

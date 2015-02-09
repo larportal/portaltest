@@ -49,6 +49,24 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVPassword;
         
         /// <summary>
+        /// lblSecurityResetCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSecurityResetCode;
+        
+        /// <summary>
+        /// txtSecurityResetCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSecurityResetCode;
+        
+        /// <summary>
         /// tblLoginButton control.
         /// </summary>
         /// <remarks>
@@ -65,6 +83,15 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLogin;
+        
+        /// <summary>
+        /// btnValidateAccount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnValidateAccount;
         
         /// <summary>
         /// lblInvalidLogin control.
@@ -101,6 +128,42 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtLastLocation;
+        
+        /// <summary>
+        /// GuestLogin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label GuestLogin;
+        
+        /// <summary>
+        /// lblSignUpErrors control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSignUpErrors;
+        
+        /// <summary>
+        /// txtNewUsername control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNewUsername;
+        
+        /// <summary>
+        /// RFVNewUsername control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVNewUsername;
         
         /// <summary>
         /// txtFirstName control.
@@ -157,6 +220,15 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVEmail;
         
         /// <summary>
+        /// lblPasswordReqs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPasswordReqs;
+        
+        /// <summary>
         /// txtPasswordNew control.
         /// </summary>
         /// <remarks>
@@ -202,6 +274,15 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.CheckBox chkTermsOfUse;
         
         /// <summary>
+        /// TermsOfUse control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink TermsOfUse;
+        
+        /// <summary>
         /// btnSignUp control.
         /// </summary>
         /// <remarks>
@@ -209,5 +290,14 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSignUp;
+        
+        /// <summary>
+        /// HyperLink1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLink1;
     }
 }

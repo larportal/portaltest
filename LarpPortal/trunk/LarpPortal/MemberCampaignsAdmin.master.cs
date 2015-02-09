@@ -551,7 +551,7 @@ namespace LarpPortal
                         LeftNavRow["href_li"] = hrefline;
                         LeftNavTable.Rows.Add(LeftNavRow);
                         
-                        // TODO - Rick - Uncomment the next two lines when running the section
+                        // TODO-Rick-2 Uncomment the next two lines when running the section and creating the nav by code
                         //menu_ul_membercampaignsadmin.DataSource = LeftNavTable;
                         //menu_ul_membercampaignsadmin.DataBind();
                 }
@@ -1208,7 +1208,7 @@ namespace LarpPortal
                 LeftNavRow["href_li"] = hrefline;
                 LeftNavTable.Rows.Add(LeftNavRow);
 
-                //TODO - Rick - Uncomment the next two lines when running live
+                //TODO-Rick-2 Uncomment the next two lines when running live defining the nav by code
                 //menu_ul_membercampaignsadmin.DataSource = LeftNavTable;
                 //menu_ul_membercampaignsadmin.DataBind();
             }

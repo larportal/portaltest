@@ -16,6 +16,7 @@ namespace LarpPortal.Classes
         private Int32 _PrimaryEmailID = -1;
         private cEMail _PrimaryEmailAddress ;
         private List<cEMail> _UserEmails;
+        private string _LoginEmail;
         private string _LoginPassword = "";
         private Int32 _SecurityRoleID = -1;
         private string _FirstName = "";
@@ -93,6 +94,11 @@ namespace LarpPortal.Classes
         {
             get { return _PrimaryEmailAddress; }
             set { _PrimaryEmailAddress = value; }
+        }
+        public string LoginEmail
+        {
+            get { return _LoginEmail; }
+            set { _LoginEmail = value; }
         }
         public string LoginPassword
         {
@@ -363,6 +369,8 @@ namespace LarpPortal.Classes
                 slParams.Add("@LastLoggedInCampaign", _LastLoggedInCampaign);
                 slParams.Add("@XRefNumber", _XRefNumber);
                 slParams.Add("@Comments", _Comments);
+                slParams.Add("@LogonPassword", _LoginPassword);
+                slParams.Add("@EmailAddress", _LoginEmail);
                 blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBUsers", slParams, "LARPortal", _LoginName);
 
                 blnReturn = true;

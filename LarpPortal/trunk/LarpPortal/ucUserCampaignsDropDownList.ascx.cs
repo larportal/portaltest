@@ -31,7 +31,7 @@ namespace LarpPortal
                 CampaignChoices.Load(uID);
                 if (CampaignChoices.CountOfUserCampaigns == 0)
                     Response.Redirect("~/NoCurrentCampaignAssociations.aspx"); 
-                //TODO - Rick - Create NoCurrentCampaignAssociations.aspx
+                //TODO-Rick-1 Create NoCurrentCampaignAssociations.aspx
                 ddlUserCampaigns.DataTextField = "CampaignName";
                 ddlUserCampaigns.DataValueField = "CampaignID";
                 ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
@@ -72,7 +72,7 @@ namespace LarpPortal
             Session["CampaignID"] = ddlUserCampaigns.SelectedItem.Value.ToInt32();
             Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
             User.Save();
-            //TODO - Rick - If page is campaign related in any way, load campaign at top of code behind and set session variable CampaignName 
+            //TODO-Rick-2 If page is campaign related in any way, load campaign at top of code behind and set session variable CampaignName 
             Response.Redirect(Request.RawUrl);
         }
     }

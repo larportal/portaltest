@@ -1,11 +1,13 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="PublicCampaigns.master.cs" Inherits="LarpPortal.PublicCampaigns" %>
+
 <asp:Content ID="LeftNavPublicCampaigns" ContentPlaceHolderID="MainPage" runat="server">
     <asp:Table runat="server">
         <asp:TableRow>
             <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
               <div class="contentArea">
 				<nav class="userSubNav">
-                    <asp:Repeater ID="menu_ul_memberprofile" runat="server">
+
+<%--                    <asp:Repeater ID="menu_ul_memberprofile" runat="server">
                         <HeaderTemplate>
                             <ul class="nav nav-pills">
                         </HeaderTemplate>
@@ -15,11 +17,140 @@
                         <FooterTemplate>
                             </ul>
                         </FooterTemplate>
-                    </asp:Repeater>
+                    </asp:Repeater>--%>
+                    <div class="contentArea">
+                        <aside>
+					<div class="panel-wrapper">
+                        <p>Sort By:</p>
+					<select id="SortBy" runat="server" >
+						<option value="1GameSystem">Game System</option>
+						<option value="2Genre">Genre</option>
+						<option value="3Style">Style</option>
+						<option value="4TechLevel">Tech Level</option>
+						<option value="5Size">Size</option>
+						<option value="6ZipCode">Zip Code</option>
+					</select>
+					<p>Search By:</p><p></p>
+					<ul class="list-unstyled">
+						<li>
+							<div class="checkbox">
+                                <asp:Label ID="lblGameSystem" runat="server">
+                                    <asp:CheckBox ID="chkGameSystem" runat="server" />
+									<input type="checkbox" value="">
+									Game System
+								</asp:Label>
+								<select>
+									<option value="">Game System</option>
+									<option value="">Aberrant</option>
+									<option value="">Accelerant</option>
+									<option value="">NERO</option>
+									<option value="">Theatre LARPs</option>
+									<option value="">Vampire</option>
+									<option value="">White Wolf</option>
+								</select>
+							</div>
+						</li>
+						<li>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Genre
+								</label>
+							</div>
+							<select>
+								<option value="">Genre</option>
+								<option value="">Fantasy</option>
+								<option value="">Genre 2</option>
+								<option value="">Genre 3</option>
+								<option value="">Genre 4</option>
+								<option value="">Genre 5</option>
+								<option value="">Genre 6</option>
+							</select>
+						</li>
+						<li>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Style
+								</label>
+							</div>
+							<select>
+								<option value="">Style</option>
+								<option value="">Style 1</option>
+								<option value="">Style 2</option>
+								<option value="">Style 3</option>
+								<option value="">Style 4</option>
+								<option value="">Style 5</option>
+								<option value="">Style 6</option>
+							</select>
+						</li>
+						<li>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Tech Level
+								</label>
+							</div>
+							<select>
+								<option value="">Tech Level</option>
+								<option value="">Tech Level 1</option>
+								<option value="">Tech Level 2</option>
+								<option value="">Tech Level 3</option>
+								<option value="">Tech Level 4</option>
+								<option value="">Tech Level 5</option>
+								<option value="">Tech Level 6</option>
+							</select>
+						</li>
+						<li>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Size
+								</label>
+							</div>
+							<select>
+								<option value="">Size</option>
+								<option value="">Size 1</option>
+								<option value="">Size 2</option>
+								<option value="">Size 3</option>
+								<option value="">Size 4</option>
+								<option value="">Size 5</option>
+								<option value="">Size 6</option>
+							</select>
+						</li>
+						<li>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Zip Code
+								</label>
+							</div>
+							<input type="text" placeholder="Zip">
+							<select>
+								<option value="">distance 1</option>
+								<option value="">distance 2</option>
+								<option value="">distance 3</option>
+								<option value="">distance 4</option>
+								<option value="">distance 5</option>
+								<option value="">distance 6</option>
+							</select>
+						</li>
+						<li>
+							<div class="checkbox">
+								<label>
+									<input type="checkbox" value="">
+									Show Past Events
+								</label>
+							</div>
+						</li>
+					</ul>
+					</div>
+                            </aside>
+                    </div>
 				</nav>
               </div>
             </asp:TableCell>
-            <asp:TableCell verticalalign="Top">
+            <asp:TableCell VerticalAlign="Top">
                 <asp:ContentPlaceHolder ID="PublicCampaignsContent" runat="server"></asp:ContentPlaceHolder>
             </asp:TableCell>
         </asp:TableRow>

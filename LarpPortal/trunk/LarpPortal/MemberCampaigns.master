@@ -47,6 +47,7 @@
                         <li><a href="PageUnderConstruction.aspx" data-toggle="pill">PEL</a></li>
                         <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Inventory/Props</a></li>
                         <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Site Location Use Setup</a></li>
+                        <li><a href="PublicCampaigns.aspx" data-toggle="pill">Public Campaign View</a></li>
                         </ul>
 <%--                    <asp:Repeater ID="menu_ul_membercampaignsadmin" runat="server">
                         <HeaderTemplate>

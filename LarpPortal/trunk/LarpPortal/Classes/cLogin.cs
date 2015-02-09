@@ -43,6 +43,16 @@ namespace LarpPortal.Classes
         public string WhatIsLARPingText { get; set; }
         public string AboutUsText { get; set; }
         public List<cPageTab> lsPageTabs = new List<cPageTab>();
+        public int PasswordValidation { get; set; }
+        public int AcceptNewPassword { get; set; }
+        public string PasswordParameterComments { get; set; }
+        public int PasswordParameterValue { get; set; }
+        public int PasswordSortOrder { get; set; }
+        public string PasswordFailMessage { get; set; }
+        public int LoginCount { get; set; }
+        public string SecurityResetCode { get; set; }
+        public DateTime SecurityLockoutDate { get; set; }
+        public int UserSecurityID { get; set; }
 
         /// <summary>
         /// This will check the parameters table of the site to see if the site is in test mode or production mode
@@ -78,7 +88,6 @@ namespace LarpPortal.Classes
             {
                 SiteFooter = dRow["ParameterValue"].ToString();
             }
-
         }
 
         /// <summary>
@@ -192,18 +201,16 @@ namespace LarpPortal.Classes
         {
             string stStoredProc = "uspValidateMemberLogin";
             string stCallingMethod = "cLogin.Load";
+            DateTime dtTemp;
             int iTemp;
             int UserID = 0; // Until the member login is verified, there is no UserID so we'll use the guest ID
-            //bool bTemp;
-            //DateTime dtTemp;
-            //double dTemp;
             SortedList slParameters = new SortedList();
             slParameters.Add("@Username", Username);
             slParameters.Add("@Password", Password);
             DataSet dsMember = new DataSet();
             dsMember = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
             dsMember.Tables[0].TableName = "MDBUsers";
-
+            // TODO-Rick-1 Need to check for security lock in here too and pass it back to override login (number of logins, lock code, date)
             foreach (DataRow dRow in dsMember.Tables["MDBUsers"].Rows)
             {
                 if (int.TryParse(dRow["UserID"].ToString(), out iTemp))
@@ -214,11 +221,44 @@ namespace LarpPortal.Classes
                     SecurityRoleID = iTemp;
                 if (int.TryParse(dRow["LastLoggedInCampaign"].ToString(), out iTemp))
                     LastLoggedInCampaign = iTemp;
+                if (int.TryParse(dRow["LoginCount"].ToString(), out iTemp))
+                    LoginCount = iTemp;
+                if (int.TryParse(dRow["UserSecurityID"].ToString(), out iTemp))
+                    UserSecurityID = iTemp;
+                if (DateTime.TryParse(dRow["SecurityLockoutDate"].ToString(), out dtTemp))
+                    SecurityLockoutDate = dtTemp;
                 MemberID = UserID;
                 Username = dRow["LoginUsername"].ToString();
                 FirstName = dRow["FirstName"].ToString();
                 LastName = dRow["LastName"].ToString();
                 LastLoggedInLocation = dRow["LastLoggedInLocation"].ToString();
+                SecurityResetCode = dRow["SecurityResetCode"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// This will check if a requested username already exists
+        /// Must pass a username
+        /// </summary>
+        public void CheckForExistingUsername(string Username)
+        {
+            string stStoredProc = "uspValidateNonExistingUsername";
+            string stCallingMethod = "cLogin.CheckForExistingUsername";
+            int iTemp;
+            int UserID = 0; // Until the member login is verified, there is no UserID so we'll use the guest ID
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@Username", Username);
+            DataSet dsMember = new DataSet();
+            dsMember = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsMember.Tables[0].TableName = "MDBUsers";
+            foreach (DataRow dRow in dsMember.Tables["MDBUsers"].Rows)
+            {
+                if (int.TryParse(dRow["UserID"].ToString(), out iTemp))
+                    UserID = iTemp;
+                MemberID = UserID;
+                Username = dRow["LoginUsername"].ToString();
+                FirstName = dRow["FirstName"].ToString();
+                LastName = dRow["LastName"].ToString();
             }
         }
 
@@ -254,29 +294,70 @@ namespace LarpPortal.Classes
         }
 
         /// <summary>
-        /// Save will handle insert new member record.
-        /// Set CampaignPlayerRoleID = -1 for insert.
+        /// This will validate that a new password meets required standards
         /// </summary>
-        //public void Save(int UserID)
-        //{
-        //    // 
-        //    string stStoredProc = "uspInsUpdCMCampaignPlayerRoles";
-        //    //string stCallingMethod = "cGameSystem.Save";
-        //    SortedList slParameters = new SortedList();
-        //    slParameters.Add("@UserID", UserID);
-        //    slParameters.Add("@CampaignPlayerRoleID", CampaignPlayerRoleID);
-        //    slParameters.Add("@RoleAlignmentID", RoleAlignmentID);
-        //    slParameters.Add("@CPEarnedForRole", CPEarnedForRole);
-        //    slParameters.Add("@CPQuantityEarnedPerEvent", CPQuantityEarnedPerEvent);
-        //    if (@CampaignPlayerRoleID==-1) // Set fields that can only be set on insert of new record
-        //    {
-        //        slParameters.Add("@CampaignPlayerID", CampaignPlayerID);
-        //        slParameters.Add("@RoleID", RoleID);
-        //        slParameters.Add("@RoleAlignmentID", RoleAlignmentID);
-        //    }
-        //    cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
-        //}
+        public void ValidateNewPassword(string NewPassword)
+        {
+            string stStoredProc = "uspValidatePasswordRequirements";
+            string stCallingMethod = "cLogin.ValidateNewPassword";
+            int iTemp;
+            PasswordValidation = 0; // We'll assume it failed unless we set it otherwise
+            PasswordFailMessage = "";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@NewPassword", NewPassword);
+            DataSet dsValidation = new DataSet();
+            dsValidation = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsValidation.Tables[0].TableName = "PasswordResults";
+            foreach (DataRow dRow in dsValidation.Tables["PasswordResults"].Rows)
+            {
+                if (int.TryParse(dRow["AcceptNewPassword"].ToString(), out iTemp))
+                    AcceptNewPassword = iTemp;
+                if (int.TryParse(dRow["PasswordParameterValue"].ToString(), out iTemp))
+                    PasswordParameterValue = iTemp;
+                if (int.TryParse(dRow["PasswordSortOrder"].ToString(), out iTemp))
+                    PasswordSortOrder = iTemp;
+                PasswordParameterComments = dRow["PasswordParameterComments"].ToString();
+                if (PasswordSortOrder == 0)
+                {
+                    if (AcceptNewPassword == 0) // Password failed
+                    {
+                        PasswordFailMessage = "Password failed for the following reasons:";
+                    }
+                    else
+                    {
+                        PasswordValidation = 1;
+                    }
+                }
+                else
+                {
+                    if (AcceptNewPassword == 0) // Individual test failed - append error
+                    {
+                        if (PasswordFailMessage == "")
+                        {
+                            PasswordFailMessage = PasswordFailMessage + PasswordParameterComments + " " + PasswordParameterValue;
+                        }
+                        else
+                        {
+                            PasswordFailMessage = PasswordFailMessage + "<br>" + PasswordParameterComments + " " + PasswordParameterValue;
+                        }
+                    }
+                }
+            }
+        }
 
+        /// <summary>
+        /// ClearNewAccount will clear the new member account for use.
+        /// Requires UserSecurityID of the record being cleared
+        /// </summary>
+        public void ClearNewAccount(int SecurityID, int UserID)
+        {
+            string stStoredProc = "uspInsUpdMDBUserSecurity";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@UserSecurityID", SecurityID);
+            slParameters.Add("@SecurityResetCode", "");
+            slParameters.Add("@UserID", UserID);
+            cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
+        }
     }
 }
 

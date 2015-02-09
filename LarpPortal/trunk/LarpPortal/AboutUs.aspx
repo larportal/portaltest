@@ -1,7 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LARPortal.master" AutoEventWireup="true" CodeBehind="AboutUs.aspx.cs" Inherits="LarpPortal.AboutUs" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainPage" runat="server">
 			<div class="contentArea">
-                <aside></aside>
+                <aside>
+
+                </aside>
 				<div class="mainContent tab-content">
 					<section id="larping-info">
 						<h1>About LARP Portal</h1>
