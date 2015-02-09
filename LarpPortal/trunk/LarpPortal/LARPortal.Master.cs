@@ -38,7 +38,7 @@ namespace LarpPortal
                 intSecurityRole = 0;
             }
             LoadMainLinks();
-            LoadTopTab(intSecurityRole, 0); //TODO - Rick, talk to Jeff, 2nd Parameter is unread message count - We have agreed to use a session variable
+            LoadTopTab(intSecurityRole, 0); //TODO-Rick-2 Change second variable to a session variable as defined by Jeff's communications section
             LoadPageFooter();
             if (Session["PageFooter"] == null)
             {

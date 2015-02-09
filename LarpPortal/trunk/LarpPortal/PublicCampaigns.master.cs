@@ -18,6 +18,16 @@ namespace LarpPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["ActiveTopNav"] = "NAMEOFACTIVETOPNAVBUTTON";
+            if(!IsPostBack)
+            {
+                //Load Left Nav
+
+            }
+
+        }
+
+        protected void LoadLeftNav ()
+        {
             string hrefline;
             string ActiveState;
             string PageName;
@@ -135,9 +145,11 @@ namespace LarpPortal
                 DataRow LeftNavRow = LeftNavTable.NewRow();
                 LeftNavRow["href_li"] = hrefline;
                 LeftNavTable.Rows.Add(LeftNavRow);
-                menu_ul_memberprofile.DataSource = LeftNavTable;
-                menu_ul_memberprofile.DataBind();
+                // TODO-Rick-2 Uncomment next two lines before going live.  Of course, if you're only seeing this on finishing the todo list you're an idiot
+                //menu_ul_memberprofile.DataSource = LeftNavTable;
+                //menu_ul_memberprofile.DataBind();
             }
         }
     }
+
 }

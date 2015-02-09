@@ -20,7 +20,7 @@ namespace LarpPortal.Classes
         private DateTime? _ActualEndDate = null;
         private Int32 _GameSystemID = -1;
         private string _GameSystemName = "";
-        private Int32 _TechLevelID = -1;    //TODO - Redo - Should not be in Campaigns as it is multiply defined for any given campaign
+        private Int32 _TechLevelID = -1;    //TODO-Rick-1 Redo - Should not be in Campaigns as it is multiply defined for any given campaign
         private string _TechLevelName = "";
         private Int32 _StyleID = -1;
         private string _StyleDescription = "";
@@ -544,7 +544,7 @@ namespace LarpPortal.Classes
                     _Comments = ldt.Rows[0]["Comments"].ToString().Trim();
                     _CPNotificationEmail = ldt.Rows[0]["CPNotificationEmail"].ToString().Trim();
                     _CPNotificationPreferenceDescription = ldt.Rows[0]["CPNotificationDeliveryPreference"].ToString().Trim();
-                    _CPNotificationPreferenceID = -1; //TODO - RP - This was on Jack's to do list
+                    _CPNotificationPreferenceID = -1; //TODO-Rick-2 Campaign Notification Preference definition
                     _CrossCampaignPosting = ldt.Rows[0]["CrossCampaignPosting"].ToString().Trim();
                     _CSSFile = ldt.Rows[0]["CampaignCSSFile"].ToString().Trim();
                     _EmergencyEventContact = ldt.Rows[0]["EmergencyEventContactInfo"].ToString().Trim();
@@ -552,7 +552,7 @@ namespace LarpPortal.Classes
                         _EventCharacterCPCap = iTemp;
                     if (int.TryParse(ldt.Rows[0]["GameSystemID"].ToString(), out iTemp))
                         _GameSystemID = iTemp;
-                    _GameSystemName = "GetFromGameSystemClass"; //TODO - RP - Was on Jack's to do list
+                    _GameSystemName = "GetFromGameSystemClass"; //TODO-Rick-1 Get Game System Name from cGameSystem
                     _InfoRequestEmail = ldt.Rows[0]["InfoRequestEmail"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["InfoSkillApprovalLevel"].ToString(), out iTemp))
                         _InfoSkillApprovalLevel = iTemp;
@@ -566,7 +566,7 @@ namespace LarpPortal.Classes
                         _MarketingCampaignSize = iTemp;
                     if (int.TryParse(ldt.Rows[0]["MaximumCPPerYear"].ToString(), out iTemp))
                         _MaximumCPPerYear = iTemp;
-                    _MaxNumberOfGenres = 4; //TODO - RP - Was on Jack's to do list
+                    _MaxNumberOfGenres = 4; //TODO-Rick-2 Limit campaigns to number of genres parameter
                     if (double.TryParse(ldt.Rows[0]["MembershipFee"].ToString(), out dTemp))
                         _MembershipFee = dTemp;
                     _MembershipFeeFrequency = ldt.Rows[0]["MembershipFeeFrequency"].ToString().Trim();
@@ -582,7 +582,7 @@ namespace LarpPortal.Classes
                     _PELSubmissionURL = ldt.Rows[0]["PELSubmissionURL"].ToString().Trim();
                     if (bool.TryParse(ldt.Rows[0]["PlayerApprovalRequired"].ToString(), out bTemp))
                         _PlayerApprovalRequired = bTemp;
-                    _PortalAccessDescription = ""; //TODO - RP - Was on Jack's to do list
+                    _PortalAccessDescription = ""; //TODO-Rick-4 Get portal access description from table - LOW priority because we "know" what it is and don't currently display it
                     _PortalAccessType = ldt.Rows[0]["PortalAccessType"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["PrimaryOwnerID"].ToString(), out iTemp))
                         _PrimaryOwnerID = iTemp;
@@ -597,7 +597,7 @@ namespace LarpPortal.Classes
                     _ShareLocationUseNotes = ldt.Rows[0]["ShareLocationUseNotes"].ToString().Trim();
                     if (DateTime.TryParse(ldt.Rows[0]["CampaignStartDate"].ToString(), out dtTemp))
                         _StartDate = dtTemp;
-                    _StatusDescription = ""; //TODO - RP - Was on Jack's to do list
+                    _StatusDescription = ""; //TODO-Rick-1 Get campaign's status description
                     if (int.TryParse(ldt.Rows[0]["StatusID"].ToString(), out iTemp))
                         _StatusID = iTemp;
                     _StyleDescription = "";
@@ -605,7 +605,7 @@ namespace LarpPortal.Classes
                         _StyleID = iTemp;
                     if (int.TryParse(ldt.Rows[0]["TechLevelID"].ToString(), out iTemp))
                         _TechLevelID = iTemp;
-                    _TechLevelName = "";//TODO - RP - Was on Jack's to do list
+                    _TechLevelName = "";//TODO-Rick-2 Redefine this to get multiples - Should not be in Campaigns table
                     if (int.TryParse(ldt.Rows[0]["TotalCharacterCap"].ToString(), out iTemp))
                         _TotalCharacterCPCap = iTemp;
                     _URL = ldt.Rows[0]["CampaignURL"].ToString().Trim();
@@ -628,7 +628,7 @@ namespace LarpPortal.Classes
                     _UserDefinedField5Value = ldt.Rows[0]["UserDefinedField5"].ToString().Trim();
                     _WebPageDescription = ldt.Rows[0]["CampaignWebPageDescription"].ToString().Trim();
                     _WebPageSelectionComments = ldt.Rows[0]["CampaignWebPageSelectionComments"].ToString().Trim();
-                    _WorldID = -1; //TODO - RP - Was on Jack's to do list
+                    _WorldID = -1; //TODO-Rick-3 Figure out why WorldID is -1 and change if necessary
                 }
             }
             catch (Exception ex)

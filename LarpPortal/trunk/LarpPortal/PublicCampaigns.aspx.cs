@@ -12,6 +12,17 @@ namespace LarpPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["ActiveLeftNav"] = "PublicCampaigns";
+            if(!IsPostBack)
+            {
+
+            }
         }
+
+        protected void OnChangeOrderBy(object sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }

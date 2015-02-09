@@ -64,7 +64,7 @@ namespace LarpPortal
             txtTechLevel.Text = CampaignBase.TechLevelName;
             txtSize.Text = CampaignBase.MarketingCampaignSize.ToString();
             txtAvgNumEvents.Text = CampaignBase.ProjectedNumberOfEvents.ToString();
-            // TODO - Define contacts variables and pass them through programatically to build contacts section
+            // TODO-Jack-Define contacts variables and pass them through programatically to build contacts section
             string c1 = CampaignBase.URL;    //CampaignGMURL
             string c2 = CampaignBase.InfoRequestEmail;    //CampgaignGMEmail
             string c3 = CampaignBase.CharacterGeneratorURL;   //CharacterURL
@@ -78,15 +78,14 @@ namespace LarpPortal
             string c11 = CampaignBase.PELSubmissionURL;  //PELURL
             string c12 = CampaignBase.PELNotificationEMail;    //PELEmail
             BuildContacts(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12);
-            //CampaignHeader.Text = "Description Header (Source TBD?)";
             CampaignDescription.Text = CampaignBase.WebPageDescription;
             txtMembershipFee.Text = CampaignBase.MembershipFee.ToString();
             txtFrequency.Text = CampaignBase.MembershipFeeFrequency;
             txtMinimumAge.Text = CampaignBase.MinimumAge.ToString();
             txtSupervisedAge.Text = CampaignBase.MinimumAgeWithSupervision.ToString();
-            txtWaiver1.Text = "Waiver source TBD"; //TODO - Find the two (or more) waivers - may have to allow for even more
+            txtWaiver1.Text = "Waiver source TBD"; //TODO-Rick-2 Find the two (or more) waivers - may have to allow for even more
             txtWaiver2.Text = "Waiver source 2 TBD";
-            txtConsent.Text = "Consent TBD"; //TODO - Find out where the consent is stored (what is consent anyway?)
+            txtConsent.Text = "Consent TBD"; //TODO-Rick-3 Find out where the consent is stored (what is consent anyway?)
         }
 
         private void BuildContacts(string c1, string c2, string c3, string c4, string c5, string c6, string c7, string c8, string c9, string c10, string c11, string c12)

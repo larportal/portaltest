@@ -47,11 +47,16 @@
                             ControlToValidate="txtPassword" ValidationGroup="LoginGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                     </div>
                     <div>
+                        <asp:Label ID="lblSecurityResetCode" runat="server" ToolTip=""></asp:Label>
+                        <asp:TextBox ID="txtSecurityResetCode" runat="server" CssClass="form-control" ></asp:TextBox>
+                    </div>
+                    <div>
                         <asp:Table id="tblLoginButton" runat="server">
                             <asp:TableRow>
                                 <asp:TableCell>
                                     <asp:Button ID="btnLogin" CssClass="btn btn-primary" runat="server" Text="Login" 
                                                             CausesValidation="true" ValidationGroup="LoginGroup" OnClick="btnLogin_Click" />
+                                    <asp:Button ID="btnValidateAccount" CssClass="btn btn-primary" runat="server" Text="Login" OnClick="btnValidateAccount_Click" />
                                 </asp:TableCell>
                                 <asp:TableCell>&nbsp;&nbsp;</asp:TableCell>
                                 <asp:TableCell Wrap="True">
@@ -64,8 +69,17 @@
                     <div><asp:TextBox ID="txtUserID" runat="server"></asp:TextBox></div>
                     <div><asp:TextBox ID="txtLastLocation" runat="server"></asp:TextBox></div>
                     </div>
+                <p><asp:Label ID="GuestLogin" runat="server"></asp:Label></p>
                 <h2 class="form-signin-heading">Sign Up for Larp Portal</h2>
                 <div class="form-signin" role="form">
+                    <div>
+                        <asp:Label ID="lblSignUpErrors" runat="server" ForeColor="Red"></asp:Label>
+                    </div>
+                    <div>
+                        <asp:TextBox ID="txtNewUsername" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:RequiredFieldValidator ID="RFVNewUsername" runat="server" ErrorMessage="Username is required" 
+                            ControlToValidate="txtNewUsername" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
+                    </div>
                     <div>
                         <asp:TextBox ID="txtFirstName" runat="server" CssClass="form-control"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RFVFirstName" runat="server" ErrorMessage="First name is required" 
@@ -82,32 +96,27 @@
                             ControlToValidate="txtEmail" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                     </div>
                     <div>
-                        <asp:TextBox ID="txtPasswordNew" runat="server" CssClass="form-control"></asp:TextBox>
-                        <%--<a href="#"><span class="glyphicon glyphicon-question-sign"></span></a>--%>
+                        <asp:Label ID="lblPasswordReqs" runat="server" ToolTip=""></asp:Label>
+                        <asp:TextBox ID="txtPasswordNew" TextMode="Password" runat="server" CssClass="form-control"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RFVPasswordNew" runat="server" ErrorMessage="Password is required" 
                             ControlToValidate="txtPasswordNew" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                     </div>
                     <div>
-                        <asp:TextBox ID="txtPasswordNewRetype" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtPasswordNewRetype" TextMode="Password" runat="server" CssClass="form-control"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RFVPasswordNewRetype" runat="server" ErrorMessage="Password is required" 
                             ControlToValidate="txtPasswordNewRetype" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                     </div>
                     <div>
                         <label class="checkbox">
                             <asp:CheckBox ID="chkTermsOfUse" runat="server" OnCheckedChanged="chkTermsOfUse_CheckedChanged" autopostback="true"/>
-                            I agree to the <a href="#">Terms of Use</a>
+                            I agree to the <asp:HyperLink ID="TermsOfUse" runat="server" NavigateURL="~/TermsOfUse.aspx" Target="_blank">Terms Of Use</asp:HyperLink>
                         </label>
                     </div>
                     <asp:Button ID="btnSignUp" CssClass="btn btn-primary" runat="server" Text="Sign Up" 
                         CausesValidation="true" ValidationGroup="SignUpGroup" OnClick="btnSignUp_Click" />
-                    <span class="learnMore"><a href="#">Learn More</a></span>
+                    <span class="learnMore"><asp:HyperLink ID="HyperLink1" runat="server" NavigateURL="~/LearnMore.aspx" Target="_blank">Learn More</asp:HyperLink></span>
                 </div>
                 </form>
-<%--                <p><a href="WhatIsLARPing.aspx">
-                    Log into LARP Portal as a Guest
-                </a></p>--%>
-
-
             </section>
             <!-- .signIn -->
         </div>

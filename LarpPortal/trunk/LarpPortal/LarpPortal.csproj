@@ -181,6 +181,7 @@
     <Content Include="Inventory.aspx" />
     <Content Include="larpPortal.jpg" />
     <Content Include="LARPResume.aspx" />
+    <Content Include="LearnMore.aspx" />
     <Content Include="Medical.aspx" />
     <Content Include="MemberDemographics.aspx" />
     <Content Include="NoCurrentCampaignAssociations.aspx" />
@@ -192,6 +193,7 @@
     <Content Include="img\.gitignore" />
     <Content Include="LARPortal.Master" />
     <Content Include="PageUnderConstruction.aspx" />
+    <Content Include="PasswordRequirements.aspx" />
     <Content Include="PlayerResume.aspx" />
     <Content Include="Preferences.aspx" />
     <Content Include="PublicCalendar.aspx" />
@@ -199,6 +201,7 @@
     <Content Include="RSVPMessages.aspx" />
     <Content Include="Security.aspx" />
     <Content Include="img\ThisPageUnderConstruction.jpg" />
+    <Content Include="TermsOfUse.aspx" />
     <Content Include="ucUserCampaignsDropDownList.ascx" />
     <Content Include="UnreadMessages.aspx" />
     <Content Include="Waivers.aspx" />
@@ -385,6 +388,7 @@
     <Compile Include="Classes\cRace.cs" />
     <Compile Include="Classes\cRole.cs" />
     <Compile Include="Classes\cSchedule.cs" />
+    <Compile Include="Classes\cSendEmail.cs" />
     <Compile Include="Classes\cSite.cs" />
     <Compile Include="Classes\cSiteAvailabilityDates.cs" />
     <Compile Include="Classes\cSiteComment.cs" />
@@ -459,6 +463,13 @@
     </Compile>
     <Compile Include="LARPResume.aspx.designer.cs">
       <DependentUpon>LARPResume.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LearnMore.aspx.cs">
+      <DependentUpon>LearnMore.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LearnMore.aspx.designer.cs">
+      <DependentUpon>LearnMore.aspx</DependentUpon>
     </Compile>
     <Compile Include="Medical.aspx.cs">
       <DependentUpon>Medical.aspx</DependentUpon>
@@ -545,6 +556,13 @@
     <Compile Include="PageUnderConstruction.aspx.designer.cs">
       <DependentUpon>PageUnderConstruction.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PasswordRequirements.aspx.cs">
+      <DependentUpon>PasswordRequirements.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PasswordRequirements.aspx.designer.cs">
+      <DependentUpon>PasswordRequirements.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PlayerResume.aspx.cs">
       <DependentUpon>PlayerResume.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -624,6 +642,13 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="TermsOfUse.aspx.cs">
+      <DependentUpon>TermsOfUse.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TermsOfUse.aspx.designer.cs">
+      <DependentUpon>TermsOfUse.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ucUserCampaignsDropDownList.ascx.cs">
       <DependentUpon>ucUserCampaignsDropDownList.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

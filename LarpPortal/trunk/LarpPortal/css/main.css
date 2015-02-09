@@ -6552,8 +6552,11 @@ label[for="middle-initial"] {
   vertical-align: middle;
   padding-left: 20px; }
 
-.scroll, .scroll-50, .scroll-75, .scroll-100, .scroll-125, .scroll-150, .scroll-175, .scroll-200, .scroll-250, .scroll-300, .scroll-400, .scroll-500 {
+.scroll, .scroll-30, .scroll-50, .scroll-75, .scroll-100, .scroll-125, .scroll-150, .scroll-175, .scroll-200, .scroll-250, .scroll-300, .scroll-400, .scroll-500 {
   overflow-y: scroll; }
+
+.scroll-30 {
+    height: 30px; }
 
 .scroll-50 {
   height: 50px; }
@@ -6604,3 +6607,6 @@ footer {
   footer p {
     padding: 5px 150px;
     color: #fff; }
+
+  .padding-right-0 {
+      padding-right: 0px; }
