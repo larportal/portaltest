@@ -133,14 +133,12 @@ namespace LarpPortal
 
         protected void btnValidateAccount_Click(object sender, EventArgs e)
         {
-            // TODO-Rick-0
             // Check that username,password,lock code are all matched.  Clear the lock code.  Follow the login logic.
             Classes.cLogin Login = new Classes.cLogin();
             Login.Load(Session["AttemptedUsername"].ToString(), Session["AttemptedPassword"].ToString());
             if (txtSecurityResetCode.Text == Login.SecurityResetCode)
             {
                 Login.SecurityResetCode = "";
-                //TODO-Rick-0 Define security clear in class
                 Login.ClearNewAccount(Login.UserSecurityID, Login.MemberID);
                 MemberLogin(Session["AttemptedUsername"].ToString(), Session["AttemptedPassword"].ToString());
             }

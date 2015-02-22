@@ -4,25 +4,24 @@
     <div class="contentArea">
         <aside>
             <div class="panel-wrapper">
-                <p>Sort By:</p>
-                <asp:DropDownList ID="ddlOrderBy" runat="server">
+                <p>Find By:</p>
+                <asp:DropDownList ID="ddlOrderBy" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlOrderBy_SelectedIndexChanged">
                     <asp:ListItem>Game System</asp:ListItem>
                     <asp:ListItem>Campaign</asp:ListItem>
                     <asp:ListItem>Genre</asp:ListItem>
                     <asp:ListItem>Style</asp:ListItem>
                     <asp:ListItem>Tech Level</asp:ListItem>
                     <asp:ListItem>Size</asp:ListItem>
-                    <asp:ListItem>Zip Code</asp:ListItem>
                 </asp:DropDownList>
-                <p>Search By:</p>
+                <p>Filter By (Choose multiple options to narrow the search):</p>
                 <ul class="list-unstyled">
                     <li>
                         <div class="checkbox">
                             <label>
-                                <asp:CheckBox ID="chkGameSystem" runat="server" />
+                                <asp:CheckBox ID="chkGameSystem" runat="server" AutoPostBack="true" OnCheckedChanged="chkGameSystem_CheckedChanged" />
                                 Game System:
                             </label>
-                            <asp:DropDownList ID="ddlGameSystem" runat="server">
+                            <asp:DropDownList ID="ddlGameSystem" runat="server" AutoPostBack="true" Visible="false" OnSelectedIndexChanged="ddlGameSystem_SelectedIndexChanged">
                                 <asp:ListItem Text="Accelerant" Value="1"></asp:ListItem>
                                 <asp:ListItem Text="Alliance" Value="14"></asp:ListItem>
                                 <asp:ListItem Text="Amtgard" Value="6"></asp:ListItem>
@@ -37,10 +36,10 @@
                     <li>
                         <div class="checkbox">
                             <label>
-                                <asp:CheckBox ID="chkCampaign" runat="server" />
+                                <asp:CheckBox ID="chkCampaign" runat="server" AutoPostBack="true" OnCheckedChanged="chkCampaign_CheckedChanged" />
                                 Campaign:
                             </label>
-                            <asp:DropDownList ID="ddlCampaign" runat="server">
+                            <asp:DropDownList ID="ddlCampaign" runat="server" Visible="false" OnSelectedIndexChanged="ddlCampaign_SelectedIndexChanged">
                                 <asp:ListItem Text="7th Kingdom" Value="34"></asp:ListItem>
                                 <asp:ListItem Text="Aftermath LARP" Value="2"></asp:ListItem>
                                 <asp:ListItem Text="Alliance Calgary" Value="66"></asp:ListItem>
@@ -65,10 +64,10 @@
                     <li>
                         <div class="checkbox">
                             <label>
-                                <asp:CheckBox ID="chkGenre" runat="server" />
+                                <asp:CheckBox ID="chkGenre" runat="server" AutoPostBack="true" OnCheckedChanged="chkGenre_CheckedChanged" />
                                 Genre:
                             </label>
-                            <asp:DropDownList ID="DropDownList1" runat="server">
+                            <asp:DropDownList ID="ddlGenre" runat="server" AutoPostBack="true" Visible="false" OnSelectedIndexChanged="ddlGenre_SelectedIndexChanged">
                                 <asp:ListItem Text="Adventure" Value="4"></asp:ListItem>
                                 <asp:ListItem Text="Cyberpunk" Value="5"></asp:ListItem>
                                 <asp:ListItem Text="Dystopian" Value="30"></asp:ListItem>
@@ -83,10 +82,10 @@
                     <li>
                         <div class="checkbox">
                             <label>
-                                <asp:CheckBox ID="chkStyle" runat="server" />
+                                <asp:CheckBox ID="chkStyle" runat="server" AutoPostBack="true" OnCheckedChanged="chkStyle_CheckedChanged" />
                                 Style:
                             </label>
-                            <asp:DropDownList ID="ddlStyle" runat="server">
+                            <asp:DropDownList ID="ddlStyle" runat="server" AutoPostBack="true" Visible="false" OnSelectedIndexChanged="ddlStyle_SelectedIndexChanged">
                                 <asp:ListItem Text="Boffer" Value="1"></asp:ListItem>
                                 <asp:ListItem Text="Freeform" Value="6"></asp:ListItem>
                                 <asp:ListItem Text="Live Combat" Value="3"></asp:ListItem>
@@ -99,10 +98,10 @@
                     <li>
                         <div class="checkbox">
                             <label>
-                                <asp:CheckBox ID="chkTechLevel" runat="server" />
+                                <asp:CheckBox ID="chkTechLevel" runat="server" AutoPostBack="true" OnCheckedChanged="chkTechLevel_CheckedChanged" />
                                 Tech Level:
                             </label>
-                            <asp:DropDownList ID="ddlTechLevel" runat="server">
+                            <asp:DropDownList ID="ddlTechLevel" runat="server" AutoPostBack="true" Visible="false" OnSelectedIndexChanged="ddlTechLevel_SelectedIndexChanged">
                                 <asp:ListItem Text="Age of Sail" Value="5"></asp:ListItem>
                                 <asp:ListItem Text="Bronze Age" Value="2"></asp:ListItem>
                                 <asp:ListItem Text="Digital Age" Value="9"></asp:ListItem>
@@ -116,10 +115,10 @@
                     <li>
                         <div class="checkbox">
                             <label>
-                                <asp:CheckBox ID="chkSize" runat="server" />
+                                <asp:CheckBox ID="chkSize" runat="server" AutoPostBack="true" OnCheckedChanged="chkSize_CheckedChanged" />
                                 Size:
                             </label>
-                            <asp:DropDownList ID="ddlSize" runat="server">
+                            <asp:DropDownList ID="ddlSize" runat="server" AutoPostBack="true" Visible="false" OnSelectedIndexChanged="ddlSize_SelectedIndexChanged">
                                 <asp:ListItem Text="No limit" Value="0"></asp:ListItem>
                                 <asp:ListItem Text="<20" Value="1"></asp:ListItem>
                                 <asp:ListItem Text="20-40" Value="2"></asp:ListItem>
@@ -133,13 +132,13 @@
                     <li>
                         <div class="checkbox">
                             <label>
-                                <asp:CheckBox ID="chkZipCode" runat="server" />
+                                <asp:CheckBox ID="chkZipCode" runat="server" AutoPostBack="true" OnCheckedChanged="chkZipCode_CheckedChanged" />
                                 Zip Code:
                             </label>
-                            <asp:TextBox ID="txtZipCode" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtZipCode" runat="server" AutoPostBack="true" Visible="false" OnTextChanged="txtZipCode_TextChanged"></asp:TextBox>
                             <p>
                                 <asp:Label ID="lblMileRadius" runat="server">Distance from Zip Code:</asp:Label></p>
-                            <asp:DropDownList ID="ddlMileRadius" runat="server">
+                            <asp:DropDownList ID="ddlMileRadius" runat="server" AutoPostBack="true" Visible="false" OnSelectedIndexChanged="ddlMileRadius_SelectedIndexChanged">
                                 <asp:ListItem Text="10 miles" Value="1"></asp:ListItem>
                                 <asp:ListItem Text="25 miles" Value="2"></asp:ListItem>
                                 <asp:ListItem Text="50 miles" Value="3"></asp:ListItem>
@@ -155,15 +154,16 @@
                     <li>
                         <div class="checkbox">
                             <label>
-                                <asp:CheckBox ID="chkEndedCampaigns" runat="server" />
+                                <asp:CheckBox ID="chkEndedCampaigns" runat="server" AutoPostBack="true" OnCheckedChanged="chkEndedCampaigns_CheckedChanged"/>
                                 Include campaigns that have ended
                             </label>
                         </div>
                     </li>
                 </ul>
-                <div>
+<%--                <div>
+                    <asp:Label ID="MemberCampaignSwitch" Only going on the member version of this page
                     <a href="~/CampaignInfo.aspx" data-toggle="pill">Member Campaigns</a>
-                </div>
+                </div>--%>
             </div>
         </aside>
         <div class="mainContent tab-content">
@@ -175,103 +175,98 @@
                                 <h2>Campaign Search</h2>
                                 <div class="panel-body">
                                     <div class="panel-container  search-criteria">
-                                        <ul>
-                                            <li>
-                                                <label class="tree-toggle">Selector 1 <span class="caret"></span></label>
-                                                <ul class="tree">
-                                                    <li><a href="#">Sub-selector 1-2</a></li>
-                                                    <li><a href="#">Sub-selctor 1-2</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <label class="tree-toggle nav-header">Selector 2<span class="caret"> </span></label>
-                                                <ul class="tree">
-                                                    <li><a href="#">Sub-Selctor 2-1</a></li>
-                                                    <li><a href="#">Sub-Selctor 2-1</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <label class="tree-toggle nav-header">Selector 3<span class="caret"> </span></label>
-                                                <ul class="tree">
-                                                    <li><a href="#">Sub-Selctor 3-1</a></li>
-                                                    <li><a href="#">Sub-Selctor 3-2</a></li>
-                                                    <li><a href="#">Sub-Selctor 3-3</a></li>
-                                                    <li><a href="#">Sub-Selctor 3-4</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <label class="tree-toggle nav-header">Selector 4<span class="caret"> </span></label>
-                                                <ul class="tree">
-                                                    <li><a href="#">Sub-Selctor 4-1</a></li>
-                                                    <li><a href="#">Sub-Selctor 4-2</a></li>
-                                                    <li><a href="#">Sub-Selctor 4-3</a></li>
-                                                    <li><a href="#">Sub-Selctor 4-4</a></li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <label class="tree-toggle nav-header">Selector 5<span class="caret"> </span></label>
-                                                <ul class="tree">
-                                                    <li><a href="#">Sub-Selctor 5-1</a></li>
-                                                </ul>
-                                            </li>
-                                        </ul>
+                                        <asp:Label ID="lblTestText" runat="server"></asp:Label>
+                                        <asp:TreeView ID="tvGameSystem" runat="server" Visible="true" OnSelectedNodeChanged="tvGameSystem_SelectedNodeChanged" ExpandDepth="0"></asp:TreeView>
+                                        <asp:TreeView ID="tvCampaign" runat="server" Visible="false" OnSelectedNodeChanged="tvCampaign_SelectedNodeChanged" ExpandDepth="0" ></asp:TreeView>
+                                        <asp:TreeView ID="tvGenre" runat="server" Visible="false" OnSelectedNodeChanged="tvGenre_SelectedNodeChanged" ExpandDepth="0" ></asp:TreeView>
+                                        <asp:TreeView ID="tvStyle" runat="server" Visible="false" OnSelectedNodeChanged="tvStyle_SelectedNodeChanged" ExpandDepth="0" ></asp:TreeView>
+                                        <asp:TreeView ID="tvTechLevel" runat="server" Visible="false" OnSelectedNodeChanged="tvTechLevel_SelectedNodeChanged" ExpandDepth="0" ></asp:TreeView>
+                                        <asp:TreeView ID="tvSize" runat="server" Visible="false" OnSelectedNodeChanged="tvSize_SelectedNodeChanged" ExpandDepth="0" ></asp:TreeView>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- .panel-wrapper -->
 
                     <div class="panel-wrapper col-sm-9">
-                        <a href="#">Link to Site</a>
-                        <img src="http://placehold.it/820x130" alt="Banner of Game">
+                        <asp:HyperLink ID="hplLinkToSite" runat="server" NavigateURL="." Target="_blank" Font-Underline="true" ></asp:HyperLink>
+                        <asp:Image ID="imgCampaignImage" runat="server" AlternateText="Game/Campaign Logo" ImageUrl="http://placehold.it/820x130" />
                     </div>
 
+                    <asp:Panel ID="pnlOverview" runat="server">
                     <div class="col-md-5 panel-wrapper">
                         <div class="panel">
                             <div class="panel-header">
-                                <h2>Campaign Overview</h2>
+                                <h2><asp:Label ID="lblGorC1" runat="server"></asp:Label> Overview</h2>
                             </div>
                             <div class="panel-body">
                                 <div class="panel-container campaign-overview">
-                                    <p>What is Cottington Woods? Cottington Woods is o LARP set in the Written World, o world of fairy tales, toll tales, campfire tales, legends and lore. It is intended to be dark yet heroic, where we supply the dark, and our players will provide the heroic. Although we stretch the definitions, our player characters ore oil human and very mortal</p>
-
-                                    <p>Is the game tongue ir cheek? Most emphatically no~ While it is the case that sometimes embarrassing things may transpire, or o curse may sometimes make o character look less heroic than he might like, the game is not designed to be humorous. Instead, the game will be somewhat dark and sometimes horrific</p>
+                                    <asp:Label ID="lblCampaignOverview" runat="server"></asp:Label>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    </asp:Panel>
+
+                    <asp:Panel ID="pnlSelectors" runat="server">
                     <div class="col-md-4 panel-wrapper">
                         <div class="panel">
                             <div class="panel-header">
-                                <h2>Selectors for Campaign</h2>
+                                <h2><asp:Label ID="lblGorC2" runat="server"></asp:Label></h2>
                             </div>
                             <div class="panel-body">
                                 <div class="panel-container">
-                                    <ul>
-                                        <li>Sys</li>
-                                        <li>Genre</li>
-                                        <li>Style</li>
-                                        <li>Tech Level</li>
-                                        <li>Size</li>
-                                    </ul>
+                                    <asp:Table ID="tblSelectors" runat="server">
+                                        <asp:TableHeaderRow>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblGameSystem1" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblGameSystem2" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                        </asp:TableHeaderRow>
+                                        <asp:TableHeaderRow>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblGenre1" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblGenre2" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                        </asp:TableHeaderRow>
+                                        <asp:TableHeaderRow>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblStyle1" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblStyle2" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                        </asp:TableHeaderRow>
+                                        <asp:TableHeaderRow>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblTechLevel1" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblTechLevel2" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                        </asp:TableHeaderRow>
+                                        <asp:TableHeaderRow>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblSize1" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblSize2" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                        </asp:TableHeaderRow>
+                                    </asp:Table>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    </asp:Panel>
                 </div>
             </section>
-
         </div>
-        <!-- mainContent .tab-content -->
     </div>
-    <!-- contentArea -->
-
-    <footer>
-        <div>
-            <p>&copy; Copyright 2014 LARP Portal - Placeholder for gratuitous footer</p>
-        </div>
-    </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>

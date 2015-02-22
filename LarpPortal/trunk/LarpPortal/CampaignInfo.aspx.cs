@@ -20,7 +20,8 @@ namespace LarpPortal
             if (!IsPostBack)
             {
                 Session["ActiveLeftNav"] = "CampaignInfoSetup";
-                lblTopCampaignName.Text = Session["CampaignName"].ToString();
+                if (Session["CampaignName"] != null)
+                    lblTopCampaignName.Text = Session["CampaignName"].ToString();
                 lblWIP.BackColor = System.Drawing.Color.Yellow;
                 lblWIP.Text = " (WIP)";
             }
@@ -62,7 +63,7 @@ namespace LarpPortal
             txtGenre2.Text = "Genre2 TBD";
             txtStyle.Text = CampaignBase.StyleDescription;
             txtTechLevel.Text = CampaignBase.TechLevelName;
-            txtSize.Text = CampaignBase.MarketingCampaignSize.ToString();
+            txtSize.Text = CampaignBase.CampaignSizeRange;
             txtAvgNumEvents.Text = CampaignBase.ProjectedNumberOfEvents.ToString();
             // TODO-Jack-Define contacts variables and pass them through programatically to build contacts section
             string c1 = CampaignBase.URL;    //CampaignGMURL

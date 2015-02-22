@@ -351,6 +351,7 @@ namespace LarpPortal.Classes
             Boolean blnReturn = false;
             try
             {
+                string stStoredProc = "uspInsUpdMDBUsers";
                 SortedList slParams = new SortedList();
                 slParams.Add("@UserID",_UserID);
                 slParams.Add("@LoginUsername", _LoginName);
@@ -370,9 +371,11 @@ namespace LarpPortal.Classes
                 slParams.Add("@XRefNumber", _XRefNumber);
                 slParams.Add("@Comments", _Comments);
                 slParams.Add("@LogonPassword", _LoginPassword);
+                if (_LoginEmail == null)
+                    _LoginEmail = "";
                 slParams.Add("@EmailAddress", _LoginEmail);
-                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBUsers", slParams, "LARPortal", _LoginName);
-
+                blnReturn = cUtilities.PerformNonQueryBoolean(stStoredProc, slParams, "LARPortal", _LoginName);
+                //cUtilities.PerformNonQuery(stStoredProc, slParams, "LARPortal", _LoginName);
                 blnReturn = true;
             }
             catch (Exception ex)

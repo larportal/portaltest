@@ -355,6 +355,7 @@
     <Compile Include="Classes\cBank.cs" />
     <Compile Include="Classes\cCalendar.cs" />
     <Compile Include="Classes\cCampaignBase.cs" />
+    <Compile Include="Classes\cCampaignSelection.cs" />
     <Compile Include="Classes\cCharacter.cs" />
     <Compile Include="Classes\cCharacterDeath.cs" />
     <Compile Include="Classes\cCharacterRelationship.cs" />
@@ -366,6 +367,7 @@
     <Compile Include="Classes\cEmail.cs" />
     <Compile Include="Classes\cEmptyClass.cs" />
     <Compile Include="Classes\cGameSystem.cs" />
+    <Compile Include="Classes\cGameSystems.cs" />
     <Compile Include="Classes\ClientErrors.cs" />
     <Compile Include="Classes\cLocation.cs" />
     <Compile Include="Classes\cLocationMaintenance.cs" />
@@ -411,7 +413,7 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
-    <Compile Include="cUserCampaigns.cs" />
+    <Compile Include="Classes\cUserCampaigns.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
