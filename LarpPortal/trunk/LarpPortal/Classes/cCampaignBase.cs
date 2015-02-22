@@ -92,32 +92,34 @@ namespace LarpPortal.Classes
         private Int32 _CampaignAddressID = -1;
         private string _CSSFile = "";
         private string _Comments = "";
-
+        private string _CampaignStyle = "";
+        private string _GenreList = "";
+        private string _TechLevelList = "";
 
         public Int32 CampaignID
         {
-          get { return _CampaignID; }
-          set { _CampaignID = value; }
+            get { return _CampaignID; }
+            set { _CampaignID = value; }
         }
         public string CampaignName
         {
-          get { return _CampaignName; }
-          set { _CampaignName = value; }
+            get { return _CampaignName; }
+            set { _CampaignName = value; }
         }
         public DateTime? StartDate
         {
-          get { return _StartDate; }
-          set { _StartDate = value; }
+            get { return _StartDate; }
+            set { _StartDate = value; }
         }
         public DateTime? ProjectedEndDate
         {
-          get { return _ProjectedEndDate; }
-          set { _ProjectedEndDate = value; }
+            get { return _ProjectedEndDate; }
+            set { _ProjectedEndDate = value; }
         }
         public DateTime? ActualEndDate
         {
-          get { return _ActualEndDate; }
-          set { _ActualEndDate = value; }
+            get { return _ActualEndDate; }
+            set { _ActualEndDate = value; }
         }
         public Int32 GameSystemID
         {
@@ -452,7 +454,7 @@ namespace LarpPortal.Classes
         public Int32 ProjectedNumberOfEvents
         {
             get { return _ProjectedNumberOfEvents; }
-            set {_ProjectedNumberOfEvents = value;}
+            set { _ProjectedNumberOfEvents = value; }
         }
         public Int32 ActualNumberOfEvents
         {
@@ -484,6 +486,23 @@ namespace LarpPortal.Classes
             get { return _Comments; }
             set { _Comments = value; }
         }
+        public string CampaignStyle
+        {
+            get { return _CampaignStyle; }
+            set { _CampaignStyle = value; }
+        }
+        public string GenreList
+        {
+            get { return _GenreList;  }
+            set { _GenreList = value; }
+        }
+        public string TechLevelList
+        {
+            get { return _TechLevelList; }
+            set { _TechLevelList = value; }
+        }
+
+        public string CampaignSizeRange { get; set; }
 
 
         private cCampaignBase()
@@ -499,7 +518,7 @@ namespace LarpPortal.Classes
             _CampaignID = intCampaignID;
             _UserID = intUserID;
             //so lets say we wanted to load data into this class from a sql query called uspGetSomeData thats take two paraeters @Parameter1 and @Parameter2
-            
+
 
             try
             {
@@ -552,7 +571,7 @@ namespace LarpPortal.Classes
                         _EventCharacterCPCap = iTemp;
                     if (int.TryParse(ldt.Rows[0]["GameSystemID"].ToString(), out iTemp))
                         _GameSystemID = iTemp;
-                    _GameSystemName = "GetFromGameSystemClass"; //TODO-Rick-1 Get Game System Name from cGameSystem
+                    _GameSystemName = ldt.Rows[0]["GameSystemName"].ToString().Trim();
                     _InfoRequestEmail = ldt.Rows[0]["InfoRequestEmail"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["InfoSkillApprovalLevel"].ToString(), out iTemp))
                         _InfoSkillApprovalLevel = iTemp;
@@ -564,6 +583,7 @@ namespace LarpPortal.Classes
                     _Logo = ldt.Rows[0]["CampaignLogo"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["MarketingCampaignSize"].ToString(), out iTemp))
                         _MarketingCampaignSize = iTemp;
+                    CampaignSizeRange = ldt.Rows[0]["CampaignSizeRange"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["MaximumCPPerYear"].ToString(), out iTemp))
                         _MaximumCPPerYear = iTemp;
                     _MaxNumberOfGenres = 4; //TODO-Rick-2 Limit campaigns to number of genres parameter
@@ -597,12 +617,13 @@ namespace LarpPortal.Classes
                     _ShareLocationUseNotes = ldt.Rows[0]["ShareLocationUseNotes"].ToString().Trim();
                     if (DateTime.TryParse(ldt.Rows[0]["CampaignStartDate"].ToString(), out dtTemp))
                         _StartDate = dtTemp;
-                    _StatusDescription = ""; //TODO-Rick-1 Get campaign's status description
+                    _StatusDescription = ldt.Rows[0]["StatusDescription"].ToString().Trim(); 
                     if (int.TryParse(ldt.Rows[0]["StatusID"].ToString(), out iTemp))
                         _StatusID = iTemp;
-                    _StyleDescription = "";
+                    _StyleDescription = ldt.Rows[0]["StyleName"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["StyleID"].ToString(), out iTemp))
                         _StyleID = iTemp;
+                    _CampaignStyle = ldt.Rows[0]["StyleName"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["TechLevelID"].ToString(), out iTemp))
                         _TechLevelID = iTemp;
                     _TechLevelName = "";//TODO-Rick-2 Redefine this to get multiples - Should not be in Campaigns table
@@ -629,6 +650,9 @@ namespace LarpPortal.Classes
                     _WebPageDescription = ldt.Rows[0]["CampaignWebPageDescription"].ToString().Trim();
                     _WebPageSelectionComments = ldt.Rows[0]["CampaignWebPageSelectionComments"].ToString().Trim();
                     _WorldID = -1; //TODO-Rick-3 Figure out why WorldID is -1 and change if necessary
+                    // Go get two concatenated string lists, Genres and Tech Levels
+                    GetGenres(strUserName);
+                    GetTechLevels(strUserName);
                 }
             }
             catch (Exception ex)
@@ -646,7 +670,7 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList();
-               // slParams.Add("@Parmeter1", strParameter1)
+                // slParams.Add("@Parmeter1", strParameter1)
                 slParams.Add("@UserID", -_UserID);
                 slParams.Add("@CampaignID", _CampaignID);
                 slParams.Add("@CampaignName", _CampaignName);
@@ -718,22 +742,55 @@ namespace LarpPortal.Classes
                 slParams.Add("@UserDefinedField5", _UserDefinedField5Value);
                 slParams.Add("@UseUserDefinedField5", _UserDefinedField5Use);
                 slParams.Add("@Comments", _Comments);
-                cUtilities.PerformNonQuery("uspInsUpdCMCampaigns",slParams,"LARPortal",_UserName);
+                cUtilities.PerformNonQuery("uspInsUpdCMCampaigns", slParams, "LARPortal", _UserName);
                 blnReturn = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
                 blnReturn = false;
-
             }
-
             return blnReturn;
         }
-       
 
+        private void GetGenres(string strUserName)
+        {
+            int i = 1;
+            string lsRoutineName = "cCampaignBase.GetGenres";
+            string stStoredProc = "uspGetCampaignGenresByCampaignID";
+            _UserName = strUserName;
+            SortedList slParams = new SortedList();
+            slParams.Add("@CampaignID", _CampaignID);
+            DataTable dtGenres = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
+
+            foreach (DataRow dRow in dtGenres.Rows)
+            {
+                if (i == 1)
+                    _GenreList = _GenreList + dRow["GenreName"].ToString();
+                else
+                    _GenreList = _GenreList + ", " + dRow["GenreName"].ToString();
+                i = 2;
+            }
+        }
+
+        private void GetTechLevels(string strUserName)
+        {
+            int i = 1;
+            string lsRoutineName = "cCampaignBase.GetTechLevels";
+            string stStoredProc = "uspGetCampaignTechLevelsByCampaignID";
+            _UserName = strUserName;
+            SortedList slParams = new SortedList();
+            slParams.Add("@CampaignID", _CampaignID);
+            DataTable dtTechLevels = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
+            foreach (DataRow dRow in dtTechLevels.Rows)
+            {
+                if (i == 1)
+                    _TechLevelList = _TechLevelList + dRow["TechLevelName"].ToString();
+                else
+                    _TechLevelList = _TechLevelList + ", " + dRow["TechLevelName"].ToString();
+                i = 2;
+            }
+        }
     }
-
-
 }

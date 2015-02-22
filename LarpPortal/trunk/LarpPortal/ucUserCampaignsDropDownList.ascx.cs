@@ -19,30 +19,63 @@ namespace LarpPortal
         {
             if(!IsPostBack)
             {
-                ddlUserCampaigns.SelectedIndex = 0;
-                ddlUserCampaigns.Items.Clear();
-                string uName = "";
-                int uID = 0;
-                if (Session["Username"] != null)
-                    uName = Session["Username"].ToString();
-                if (Session["UserID"] != null)
-                    uID = (Session["UserID"].ToString().ToInt32());
-                Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
-                CampaignChoices.Load(uID);
-                if (CampaignChoices.CountOfUserCampaigns == 0)
-                    Response.Redirect("~/NoCurrentCampaignAssociations.aspx"); 
-                //TODO-Rick-1 Create NoCurrentCampaignAssociations.aspx
-                ddlUserCampaigns.DataTextField = "CampaignName";
-                ddlUserCampaigns.DataValueField = "CampaignID";
-                ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
-                ddlUserCampaigns.DataBind();
-                if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
-                {
-                    Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
-                    Response.Redirect(Request.RawUrl);
-                }
+                //ddlUserCampaigns.SelectedIndex = 0;
+                //ddlUserCampaigns.Items.Clear();
+                //string uName = "";
+                //int uID = 0;
+                //if (Session["Username"] != null)
+                //    uName = Session["Username"].ToString();
+                //if (Session["UserID"] != null)
+                //    uID = (Session["UserID"].ToString().ToInt32());
+                //Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
+                //CampaignChoices.Load(uID);
+                ////==== Example returning a data table
+                ////DataTable NewDataTable = new DataTable();
+                ////NewDataTable = cUtilities.CreateDataTable(CampaignChoices.lsUserCampaigns);
+                ////===== End example
+                //if (CampaignChoices.CountOfUserCampaigns == 0)
+                //    Response.Redirect("~/NoCurrentCampaignAssociations.aspx"); 
+                ////TODO-Rick-1 Create NoCurrentCampaignAssociations.aspx
+                //ddlUserCampaigns.DataTextField = "CampaignName";
+                //ddlUserCampaigns.DataValueField = "CampaignID";
+                //ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
+                //ddlUserCampaigns.DataBind();
+                //if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
+                //{
+                //    Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
+                //    Response.Redirect(Request.RawUrl);
+                //}
             }
+        }
 
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            ddlUserCampaigns.SelectedIndex = 0;
+            ddlUserCampaigns.Items.Clear();
+            string uName = "";
+            int uID = 0;
+            if (Session["Username"] != null)
+                uName = Session["Username"].ToString();
+            if (Session["UserID"] != null)
+                uID = (Session["UserID"].ToString().ToInt32());
+            Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
+            CampaignChoices.Load(uID);
+            //==== Example returning a data table
+            //DataTable NewDataTable = new DataTable();
+            //NewDataTable = cUtilities.CreateDataTable(CampaignChoices.lsUserCampaigns);
+            //===== End example
+            if (CampaignChoices.CountOfUserCampaigns == 0)
+                Response.Redirect("~/NoCurrentCampaignAssociations.aspx");
+            //TODO-Rick-1 Create NoCurrentCampaignAssociations.aspx
+            ddlUserCampaigns.DataTextField = "CampaignName";
+            ddlUserCampaigns.DataValueField = "CampaignID";
+            ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
+            ddlUserCampaigns.DataBind();
+            if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
+            {
+                Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
+                Response.Redirect(Request.RawUrl);
+            }
         }
 
         protected void ddlReorderList()

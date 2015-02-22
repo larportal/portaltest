@@ -15,8 +15,6 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="bower_components/bootstrap-table/dist/bootstrap-table.min.css">
@@ -35,7 +33,6 @@
                 <h1>LARP Portal</h1>
                 <p>The Gateway To Managing Your LARPs</p>
             </div>
-            <!-- .logo -->
             <nav class="mainNav">
                 <asp:Repeater ID="menu_ul_main" runat="server">
                     <HeaderTemplate>
@@ -52,7 +49,6 @@
             <div>
                 <nav class="logo">
                     <h4><asp:Label ID="lblCampaignName" runat="server"></asp:Label></h4>
-                    <%--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label ID="lblLoginName" runat="server"></asp:Label>--%>
                 </nav>
             </div>
             <nav class="userMainNav">
@@ -69,11 +65,10 @@
 
                 </asp:Repeater>
             </nav>
-
         </header>
     <asp:ContentPlaceHolder ID="MainPage" runat="server" ></asp:ContentPlaceHolder>
     </div>
-    		<footer>
+    	<footer>
 			<div>
 				<asp:Label ID="lblPageFooter" runat="server"></asp:Label>
 			</div>

@@ -90,6 +90,7 @@
                                 <span class="input-group-btn">
                                     <span class="btn btn-default btn-sm btnFile">Browse<input type="file" multiple>
                                     </span>
+                                    <asp:FileUpload ID="fuMemberImage" runat="server" />
                                 </span>
                             </div>
                         </div>
