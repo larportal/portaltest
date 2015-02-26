@@ -23,7 +23,7 @@ namespace LarpPortal
                 txtPasswordNewRetype.Visible = false;
                 chkTermsOfUse.Visible = false;
                 // Uncomment the next two lines for release
-                // GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Log into LARP Portal as a guest</a>";
+                // GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
                 // lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
                 // 
                 btnValidateAccount.Visible = false;
@@ -48,7 +48,7 @@ namespace LarpPortal
                     txtName.Visible = true;
                     txtLastLocation.Visible = true;
                     txtUserID.Visible = true;
-                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Log into LARP Portal as a guest</a>";
+                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
                     lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
                 }
             }
@@ -89,7 +89,7 @@ namespace LarpPortal
                     txtPasswordNew.Visible = true;
                     txtPasswordNewRetype.Visible = true;
                     chkTermsOfUse.Visible = true;
-                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Log into LARP Portal as a guest</a>";
+                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
                     lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
                     txtNewUsername.Focus();
                 }
@@ -256,7 +256,7 @@ namespace LarpPortal
 
         protected void chkTermsOfUse_CheckedChanged(object sender, EventArgs e)
         {
-            if(chkTermsOfUse.Checked)
+            if (chkTermsOfUse.Checked == true)
             {
                 btnSignUp.Visible = true;
                 btnSignUp.Focus();

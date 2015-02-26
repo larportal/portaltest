@@ -190,6 +190,7 @@
 
                     <div class="panel-wrapper col-sm-9">
                         <asp:HyperLink ID="hplLinkToSite" runat="server" NavigateURL="." Target="_blank" Font-Underline="true" ></asp:HyperLink>
+                        <p></p>
                         <asp:Image ID="imgCampaignImage" runat="server" AlternateText="Game/Campaign Logo" ImageUrl="http://placehold.it/820x130" />
                     </div>
 
@@ -263,6 +264,28 @@
                         </div>
                     </div>
                     </asp:Panel>
+
+                    <asp:Panel ID="pnlSignUpForCampaign" runat="server">
+                        <div class="col-md-4 panel-wrapper">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h2><asp:Label ID="lblSignUp" runat="server"></asp:Label>Campaign Sign Up</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="panel-container campaign-overview">
+                                    <asp:RadioButtonList ID="btnSignUp" runat="server" RepeatDirection="Horizontal" RepeatLayout="Table" CellSpacing="30">
+                                        <asp:ListItem Text="PC" Value="1"></asp:ListItem>
+                                        <asp:ListItem Text="NPC" Value="2"></asp:ListItem>
+                                        <asp:ListItem Text="Both" Value="3"></asp:ListItem>
+                                    </asp:RadioButtonList>
+                                    <asp:Button ID="btnSignUpForCampaign" runat="server" Text="Submit Request" />
+                                    <asp:Label ID="lblSignUpMessage" runat="server"></asp:Label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </asp:Panel>
+
                 </div>
             </section>
         </div>
