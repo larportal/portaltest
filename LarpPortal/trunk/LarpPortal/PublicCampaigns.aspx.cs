@@ -27,24 +27,17 @@ namespace LarpPortal
                 pnlSelectors.Visible = false;
                 hplLinkToSite.Visible = false;
                 imgCampaignImage.Visible = false;
+                pnlSignUpForCampaign.Visible = false;
                 if (Session["UserID"] == null)
                     UserID = 0;
                 else
                     UserID = ((int) Session["UserID"]);
-                Session["filterGameSystem"] = 0;
-                Session["filterCampaign"] = 0;
-                Session["filterGenre"] = 0;
-                Session["filterStyle"] = 0;
-                Session["filterTechLevel"] = 0;
-                Session["filterSize"] = 0;
-                Session["filterMileRadius"] = 0;
-                Session["filterCampaignEnded"] = 0;
-                lblTestText.Text = "Nothing has changed the test text in this box yet.";
+                //lblTestText.Text = "Nothing has changed the test text in this box yet.";
                 // Populate ddlGameSystem
                 ddlGameSystem.SelectedIndex = 0;
                 ddlGameSystem.Items.Clear();
                 //TODO-Rick-00 Create ReloadtvGameSystem and call it here
-                ReloadtvGameSystem(UserID);
+                ReloadtvGameSystem(UserID, "", 0, 0, 0, 0, 0, 0, "", 0);
                 // Populate ddlCampaign
                 ddlCampaign.SelectedIndex = 0;
                 ddlCampaign.Items.Clear();
@@ -80,32 +73,85 @@ namespace LarpPortal
                 UserID = 0;
             else
                 UserID = ((int)Session["UserID"]);
-            lblTestText.Text = "We just passed through ddlOrderBy SelectedIndexChange.";
+            DateTime edt = DateTime.Now;
+            string EndDate;
+            if (chkEndedCampaigns.Checked  == true)
+                EndDate = "";
+            else
+                EndDate = edt.ToShortDateString();
+            int GameSystemFilter = 0;
+            if (chkGameSystem.Checked == true)
+                GameSystemFilter = ddlGameSystem.SelectedValue.ToInt32();
+            else
+                GameSystemFilter = 0;
+            int CampaignFilter = 0;
+            if (chkCampaign.Checked == true)
+                CampaignFilter = ddlCampaign.SelectedValue.ToInt32();
+            else
+                CampaignFilter = 0;
+            int GenreFilter = 0;
+            if (chkGenre.Checked == true)
+                GenreFilter = ddlGenre.SelectedValue.ToInt32();
+            else
+                GenreFilter = 0;
+            int StyleFilter = 0;
+            if (chkStyle.Checked == true)
+                StyleFilter = ddlStyle.SelectedValue.ToInt32();
+            else
+                StyleFilter = 0;
+            int TechLevelFilter = 0;
+            if (chkTechLevel.Checked == true)
+                TechLevelFilter = ddlTechLevel.SelectedValue.ToInt32();
+            else
+                TechLevelFilter = 0;
+            int SizeFilter = 0;
+            if (chkSize.Checked == true)
+                SizeFilter = ddlSize.SelectedValue.ToInt32();
+            else
+                SizeFilter = 0;
+            string ZipCode = "";
+            int RadiusFilter = 0;
+            if (chkZipCode.Checked == true)
+            {
+                ZipCode = txtZipCode.Text;
+                RadiusFilter = ddlMileRadius.SelectedValue.ToInt32();
+            }
+            else
+            {
+                ZipCode = "";
+                RadiusFilter = 0;
+            }
+
+            //lblTestText.Text = "We just passed through ddlOrderBy SelectedIndexChange.";
             switch (ddlOrderBy.Text)
             {
                 case "Game System":
                     tvGameSystem.Visible = true;
-                    LoadddlGameSystem(UserID);
+                    LoadddlGameSystem(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
                     break;
                 case "Campaign":
                     tvCampaign.Visible = true;
-                    LoadddlCampaign();
+                    LoadddlCampaign(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
                     break;
                 case "Genre":
+                    //TODO
                     tvGenre.Visible = true;
-                    LoadddlGenre();
+                    LoadddlGenre(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
                     break;
                 case "Style":
+                    //TODO
                     tvStyle.Visible = true;
-                    LoadddlStyle();
+                    LoadddlStyle(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
                     break;
                 case "Tech Level":
+                    //TODO
                     tvTechLevel.Visible = true;
-                    LoadddlTechLevel();
+                    LoadddlTechLevel(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
                     break;
                 case "Size":
+                    //TODO
                     tvSize.Visible = true;
-                    LoadddlSize();
+                    LoadddlSize(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
                     break;
                 default:
                     break;
@@ -127,9 +173,18 @@ namespace LarpPortal
             else
                 pnlOverview.Visible = false;
             if (SelectorsVisible == 1)
+            {
                 pnlSelectors.Visible = true;
+                if ( ((int)Session["SecurityRole"]) == 10)
+                    pnlSignUpForCampaign.Visible = true;
+                else
+                    pnlSignUpForCampaign.Visible = false;
+            }
             else
+            {
                 pnlSelectors.Visible = false;
+                pnlSignUpForCampaign.Visible = false;
+            }
         }
 
         protected void SetSiteLink(string strURL, string strGameName)
@@ -143,7 +198,7 @@ namespace LarpPortal
             // TODO-Rick-00 Make crap happen in the right hand side of the screen
             string strURL = "";
             string strGameOrCampaignName = "";
-            lblTestText.Text = "We just passed through tvGameSystem SelectedNodeChange.";
+            //lblTestText.Text = "We just passed through tvGameSystem SelectedNodeChange.";
             tvGameSystem.SelectedNode.Selected = true;
             string SelectedGorC = tvGameSystem.SelectedValue + "";
             string GorC = SelectedGorC.Substring(0, 1);
@@ -196,7 +251,6 @@ namespace LarpPortal
                     lblSize2.Text = " " + Cam.CampaignSizeRange;
                 }
             }
-            // TODO-Rick-001 Define game or campaign URL and name and put it in the call
             if(strURL != null)
                 SetSiteLink(strURL, strGameOrCampaignName);
             MakeDetailsVisible(intURLVisible, intImageVisible, intOverviewVisible, intSelectorsVisible);
@@ -204,27 +258,27 @@ namespace LarpPortal
 
         protected void tvCampaign_SelectedNodeChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through tvCampaign SelectedNodeChange.";
+            //lblTestText.Text = "We just passed through tvCampaign SelectedNodeChange.";
         }
 
         protected void tvGenre_SelectedNodeChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through tvGenre SelectedNodeChange.";
+            //lblTestText.Text = "We just passed through tvGenre SelectedNodeChange.";
         }
 
         protected void tvStyle_SelectedNodeChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through tvStyle SelectedNodeChange.";
+            //lblTestText.Text = "We just passed through tvStyle SelectedNodeChange.";
         }
 
         protected void tvTechLevel_SelectedNodeChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through tvTechLevel SelectedNodeChange.";
+            //lblTestText.Text = "We just passed through tvTechLevel SelectedNodeChange.";
         }
 
         protected void tvSize_SelectedNodeChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through tvSize SelectedNodeChange.";
+            //lblTestText.Text = "We just passed through tvSize SelectedNodeChange.";
         }
 
         protected void chkGameSystem_CheckedChanged(object sender, EventArgs e)
@@ -234,216 +288,367 @@ namespace LarpPortal
                 UserID = 0;
             else
                 UserID = ((int)Session["UserID"]);
-            lblTestText.Text = "We just passed through chkGameSystem CheckedChange.";
+            DateTime edt = DateTime.Now;
+            string EndDate;
+            if (chkEndedCampaigns.Checked == true)
+                EndDate = "";
+            else
+                EndDate = edt.ToShortDateString();
+            int GameSystemFilter = 0;
+            //if (chkGameSystem.Checked == true)
+            //    GameSystemFilter = ddlGameSystem.SelectedValue.ToInt32();
+            //else
+            //    GameSystemFilter = 0;
+            int CampaignFilter = 0;
+            if (chkCampaign.Checked == true)
+                CampaignFilter = ddlCampaign.SelectedValue.ToInt32();
+            else
+                CampaignFilter = 0;
+            int GenreFilter = 0;
+            if (chkGenre.Checked == true)
+                GenreFilter = ddlGenre.SelectedValue.ToInt32();
+            else
+                GenreFilter = 0;
+            int StyleFilter = 0;
+            if (chkStyle.Checked == true)
+                StyleFilter = ddlStyle.SelectedValue.ToInt32();
+            else
+                StyleFilter = 0;
+            int TechLevelFilter = 0;
+            if (chkTechLevel.Checked == true)
+                TechLevelFilter = ddlTechLevel.SelectedValue.ToInt32();
+            else
+                TechLevelFilter = 0;
+            int SizeFilter = 0;
+            if (chkSize.Checked == true)
+                SizeFilter = ddlSize.SelectedValue.ToInt32();
+            else
+                SizeFilter = 0;
+            string ZipCode = "";
+            int RadiusFilter = 0;
+            if (chkZipCode.Checked == true)
+            {
+                ZipCode = txtZipCode.Text;
+                RadiusFilter = ddlMileRadius.SelectedValue.ToInt32();
+            }
+            else
+            {
+                ZipCode = "";
+                RadiusFilter = 0;
+            }
+            //lblTestText.Text = "We just passed through chkGameSystem CheckedChange.";
             if (chkGameSystem.Checked == true)
             {
+                LoadddlGameSystem(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
                 ddlGameSystem.Visible = true;
-                LoadddlGameSystem(UserID);
             }
             else
             {
                 ddlGameSystem.Visible = false;
-                Session["filterGameSystem"] = 0;
             }
-                
         }
 
         protected void ddlGameSystem_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through ddlGameSystem SelectedIndexChange.";
+            //lblTestText.Text = "We just passed through ddlGameSystem SelectedIndexChange.";
             // Set Session["filterGameSystem"] to GameSystemID and reload tv
 
         }
 
         protected void chkCampaign_CheckedChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through chkCampaign CheckedChange.";
+            //lblTestText.Text = "We just passed through chkCampaign CheckedChange.";
+            int UserID = 0;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
             if (chkCampaign.Checked == true)
             {
                 ddlCampaign.Visible = true;
-                LoadddlCampaign();
+                string EndDate = "";
+                int GameSystemFilter = 0;
+                int CampaignFilter = 0;
+                int GenreFilter = 0;
+                int StyleFilter = 0;
+                int TechLevelFilter = 0;
+                int SizeFilter = 0;
+                string ZipCode = "";
+                int RadiusFilter = 0;
+                LoadddlCampaign(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
             }
             else
             {
                 ddlCampaign.Visible = false;
-                Session["filterCampaign"] = 0;
             }
-                
         }
 
         protected void ddlCampaign_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through ddlCampaign SelectedIndexChange.";
+            //lblTestText.Text = "We just passed through ddlCampaign SelectedIndexChange.";
             // Set Session["filterCampaign"] to CampaignID and reload tv
         }
 
         protected void chkGenre_CheckedChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through chkGenre CheckedChange.";
+            //lblTestText.Text = "We just passed through chkGenre CheckedChange.";
+            int UserID = 0;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
             if (chkGenre.Checked == true)
             {
                 ddlGenre.Visible = true;
-                LoadddlGenre();
+                string EndDate = "";
+                int GameSystemFilter = 0;
+                int CampaignFilter = 0;
+                int GenreFilter = 0;
+                int StyleFilter = 0;
+                int TechLevelFilter = 0;
+                int SizeFilter = 0;
+                string ZipCode = "";
+                int RadiusFilter = 0;
+                LoadddlGenre(UserID, EndDate,GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
             }
             else
             {
                 ddlGenre.Visible = false;
-                Session["filterGenre"] = 0;
             }   
         }
 
         protected void ddlGenre_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through ddlGenre SelectedIndexChange.";
+            //lblTestText.Text = "We just passed through ddlGenre SelectedIndexChange.";
             // Set Session["filterGenre"] to GenreID and reload tv
         }
 
         protected void chkStyle_CheckedChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through chkStyle CheckedChange.";
+            //lblTestText.Text = "We just passed through chkStyle CheckedChange.";
+            int UserID = 0;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
             if (chkStyle.Checked == true)
             {
                 ddlStyle.Visible = true;
-                LoadddlStyle();
+                string EndDate = "";
+                int GameSystemFilter = 0;
+                int CampaignFilter = 0;
+                int GenreFilter = 0;
+                int StyleFilter = 0;
+                int TechLevelFilter = 0;
+                int SizeFilter = 0;
+                string ZipCode = "";
+                int RadiusFilter = 0;
+                LoadddlStyle(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
             }
             else
             {
                 ddlStyle.Visible = false;
-                Session["filterStyle"] = 0;
+                //Session["filterStyle"] = 0;
             }    
         }
 
         protected void ddlStyle_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through ddlStyle SelectedIndexChange.";
+            //lblTestText.Text = "We just passed through ddlStyle SelectedIndexChange.";
             // Set Session["filterStyle"] to StyleID and reload tv
         }
 
         protected void chkTechLevel_CheckedChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through chkTechLevel CheckedChange.";
+            //lblTestText.Text = "We just passed through chkTechLevel CheckedChange.";
+            int UserID = 0;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
             if (chkTechLevel.Checked == true)
             {
                 ddlTechLevel.Visible = true;
-                LoadddlTechLevel();
+                string EndDate = "";
+                int GameSystemFilter = 0;
+                int CampaignFilter = 0;
+                int GenreFilter = 0;
+                int StyleFilter = 0;
+                int TechLevelFilter = 0;
+                int SizeFilter = 0;
+                string ZipCode = "";
+                int RadiusFilter = 0;
+                LoadddlTechLevel(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
             }
             else
             {
                 ddlTechLevel.Visible = false;
-                Session["filterTechLevel"] = 0;
+                //Session["filterTechLevel"] = 0;
             }     
         }
 
         protected void ddlTechLevel_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through ddlTechLevel SelectedIndexChange.";
+            //lblTestText.Text = "We just passed through ddlTechLevel SelectedIndexChange.";
             // Set Session["filterTechLevel"] to TechLevelID and reload tv
         }
 
         protected void chkSize_CheckedChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through chkSize CheckedChange.";
+            //lblTestText.Text = "We just passed through chkSize CheckedChange.";
+            int UserID = 0;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
             if (chkSize.Checked == true)
             {
                 ddlSize.Visible = true;
-                LoadddlSize();
+                string EndDate = "";
+                int GameSystemFilter = 0;
+                int CampaignFilter = 0;
+                int GenreFilter = 0;
+                int StyleFilter = 0;
+                int TechLevelFilter = 0;
+                int SizeFilter = 0;
+                string ZipCode = "";
+                int RadiusFilter = 0;
+                LoadddlSize(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
             }
             else
             {
                 ddlSize.Visible = false;
-                Session["filterSize"] = 0;
+                //Session["filterSize"] = 0;
             }    
         }
 
         protected void ddlSize_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through ddlSize SelectedIndexChange.";
+            //lblTestText.Text = "We just passed through ddlSize SelectedIndexChange.";
             // Set Session["filterSize"] to SizeID and reload tv
         }
 
         protected void chkZipCode_CheckedChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through chkZipZode CheckedChange.";
+            //lblTestText.Text = "We just passed through chkZipZode CheckedChange.";
+            int UserID = 0;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
             if (chkZipCode.Checked == true)
             {
                 txtZipCode.Visible = true;
                 ddlMileRadius.Visible = true;
-                LoadddlMileRadius();
+                string EndDate = "";
+                int GameSystemFilter = 0;
+                int CampaignFilter = 0;
+                int GenreFilter = 0;
+                int StyleFilter = 0;
+                int TechLevelFilter = 0;
+                int SizeFilter = 0;
+                string ZipCode = "";
+                int RadiusFilter = 0;
+                LoadddlMileRadius(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
             }
             else
             {
                 txtZipCode.Text = "";
                 txtZipCode.Visible = false;
                 ddlMileRadius.Visible = false;
-                Session["filterMileRadius"] = 0;
             }
         }
 
         protected void txtZipCode_TextChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through txtZipCode TextChange.";
+            //lblTestText.Text = "We just passed through txtZipCode TextChange.";
         }
 
         protected void ddlMileRadius_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through ddlMileRadius SelectedIndexChange.";
+            //lblTestText.Text = "We just passed through ddlMileRadius SelectedIndexChange.";
             // Set Session["filterMileRadius"] to MileRadiusID and reload tv
         }
 
         protected void chkEndedCampaigns_CheckedChanged(object sender, EventArgs e)
         {
-            lblTestText.Text = "We just passed through chkEndedCampaigns CheckedChange.";
-            if (chkEndedCampaigns.Checked == true)
-            {
-                Session["filterCampaignEnded"] = 1;
-            }
-            else
-            {
-                Session["filterCampaignEnded"] = 0;
-            }
+            //lblTestText.Text = "We just passed through chkEndedCampaigns CheckedChange.";
+
         }
 
-        protected void LoadddlGameSystem(int UserID)
+        protected void LoadddlGameSystem(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
         {
-            lblTestText.Text = lblTestText.Text + " ddlGameSystem count = 0.";
-            Classes.cGameSystems GameSystem = new Classes.cGameSystems();
-            GameSystem.LoadGameSystemsByName(UserID);
+            //lblTestText.Text = lblTestText.Text + " ddlGameSystem count = 0.";
+            Classes.cCampaignSelection GameSystem = new Classes.cCampaignSelection();
+            ddlGameSystem.DataSource = GameSystem.LoadGameSystems(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+            ddlGameSystem.DataTextField = "GameSystemName";
+            ddlGameSystem.DataValueField = "GameSystemID";
+            ddlGameSystem.DataBind();
         }
 
-        protected void LoadddlCampaign()
+        protected void LoadddlCampaign(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
         {
-            lblTestText.Text = lblTestText.Text + " ddlCampaign count = 0.";
+            //lblTestText.Text = lblTestText.Text + " ddlCampaign count = 0.";
+            Classes.cCampaignSelection Campaign = new Classes.cCampaignSelection();
+            //Campaign.LoadCampaigns(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+            ddlCampaign.DataSource = Campaign.LoadCampaigns(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+            ddlCampaign.DataTextField = "CampaignName";
+            ddlCampaign.DataValueField = "CampaignID";
+            ddlCampaign.DataBind();
         }
 
-        protected void LoadddlGenre()
+        protected void LoadddlGenre(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
         {
-            lblTestText.Text = lblTestText.Text + " ddlGenre count = 0.";
+            //lblTestText.Text = lblTestText.Text + " ddlGenre count = 0.";
+            Classes.cCampaignSelection Genre = new Classes.cCampaignSelection();
+            ddlGenre.DataSource = Genre.LoadGenres(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+            ddlGenre.DataTextField = "GenreName";
+            ddlGenre.DataValueField = "GenreID";
+            ddlGenre.DataBind();
         }
 
-        protected void LoadddlStyle()
+        protected void LoadddlStyle(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
         {
-            lblTestText.Text = lblTestText.Text + " ddlStyle count = 0.";
+            //lblTestText.Text = lblTestText.Text + " ddlStyle count = 0.";
+            Classes.cCampaignSelection Style = new Classes.cCampaignSelection();
+            ddlStyle.DataSource = Style.LoadStyles(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+            ddlStyle.DataTextField = "StyleName";
+            ddlStyle.DataValueField = "StyleID";
+            ddlStyle.DataBind();
         }
 
-        protected void LoadddlTechLevel()
+        protected void LoadddlTechLevel(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
         {
-            lblTestText.Text = lblTestText.Text + " ddlTechLevel count = 0.";
+            //lblTestText.Text = lblTestText.Text + " ddlTechLevel count = 0.";
+            Classes.cCampaignSelection TechLevel = new Classes.cCampaignSelection();
+            ddlTechLevel.DataSource = TechLevel.LoadTechLevels(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+            ddlTechLevel.DataTextField = "TechLevelName";
+            ddlTechLevel.DataValueField = "TechLevelID";
+            ddlTechLevel.DataBind();
         }
 
-        protected void LoadddlSize()
+        protected void LoadddlSize(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
         {
-            lblTestText.Text = lblTestText.Text + " ddlSize count = 0.";
+            //lblTestText.Text = lblTestText.Text + " ddlSize count = 0.";
+            Classes.cCampaignSelection Size = new Classes.cCampaignSelection();
+            ddlSize.DataSource = Size.LoadSizes(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+            ddlSize.DataTextField = "CampaignSizeRange";
+            //ddlSize.DataValueField = "CampaignSizeID";
+            ddlSize.DataBind();
         }
 
-        protected void LoadddlMileRadius()
+        protected void LoadddlMileRadius(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
         {
-            lblTestText.Text = lblTestText.Text + " ddlRadius count = 0.";
+            //lblTestText.Text = lblTestText.Text + " ddlRadius count = 0.";
+            Classes.cCampaignSelection Radius = new Classes.cCampaignSelection();
+            ddlMileRadius.DataSource = Radius.LoadRadius(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+            ddlMileRadius.DataTextField = "DistanceDescription";
+            ddlMileRadius.DataValueField = "DistanceID";
+            ddlMileRadius.DataBind();
         }
 
-        protected void ReloadtvGameSystem(int UserID)
+        protected void ReloadtvGameSystem(int UserID, string EndDate,int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
         {
-            // TODO-Rick-01 Check for filters, call class, pass variables, load tree view GameSystem
-            
             int GameSystemID = 0;
             int CampaignID = 0;
             int StatusID = 0;
@@ -453,11 +658,9 @@ namespace LarpPortal
             TreeNode GameSystemNode;
             TreeNode CampaignNode;
             tvGameSystem.Nodes.Clear();
-
-            Classes.cGameSystems GameSystems = new Classes.cGameSystems();
+            Classes.cCampaignSelection GameSystems = new Classes.cCampaignSelection();
             DataTable dtGameSystems = new DataTable();
-            dtGameSystems = GameSystems.LoadGameSystemsByName(UserID);
-            // Loop through all the Game System rows of dtGameSystems
+            dtGameSystems = GameSystems.LoadGameSystems(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
             foreach (DataRow dRow in dtGameSystems.Rows)
             {
                 if (int.TryParse(dRow["GameSystemID"].ToString(), out iTemp))
@@ -466,16 +669,9 @@ namespace LarpPortal
                 GameSystemNode = new TreeNode(GameSystemName, "G" + GameSystemID); // G will be assigned all Game Systems and C will be assigned to Campaigns
                 GameSystemNode.Selected = false;
                 GameSystemNode.NavigateUrl = "";
-
-                string EndDate;
-                DateTime edt = DateTime.Now;
-                if (chkEndedCampaigns.Checked)
-                    EndDate = "";
-                else
-                    EndDate = edt.ToShortDateString();
-                Classes.cGameSystems Campaigns = new Classes.cGameSystems();
+                Classes.cCampaignSelection Campaigns = new Classes.cCampaignSelection();
                 DataTable dtCampaigns = new DataTable();
-                dtCampaigns = Campaigns.CampaignsByGameSystem(GameSystemID, EndDate, UserID);
+                dtCampaigns = Campaigns.CampaignsByGameSystem(GameSystemID, EndDate, UserID, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
                 // Loop through all the Campaign rows of dtCampaigns
                 if (dtCampaigns.Rows.Count == 0)
                 {
@@ -506,9 +702,60 @@ namespace LarpPortal
             }
         }
 
-        protected void ReloadtvCampaign()
+        protected void ReloadtvCampaign(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
         {
-            // TODO-Rick-02 Check for filters, call class, pass variables, load tree view Campaign
+            //TODO-00000-This is copied from tvGameSystem - Hack it to campaigns
+            int GameSystemID = 0;
+            int CampaignID = 0;
+            int StatusID = 0;
+            string GameSystemName = "";
+            string CampaignName = "";
+            int iTemp;
+            TreeNode GameSystemNode;
+            TreeNode CampaignNode;
+            tvGameSystem.Nodes.Clear();
+            Classes.cCampaignSelection GameSystems = new Classes.cCampaignSelection();
+            DataTable dtGameSystems = new DataTable();
+            dtGameSystems = GameSystems.LoadGameSystems(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+            foreach (DataRow dRow in dtGameSystems.Rows)
+            {
+                if (int.TryParse(dRow["GameSystemID"].ToString(), out iTemp))
+                    GameSystemID = iTemp;
+                GameSystemName = dRow["GameSystemName"].ToString();
+                GameSystemNode = new TreeNode(GameSystemName, "G" + GameSystemID); // G will be assigned all Game Systems and C will be assigned to Campaigns
+                GameSystemNode.Selected = false;
+                GameSystemNode.NavigateUrl = "";
+                Classes.cCampaignSelection Campaigns = new Classes.cCampaignSelection();
+                DataTable dtCampaigns = new DataTable();
+                dtCampaigns = Campaigns.CampaignsByGameSystem(GameSystemID, EndDate, UserID, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCode, RadiusFilter);
+                // Loop through all the Campaign rows of dtCampaigns
+                if (dtCampaigns.Rows.Count == 0)
+                {
+                    // Add an "empty" node to indicate no campaigns (and line up the tree)
+                    CampaignID = 0;
+                    StatusID = 0;
+                    CampaignName = "No Campaigns";
+                    CampaignNode = new TreeNode(CampaignName, CampaignID.ToString());
+                    GameSystemNode.ChildNodes.Add(CampaignNode);
+                    CampaignNode.Selected = false;
+                    CampaignNode.NavigateUrl = "";
+                }
+                foreach (DataRow cRow in dtCampaigns.Rows)
+                {
+                    if (int.TryParse(cRow["CampaignID"].ToString(), out iTemp))
+                        CampaignID = iTemp;
+                    if (int.TryParse(cRow["StatusID"].ToString(), out iTemp))
+                        StatusID = iTemp;
+                    CampaignName = cRow["CampaignName"].ToString();
+                    if (StatusID == 4)   // Past/Ended
+                        CampaignName = CampaignName + " (Ended)";
+                    CampaignNode = new TreeNode(CampaignName, CampaignID.ToString());
+                    GameSystemNode.ChildNodes.Add(CampaignNode);
+                    CampaignNode.Selected = false;
+                    CampaignNode.NavigateUrl = "";
+                }
+                tvGameSystem.Nodes.Add(GameSystemNode);
+            }
         }
 
         protected void ReloadtvGenre()

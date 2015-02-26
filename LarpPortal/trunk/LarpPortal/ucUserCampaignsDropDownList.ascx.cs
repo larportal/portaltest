@@ -19,32 +19,7 @@ namespace LarpPortal
         {
             if(!IsPostBack)
             {
-                //ddlUserCampaigns.SelectedIndex = 0;
-                //ddlUserCampaigns.Items.Clear();
-                //string uName = "";
-                //int uID = 0;
-                //if (Session["Username"] != null)
-                //    uName = Session["Username"].ToString();
-                //if (Session["UserID"] != null)
-                //    uID = (Session["UserID"].ToString().ToInt32());
-                //Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
-                //CampaignChoices.Load(uID);
-                ////==== Example returning a data table
-                ////DataTable NewDataTable = new DataTable();
-                ////NewDataTable = cUtilities.CreateDataTable(CampaignChoices.lsUserCampaigns);
-                ////===== End example
-                //if (CampaignChoices.CountOfUserCampaigns == 0)
-                //    Response.Redirect("~/NoCurrentCampaignAssociations.aspx"); 
-                ////TODO-Rick-1 Create NoCurrentCampaignAssociations.aspx
-                //ddlUserCampaigns.DataTextField = "CampaignName";
-                //ddlUserCampaigns.DataValueField = "CampaignID";
-                //ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
-                //ddlUserCampaigns.DataBind();
-                //if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
-                //{
-                //    Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
-                //    Response.Redirect(Request.RawUrl);
-                //}
+
             }
         }
 
@@ -71,6 +46,8 @@ namespace LarpPortal
             ddlUserCampaigns.DataValueField = "CampaignID";
             ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
             ddlUserCampaigns.DataBind();
+            ddlUserCampaigns.Items.Add(new ListItem("Add a new campaign", "-1"));
+            
             if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
             {
                 Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
@@ -85,6 +62,12 @@ namespace LarpPortal
 
         protected void ddlUserCampaigns_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (ddlUserCampaigns.SelectedValue == "-1")
+            {
+                //TODO-Rick-01- Set up code to go to campaign selection page to sign up for a new campaign
+                //For now let's just dump them on public campaign page
+                Response.Redirect("~/PublicCampaigns.aspx");
+            }
             int intUserID;
             string SelectedText;
             string SelectedValue;
