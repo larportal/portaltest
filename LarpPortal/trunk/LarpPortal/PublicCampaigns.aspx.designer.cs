@@ -175,15 +175,6 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.CheckBox chkEndedCampaigns;
         
         /// <summary>
-        /// lblTestText control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTestText;
-        
-        /// <summary>
         /// tvGameSystem control.
         /// </summary>
         /// <remarks>
@@ -238,15 +229,6 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.TreeView tvSize;
         
         /// <summary>
-        /// hplLinkToSite control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplLinkToSite;
-        
-        /// <summary>
         /// imgCampaignImage control.
         /// </summary>
         /// <remarks>
@@ -254,6 +236,15 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imgCampaignImage;
+        
+        /// <summary>
+        /// hplLinkToSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hplLinkToSite;
         
         /// <summary>
         /// pnlOverview control.

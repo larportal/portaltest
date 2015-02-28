@@ -57,9 +57,60 @@ namespace LarpPortal.Classes
 
         public string ZipCode { get; set; }
 
+        //public string EndDate { get; set; }
+        //public int GameSystemFilter { get; set; }
+        //public int CampaignFilter { get; set; }
+        //public int GenreFilter { get; set; }
+        //public int StyleFilter { get; set; }
+        //public int TechLevelFilter { get; set; }
+        //public int SizeFilter { get; set; }
+        //public string ZipCodeFilter { get; set; }
+        //public int RadiusFilter { get; set; }
 
-        public DataTable LoadGameSystems(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
+        //public void SetSessionFilters()
+        //{
+        //    if (HttpContext.Current.Session["EndDate"] != null)
+        //        EndDate = HttpContext.Current.Session["EndDate"].ToString();
+        //    else
+        //        EndDate = "";
+        //    if (HttpContext.Current.Session["GameSystemFilter"] != null)
+        //        GameSystemFilter = HttpContext.Current.Session["GameSystemFilter"].ToString().ToInt32();
+        //    else
+        //        GameSystemFilter = 0;
+        //    if (HttpContext.Current.Session["CampaignFilter"] != null)
+        //        CampaignFilter = HttpContext.Current.Session["CampaignFilter"].ToString().ToInt32();
+        //    else
+        //        CampaignFilter = 0;
+        //    if (HttpContext.Current.Session["GenreFilter"] != null)
+        //        GenreFilter = HttpContext.Current.Session["GenreFilter"].ToString().ToInt32();
+        //    else
+        //        GenreFilter = 0;
+        //    if (HttpContext.Current.Session["StyleFilter"] != null)
+        //        StyleFilter = HttpContext.Current.Session["StyleFilter"].ToString().ToInt32();
+        //    else
+        //        StyleFilter = 0;
+        //    if (HttpContext.Current.Session["TechLevelFilter"] != null)
+        //        TechLevelFilter = HttpContext.Current.Session["TechLevelFilter"].ToString().ToInt32();
+        //    else
+        //        TechLevelFilter = 0;
+        //    if (HttpContext.Current.Session["SizeFilter"] != null)
+        //        SizeFilter = HttpContext.Current.Session["SizeFilter"].ToString().ToInt32();
+        //    else
+        //        SizeFilter = 0;
+        //    if (HttpContext.Current.Session["ZipCodeFilter"] != null)
+        //        ZipCodeFilter = HttpContext.Current.Session["ZipCodeFilter"].ToString();
+        //    else
+        //        ZipCodeFilter = "";
+        //    if (HttpContext.Current.Session["RadiusFilter"] != null)
+        //        RadiusFilter = HttpContext.Current.Session["RadiusFilter"].ToString().ToInt32();
+        //    else
+        //        RadiusFilter = 0; 
+        //}
+
+
+        public DataTable LoadGameSystems(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
         {
+            //, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter
             string stStoredProc = "uspGetGameSystemsByName";
             string stCallingMethod = "cGameSystems.LoadGameSystemsByName";
             string strUsername = UserID.ToString();
@@ -72,7 +123,7 @@ namespace LarpPortal.Classes
             slParameters.Add("@StyleFilter",StyleFilter);
             slParameters.Add("@TechLevelFilter",TechLevelFilter);
             slParameters.Add("@SizeFilter",SizeFilter);
-            slParameters.Add("@ZipCode",ZipCode);
+            slParameters.Add("@ZipCode",ZipCodeFilter);
             slParameters.Add("@RadiusFilter",RadiusFilter);
             DataTable dtGameSystems = new DataTable();
             dtGameSystems = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
@@ -85,7 +136,7 @@ namespace LarpPortal.Classes
             return dtGameSystems;
         }
 
-        public DataTable CampaignsByGameSystem(int GameSystemID, string EndDate, int UserID, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
+        public DataTable CampaignsByGameSystem(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
         {
             string stStoredProc = "uspGetCampaignsByGameSystem";
             string stCallingMethod = "cGameSystems.CampaignsByGameSystem";
@@ -97,6 +148,7 @@ namespace LarpPortal.Classes
             {
                 EndDate = "1960-01-01";  //Using an arbitrary old date that is older than any end date in the system
             }
+            GameSystemID = GameSystemFilter;
             slParameters.Add("@GameSystemID", GameSystemID);
             slParameters.Add("@EndDate", EndDate);
             slParameters.Add("@GameSystemFilter", GameSystemFilter);
@@ -105,7 +157,7 @@ namespace LarpPortal.Classes
             slParameters.Add("@StyleFilter", StyleFilter);
             slParameters.Add("@TechLevelFilter", TechLevelFilter);
             slParameters.Add("@SizeFilter", SizeFilter);
-            slParameters.Add("@ZipCode", ZipCode);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
             slParameters.Add("@RadiusFilter", RadiusFilter);
             dtCampaigns = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
             foreach (DataRow cRow in dtCampaigns.Rows)
@@ -117,12 +169,111 @@ namespace LarpPortal.Classes
             return dtCampaigns;
         }
 
+        public DataTable CampaignsByGenre(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
+        {
+            string stStoredProc = "uspGetCampaignsByGenre";
+            string stCallingMethod = "cGameSystems.CampaignsByGenre";
+            string strUsername = UserID.ToString();
+            int iTemp;
+            SortedList slParameters = new SortedList();
+            DataTable dtCampaigns = new DataTable();
+            if (EndDate == "")
+            {
+                EndDate = "1960-01-01";  //Using an arbitrary old date that is older than any end date in the system
+            }
+            GenreID = GenreFilter;
+            slParameters.Add("@GenreID", GenreID);
+            slParameters.Add("@EndDate", EndDate);
+            slParameters.Add("@GameSystemFilter", GameSystemFilter);
+            slParameters.Add("@CampaignFilter", CampaignFilter);
+            slParameters.Add("@GenreFilter", GenreFilter);
+            slParameters.Add("@StyleFilter", StyleFilter);
+            slParameters.Add("@TechLevelFilter", TechLevelFilter);
+            slParameters.Add("@SizeFilter", SizeFilter);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
+            slParameters.Add("@RadiusFilter", RadiusFilter);
+            dtCampaigns = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
+            foreach (DataRow cRow in dtCampaigns.Rows)
+            {
+                if (int.TryParse(cRow["CampaignID"].ToString(), out iTemp))
+                    CampaignID = iTemp;
+                CampaignName = cRow["CampaignName"].ToString();
+            }
+            return dtCampaigns;
+        }
+
+        public DataTable CampaignsByTechLevel(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
+        {
+            string stStoredProc = "uspGetCampaignsByTechLevel";
+            string stCallingMethod = "cGameSystems.CampaignsByTechLevel";
+            string strUsername = UserID.ToString();
+            int iTemp;
+            SortedList slParameters = new SortedList();
+            DataTable dtCampaigns = new DataTable();
+            if (EndDate == "")
+            {
+                EndDate = "1960-01-01";  //Using an arbitrary old date that is older than any end date in the system
+            }
+            TechLevelID = TechLevelFilter;
+            slParameters.Add("@GenreID", GenreID);
+            slParameters.Add("@EndDate", EndDate);
+            slParameters.Add("@GameSystemFilter", GameSystemFilter);
+            slParameters.Add("@CampaignFilter", CampaignFilter);
+            slParameters.Add("@GenreFilter", GenreFilter);
+            slParameters.Add("@StyleFilter", StyleFilter);
+            slParameters.Add("@TechLevelFilter", TechLevelFilter);
+            slParameters.Add("@SizeFilter", SizeFilter);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
+            slParameters.Add("@RadiusFilter", RadiusFilter);
+            dtCampaigns = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
+            foreach (DataRow cRow in dtCampaigns.Rows)
+            {
+                if (int.TryParse(cRow["CampaignID"].ToString(), out iTemp))
+                    CampaignID = iTemp;
+                CampaignName = cRow["CampaignName"].ToString();
+            }
+            return dtCampaigns;
+        }
+
+        public DataTable CampaignsByStyle(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
+        {
+            string stStoredProc = "uspGetCampaignsByStyle";
+            string stCallingMethod = "cGameSystems.CampaignsByStyle";
+            string strUsername = UserID.ToString();
+            int iTemp;
+            SortedList slParameters = new SortedList();
+            DataTable dtCampaigns = new DataTable();
+            if (EndDate == "")
+            {
+                EndDate = "1960-01-01";  //Using an arbitrary old date that is older than any end date in the system
+            }
+            StyleID = StyleFilter;
+            slParameters.Add("@StyleID", StyleID);
+            slParameters.Add("@EndDate", EndDate);
+            slParameters.Add("@GameSystemFilter", GameSystemFilter);
+            slParameters.Add("@CampaignFilter", CampaignFilter);
+            slParameters.Add("@GenreFilter", GenreFilter);
+            slParameters.Add("@StyleFilter", StyleFilter);
+            slParameters.Add("@TechLevelFilter", TechLevelFilter);
+            slParameters.Add("@SizeFilter", SizeFilter);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
+            slParameters.Add("@RadiusFilter", RadiusFilter);
+            dtCampaigns = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
+            foreach (DataRow cRow in dtCampaigns.Rows)
+            {
+                if (int.TryParse(cRow["CampaignID"].ToString(), out iTemp))
+                    CampaignID = iTemp;
+                CampaignName = cRow["CampaignName"].ToString();
+            }
+            return dtCampaigns;
+        }
+
 
         /// <summary>
         /// This will load a table of all campaigns by name
         /// EndDate is optional to include campaigns that have ended
         /// </summary>
-        public DataTable LoadCampaigns(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
+        public DataTable LoadCampaigns(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
         {
             string stStoredProc = "uspGetCampaignsByName";
             string stCallingMethod = "cCampaignSelections.LoadCampaigns";
@@ -140,14 +291,14 @@ namespace LarpPortal.Classes
             slParameters.Add("@StyleFilter", StyleFilter);
             slParameters.Add("@TechLevelFilter", TechLevelFilter);
             slParameters.Add("@SizeFilter", SizeFilter);
-            slParameters.Add("@ZipCode", ZipCode);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
             slParameters.Add("@RadiusFilter", RadiusFilter);
             DataTable dtCampaigns = new DataTable();
             dtCampaigns = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
             return dtCampaigns;
         }
 
-        public DataTable LoadTechLevels(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
+        public DataTable LoadTechLevels(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
         {
             string stStoredProc = "uspGetTechLevels";
             string stCallingMethod = "cCampaignSelections.LoadTechLevels";
@@ -165,14 +316,14 @@ namespace LarpPortal.Classes
             slParameters.Add("@StyleFilter", StyleFilter);
             slParameters.Add("@TechLevelFilter", TechLevelFilter);
             slParameters.Add("@SizeFilter", SizeFilter);
-            slParameters.Add("@ZipCode", ZipCode);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
             slParameters.Add("@RadiusFilter", RadiusFilter);
             DataTable dtTechLevels = new DataTable();
             dtTechLevels = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
             return dtTechLevels;
         }
 
-        public DataTable LoadStyles(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
+        public DataTable LoadStyles(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
         {
             string stStoredProc = "uspGetStyles";
             string stCallingMethod = "cCampaignSelections.LoadStyles";
@@ -190,14 +341,14 @@ namespace LarpPortal.Classes
             slParameters.Add("@StyleFilter", StyleFilter);
             slParameters.Add("@TechLevelFilter", TechLevelFilter);
             slParameters.Add("@SizeFilter", SizeFilter);
-            slParameters.Add("@ZipCode", ZipCode);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
             slParameters.Add("@RadiusFilter", RadiusFilter);
             DataTable dtStyles = new DataTable();
             dtStyles = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
             return dtStyles;
         }
 
-        public DataTable LoadSizes(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
+        public DataTable LoadSizes(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
         {
             string stStoredProc = "uspGetSizes";
             string stCallingMethod = "cCampaignSelections.LoadSizes";
@@ -215,14 +366,14 @@ namespace LarpPortal.Classes
             slParameters.Add("@StyleFilter", StyleFilter);
             slParameters.Add("@TechLevelFilter", TechLevelFilter);
             slParameters.Add("@SizeFilter", SizeFilter);
-            slParameters.Add("@ZipCode", ZipCode);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
             slParameters.Add("@RadiusFilter", RadiusFilter);
             DataTable dtSizes = new DataTable();
             dtSizes = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
             return dtSizes;
         }
 
-        public DataTable LoadRadius(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
+        public DataTable LoadRadius(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
         {
             string stStoredProc = "uspGetRadii";
             string stCallingMethod = "cCampaignSelections.LoadRadius";
@@ -240,14 +391,14 @@ namespace LarpPortal.Classes
             slParameters.Add("@StyleFilter", StyleFilter);
             slParameters.Add("@TechLevelFilter", TechLevelFilter);
             slParameters.Add("@SizeFilter", SizeFilter);
-            slParameters.Add("@ZipCode", ZipCode);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
             slParameters.Add("@RadiusFilter", RadiusFilter);
             DataTable dtRadii = new DataTable();
             dtRadii = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
             return dtRadii;
         }
 
-        public DataTable LoadGenres(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter)
+        public DataTable LoadGenres(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
         {
             string stStoredProc = "uspGetGenres";
             string stCallingMethod = "cCampaignSelections.LoadGenres";
@@ -265,7 +416,7 @@ namespace LarpPortal.Classes
             slParameters.Add("@StyleFilter", StyleFilter);
             slParameters.Add("@TechLevelFilter", TechLevelFilter);
             slParameters.Add("@SizeFilter", SizeFilter);
-            slParameters.Add("@ZipCode", ZipCode);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
             slParameters.Add("@RadiusFilter", RadiusFilter);
             DataTable dtGenres = new DataTable();
             dtGenres = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);

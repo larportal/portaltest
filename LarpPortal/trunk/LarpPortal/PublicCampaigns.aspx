@@ -160,10 +160,6 @@
                         </div>
                     </li>
                 </ul>
-<%--                <div>
-                    <asp:Label ID="MemberCampaignSwitch" Only going on the member version of this page
-                    <a href="~/CampaignInfo.aspx" data-toggle="pill">Member Campaigns</a>
-                </div>--%>
             </div>
         </aside>
         <div class="mainContent tab-content">
@@ -175,7 +171,6 @@
                                 <h2>Campaign Search</h2>
                                 <div class="panel-body">
                                     <div class="panel-container  search-criteria">
-                                        <asp:Label ID="lblTestText" runat="server"></asp:Label>
                                         <asp:TreeView ID="tvGameSystem" runat="server" Visible="true" OnSelectedNodeChanged="tvGameSystem_SelectedNodeChanged" ExpandDepth="0"></asp:TreeView>
                                         <asp:TreeView ID="tvCampaign" runat="server" Visible="false" OnSelectedNodeChanged="tvCampaign_SelectedNodeChanged" ExpandDepth="0" ></asp:TreeView>
                                         <asp:TreeView ID="tvGenre" runat="server" Visible="false" OnSelectedNodeChanged="tvGenre_SelectedNodeChanged" ExpandDepth="0" ></asp:TreeView>
@@ -189,9 +184,10 @@
                     </div>
 
                     <div class="panel-wrapper col-sm-9">
-                        <asp:HyperLink ID="hplLinkToSite" runat="server" NavigateURL="." Target="_blank" Font-Underline="true" ></asp:HyperLink>
-                        <p></p>
-                        <asp:Image ID="imgCampaignImage" runat="server" AlternateText="Game/Campaign Logo" ImageUrl="http://placehold.it/820x130" />
+                        <asp:Image ID="imgCampaignImage" runat="server" AlternateText="Game/Campaign Logo" ImageUrl="img/Logo-1-Madrigal.jpg" />
+                        <%--<asp:Image ID="Image1" runat="server" AlternateText="Game/Campaign Logo" ImageUrl="http://placehold.it/820x130" />--%>
+                        <p>
+                        <asp:HyperLink ID="hplLinkToSite" runat="server" NavigateURL="." Target="_blank" Font-Underline="true" ></asp:HyperLink></p>
                     </div>
 
                     <asp:Panel ID="pnlOverview" runat="server">
