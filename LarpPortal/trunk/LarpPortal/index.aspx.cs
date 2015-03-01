@@ -113,10 +113,12 @@ namespace LarpPortal
                             lblSecurityResetCode.Text = "Account activation code";
                             lblSecurityResetCode.ToolTip = "This code can be found in the welcome email that was sent when you registered for a LARP Portal account.";
                             lblSecurityResetCode.Visible = true;
+                            Session["SavePassword"] = txtPassword.Text;
                             txtSecurityResetCode.Visible = true;
                             btnValidateAccount.Visible = true;
                             btnLogin.Visible = false;
                             txtSecurityResetCode.Focus();
+                            txtPassword.Text = Session["SavePassword"].ToString();
                         }
                         else // Existing user with a bigger problem
                         {
@@ -184,6 +186,7 @@ namespace LarpPortal
         {
             if (Page.IsValid)
             {
+                Session["AttemptedPassword"] = txtPasswordNew.Text;
                 lblSignUpErrors.Text = "";
                 // 1 - No duplicate usernames allowed
                 Classes.cLogin Login = new Classes.cLogin();
@@ -260,6 +263,8 @@ namespace LarpPortal
             {
                 btnSignUp.Visible = true;
                 btnSignUp.Focus();
+                txtPasswordNew.Text = Session["AttemptedPassword"].ToString();
+                txtPasswordNewRetype.Text = Session["AttemptedPassword"].ToString();
             }
             else
             {

@@ -31,7 +31,6 @@
                     <p>The Gateway to Managing Your LARPs</p>
                 </div>
             </section>
-            <!-- .welcome -->
             <section class="signIn">
                 <form role="form" runat="server">
                     <h2 class="form-signin-heading">Member Login</h2>
@@ -118,11 +117,8 @@
                 </div>
                 </form>
             </section>
-            <!-- .signIn -->
         </div>
-        <!-- .content -->
     </div>
-    <!-- .pageWrap -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
