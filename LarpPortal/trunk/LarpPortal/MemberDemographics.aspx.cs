@@ -17,6 +17,7 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session["DefaultPlayerProfilePath"] = "img/player/";
             Session["ActiveLeftNav"] = "Demographics";
             string uName = "";
             int uID = 0;
@@ -39,6 +40,10 @@ namespace LarpPortal
             string pen = PLDemography.AuthorName;
             string forum = Demography.ForumUserName;
             string pict = PLDemography.UserPhoto;
+            if (pict == "")
+                imgPlayerImage.ImageUrl = "http://placehold.it/150x150";
+            else
+                imgPlayerImage.ImageUrl = "img/player/" + pict;
             string emergencynm = PLDemography.EmergencyContactName;
             //Classes.cPhone EmergencyPhone = new Classes.cPhone();
             //string emergencyph = EmergencyPhone.PhoneNumber; // = PLDemography.EmergencyContactPhone; 

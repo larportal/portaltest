@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="userPhoto col-sm-2">
-                        <img src="img/rick.jpg" alt="User photo" width="150">
+                        <asp:Image ID="imgPlayerImage" runat="server" AlternateText="Player Picture" Width="150" ImageUrl="img/Player/PL-2-RickPierce.jpg" />
                     </div>
                 </div>
 
