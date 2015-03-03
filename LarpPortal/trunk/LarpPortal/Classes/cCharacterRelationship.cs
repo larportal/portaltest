@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace LARPortal.Classes
+namespace LarpPortal.Classes
 {
     class cRelationship
     {
@@ -29,6 +29,7 @@ namespace LARPortal.Classes
         public string Name { get; set; }
         public int RelationTypeID { get; set; }
         public int RelationCharacterID { get; set; }
+        public string RelationDescription { get; set; }
         public int PlayerAssignedStatus { get; set; }
         public bool ListedInHistory { get; set; }
         public bool RulebookCharacter { get; set; }
@@ -118,6 +119,7 @@ namespace LARPortal.Classes
                     Comments = dRow["Comments"].ToString();
                     Name = dRow["Name"].ToString();
                     PlayerComments = dRow["PlayerComments"].ToString();
+                    RelationDescription = dRow["RelationDescription"].ToString();
 
                     int iTemp;
                     if (int.TryParse(dRow["CharacterID"].ToString(), out iTemp))
