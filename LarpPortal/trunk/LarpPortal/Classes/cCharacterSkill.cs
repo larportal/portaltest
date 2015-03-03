@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace LARPortal.Classes
+namespace LarpPortal.Classes
 {
     public class cCharacterSkill
     {
@@ -22,6 +22,7 @@ namespace LARPortal.Classes
                 "   UserID: " + SkillSetName.ToString();
         }
 
+        public int CharacterSkillsStandardID { get; set; }
         public int CharacterSkillSetID { get; set; }
         public int CharacterID { get; set; }
         public string SkillSetName { get; set; }
