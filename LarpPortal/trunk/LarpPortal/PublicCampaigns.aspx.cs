@@ -1114,7 +1114,6 @@ namespace LarpPortal
 
         protected void ReloadtvGameSystem(int UserID)
         {
-            int GameSystemID = 0;
             int CampaignID = 0;
             int StatusID = 0;
             string GameSystemName = "";
@@ -1246,7 +1245,6 @@ namespace LarpPortal
 
         protected void ReloadtvCampaign(int UserID)
         {
-            int CampaignID = 0;
             int StatusID = 0;
             string CampaignName = "";
             int iTemp;
@@ -1342,7 +1340,6 @@ namespace LarpPortal
 
         protected void ReloadtvGenre(int UserID)
         {
-            int GenreID = 0;
             int CampaignID = 0;
             int StatusID = 0;
             string GenreName = "";
@@ -1474,7 +1471,6 @@ namespace LarpPortal
 
         protected void ReloadtvStyle(int UserID)
         {
-            int StyleID = 0;
             int CampaignID = 0;
             int StatusID = 0;
             string StyleName = "";
@@ -1606,7 +1602,6 @@ namespace LarpPortal
 
         protected void ReloadtvTechLevel(int UserID)
         {
-            int TechLevelID = 0;
             int CampaignID = 0;
             int StatusID = 0;
             string TechLevelName = "";

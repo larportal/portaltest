@@ -160,6 +160,7 @@
     <Content Include="AllMessages.aspx" />
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
+    <Content Include="ForgotPassword.aspx" />
     <Content Include="img\construction.gif" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap.css" />
@@ -191,6 +192,7 @@
     <Content Include="LearnMore.aspx" />
     <Content Include="Medical.aspx" />
     <Content Include="MemberDemographics.aspx" />
+    <Content Include="NewUserLoginDirections.aspx" />
     <Content Include="NoCurrentCampaignAssociations.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -227,6 +229,7 @@
     <Content Include="PublicCampaigns.master" />
     <Content Include="PublicCalendar.master" />
     <Content Include="MemberCampaignsAdmin.master" />
+    <Content Include="LARPortalMasterReferences.Master" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="PlayerRoleTest.aspx" />
     <Content Include="rick.jpg" />
@@ -428,6 +431,13 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ForgotPassword.aspx.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ForgotPassword.aspx.designer.cs">
+      <DependentUpon>ForgotPassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="GameSystemTest2.aspx.cs">
       <DependentUpon>GameSystemTest2.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -465,6 +475,13 @@
     </Compile>
     <Compile Include="LARPortal.Master.designer.cs">
       <DependentUpon>LARPortal.Master</DependentUpon>
+    </Compile>
+    <Compile Include="LARPortalMasterReferences.Master.cs">
+      <DependentUpon>LARPortalMasterReferences.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LARPortalMasterReferences.Master.designer.cs">
+      <DependentUpon>LARPortalMasterReferences.Master</DependentUpon>
     </Compile>
     <Compile Include="LARPResume.aspx.cs">
       <DependentUpon>LARPResume.aspx</DependentUpon>
@@ -551,6 +568,13 @@
       <DependentUpon>MemberSites.master</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="NewUserLoginDirections.aspx.cs">
+      <DependentUpon>NewUserLoginDirections.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NewUserLoginDirections.aspx.designer.cs">
+      <DependentUpon>NewUserLoginDirections.aspx</DependentUpon>
+    </Compile>
     <Compile Include="NoCurrentCampaignAssociations.aspx.cs">
       <DependentUpon>NoCurrentCampaignAssociations.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

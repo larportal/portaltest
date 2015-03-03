@@ -20,7 +20,7 @@ namespace LarpPortal.Classes
         private string _EmailAddress = "";
         private Int32 _LastLoggedInCampaign;
         private string _Sort = "";
-        private string _UserName = "";
+        //private string _UserName = "";
 
         public Int32 CampaignPlayerID
         {

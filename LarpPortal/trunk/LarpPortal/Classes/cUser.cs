@@ -36,7 +36,7 @@ namespace LarpPortal.Classes
         private Int32 _DeliveryPreferenceID = -1;
         private string _DeliveryPreferenceString = "";
         private string _LastLoggedInLocation = "";
-        private cUserCampaign _UserCampaign;
+        //private cUserCampaign _UserCampaign;
         private List<cUserCampaign> _UserCampaigns = new List<cUserCampaign>();
         private int _LastLoggedInCampaign = 0;
         private Int32 _XRefNumber = -1;
@@ -48,7 +48,7 @@ namespace LarpPortal.Classes
         private cBank _UserCPBank;
         //private List<cNoifications> _UserNotifications;
         //private cCalandar _UserCalandar;
-        private List<LarpPortal.Classes.cCharacter> _UserCharacters;
+        //private List<LarpPortal.Classes.cCharacter> _UserCharacters;
 
 
         public Int32 DeliveryPreferenceID

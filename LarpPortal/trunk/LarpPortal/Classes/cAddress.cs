@@ -164,11 +164,11 @@ namespace LarpPortal.Classes
         /// <summary>
         ///  Auto Generated link to location in google maps.  Only generated if keytype is not player
         /// </summary>
-        private string _StrGoogleLink = "";
-        public string StrGoogleLink
-        {
-            get { return "http://maps.google.com/preview?q=" + _StrGoogleString; }
-        }
+        //private string _StrGoogleLink = "";
+        //public string StrGoogleLink
+        //{
+        //    get { return "http://maps.google.com/preview?q=" + _StrGoogleString; }
+        //}
         /// <summary>
         /// Creates Empty caddress class object
         /// </summary>
