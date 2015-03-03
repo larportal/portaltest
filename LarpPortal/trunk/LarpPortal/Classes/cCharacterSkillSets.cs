@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace LARPortal.Classes
+namespace LarpPortal.Classes
 {
     public class cCharacterSkillSet
     {
