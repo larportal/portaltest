@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace LARPortal.Classes
+namespace LarpPortal.Classes
 {
     class cPlace
     {
@@ -73,6 +73,7 @@ namespace LARPortal.Classes
                 CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@PlotLeadPerson", PlotLeadPerson);
                 CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@StaffComments", StaffComments);
                 CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@Comments", Comments);
+                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@UserID", sUserUpdating);
 
                 CmdInsUpdCMCampaignPlaces.ExecuteNonQuery();
             }
