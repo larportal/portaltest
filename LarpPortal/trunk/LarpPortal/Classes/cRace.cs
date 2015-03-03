@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace LARPortal.Classes
+namespace LarpPortal.Classes
 {
     class cRace
     {
@@ -25,6 +25,16 @@ namespace LARPortal.Classes
         public int CampaignID { get; set; }
         public string RaceName { get; set; }
         public string SubRace { get; set; }
+        public string FullRaceName
+        {
+            get
+            {
+                if ((SubRace != null) && (SubRace.Length > 0))
+                    return RaceName + " - " + SubRace;
+                else
+                    return RaceName;
+            }
+        }
         public string Description { get; set; }
         public string MakeupRequirements { get; set; }
         public string Photo { get; set; }
@@ -117,10 +127,10 @@ namespace LARPortal.Classes
                     Photo = dRow["Photo"].ToString();
 
                     int iTemp;
-                    if ( int.TryParse( dRow["GameSystemID"].ToString(), out iTemp))
+                    if (int.TryParse(dRow["GameSystemID"].ToString(), out iTemp))
                         GameSystemID = iTemp;
 
-                    if ( int.TryParse(dRow["CampaignID"].ToString(), out iTemp))
+                    if (int.TryParse(dRow["CampaignID"].ToString(), out iTemp))
                         CampaignID = iTemp;
 
                     RecordStatus = RecordStatuses.Active;
