@@ -59,7 +59,16 @@
                                 </asp:TableCell>
                                 <asp:TableCell>&nbsp;&nbsp;</asp:TableCell>
                                 <asp:TableCell Wrap="True">
-                                    <asp:Label ID="lblInvalidLogin" runat="server" ForeColor="Red">Invalid username and password combination</asp:Label>
+                                    <asp:Label ID="lblInvalidLogin" runat="server" ForeColor="Red">Invalid username and password</asp:Label>
+                                </asp:TableCell>
+                            </asp:TableRow>
+                            <asp:TableRow>
+                                <asp:TableCell>
+                                    <asp:Label ID="ForgotPassword" runat="server"></asp:Label>
+                                </asp:TableCell>
+                                <asp:TableCell>&nbsp;&nbsp;</asp:TableCell>
+                                <asp:TableCell>
+                                    <asp:Label ID="lblInvalidLogin2" runat="server" ForeColor="Red">Passwords are case sensitive</asp:Label>
                                 </asp:TableCell>
                             </asp:TableRow>
                         </asp:Table>
@@ -69,6 +78,7 @@
                     <div><asp:TextBox ID="txtLastLocation" runat="server"></asp:TextBox></div>
                     </div>
                 <p><asp:Label ID="GuestLogin" runat="server"></asp:Label></p>
+                <p><asp:Label ID="LearnMore" runat="server"></asp:Label></p>
                 <h2 class="form-signin-heading">Sign Up for Larp Portal</h2>
                 <div class="form-signin" role="form">
                     <div>
@@ -113,7 +123,6 @@
                     </div>
                     <asp:Button ID="btnSignUp" CssClass="btn btn-primary" runat="server" Text="Sign Up" 
                         CausesValidation="true" ValidationGroup="SignUpGroup" OnClick="btnSignUp_Click" />
-                    <span class="learnMore"><asp:HyperLink ID="HyperLink1" runat="server" NavigateURL="~/LearnMore.aspx" Target="_blank">Learn More</asp:HyperLink></span>
                 </div>
                 </form>
             </section>

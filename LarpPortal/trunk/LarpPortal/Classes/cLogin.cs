@@ -53,6 +53,12 @@ namespace LarpPortal.Classes
         public string SecurityResetCode { get; set; }
         public DateTime SecurityLockoutDate { get; set; }
         public int UserSecurityID { get; set; }
+        public string SecurityQuestion1 { get; set; }
+        public string SecurityQuestion2 { get; set; }
+        public string SecurityQuestion3 { get; set; }
+        public string SecurityAnswer1 { get; set; }
+        public string SecurityAnswer2 { get; set; }
+        public string SecurityAnswer3 { get; set; }
 
         /// <summary>
         /// This will check the parameters table of the site to see if the site is in test mode or production mode
@@ -263,6 +269,66 @@ namespace LarpPortal.Classes
         }
 
         /// <summary>
+        /// This will validate that a user is who they say they are to reset their password
+        /// Must pass a username, email address and last name
+        /// </summary>
+        public void ValidateUserForPasswordReset(string Username, string EmailAddress, string LastName)
+        {
+            string stStoredProc = "uspValidateUserForPasswordReset";
+            string stCallingMethod = "cLogin.ValidateUserForPasswordReset";
+            int iTemp;
+            int UserID = 0; // Until the member login is verified, there is no UserID so we'll use the guest ID
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@Username", Username);
+            slParameters.Add("@EmailAddress", EmailAddress);
+            slParameters.Add("@LastName", LastName);
+            DataSet dsMember = new DataSet();
+            dsMember = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsMember.Tables[0].TableName = "MDBUsers";
+            foreach (DataRow dRow in dsMember.Tables["MDBUsers"].Rows)
+            {
+                if (int.TryParse(dRow["UserID"].ToString(), out iTemp))
+                    MemberID = iTemp;
+                if (int.TryParse(dRow["UserSecurityID"].ToString(), out iTemp))
+                    UserSecurityID = iTemp;
+                Username = dRow["LoginUsername"].ToString();
+                FirstName = dRow["FirstName"].ToString();
+                LastName = dRow["LastName"].ToString();
+                Password = dRow["LogonPassword"].ToString();
+                Email = dRow["EmailAddress"].ToString();
+                SecurityQuestion1 = dRow["SecurityQuestion1"].ToString();
+                SecurityQuestion2 = dRow["SecurityQuestion2"].ToString();
+                SecurityQuestion3 = dRow["SecurityQuestion3"].ToString();
+                SecurityAnswer1 = dRow["SecurityAnswer1"].ToString();
+                SecurityAnswer2 = dRow["SecurityAnswer2"].ToString();
+                SecurityAnswer3 = dRow["SecurityAnswer3"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// This will find a username by email address
+        /// Must pass an email address
+        /// </summary>
+        public void GetUsernameByEmail(string EmailAddress)
+        {
+            // Note to Rick, this is NOT a good stored proc to use as a template for other stored procs due to its minimalist nature
+            string stStoredProc = "uspGetUsernameByEmail";
+            string stCallingMethod = "cLogin.GetUsernameByEmail";
+            Username = "";
+            Email = "";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@EmailAddress", EmailAddress);
+            DataSet dsMember = new DataSet();
+            dsMember = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsMember.Tables[0].TableName = "MDBUsers";
+            foreach (DataRow dRow in dsMember.Tables["MDBUsers"].Rows)
+            {
+                Username = dRow["LoginUsername"].ToString();
+                Email = dRow["EmailAddress"].ToString();
+            }
+        }
+
+        /// <summary>
         /// This will save a record of the login in the login audit table
         /// </summary>
         public void LoginFail(string Username, string Password)
@@ -356,6 +422,33 @@ namespace LarpPortal.Classes
             slParameters.Add("@UserSecurityID", SecurityID);
             slParameters.Add("@SecurityResetCode", "");
             slParameters.Add("@UserID", UserID);
+            cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
+        }
+
+        /// <summary>
+        /// Will write out updated security questions and answers and set new password
+        /// Requires all three questions, all three answers, new password and UserID
+        /// </summary>
+        public void UpdateQAandPassword(int SecurityID, int UserID, string Q1, string Q1U, string Q2, string Q2U, string Q3, string Q3U, string A1, string A1U, string A2, string A2U, string A3, string A3U, string NewPassword)
+        {
+            //TODO-Rick-000-Modify code below to make it work
+            string stStoredProc = "uspInsUpdMDBUserSecurity";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@UserID", UserID);
+            slParameters.Add("@UserSecurityID", SecurityID);
+            if (Q1U == "1")
+                slParameters.Add("@SecurityQuestion1", Q1);
+            if (Q2U == "1")
+                slParameters.Add("@SecurityQuestion2", Q2);
+            if (Q3U == "1")
+                slParameters.Add("@SecurityQuestion3", Q3);
+            if (A1U == "1")
+                slParameters.Add("@SecurityAnswer1", A1);
+            if (A2U == "1")
+                slParameters.Add("@SecurityAnswer2", A2);
+            if (A3U == "1")
+                slParameters.Add("@SecurityAnswer3", A3);
+            slParameters.Add("@LogonPassword", NewPassword);
             cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
         }
     }

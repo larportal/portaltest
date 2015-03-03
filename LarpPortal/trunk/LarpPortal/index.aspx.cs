@@ -35,11 +35,13 @@ namespace LarpPortal
                 Session["SecurityRole"] = 0;                   // Until login changes it
                 Session["WebPage"] = "~/publicCampaigns.aspx"; // Until login changes it
                 lblInvalidLogin.Visible = false;
+                lblInvalidLogin2.Visible = false;
                 string SiteOpsMode;                
                 Classes.cLogin OpsMode = new Classes.cLogin();
                 OpsMode.SetSiteOperationalMode();
                 SiteOpsMode = OpsMode.SiteOperationalMode;
                 Session["OperationalMode"] = SiteOpsMode;
+                ForgotPassword.Text = "<a id=" + "\"" + "lnkForgotPassword" + "\"" + " href=" + "\"" + "ForgotPassword.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + ">Forgot password?</a>";
                 if (SiteOpsMode == "Test")
                 {
                     txtLastLocation.Attributes.Add("Placeholder", "Last Location in the Portal");
@@ -49,6 +51,7 @@ namespace LarpPortal
                     txtLastLocation.Visible = true;
                     txtUserID.Visible = true;
                     GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
+                    LearnMore.Text =  "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
                     lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
                 }
             }
@@ -78,10 +81,10 @@ namespace LarpPortal
             Session["AttemptedPassword"] = txtPassword.Text;
             Session["AttemptedUsername"] = txtUserName.Text;
             // TODO-Rick-4 Remove "Signup" cheat on go live - It won't matter if we don't, but clean code and all
-            if (txtUserName.Text == "Signup")
-            {
-                if (txtPassword.Text == "Signup")
-                {
+            //if (txtUserName.Text == "Signup")
+            //{
+            //    if (txtPassword.Text == "Signup")
+            //    {
                     txtNewUsername.Visible = true;
                     txtFirstName.Visible = true;
                     txtLastName.Visible = true;
@@ -90,10 +93,11 @@ namespace LarpPortal
                     txtPasswordNewRetype.Visible = true;
                     chkTermsOfUse.Visible = true;
                     GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
+                    LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
                     lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
                     txtNewUsername.Focus();
-                }
-            }
+            //    }
+            //}
             if (Page.IsValid)
             {
                 Classes.cLogin Login = new Classes.cLogin();
@@ -102,6 +106,7 @@ namespace LarpPortal
                 {
                     Session["SecurityRole"] = 0;
                     lblInvalidLogin.Visible = true;
+                    lblInvalidLogin2.Visible = true;
                     Login.LoginFail(txtUserName.Text, txtPassword.Text);
                 }
                 else // Valid member. Is there a lock?
@@ -226,6 +231,18 @@ namespace LarpPortal
                     txtPasswordNew.Text = "";
                     txtPasswordNewRetype.Text = "";
                 }
+                // 4 - New request - If the email address is already on file, warn them and suggest they go to the Forgot Username / Password section
+                Classes.cLogin ExistingEmailAddress = new Classes.cLogin();
+                ExistingEmailAddress.GetUsernameByEmail(txtPasswordNew.Text);
+                if(ExistingEmailAddress.Username != "")
+                    if (lblSignUpErrors.Text != "")
+                    {
+                        lblSignUpErrors.Text = lblSignUpErrors.Text + "<p></p>This email address is already associated with an account.  If you've forgotten your username or password, please use the link above.";
+                    }
+                    else
+                    {
+                        lblSignUpErrors.Text = "This email address is already associated with an account.  If you've forgotten your username or password, please use the link above.";
+                    }
                 // If there were errors, display them and return to form
                 if (lblSignUpErrors.Text != "")
                 {
@@ -245,10 +262,12 @@ namespace LarpPortal
                     // TODO-Rick-0b Generate email to user with login directions - Need class from Jeff
                     
                     // TODO-Rick-0c Redirect to page that will tell user to go look in their email for login directions - Done but 0b isn't so leaving placeholder for now
-                    Response.Redirect("~/NewUserLoginDirections.aspx");
+                    //Response.Redirect("~/NewUserLoginDirections.aspx", "_blank");
+                    Response.Write("<script>");
+                    Response.Write("window.open('~/NewUserLoginDirections.aspx','_blank')");
+                    Response.Write("</script>");
                     // TODO-Rick-0d Oh yeah, create page NewUserLoginDirections.aspx before directing them there.
                     // TODO-Rick-0e Account for versioning of 'terms of use' and keeping track of date/time and which version user agreed to
-                     
                 }
             }
             else

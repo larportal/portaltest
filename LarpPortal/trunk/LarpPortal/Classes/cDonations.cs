@@ -17,7 +17,7 @@ namespace LarpPortal.Classes
             //RecordStatus = RecordStatuses.Active;
         }
 
-        private DateTime _acceptedDate;
+        //private DateTime _acceptedDate;
         private int _addedBy;
         private int _addedByID;
         private int _approvalLevelID;
@@ -38,10 +38,10 @@ namespace LarpPortal.Classes
         private string _statusType;
         private int _userID;
         public RecordStatuses RecordStatus { get; set; }
-        public DateTime AcceptedDate       // Date player accepted the waiver
-        {
-            get { return _acceptedDate; }
-        }
+        //public DateTime AcceptedDate       // Date player accepted the waiver
+        //{
+        //    get { return _acceptedDate; }
+        //}
         public int AddedBy       // This field will track the player who completed the transaction
         {
             get { return _addedBy; }

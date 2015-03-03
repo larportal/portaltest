@@ -16,12 +16,12 @@
 									<div class="panel-body">
 										<div class="panel-container">
                                             <asp:Label ID="lblAboutUs" runat="server"></asp:Label>
-										</div><!-- .panel-container -->
-									</div><!-- .panel-body -->
-								</div><!-- .panel -->
-							</div><!-- .panel-wrapper -->
-						</div><!-- .row -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</section>
-				</div><!-- mainContent .tab-content -->
-			</div><!-- contentArea -->
+				</div>
+			</div>
 </asp:Content>

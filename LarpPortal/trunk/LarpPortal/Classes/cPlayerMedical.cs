@@ -15,7 +15,7 @@ namespace LarpPortal.Classes
 
         private Int32 _PlayerMedicalID = -1;
         private Int32 _PlayerProfileID = -1;
-        private string _UserName = "";
+        //private string _UserName = "";
         private Int32 _MedicalTypeID = -1;
         private string _MedicalTypeDescription = "";
         private string _Description = "";
