@@ -15,17 +15,26 @@ namespace LarpPortal
             if(!IsPostBack)
             {
                 // TODO-Rick-2 Make the next 7 things visible for real release
-                txtNewUsername.Visible = false;
-                txtFirstName.Visible = false;
-                txtLastName.Visible = false;
-                txtEmail.Visible = false;
-                txtPasswordNew.Visible = false;
-                txtPasswordNewRetype.Visible = false;
+                int HidePublicAccess = 0;  // 1 (think of 1 as true) will hide the public access
+                if (HidePublicAccess == 1)
+                {
+                    txtNewUsername.Visible = false;
+                    txtFirstName.Visible = false;
+                    txtLastName.Visible = false;
+                    txtEmail.Visible = false;
+                    txtPasswordNew.Visible = false;
+                    txtPasswordNewRetype.Visible = false;
+                    GuestLogin.Text = "";
+                    //LearnMore.Text = "";
+                    lblPasswordReqs.Text = "";
+                }
+                else
+                {
+                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
+                    //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
+                    lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
+                }
                 chkTermsOfUse.Visible = false;
-                // Uncomment the next two lines for release
-                // GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
-                // lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
-                // 
                 btnValidateAccount.Visible = false;
                 txtSecurityResetCode.Visible = false;
                 lblSecurityResetCode.Visible = false;
@@ -51,7 +60,7 @@ namespace LarpPortal
                     txtLastLocation.Visible = true;
                     txtUserID.Visible = true;
                     GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
-                    LearnMore.Text =  "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
+                    //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
                     lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
                 }
             }
@@ -81,10 +90,10 @@ namespace LarpPortal
             Session["AttemptedPassword"] = txtPassword.Text;
             Session["AttemptedUsername"] = txtUserName.Text;
             // TODO-Rick-4 Remove "Signup" cheat on go live - It won't matter if we don't, but clean code and all
-            //if (txtUserName.Text == "Signup")
-            //{
-            //    if (txtPassword.Text == "Signup")
-            //    {
+            if (txtUserName.Text == "Signup")
+            {
+                if (txtPassword.Text == "Signup")
+                {
                     txtNewUsername.Visible = true;
                     txtFirstName.Visible = true;
                     txtLastName.Visible = true;
@@ -93,11 +102,11 @@ namespace LarpPortal
                     txtPasswordNewRetype.Visible = true;
                     chkTermsOfUse.Visible = true;
                     GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
-                    LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
+                    //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
                     lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
                     txtNewUsername.Focus();
-            //    }
-            //}
+                }
+            }
             if (Page.IsValid)
             {
                 Classes.cLogin Login = new Classes.cLogin();
@@ -289,6 +298,17 @@ namespace LarpPortal
             {
                 btnSignUp.Visible = false;
             }
+        }
+
+        protected void txtPasswordNewRetype_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void txtEmail_TextChanged(object sender, EventArgs e)
+        {
+            if(txtEmail.Text.Length > 0)
+                chkTermsOfUse.Visible = true;
         }
     }
 }

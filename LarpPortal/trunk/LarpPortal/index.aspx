@@ -22,7 +22,6 @@
     <!--[if lt IE 7]>
 		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-    <!-- Add your site or application content here -->
     <div class="pageWrap">
         <div class="content">
             <section class="welcome">
@@ -77,8 +76,8 @@
                     <div><asp:TextBox ID="txtUserID" runat="server"></asp:TextBox></div>
                     <div><asp:TextBox ID="txtLastLocation" runat="server"></asp:TextBox></div>
                     </div>
+                <p><asp:HyperLink ID="hplLearnMore" runat="server" NavigateUrl="~/LearnMore.aspx" Target="_blank">Learn more about LARP Portal</asp:HyperLink></p>
                 <p><asp:Label ID="GuestLogin" runat="server"></asp:Label></p>
-                <p><asp:Label ID="LearnMore" runat="server"></asp:Label></p>
                 <h2 class="form-signin-heading">Sign Up for Larp Portal</h2>
                 <div class="form-signin" role="form">
                     <div>
@@ -100,7 +99,7 @@
                             ControlToValidate="txtLastName" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                     </div>
                     <div>
-                        <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtEmail" runat="server" TextMode="Email" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtEmail_TextChanged"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RFVEmail" runat="server" ErrorMessage="Email is required" 
                             ControlToValidate="txtEmail" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                     </div>
@@ -111,7 +110,7 @@
                             ControlToValidate="txtPasswordNew" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                     </div>
                     <div>
-                        <asp:TextBox ID="txtPasswordNewRetype" TextMode="Password" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:TextBox ID="txtPasswordNewRetype" TextMode="Password" runat="server" CssClass="form-control" OnTextChanged="txtPasswordNewRetype_TextChanged"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RFVPasswordNewRetype" runat="server" ErrorMessage="Password is required" 
                             ControlToValidate="txtPasswordNewRetype" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
                     </div>
