@@ -11,11 +11,11 @@ using System.Text;
 
 namespace LarpPortal.Classes
 {
-    //public enum RecordStatuses
-    //{
-    //    Active,
-    //    Delete
-    //};
+    public enum RecordStatuses
+    {
+        Active,
+        Delete
+    };
 
     class cCharacter
     {
