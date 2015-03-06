@@ -11,6 +11,10 @@ using System.Web;
 
 using LarpPortal.Classes;
 
+// This routine was updated by JLB on 3/5/2015.
+// TODO Show Rick how to use Class view to see mangled namespaces.
+
+
 namespace LarpPortal.Classes
 {
     [Serializable]
