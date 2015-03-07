@@ -1,0 +1,145 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.Master" AutoEventWireup="true" CodeBehind="CharItems.aspx.cs" Inherits="LarpPortal.Character.CharItems" EnableViewState="true" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <div class="mainContent tab-content col-sm-12">
+        <div id="character-info" class="character-info tab-pane active">
+            <div class="form-horizontal">
+                <div class="col-sm-8">
+                    <div class="col-sm-12">
+                        <h1>Character Items</h1>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="panel-wrapper">
+                                <div class="panel">
+                                    <div class="panel-header">
+                                        <h2>Costume</h2>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="panel-container scroll">
+                                            <textarea name="taCostume" id="taCostume" runat="server" rows="2" class="col-xs-12"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="panel-wrapper">
+                                <div class="panel">
+                                    <div class="panel-header">
+                                        <h2>Make-up</h2>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="panel-container scroll">
+                                            <textarea name="taMakeup" id="taMakeup" runat="server" rows="2" class="col-xs-12"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="panel-wrapper">
+                                <div class="panel">
+                                    <div class="panel-header">
+                                        <h2>Accessories</h2>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="panel-container scroll">
+                                            <textarea name="taAccessories" id="taAccessories" runat="server" rows="2" class="col-xs-12"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="panel-wrapper">
+                                <div class="panel">
+                                    <div class="panel-header">
+                                        <h2>Weapons and Armor</h2>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="panel-container scroll">
+                                            <textarea name="taWeapons" id="taWeapons" runat="server" rows="2" class="col-xs-12"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="panel-wrapper">
+                                <div class="panel">
+                                    <div class="panel-header">
+                                        <h2>Other Items</h2>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="panel-container scroll">
+                                            <textarea name="taItemsOther" id="taItemsOther" runat="server" rows="2" class="col-xs-12"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="panel-wrapper">
+                            <div class="uploadFile col-xs-12">
+                                <div class="row">
+                                    <span class="input-group-btn">
+                                        <asp:FileUpload ID="fuItem" runat="server" CssClass="btn btn-default btn-sm btnFile col-sm-6" ToolTip="Here's where you specify the file name." />
+                                        <span class="col-sm-1">&nbsp;</span>
+                                        <asp:Button ID="btnUpload" runat="server" CssClass="btn btn-default btn-sm btnFile col-sm-2" Text="Upload File" OnClick="btnUpload_Click" />
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="center-block pre-scrollable scroll-100" style="display: inline-block;">
+                                <asp:DataList ID="dlItems" runat="server" RepeatColumns="3" RepeatDirection="Horizontal" OnDeleteCommand="dlItems_DeleteCommand">
+                                    <AlternatingItemStyle BackColor="Transparent" />
+                                    <ItemStyle BorderColor="Transparent" BorderWidth="20" />
+                                    <ItemTemplate>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <asp:Image ID="Image1" ImageUrl='<%# Eval("PictureURL") %>' runat="server" Width="100" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <asp:Button ID="Button1" runat="server" Text="Remove" CommandName="Delete" CommandArgument='<%# Eval("PictureID") %>' /></td>
+                                            </tr>
+                                        </table>
+                                    </ItemTemplate>
+                                </asp:DataList>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 col-sm-offset-10">
+                    <asp:Button ID="btnSubmit" runat="server" CssClass="btn btn-default" Text="Save" OnClick="btnSubmit_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+</asp:Content>
