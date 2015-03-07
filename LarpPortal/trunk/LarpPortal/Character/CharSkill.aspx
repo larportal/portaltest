@@ -165,11 +165,13 @@
                     </tr>
                     <tr class="TableItems" style="vertical-align: top;">
                         <td style="width: 40%;" class="TableItems">
-                            <asp:TreeView ID="tvSkills" runat="server" SkipLinkText="" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" ShowCheckBoxes="All" ShowLines="false" OnTreeNodeCheckChanged="tvSkills_TreeNodeCheckChanged" Font-Underline="false" CssClass="TreeItems" LeafNodeStyle-CssClass="TreeItems" NodeStyle-CssClass="TreeItems">
+                            <asp:Panel ID="pnlTreeView" runat="server" ScrollBars="Vertical">
+                            <asp:TreeView ID="tvSkills" runat="server" SkipLinkText="" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" ShowCheckBoxes="All" ShowLines="false" OnTreeNodeCheckChanged="tvSkills_TreeNodeCheckChanged" Font-Underline="false" CssClass="TreeItems" LeafNodeStyle-CssClass="TreeItems" Height="300" NodeStyle-CssClass="TreeItems">
                                 <LevelStyles>
                                     <asp:TreeNodeStyle Font-Underline="false" />
                                 </LevelStyles>
                             </asp:TreeView>
+                                </asp:Panel>
                         </td>
                         <td style="width: 40%; padding-right: 20px;" class="TableItems">
                             <div id="divDesc" />
