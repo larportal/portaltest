@@ -1337,7 +1337,7 @@ pre {
   .row:after, .content:after, header:after, .logo div:after, .contentArea:after, footer:after, .form-signin .password:after {
     clear: both; }
 
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, header img, aside, .col-sm-2, .form-signin .password span, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .signIn, .col-xs-4, header .logo, .col-sm-4, .col-md-4, .signIn, .col-lg-4, .col-xs-5, .col-sm-5, .signIn, .col-md-5, .col-lg-5, .col-xs-6, header .mainNav, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .welcome, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .form-signin .password input, .col-md-8, .welcome, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .welcome, .col-xs-10, .userMainNav, .mainContent, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .welcome, .signIn, .col-sm-12, footer div, .col-md-12, .col-lg-12 {
+.col-xs-1, .col-sm-0-5, .col-sm-1, .col-md-1, .col-lg-1, .col-sm-1-5, .col-xs-2, header img, aside, .col-sm-2, .form-signin .password span, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .signIn, .col-xs-4, header .logo, .col-sm-4, .col-md-4, .signIn, .col-lg-4, .col-xs-5, .col-sm-5, .signIn, .col-md-5, .col-lg-5, .col-xs-6, header .mainNav, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .welcome, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .form-signin .password input, .col-md-8, .welcome, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .welcome, .col-xs-10, .userMainNav, .mainContent, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .welcome, .signIn, .col-sm-12, footer div, .col-md-12, .col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-left: 15px;
@@ -1500,11 +1500,19 @@ pre {
   margin-left: 100%; }
 
 @media (min-width: 768px) {
-  .col-sm-1, .col-sm-2, .form-signin .password span, .col-sm-3, .col-sm-4, .col-sm-5, .signIn, .col-sm-6, .col-sm-7, .welcome, .col-sm-8, .form-signin .password input, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, footer div {
+  .col-sm-0-5, .col-sm-1, .col-sm-1-5, .col-sm-2, .form-signin .password span, .col-sm-3, .col-sm-4, .col-sm-5, .signIn, .col-sm-6, .col-sm-7, .welcome, .col-sm-8, .form-signin .password input, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, footer div {
     float: left; }
+
+    .col-sm-0-5
+    { width: 4.16666666665%
+    }
 
   .col-sm-1 {
     width: 8.33333%; }
+
+.col-sm-1-5
+    { width: 12.499999995%;
+    }
 
   .col-sm-2, .form-signin .password span {
     width: 16.66667%; }
@@ -2184,6 +2192,13 @@ label {
   max-width: 100%;
   margin-bottom: 5px;
   font-weight: bold; }
+
+.control-label-right
+{
+    float: right;
+    vertical-align: middle;
+}
+
 
 input[type="search"] {
   -moz-box-sizing: border-box;
@@ -4869,19 +4884,15 @@ button.close {
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
   .carousel-control.left {
-    background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, 0.5) 0%), color-stop(rgba(0, 0, 0, 0.0001) 100%));
-    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
     background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000', endColorstr='#00000000', GradientType=1); }
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
+}
   .carousel-control.right {
     left: auto;
     right: 0;
-    background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, 0.0001) 0%), color-stop(rgba(0, 0, 0, 0.5) 100%));
-    background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
     background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=1); }
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0001) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
   .carousel-control:hover, .carousel-control:focus {
     outline: 0;
     color: #fff;
@@ -6362,7 +6373,7 @@ input[readonly] {
 .userPhoto img {
   border: 1px solid #093760; }
 
-table {
+ble {
   font-size: 12px; }
   table input {
     border: none;
@@ -6373,6 +6384,7 @@ table {
 
 th, tr:nth-child(even) > td {
   background-color: #eeeeee; }
+
 
 .edit-save, .edit-save-b {
   position: absolute;
