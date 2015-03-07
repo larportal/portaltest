@@ -6206,11 +6206,11 @@ html, body {
     text-align: right; }
 
 .signIn h2 {
-  padding: 15px;
-  margin: 40px 0 5px;
+  padding: 5px;
+  margin: 10px 5px;
   font-size: 1.5em; }
 .signIn p {
-  margin-top: 30px;
+  margin-top: 5px;
   font-weight: normal;
   padding-left: 30px; }
 .signIn a {
