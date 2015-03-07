@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Reflection;
-using System.Web.UI.WebControls ;
+using System.Web.UI.WebControls;
 using System.Web;
 using System.Web.UI;
 using System.IO;
@@ -31,40 +31,41 @@ namespace LarpPortal.Classes
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            SqlConnection lconn = new SqlConnection(ConfigurationManager.ConnectionStrings[strLConn].ConnectionString);
-            SqlCommand lcmd = new SqlCommand();
-            lcmd.CommandText = strStoredProc;
-            lcmd.CommandType = CommandType.StoredProcedure;
-            lcmd.CommandTimeout = 0;   
-            lcmd.Connection = lconn;
-            if (slParameters.Count > 0) 
-            {
-                for (int i = 0; i < slParameters.Count; i++)
-                {
-                    lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
-                }
-            }
-            SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
             DataTable ldt = new DataTable();
-            
-            try
+            using (SqlConnection lconn = new SqlConnection(ConfigurationManager.ConnectionStrings[strLConn].ConnectionString))
             {
-                lconn.Open();
-                ldsa.Fill(ldt);
-            }
-            catch (SqlException exSQL)
-            {
-                ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(exSQL, lsRoutineName + ":" + strStoredProc, lcmd, strUserName + strCallingMethod);
-            }
-            catch (Exception ex)
-            {
-                ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
-            }
-            finally
-            {
-                lconn.Close();
+                SqlCommand lcmd = new SqlCommand();
+                lcmd.CommandText = strStoredProc;
+                lcmd.CommandType = CommandType.StoredProcedure;
+                lcmd.CommandTimeout = 0;
+                lcmd.Connection = lconn;
+                if (slParameters.Count > 0)
+                {
+                    for (int i = 0; i < slParameters.Count; i++)
+                    {
+                        lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                    }
+                }
+                SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
+
+                try
+                {
+                    lconn.Open();
+                    ldsa.Fill(ldt);
+                }
+                catch (SqlException exSQL)
+                {
+                    // Write the exception to error log and then throw it again...
+                    ErrorAtServer lobjError = new ErrorAtServer();
+                    lobjError.ProcessError(exSQL, lsRoutineName + ":" + strStoredProc, lcmd, strUserName + strCallingMethod);
+                    throw exSQL;
+                }
+                catch (Exception ex)
+                {
+                    ErrorAtServer lobjError = new ErrorAtServer();
+                    lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
+                    throw ex;
+                }
             }
             return ldt;
         }
@@ -77,7 +78,7 @@ namespace LarpPortal.Classes
             DataSet dsUnUpdated = new DataSet();
             try
             {
-                 IExcelDataReader iExcelDataReader = null;
+                IExcelDataReader iExcelDataReader = null;
 
                 FileStream oStream = File.Open(strSheetLocation, FileMode.Open, FileAccess.Read);
 
@@ -89,7 +90,7 @@ namespace LarpPortal.Classes
 
                 iExcelDataReader.Close();
 
-               
+
             }
             catch (Exception ex)
             {
@@ -129,7 +130,7 @@ namespace LarpPortal.Classes
             SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
             DataTable ldt = new DataTable();
             String strReturn = "";
-           
+
 
             try
             {
@@ -243,7 +244,7 @@ namespace LarpPortal.Classes
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
             ArrayList alList = new ArrayList();
-            
+
             strString = strString.Trim();
             int intLength = strString.Length;
             try
@@ -329,7 +330,7 @@ namespace LarpPortal.Classes
                 {
                     for (int i = 0; i < slParameters.Count; i++)
                     {
-                        if (slParameters.GetKey(i).ToString().Trim().Substring(0, 2) == "dt" )
+                        if (slParameters.GetKey(i).ToString().Trim().Substring(0, 2) == "dt")
                         {
                             if (slParameters.GetByIndex(i).ToString().Trim().Substring(0, 10) == "01/01/1900")
                             {
@@ -421,7 +422,7 @@ namespace LarpPortal.Classes
             Int32 intReturn = -1;
             if (Int32.TryParse(strPassed, out temp))
             {
-                intReturn = temp ;
+                intReturn = temp;
             }
 
             return intReturn;
@@ -491,7 +492,7 @@ namespace LarpPortal.Classes
             }
             else
             {
-                strReturn = strReturn.ToUpper().Replace(@"\\TMC-OFFICE-6\SHARES\","/");
+                strReturn = strReturn.ToUpper().Replace(@"\\TMC-OFFICE-6\SHARES\", "/");
                 strReturn = strReturn.ToUpper().Replace(@"\\\\TMC-OFFICE-6\\SHARES\\", "/");
                 strReturn = strReturn.Replace(@"\", @"/");
             }
@@ -588,6 +589,49 @@ namespace LarpPortal.Classes
             return blnReturn;
         }
 
+        public static DataSet LoadDataSetWithOpenConnection(string strStoredProc, SortedList slParameters, SqlConnection Conn, string strUserName, string strCallingMethod)
+        {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+            SqlCommand lcmd = new SqlCommand();
+            lcmd.CommandText = strStoredProc;
+            lcmd.CommandType = CommandType.StoredProcedure;
+            lcmd.CommandTimeout = 0;
+            lcmd.Connection = Conn;
+            if (slParameters.Count > 0)
+            {
+                for (int i = 0; i < slParameters.Count; i++)
+                {
+                    lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                }
+            }
+            SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
+            DataSet lds = new DataSet();
+
+            try
+            {
+                if (Conn.State != ConnectionState.Open)
+                    Conn.Open();
+                ldsa.Fill(lds);
+            }
+            catch (SqlException exSQL)
+            {
+                ErrorAtServer lobjError = new ErrorAtServer();
+                lobjError.ProcessError(exSQL, lsRoutineName + ":" + strStoredProc, lcmd, strUserName + strCallingMethod);
+            }
+            catch (Exception ex)
+            {
+                ErrorAtServer lobjError = new ErrorAtServer();
+                lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
+            }
+            //finally
+            //{
+            //    lconn.Close();
+            //}
+
+            return lds;
+        }
+
         public static DataSet LoadDataSet(string strStoredProc, SortedList slParameters, string strLConn, string strUserName, string strCallingMethod)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
@@ -596,9 +640,9 @@ namespace LarpPortal.Classes
             SqlCommand lcmd = new SqlCommand();
             lcmd.CommandText = strStoredProc;
             lcmd.CommandType = CommandType.StoredProcedure;
-            lcmd.CommandTimeout = 0;   
+            lcmd.CommandTimeout = 0;
             lcmd.Connection = lconn;
-            if (slParameters.Count > 0) 
+            if (slParameters.Count > 0)
             {
                 for (int i = 0; i < slParameters.Count; i++)
                 {
@@ -606,8 +650,8 @@ namespace LarpPortal.Classes
                 }
             }
             SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
-            DataSet  lds = new DataSet();
-            
+            DataSet lds = new DataSet();
+
             try
             {
                 lconn.Open();
@@ -629,8 +673,37 @@ namespace LarpPortal.Classes
             }
 
             return lds;
-          }
+        }
 
- 
+        //public static DataTable CreateDataTable<T>(IEnumerable<T> list)
+        //{
+        //    Type type = typeof(T);
+        //    var properties = type.GetProperties();
+
+        //    DataTable dataTable = new DataTable();
+        //    foreach (PropertyInfo info in properties)
+        //    {
+        //        if (info.PropertyType == typeof(Classes.RecordStatuses))
+        //            dataTable.Columns.Add(new DataColumn(info.Name, typeof(string)));
+        //        else
+        //            dataTable.Columns.Add(new DataColumn(info.Name, info.PropertyType));
+        //    }
+
+        //    foreach (T entity in list)
+        //    {
+        //        object[] values = new object[properties.Length];
+        //        for (int i = 0; i < properties.Length; i++)
+        //        {
+        //            if ( properties[i].PropertyType == typeof(Classes.RecordStatuses))
+        //                values[i] = properties[i].GetValue(entity).ToString();
+        //            else
+        //                values[i] = properties[i].GetValue(entity);
+        //        }
+
+        //        dataTable.Rows.Add(values);
+        //    }
+
+        //    return dataTable;
+        //}
     }
 }
