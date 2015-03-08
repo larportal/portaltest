@@ -265,15 +265,6 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.TextBox txtPasswordNew;
         
         /// <summary>
-        /// RFVPasswordNew control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVPasswordNew;
-        
-        /// <summary>
         /// txtPasswordNewRetype control.
         /// </summary>
         /// <remarks>
@@ -281,15 +272,6 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPasswordNewRetype;
-        
-        /// <summary>
-        /// RFVPasswordNewRetype control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RFVPasswordNewRetype;
         
         /// <summary>
         /// chkTermsOfUse control.

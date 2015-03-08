@@ -184,7 +184,13 @@
                     </div>
 
                     <div class="panel-wrapper col-sm-9">
-                        <asp:Image ID="imgCampaignImage" runat="server" AlternateText="Game/Campaign Logo" Height="130" ImageUrl="img/Logo/CM-1-Madrigal.jpg" />
+                        <asp:Table ID="tblCampaignImage" runat="server" Height="130" Width="820">
+                            <asp:TableRow>
+                                <asp:TableCell>
+                                    <asp:Image ID="imgCampaignImage" runat="server" AlternateText="Game/Campaign Logo" ImageUrl="img/Logo/CM-1-Madrigal.jpg" />
+                                </asp:TableCell>
+                            </asp:TableRow>
+                        </asp:Table>
                         <p>
                         <asp:HyperLink ID="hplLinkToSite" runat="server" NavigateURL="." Target="_blank" Font-Underline="true" ></asp:HyperLink></p>
                     </div>

@@ -72,12 +72,15 @@
                             </asp:TableRow>
                         </asp:Table>
                     </div>
-                    <div><asp:TextBox ID="txtName" runat="server"></asp:TextBox></div>         
-                    <div><asp:TextBox ID="txtUserID" runat="server"></asp:TextBox></div>
-                    <div><asp:TextBox ID="txtLastLocation" runat="server"></asp:TextBox></div>
+                    <asp:TextBox ID="txtName" runat="server"></asp:TextBox>         
+                    <asp:TextBox ID="txtUserID" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtLastLocation" runat="server"></asp:TextBox>
                     </div>
-                <p><asp:HyperLink ID="hplLearnMore" runat="server" NavigateUrl="~/LearnMore.aspx" Target="_blank">Learn more about LARP Portal</asp:HyperLink></p>
-                <p><asp:Label ID="GuestLogin" runat="server"></asp:Label></p>
+                    <h2 class="form-signin-heading">LARP Portal Guests</h2>
+                    <div class="form-signin">
+                        <asp:HyperLink ID="hplLearnMore" runat="server" NavigateUrl="~/LearnMore.aspx" Target="_blank">Learn more about LARP Portal</asp:HyperLink><br /><br />
+                        <asp:Label ID="GuestLogin" runat="server"></asp:Label>
+                    </div>
                 <h2 class="form-signin-heading">Sign Up for Larp Portal</h2>
                 <div class="form-signin" role="form">
                     <div>
@@ -105,14 +108,14 @@
                     </div>
                     <div>
                         <asp:Label ID="lblPasswordReqs" runat="server" ToolTip=""></asp:Label>
-                        <asp:TextBox ID="txtPasswordNew" TextMode="Password" runat="server" CssClass="form-control"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="RFVPasswordNew" runat="server" ErrorMessage="Password is required" 
-                            ControlToValidate="txtPasswordNew" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
+                        <asp:TextBox ID="txtPasswordNew" TextMode="Password" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtPasswordNew_TextChanged"></asp:TextBox>
+<%--                        <asp:RequiredFieldValidator ID="RFVPasswordNew" runat="server" ErrorMessage="Password is required" 
+                            ControlToValidate="txtPasswordNew" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>--%>
                     </div>
                     <div>
                         <asp:TextBox ID="txtPasswordNewRetype" TextMode="Password" runat="server" CssClass="form-control" OnTextChanged="txtPasswordNewRetype_TextChanged"></asp:TextBox>
-                        <asp:RequiredFieldValidator ID="RFVPasswordNewRetype" runat="server" ErrorMessage="Password is required" 
-                            ControlToValidate="txtPasswordNewRetype" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
+<%--                        <asp:RequiredFieldValidator ID="RFVPasswordNewRetype" runat="server" ErrorMessage="Password is required" 
+                            ControlToValidate="txtPasswordNewRetype" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>--%>
                     </div>
                     <div>
                         <label class="checkbox">

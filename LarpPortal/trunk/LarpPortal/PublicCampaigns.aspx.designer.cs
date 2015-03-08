@@ -229,6 +229,15 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.TreeView tvSize;
         
         /// <summary>
+        /// tblCampaignImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table tblCampaignImage;
+        
+        /// <summary>
         /// imgCampaignImage control.
         /// </summary>
         /// <remarks>
