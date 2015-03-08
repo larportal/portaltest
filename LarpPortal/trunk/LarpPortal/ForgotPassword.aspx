@@ -13,10 +13,9 @@
 							    <h2>LARP Portal Forgot Username or Password?</h2>
 						    </div>
 						    <div class="panel-body">
-							    <div class="panel-container">
-                                    <b>Page Under Development</b><p></p>
+							    <div class="panel-container"><p></p>
                                     <asp:Panel ID="pnlIDYourself" runat="server">
-                                        <b>Section 1 - Help us find you.</b><p></p>
+                                        <b>Section 1 - Fill in all three fields and click 'Get Password'</b><p></p>
                                         <asp:Label ID="lblUsername" runat="server">Username: </asp:Label>
                                         <asp:TextBox ID="txtUsername" runat="server" AutoPostBack="true" OnTextChanged="txtUsername_TextChanged"></asp:TextBox>
                                         <asp:Label ID="lblForgotUsername" runat="server">Forgot your username?  Fill in the email address and click 'Forgot Username'</asp:Label>
@@ -90,9 +89,10 @@
                                     </asp:Panel>
                                     <asp:Panel id="pnlSetPasswords" runat="server">
                                         <asp:Label ID="lblNewPassword" runat="server">New Password: </asp:Label>
-                                        <asp:TextBox ID="txtNewPassword" runat="server"></asp:TextBox><p></p>
+                                        <asp:TextBox ID="txtNewPassword" runat="server" AutoPostBack="true" OnTextChanged="txtNewPassword_TextChanged"></asp:TextBox><p></p>
                                         <asp:Label ID="lblNewPasswordRetype" runat="server">Retype New Password: </asp:Label>
-                                        <asp:TextBox ID="txtNewPasswordRetype" runat="server"></asp:TextBox><p></p>
+                                        <asp:TextBox ID="txtNewPasswordRetype" runat="server" AutoPostBack="true" OnTextChanged="txtNewPasswordRetype_TextChanged"></asp:TextBox><p></p>
+                                        <asp:Label ID="lblPasswordErrors" runat="server" ForeColor="Red"></asp:Label><p></p>
                                         <asp:Button ID="btnSubmitPasswordChange" runat="server" OnClick="btnSubmitPasswordChange_Click" Text="Submit" />
                                     </asp:Panel>
                                     <asp:Panel id="pnlFinalStep" runat="server">

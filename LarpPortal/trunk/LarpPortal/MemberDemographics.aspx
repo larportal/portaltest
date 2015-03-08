@@ -7,9 +7,6 @@
             <div role="form" class="form-horizontal form-condensed">
                 <div class="col-sm-12">
                     <h1 class="col-sm-4">My Profile - <span>Demographics</span></h1>
-                    <div class="panel-wrapper col-sm-1">
-                        <a href="#">Edit</a>
-                    </div>
                 </div>
                 <div class="col-sm-12">
                     <div class="col-sm-7">

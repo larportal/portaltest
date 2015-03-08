@@ -154,14 +154,45 @@ namespace LarpPortal
             ReloadActiveTreeView(UserID);
         }
 
-        protected void MakeDetailsVisible(int URLVisible, int ImageVisible, int OverviewVisible, int SelectorsVisible)
+        protected void MakeDetailsVisible(int URLVisible, int ImageVisible, int imgHeight, int imgWidth, int OverviewVisible, int SelectorsVisible)
         {
             if (URLVisible == 1)
                 hplLinkToSite.Visible = true;
             else
                 hplLinkToSite.Visible = false;
             if (ImageVisible == 1)
+            {
+                // Max dimensions are 820 x 130
+                if (imgHeight == 0)
+                    imgHeight = 130;
+                if (imgWidth == 0)
+                    imgWidth = 820;
+                decimal imgRatio;
+                imgRatio = decimal.Divide(imgWidth, imgHeight);
+                if (imgRatio == 0)
+                    imgRatio = 1;
+
+                int CalculatedHeight = Convert.ToInt32(Math.Round(820 / imgRatio,0));
+                int CalculatedWidth = Convert.ToInt32(Math.Round(130 * imgRatio,0));
+
+
+                if (imgRatio == 6.308m)
+                {
+                    imgCampaignImage.Height = 130;
+                    imgCampaignImage.Width = 820;
+                }
+                if (imgRatio > 6.308m)
+                {
+                    imgCampaignImage.Height = CalculatedHeight;
+                    imgCampaignImage.Width = 820;
+                }
+                if (imgRatio < 6.308m)
+                {
+                    imgCampaignImage.Height = 130;
+                    imgCampaignImage.Width = CalculatedWidth;
+                }
                 imgCampaignImage.Visible = true;
+            }
             else
                 imgCampaignImage.Visible = false;
             if (OverviewVisible == 1)
@@ -212,6 +243,8 @@ namespace LarpPortal
         {
             string strURL = "";
             string strImage = "";
+            int intImageHeight = 0;
+            int intImageWidth = 0;
             string strGameOrCampaignName = "";
             tvGameSystem.SelectedNode.Selected = true;
             string SelectedGorC = tvGameSystem.SelectedValue + "";
@@ -253,6 +286,8 @@ namespace LarpPortal
                     Classes.cCampaignBase Cam = new Classes.cCampaignBase(CampaignID, "public", 0);
                     strURL = Cam.URL;
                     strImage = Cam.Logo;
+                    intImageHeight = Cam.LogoHeight;
+                    intImageWidth = Cam.LogoWidth;
                     strGameOrCampaignName = Cam.CampaignName;
                     lblCampaignOverview.Text = Cam.WebPageDescription;
                     lblGameSystem1.Text = "Game System: ";
@@ -270,13 +305,15 @@ namespace LarpPortal
             SetSiteImage(strImage);
             if(strURL != null)
                 SetSiteLink(strURL, strGameOrCampaignName);
-            MakeDetailsVisible(intURLVisible, intImageVisible, intOverviewVisible, intSelectorsVisible);
+            MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
         }
 
         protected void tvCampaign_SelectedNodeChanged(object sender, EventArgs e)
         {
             string strURL = "";
             string strImage = "";
+            int intImageHeight = 130;
+            int intImageWidth = 820;
             string strGameOrCampaignName = "";
             tvCampaign.SelectedNode.Selected = true;
             string SelectedGorC = tvCampaign.SelectedValue + "";
@@ -317,6 +354,8 @@ namespace LarpPortal
                     Classes.cCampaignBase Cam = new Classes.cCampaignBase(CampaignID, "public", 0);
                     strURL = Cam.URL;
                     strImage = Cam.Logo;
+                    intImageWidth = Cam.LogoWidth;
+                    intImageHeight = Cam.LogoHeight;
                     strGameOrCampaignName = Cam.CampaignName;
                     lblCampaignOverview.Text = Cam.WebPageDescription;
                     lblGameSystem1.Text = "Game System: ";
@@ -334,7 +373,7 @@ namespace LarpPortal
             SetSiteImage(strImage);
             if (strURL != null)
                 SetSiteLink(strURL, strGameOrCampaignName);
-            MakeDetailsVisible(intURLVisible, intImageVisible, intOverviewVisible, intSelectorsVisible);
+            MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
         }
 
         protected void tvGenre_SelectedNodeChanged(object sender, EventArgs e)
@@ -342,6 +381,8 @@ namespace LarpPortal
             {
                 string strURL = "";
                 string strImage = "";
+                int intImageHeight = 130;
+                int intImageWidth = 820;
                 string strGameOrCampaignName = "";
                 tvGenre.SelectedNode.Selected = true;
                 string SelectedGorC = tvGenre.SelectedValue + "";
@@ -385,6 +426,8 @@ namespace LarpPortal
                         Classes.cCampaignBase Cam = new Classes.cCampaignBase(CampaignID, "public", 0);
                         strURL = Cam.URL;
                         strImage = Cam.Logo;
+                        intImageHeight = Cam.LogoHeight;
+                        intImageWidth = Cam.LogoWidth;
                         strGameOrCampaignName = Cam.CampaignName;
                         lblCampaignOverview.Text = Cam.WebPageDescription;
                         lblGameSystem1.Text = "Game System: ";
@@ -402,7 +445,7 @@ namespace LarpPortal
                 SetSiteImage(strImage);
                 if (strURL != null)
                     SetSiteLink(strURL, strGameOrCampaignName);
-                MakeDetailsVisible(intURLVisible, intImageVisible, intOverviewVisible, intSelectorsVisible);
+                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
             }
         }
 

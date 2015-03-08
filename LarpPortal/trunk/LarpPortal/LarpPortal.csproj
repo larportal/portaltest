@@ -38,17 +38,45 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit">
+      <HintPath>..\packages\AjaxControlToolkit.7.1213\lib\45\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="AjaxMin">
+      <HintPath>..\packages\AjaxMin.4.97.4951.28483\lib\net40\AjaxMin.dll</HintPath>
+    </Reference>
     <Reference Include="Excel, Version=2.0.1.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExternalDLLs\Excel.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.2.0\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.2.0\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration">
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.1.8.0.0\lib\net35-full\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage">
+      <HintPath>..\packages\WindowsAzure.Storage.2.1.0.4\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Spatial, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.2.0\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -69,9 +97,6 @@
     </Reference>
     <Reference Include="AspNet.ScriptManager.jQuery">
       <HintPath>..\packages\AspNet.ScriptManager.jQuery.1.10.2\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ScriptManager.MSAjax">
-      <HintPath>..\packages\Microsoft.AspNet.ScriptManager.MSAjax.5.0.0\lib\net45\Microsoft.ScriptManager.MSAjax.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ScriptManager.WebForms">
       <HintPath>..\packages\Microsoft.AspNet.ScriptManager.WebForms.5.0.0\lib\net45\Microsoft.ScriptManager.WebForms.dll</HintPath>
@@ -158,8 +183,41 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
     <Content Include="AllMessages.aspx" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\AspNet.ScriptManager.bootstrap.dll" />
+    <Content Include="bin\AspNet.ScriptManager.jQuery.dll" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\Excel.dll" />
+    <Content Include="bin\Microsoft.AspNet.FriendlyUrls.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
+    <Content Include="bin\Microsoft.AspNet.Web.Optimization.WebForms.dll" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.dll" />
+    <Content Include="bin\Microsoft.ScriptManager.MSAjax.dll" />
+    <Content Include="bin\Microsoft.ScriptManager.WebForms.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Providers.dll" />
+    <Content Include="bin\WebGrease.dll" />
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
+    <Content Include="Character\CharHistory.aspx" />
+    <Content Include="Character\CharInfo.aspx" />
+    <Content Include="Character\CharItems.aspx" />
+    <Content Include="Character\CharSkill.aspx" />
+    <Content Include="Character\CharSkills.aspx" />
     <Content Include="ForgotPassword.aspx" />
     <Content Include="img\construction.gif" />
     <Content Include="Contact.aspx" />
@@ -205,6 +263,7 @@
     <Content Include="PasswordRequirements.aspx" />
     <Content Include="PlayerResume.aspx" />
     <Content Include="Preferences.aspx" />
+    <Content Include="Properties\PublishProfiles\LARPortal.pubxml.user" />
     <Content Include="PublicCalendar.aspx" />
     <Content Include="PublicCampaigns.aspx" />
     <Content Include="RSVPMessages.aspx" />
@@ -230,6 +289,8 @@
     <Content Include="PublicCalendar.master" />
     <Content Include="MemberCampaignsAdmin.master" />
     <Content Include="LARPortalMasterReferences.Master" />
+    <Content Include="Character\Character.Master" />
+    <None Include="Properties\PublishProfiles\LARPortal.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="PlayerRoleTest.aspx" />
     <Content Include="rick.jpg" />
@@ -360,19 +421,65 @@
     <Compile Include="Characters.master.designer.cs">
       <DependentUpon>Characters.master</DependentUpon>
     </Compile>
+    <Compile Include="Character\Character.Master.cs">
+      <DependentUpon>Character.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\Character.Master.designer.cs">
+      <DependentUpon>Character.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharHistory.aspx.cs">
+      <DependentUpon>CharHistory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharHistory.aspx.designer.cs">
+      <DependentUpon>CharHistory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharInfo.aspx.cs">
+      <DependentUpon>CharInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharInfo.aspx.designer.cs">
+      <DependentUpon>CharInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharItems.aspx.cs">
+      <DependentUpon>CharItems.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharItems.aspx.designer.cs">
+      <DependentUpon>CharItems.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharSkill.aspx.cs">
+      <DependentUpon>CharSkill.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharSkill.aspx.designer.cs">
+      <DependentUpon>CharSkill.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharSkills.aspx.cs">
+      <DependentUpon>CharSkills.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharSkills.aspx.designer.cs">
+      <DependentUpon>CharSkills.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Classes\cActor.cs" />
     <Compile Include="Classes\cAddress.cs" />
     <Compile Include="Classes\cBank.cs" />
     <Compile Include="Classes\cCalendar.cs" />
     <Compile Include="Classes\cCampaignBase.cs" />
+    <Compile Include="Classes\cCampaignRaces.cs" />
     <Compile Include="Classes\cCampaignSelection.cs" />
+    <Compile Include="Classes\cCampaignSkills.cs" />
     <Compile Include="Classes\cCharacter.cs" />
     <Compile Include="Classes\cCharacterDeath.cs" />
+    <Compile Include="Classes\cCharacterItems.cs" />
     <Compile Include="Classes\cCharacterRelationship.cs" />
     <Compile Include="Classes\cCharacterSkill.cs" />
     <Compile Include="Classes\cCharacterSkillSets.cs" />
     <Compile Include="Classes\cCharacterStatus.cs" />
     <Compile Include="Classes\cCharacterType.cs" />
+    <Compile Include="Classes\cDescriptors.cs" />
     <Compile Include="Classes\cDonations.cs" />
     <Compile Include="Classes\cEmail.cs" />
     <Compile Include="Classes\cEmptyClass.cs" />

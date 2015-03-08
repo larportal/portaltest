@@ -30,7 +30,7 @@ namespace LarpPortal
                 }
                 else
                 {
-                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
+                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "PublicCampaigns.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
                     //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
                     lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
                 }
@@ -51,18 +51,18 @@ namespace LarpPortal
                 SiteOpsMode = OpsMode.SiteOperationalMode;
                 Session["OperationalMode"] = SiteOpsMode;
                 ForgotPassword.Text = "<a id=" + "\"" + "lnkForgotPassword" + "\"" + " href=" + "\"" + "ForgotPassword.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + ">Forgot password?</a>";
-                if (SiteOpsMode == "Test")
-                {
-                    txtLastLocation.Attributes.Add("Placeholder", "Last Location in the Portal");
-                    txtName.Attributes.Add("Placeholder", "Member Name");
-                    txtUserID.Attributes.Add("Placeholder", "UserID");
-                    txtName.Visible = true;
-                    txtLastLocation.Visible = true;
-                    txtUserID.Visible = true;
-                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
-                    //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
-                    lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
-                }
+                //if (SiteOpsMode == "Test")
+                //{
+                //    txtLastLocation.Attributes.Add("Placeholder", "Last Location in the Portal");
+                //    txtName.Attributes.Add("Placeholder", "Member Name");
+                //    txtUserID.Attributes.Add("Placeholder", "UserID");
+                //    txtName.Visible = true;
+                //    txtLastLocation.Visible = true;
+                //    txtUserID.Visible = true;
+                //    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "PublicCampaigns.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
+                //    //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
+                //    lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
+                //}
             }
             txtName.Visible = false;
             txtLastLocation.Visible = false;
@@ -101,7 +101,7 @@ namespace LarpPortal
                     txtPasswordNew.Visible = true;
                     txtPasswordNewRetype.Visible = true;
                     chkTermsOfUse.Visible = true;
-                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "WhatIsLARPing.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
+                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "PublicCampaigns.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
                     //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
                     lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
                     txtNewUsername.Focus();
@@ -149,7 +149,6 @@ namespace LarpPortal
 
         protected void btnValidateAccount_Click(object sender, EventArgs e)
         {
-            // Check that username,password,lock code are all matched.  Clear the lock code.  Follow the login logic.
             Classes.cLogin Login = new Classes.cLogin();
             Login.Load(Session["AttemptedUsername"].ToString(), Session["AttemptedPassword"].ToString());
             if (txtSecurityResetCode.Text == Login.SecurityResetCode)
@@ -198,9 +197,22 @@ namespace LarpPortal
 
         protected void btnSignUp_Click(object sender, EventArgs e)
         {
+            if (Session["AttemptedPassword"] == null)
+                txtPasswordNew.Text = "";
+            else
+            {
+                txtPasswordNew.Text = Session["AttemptedPassword"].ToString();
+                txtPasswordNew.Attributes.Add("value", txtPasswordNew.Text);
+            }
+            if (Session["AttemptedPasswordRetype"] == null)
+                txtPasswordNewRetype.Text = "";
+            else
+            {
+                txtPasswordNewRetype.Text = Session["AttemptedPasswordRetype"].ToString();
+                txtPasswordNewRetype.Attributes.Add("value",txtPasswordNewRetype.Text);
+            }
             if (Page.IsValid)
             {
-                Session["AttemptedPassword"] = txtPasswordNew.Text;
                 lblSignUpErrors.Text = "";
                 // 1 - No duplicate usernames allowed
                 Classes.cLogin Login = new Classes.cLogin();
@@ -273,7 +285,7 @@ namespace LarpPortal
                     // TODO-Rick-0c Redirect to page that will tell user to go look in their email for login directions - Done but 0b isn't so leaving placeholder for now
                     //Response.Redirect("~/NewUserLoginDirections.aspx", "_blank");
                     Response.Write("<script>");
-                    Response.Write("window.open('~/NewUserLoginDirections.aspx','_blank')");
+                    Response.Write("window.open('NewUserLoginDirections.aspx','_blank')");
                     Response.Write("</script>");
                     // TODO-Rick-0d Oh yeah, create page NewUserLoginDirections.aspx before directing them there.
                     // TODO-Rick-0e Account for versioning of 'terms of use' and keeping track of date/time and which version user agreed to
@@ -291,8 +303,6 @@ namespace LarpPortal
             {
                 btnSignUp.Visible = true;
                 btnSignUp.Focus();
-                txtPasswordNew.Text = Session["AttemptedPassword"].ToString();
-                txtPasswordNewRetype.Text = Session["AttemptedPassword"].ToString();
             }
             else
             {
@@ -302,13 +312,42 @@ namespace LarpPortal
 
         protected void txtPasswordNewRetype_TextChanged(object sender, EventArgs e)
         {
+            Session["AttemptedPasswordRetype"] = txtPasswordNewRetype.Text;
+            chkTermsOfUse.Focus();
+            if (Session["AttemptedPassword"] == null)
+                txtPasswordNew.Text = "";
+            else
+            {
+                txtPasswordNew.Text = Session["AttemptedPassword"].ToString();
+                txtPasswordNew.Attributes.Add("value", txtPasswordNew.Text);
+            }
+            if (Session["AttemptedPasswordRetype"] == null)
+                txtPasswordNewRetype.Text = "";
+            else
+            {
+                txtPasswordNewRetype.Text = Session["AttemptedPasswordRetype"].ToString();
+                txtPasswordNewRetype.Attributes.Add("value", txtPasswordNewRetype.Text);
+            }
+        }
 
+        protected void txtPasswordNew_TextChanged(object sender, EventArgs e)
+        {
+            Session["AttemptedPassword"] = txtPasswordNew.Text;
+            txtPasswordNewRetype.Focus();
+            if (Session["AttemptedPassword"] == null)
+                txtPasswordNew.Text = "";
+            else
+            {
+                txtPasswordNew.Text = Session["AttemptedPassword"].ToString();
+                txtPasswordNew.Attributes.Add("value", txtPasswordNew.Text);
+            }
         }
 
         protected void txtEmail_TextChanged(object sender, EventArgs e)
         {
             if(txtEmail.Text.Length > 0)
                 chkTermsOfUse.Visible = true;
+            txtPasswordNew.Focus();
         }
     }
 }

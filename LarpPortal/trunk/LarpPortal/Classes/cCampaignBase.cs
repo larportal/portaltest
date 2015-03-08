@@ -31,6 +31,8 @@ namespace LarpPortal.Classes
         private string _WebPageDescription = "";
         private string _URL = "";
         private string _Logo = ""; // stored the file location for the logo image
+        private int _LogoHeight = 0;
+        private int _LogoWidth = 0;
         private string _CPNotificationEmail = "";
         private Int32 _CPNotificationPreferenceID = -1;
         private string _CPNotificationPreferenceDescription = "";
@@ -185,6 +187,16 @@ namespace LarpPortal.Classes
         {
             get { return _Logo; }
             set { _Logo = value; }
+        }
+        public int LogoHeight
+        {
+            get { return _LogoHeight; }
+            set { _LogoHeight = value; }
+        }
+        public int LogoWidth
+        {
+            get { return _LogoWidth; }
+            set { _LogoWidth = value; }
         }
         public string CPNotificationEmail
         {
@@ -581,6 +593,10 @@ namespace LarpPortal.Classes
                     _InfoSkillURL = ldt.Rows[0]["InfoSkillURL"].ToString().Trim();
                     _JoinRequestEmail = ldt.Rows[0]["JoinRequestEmail"].ToString().Trim();
                     _Logo = ldt.Rows[0]["CampaignLogo"].ToString().Trim();
+                    if (int.TryParse(ldt.Rows[0]["CampaignLogoHeight"].ToString(), out iTemp))
+                        _LogoHeight = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["CampaignLogoWidth"].ToString(), out iTemp))
+                        _LogoWidth = iTemp;
                     if (int.TryParse(ldt.Rows[0]["MarketingCampaignSize"].ToString(), out iTemp))
                         _MarketingCampaignSize = iTemp;
                     CampaignSizeRange = ldt.Rows[0]["CampaignSizeRange"].ToString().Trim();
