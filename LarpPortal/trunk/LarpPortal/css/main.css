@@ -2277,7 +2277,7 @@ input[type="time"],
 input[type="datetime-local"],
 input[type="month"] {
   line-height: 34px;
-  line-height: 1.42857 \0; }
+  line-height: 1.42857; }
   input[type="date"].input-sm, .input-group-sm > input[type="date"].form-control,
   .input-group-sm > input[type="date"].input-group-addon,
   .input-group-sm > .input-group-btn > input[type="date"].btn, .panel input[type="date"], .userNames input[type="date"], table input[type="date"], .security input[type="date"], .form-condensed input[type="date"],

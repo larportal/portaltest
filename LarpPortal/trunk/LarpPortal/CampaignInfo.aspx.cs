@@ -22,8 +22,8 @@ namespace LarpPortal
                 Session["ActiveLeftNav"] = "CampaignInfoSetup";
                 if (Session["CampaignName"] != null)
                     lblTopCampaignName.Text = Session["CampaignName"].ToString();
-                lblWIP.BackColor = System.Drawing.Color.Yellow;
-                lblWIP.Text = " (WIP)";
+                //lblWIP.BackColor = System.Drawing.Color.Yellow;
+                //lblWIP.Text = " (WIP)";
             }
             int CampaignID;
             string UserName;
@@ -59,8 +59,7 @@ namespace LarpPortal
             txtExpectedEnd.Text = string.Format("{0:MMM d, yyyy}", dtExpEndDate);
             txtNumEvents.Text = CampaignBase.ActualNumberOfEvents.ToString();
             txtGameSystem.Text = CampaignBase.GameSystemName;
-            txtGenre1.Text = "Genre1 TBD";
-            txtGenre2.Text = "Genre2 TBD";
+            txtGenres.Text = CampaignBase.GenreList;
             txtStyle.Text = CampaignBase.StyleDescription;
             txtTechLevel.Text = CampaignBase.TechLevelName;
             txtSize.Text = CampaignBase.CampaignSizeRange;
@@ -135,181 +134,301 @@ namespace LarpPortal
                 {
                     case 0:
                         hrefline = "<ul class=" + DoubleQuote + "col-sm-12" + DoubleQuote + ">";
+                        hrefline = "<table>";
                         break;
                     case 1:
                         if (CampaignInfoCheck == "True")
+                        {
                             hrefline = "<li>";
+                            hrefline = "<tr>";
+                        }
                         break;
                     case 2:
                         if (CampaignInfoCheck == "True")
+                        {
                             hrefline = "<ul class=" + DoubleQuote + "list-inline" + DoubleQuote + ">";
+                            hrefline = "";
+                        }
                         break;
                     case 3:
                         //c1 = CampaignGMURL
                         //c2 = CampgaignGMEmail
                         if (CampaignInfoCheck == "True")
-                            hrefline = "<li class=" + DoubleQuote + "col=sm-4" + DoubleQuote + ">Campaign Info</li>";
+                        {
+                            hrefline = "<li class=" + DoubleQuote + "col=sm-6" + DoubleQuote + ">Campaign Info</li>";
+                            hrefline = "<td>Campaign Info</td><td>&nbsp;&nbsp;</td>";
+                        }
                         break;
                     case 4:
                         if (c1 != "")
-                            hrefline = "<li class=" + DoubleQuote + "col=sm-4" + DoubleQuote + "><a href=" + DoubleQuote + c1 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">Campaign URL</a></li>";
+                        {
+                            hrefline = "<li class=" + DoubleQuote + "col=sm-6" + DoubleQuote + "><a href=" + DoubleQuote + c1 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">Campaign URL</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + c1 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">Campaign URL</a></td>";
+                        }
                         break;
                     case 5:
                         if (c2 != "")
-                            hrefline = "<li class=" + DoubleQuote + "col=sm-4" + DoubleQuote + "><a href=" + DoubleQuote + "mailto:" + c2 + DoubleQuote + ">Information Email</a></li>";
+                        {
+                            hrefline = "<li class=" + DoubleQuote + "col=sm-6" + DoubleQuote + "><a href=" + DoubleQuote + "mailto:" + c2 + DoubleQuote + ">Information Email</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + "mailto:" + c2 + DoubleQuote + ">Information Email</a></td>";
+                        }
                         break;
                     case 6:
                         if (CampaignInfoCheck == "True")
+                        {
                             hrefline = "</ul>";
+                            hrefline = "";
+                        }
                         break;
                     case 7:
                         if (CampaignInfoCheck == "True")
+                        {
                             hrefline = "</li>";
+                            hrefline = "</tr>";
+                        }
                         break;
-                    case 8:
+                    case 8:  // New row
                         if (CharacterInfoCheck == "True")
+                        {
                             hrefline = "<li>";
+                            hrefline = "<tr>";
+                        }
                         break;
                     case 9:
                         if (CharacterInfoCheck == "True")
+                        {
                             hrefline = "<ul class=" + DoubleQuote + "list-inline" + DoubleQuote + ">";
+                            hrefline = "";
+                        }
                         break;
                     case 10:
                         //c3 = CharacterURL
                         //c4 = CharacterEmail
                         if (CharacterInfoCheck == "True")
-                            hrefline = "<li class=" + DoubleQuote + "col=sm-4" + DoubleQuote + ">Character</li>";
+                        {
+                            hrefline = "<li class=" + DoubleQuote + "col=sm-6" + DoubleQuote + ">Character</li>";
+                            hrefline = "<td>Character</td><td></td>";
+                        }
                         break;
                     case 11:
                         if (c3 != "")
-                            hrefline = "<li class=" + DoubleQuote + "col=sm-4" + DoubleQuote + "><a href=" + DoubleQuote + c3 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">Character URL</a></li>";
+                        {
+                            hrefline = "<li class=" + DoubleQuote + "col=sm-6" + DoubleQuote + "><a href=" + DoubleQuote + c3 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">Character URL</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + c3 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">Character URL</a></td>";
+                        }
                         break;
                     case 12:
                         if (c4 != "")
-                            hrefline = "<li class=" + DoubleQuote + "col=sm-4" + DoubleQuote + "><a href=" + DoubleQuote + "mailto:" + c4 + DoubleQuote + ">Character Email</a></li>";
+                        {
+                            hrefline = "<li class=" + DoubleQuote + "col=sm-6" + DoubleQuote + "><a href=" + DoubleQuote + "mailto:" + c4 + DoubleQuote + ">Character Email</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + "mailto:" + c4 + DoubleQuote + ">Character Email</a></td>";
+                        }
                         break;
                     case 13:
                         if (CharacterInfoCheck == "True")
+                        {
                             hrefline = "</ul>";
+                            hrefline = "</tr>";
+                        }
                         break;
-                    case 14:
+                    case 14:  // New row
                         if (CharacterHistoryCheck == "True")
+                        {
                             hrefline = "<ul class=" + DoubleQuote + "list-inline" + DoubleQuote + ">";
+                            hrefline = "<tr>";
+                        }
                         break;
                     case 15:
                         //c5 = CharHistoryURl
                         //c6 = CharHistoryEmail
                         if (CharacterHistoryCheck == "True")
-                            hrefline = "<li class=" + DoubleQuote + "col=sm-4" + DoubleQuote + ">Character History</li>";
+                        {
+                            hrefline = "<li class=" + DoubleQuote + "col=sm-6" + DoubleQuote + ">Character History</li>";
+                            hrefline = "<td>Character History</td><td></td>";
+                        }
                         break;
                     case 16:
                         if (c5 != "")
-                            hrefline = "<li class=" + DoubleQuote + "col=sm-4" + DoubleQuote + "><a href=" + DoubleQuote + c5 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">Character History URL</a></li>";
+                        {
+                            hrefline = "<li class=" + DoubleQuote + "col=sm-6" + DoubleQuote + "><a href=" + DoubleQuote + c5 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">Character History URL</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + c5 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">Character History URL</a></td>";
+                        }
                         break;
                     case 17:
                         if (c6 != "")
-                            hrefline = "<li class=" + DoubleQuote + "col=sm-4" + DoubleQuote + "><a href=" + DoubleQuote + "mailto:" + c6 + DoubleQuote + ">Character History Email</a></li>";
+                        {
+                            hrefline = "<li class=" + DoubleQuote + "col=sm-6" + DoubleQuote + "><a href=" + DoubleQuote + "mailto:" + c6 + DoubleQuote + ">Character History Email</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + "mailto:" + c6 + DoubleQuote + ">Character History Email</a></td>";
+                        }
                         break;
                     case 18:
                         if (CharacterHistoryCheck == "True")
+                        {
                             hrefline = "</ul>";
+                            hrefline = "";
+                        }
                         break;
                     case 19:
                         if (CharacterHistoryCheck == "True")
+                        {
                             hrefline = "</li>";
+                            hrefline = "</tr>";
+                        }
                         break;
-                    case 20:
+                    case 20:  // New row
                         if (InfoSkillCheck == "True")
+                        {
                             hrefline = "<li>";
+                            hrefline = "<tr>";
+                        }
                         break;
                     case 21:
                         if (InfoSkillCheck == "True")
+                        {
                             hrefline = "<ul class=" + DoubleQuote + "list-inline" + DoubleQuote + ">";
+                            hrefline = "";
+                        }
                         break;
                     case 22:
                         //c7 = InfoSkillsURL
                         //c8 = InfoSkillsEmail
                         if (InfoSkillCheck == "True")
+                        {
                             hrefline = "<li>Info Skills</li>";
+                            hrefline = "<td>Info Skills</td><td></td>";
+                        }
                         break;
                     case 23:
                         if (c7 != "")
+                        {
                             hrefline = "<li><a href=" + DoubleQuote + c7 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote +">Info Skills URL</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + c7 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote +">Info Skills URL</a></td>";
+                        }
                         break;
                     case 24:
                         if (c8 != "")
+                        {
                             hrefline = "<li><a href=" + DoubleQuote + "mailto:" + c8 + DoubleQuote + ">InfoSkills@campaign.com</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + "mailto:" + c8 + DoubleQuote + ">InfoSkills@campaign.com</a></td>";
+                        }
                         break;
                     case 25:
                         if (InfoSkillCheck == "True")
+                        {
                             hrefline = "</ul>";
+                            hrefline = "</tr>";
+                        }
                         break;
-                    case 26:
+                    case 26:  // New row
                         if (ProductionSkillCheck == "True")
+                        {
                             hrefline = "</li>";
+                            hrefline = "<tr>";
+                        }
                         break;
                     case 27:
                         if (ProductionSkillCheck == "True")
+                        {
                             hrefline = "<li>";
+                            hrefline = "";
+                        }
                         break;
                     case 28:
                         if (ProductionSkillCheck == "True")
+                        {
                             hrefline = "<ul class=" + DoubleQuote + "list-inline" + DoubleQuote + ">";
+                            hrefline = "";
+                        }
                         break;
                     case 29:
                         //c9 = ProdSkillsURL
                         //c10 = ProdSkillsEmail
                         if (ProductionSkillCheck == "True")
+                        {
                             hrefline = "<li>Production Skills</li>";
+                            hrefline = "<td>Production Skills</td><td></td>";
+                        }
                         break;
                     case 30:
                         if (c9 != "")
+                        {
                             hrefline = "<li><a href=" + DoubleQuote + c9 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote +">Production Skills URL</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + c9 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote +">Production Skills URL</a></td>";
+                        }
                         break;
                     case 31:
                         if (c10 != "")
+                        {
                             hrefline = "<li><a href=" + DoubleQuote + "mailto:" + c10 + DoubleQuote + ">Production Skills Email</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + "mailto:" + c10 + DoubleQuote + ">Production Skills Email</a></td>";
+                        }
                         break;
                     case 32:
                         if (ProductionSkillCheck == "True")
+                        {
                             hrefline = "</ul>";
+                            hrefline = "</tr>";
+                        }
                         break;
-                    case 33:
+                    case 33:  // New row
                         if (PELCheck == "True")
                             hrefline = "</li>";
+                        hrefline = "</tr>";
                         break;
                     case 34:
                         if (PELCheck == "True")
+                        {
                             hrefline = "<li>";
+                            hrefline = "";
+                        }
                         break;
                     case 35:
                         if (PELCheck == "True")
+                        {
                             hrefline = "<ul class=" + DoubleQuote + "list-inline" + DoubleQuote + ">";
+                            hrefline = "";
+                        }
                         break;
                     case 36:
                         //c11 = PELURL
                         //c12 = PELEmail
                         if (PELCheck == "True")
+                        {
                             hrefline = "<li>PEL</li>";
+                            hrefline = "<td>PEL</td><td></td>";
+                        }
                         break;
                     case 37:
                         if (c11 != "")
+                        {
                             hrefline = "<li><a href=" + DoubleQuote + c11 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote +">PEL URL</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + c11 + DoubleQuote + " target=" + DoubleQuote + "_blank" + DoubleQuote + ">PEL URL</a></td>";
+                        }
                         break;
                     case 38:
                         if (c12 != "")
+                        {
                             hrefline = "<li><a href=" + DoubleQuote + "mailto:" + c12 + DoubleQuote + ">PEL Email</a></li>";
+                            hrefline = "<td><a href=" + DoubleQuote + "mailto:" + c12 + DoubleQuote + ">PEL Email</a></td>";
+                        }
                         break;
                     case 39:
                         if (PELCheck == "True")
+                        {
                             hrefline = "</ul>";
+                            hrefline = "</tr>";
+                        }
                         break;
                     case 40:
                         if (PELCheck == "True")
+                        {
                             hrefline = "</li>";
+                            hrefline = "";
+                        }
                         break;
-                    case 41:
+                    case 41:  // End
                         hrefline = "</ul>";
+                        hrefline = "</table>";
                         break;
                 }
                 DataRow ContactsRow = ContactsTable.NewRow();

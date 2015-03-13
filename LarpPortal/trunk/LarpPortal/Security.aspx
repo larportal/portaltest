@@ -2,33 +2,33 @@
 <asp:Content ID="Security" ContentPlaceHolderID="Demographics" runat="server">
     <asp:Label ID="WIP" runat="server" BackColor="Yellow">My Profile - Security - Placeholder page - in progress</asp:Label>
       <div class="mainContent tab-content">
-        <section id="security" class="security tab-pane">
+        <section id="security" class="security tab-pane" style="display:block">
 	        <div role="form" class="form-horizontal form-condensed">
 		        <div class="row">
 			        <h1 class="col-sm-4">My Profile - Security</h1>
 		        </div>
 		        <div class="userSecurity">
 			        <div class="formGroup row">
-                        <asp:Label ID="lblUsernameLabel" runat="server" CssClass="control-label col-sm-1">User Name</asp:Label>
+                        <asp:Label ID="lblUsernameLabel" runat="server" CssClass="control-label col-sm-3">Username</asp:Label>
 				        <div class="user-name col-sm-3">
                             <asp:Label ID="lblUsername" runat="server"></asp:Label>
 				        </div>
 			        </div>
 			        <div class="formGroup row">
-                        <asp:Label ID="lblFirstNameLabel" runat="server" Cssclass="control-label col-sm-1"></asp:Label>
-                        <div class="first-name col-sm-2">
+                        <asp:Label ID="lblFirstNameLabel" runat="server" Cssclass="control-label col-sm-3">First</asp:Label>
+                        <div class="first-name col-sm-3">
                             <asp:Label ID="lblFirstName" runat="server"></asp:Label>
 				        </div>
                         <asp:Label ID="lblMILabel" runat="server" Cssclass="control-label col-sm-1">MI</asp:Label>
 				        <div class="middle-initial col-sm-1">
                             <asp:Label ID="lblMI" runat="server" />
 				        </div>
-                        <asp:Label ID="lblLastNameLabel" runat="server" Cssclass="control-label col-sm-1">Last</asp:Label>
-				        <div class="last-name col-sm-2">
+                        <asp:Label ID="lblLastNameLabel" runat="server" Cssclass="control-label col-sm-3">Last</asp:Label>
+				        <div class="last-name col-sm-3">
                             <asp:Label ID="lblLastName" runat="server"></asp:Label>
 				        </div>
                         <asp:Label ID="lblNickNameLabel" runat="server" Cssclass="control-label col-sm-1">Nick Name</asp:Label>
-				        <div class="nick-name col-sm-2">
+				        <div class="nick-name col-sm-3">
                             <asp:Label ID="lblNickName" runat="server"></asp:Label>
 				        </div>
 			        </div>
