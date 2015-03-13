@@ -121,40 +121,22 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.TextBox txtGameSystem;
         
         /// <summary>
-        /// lblGenre1 control.
+        /// lblGenres control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblGenre1;
+        protected global::System.Web.UI.WebControls.Label lblGenres;
         
         /// <summary>
-        /// txtGenre1 control.
+        /// txtGenres control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGenre1;
-        
-        /// <summary>
-        /// lblGenre2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblGenre2;
-        
-        /// <summary>
-        /// txtGenre2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtGenre2;
+        protected global::System.Web.UI.WebControls.TextBox txtGenres;
         
         /// <summary>
         /// lblStyle control.

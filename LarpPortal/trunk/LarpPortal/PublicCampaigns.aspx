@@ -209,7 +209,6 @@
                         </div>
                     </div>
                     </asp:Panel>
-
                     <asp:Panel ID="pnlSelectors" runat="server">
                     <div class="col-md-4 panel-wrapper">
                         <div class="panel">
@@ -223,6 +222,9 @@
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblGameSystem1" runat="server"></asp:Label>
                                             </asp:TableCell>
+                                            <asp:TableCell>
+                                                &nbsp;&nbsp;
+                                            </asp:TableCell>
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblGameSystem2" runat="server"></asp:Label>
                                             </asp:TableCell>
@@ -230,6 +232,9 @@
                                         <asp:TableHeaderRow>
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblGenre1" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell>
+                                                &nbsp;&nbsp;
                                             </asp:TableCell>
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblGenre2" runat="server"></asp:Label>
@@ -239,6 +244,9 @@
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblStyle1" runat="server"></asp:Label>
                                             </asp:TableCell>
+                                            <asp:TableCell>
+                                                &nbsp;&nbsp;
+                                            </asp:TableCell>
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblStyle2" runat="server"></asp:Label>
                                             </asp:TableCell>
@@ -247,6 +255,9 @@
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblTechLevel1" runat="server"></asp:Label>
                                             </asp:TableCell>
+                                            <asp:TableCell>
+                                                &nbsp;&nbsp;
+                                            </asp:TableCell>
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblTechLevel2" runat="server"></asp:Label>
                                             </asp:TableCell>
@@ -254,6 +265,9 @@
                                         <asp:TableHeaderRow>
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblSize1" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell>
+                                                &nbsp;&nbsp;
                                             </asp:TableCell>
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblSize2" runat="server"></asp:Label>
@@ -265,7 +279,6 @@
                         </div>
                     </div>
                     </asp:Panel>
-
                     <asp:Panel ID="pnlSignUpForCampaign" runat="server">
                         <div class="col-md-4 panel-wrapper">
                         <div class="panel">
@@ -273,7 +286,7 @@
                                 <h2><asp:Label ID="lblSignUp" runat="server"></asp:Label>Campaign Sign Up</h2>
                             </div>
                             <div class="panel-body">
-                                <div class="panel-container campaign-overview">
+                                <div class="panel-container">
                                     <asp:RadioButtonList ID="btnSignUp" runat="server" RepeatDirection="Horizontal" RepeatLayout="Table" CellSpacing="30">
                                         <asp:ListItem Text="PC" Value="1"></asp:ListItem>
                                         <asp:ListItem Text="NPC" Value="2"></asp:ListItem>
@@ -286,7 +299,6 @@
                         </div>
                     </div>
                     </asp:Panel>
-
                 </div>
             </section>
         </div>
