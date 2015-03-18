@@ -451,14 +451,221 @@ namespace LarpPortal
 
         protected void tvStyle_SelectedNodeChanged(object sender, EventArgs e)
         {
+            {
+                string strURL = "";
+                string strImage = "";
+                int intImageHeight = 130;
+                int intImageWidth = 820;
+                string strGameOrCampaignName = "";
+                tvStyle.SelectedNode.Selected = true;
+                string SelectedGorC = tvStyle.SelectedValue + "";
+                string GorC = SelectedGorC.Substring(0, 1);
+                string stGameSystemID = SelectedGorC.Substring(1, SelectedGorC.Length - 1);
+                int GameSystemID;
+                int CampaignID;
+                int intURLVisible = 1;
+                int intImageVisible = 1;
+                int intOverviewVisible = 1;
+                int intSelectorsVisible = 1;
+                int.TryParse(stGameSystemID, out GameSystemID);
+                int.TryParse(tvStyle.SelectedValue, out CampaignID);
+                if (GorC == "G") // Game System
+                {
+                    intSelectorsVisible = 0;
+                    intURLVisible = 0;
+                    intImageVisible = 0;
+                    lblGorC1.Text = "Genre";
+                    lblGorC2.Text = "Genre Description";
+                    Classes.cGameSystem GS = new Classes.cGameSystem();
+                    GS.Load(GameSystemID, 0);
+                    strURL = GS.GameSystemURL;
+                    strImage = "";
+                    strGameOrCampaignName = GS.GameSystemName;
+                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
+                }
+                else  // Campaign
+                {
+                    if (CampaignID < 1) // Placeholder for Game Systems with no campaigns
+                    {
+                        intURLVisible = 0;
+                        intImageVisible = 0;
+                        intOverviewVisible = 0;
+                        intSelectorsVisible = 0;
+                    }
+                    else
+                    {
+                        lblGorC1.Text = "Campaign";
+                        lblGorC2.Text = "Campaign Description";
+                        Classes.cCampaignBase Cam = new Classes.cCampaignBase(CampaignID, "public", 0);
+                        strURL = Cam.URL;
+                        strImage = Cam.Logo;
+                        intImageHeight = Cam.LogoHeight;
+                        intImageWidth = Cam.LogoWidth;
+                        strGameOrCampaignName = Cam.CampaignName;
+                        lblCampaignOverview.Text = Cam.WebPageDescription;
+                        lblGameSystem1.Text = "Game System: ";
+                        lblGameSystem2.Text = " " + Cam.GameSystemName;
+                        lblGenre1.Text = "Genre: ";
+                        lblGenre2.Text = " " + Cam.GenreList; //TODO-Rick-00 Fix this
+                        lblStyle1.Text = "Style: ";
+                        lblStyle2.Text = " " + Cam.StyleDescription;
+                        lblTechLevel1.Text = "Tech Level: ";
+                        lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
+                        lblSize1.Text = "Size:";
+                        lblSize2.Text = " " + Cam.CampaignSizeRange;
+                    }
+                }
+                SetSiteImage(strImage);
+                if (strURL != null)
+                    SetSiteLink(strURL, strGameOrCampaignName);
+                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
+            }
         }
 
         protected void tvTechLevel_SelectedNodeChanged(object sender, EventArgs e)
         {
+            {
+                string strURL = "";
+                string strImage = "";
+                int intImageHeight = 130;
+                int intImageWidth = 820;
+                string strGameOrCampaignName = "";
+                tvTechLevel.SelectedNode.Selected = true;
+                string SelectedGorC = tvTechLevel.SelectedValue + "";
+                string GorC = SelectedGorC.Substring(0, 1);
+                string stGameSystemID = SelectedGorC.Substring(1, SelectedGorC.Length - 1);
+                int GameSystemID;
+                int CampaignID;
+                int intURLVisible = 1;
+                int intImageVisible = 1;
+                int intOverviewVisible = 1;
+                int intSelectorsVisible = 1;
+                int.TryParse(stGameSystemID, out GameSystemID);
+                int.TryParse(tvTechLevel.SelectedValue, out CampaignID);
+                if (GorC == "G") // Game System
+                {
+                    intSelectorsVisible = 0;
+                    intURLVisible = 0;
+                    intImageVisible = 0;
+                    lblGorC1.Text = "Genre";
+                    lblGorC2.Text = "Genre Description";
+                    Classes.cGameSystem GS = new Classes.cGameSystem();
+                    GS.Load(GameSystemID, 0);
+                    strURL = GS.GameSystemURL;
+                    strImage = "";
+                    strGameOrCampaignName = GS.GameSystemName;
+                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
+                }
+                else  // Campaign
+                {
+                    if (CampaignID < 1) // Placeholder for Game Systems with no campaigns
+                    {
+                        intURLVisible = 0;
+                        intImageVisible = 0;
+                        intOverviewVisible = 0;
+                        intSelectorsVisible = 0;
+                    }
+                    else
+                    {
+                        lblGorC1.Text = "Campaign";
+                        lblGorC2.Text = "Campaign Description";
+                        Classes.cCampaignBase Cam = new Classes.cCampaignBase(CampaignID, "public", 0);
+                        strURL = Cam.URL;
+                        strImage = Cam.Logo;
+                        intImageHeight = Cam.LogoHeight;
+                        intImageWidth = Cam.LogoWidth;
+                        strGameOrCampaignName = Cam.CampaignName;
+                        lblCampaignOverview.Text = Cam.WebPageDescription;
+                        lblGameSystem1.Text = "Game System: ";
+                        lblGameSystem2.Text = " " + Cam.GameSystemName;
+                        lblGenre1.Text = "Genre: ";
+                        lblGenre2.Text = " " + Cam.GenreList; //TODO-Rick-00 Fix this
+                        lblStyle1.Text = "Style: ";
+                        lblStyle2.Text = " " + Cam.StyleDescription;
+                        lblTechLevel1.Text = "Tech Level: ";
+                        lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
+                        lblSize1.Text = "Size:";
+                        lblSize2.Text = " " + Cam.CampaignSizeRange;
+                    }
+                }
+                SetSiteImage(strImage);
+                if (strURL != null)
+                    SetSiteLink(strURL, strGameOrCampaignName);
+                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
+            }
         }
 
         protected void tvSize_SelectedNodeChanged(object sender, EventArgs e)
         {
+            {
+                string strURL = "";
+                string strImage = "";
+                int intImageHeight = 130;
+                int intImageWidth = 820;
+                string strGameOrCampaignName = "";
+                tvSize.SelectedNode.Selected = true;
+                string SelectedGorC = tvSize.SelectedValue + "";
+                string GorC = SelectedGorC.Substring(0, 1);
+                string stGameSystemID = SelectedGorC.Substring(1, SelectedGorC.Length - 1);
+                int GameSystemID;
+                int CampaignID;
+                int intURLVisible = 1;
+                int intImageVisible = 1;
+                int intOverviewVisible = 1;
+                int intSelectorsVisible = 1;
+                int.TryParse(stGameSystemID, out GameSystemID);
+                int.TryParse(tvSize.SelectedValue, out CampaignID);
+                if (GorC == "G") // Game System
+                {
+                    intSelectorsVisible = 0;
+                    intURLVisible = 0;
+                    intImageVisible = 0;
+                    lblGorC1.Text = "Genre";
+                    lblGorC2.Text = "Genre Description";
+                    Classes.cGameSystem GS = new Classes.cGameSystem();
+                    GS.Load(GameSystemID, 0);
+                    strURL = GS.GameSystemURL;
+                    strImage = "";
+                    strGameOrCampaignName = GS.GameSystemName;
+                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
+                }
+                else  // Campaign
+                {
+                    if (CampaignID < 1) // Placeholder for Game Systems with no campaigns
+                    {
+                        intURLVisible = 0;
+                        intImageVisible = 0;
+                        intOverviewVisible = 0;
+                        intSelectorsVisible = 0;
+                    }
+                    else
+                    {
+                        lblGorC1.Text = "Campaign";
+                        lblGorC2.Text = "Campaign Description";
+                        Classes.cCampaignBase Cam = new Classes.cCampaignBase(CampaignID, "public", 0);
+                        strURL = Cam.URL;
+                        strImage = Cam.Logo;
+                        intImageHeight = Cam.LogoHeight;
+                        intImageWidth = Cam.LogoWidth;
+                        strGameOrCampaignName = Cam.CampaignName;
+                        lblCampaignOverview.Text = Cam.WebPageDescription;
+                        lblGameSystem1.Text = "Game System: ";
+                        lblGameSystem2.Text = " " + Cam.GameSystemName;
+                        lblGenre1.Text = "Genre: ";
+                        lblGenre2.Text = " " + Cam.GenreList; //TODO-Rick-00 Fix this
+                        lblStyle1.Text = "Style: ";
+                        lblStyle2.Text = " " + Cam.StyleDescription;
+                        lblTechLevel1.Text = "Tech Level: ";
+                        lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
+                        lblSize1.Text = "Size:";
+                        lblSize2.Text = " " + Cam.CampaignSizeRange;
+                    }
+                }
+                SetSiteImage(strImage);
+                if (strURL != null)
+                    SetSiteLink(strURL, strGameOrCampaignName);
+                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
+            }
         }
 
         protected void chkGameSystem_CheckedChanged(object sender, EventArgs e)
@@ -474,10 +681,11 @@ namespace LarpPortal
             else
                 Session["EndDate"] = edt.ToShortDateString();
             Session["GameSystemFilter"] = 0;
-            //if (chkGameSystem.Checked == true)
-            //    GameSystemFilter = ddlGameSystem.SelectedValue.ToInt32();
-            //else
-            //    GameSystemFilter = 0;
+            if (chkGameSystem.Checked == false)
+            {
+                Session["GameSystemFilter"] = 0;
+                ReloadActiveTreeView(UserID);
+            }
             if (chkCampaign.Checked == true)
                 Session["CampaignFilter"] = ddlCampaign.SelectedValue.ToInt32();
             else
@@ -522,8 +730,16 @@ namespace LarpPortal
 
         protected void ddlGameSystem_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Set Session["filterGameSystem"] to GameSystemID and reload tv
-
+            int UserID;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
+            if (chkGameSystem.Checked == true)
+                Session["GameSystemFilter"] = ddlGameSystem.SelectedValue;
+            else
+                Session["GameSystemFilter"] = 0;
+            ReloadActiveTreeView(UserID);
         }
 
         protected void chkCampaign_CheckedChanged(object sender, EventArgs e)
@@ -551,11 +767,21 @@ namespace LarpPortal
             {
                 ddlCampaign.Visible = false;
             }
+
         }
 
         protected void ddlCampaign_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Set Session["filterCampaign"] to CampaignID and reload tv
+            int UserID;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
+            if (chkCampaign.Checked == true)
+                Session["CampaignFilter"] = ddlGameSystem.SelectedValue;
+            else
+                Session["CampaignFilter"] = 0;
+            ReloadActiveTreeView(UserID);
         }
 
         protected void chkGenre_CheckedChanged(object sender, EventArgs e)
@@ -753,7 +979,7 @@ namespace LarpPortal
             if (tvTechLevel.Visible == true)
                 ReloadtvTechLevel(UserID);
             if (tvSize.Visible == true)
-                ReloadtvSize();
+                ReloadtvSize(UserID);
         }
 
         protected void LoadddlGameSystem(int UserID)
@@ -1774,9 +2000,135 @@ namespace LarpPortal
             }
         }
 
-        protected void ReloadtvSize()
+        protected void ReloadtvSize(int UserID)
         {
-            // TODO-Rick-06 Check for filters, call class, pass variables, load tree view Size
+            int CampaignID = 0;
+            int StatusID = 0;
+            string SizeName = "";
+            string CampaignName = "";
+            int iTemp;
+            int NumberOfCampaignsInThisSystem = 0;
+            TreeNode SizeNode;
+            TreeNode CampaignNode;
+            tvSize.Nodes.Clear();
+            // Start Session Variable Definition for calling class
+            string EndDate;
+            int GameSystemFilter;
+            int CampaignFilter;
+            int GenreFilter;
+            int StyleFilter;
+            int TechLevelFilter;
+            int SizeFilter;
+            string ZipCodeFilter;
+            int RadiusFilter;
+            if (Session["EndDate"] != null)
+                EndDate = Session["EndDate"].ToString();
+            else
+                EndDate = "";
+            if (Session["GameSystemFilter"] != null)
+                GameSystemFilter = Session["GameSystemFilter"].ToString().ToInt32();
+            else
+                GameSystemFilter = 0;
+            if (Session["CampaignFilter"] != null)
+                CampaignFilter = Session["CampaignFilter"].ToString().ToInt32();
+            else
+                CampaignFilter = 0;
+            if (Session["GenreFilter"] != null)
+                GenreFilter = Session["GenreFilter"].ToString().ToInt32();
+            else
+                GenreFilter = 0;
+            if (Session["StyleFilter"] != null)
+                StyleFilter = Session["StyleFilter"].ToString().ToInt32();
+            else
+                StyleFilter = 0;
+            if (Session["TechLevelFilter"] != null)
+                TechLevelFilter = Session["TechLevelFilter"].ToString().ToInt32();
+            else
+                TechLevelFilter = 0;
+            if (Session["SizeFilter"] != null)
+                SizeFilter = Session["SizeFilter"].ToString().ToInt32();
+            else
+                SizeFilter = 0;
+            if (Session["ZipCodeFilter"] != null)
+                ZipCodeFilter = Session["ZipCodeFilter"].ToString();
+            else
+                ZipCodeFilter = "";
+            if (Session["RadiusFilter"] != null)
+                RadiusFilter = Session["RadiusFilter"].ToString().ToInt32();
+            else
+                RadiusFilter = 0;
+            // End Session Variable Definition for calling class
+            Classes.cCampaignSelection Sizes = new Classes.cCampaignSelection();
+            DataTable dtSizes = new DataTable();
+            dtSizes = Sizes.LoadSizes(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCodeFilter, RadiusFilter);
+            foreach (DataRow dRow in dtSizes.Rows)
+            {
+                if (int.TryParse(dRow["CampaignSizeID"].ToString(), out iTemp))
+                    SizeFilter = iTemp;
+                SizeName = dRow["CampaignSizeRange"].ToString();
+                SizeNode = new TreeNode(SizeName, "G" + TechLevelFilter); // G will be assigned all Styles and C will be assigned to Campaigns
+                SizeNode.Selected = false;
+                SizeNode.NavigateUrl = "";
+                Classes.cCampaignSelection Campaigns = new Classes.cCampaignSelection();
+                DataTable dtCampaigns = new DataTable();
+                dtCampaigns = Campaigns.CampaignsBySize(UserID, EndDate, GameSystemFilter, CampaignFilter, GenreFilter, StyleFilter, TechLevelFilter, SizeFilter, ZipCodeFilter, RadiusFilter);
+                // Loop through all the Campaign rows of dtCampaigns
+                NumberOfCampaignsInThisSystem = 0;
+                if (dtCampaigns.Rows.Count == 0)
+                {
+                    // Add an "empty" node to indicate no campaigns (and line up the tree)
+                    CampaignID = 0;
+                    StatusID = 0;
+                    CampaignName = "No Campaigns";
+                    CampaignNode = new TreeNode(CampaignName, CampaignID.ToString());
+                    SizeNode.ChildNodes.Add(CampaignNode);
+                    CampaignNode.Selected = false;
+                    CampaignNode.NavigateUrl = "";
+                }
+                else
+                {
+                    foreach (DataRow cRow in dtCampaigns.Rows)
+                    {
+                        if (int.TryParse(cRow["CampaignID"].ToString(), out iTemp))
+                            CampaignID = iTemp;
+                        if (int.TryParse(cRow["StatusID"].ToString(), out iTemp))
+                            StatusID = iTemp;
+                        CampaignName = cRow["CampaignName"].ToString();
+                        if (StatusID == 4)   // Past/Ended
+                        {
+                            CampaignName = CampaignName + " (Ended)";
+                            if (chkEndedCampaigns.Checked == true)
+                            {
+                                CampaignNode = new TreeNode(CampaignName, CampaignID.ToString());
+                                SizeNode.ChildNodes.Add(CampaignNode);
+                                NumberOfCampaignsInThisSystem = NumberOfCampaignsInThisSystem + 1;
+                                CampaignNode.Selected = false;
+                                CampaignNode.NavigateUrl = "";
+                            }
+                        }
+                        else
+                        {
+                            CampaignNode = new TreeNode(CampaignName, CampaignID.ToString());
+                            SizeNode.ChildNodes.Add(CampaignNode);
+                            NumberOfCampaignsInThisSystem = NumberOfCampaignsInThisSystem + 1;
+                            CampaignNode.Selected = false;
+                            CampaignNode.NavigateUrl = "";
+                        }
+                    }
+                    if (NumberOfCampaignsInThisSystem == 0)
+                    {
+                        // Add an "empty" node to indicate no campaigns (and line up the tree)
+                        CampaignID = 0;
+                        StatusID = 0;
+                        CampaignName = "No Campaigns";
+                        CampaignNode = new TreeNode(CampaignName, CampaignID.ToString());
+                        SizeNode.ChildNodes.Add(CampaignNode);
+                        CampaignNode.Selected = false;
+                        CampaignNode.NavigateUrl = "";
+                    }
+                }
+                tvSize.Nodes.Add(SizeNode);
+            }
         }
 
     }
