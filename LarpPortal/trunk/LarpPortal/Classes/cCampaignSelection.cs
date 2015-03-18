@@ -215,7 +215,40 @@ namespace LarpPortal.Classes
                 EndDate = "1960-01-01";  //Using an arbitrary old date that is older than any end date in the system
             }
             TechLevelID = TechLevelFilter;
-            slParameters.Add("@GenreID", GenreID);
+            slParameters.Add("@TechLevelID", TechLevelID);
+            slParameters.Add("@EndDate", EndDate);            
+            slParameters.Add("@GameSystemFilter", GameSystemFilter);
+            slParameters.Add("@CampaignFilter", CampaignFilter);
+            slParameters.Add("@GenreFilter", GenreFilter);
+            slParameters.Add("@StyleFilter", StyleFilter);
+            slParameters.Add("@TechLevelFilter", TechLevelFilter);
+            slParameters.Add("@SizeFilter", SizeFilter);
+            slParameters.Add("@ZipCode", ZipCodeFilter);
+            slParameters.Add("@RadiusFilter", RadiusFilter);
+            dtCampaigns = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", strUsername, stCallingMethod);
+            foreach (DataRow cRow in dtCampaigns.Rows)
+            {
+                if (int.TryParse(cRow["CampaignID"].ToString(), out iTemp))
+                    CampaignID = iTemp;
+                CampaignName = cRow["CampaignName"].ToString();
+            }
+            return dtCampaigns;
+        }
+
+        public DataTable CampaignsBySize(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
+        {
+            string stStoredProc = "uspGetCampaignsBySize";
+            string stCallingMethod = "cGameSystems.CampaignsBySize";
+            string strUsername = UserID.ToString();
+            int iTemp;
+            SortedList slParameters = new SortedList();
+            DataTable dtCampaigns = new DataTable();
+            if (EndDate == "")
+            {
+                EndDate = "1960-01-01";  //Using an arbitrary old date that is older than any end date in the system
+            }
+            SizeID = SizeFilter;
+            slParameters.Add("@SizeID", SizeID);
             slParameters.Add("@EndDate", EndDate);
             slParameters.Add("@GameSystemFilter", GameSystemFilter);
             slParameters.Add("@CampaignFilter", CampaignFilter);
