@@ -109,13 +109,9 @@
                     <div>
                         <asp:Label ID="lblPasswordReqs" runat="server" ToolTip=""></asp:Label>
                         <asp:TextBox ID="txtPasswordNew" TextMode="Password" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtPasswordNew_TextChanged"></asp:TextBox>
-<%--                        <asp:RequiredFieldValidator ID="RFVPasswordNew" runat="server" ErrorMessage="Password is required" 
-                            ControlToValidate="txtPasswordNew" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>--%>
                     </div>
                     <div>
                         <asp:TextBox ID="txtPasswordNewRetype" TextMode="Password" runat="server" CssClass="form-control" OnTextChanged="txtPasswordNewRetype_TextChanged"></asp:TextBox>
-<%--                        <asp:RequiredFieldValidator ID="RFVPasswordNewRetype" runat="server" ErrorMessage="Password is required" 
-                            ControlToValidate="txtPasswordNewRetype" ValidationGroup="SignUpGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>--%>
                     </div>
                     <div>
                         <label class="checkbox">
@@ -125,6 +121,7 @@
                     </div>
                     <asp:Button ID="btnSignUp" CssClass="btn btn-primary" runat="server" Text="Sign Up" 
                         CausesValidation="true" ValidationGroup="SignUpGroup" OnClick="btnSignUp_Click" />
+                    <asp:Label ID="lblEmailFailed" runat="server" ForeColor="Red"></asp:Label>
                 </div>
                 </form>
             </section>

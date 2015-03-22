@@ -549,6 +549,7 @@
     <Compile Include="Classes\cDescriptors.cs" />
     <Compile Include="Classes\cDonations.cs" />
     <Compile Include="Classes\cEmail.cs" />
+    <Compile Include="Classes\cEmailMessageService.cs" />
     <Compile Include="Classes\cEmptyClass.cs" />
     <Compile Include="Classes\cGameSystem.cs" />
     <Compile Include="Classes\cGameSystems.cs" />

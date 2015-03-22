@@ -15,7 +15,7 @@
 						    </div>
 						    <div class="panel-body">
 							    <div class="panel-container">
-                                    <asp:Label ID="lblAboutUs" runat="server">Page Under Development</asp:Label>
+                                    <asp:Label ID="lblLearnMore" runat="server"></asp:Label>
 							    </div>
 						    </div>
 					    </div>

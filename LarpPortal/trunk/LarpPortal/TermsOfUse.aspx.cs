@@ -11,7 +11,10 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Session["ActiveLeftNav"] = "TermsOfUse";
+            Classes.cLogin TermsOfUse = new Classes.cLogin();
+            TermsOfUse.getTermsOfUse();
+            lblTermsOfUse.Text = TermsOfUse.TermsOfUseText;
         }
     }
 }

@@ -11,7 +11,10 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Session["ActiveLeftNav"] = "LearnMore";
+            Classes.cLogin LearnMore = new Classes.cLogin();
+            LearnMore.getLearnMore();
+            lblLearnMore.Text = LearnMore.LearnMoreText;
         }
     }
 }

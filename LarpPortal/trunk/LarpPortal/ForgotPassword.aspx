@@ -21,7 +21,7 @@
                                         <asp:Label ID="lblForgotUsername" runat="server">Forgot your username?  Fill in the email address and click 'Forgot Username'</asp:Label>
                                         <p></p>
                                         <asp:Label ID="lblEmailAddress" runat="server">Email Address: </asp:Label>
-                                        <asp:TextBox ID="txtEmailAddress" runat="server" AutoPostBack="true" OnTextChanged="txtEmailAddress_TextChanged"></asp:TextBox>
+                                        <asp:TextBox ID="txtEmailAddress" runat="server" TextMode="Email" AutoPostBack="true" OnTextChanged="txtEmailAddress_TextChanged"></asp:TextBox>
                                         <asp:Button ID="btnForgotUsername" runat="server" OnClick="btnForgotUsername_Click" CssClass="btn btn-primary" Text="Forgot Username" />
                                         <asp:Label ID="lblUsernameISEmail" runat="server"></asp:Label>
                                         <p></p>

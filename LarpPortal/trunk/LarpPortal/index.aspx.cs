@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using LarpPortal.Classes;
+using System.Net;
+using System.Net.Mail;
 
 namespace LarpPortal
 {
@@ -67,7 +69,7 @@ namespace LarpPortal
             txtName.Visible = false;
             txtLastLocation.Visible = false;
             txtUserID.Visible = false;
-            //TODO-Rick-3 Define password requirement ToolTip programatically instead of hard coded
+            //TODO-Rick-4 Define password requirement ToolTip programatically instead of hard coded
             lblPasswordReqs.ToolTip = "LARP Portal login passwords must be at least 7 characters long and contain at least " +  
                 "1 uppercase letter, 1 lowercse letter, 1 number and 1 special character";
             if (!IsPostBack)
@@ -280,8 +282,11 @@ namespace LarpPortal
                     NewUser.LoginEmail = txtEmail.Text;
                     NewUser.LoginName = txtNewUsername.Text;
                     NewUser.Save();
-                    // TODO-Rick-0b Generate email to user with login directions - Need class from Jeff
-                    
+                    Classes.cLogin Activation = new Classes.cLogin();
+                    Activation.Load(txtNewUsername.Text, txtPasswordNew.Text);
+                    string ActivationKey = "";
+                    ActivationKey = Activation.SecurityResetCode;
+                    GenerateWelcomeEmail(txtFirstName.Text, txtLastName.Text, txtNewUsername.Text, txtEmail.Text, ActivationKey);
                     // TODO-Rick-0c Redirect to page that will tell user to go look in their email for login directions - Done but 0b isn't so leaving placeholder for now
                     //Response.Redirect("~/NewUserLoginDirections.aspx", "_blank");
                     Response.Write("<script>");
@@ -294,6 +299,39 @@ namespace LarpPortal
             else
             {
                 // TODO-Rick-3 On create user if something totally unexpected is wrong put up a message
+            }
+        }
+
+        protected void GenerateWelcomeEmail(string FirstName, string LastName, string Username, string strTo, string ActivationKey)
+        {
+            string strBody;
+            string strFromUser = "support";
+            string strFromDomain = "larportal.com";
+            string strFrom = strFromUser + "@" + strFromDomain;
+            string strSMTPPassword = "Piccolo1";
+            string strSubject = "Your LARP Portal Activation Key";
+            strBody = "Hi " + FirstName + "<p></p>Welcome to LARP Portal.  The activation key for your new account is " + ActivationKey + ".  To activate your ";
+            strBody = strBody + "account return to www.larportal.com.  Enter your username and password into the Member Login section and click the Login ";
+            strBody = strBody + "button.  When the site prompts you for your activation key, enter it and click the Login button again.<p></p>If you have ";
+            strBody = strBody + "any questions please email us at support@larportal.com.";
+            MailMessage mail = new MailMessage(strFrom, strTo);
+            SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
+            client.EnableSsl = false;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
+            client.Timeout = 10000;
+            mail.Subject = strSubject;
+            mail.Body = strBody;
+            mail.IsBodyHtml = true;
+
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception)
+            {
+                lblEmailFailed.Text = "There was an issue. Please contact us at support@larportal.com for assistance.";
+                lblEmailFailed.Visible = true;
             }
         }
 
