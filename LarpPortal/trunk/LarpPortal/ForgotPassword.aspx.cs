@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Net;
+using System.Net.Mail;
 
 namespace LarpPortal
 {
@@ -94,12 +96,50 @@ namespace LarpPortal
                     else
                     {
                         //TODO-Rick-1 Send an email to the user with just their username.
+                        ForgotUsername(txtEmailAddress.Text);
                         lblUsernameISEmail.Text = "An email has been sent to this email address with your username.  Use that username to fill out this form and complete the process.";
                     }
                 }
             }
 
             lblUsernameISEmail.Visible = true;
+        }
+
+        protected void ForgotUsername(string EmailAddress)
+        {
+            string strBody;
+            string FirstName = "";
+            string LoginUsername = "";
+            Classes.cLogin Username = new Classes.cLogin();
+            Username.GetUsernameByEmail(EmailAddress);
+            FirstName = Username.FirstName;
+            LoginUsername = Username.Username;
+            string strFromUser = "support";
+            string strFromDomain = "larportal.com";
+            string strFrom = strFromUser + "@" + strFromDomain;
+            string strSMTPPassword = "Piccolo1";
+            string strSubject = "Your LARP Portal Username";
+            strBody = "Hi " + FirstName + ",<p></p>Your LARP Portal username is " + LoginUsername + ".  If you need further assistance please contact us ";
+            strBody = strBody + "contact us via email at support@larportal.com.";
+            MailMessage mail = new MailMessage(strFrom, EmailAddress);
+            SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
+            client.EnableSsl = false;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
+            client.Timeout = 10000;
+            mail.Subject = strSubject;
+            mail.Body = strBody;
+            mail.IsBodyHtml = true;
+
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception)
+            {
+                lblUsernameISEmail.Text = "There was an issue. Please contact us at support@larportal.com for assistance.";
+                lblUsernameISEmail.Visible = true;
+            }
         }
 
         protected void btnGetPassword_Click(object sender, EventArgs e)

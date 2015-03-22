@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Collections;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Net.Mail;
 
 namespace LarpPortal.Classes
 {
@@ -42,6 +43,8 @@ namespace LarpPortal.Classes
         public string TabIcon { get; set; }
         public string WhatIsLARPingText { get; set; }
         public string AboutUsText { get; set; }
+        public string TermsOfUseText { get; set; }
+        public string LearnMoreText { get; set; }
         public List<cPageTab> lsPageTabs = new List<cPageTab>();
         public int PasswordValidation { get; set; }
         public int AcceptNewPassword { get; set; }
@@ -127,6 +130,40 @@ namespace LarpPortal.Classes
             foreach (DataRow dRow in dsAboutUs.Tables["MDBParameters"].Rows)
             {
                 AboutUsText = dRow["Comments"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// This will get the text from the database for Terms Of Use
+        /// </summary>
+        public void getTermsOfUse()
+        {
+            string stStoredProc = "uspGetTermsOfUse";
+            string stCallingMethod = "cLogin.getTermsOfUse";
+            SortedList slParameters = new SortedList();
+            DataSet dsTermsOfUse = new DataSet();
+            dsTermsOfUse = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsTermsOfUse.Tables[0].TableName = "MDBParameters";
+            foreach (DataRow dRow in dsTermsOfUse.Tables["MDBParameters"].Rows)
+            {
+                TermsOfUseText = dRow["Comments"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// This will get the text from the database for Learn More About LARP Portal
+        /// </summary>
+        public void getLearnMore()
+        {
+            string stStoredProc = "uspGetLearnMore";
+            string stCallingMethod = "cLogin.getLearnMore";
+            SortedList slParameters = new SortedList();
+            DataSet dsLearnMore = new DataSet();
+            dsLearnMore = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsLearnMore.Tables[0].TableName = "MDBParameters";
+            foreach (DataRow dRow in dsLearnMore.Tables["MDBParameters"].Rows)
+            {
+                LearnMoreText = dRow["Comments"].ToString();
             }
         }
 
@@ -325,6 +362,7 @@ namespace LarpPortal.Classes
             {
                 Username = dRow["LoginUsername"].ToString();
                 Email = dRow["EmailAddress"].ToString();
+                FirstName = dRow["FirstName"].ToString();
             }
         }
 

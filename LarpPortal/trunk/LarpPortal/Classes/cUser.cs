@@ -384,11 +384,7 @@ namespace LarpPortal.Classes
                 lobjError.ProcessError(ex, lsRoutineName, _LoginName + lsRoutineName);
                 blnReturn = false;
             }
-
             return blnReturn;
         }
-
     }
-
-
 }
