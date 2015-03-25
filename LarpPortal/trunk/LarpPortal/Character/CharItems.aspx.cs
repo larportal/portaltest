@@ -12,7 +12,7 @@ namespace LarpPortal.Character
 {
     public partial class CharItems : System.Web.UI.Page
     {
-        public string PictureDirectory = "../Pictures";
+//        public string PictureDirectory = "../Pictures";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -44,13 +44,15 @@ namespace LarpPortal.Character
                         taCostume.InnerText = cChar.Costuming;
                         taWeapons.InnerText = cChar.Weapons;
                         taMakeup.InnerText = cChar.Makeup;
+                        taAccessories.InnerText = cChar.Accessories;
                         taItemsOther.InnerText = cChar.Items;
 
                         DataTable dtPictures = new DataTable();
                         dtPictures = Classes.cUtilities.CreateDataTable(cChar.Pictures);     // CreateDataTable(cChar.Pictures);
                         Session["Items"] = cChar.Pictures;
 
-                        string sFilter = "RecordStatus = '" + Classes.RecordStatuses.Active.ToString() + "'";
+                        string sFilter = "RecordStatus <> '" + ((int)Classes.RecordStatuses.Delete).ToString() + "' and " +
+                            "PictureType = " + ((int)Classes.cPicture.PictureTypes.Item).ToString();
                         DataView dvPictures = new DataView(dtPictures, sFilter, "", DataViewRowState.CurrentRows);
                         dlItems.DataSource = dvPictures;
                         dlItems.DataBind();
@@ -67,16 +69,22 @@ namespace LarpPortal.Character
                 string sUser = Session["LoginName"].ToString();
                 Classes.cPicture NewPicture = new Classes.cPicture();
                 NewPicture.CreateNewPictureRecord(sUser);
+                NewPicture.PictureType = Classes.cPicture.PictureTypes.Item;
                 string sExtension = Path.GetExtension(fuItem.FileName);
                 string filename = "CI" + NewPicture.PictureID.ToString("D10") + sExtension;
 
-                if (!Directory.Exists(PictureDirectory))
-                    Directory.CreateDirectory(PictureDirectory);
+                NewPicture.PictureFileName = filename;
 
-                string FinalFileName = Path.Combine(Server.MapPath(PictureDirectory), filename);
+                if (!Directory.Exists(Path.GetDirectoryName(NewPicture.PictureLocalName)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(NewPicture.PictureLocalName));
+
+                string FinalFileName = NewPicture.PictureLocalName; // Path.Combine(Server.MapPath(Path.GetDirectoryName(NewPicture.PictureLocalName)), filename);
                 fuItem.SaveAs(FinalFileName);
 
-                NewPicture.PictureFileName = filename;
+                int iTemp;
+                if (int.TryParse(ViewState["CurrentCharacter"].ToString(), out iTemp))
+                    NewPicture.CharacterID = iTemp;
+
                 NewPicture.Save(sUser);
 
                 List<Classes.cPicture> Items = new List<Classes.cPicture>();
@@ -86,7 +94,12 @@ namespace LarpPortal.Character
 
                 DataTable dtPictures = Classes.cUtilities.CreateDataTable(Items);
 
-                string sFilter = "RecordStatus = '" + Classes.RecordStatuses.Active.ToString() + "'";
+                //if ( dtPictures.Columns["PictureURL"] == null )
+                //    dtPictures.Columns.Add(new DataColumn("PictureURL", typeof(string)));
+
+                //foreach ( 
+                string sFilter = "RecordStatus <> '" + ((int)Classes.RecordStatuses.Delete).ToString() + "' and " +
+                    "PictureType = " + ((int)Classes.cPicture.PictureTypes.Item).ToString();
                 DataView dvPictures = new DataView(dtPictures, sFilter, "", DataViewRowState.CurrentRows);
                 dlItems.DataSource = dvPictures;
                 dlItems.DataBind();
@@ -107,6 +120,7 @@ namespace LarpPortal.Character
                 cChar.Makeup = taMakeup.InnerText;
                 cChar.Weapons = taWeapons.InnerText;
                 cChar.Items = taItemsOther.InnerText;
+                cChar.Accessories = taAccessories.InnerText;
                 cChar.Pictures = Session["Items"] as List<Classes.cPicture>;
 
                 cChar.SaveCharacter(Session["LoginName"].ToString());
@@ -128,7 +142,8 @@ namespace LarpPortal.Character
                 }
                 Session["Items"] = Items;
                 DataTable dtPictures = Classes.cUtilities.CreateDataTable(Items);
-                string sFilter = "RecordStatus = '" + Classes.RecordStatuses.Active.ToString() + "'";
+                string sFilter = "RecordStatus <> '" + ((int)Classes.RecordStatuses.Delete).ToString() + "' and " +
+                    "PictureType = " + ((int)Classes.cPicture.PictureTypes.Item).ToString();
                 DataView dvPictures = new DataView(dtPictures, sFilter, "", DataViewRowState.CurrentRows);
                 dlItems.DataSource = dvPictures;
                 dlItems.DataBind();

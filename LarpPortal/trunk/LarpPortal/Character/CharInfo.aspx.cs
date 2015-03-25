@@ -102,7 +102,7 @@ namespace LarpPortal.Character
 
                         if (cChar.ProfilePictureID > 0)
                         {
-                            imgCharacterPicture.ImageUrl = cChar.ProfilePicture.PictureURL();
+                            imgCharacterPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
                             pnlCharacterPicture.Visible = true;
                         }
                         else
@@ -190,15 +190,15 @@ namespace LarpPortal.Character
                 string sExtension = Path.GetExtension(ulFile.FileName);
                 NewPicture.PictureFileName = "CP" + NewPicture.PictureID.ToString("D10") + sExtension;
 
-                string LocalName = NewPicture.PictureLocalName();
+                string LocalName = NewPicture.PictureLocalName;
 
-                if (!Directory.Exists(Path.GetDirectoryName(NewPicture.PictureLocalName())))
-                    Directory.CreateDirectory(Path.GetDirectoryName(NewPicture.PictureLocalName()));
+                if (!Directory.Exists(Path.GetDirectoryName(NewPicture.PictureLocalName)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(NewPicture.PictureLocalName));
 
-                ulFile.SaveAs(NewPicture.PictureLocalName());
+                ulFile.SaveAs(NewPicture.PictureLocalName);
                 NewPicture.Save(sUser);
 
-                imgCharacterPicture.ImageUrl = NewPicture.PictureURL();
+                imgCharacterPicture.ImageUrl = NewPicture.PictureURL;
                 pnlCharacterPicture.Visible = true;
             }
         }

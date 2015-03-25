@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="Character.Master.cs" Inherits="LarpPortal.Character.CharacterMaster" %>
+﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" EnableViewState="true" AutoEventWireup="true" CodeBehind="Character.Master.cs" Inherits="LarpPortal.Character.CharacterMaster" %>
 
 <%@ MasterType VirtualPath="~/LARPortal.Master" %>
 
@@ -12,21 +12,23 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainPage" runat="server" ID="CharacterMain">
+    <asp:HiddenField ID="width" runat="server" />
+<asp:HiddenField ID="height" runat="server" />
         <asp:Table ID="Table1" runat="server">
             <asp:TableRow VerticalAlign="Top">
-                <asp:TableCell Wrap="false" VerticalAlign="Top" Width="287">
-                    <div class="contentArea">
-                        <nav class="userSubNav">
-                            <ul class="nav nav-pills">
+                <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
+                    <div class="contentArea" style="width: 227px;">
+                        <nav class="userSubNav" style="width: 227px;">
+                            <ul class="nav nav-pills" style="width: 227px;">
                                 <li><asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" /></li>
                                 <li runat="server" id="liInfo"><a href="CharInfo.aspx" data-toggle="pill" runat="server" id="hlCharInfo">Character Info</a>
-                                    <ul style="list-style-type: none;">
+                                    <ul style="list-style-type: none; display: none;">
                                         <li>Demographics</li>
                                         <li>Non-Cost Descriptors</li>
                                     </ul>
                                 </li>
                                 <li runat="server" id="liItems"><a href="CharItems.aspx" data-toggle="pill">Character Items</a>
-                                    <ul style="list-style-type: none;">
+                                    <ul style="list-style-type: none; display: none;">
                                         <li>Costume</li>
                                         <li>Makeup</li>
                                         <li>Accessories</li>
@@ -34,6 +36,7 @@
                                         <li>Other Items</li>
                                     </ul>
                                 </li>
+                                <li runat="server" id="liPlaces"><a href="CharPlaces.aspx" data-toggle="pill">Character Places</a></li>
                                 <li runat="server" id="liHistory"><a href="CharHistory.aspx" data-toggle="pill">Character History</a></li>
                                 <li runat="server" id="liSkills"><a href="CharSkills.aspx" data-toggle="pill">Character Skills</a></li>
                                 <li runat="server" id="liRequests"><a href="CharRequests.aspx" data-toggle="pill">CharacterRequests</a></li>
@@ -42,9 +45,10 @@
                         </nav>
                     </div>
                 </asp:TableCell>
-                <asp:TableCell>
+                <asp:TableCell Width="80%">
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
                 </asp:TableCell>
             </asp:TableRow>
         </asp:Table>
+
 </asp:Content>

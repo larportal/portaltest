@@ -57,9 +57,20 @@ namespace LarpPortal.Classes
         public int PictureID { get; set; }
         public string PictureFileName { get; set; }
         public string CreatedBy { get; set; }
+        public int CharacterID { get; set; }
+        public string Comments { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUploaded { get; set; }
         public DateTime DateDeleted { get; set; }
+
+        public string PictureURL
+        {
+            get
+            {
+                return _URLDirectory + PictureType.ToString() + "/" + PictureFileName;
+            }
+        }
+
 
         /// <summary>
         /// The type of picture it is (profile, logo, ...)
@@ -72,19 +83,22 @@ namespace LarpPortal.Classes
         /// Formats the file name to a URL.
         /// </summary>
         /// <returns>File name as a URL</returns>
-        public string PictureURL ()
-        {
-            return _URLDirectory + PictureType.ToString() + "/" + PictureFileName;
-        }
+        //public string PictureURL ()
+        //{
+        //    return _URLDirectory + PictureType.ToString() + "/" + PictureFileName;
+        //}
 
 
         /// <summary>
         /// Formats the file name to a local file name including the directories.
         /// </summary>
         /// <returns>Local file name including subdirectories.</returns>
-        public string PictureLocalName ()
+        public string PictureLocalName
         {
-            return Path.Combine(HttpContext.Current.Server.MapPath("/"), _RootDirectory, PictureType.ToString(), PictureFileName);
+            get
+            {
+                return Path.Combine(HttpContext.Current.Server.MapPath("/"), _RootDirectory, PictureType.ToString(), PictureFileName);
+            }
         }
 
 
@@ -113,6 +127,7 @@ namespace LarpPortal.Classes
                 SortedList sParam = new SortedList();
                 sParam.Add("@PictureID", PictureID);
                 sParam.Add("@PictureFileName", PictureFileName);
+                sParam.Add("@CharacterID", CharacterID);
                 sParam.Add("@PictureType", PictureType.ToString());
                 cUtilities.PerformNonQuery("uspMDBPictureUpdatePicture", sParam, "LARPortal", sUserUpdating);
             }
@@ -144,6 +159,10 @@ namespace LarpPortal.Classes
                         PictureID = iTemp;
                     PictureFileName = dRow["PictureFileName"].ToString();
                     PictureType = (PictureTypes) Enum.Parse(typeof(PictureTypes), dRow["PictureType"].ToString());
+
+                    if (int.TryParse(dRow["CharacterID"].ToString(), out iTemp))
+                        CharacterID = iTemp;
+
                     CreatedBy = dRow["CreatedBy"].ToString();
 
                     DateTime dtTemp;
