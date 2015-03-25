@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace LarpPortal.Classes
@@ -48,5 +50,41 @@ namespace LarpPortal.Classes
         public bool OpenToAll { get; set; }
         public string SkillTypeComments { get; set; }
         public RecordStatuses RecordStatus { get; set; }
+
+
+
+
+
+
+        ///// <summary>
+        ///// Delete the picture. Set the ID before doing this.
+        ///// </summary>
+        ///// <param name="sUserID">User ID of person deleting it.</param>
+        public void Delete(string sUserID)
+        {
+            SortedList sParam = new SortedList();
+
+            sParam.Add("@RecordID", CharacterSkillsStandardID);
+            sParam.Add("@UserID", 1);
+            DataTable dtDelChar = new DataTable();
+            dtDelChar = cUtilities.LoadDataTable("uspDelCHCharacterSkillsStandard", sParam, "LARPortal", sUserID, "cCharacterSkills.Delete");
+        }
+
+        public void Save(string sUserID)
+        {
+            string t = "";
+            if (CharacterSkillsStandardID == -1)
+                t = "Now";
+            SortedList sParam = new SortedList();
+
+            sParam.Add("@CharacterSkillsStandardID", CharacterSkillsStandardID);
+            sParam.Add("@CharacterSkillSetID", CharacterSkillSetID);
+            sParam.Add("@CampaignSkillsStandardID", CampaignSkillsStandardID);
+            sParam.Add("@DisplayOnCard", 1);
+            sParam.Add("@CPCostPaid", 0);
+            sParam.Add("@UserID", -1);
+
+            cUtilities.PerformNonQuery("uspInsUpdCHCharacterSkillsStandard", sParam, "LARPortal", sUserID);
+        }
     }
 }

@@ -30,6 +30,8 @@ namespace LarpPortal.Character
                     liRequests.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARPOINTS"))
                     liPoints.Attributes.Add("class", "active");
+                else if (PageName.Contains("CHARPLACES"))
+                    liPlaces.Attributes.Add("class", "active");
 
                 SortedList slParameters = new SortedList();
                 slParameters.Add("@intUserID", 2);
@@ -65,84 +67,40 @@ namespace LarpPortal.Character
                         Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
                     }
                 }
+                ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
+                if (PageName.Contains("CHARADD"))
+                {
+                    ddlCharacterSelector.SelectedIndex = -1;
+                    foreach (ListItem li in ddlCharacterSelector.Items)
+                    {
+                        if (li.Value == "-1")
+                            li.Selected = true;
+                        else
+                            li.Selected = false;
+                    }
+                }
             }
         }
+
         protected void Page_PreRender(object sender, EventArgs e)
         {
             if (ddlCharacterSelector.SelectedValue != "")
             {
                 string t = ddlCharacterSelector.SelectedValue;
             }
+            string j = height.Value;
         }
 
         protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+            if (ddlCharacterSelector.SelectedValue == "-1")
+                Response.Redirect("CharAdd.aspx");
+
+            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
+            {
+                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+                Response.Redirect("CharInfo.aspx");
+            }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//<%--        <asp:Table ID="Table1" runat="server">
-//    <asp:TableRow VerticalAlign="top">
-//        <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227" BorderWidth="0">
-//            <div class="contentArea">
-//                <nav class="userSubNav">
-//                    <asp:DropDownList ID="ddlCharacterSelector" runat="server" CssClass="col-xs-12" Width="227" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" />
-//                    <div class="col-xs-12">
-//                        <ul class="nav nav-pills panel-wrapper list-unstyled scroll-500">
-//                            <li class="active"><a href="CharInfo.aspx" data-toggle="pill" class="main-toggle">Character Info</a>
-//                                <ul style="list-style: none;">
-//                                    <li>Demographics</li>
-//                                    <li>Non Cost Descriptors</li>
-//                                </ul>
-//                            </li>
-//                            <li><a href="CharItems.aspx" data-toggle="pill" class="main-toggle">Character Items</a>
-//                                <ul style="list-style: none;">
-//                                    <li>Costume</li>
-//                                    <li>Makeup</li>
-//                                    <li>Accessories</li>
-//                                    <li>Armor and Weapons</li>
-//                                    <li>Other Items</li>
-//                                </ul>
-//                            </li>
-//                            <li><a href="CharHistory.aspx" data-toggle="pill" class="main-toggle">Character History</a></li>
-//                            <li><a href="#character-skills" data-toggle="pill" class="main-toggle">Character Skills</a></li>
-//                            <li><a href="#character-info-skills-requests" data-toggle="pill" class="main-toggle">Character Requests</a></li>
-//                            <li><a href="#character-info-skills-requests" data-toggle="pill" class="main-toggle">Character Point/Build Mgmt</a></li>
-//                        </ul>
-//                    </div>
-//                </nav>
-//            </div>
-//        </asp:TableCell>--%>
-
-
-
-
-
-
-

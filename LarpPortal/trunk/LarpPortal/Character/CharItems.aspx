@@ -113,7 +113,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="center-block pre-scrollable scroll-100" style="display: inline-block;">
+                            <div class="center-block pre-scrollable scroll-500" style="display: inline-block; overflow-y: auto;">
                                 <asp:DataList ID="dlItems" runat="server" RepeatColumns="3" RepeatDirection="Horizontal" OnDeleteCommand="dlItems_DeleteCommand">
                                     <AlternatingItemStyle BackColor="Transparent" />
                                     <ItemStyle BorderColor="Transparent" BorderWidth="20" />

@@ -55,6 +55,7 @@ namespace LarpPortal.Classes
         public string CharacterPhoto { get; set; }
         public string Costuming { get; set; }
         public string Weapons { get; set; }
+        public string Accessories { get; set; }
         public string Items { get; set; }
         public string Treasure { get; set; }
         public string Makeup { get; set; }
@@ -62,6 +63,8 @@ namespace LarpPortal.Classes
         public string Comments { get; set; }
         public int ProfilePictureID { get; set; }
         public cPicture ProfilePicture { get; set; }
+        public int CampaignID { get; set; }
+        public string CampaignName { get; set; }
 
         public List<cPlace> Places = new List<cPlace>();
         public List<cCharacterDeath> Deaths = new List<cCharacterDeath>();
@@ -182,12 +185,16 @@ namespace LarpPortal.Classes
                 Costuming = dRow["Costuming"].ToString();
 
                 Weapons = dRow["Weapons"].ToString();
+                Accessories = dRow["Accessories"].ToString();
                 Items = dRow["Items"].ToString();
                 Treasure = dRow["Treasure"].ToString();
                 Makeup = dRow["Makeup"].ToString();
                 PlayerComments = dRow["PlayerComments"].ToString();
                 Comments = dRow["Comments"].ToString();
 
+                if (int.TryParse(dRow["CampaignID"].ToString(), out iTemp))
+                    CampaignID = iTemp;
+                CampaignName = dRow["CampaignName"].ToString();
             }
 
             foreach (DataRow dItems in dsCharacterInfo.Tables["CharacterItems"].Rows)
@@ -216,11 +223,18 @@ namespace LarpPortal.Classes
                 {
                     PictureID = -1,
                     PictureFileName = dPicture["PictureFileName"].ToString(),
+                    CreatedBy = dPicture["CreatedBy"].ToString(),
                     RecordStatus = RecordStatuses.Active
                 };
 
-                if (int.TryParse(dPicture["CHCharacterPictureID"].ToString(), out iTemp))
+                string sPictureType = dPicture["PictureType"].ToString();
+                NewPicture.PictureType = (cPicture.PictureTypes) Enum.Parse(typeof(cPicture.PictureTypes), sPictureType);
+
+                if (int.TryParse(dPicture["MDBPictureID"].ToString(), out iTemp))
                     NewPicture.PictureID = iTemp;
+
+                if (int.TryParse(dPicture["CharacterID"].ToString(), out iTemp))
+                    NewPicture.CharacterID = iTemp;
 
                 Pictures.Add(NewPicture);
             }
@@ -433,6 +447,9 @@ namespace LarpPortal.Classes
                 if (int.TryParse(dSkill["SkillHeaderTypeID"].ToString(), out iTemp))
                     NewSkill.SkillHeaderTypeID = iTemp;
 
+                if (int.TryParse(dSkill["CharacterSkillSetID"].ToString(), out iTemp))
+                    NewSkill.CharacterSkillSetID = iTemp;
+
                 if (int.TryParse(dSkill["HeaderAssociation"].ToString(), out iTemp))
                     NewSkill.HeaderAssociation = iTemp;
 
@@ -543,6 +560,7 @@ namespace LarpPortal.Classes
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterPhoto", CharacterPhoto);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@Costuming", Costuming);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@Weapons", Weapons);
+                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@Accessories", Accessories);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@Items", Items);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@Treasure", Treasure);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@Makeup", Makeup);
@@ -555,12 +573,20 @@ namespace LarpPortal.Classes
 
                 foreach (cPicture Picture in Pictures)
                 {
+                    Picture.CharacterID = CharacterID;
                     if (Picture.RecordStatus == RecordStatuses.Delete)
                         Picture.Delete(sUserUpdating);
                     else
                         Picture.Save(sUserUpdating);
                 }
 
+                foreach (cCharacterSkill Skill in CharacterSkills)
+                {
+                    if (Skill.RecordStatus == RecordStatuses.Delete)
+                        Skill.Delete(sUserUpdating);
+                    else
+                        Skill.Save(sUserUpdating);
+                }
   //              foreach (cPlace Place in Places)
   //              {
   // //                 Place.Save(sUserUpdating);

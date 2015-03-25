@@ -146,15 +146,30 @@
         }
     </style>
 </head>
-<body style="width: 95%;" >
+<body style="width: 95%; height: 580px;">
     <form id="form1" runat="server">
         <asp:ScriptManager ID="sm" runat="server" />
         <asp:UpdatePanel ID="upSkill" runat="server">
             <ContentTemplate>
-                <table style="width: 100%;" border="0">
-                    <tr style="vertical-align: top;">
-                        <td colspan="2" style="width: 80%; font-size: 24pt; font-weight: 700;" class="TableItems">Character Skills</td>
-                        <td style="width: 20%;" rowspan="2" class="TableItems">
+                <table style="width: 100%;">
+                    <tr class="TableItems" style="vertical-align: top;">
+                        <td style="width: 40%;" class="TableItems">
+                            <asp:Panel ID="pnlTreeView" runat="server" ScrollBars="Vertical" Height="500px">
+                                <asp:TreeView ID="tvSkills" runat="server" SkipLinkText="" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" ShowCheckBoxes="All"
+                                    ShowLines="false" OnTreeNodeCheckChanged="tvSkills_TreeNodeCheckChanged" Font-Underline="false" CssClass="TreeItems"
+                                    LeafNodeStyle-CssClass="TreeItems" NodeStyle-CssClass="TreeItems">
+                                    <LevelStyles>
+                                        <asp:TreeNodeStyle Font-Underline="false" />
+                                    </LevelStyles>
+                                </asp:TreeView>
+                            </asp:Panel>
+                        </td>
+                        <td style="width: 40%; padding-right: 20px;" class="TableItems">
+                            <div id="divDesc" />
+                            <br />
+                            <asp:TextBox ID="tbPlayerComments" runat="server" Visible="false" />
+                        </td>
+                        <td style="width: 20%;" class="TableItems" align="right">
                             <asp:GridView ID="gvCostList" runat="server" AutoGenerateColumns="false" GridLines="None" OnRowDataBound="gvCostList_RowDataBound">
                                 <Columns>
                                     <asp:BoundField DataField="Skill" HeaderText="Skill" />
@@ -163,21 +178,9 @@
                             </asp:GridView>
                         </td>
                     </tr>
-                    <tr class="TableItems" style="vertical-align: top;">
-                        <td style="width: 40%;" class="TableItems">
-                            <asp:Panel ID="pnlTreeView" runat="server" ScrollBars="Vertical">
-                            <asp:TreeView ID="tvSkills" runat="server" SkipLinkText="" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" ShowCheckBoxes="All" ShowLines="false" OnTreeNodeCheckChanged="tvSkills_TreeNodeCheckChanged" Font-Underline="false" CssClass="TreeItems" LeafNodeStyle-CssClass="TreeItems" Height="300" NodeStyle-CssClass="TreeItems">
-                                <LevelStyles>
-                                    <asp:TreeNodeStyle Font-Underline="false" />
-                                </LevelStyles>
-                            </asp:TreeView>
-                                </asp:Panel>
-                        </td>
-                        <td style="width: 40%; padding-right: 20px;" class="TableItems">
-                            <div id="divDesc" />
-                            <br />
-                            <asp:TextBox ID="tbPlayerComments" runat="server" Visible="false" />
-                        </td>
+                    <tr>
+                        <td colspan="2" />
+                        <td align="right"><asp:Button ID="btnSave" runat="server" Text="&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;" OnClick="btnSave_Click" /></td>
                     </tr>
                 </table>
             </ContentTemplate>

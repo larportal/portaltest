@@ -10,34 +10,25 @@
 namespace LarpPortal.Character {
     
     
-    public partial class CharSkills {
+    public partial class CharAdd {
         
         /// <summary>
-        /// lblFrameHeight control.
+        /// ddlUserCampaigns control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFrameHeight;
+        protected global::System.Web.UI.WebControls.DropDownList ddlUserCampaigns;
         
         /// <summary>
-        /// hidFrameHeight control.
+        /// tbCharacterName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidFrameHeight;
-        
-        /// <summary>
-        /// pnlFrame control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlFrame;
+        protected global::System.Web.UI.WebControls.TextBox tbCharacterName;
         
         /// <summary>
         /// btnSave control.

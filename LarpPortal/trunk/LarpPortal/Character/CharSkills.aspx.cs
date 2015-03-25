@@ -5,6 +5,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.UI.HtmlControls;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -36,6 +37,23 @@ namespace LarpPortal.Character
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            //HtmlIframe SkillTree = new HtmlIframe();
+            //SkillTree.Src = "CharSkill.aspx";
+            ////SkillTree.Style["Width"] = "1000px;";
+
+            pnlFrame.Width = Unit.Pixel(1500);
+                int FrameHeight = 0;
+            if (hidFrameHeight.Value.Length != 0)
+            {
+                if (int.TryParse(hidFrameHeight.Value, out FrameHeight))
+                    FrameHeight = FrameHeight + 1 - 1;
+            }
+            if (FrameHeight != 0)
+                pnlFrame.Height = Unit.Pixel(FrameHeight);
+            else
+                pnlFrame.Height = Unit.Pixel(600);
+
+            //pnlFrame.Controls.Add(SkillTree);
             // Character Descriptor = chcampaignattributedescriptors
             // Name = chcampaignAttributesStandard  where  CampaignAttributeStandardID = CampaignAttributeID
             // CampaignAttributesStandard - AllowMultipleSelections
@@ -47,78 +65,79 @@ namespace LarpPortal.Character
 
 
 //            FrameSkills.Src = "CharSkill.aspx";
+//            string i = hidScreenHeight.Value;
 
-            if (Session["SelectedCharacter"] != null)
-            {
-                string sCurrent = ViewState["CurrentCharacter"].ToString();
-                string sSelected = Session["SelectedCharacter"].ToString();
-                if ((!IsPostBack) || (ViewState["CurrentCharacter"].ToString() != Session["SelectedCharacter"].ToString()))
-                {
-                    int iCharID;
-                    if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-                    {
-                        Classes.cCharacter cChar = new Classes.cCharacter();
-                        cChar.LoadCharacter(iCharID);
+            //if (Session["SelectedCharacter"] != null)
+            //{
+            //    string sCurrent = ViewState["CurrentCharacter"].ToString();
+            //    string sSelected = Session["SelectedCharacter"].ToString();
+            //    if ((!IsPostBack) || (ViewState["CurrentCharacter"].ToString() != Session["SelectedCharacter"].ToString()))
+            //    {
+            //        int iCharID;
+            //        if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+            //        {
+            //            Classes.cCharacter cChar = new Classes.cCharacter();
+            //            cChar.LoadCharacter(iCharID);
 
-                        DataTable dtSkills = new DataTable();
-                        dtSkills.Columns.Add(new DataColumn("CharacterSkillsStandardID", typeof(Int32)));
+            //            DataTable dtSkills = new DataTable();
+            //            dtSkills.Columns.Add(new DataColumn("CharacterSkillsStandardID", typeof(Int32)));
 
-                        dtSkills.Columns.Add(new DataColumn("SkillSetName", typeof(string)));
-                        dtSkills.Columns.Add(new DataColumn("StatusName", typeof(string)));
-                        dtSkills.Columns.Add(new DataColumn("SkillSetTypeDescription", typeof(string)));
-                        dtSkills.Columns.Add(new DataColumn("SkillName", typeof(string)));
-                        dtSkills.Columns.Add(new DataColumn("SkillShortDescription", typeof(string)));
-                        dtSkills.Columns.Add(new DataColumn("SkillLongDescription", typeof(string)));
-                        dtSkills.Columns.Add(new DataColumn("CampaignSkillsStandardComments", typeof(string)));
-                        dtSkills.Columns.Add(new DataColumn("SkillTypeDescription", typeof(string)));
-                        dtSkills.Columns.Add(new DataColumn("SkillTypeComments", typeof(string)));
+            //            dtSkills.Columns.Add(new DataColumn("SkillSetName", typeof(string)));
+            //            dtSkills.Columns.Add(new DataColumn("StatusName", typeof(string)));
+            //            dtSkills.Columns.Add(new DataColumn("SkillSetTypeDescription", typeof(string)));
+            //            dtSkills.Columns.Add(new DataColumn("SkillName", typeof(string)));
+            //            dtSkills.Columns.Add(new DataColumn("SkillShortDescription", typeof(string)));
+            //            dtSkills.Columns.Add(new DataColumn("SkillLongDescription", typeof(string)));
+            //            dtSkills.Columns.Add(new DataColumn("CampaignSkillsStandardComments", typeof(string)));
+            //            dtSkills.Columns.Add(new DataColumn("SkillTypeDescription", typeof(string)));
+            //            dtSkills.Columns.Add(new DataColumn("SkillTypeComments", typeof(string)));
 
-                        foreach (Classes.cCharacterSkill Skill in cChar.CharacterSkills)
-                        {
-                            DataRow dSkillRow = dtSkills.NewRow();
-                            dSkillRow["CharacterSkillsStandardID"] = Skill.CharacterSkillsStandardID;
-                            dSkillRow["SkillSetName"] = Skill.SkillSetName;
-                            dSkillRow["StatusName"] = Skill.StatusName;
-                            dSkillRow["SkillSetTypeDescription"] = Skill.SkillSetTypeDescription;
-                            dSkillRow["SkillName"] = Skill.SkillName;
-                            dSkillRow["SkillShortDescription"] = Skill.SkillShortDescription;
-                            dSkillRow["SkillLongDescription"] = Skill.SkillLongDescription;
-                            dSkillRow["CampaignSkillsStandardComments"] = Skill.CampaignSkillsStandardComments;
-                            dSkillRow["SkillTypeDescription"] = Skill.SkillTypeDescription;
-                            dSkillRow["SkillTypeComments"] = Skill.SkillTypeComments;
+            //            foreach (Classes.cCharacterSkill Skill in cChar.CharacterSkills)
+            //            {
+            //                DataRow dSkillRow = dtSkills.NewRow();
+            //                dSkillRow["CharacterSkillsStandardID"] = Skill.CharacterSkillsStandardID;
+            //                dSkillRow["SkillSetName"] = Skill.SkillSetName;
+            //                dSkillRow["StatusName"] = Skill.StatusName;
+            //                dSkillRow["SkillSetTypeDescription"] = Skill.SkillSetTypeDescription;
+            //                dSkillRow["SkillName"] = Skill.SkillName;
+            //                dSkillRow["SkillShortDescription"] = Skill.SkillShortDescription;
+            //                dSkillRow["SkillLongDescription"] = Skill.SkillLongDescription;
+            //                dSkillRow["CampaignSkillsStandardComments"] = Skill.CampaignSkillsStandardComments;
+            //                dSkillRow["SkillTypeDescription"] = Skill.SkillTypeDescription;
+            //                dSkillRow["SkillTypeComments"] = Skill.SkillTypeComments;
 
-                            dtSkills.Rows.Add(dSkillRow);
-                        }
-                        //gvSkills.DataSource = dtSkills;
-                        //gvSkills.DataBind();
+            //                dtSkills.Rows.Add(dSkillRow);
+            //            }
+            //            //gvSkills.DataSource = dtSkills;
+            //            //gvSkills.DataBind();
 
-                        DataSet dsSkillSets = new DataSet();
-                        SortedList sParam = new SortedList();
-                        sParam.Add("@CampaignID", 1);
-                        dsSkillSets = Classes.cUtilities.LoadDataSet("uspGetCampaignSkills", sParam, "LARPortal", Session["LoginName"].ToString(), "");
+            //            DataSet dsSkillSets = new DataSet();
+            //            SortedList sParam = new SortedList();
+            //            sParam.Add("@CampaignID", 1);
+            //            dsSkillSets = Classes.cUtilities.LoadDataSet("uspGetCampaignSkills", sParam, "LARPortal", Session["LoginName"].ToString(), "");
 
-                        _dtSkills = dsSkillSets.Tables[1];
-                        //TreeNode MainNode = new TreeNode("Skills");
-                        //tvSkills.NodeIndent = 0;
+            //            _dtSkills = dsSkillSets.Tables[1];
+            //            TreeNode MainNode = new TreeNode("Skills");
+            //            //tvSkills.NodeIndent = 0;
 
-                        //DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "", DataViewRowState.CurrentRows);
-                        //foreach (DataRowView dvRow in dvTopNodes)
-                        //{
-                        //    TreeNode NewNode = new TreeNode(dvRow["SkillName"].ToString());
-                        //    NewNode.SelectAction = TreeNodeSelectAction.Expand;
-                        //    int iNodeID;
-                        //    if (int.TryParse(dvRow["CampaignSkillsStandardID"].ToString(), out iNodeID))
-                        //    {
-                        //        NewNode.Text += " " + iNodeID.ToString();
-                        //        PopulateTreeView(iNodeID, NewNode);
-                        //    }
-                        //    tvSkills.Nodes.Add(NewNode);
-                        //}
-                    }
+            //            //DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "", DataViewRowState.CurrentRows);
+            //            //foreach (DataRowView dvRow in dvTopNodes)
+            //            //{
+            //            //    TreeNode NewNode = new TreeNode(dvRow["SkillName"].ToString());
+            //            //    NewNode.SelectAction = TreeNodeSelectAction.Expand;
+            //            //    int iNodeID;
+            //            //    if (int.TryParse(dvRow["CampaignSkillsStandardID"].ToString(), out iNodeID))
+            //            //    {
+            //            //        NewNode.Text += " " + iNodeID.ToString();
+            //            //        PopulateTreeView(iNodeID, NewNode);
+            //            //    }
+            //            //    tvSkills.Nodes.Add(NewNode);
+            //            //}
+            //        }
 
-                    ViewState["CurrentCharacter"] = Session["SelectedCharacter"];
-                }
-            }
+            //        ViewState["CurrentCharacter"] = Session["SelectedCharacter"];
+            //    }
+            //}
         }
 
 

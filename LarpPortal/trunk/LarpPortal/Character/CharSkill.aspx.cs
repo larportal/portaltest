@@ -16,10 +16,11 @@ namespace LarpPortal.Character
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["CurrentCharacter"] == null)
-                Session["CurrentCharacter"] = -1;
-            if (Session["SelectedCharacter"] == null)
-                Session["SelectedCharacter"] = 7;
+            //if (Session["CurrentCharacter"] == null)
+            //    Session["CurrentCharacter"] = -1;
+            //if (Session["SelectedCharacter"] == null)
+            //    Session["SelectedCharacter"] = 7;
+            //string t = Request.QueryString.ToString();
             if (!IsPostBack)
                 tvSkills.Attributes.Add("onclick", "postBackByObject()");
         }
@@ -30,6 +31,11 @@ namespace LarpPortal.Character
         {
             if (!IsPostBack)
             {
+                if (Session["CurrentCharacter"] == null)
+                    Session["CurrentCharacter"] = -1;
+                if (Session["SelectedCharacter"] == null)
+                    Session["SelectedCharacter"] = 7;
+
                 if (Session["SelectedCharacter"] != null)
                 {
                     double TotalCP = 0.0;
@@ -79,6 +85,7 @@ namespace LarpPortal.Character
                                     NewNode.NavigateUrl = "javascript:void(0);";
                                     PopulateTreeView(iNodeID, NewNode);
                                 }
+                                NewNode.Expanded = false;
                                 tvSkills.Nodes.Add(NewNode);
                             }
                         }
@@ -153,6 +160,8 @@ namespace LarpPortal.Character
                     }
                 }
             }
+
+            Session["SelectedSkills"] = dtSkillCosts;
 
             DataRow NewRow = dtSkillCosts.NewRow();
             NewRow["Skill"] = "Total Skills";
@@ -230,6 +239,70 @@ namespace LarpPortal.Character
                      (e.Row.Cells[0].Text.ToUpper() == "TOTAL AVAIL"))
                     e.Row.Font.Bold = true;
             }
+        }
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            int iCharID;
+            if (Session["SelectedCharacter"] != null)
+            {
+                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                {
+                    Classes.cCharacter Char = new Classes.cCharacter();
+                    Char.LoadCharacter(iCharID);
+
+                    int CharacterSkillsSetID = -1;
+
+                    foreach (Classes.cCharacterSkill cSkill in Char.CharacterSkills)
+                    {
+                        cSkill.RecordStatus = Classes.RecordStatuses.Delete;
+                        CharacterSkillsSetID = cSkill.CharacterSkillSetID;
+                    }
+
+                    foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
+                    {
+                        int iSkillID;
+                        if (int.TryParse(SkillNode.Value, out iSkillID))
+                        {
+                            var FoundRecord = Char.CharacterSkills.Find(x => x.CampaignSkillsStandardID == iSkillID);
+                            if (FoundRecord != null)
+                                FoundRecord.RecordStatus = Classes.RecordStatuses.Active;
+                            else
+                            {
+                                Classes.cCharacterSkill Newskill = new Classes.cCharacterSkill();
+                                Newskill.CharacterSkillsStandardID = -1;
+                                Newskill.CharacterID = iCharID;
+                                Newskill.CampaignSkillsStandardID = iSkillID;
+                                Newskill.CharacterSkillSetID = CharacterSkillsSetID;
+                                Newskill.CPCostPaid = 0;
+                                Char.CharacterSkills.Add(Newskill);
+                            }
+                        }
+                    }
+                    Char.SaveCharacter(Session["UserID"].ToString());
+                }
+            }
+
+            //foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
+            //{
+            //    int iSkillID;
+            //    if (int.TryParse(SkillNode.Value, out iSkillID))
+            //    {
+            //        //DataRow[] dSkillRow = dtAllSkills.Select("CampaignSkillsStandardID = " + iSkillID.ToString());
+            //        //if (dSkillRow.Length > 0)
+            //        //{
+            //        //    double SkillCost;
+            //        //    if (double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost))
+            //        //        TotalSpent += SkillCost;
+            //        //    DataRow dNewRow = dtSkillCosts.NewRow();
+            //        //    dNewRow["Skill"] = dSkillRow[0]["SkillName"].ToString();
+            //        //    dNewRow["Cost"] = SkillCost;
+            //        //    dNewRow["SortOrder"] = 10;
+            //        //    dtSkillCosts.Rows.Add(dNewRow);
+            //        //}
+            //    }
+            //}
+
         }
     }
 }
