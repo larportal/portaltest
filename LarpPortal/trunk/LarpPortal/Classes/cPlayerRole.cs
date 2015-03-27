@@ -49,6 +49,8 @@ namespace LarpPortal.Classes
         public int RoleAssignmentLevel { get; set; }
         public bool CanRegisterForEvents { get; set; }
         public int RoleAlignment { get; set; }
+        public string IsPC { get; set; }
+        public string IsNPC { get; set; }
         
         /// <summary>
         /// This will load the details of a particular player role
@@ -64,6 +66,8 @@ namespace LarpPortal.Classes
             bool bTemp;
             DateTime dtTemp;
             double dTemp;
+            IsPC = "false";
+            IsNPC = "false";
             SortedList slParameters = new SortedList();
             slParameters.Add("@UserID", UserID);
             slParameters.Add("@CampaignPlayerRoleID", CampaignPlayerRoleIDToLoad);
@@ -78,6 +82,23 @@ namespace LarpPortal.Classes
                     CampaignPlayerRoleID = iTemp;
                 if (int.TryParse(dRow["RoleID"].ToString(), out iTemp))
                     RoleID = iTemp;
+                switch (RoleID)
+                {
+                    case 8:
+                        IsPC = "true";
+                        break;
+                    case 6:
+                        IsNPC = "true";
+                        break;
+                    case 7:
+                        IsNPC = "true";
+                        break;
+                    case 10:
+                        IsNPC = "true";
+                        break;
+                    default:
+                        break;
+                }
                 if (int.TryParse(dRow["RoleAlignmentID"].ToString(), out iTemp))
                     RoleAlignmentID = iTemp;
                 if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
@@ -106,7 +127,7 @@ namespace LarpPortal.Classes
                 RoleDescription = dRow["RoleDescription"].ToString();
                 WriteUpLengthPreference = dRow["WriteUpLengthPreference"].ToString();
                 BackgroundKnowledge = dRow["BackgroundKnowledge"].ToString();
-                WaiverFile = dRow["WaiverFile"].ToString();
+                //WaiverFile = dRow["WaiverFile"].ToString();
                 RoleTier = dRow["RoleTier"].ToString();
                 if (DateTime.TryParse(dRow["ExpirationDate"].ToString(), out dtTemp))
                     ExpirationDate = dtTemp;

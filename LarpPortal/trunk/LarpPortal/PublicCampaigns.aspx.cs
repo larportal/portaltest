@@ -154,7 +154,7 @@ namespace LarpPortal
             ReloadActiveTreeView(UserID);
         }
 
-        protected void MakeDetailsVisible(int URLVisible, int ImageVisible, int imgHeight, int imgWidth, int OverviewVisible, int SelectorsVisible)
+        protected void MakeDetailsVisible(int URLVisible, int ImageVisible, int imgHeight, int imgWidth, int OverviewVisible, int SelectorsVisible, int CampaignID)
         {
             if (URLVisible == 1)
                 hplLinkToSite.Visible = true;
@@ -174,7 +174,6 @@ namespace LarpPortal
 
                 int CalculatedHeight = Convert.ToInt32(Math.Round(820 / imgRatio,0));
                 int CalculatedWidth = Convert.ToInt32(Math.Round(130 * imgRatio,0));
-
 
                 if (imgRatio == 6.308m)
                 {
@@ -203,7 +202,7 @@ namespace LarpPortal
             {
                 pnlSelectors.Visible = true;
                 if ( ((int)Session["SecurityRole"]) == 10)
-                    pnlSignUpForCampaign.Visible = true;
+                    MakePanelSignUpVisible(CampaignID);
                 else
                     pnlSignUpForCampaign.Visible = false;
             }
@@ -212,6 +211,54 @@ namespace LarpPortal
                 pnlSelectors.Visible = false;
                 pnlSignUpForCampaign.Visible = false;
             }
+        }
+
+        protected void MakePanelSignUpVisible(int CampaignID)
+        {
+            // Determine current roles for this campaign.
+            //WeAreHere
+            int UserID = 0;
+            string IsPC = "false";
+            string IsNPC = "false";
+            if (Session["UserID"].ToString().ToInt32() != 0)
+                UserID = Session["UserID"].ToString().ToInt32();
+            if (UserID > 0)
+            {
+                Classes.cPlayerRole Roles = new Classes.cPlayerRole();
+                Roles.Load(UserID, 0, CampaignID);
+                IsPC = Roles.IsPC;
+                IsNPC = Roles.IsNPC;
+                btnSignUp.Items.Clear();
+                // None - Show all three choices
+                if (IsPC == "false" && IsNPC == "false")
+                {
+                    btnSignUp.Items.Add(new ListItem("PC", "1"));
+                    btnSignUp.Items.Add(new ListItem("NPC", "2"));
+                    btnSignUp.Items.Add(new ListItem("Both", "3"));
+                }
+                // PC Only - Show NPC
+                if (IsPC == "true" && IsNPC == "false")
+                {
+                    btnSignUp.Items.Add(new ListItem("NPC", "2"));
+                }
+                // NPC Only - Show PC
+                if (IsPC == "false" && IsNPC == "true")
+                {
+                    btnSignUp.Items.Add(new ListItem("PC", "1"));
+                }
+                // Both - Don't show panel
+                if (IsPC == "true"  && IsNPC == "true")
+                {
+                    //pnlSignUpForCampaign.Visible = false;
+                    btnSignUpForCampaign.Visible = false;
+                }
+                else
+                {
+                    pnlSignUpForCampaign.Visible = true;
+                    btnSignUpForCampaign.Visible = true;
+                }
+            }
+
         }
 
         protected void SetSiteLink(string strURL, string strGameName)
@@ -305,7 +352,7 @@ namespace LarpPortal
             SetSiteImage(strImage);
             if(strURL != null)
                 SetSiteLink(strURL, strGameOrCampaignName);
-            MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
+            MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible, CampaignID);
         }
 
         protected void tvCampaign_SelectedNodeChanged(object sender, EventArgs e)
@@ -373,7 +420,7 @@ namespace LarpPortal
             SetSiteImage(strImage);
             if (strURL != null)
                 SetSiteLink(strURL, strGameOrCampaignName);
-            MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
+            MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible, CampaignID);
         }
 
         protected void tvGenre_SelectedNodeChanged(object sender, EventArgs e)
@@ -445,7 +492,7 @@ namespace LarpPortal
                 SetSiteImage(strImage);
                 if (strURL != null)
                     SetSiteLink(strURL, strGameOrCampaignName);
-                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
+                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible, CampaignID);
             }
         }
 
@@ -518,7 +565,7 @@ namespace LarpPortal
                 SetSiteImage(strImage);
                 if (strURL != null)
                     SetSiteLink(strURL, strGameOrCampaignName);
-                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
+                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible, CampaignID);
             }
         }
 
@@ -591,7 +638,7 @@ namespace LarpPortal
                 SetSiteImage(strImage);
                 if (strURL != null)
                     SetSiteLink(strURL, strGameOrCampaignName);
-                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
+                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible, CampaignID);
             }
         }
 
@@ -664,7 +711,7 @@ namespace LarpPortal
                 SetSiteImage(strImage);
                 if (strURL != null)
                     SetSiteLink(strURL, strGameOrCampaignName);
-                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible);
+                MakeDetailsVisible(intURLVisible, intImageVisible, intImageHeight, intImageWidth, intOverviewVisible, intSelectorsVisible, CampaignID);
             }
         }
 
@@ -2131,5 +2178,9 @@ namespace LarpPortal
             }
         }
 
+        protected void btnSignUpForCampaign_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -283,17 +283,28 @@
                         <div class="col-md-4 panel-wrapper">
                         <div class="panel">
                             <div class="panel-header">
-                                <h2><asp:Label ID="lblSignUp" runat="server"></asp:Label>Campaign Sign Up</h2>
+                                <h2><asp:Label ID="lblSignUp" runat="server"></asp:Label>Add to Your Campaigns</h2>
                             </div>
                             <div class="panel-body">
                                 <div class="panel-container">
-                                    <asp:RadioButtonList ID="btnSignUp" runat="server" RepeatDirection="Horizontal" RepeatLayout="Table" CellSpacing="30">
-                                        <asp:ListItem Text="PC" Value="1"></asp:ListItem>
-                                        <asp:ListItem Text="NPC" Value="2"></asp:ListItem>
-                                        <asp:ListItem Text="Both" Value="3"></asp:ListItem>
-                                    </asp:RadioButtonList>
-                                    <asp:Button ID="btnSignUpForCampaign" runat="server" Text="Submit Request" />
-                                    <asp:Label ID="lblSignUpMessage" runat="server"></asp:Label>
+                                    <asp:Table ID="tblAddCampaigns" runat="server" CellPadding ="30">
+                                        <asp:TableRow>
+                                            <asp:TableCell>
+                                                <asp:RadioButtonList ID="btnSignUp" runat="server"  RepeatLayout="Table">
+            <%--                                        <asp:ListItem Text="PC" Value="1"></asp:ListItem>
+                                                    <asp:ListItem Text="NPC" Value="2"></asp:ListItem>
+                                                    <asp:ListItem Text="Both" Value="3"></asp:ListItem>--%>
+                                                </asp:RadioButtonList>
+                                                <asp:Button ID="btnSignUpForCampaign" runat="server" Visible="false" Text="Submit Request" OnClick="btnSignUpForCampaign_Click" />
+                                                <asp:Label ID="lblSignUpMessage" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell>
+                                                Current Roles:
+
+                                            </asp:TableCell>
+                                        </asp:TableRow>
+
+                                    </asp:Table>
                                 </div>
                             </div>
                         </div>

@@ -25,7 +25,7 @@ namespace LarpPortal
             {
                 Session["CampaignName"] = "";
             }
-            lblCampaignName.Text = Session["CampaignName"].ToString();
+            //lblCampaignName.Text =  Session["CampaignName"].ToString();
             if (Session["LoginName"] == null)
             {
                 Session["LoginName"] = "Guest";
