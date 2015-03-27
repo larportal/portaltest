@@ -213,12 +213,16 @@
     <Content Include="bin\WebGrease.dll" />
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
+    <Content Include="Character\CharAdd.aspx" />
     <Content Include="Character\CharHistory.aspx" />
     <Content Include="Character\CharInfo.aspx" />
     <Content Include="Character\CharItems.aspx" />
+    <Content Include="Character\CharPlaces.aspx" />
+    <Content Include="Character\CharPlaceTV.aspx" />
     <Content Include="Character\CharSkill.aspx" />
     <Content Include="Character\CharSkills.aspx" />
     <Content Include="ForgotPassword.aspx" />
+    <Content Include="img\blank.gif" />
     <Content Include="img\construction.gif" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap.css" />
@@ -234,7 +238,8 @@
     <Content Include="img\logo\CM-1-Madrigal.jpg" />
     <Content Include="img\logo\CM-15-SevenVirtues.png" />
     <Content Include="img\logo\CM-33-FifthGate.jpg" />
-    <Content Include="img\logo\CM-7-CottingtonWoods.png" />
+    <Content Include="img\logo\Logo_33_FifthGate.png" />
+    <Content Include="img\logo\Logo_7_CottingtonWoods.png" />
     <Content Include="img\logo\CM-8-MirrorMirror.jpg" />
     <Content Include="img\logo\Logo_10_Occam%27sRazor.jpg" />
     <Content Include="img\logo\Logo_11_ShadowsofAmun.jpg" />
@@ -300,7 +305,7 @@
     <Content Include="img\logo\Logo_70_LegendsLegacy.jpg" />
     <Content Include="img\logo\Logo_71_Outpost.jpg" />
     <Content Include="img\logo\Logo_73_AllianceCTCalderia.jpg" />
-    <Content Include="img\logo\Logo_7_CottingtonWoods.jpg" />
+    <Content Include="img\logo\Logo_7_CottingtonWoodsOld.jpg" />
     <Content Include="img\logo\Logo_8_MirrorMirror.jpg" />
     <Content Include="img\logo\Logo_9_Numina.jpg" />
     <Content Include="img\player\PL-15-JJMcGill.png" />
@@ -495,6 +500,13 @@
     <Compile Include="Character\Character.Master.designer.cs">
       <DependentUpon>Character.Master</DependentUpon>
     </Compile>
+    <Compile Include="Character\CharAdd.aspx.cs">
+      <DependentUpon>CharAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharAdd.aspx.designer.cs">
+      <DependentUpon>CharAdd.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Character\CharHistory.aspx.cs">
       <DependentUpon>CharHistory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -515,6 +527,20 @@
     </Compile>
     <Compile Include="Character\CharItems.aspx.designer.cs">
       <DependentUpon>CharItems.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharPlaces.aspx.cs">
+      <DependentUpon>CharPlaces.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharPlaces.aspx.designer.cs">
+      <DependentUpon>CharPlaces.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharPlaceTV.aspx.cs">
+      <DependentUpon>CharPlaceTV.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharPlaceTV.aspx.designer.cs">
+      <DependentUpon>CharPlaceTV.aspx</DependentUpon>
     </Compile>
     <Compile Include="Character\CharSkill.aspx.cs">
       <DependentUpon>CharSkill.aspx</DependentUpon>
