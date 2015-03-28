@@ -175,10 +175,10 @@
 
                             <div class="col-sm-12">
                                 <div class="row">
-                                    <div class="col-sm-2 text-right NoRightPadding">
+                                    <div class="col-sm-4 text-right NoRightPadding">
                                     <label for="ddlDescriptor" class="control-label">Character Descriptor</label>
                                         </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <asp:DropDownList ID="ddlDescriptor" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlDescriptor_SelectedIndexChanged" />
                                     </div>
                                 </div>
@@ -186,10 +186,10 @@
 
                             <div class="col-sm-12">
                                 <div class="row">
-                                    <div class="col-sm-2 text-right NoRightPadding">
+                                    <div class="col-sm-4 text-right NoRightPadding">
                                     <label for="ddlDescriptor" class="control-label">Name</label>
                                         </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <asp:DropDownList ID="ddlName" runat="server" CssClass="form-control" />
                                     </div>
                                 </div>
@@ -197,7 +197,7 @@
 
                             <div class="col-sm-12">
                                 <div class="row">
-                                    <div class="col-sm-2 text-right NoRightPadding">
+                                    <div class="col-sm-4 text-right NoRightPadding">
                                     <label for="tbDateAdded" class="control-label">Date Added</label>
                                         </div>
                                     <div class="col-sm-1-5">
@@ -206,7 +206,7 @@
                                     <div class="col-sm-0-5">
                                         &nbsp;
                                     </div>
-                                    <div class="col-sm-1">
+                                    <div class="col-sm-2">
                                         <asp:Button ID="btnAddDesc" runat="server" Text="Add" class="btn btn-default" OnClick="btnAddDesc_Click" />
                                     </div>
                                 </div>
