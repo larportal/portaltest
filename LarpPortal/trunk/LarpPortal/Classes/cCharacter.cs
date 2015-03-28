@@ -65,6 +65,7 @@ namespace LarpPortal.Classes
         public cPicture ProfilePicture { get; set; }
         public int CampaignID { get; set; }
         public string CampaignName { get; set; }
+        public int CharacterSkillSetID { get; set; }
 
         public List<cPlace> Places = new List<cPlace>();
         public List<cCharacterDeath> Deaths = new List<cCharacterDeath>();
@@ -195,6 +196,9 @@ namespace LarpPortal.Classes
                 if (int.TryParse(dRow["CampaignID"].ToString(), out iTemp))
                     CampaignID = iTemp;
                 CampaignName = dRow["CampaignName"].ToString();
+
+                if (int.TryParse(dRow["CharacterSkillSetID"].ToString(), out iTemp))
+                    CharacterSkillSetID = iTemp;
             }
 
             foreach (DataRow dItems in dsCharacterInfo.Tables["CharacterItems"].Rows)
@@ -509,12 +513,13 @@ namespace LarpPortal.Classes
                 Descriptors.Add(NewDesc);
             }
 
-            ProfilePicture = new cPicture();
+            ProfilePicture = null;
 
             foreach (DataRow dRow in dsCharacterInfo.Tables["ProfilePicture"].Rows)
             {
                 if ( int.TryParse(dRow["MDBPictureID"].ToString(), out iTemp) )
                 {
+                    ProfilePicture = new cPicture();
                     ProfilePicture.PictureID = iTemp;
                     ProfilePictureID = iTemp;
                     ProfilePicture.PictureFileName = dRow["PictureFileName"].ToString();
@@ -526,7 +531,7 @@ namespace LarpPortal.Classes
             return iNumCharacterRecords;
         }
 
-        public int SaveCharacter(string sUserUpdating)
+        public int SaveCharacter(string sUserUpdating, int iUserID)
         {
             using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
             {
@@ -586,6 +591,15 @@ namespace LarpPortal.Classes
                         Skill.Delete(sUserUpdating);
                     else
                         Skill.Save(sUserUpdating);
+                }
+
+                foreach (cDescriptor Desc in Descriptors)
+                {
+                    Desc.CharacterSkillSetID = CharacterSkillSetID;
+                    if (Desc.RecordStatus == RecordStatuses.Delete)
+                        Desc.Delete(sUserUpdating, iUserID);
+                    else
+                        Desc.Save(sUserUpdating, iUserID);
                 }
   //              foreach (cPlace Place in Places)
   //              {

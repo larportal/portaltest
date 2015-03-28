@@ -123,7 +123,7 @@ namespace LarpPortal.Character
                 cChar.Accessories = taAccessories.InnerText;
                 cChar.Pictures = Session["Items"] as List<Classes.cPicture>;
 
-                cChar.SaveCharacter(Session["LoginName"].ToString());
+                cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
             }
         }
 

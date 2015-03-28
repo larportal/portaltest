@@ -16,7 +16,7 @@
 <asp:HiddenField ID="height" runat="server" />
         <asp:Table ID="Table1" runat="server">
             <asp:TableRow VerticalAlign="Top">
-                <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
+                <asp:TableCell Wrap="false" VerticalAlign="Top" Width="287">
                     <div class="contentArea" style="width: 227px;">
                         <nav class="userSubNav" style="width: 227px;">
                             <ul class="nav nav-pills" style="width: 227px;">
@@ -45,7 +45,7 @@
                         </nav>
                     </div>
                 </asp:TableCell>
-                <asp:TableCell Width="80%">
+                <asp:TableCell Width="100%" style="text-align: left;">
                     <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
                 </asp:TableCell>
             </asp:TableRow>

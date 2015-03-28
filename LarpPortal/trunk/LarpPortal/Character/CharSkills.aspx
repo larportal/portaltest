@@ -103,15 +103,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Label ID="lblFrameHeight" runat="server" />
     <asp:HiddenField ID="hidFrameHeight" runat="server" />
-    <%--    <div class="mainContent tab-content col-sm-12">
-        <div class="form-horizontal col-sm-12">
-            <div class="row col-sm-12 NoRightPadding">
-                <div class="col-sm-12">
-   <asp:Image ID="imgBlank" runat="server" ImageUrl="~/img/blank.gif" Width="1000" Height="1" BorderStyle="Solid" BorderColor="Black" BorderWidth="1" />
-                </div>
-            </div>
-        </div>
-    </div>--%>
     <div class="mainContent tab-content col-sm-12">
         <div class="row">
             <div class="panel-wrapper" runat="server">
@@ -123,7 +114,6 @@
                                 <asp:Panel ID="pnlFrame" runat="server" Height="600px">
                                     <iframe id="FrameSkills" name="FrameSkills" src="CharSkill.aspx"
                                         style="border: 0px solid green; width: 100%; height: 1580px;" />
-                                    Here's another.
                                 </asp:Panel>
                             </div>
                         </div>
@@ -131,14 +121,14 @@
                 </div>
             </div>
         </div>
-        <div class="form-horizontal">
+<%--        <div class="form-horizontal">
             <div class="row" style="border: solid 1px red;">
                 <div class="col-sm-10">This is a spot.</div>
                 <div class="col-sm-2 NoRightPadding">
                     <asp:Button ID="btnSave" runat="server" CssClass="btn btn-default input-group button form-control" Style="height: 30px;" Text="Save" OnClick="btnSave_Click" />
                 </div>
             </div>
-        </div>
+        </div>--%>
     </div>
     <%--    <br />
     <br />
