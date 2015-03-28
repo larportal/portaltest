@@ -158,6 +158,13 @@
                                 <div class="row" style="border-left: 30px;">
                                     <asp:GridView ID="gvDescriptors" runat="server" AutoGenerateColumns="false" GridLines="None" OnRowCommand="gvDescriptors_RowCommand" DataKeyNames="CharacterAttributesBasicID"
                                         CssClass="table table-striped table-hover table-condensed">
+                                        <EmptyDataTemplate>
+                                            <table>
+                                                <tr>
+                                                    <td>You have no descriptors select. Please select from the boxes below.</td>
+                                                </tr>
+                                            </table>
+                                        </EmptyDataTemplate>
                                         <Columns>
                                             <asp:BoundField DataField="CharacterDescriptor" HeaderText="Character Descriptor" />
                                             <asp:BoundField DataField="DescriptorValue" HeaderText="Value" />
