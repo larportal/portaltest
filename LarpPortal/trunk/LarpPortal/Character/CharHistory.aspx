@@ -7,7 +7,7 @@
     <div class="character-history tab-pane">
         <section role="form" class="form-horizontal form-condensed">
             <div class="row">
-                <h1 class="col-xs-4" style="padding-top: 0px;">Character History</h1>
+                <h1 class="col-xs-10" style="padding-top: 0px;"><asp:Label ID="lblHeader" runat="server" /></h1>
             </div>
             <div class="row">
                 <div class="col-xs-6">
@@ -21,7 +21,7 @@
                 </div>
                 <!-- col-xs-6 -->
             </div>
-            <div class="row">
+<%--            <div class="row">
                 <div class="col-xs-6">
                     <div class="panel-wrapper">
                         <div class="panel">
@@ -97,14 +97,6 @@
                                             </asp:TemplateField>
                                             <asp:BoundField DataField="ID" HeaderText="ID" />
                                             <asp:BoundField DataField="PlaceName" HeaderText="Place Name" />
-<%--                                            <asp:TemplateField HeaderText="Listed">
-                                                <ItemTemplate>
-                                                    <asp:Label ID="lblListedInRuleBook" Text='<%# Eval("ListedInRuleBook") %>' runat="server" />
-                                                </ItemTemplate>
-                                                <EditItemTemplate>
-                                                    <asp:CheckBox ID="cbListedInRuleBook" runat="server" />
-                                                </EditItemTemplate>
-                                            </asp:TemplateField>--%>
                                             <asp:TemplateField ShowHeader="False" ItemStyle-Width="40" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
                                                     <asp:ImageButton ID="btnEdit" runat="server" CausesValidation="false" CommandName="Edit" ImageUrl="~/img/Edit.gif" CommandArgument='<%# Eval("id") %>' Width="16px" />
@@ -126,6 +118,16 @@
                 </div>
                 <!-- col-xs-6 -->
             </div>
+
+
+--%>
+
+
+
+
+
+
+
             <!-- row -->
             <div class="row">
                 <div class="panel-wrapper col-xs-12">

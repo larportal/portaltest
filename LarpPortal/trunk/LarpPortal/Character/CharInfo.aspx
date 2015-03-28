@@ -42,7 +42,7 @@
                 <div class="col-sm-9">
                     <div class="col-sm-12">
                         <div class="row">
-                            <h1 class="col-sm-4">Character Info</h1>
+                            <h1 class="col-sm-10"><asp:Label ID="lblHeader" runat="server" /></h1>
                         </div>
                     </div>
                     <div class="col-sm-12">
@@ -152,23 +152,19 @@
                         </div>
                     </div>
 
-                    <asp:UpdatePanel ID="pnlDesc" runat="server">
-<%--                        <Triggers>
-                            <asp:PostBackTrigger ControlID="btnAddDesc" />
-                        </Triggers>--%>
+                    <asp:UpdatePanel ID="pnlCharDesc" runat="server">
                         <ContentTemplate>
                             <div class="col-sm-12">
                                 <div class="row" style="border-left: 30px;">
-                                    <asp:GridView ID="gvDescriptors" runat="server" AutoGenerateColumns="false" GridLines="None" OnRowEditing="gvDescriptors_RowEditing" OnRowDeleting="gvDescriptors_RowDeleting"
+                                    <asp:GridView ID="gvDescriptors" runat="server" AutoGenerateColumns="false" GridLines="None" OnRowCommand="gvDescriptors_RowCommand" DataKeyNames="CharacterAttributesBasicID"
                                         CssClass="table table-striped table-hover table-condensed">
                                         <Columns>
                                             <asp:BoundField DataField="CharacterDescriptor" HeaderText="Character Descriptor" />
                                             <asp:BoundField DataField="DescriptorValue" HeaderText="Value" />
                                             <asp:TemplateField ShowHeader="False" ItemStyle-Width="40" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
-                                                    <%--                                            <asp:ImageButton ID="btnEdit" runat="server" CausesValidation="false" CommandName="Edit" ImageUrl="~/img/Edit.gif" CommandArgument='<%# Eval("CampaignAttributeDescriptorID") %>' Width="16px" />--%>
-                                                    <asp:ImageButton ID="btnDelete" runat="server" CausesValidation="false" CommandName="Delete" CssClass="NoRightPadding"
-                                                        ImageUrl="~/img/delete.png" CommandArgument='<%# Eval("CampaignAttributeDescriptorID") %>' Width="16px" />
+                                                    <asp:ImageButton ID="ibtnDelete" runat="server" CausesValidation="false" CommandName="DeleteDesc" CssClass="NoRightPadding"
+                                                        ImageUrl="~/img/delete.png" CommandArgument='<%# Eval("CharacterAttributesBasicID") %>' Width="16px" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
 

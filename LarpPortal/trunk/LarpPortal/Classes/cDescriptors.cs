@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -39,50 +40,28 @@ namespace LarpPortal.Classes
         public string DescriptorValue { get; set; }
         public RecordStatuses RecordStatus { get; set; }
 
-
-        /// <summary>
-        /// Save an actor record to the database. Use this if you don't already have a connection open.
-        /// </summary>
-        /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
-        public void Save(string sUserUpdating)
+        public void Delete(string sUserUpdating, int iUserID)
         {
-            using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
-            {
-                connPortal.Open();
-                Save(sUserUpdating, connPortal);
-            }
+            SortedList sParam = new SortedList();
+            //sParam.Add("@CharacterSkillSetID", CharacterSkillSetID);
+            //sParam.Add("@CampaignAttributeStandardID", CampaignAttributeStandardID);
+            sParam.Add("@RecordID", CharacterAttributesBasicID);
+            //sParam.Add("@CampaignAttributeDescriptorID", CampaignAttributeDescriptorID);
+            sParam.Add("@UserID", iUserID);
+
+            Classes.cUtilities.PerformNonQuery("uspDelCHCharacterAttributesStandard", sParam, "LARPortal", "");
         }
 
-        /// <summary>
-        /// Save an actor record to the database. Use this if you have a connection open.
-        /// </summary>
-        /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
-        /// <param name="connPortal">Already OPEN connection to the database.</param>
-        public void Save(string sUserUpdating, SqlConnection connPortal)
+        public void Save(string sUserUpdating, int iUserID)
         {
-            //if (RecordStatus == RecordStatuses.Delete)
-            //{
-            //    SqlCommand CmdDelCHCharacterActors = new SqlCommand("uspDelCHCharacterActors", connPortal);
-            //    CmdDelCHCharacterActors.CommandType = CommandType.StoredProcedure;
-            //    CmdDelCHCharacterActors.Parameters.AddWithValue("@RecordID", CharacterActorID);
-            //    CmdDelCHCharacterActors.Parameters.AddWithValue("@UserID", sUserUpdating);
+            SortedList sParam = new SortedList();
+            sParam.Add("@CharacterSkillSetID", CharacterSkillSetID);
+            sParam.Add("@CampaignAttributeStandardID", CampaignAttributeStandardID);
+            sParam.Add("@CharacterAttributesBasicID", CharacterAttributesBasicID);
+            sParam.Add("@CampaignAttributeDescriptorID", CampaignAttributeDescriptorID);
+            sParam.Add("@UserID", iUserID);
 
-            //    CmdDelCHCharacterActors.ExecuteNonQuery();
-            //}
-            //else
-            //{
-            //    SqlCommand CmdInsUpdCHCharacterActors = new SqlCommand("uspInsUpdCHCharacterActors", connPortal);
-            //    CmdInsUpdCHCharacterActors.CommandType = CommandType.StoredProcedure;
-            //    CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@CharacterActorID", CharacterActorID);
-            //    CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@CharacterID", CharacterID);
-            //    CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@UserID", UserID);
-            //    CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@StartDate", StartDate);
-            //    CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@EndDate", EndDate);
-            //    CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@StaffComments", StaffComments);
-            //    CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@Comments", Comments);
-
-            //    CmdInsUpdCHCharacterActors.ExecuteNonQuery();
-            //}
+            Classes.cUtilities.PerformNonQuery("uspInsUpdCHCharacterAttributesStandard", sParam, "LARPortal", "");
         }
 
         ///// <summary>

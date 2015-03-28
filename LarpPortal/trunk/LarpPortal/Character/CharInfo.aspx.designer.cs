@@ -13,6 +13,15 @@ namespace LarpPortal.Character {
     public partial class CharInfo {
         
         /// <summary>
+        /// lblHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblHeader;
+        
+        /// <summary>
         /// tbFirstName control.
         /// </summary>
         /// <remarks>
@@ -139,13 +148,13 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.TextBox tbDOD;
         
         /// <summary>
-        /// pnlDesc control.
+        /// pnlCharDesc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel pnlDesc;
+        protected global::System.Web.UI.UpdatePanel pnlCharDesc;
         
         /// <summary>
         /// gvDescriptors control.

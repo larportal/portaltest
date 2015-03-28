@@ -13,39 +13,30 @@ namespace LarpPortal.Character {
     public partial class CharPlaces {
         
         /// <summary>
-        /// ddlPlacesFilter control.
+        /// lblHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlPlacesFilter;
+        protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
-        /// gvPlaces control.
+        /// Div1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPlaces;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
         
         /// <summary>
-        /// btnSave control.
+        /// pnlFrame control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSave;
-        
-        /// <summary>
-        /// tvPlaces control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TreeView tvPlaces;
+        protected global::System.Web.UI.WebControls.Panel pnlFrame;
     }
 }

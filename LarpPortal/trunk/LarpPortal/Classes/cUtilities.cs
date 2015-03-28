@@ -186,11 +186,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName, lcmd, strUserName);
+                throw exSQL;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName);
+                throw ex;
             }
             finally
             {

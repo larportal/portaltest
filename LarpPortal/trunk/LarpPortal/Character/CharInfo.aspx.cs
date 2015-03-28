@@ -62,6 +62,8 @@ namespace LarpPortal.Character
                         Classes.cCharacter cChar = new Classes.cCharacter();
                         cChar.LoadCharacter(iCharID);
 
+                        lblHeader.Text = "Character Info - " + cChar.AKA + " - " + cChar.CampaignName;
+
                         ViewState["CharDesc"] = cChar.Descriptors;
                         ViewState["ProfilePictureID"] = cChar.ProfilePictureID;
 
@@ -87,21 +89,29 @@ namespace LarpPortal.Character
 
                         tbAKA.Text = cChar.AKA;
                         tbDOB.Text = cChar.DateOfBirth;
-                        if (cChar.Deaths.Count > 0)
-                            if (cChar.Deaths[0].DeathDate.HasValue)
-                                tbDOD.Text = cChar.Deaths[0].DeathDate.Value.ToShortDateString();
+                        //if (cChar.Deaths.Count > 0)
+                        //    if (cChar.Deaths[0].DeathDate.HasValue)
+                        //        tbDOD.Text = cChar.Deaths[0].DeathDate.Value.ToShortDateString();
                         tbHome.Text = cChar.CurrentHome;
                         tbNumOfDeaths.Text = cChar.Deaths.Count().ToString();
                         tbOrigin.Text = cChar.WhereFrom;
                         //                        tbRace.Text = cChar.Race.Description;
 
                         DataTable dtCharDescriptors = new DataTable();
-                        dtCharDescriptors = CreateDataTable(cChar.Descriptors);
-                        ViewState["CharDescriptors"] = cChar.Descriptors;
+                        dtCharDescriptors = Classes.cUtilities.CreateDataTable(cChar.Descriptors);
+                        Session["CharDescriptors"] = cChar.Descriptors;
                         BindData();
 
-                        if (cChar.ProfilePictureID > 0)
+                        //if (cChar.CharacterPhoto.Length > 0)
+                        //{
+                        //    Classes.cPicture ProfilePicture = new Classes.cPicture();
+
+                        if (cChar.ProfilePicture != null)
                         {
+                            //Classes.cPicture ProfilePicture = new Classes.cPicture();
+                            //ProfilePicture.PictureID = cChar.ProfilePictureID;
+                            //ProfilePicture.Load(cChar.ProfilePictureID, Session["UserID"].ToString());
+
                             imgCharacterPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
                             pnlCharacterPicture.Visible = true;
                         }
@@ -109,9 +119,9 @@ namespace LarpPortal.Character
                             pnlCharacterPicture.Visible = false;
 
                         Classes.cCampaignRaces Races = new Classes.cCampaignRaces();
-                        Races.CampaignID = 1;
+                        Races.CampaignID = cChar.CampaignID;
                         Races.Load(Session["LoginName"].ToString());
-                        DataTable dtRaces = CreateDataTable(Races.RaceList);
+                        DataTable dtRaces = Classes.cUtilities.CreateDataTable(Races.RaceList);
                         ddlRace.DataSource = dtRaces;
                         ddlRace.DataTextField = "FullRaceName";
                         ddlRace.DataValueField = "CampaignRaceID";
@@ -152,22 +162,31 @@ namespace LarpPortal.Character
                             else
                                 liStatus.Selected = false;
                         }
+
+                        MethodBase lmth = MethodBase.GetCurrentMethod();
+                        string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+                        SortedList sParam = new SortedList();
+                        sParam.Add("@CampaignID", cChar.CampaignID);
+                        DataTable dtDescriptors = Classes.cUtilities.LoadDataTable("uspGetCampaignAttributesStandard",
+                            sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
+
+                        DataView dvDescriptors = new DataView(dtDescriptors, "", "CharacterDescriptor", DataViewRowState.CurrentRows);
+                        ddlDescriptor.DataTextField = "CharacterDescriptor";
+                        ddlDescriptor.DataValueField = "CampaignAttributeStandardID";
+                        ddlDescriptor.DataSource = dtDescriptors;
+                        ddlDescriptor.DataBind();
+
+                        if (dtDescriptors.Rows.Count > 0)
+                        {
+                            ddlDescriptor.SelectedIndex = 0;
+                            ddlDescriptor_SelectedIndexChanged(null, null);
+                        }
+
+
+
                     }
 
-                    DataTable dtDescriptors = Classes.cUtilities.LoadDataTable("uspGetCampaignAttributesStandard",
-                        new System.Collections.SortedList(), "LARPortal", "JLB", "CharInfo");
-
-                    DataView dvDescriptors = new DataView(dtDescriptors, "", "CharacterDescriptor", DataViewRowState.CurrentRows);
-                    ddlDescriptor.DataTextField = "CharacterDescriptor";
-                    ddlDescriptor.DataValueField = "CampaignAttributeStandardID";
-                    ddlDescriptor.DataSource = dtDescriptors;
-                    ddlDescriptor.DataBind();
-
-                    if (dtDescriptors.Rows.Count > 0)
-                    {
-                        ddlDescriptor.SelectedIndex = 0;
-                        ddlDescriptor_SelectedIndexChanged(null, null);
-                    }
 
                     ViewState["CurrentCharacter"] = Session["SelectedCharacter"];
                 }
@@ -190,6 +209,10 @@ namespace LarpPortal.Character
                 string sExtension = Path.GetExtension(ulFile.FileName);
                 NewPicture.PictureFileName = "CP" + NewPicture.PictureID.ToString("D10") + sExtension;
 
+                int iCharacterID = 0;
+                int.TryParse(ViewState["CurrentCharacter"].ToString(), out iCharacterID);
+                NewPicture.CharacterID = iCharacterID;
+
                 string LocalName = NewPicture.PictureLocalName;
 
                 if (!Directory.Exists(Path.GetDirectoryName(NewPicture.PictureLocalName)))
@@ -197,6 +220,8 @@ namespace LarpPortal.Character
 
                 ulFile.SaveAs(NewPicture.PictureLocalName);
                 NewPicture.Save(sUser);
+
+                ViewState["UserIDPicture"] = NewPicture;
 
                 imgCharacterPicture.ImageUrl = NewPicture.PictureURL;
                 pnlCharacterPicture.Visible = true;
@@ -212,9 +237,11 @@ namespace LarpPortal.Character
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            int iTemp;
+
             if (Session["SelectedCharacter"] != null)
             {
-                DataTable dtDesc = ViewState["CharDescriptors"] as DataTable;
+                DataTable dtDesc = Session["CharDescriptors"] as DataTable;
 
                 int iCharID;
                 if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
@@ -228,22 +255,34 @@ namespace LarpPortal.Character
 
                     cChar.CurrentHome = tbOrigin.Text;
                     // TODO JLB   cChar.Status.StatusName = tbStatus.Text;
-//                  cChar.Status.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
+                    //                  cChar.Status.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
                     cChar.CharacterStatusID = Convert.ToInt32(ddlStatus.SelectedValue);
 
                     cChar.AKA = tbAKA.Text;
                     cChar.CurrentHome = tbHome.Text;
+                    cChar.WhereFrom = tbOrigin.Text;
 
                     //tbType.Text = cChar.CharType.Description;
                     //tbTeam.Text = "Team";
 
                     cChar.DateOfBirth = tbDOB.Text;
                     if (ViewState["UserIDPicture"] != null)
-                        cChar.CharacterPhoto = ViewState["UserIDPicture"].ToString();
+                        cChar.ProfilePicture = ViewState["UserIDPicture"] as Classes.cPicture;
                     else
-                        cChar.CharacterPhoto = "";
+                        cChar.ProfilePicture = null;
 
-                    cChar.SaveCharacter(Session["LoginName"].ToString());
+                    if (ddlRace.SelectedIndex > -1)
+                    {
+                        cChar.Race = new Classes.cRace();
+                        int.TryParse(ddlRace.SelectedValue, out iTemp);
+                            cChar.Race.CampaignRaceID = iTemp;
+                    }
+
+                    cChar.Descriptors = Session["CharDescriptors"] as List<Classes.cDescriptor>;
+                    foreach (Classes.cDescriptor Item in cChar.Descriptors)
+                        Item.CharacterSkillSetID = cChar.CharacterSkillSetID;
+
+                    cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
 
                     //tbRace.Text = cChar.Race.Description;
                     //if (cChar.Deaths.Count > 0)
@@ -343,46 +382,18 @@ namespace LarpPortal.Character
             }
         }
 
+        //protected void gvDescriptors_RowEditing(object sender, GridViewEditEventArgs e)
+        //{
 
-
-
-        public static DataTable CreateDataTable<T>(IEnumerable<T> list)
-        {
-            Type type = typeof(T);
-            var properties = type.GetProperties();
-
-            DataTable dataTable = new DataTable();
-            foreach (PropertyInfo info in properties)
-            {
-                dataTable.Columns.Add(new DataColumn(info.Name, info.PropertyType));
-            }
-
-            foreach (T entity in list)
-            {
-                object[] values = new object[properties.Length];
-                for (int i = 0; i < properties.Length; i++)
-                {
-                    values[i] = properties[i].GetValue(entity);
-                }
-
-                dataTable.Rows.Add(values);
-            }
-
-            return dataTable;
-        }
-
-        protected void gvDescriptors_RowEditing(object sender, GridViewEditEventArgs e)
-        {
-
-        }
+        //}
 
         protected void gvDescriptors_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int index = Convert.ToInt32(e.RowIndex);
-            List<Classes.cDescriptor> Desc = ViewState["CharDescriptors"] as List<Classes.cDescriptor>;
-            Desc[index].RecordStatus = Classes.RecordStatuses.Delete;
-            ViewState["CharDescriptors"] = Desc;
-            BindData();
+        //    int index = Convert.ToInt32(e.RowIndex);
+        //    List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
+        //    Desc[index].RecordStatus = Classes.RecordStatuses.Delete;
+        //    Session["CharDescriptors"] = Desc;
+        //    BindData();
         }
 
 
@@ -398,19 +409,23 @@ namespace LarpPortal.Character
                 //unknown string or s is null
             }
 
-            List<Classes.cDescriptor> Desc = ViewState["CharDescriptors"] as List<Classes.cDescriptor>;
+            List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
 
             DataTable dtCharDescriptors = new DataTable();
-            dtCharDescriptors = CreateDataTable(Desc);
-            DataView dvCharDescriptors = new DataView(dtCharDescriptors, "RecordStatus <> " + key.ToString(), "", DataViewRowState.CurrentRows);
+            dtCharDescriptors = Classes.cUtilities.CreateDataTable(Desc);
+            DataView dvCharDescriptors = new DataView(dtCharDescriptors, "RecordStatus = 0 "
+                
+                //+ key.ToString()
+                , "", DataViewRowState.CurrentRows);
 
+            gvDescriptors.DataSource = null;
             gvDescriptors.DataSource = dvCharDescriptors;
             gvDescriptors.DataBind();
         }
 
         protected void btnAddDesc_Click(object sender, EventArgs e)
         {
-            List<Classes.cDescriptor> Desc = ViewState["CharDescriptors"] as List<Classes.cDescriptor>;
+            List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
             Classes.cDescriptor NewDesc = new Classes.cDescriptor();
             NewDesc.DescriptorValue = ddlName.SelectedItem.Text;
             int CampaignAttStandardID;
@@ -424,8 +439,25 @@ namespace LarpPortal.Character
             NewDesc.RecordStatus = Classes.RecordStatuses.Active;
 
             Desc.Add(NewDesc);
-            ViewState["CharDescriptors"] = Desc;
+            Session["CharDescriptors"] = Desc;
             BindData();
+        }
+
+        protected void gvDescriptors_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName.ToUpper() == "DELETEDESC")
+            {
+                int iValueToDelete;
+                if (int.TryParse(e.CommandArgument.ToString(), out iValueToDelete))
+                {
+                    List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
+                    var FoundList = Desc.Find(x => x.CharacterAttributesBasicID == iValueToDelete);
+                    if (FoundList != null)
+                        FoundList.RecordStatus = Classes.RecordStatuses.Delete;
+                    Session["CharDescriptors"] = Desc;
+                    BindData();
+                }
+            }
         }
     }
 }
