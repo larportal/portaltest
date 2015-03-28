@@ -41,7 +41,7 @@ namespace LarpPortal.Character
             //SkillTree.Src = "CharSkill.aspx";
             ////SkillTree.Style["Width"] = "1000px;";
 
-            pnlFrame.Width = Unit.Pixel(1500);
+            pnlFrame.Width = Unit.Pixel(800);
                 int FrameHeight = 0;
             if (hidFrameHeight.Value.Length != 0)
             {

@@ -83,6 +83,7 @@
         }
     </style>
 </asp:Content>
+
 <asp:Content ID="Scripts" ContentPlaceHolderID="CharHeaderScripts" runat="server">
 
     <script type="text/javascript">
@@ -97,13 +98,20 @@
             }
             document.getElementById('<%= lblFrameHeight.ClientID %>').value = (obj.contentWindow.document.body.scrollHeight - 150).toString();
         }
+
+        var w = window.innerWidth;
+        document.getElementById('<%= lblFrameHeight.ClientID %>').value = (w - 150).toString();
+
+        alert(w);
+
     </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Label ID="lblFrameHeight" runat="server" />
     <asp:HiddenField ID="hidFrameHeight" runat="server" />
-    <div class="mainContent tab-content col-sm-12">
+    <div class="mainContent tab-content" style="width: 900px;"
+<%--         col-sm-12">--%>
         <div class="row">
             <div class="panel-wrapper" runat="server">
                 <div class="panel">
