@@ -109,6 +109,7 @@ namespace LarpPortal.Character
                     TreeNode childNode = new TreeNode();
                     childNode.Text = FormatDescString(dr);
 
+                    childNode.Expanded = false;
                     childNode.Value = iNodeID.ToString();
                     if (dtCharSkills != null)
                         if (dtCharSkills.Select("CampaignSkillsStandardID = " + iNodeID.ToString()).Length > 0)
@@ -164,7 +165,7 @@ namespace LarpPortal.Character
             Session["SelectedSkills"] = dtSkillCosts;
 
             DataRow NewRow = dtSkillCosts.NewRow();
-            NewRow["Skill"] = "Total Skills";
+            NewRow["Skill"] = "Total CP";
             NewRow["Cost"] = TotalCP;
             NewRow["SortOrder"] = 1;
             dtSkillCosts.Rows.Add(NewRow);
