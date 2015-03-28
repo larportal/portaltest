@@ -217,6 +217,7 @@
     <Content Include="Character\CharHistory.aspx" />
     <Content Include="Character\CharInfo.aspx" />
     <Content Include="Character\CharItems.aspx" />
+    <Content Include="Character\CharPlace.aspx" />
     <Content Include="Character\CharPlaces.aspx" />
     <Content Include="Character\CharPlaceTV.aspx" />
     <Content Include="Character\CharSkill.aspx" />
@@ -233,6 +234,8 @@
     <Content Include="ExternalDLLs\Excel.dll" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="GameSystemTest2.aspx" />
+    <Content Include="img\delete.png" />
+    <Content Include="img\Edit.gif" />
     <Content Include="img\larpPortal.jpg" />
     <Content Include="img\larpPortal.png" />
     <Content Include="img\logo\CM-1-Madrigal.jpg" />
@@ -314,6 +317,8 @@
     <Content Include="img\portal.png" />
     <Content Include="img\profilePG.png" />
     <Content Include="img\player\PL-2-RickPierce.jpg" />
+    <Content Include="img\trash-button.jpg" />
+    <Content Include="img\update_icon.png" />
     <Content Include="index.aspx" />
     <Content Include="css\main.css" />
     <Content Include="Inventory.aspx" />
@@ -527,6 +532,13 @@
     </Compile>
     <Compile Include="Character\CharItems.aspx.designer.cs">
       <DependentUpon>CharItems.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharPlace.aspx.cs">
+      <DependentUpon>CharPlace.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharPlace.aspx.designer.cs">
+      <DependentUpon>CharPlace.aspx</DependentUpon>
     </Compile>
     <Compile Include="Character\CharPlaces.aspx.cs">
       <DependentUpon>CharPlaces.aspx</DependentUpon>

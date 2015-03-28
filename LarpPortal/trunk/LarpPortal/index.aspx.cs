@@ -221,7 +221,7 @@ namespace LarpPortal
                 Login.CheckForExistingUsername(txtNewUsername.Text);
                 if (Login.MemberID != 0)  // UserID is taken
                 {
-                    lblSignUpErrors.Text = "Please select a different username.";
+                    lblSignUpErrors.Text = "This username is already in use.  Please select a different one.";
                 }
                 // 2 - Password must meet parameter standards
                 int ValidPassword;

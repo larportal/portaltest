@@ -41,7 +41,6 @@ namespace LarpPortal
             //===== End example
             if (CampaignChoices.CountOfUserCampaigns == 0)
                 Response.Redirect("~/NoCurrentCampaignAssociations.aspx");
-            //TODO-Rick-1 Create NoCurrentCampaignAssociations.aspx
             ddlUserCampaigns.DataTextField = "CampaignName";
             ddlUserCampaigns.DataValueField = "CampaignID";
             ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
