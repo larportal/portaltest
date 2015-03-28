@@ -217,7 +217,7 @@
                             </div>
                             <div class="panel-body">
                                 <div class="panel-container">
-                                    <asp:Table ID="tblSelectors" runat="server">
+                                    <asp:Table ID="tblSelectors" runat="server" Width="100%">
                                         <asp:TableHeaderRow>
                                             <asp:TableCell HorizontalAlign="Left">
                                                 <asp:Label ID="lblGameSystem1" runat="server"></asp:Label>
@@ -273,6 +273,28 @@
                                                 <asp:Label ID="lblSize2" runat="server"></asp:Label>
                                             </asp:TableCell>
                                         </asp:TableHeaderRow>
+                                        <asp:TableHeaderRow>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblLocation1" runat="server">Location:</asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell>
+                                                &nbsp;&nbsp;
+                                            </asp:TableCell>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblLocation2" runat="server"><i>Location</i></asp:Label>
+                                            </asp:TableCell>
+                                        </asp:TableHeaderRow>
+                                        <asp:TableHeaderRow>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblEvent1" runat="server">Next Event Date:</asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell>
+                                                &nbsp;&nbsp;
+                                            </asp:TableCell>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblEvent2" runat="server"><i>Next Event Date</i></asp:Label>
+                                            </asp:TableCell>
+                                        </asp:TableHeaderRow>
                                     </asp:Table>
                                 </div>
                             </div>
@@ -287,20 +309,30 @@
                             </div>
                             <div class="panel-body">
                                 <div class="panel-container">
-                                    <asp:Table ID="tblAddCampaigns" runat="server" CellPadding ="30">
+                                    <asp:Table ID="tblAddCampaigns" runat="server" Width="100%">
                                         <asp:TableRow>
-                                            <asp:TableCell>
-                                                <asp:RadioButtonList ID="btnSignUp" runat="server"  RepeatLayout="Table">
-            <%--                                        <asp:ListItem Text="PC" Value="1"></asp:ListItem>
-                                                    <asp:ListItem Text="NPC" Value="2"></asp:ListItem>
-                                                    <asp:ListItem Text="Both" Value="3"></asp:ListItem>--%>
+                                            <asp:TableCell VerticalAlign="Top">
+                                                Available Roles:<br />
+                                                <asp:RadioButtonList ID="btnSignUp" runat="server" RepeatDirection="Horizontal"  RepeatLayout="Table">
                                                 </asp:RadioButtonList>
-                                                <asp:Button ID="btnSignUpForCampaign" runat="server" Visible="false" Text="Submit Request" OnClick="btnSignUpForCampaign_Click" />
+                                                <asp:Button ID="btnSignUpForCampaign" runat="server" CssClass="btn btn-default" Visible="false" Text="Submit Request" OnClick="btnSignUpForCampaign_Click" />
                                                 <asp:Label ID="lblSignUpMessage" runat="server"></asp:Label>
                                             </asp:TableCell>
-                                            <asp:TableCell>
-                                                Current Roles:
-
+                                            <asp:TableCell VerticalAlign="Top">
+                                                Current Roles:<br />
+                                    <asp:Repeater ID="listCurrentRoles" runat="server">
+                                        <HeaderTemplate>
+                                            <div class="panel-container scroll-150">
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <%# Eval("RoleDescription")%>
+                                            <%# Eval("ExpirationDate")%><br />
+                                        </ItemTemplate>
+                                        <FooterTemplate>
+                                            </div>
+                                        </FooterTemplate>
+                                    </asp:Repeater>
+                                                <asp:Label ID="lblCurrentRoles" runat="server"></asp:Label>
                                             </asp:TableCell>
                                         </asp:TableRow>
 

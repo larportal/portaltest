@@ -216,7 +216,6 @@ namespace LarpPortal
         protected void MakePanelSignUpVisible(int CampaignID)
         {
             // Determine current roles for this campaign.
-            //WeAreHere
             int UserID = 0;
             string IsPC = "false";
             string IsNPC = "false";
@@ -224,10 +223,10 @@ namespace LarpPortal
                 UserID = Session["UserID"].ToString().ToInt32();
             if (UserID > 0)
             {
-                Classes.cPlayerRole Roles = new Classes.cPlayerRole();
-                Roles.Load(UserID, 0, CampaignID);
-                IsPC = Roles.IsPC;
-                IsNPC = Roles.IsNPC;
+                Classes.cPlayerRole Role = new Classes.cPlayerRole();
+                Role.Load(UserID, 0, CampaignID);
+                IsPC = Role.IsPC;
+                IsNPC = Role.IsNPC;
                 btnSignUp.Items.Clear();
                 // None - Show all three choices
                 if (IsPC == "false" && IsNPC == "false")
@@ -249,7 +248,7 @@ namespace LarpPortal
                 // Both - Don't show panel
                 if (IsPC == "true"  && IsNPC == "true")
                 {
-                    //pnlSignUpForCampaign.Visible = false;
+                    pnlSignUpForCampaign.Visible = true;
                     btnSignUpForCampaign.Visible = false;
                 }
                 else
@@ -257,8 +256,13 @@ namespace LarpPortal
                     pnlSignUpForCampaign.Visible = true;
                     btnSignUpForCampaign.Visible = true;
                 }
+                // Now get current roles.  If there are any start the label with "Current Roles:<br>"
+                Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
+                Roles.Load(UserID, 0, CampaignID);
+                //Convert list to datatable
+                listCurrentRoles.DataSource = Classes.cUtilities.CreateDataTable(Roles.lsPlayerRoles);
+                listCurrentRoles.DataBind();
             }
-
         }
 
         protected void SetSiteLink(string strURL, string strGameName)
@@ -346,7 +350,8 @@ namespace LarpPortal
                     lblTechLevel1.Text = "Tech Level: ";
                     lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
                     lblSize1.Text = "Size:";
-                    lblSize2.Text = " " + Cam.CampaignSizeRange;
+                    lblSize2.Text = " " + Cam.CampaignSizeRange;    
+                    //TODO-Rick-Add location info on the screen and logic it in
                 }
             }
             SetSiteImage(strImage);
@@ -996,11 +1001,38 @@ namespace LarpPortal
 
         protected void txtZipCode_TextChanged(object sender, EventArgs e)
         {
+            int UserID;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
+            if (txtZipCode.Text == "")
+            {
+                txtZipCode.Focus();
+                Session["ZipCodeFilter"] = "";
+            }
+            else
+            {
+                Session["ZipCodeFilter"] = txtZipCode.Text;
+                if (ddlMileRadius.SelectedValue.ToString() != "")
+                    ReloadActiveTreeView(UserID);
+                else
+                    ddlMileRadius.Focus();
+            }
         }
 
         protected void ddlMileRadius_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Set Session["filterMileRadius"] to MileRadiusID and reload tv
+            int UserID;
+            if (Session["UserID"] == null)
+                UserID = 0;
+            else
+                UserID = ((int)Session["UserID"]);
+            Session["RadiusFilter"] = ddlMileRadius.SelectedValue;
+            if (txtZipCode.Text != "")
+                ReloadActiveTreeView(UserID);
+            else
+                txtZipCode.Focus();
         }
 
         protected void chkEndedCampaigns_CheckedChanged(object sender, EventArgs e)
@@ -1010,7 +1042,7 @@ namespace LarpPortal
                 UserID = 0;
             else
                 UserID = ((int)Session["UserID"]);
-                ReloadActiveTreeView(UserID);
+            ReloadActiveTreeView(UserID);
         }
 
         protected void ReloadActiveTreeView(int UserID)

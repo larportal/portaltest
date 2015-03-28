@@ -400,6 +400,42 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.Label lblSize2;
         
         /// <summary>
+        /// lblLocation1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocation1;
+        
+        /// <summary>
+        /// lblLocation2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocation2;
+        
+        /// <summary>
+        /// lblEvent1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEvent1;
+        
+        /// <summary>
+        /// lblEvent2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEvent2;
+        
+        /// <summary>
         /// pnlSignUpForCampaign control.
         /// </summary>
         /// <remarks>
@@ -452,5 +488,23 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSignUpMessage;
+        
+        /// <summary>
+        /// listCurrentRoles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater listCurrentRoles;
+        
+        /// <summary>
+        /// lblCurrentRoles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCurrentRoles;
     }
 }
