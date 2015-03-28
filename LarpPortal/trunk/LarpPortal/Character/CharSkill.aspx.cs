@@ -50,10 +50,10 @@ namespace LarpPortal.Character
                             cChar.LoadCharacter(iCharID);
                             //                            lblTotalPoints.Text = string.Format("{0:0.00}", (cChar.TotalCP));
                             TotalCP = cChar.TotalCP;
-                            ViewState["TotalCP"] = TotalCP;
+                            Session["TotalCP"] = TotalCP;
 
                             dtCharSkills = Classes.cUtilities.CreateDataTable(cChar.CharacterSkills);
-                            ViewState["CharSkills"] = dtCharSkills;
+                            Session["CharSkills"] = dtCharSkills;
 
                             Session["CurrentCharacter"] = Session["SelectedCharacter"];
 
@@ -63,7 +63,7 @@ namespace LarpPortal.Character
                             dsSkillSets = Classes.cUtilities.LoadDataSet("uspGetCampaignSkills", sParam, "LARPortal", Session["LoginName"].ToString(), "");
 
                             _dtSkills = dsSkillSets.Tables[1];
-                            ViewState["Skills"] = _dtSkills;
+                            Session["Skills"] = _dtSkills;
 
                             TreeNode MainNode = new TreeNode("Skills");
                             DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "", DataViewRowState.CurrentRows);
@@ -131,7 +131,7 @@ namespace LarpPortal.Character
 
         protected void ListSkills()
         {
-            DataTable dtAllSkills = ViewState["Skills"] as DataTable;
+            DataTable dtAllSkills = Session["Skills"] as DataTable;
             double TotalSpent = 0.0;
 
             DataTable dtSkillCosts = new DataTable();
@@ -140,7 +140,7 @@ namespace LarpPortal.Character
             dtSkillCosts.Columns.Add(new DataColumn("SortOrder", typeof(int)));
 
             double TotalCP = 0.0;
-            double.TryParse(ViewState["TotalCP"].ToString(), out TotalCP);
+            double.TryParse(Session["TotalCP"].ToString(), out TotalCP);
 
             foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
             {
@@ -219,7 +219,7 @@ namespace LarpPortal.Character
         {
             double TotalCost = 0.0;
 
-            DataTable dtSkills = ViewState["CharSkills"] as DataTable;
+            DataTable dtSkills = Session["CharSkills"] as DataTable;
             foreach (DataRow dRow in dtSkills.Rows)
             {
                 double CPCost;
@@ -235,7 +235,7 @@ namespace LarpPortal.Character
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                if ((e.Row.Cells[0].Text.ToUpper() == "TOTAL SKILLS") ||
+                if ((e.Row.Cells[0].Text.ToUpper() == "TOTAL CP") ||
                      (e.Row.Cells[0].Text.ToUpper() == "TOTAL SPENT") ||
                      (e.Row.Cells[0].Text.ToUpper() == "TOTAL AVAIL"))
                     e.Row.Font.Bold = true;
