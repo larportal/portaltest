@@ -76,7 +76,7 @@
                     <div class="row">
                         <div class="col-sm-10">&nbsp;</div>
                         <div class="col-sm-2 NoRightPadding">
-                            <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="btn btn-default" OnClick="btnSave_Click" />
+                            <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="StandardButton" OnClick="btnSave_Click" />
                         </div>
                     </div>
                 </div>

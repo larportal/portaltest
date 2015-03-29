@@ -22,6 +22,7 @@
         {
             text-align: right;
         }
+
         .WithBorder
         {
             border: 1px solid black;
@@ -38,13 +39,15 @@
 
     <div class="mainContent tab-content col-sm-12">
         <div id="character-info" class="character-info tab-pane active">
+            <div class="col-sm-12">
+                <div class="row">
+                    <h1 class="col-sm-10">
+                        <asp:Label ID="lblHeader" runat="server" /></h1>
+                </div>
+            </div>
+
             <div class="form-horizontal">
                 <div class="col-sm-9">
-                    <div class="col-sm-12">
-                        <div class="row">
-                            <h1 class="col-sm-10"><asp:Label ID="lblHeader" runat="server" /></h1>
-                        </div>
-                    </div>
                     <div class="col-sm-12">
                         <div class="row">
                             <div class="col-sm-1 text-right NoRightPadding">
@@ -69,7 +72,8 @@
                                 <label for="tbStatus" class="control-label">Status</label>
                             </div>
                             <div class="col-sm-2">
-                                <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control" />
+                                <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control" Visible="false" />
+                                <asp:Label ID="lblStatus" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
                             </div>
                         </div>
                     </div>
@@ -93,7 +97,8 @@
                                 <label for="tbDateLastEvent" class="control-label">Last Event</label>
                             </div>
                             <div class="col-sm-2">
-                                <asp:TextBox ID="tbDateLastEvent" runat="server" CssClass="form-control" />
+                                <asp:TextBox ID="tbDateLastEvent" runat="server" CssClass="form-control" Visible="false" />
+                                <asp:Label ID="lblDateLastEvent" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
                             </div>
                         </div>
                     </div>
@@ -104,20 +109,23 @@
                                 <label for="tbType" class="control-label">Type</label>
                             </div>
                             <div class="col-sm-3">
-                                <asp:TextBox ID="tbType" runat="server" CssClass="form-control" />
+                                <asp:TextBox ID="tbType" runat="server" CssClass="form-control" Visible="false" />
+                                <asp:Label ID="lblType" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
                             </div>
                             <div class="col-sm-0-5"></div>
                             <div class="col-sm-2 text-right NoLeftPadding NoRightPadding">
                                 <label for="tbTeam" class="control-label">Team</label>
                             </div>
                             <div class="col-sm-2">
-                                <asp:TextBox ID="tbTeam" runat="server" CssClass="form-control" />
+                                <asp:TextBox ID="tbTeam" runat="server" CssClass="form-control" Visible="false" />
+                                <asp:Label ID="lblTeam" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
                             </div>
                             <div class="col-sm-1 text-right NoLeftPadding NoRightPadding">
                                 <label for="tbNumOfDeaths" class="control-label"># of Deaths</label>
                             </div>
                             <div class="col-sm-2">
-                                <asp:TextBox ID="tbNumOfDeaths" runat="server" CssClass="form-control" ReadOnly="true" />
+                                <asp:TextBox ID="tbNumOfDeaths" runat="server" CssClass="form-control" ReadOnly="true" Visible="false" />
+                                <asp:Label ID="lblNumOfDeaths" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
                             </div>
                         </div>
                     </div>
@@ -141,7 +149,8 @@
                                 <label for="tbDOD" class="control-label">DOD</label>
                             </div>
                             <div class="col-sm-2">
-                                <asp:TextBox ID="tbDOD" runat="server" CssClass="form-control" ReadOnly="true" />
+                                <asp:TextBox ID="tbDOD" runat="server" CssClass="form-control" ReadOnly="true" Visible="false" />
+                                <asp:Label ID="lblDOD" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
                             </div>
                         </div>
                     </div>
@@ -158,10 +167,11 @@
                                 <div class="row" style="border-left: 30px;">
                                     <asp:GridView ID="gvDescriptors" runat="server" AutoGenerateColumns="false" GridLines="None" OnRowCommand="gvDescriptors_RowCommand" DataKeyNames="CharacterAttributesBasicID"
                                         CssClass="table table-striped table-hover table-condensed">
+                                        <EmptyDataRowStyle BackColor="Transparent" />
                                         <EmptyDataTemplate>
                                             <table>
                                                 <tr>
-                                                    <td>You have no descriptors select. Please select from the boxes below.</td>
+                                                    <td>You have no descriptors selected. Please select from the boxes below.</td>
                                                 </tr>
                                             </table>
                                         </EmptyDataTemplate>
@@ -183,8 +193,8 @@
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-4 text-right NoRightPadding">
-                                    <label for="ddlDescriptor" class="control-label">Character Descriptor</label>
-                                        </div>
+                                        <label for="ddlDescriptor" class="control-label">Character Descriptor</label>
+                                    </div>
                                     <div class="col-sm-4">
                                         <asp:DropDownList ID="ddlDescriptor" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlDescriptor_SelectedIndexChanged" />
                                     </div>
@@ -194,8 +204,8 @@
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-4 text-right NoRightPadding">
-                                    <label for="ddlDescriptor" class="control-label">Name</label>
-                                        </div>
+                                        <label for="ddlDescriptor" class="control-label">Name</label>
+                                    </div>
                                     <div class="col-sm-4">
                                         <asp:DropDownList ID="ddlName" runat="server" CssClass="form-control" />
                                     </div>
@@ -205,8 +215,8 @@
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-4 text-right NoRightPadding">
-                                    <label for="tbDateAdded" class="control-label">Date Added</label>
-                                        </div>
+                                        <label for="tbDateAdded" class="control-label">Date Added</label>
+                                    </div>
                                     <div class="col-sm-1-5">
                                         <asp:TextBox ID="tbDateAdded" runat="server" CssClass="form-control" />
                                     </div>
@@ -214,7 +224,7 @@
                                         &nbsp;
                                     </div>
                                     <div class="col-sm-2">
-                                        <asp:Button ID="btnAddDesc" runat="server" Text="Add" class="btn btn-default" OnClick="btnAddDesc_Click" />
+                                        <asp:Button ID="btnAddDesc" runat="server" Text="Add" class="StandardButton" OnClick="btnAddDesc_Click" />
                                     </div>
                                 </div>
                             </div>
@@ -225,7 +235,7 @@
                         <div class="row">
                             <label for="tbDateAdded" class="control-label col-sm-10">&nbsp;</label>
                             <div class="col-sm-2 NoRightPadding">
-                                <asp:Button ID="btnSave" runat="server" Text="Save" class="btn btn-default" OnClick="btnSave_Click" />
+                                <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="StandardButton" OnClick="btnSave_Click" />
                             </div>
                         </div>
                     </div>
@@ -238,7 +248,7 @@
                         <div class="row">
                             <div class="col-sm-6">&nbsp;</div>
                             <div class="col-sm-4">
-                                <asp:Button ID="btnUpload" runat="server" Text="Upload" CssClass="btn btn-default" OnClick="btnSavePicture_Click" />
+                                <asp:Button ID="btnUpload" runat="server" Text="Upload" CssClass="StandardButton" OnClick="btnSavePicture_Click" />
                             </div>
                         </div>
                         <br />
@@ -256,7 +266,7 @@
                                         </tr>
                                         <tr>
                                             <td align="center">
-                                                <asp:Button ID="btnClearPicture" runat="server" CssClass="btn btn-default col-sm-12" Text="Clear Picture" OnClick="btnClearPicture_Click" /></td>
+                                                <asp:Button ID="btnClearPicture" runat="server" CssClass="StandardButton col-sm-12" Text="Clear Picture" OnClick="btnClearPicture_Click" /></td>
                                         </tr>
                                     </table>
                                 </div>

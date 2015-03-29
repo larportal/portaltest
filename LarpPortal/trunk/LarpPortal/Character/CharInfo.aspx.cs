@@ -77,14 +77,18 @@ namespace LarpPortal.Character
                         tbHome.Text = cChar.CurrentHome;
                         tbDateLastEvent.Text = "??";
                         tbType.Text = cChar.CharType.Description;
+                        lblType.Text = cChar.CharType.Description;
                         tbTeam.Text = "Team";
+                        lblTeam.Text = "";
                         tbNumOfDeaths.Text = cChar.Deaths.Count.ToString();
+                        lblNumOfDeaths.Text = cChar.Deaths.Count.ToString();
                         tbDOB.Text = cChar.DateOfBirth;
                         //                        tbRace.Text = cChar.Race.Description;
                         if (cChar.Deaths.Count > 0)
                         {
                             Classes.cCharacterDeath LastDeath = cChar.Deaths.OrderByDescending(t => t.DeathDate).First();
                             tbDOD.Text = LastDeath.DeathDate.Value.ToShortDateString();
+                            lblDOD.Text = LastDeath.DeathDate.Value.ToShortDateString();
                         }
 
                         tbAKA.Text = cChar.AKA;
@@ -158,7 +162,10 @@ namespace LarpPortal.Character
                         foreach (ListItem liStatus in ddlStatus.Items)
                         {
                             if (liStatus.Value == cChar.Status.StatusID.ToString())
+                            {
                                 liStatus.Selected = true;
+                                lblStatus.Text = liStatus.Text;
+                            }
                             else
                                 liStatus.Selected = false;
                         }
@@ -182,21 +189,11 @@ namespace LarpPortal.Character
                             ddlDescriptor.SelectedIndex = 0;
                             ddlDescriptor_SelectedIndexChanged(null, null);
                         }
-
-
-
                     }
-
-
                     ViewState["CurrentCharacter"] = Session["SelectedCharacter"];
                 }
             }
         }
-
-        //protected void btnAddRelationship_Click(object sender, EventArgs e)
-        //{
-
-        //}
 
         protected void btnSavePicture_Click(object sender, EventArgs e)
         {
