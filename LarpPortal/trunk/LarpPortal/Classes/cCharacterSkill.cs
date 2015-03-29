@@ -72,9 +72,6 @@ namespace LarpPortal.Classes
 
         public void Save(string sUserID)
         {
-            string t = "";
-            if (CharacterSkillsStandardID == -1)
-                t = "Now";
             SortedList sParam = new SortedList();
 
             sParam.Add("@CharacterSkillsStandardID", CharacterSkillsStandardID);

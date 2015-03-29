@@ -110,52 +110,23 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Label ID="lblFrameHeight" runat="server" />
     <asp:HiddenField ID="hidFrameHeight" runat="server" />
-    <div class="mainContent tab-content" style="width: 900px;"
-<%--         col-sm-12">--%>
-        <div class="row">
-            <div class="panel-wrapper" runat="server">
-                <div class="panel">
-                    <div class="panelheader">
-                        <h2>Skills</h2>
-                        <div class="panel-body">
-                            <div class="panel-container search-criteria">
-                                <asp:Panel ID="pnlFrame" runat="server" Height="600px">
-                                    <iframe id="FrameSkills" name="FrameSkills" src="CharSkill.aspx"
-                                        style="border: 0px solid green; width: 100%; height: 1580px;" />
-                                </asp:Panel>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-<%--        <div class="form-horizontal">
-            <div class="row" style="border: solid 1px red;">
-                <div class="col-sm-10">This is a spot.</div>
-                <div class="col-sm-2 NoRightPadding">
-                    <asp:Button ID="btnSave" runat="server" CssClass="btn btn-default input-group button form-control" Style="height: 30px;" Text="Save" OnClick="btnSave_Click" />
-                </div>
-            </div>
-        </div>--%>
-    </div>
-    <%--    <br />
-    <br />
-    <br />
-    <div class="mainContent tab-content">
-        <section>
+    <div class="mainContent tab-content" style="width: 900px;">
+        <section role="form" class="form-horizontal form-condensed">
             <div class="row">
-                <div class="panel-wrapper" style="width: 1000px;">
+                <h1 class="col-xs-10" style="padding-top: 0px;">
+                    <asp:Label ID="lblHeader" runat="server" /></h1>
+            </div>
+            <div class="row">
+                <div class="panel-wrapper" runat="server">
                     <div class="panel">
                         <div class="panelheader">
                             <h2>Skills</h2>
                             <div class="panel-body">
-                                <div class="panel-container  search-criteria">
-                                    <asp:TreeView ID="tvSkills" runat="server" SkipLinkText="" BorderWidth="0px" NodeWrap="True" ExpandDepth="1" PopulateNodesFromClient="False" ShowLines="True" ImageSet="Simple" NodeIndent="10">
-                                        <SelectedNodeStyle Font-Bold="True" Font-Underline="True" ForeColor="#DD5555" VerticalPadding="0px" Width="500px" />
-                                        <ParentNodeStyle Font-Bold="False" />
-                                        <%--                                        <HoverNodeStyle Font-Underline="True" ForeColor="#DD5555" />
-                                        <NodeStyle Font-Names="Verdana" Font-Size="8pt" ForeColor="Black" HorizontalPadding="10px" VerticalPadding="0px" />
-                                    </asp:TreeView>
+                                <div class="panel-container search-criteria">
+                                    <asp:Panel ID="pnlFrame" runat="server" Height="600px">
+                                        <iframe id="FrameSkills" name="FrameSkills" src="CharSkill.aspx"
+                                            style="border: 0px solid green; width: 100%; height: 1580px;" />
+                                    </asp:Panel>
                                 </div>
                             </div>
                         </div>
@@ -163,5 +134,5 @@
                 </div>
             </div>
         </section>
-    </div>--%>
+    </div>
 </asp:Content>

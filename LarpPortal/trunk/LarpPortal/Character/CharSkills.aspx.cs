@@ -53,6 +53,23 @@ namespace LarpPortal.Character
             else
                 pnlFrame.Height = Unit.Pixel(600);
 
+            if (Session["SelectedCharacter"] != null)
+            {
+                string sCurrent = ViewState["CurrentCharacter"].ToString();
+                string sSelected = Session["SelectedCharacter"].ToString();
+                if ((!IsPostBack) || (ViewState["CurrentCharacter"].ToString() != Session["SelectedCharacter"].ToString()))
+                {
+                    int iCharID;
+                    if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                    {
+                        Classes.cCharacter cChar = new Classes.cCharacter();
+                        cChar.LoadCharacter(iCharID);
+
+                        lblHeader.Text = "Character Skills - " + cChar.AKA + " - " + cChar.CampaignName;
+                    }
+                }
+            }
+
             //pnlFrame.Controls.Add(SkillTree);
             // Character Descriptor = chcampaignattributedescriptors
             // Name = chcampaignAttributesStandard  where  CampaignAttributeStandardID = CampaignAttributeID
