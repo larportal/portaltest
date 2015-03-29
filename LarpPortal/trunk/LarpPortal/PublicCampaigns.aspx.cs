@@ -258,7 +258,7 @@ namespace LarpPortal
                 }
                 // Now get current roles.  If there are any start the label with "Current Roles:<br>"
                 Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
-                Roles.Load(UserID, 0, CampaignID);
+                Roles.Load(UserID, 0, CampaignID, DateTime.Now); // Last parameter = 1 for Yes, Current roles only
                 //Convert list to datatable
                 listCurrentRoles.DataSource = Classes.cUtilities.CreateDataTable(Roles.lsPlayerRoles);
                 listCurrentRoles.DataBind();
@@ -526,8 +526,8 @@ namespace LarpPortal
                     intSelectorsVisible = 0;
                     intURLVisible = 0;
                     intImageVisible = 0;
-                    lblGorC1.Text = "Genre";
-                    lblGorC2.Text = "Genre Description";
+                    lblGorC1.Text = "Style";
+                    lblGorC2.Text = "Style Description";
                     Classes.cGameSystem GS = new Classes.cGameSystem();
                     GS.Load(GameSystemID, 0);
                     strURL = GS.GameSystemURL;
@@ -638,6 +638,8 @@ namespace LarpPortal
                         lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
                         lblSize1.Text = "Size:";
                         lblSize2.Text = " " + Cam.CampaignSizeRange;
+                        lblLocation2.Text = "<i>Location</i>";
+                        lblEvent2.Text = "<i>Next Event Date</i>";
                     }
                 }
                 SetSiteImage(strImage);
@@ -996,6 +998,9 @@ namespace LarpPortal
                 txtZipCode.Text = "";
                 txtZipCode.Visible = false;
                 ddlMileRadius.Visible = false;
+                Session["ZipCodeFilter"] = "";
+                Session["RadiusFilter"] = 0;
+                ReloadActiveTreeView(UserID);
             }
         }
 
