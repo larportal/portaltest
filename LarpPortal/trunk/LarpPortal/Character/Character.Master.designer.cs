@@ -31,6 +31,15 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.ContentPlaceHolder CharHeaderStyles;
         
         /// <summary>
+        /// lblFrameHeight control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFrameHeight;
+        
+        /// <summary>
         /// width control.
         /// </summary>
         /// <remarks>
@@ -38,6 +47,15 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField width;
+        
+        /// <summary>
+        /// hidWidth control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden hidWidth;
         
         /// <summary>
         /// height control.
@@ -85,22 +103,13 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor hlCharInfo;
         
         /// <summary>
-        /// liItems control.
+        /// liSkills control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liItems;
-        
-        /// <summary>
-        /// liPlaces control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liPlaces;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liSkills;
         
         /// <summary>
         /// liHistory control.
@@ -112,13 +121,31 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liHistory;
         
         /// <summary>
-        /// liSkills control.
+        /// liRelationShips control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liSkills;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liRelationShips;
+        
+        /// <summary>
+        /// liPlaces control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liPlaces;
+        
+        /// <summary>
+        /// liItems control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liItems;
         
         /// <summary>
         /// liRequests control.
@@ -128,15 +155,6 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liRequests;
-        
-        /// <summary>
-        /// liPoints control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liPoints;
         
         /// <summary>
         /// ContentPlaceHolder1 control.

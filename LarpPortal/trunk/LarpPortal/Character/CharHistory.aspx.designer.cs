@@ -31,15 +31,6 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.HtmlControls.HtmlTextArea taHistory;
         
         /// <summary>
-        /// taComments control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTextArea taComments;
-        
-        /// <summary>
         /// btnSave control.
         /// </summary>
         /// <remarks>

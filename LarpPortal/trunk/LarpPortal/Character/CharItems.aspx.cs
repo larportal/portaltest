@@ -41,6 +41,8 @@ namespace LarpPortal.Character
                         Classes.cCharacter cChar = new Classes.cCharacter();
                         cChar.LoadCharacter(iCharID);
 
+                        lblHeader.Text = "Character Items - " + cChar.AKA + " - " + cChar.CampaignName;
+
                         taCostume.InnerText = cChar.Costuming;
                         taWeapons.InnerText = cChar.Weapons;
                         taMakeup.InnerText = cChar.Makeup;

@@ -5,14 +5,32 @@
 
 <asp:Content ContentPlaceHolderID="HeaderScripts" runat="server">
     <asp:ContentPlaceHolder ID="CharHeaderScripts" runat="server" />
+
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="HeaderStyles" runat="server">
     <asp:ContentPlaceHolder ID="CharHeaderStyles" runat="server" />
+    <style type="text/css">
+        .StandardButton
+        {
+            background-color: darkblue;
+            border-color: black;
+            border-width: 1px;
+            border-style: solid;
+            color: white;
+        }
+
+            .StandardButton:hover
+            {
+                background-color: lightblue;
+            }
+    </style>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainPage" runat="server" ID="CharacterMain">
+    <asp:Label ID="lblFrameHeight" runat="server" />
     <asp:HiddenField ID="width" runat="server" />
+    <input type="hidden" id="hidWidth" runat="server" />
 <asp:HiddenField ID="height" runat="server" />
         <asp:Table ID="Table1" runat="server">
             <asp:TableRow VerticalAlign="Top">
@@ -21,26 +39,14 @@
                         <nav class="userSubNav" style="width: 227px;">
                             <ul class="nav nav-pills" style="width: 227px;">
                                 <li><asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" /></li>
-                                <li runat="server" id="liInfo"><a href="CharInfo.aspx" data-toggle="pill" runat="server" id="hlCharInfo">Character Info</a>
-                                    <ul style="list-style-type: none; display: none;">
-                                        <li>Demographics</li>
-                                        <li>Non-Cost Descriptors</li>
-                                    </ul>
-                                </li>
-                                <li runat="server" id="liItems"><a href="CharItems.aspx" data-toggle="pill">Character Items</a>
-                                    <ul style="list-style-type: none; display: none;">
-                                        <li>Costume</li>
-                                        <li>Makeup</li>
-                                        <li>Accessories</li>
-                                        <li>Armor and Weapons</li>
-                                        <li>Other Items</li>
-                                    </ul>
-                                </li>
-                                <li runat="server" id="liPlaces"><a href="CharPlaces.aspx" data-toggle="pill">Character Places</a></li>
-                                <li runat="server" id="liHistory"><a href="CharHistory.aspx" data-toggle="pill">Character History</a></li>
+                                <li runat="server" id="liInfo"><a href="CharInfo.aspx" data-toggle="pill" runat="server" id="hlCharInfo">Character Info</a></li>
                                 <li runat="server" id="liSkills"><a href="CharSkills.aspx" data-toggle="pill">Character Skills</a></li>
-                                <li runat="server" id="liRequests"><a href="CharRequests.aspx" data-toggle="pill">CharacterRequests</a></li>
-                                <li runat="server" id="liPoints"><a href="CharPoints.aspx" data-toggle="pill">Character Points/Build Mgmt</a></li>
+                                <li runat="server" id="liHistory"><a href="CharHistory.aspx" data-toggle="pill">Character History</a></li>
+                                <li runat="server" id="liRelationShips"><a data-toggle="pill">Character RelationShips</a></li>
+                                <li runat="server" id="liPlaces"><a href="CharPlaces.aspx" data-toggle="pill">Character Places</a></li>
+                                <li runat="server" id="liItems"><a href="CharItems.aspx" data-toggle="pill">Character Items</a></li>
+                                <li runat="server" id="liRequests"><a data-toggle="pill">CharacterRequests</a></li>
+<%--                                <li runat="server" id="liPoints"><a href="CharPoints.aspx" data-toggle="pill">Character Points/Build Mgmt</a></li>--%>
                             </ul>
                         </nav>
                     </div>

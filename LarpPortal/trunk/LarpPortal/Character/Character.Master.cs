@@ -15,6 +15,8 @@ namespace LarpPortal.Character
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session["ActiveTopNav"] = "Characters";
+
             if (!IsPostBack)
             {
                 string PageName = Path.GetFileName(Request.PhysicalPath).ToUpper();
@@ -28,13 +30,15 @@ namespace LarpPortal.Character
                     liSkills.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARREQUESTS"))
                     liRequests.Attributes.Add("class", "active");
-                else if (PageName.Contains("CHARPOINTS"))
-                    liPoints.Attributes.Add("class", "active");
+                //else if (PageName.Contains("CHARPOINTS"))
+                //    liPoints.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARPLACES"))
+                    liPlaces.Attributes.Add("class", "active");
+                else if (PageName.Contains("CHARREQUESTS"))
                     liPlaces.Attributes.Add("class", "active");
 
                 SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", 2);
+                slParameters.Add("@intUserID", Session["UserID"].ToString());
                 DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
                     "LARPortal", "Character", "CharacterMaster.Page_Load");
                 ddlCharacterSelector.DataTextField = "CharacterAKA";
@@ -84,6 +88,7 @@ namespace LarpPortal.Character
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            string s = width.Value;
             if (ddlCharacterSelector.SelectedValue != "")
             {
                 string t = ddlCharacterSelector.SelectedValue;
