@@ -133,11 +133,11 @@
                         <div class="checkbox">
                             <label>
                                 <asp:CheckBox ID="chkZipCode" runat="server" AutoPostBack="true" OnCheckedChanged="chkZipCode_CheckedChanged" />
-                                Zip Code:
+                                Area / Zip Code:
                             </label>
                             <asp:TextBox ID="txtZipCode" runat="server" AutoPostBack="true" Visible="false" OnTextChanged="txtZipCode_TextChanged"></asp:TextBox>
-                            <p>
-                                <asp:Label ID="lblMileRadius" runat="server">Distance from Zip Code:</asp:Label></p>
+<%--                            <p>
+                                <asp:Label ID="lblMileRadius" runat="server">Distance from Zip Code:</asp:Label></p>--%>
                             <asp:DropDownList ID="ddlMileRadius" runat="server" AutoPostBack="true" Visible="false" OnSelectedIndexChanged="ddlMileRadius_SelectedIndexChanged">
                                 <asp:ListItem Text="10 miles" Value="1"></asp:ListItem>
                                 <asp:ListItem Text="25 miles" Value="2"></asp:ListItem>
@@ -281,18 +281,18 @@
                                                 &nbsp;&nbsp;
                                             </asp:TableCell>
                                             <asp:TableCell HorizontalAlign="Left">
-                                                <asp:Label ID="lblLocation2" runat="server"><i>Location</i></asp:Label>
+                                                <asp:Label ID="lblLocation2" runat="server"></asp:Label>
                                             </asp:TableCell>
                                         </asp:TableHeaderRow>
                                         <asp:TableHeaderRow>
                                             <asp:TableCell HorizontalAlign="Left">
-                                                <asp:Label ID="lblEvent1" runat="server">Next Event Date:</asp:Label>
+                                                <asp:Label ID="lblEvent1" runat="server">Next Event:</asp:Label>
                                             </asp:TableCell>
                                             <asp:TableCell>
                                                 &nbsp;&nbsp;
                                             </asp:TableCell>
                                             <asp:TableCell HorizontalAlign="Left">
-                                                <asp:Label ID="lblEvent2" runat="server"><i>Next Event Date</i></asp:Label>
+                                                <asp:Label ID="lblEvent2" runat="server"></asp:Label>
                                             </asp:TableCell>
                                         </asp:TableHeaderRow>
                                     </asp:Table>
@@ -319,14 +319,16 @@
                                                 <asp:Label ID="lblSignUpMessage" runat="server"></asp:Label>
                                             </asp:TableCell>
                                             <asp:TableCell VerticalAlign="Top">
-                                                Current Roles:<br />
+                                                &nbsp;&nbsp;
+                                            </asp:TableCell>
+                                            <asp:TableCell VerticalAlign="Top">
+                                                Current Roles:
                                     <asp:Repeater ID="listCurrentRoles" runat="server">
                                         <HeaderTemplate>
                                             <div class="panel-container scroll-150">
                                         </HeaderTemplate>
                                         <ItemTemplate>
-                                            <%# Eval("RoleDescription")%>
-                                            <%# Eval("ExpirationDate")%><br />
+                                            <%# Eval("RoleDescription")%><br />
                                         </ItemTemplate>
                                         <FooterTemplate>
                                             </div>

@@ -28,7 +28,7 @@ namespace LarpPortal.Classes
         /// CampaignIDToLoad optional to return all roles for a player in a specific campaign, else 0 for all campaigns
         /// Mix the parameters to get mixed results
         /// </summary>
-        public void Load(int UserID, int CampaignPlayerRoleIDToLoad, int CampaignIDToLoad)
+        public void Load(int UserID, int CampaignPlayerRoleIDToLoad, int CampaignIDToLoad, DateTime RoleExpirationDate)
         {
             string stStoredProc = "uspGetPlayerRoles";
             string stCallingMethod = "cPlayerRoles.Load";
@@ -37,6 +37,7 @@ namespace LarpPortal.Classes
             slParameters.Add("@UserID", UserID);
             slParameters.Add("@CampaignPlayerRoleID", CampaignPlayerRoleIDToLoad);
             slParameters.Add("@CampaignID", CampaignIDToLoad);
+            slParameters.Add("@RoleExpirationDate", RoleExpirationDate);
             DataSet dsPlayerRoles = new DataSet();
             dsPlayerRoles = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
             foreach (DataRow dRow in dsPlayerRoles.Tables[0].Rows)

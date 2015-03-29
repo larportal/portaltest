@@ -78,10 +78,10 @@
                     </div>
                     <h2 class="form-signin-heading">LARP Portal Guests</h2>
                     <div class="form-signin">
-                        <asp:HyperLink ID="hplLearnMore" runat="server" NavigateUrl="~/LearnMore.aspx" Target="_blank">Learn more about LARP Portal</asp:HyperLink><br /><br />
+                        <asp:HyperLink ID="hplLearnMore" runat="server" NavigateUrl="~/LearnMore.aspx" Target="_blank">What is LARP Portal?</asp:HyperLink><br /><br />
                         <asp:Label ID="GuestLogin" runat="server"></asp:Label>
                     </div>
-                <h2 class="form-signin-heading">Sign Up for Larp Portal</h2>
+                <h2 class="form-signin-heading">Sign Up for LARP Portal</h2>
                 <div class="form-signin" role="form">
                     <div>
                         <asp:Label ID="lblSignUpErrors" runat="server" ForeColor="Red"></asp:Label>
