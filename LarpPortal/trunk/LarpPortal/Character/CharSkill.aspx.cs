@@ -16,11 +16,6 @@ namespace LarpPortal.Character
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (Session["CurrentCharacter"] == null)
-            //    Session["CurrentCharacter"] = -1;
-            //if (Session["SelectedCharacter"] == null)
-            //    Session["SelectedCharacter"] = 7;
-            //string t = Request.QueryString.ToString();
             if (!IsPostBack)
                 tvSkills.Attributes.Add("onclick", "postBackByObject()");
         }
@@ -283,27 +278,6 @@ namespace LarpPortal.Character
                     Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
                 }
             }
-
-            //foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
-            //{
-            //    int iSkillID;
-            //    if (int.TryParse(SkillNode.Value, out iSkillID))
-            //    {
-            //        //DataRow[] dSkillRow = dtAllSkills.Select("CampaignSkillsStandardID = " + iSkillID.ToString());
-            //        //if (dSkillRow.Length > 0)
-            //        //{
-            //        //    double SkillCost;
-            //        //    if (double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost))
-            //        //        TotalSpent += SkillCost;
-            //        //    DataRow dNewRow = dtSkillCosts.NewRow();
-            //        //    dNewRow["Skill"] = dSkillRow[0]["SkillName"].ToString();
-            //        //    dNewRow["Cost"] = SkillCost;
-            //        //    dNewRow["SortOrder"] = 10;
-            //        //    dtSkillCosts.Rows.Add(dNewRow);
-            //        //}
-            //    }
-            //}
-
         }
     }
 }
