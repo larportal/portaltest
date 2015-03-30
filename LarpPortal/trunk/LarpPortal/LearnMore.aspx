@@ -6,7 +6,6 @@
         </aside>
 	    <div class="mainContent tab-content">
 		    <section id="larping-info">
-			    <h1>What is LARP Portal?</h1>
 			    <div class="row">
 				    <div class="panel-wrapper col-md-10">
 					    <div class="panel">

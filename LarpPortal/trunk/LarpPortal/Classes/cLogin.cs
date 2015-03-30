@@ -43,6 +43,7 @@ namespace LarpPortal.Classes
         public string TabIcon { get; set; }
         public string WhatIsLARPingText { get; set; }
         public string AboutUsText { get; set; }
+        public string ContactUsText { get; set; }
         public string TermsOfUseText { get; set; }
         public string LearnMoreText { get; set; }
         public List<cPageTab> lsPageTabs = new List<cPageTab>();
@@ -132,6 +133,24 @@ namespace LarpPortal.Classes
                 AboutUsText = dRow["Comments"].ToString();
             }
         }
+
+        /// <summary>
+        /// This will get the text from the database for Contact Us
+        /// </summary>
+        public void getContactUs()
+        {
+            string stStoredProc = "uspGetContactUs";
+            string stCallingMethod = "cLogin.getContactUs";
+            SortedList slParameters = new SortedList();
+            DataSet dsContactUs = new DataSet();
+            dsContactUs = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsContactUs.Tables[0].TableName = "MDBParameters";
+            foreach (DataRow dRow in dsContactUs.Tables["MDBParameters"].Rows)
+            {
+                ContactUsText = dRow["Comments"].ToString();
+            }
+        }
+
 
         /// <summary>
         /// This will get the text from the database for Terms Of Use

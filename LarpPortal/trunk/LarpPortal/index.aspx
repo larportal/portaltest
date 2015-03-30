@@ -46,7 +46,7 @@
                     </div>
                     <div>
                         <asp:Label ID="lblSecurityResetCode" runat="server" ToolTip=""></asp:Label>
-                        <asp:TextBox ID="txtSecurityResetCode" runat="server" CssClass="form-control" ></asp:TextBox>
+                        <asp:TextBox ID="txtSecurityResetCode" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtSecurityResetCode_TextChanged"></asp:TextBox>
                     </div>
                     <div>
                         <asp:Table id="tblLoginButton" runat="server">
@@ -78,7 +78,7 @@
                     </div>
                     <h2 class="form-signin-heading">LARP Portal Guests</h2>
                     <div class="form-signin">
-                        <asp:HyperLink ID="hplLearnMore" runat="server" NavigateUrl="~/LearnMore.aspx" Target="_blank">What is LARP Portal?</asp:HyperLink><br /><br />
+                        <asp:HyperLink ID="hplLearnMore" runat="server" NavigateUrl="~/LearnMore.aspx">What is LARP Portal?</asp:HyperLink><br /><br />
                         <asp:Label ID="GuestLogin" runat="server"></asp:Label>
                     </div>
                 <h2 class="form-signin-heading">Sign Up for LARP Portal</h2>
