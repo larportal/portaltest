@@ -22,6 +22,9 @@ namespace LarpPortal.Classes
         public string GameSystemName { get; set; }
         public string GameSystemURL { get; set; }
         public string GameSystemWebPageDescription { get; set; }
+        public string GameSystemLogo { get; set; }
+        public int GameSystemLogoHeight { get; set; }
+        public int GameSystemLogoWidth { get; set; }
 
         /// <summary>
         /// This will load the details of a particular game system
@@ -41,9 +44,14 @@ namespace LarpPortal.Classes
             {
                 if (int.TryParse(dRow["GameSystemID"].ToString(), out iTemp))
                     GameSystemID = iTemp;
+                if (int.TryParse(dRow["GameSystemLogoWidth"].ToString(), out iTemp))
+                    GameSystemLogoWidth = iTemp;
+                if (int.TryParse(dRow["GameSystemLogoHeight"].ToString(), out iTemp))
+                    GameSystemLogoHeight = iTemp;
                 GameSystemName = dRow["GameSystemName"].ToString();
                 GameSystemURL = dRow["GameSystemURL"].ToString();
                 GameSystemWebPageDescription = dRow["GameSystemWebPageDescription"].ToString();
+                GameSystemLogo = dRow["GameSystemLogo"].ToString();
             }
 
         }

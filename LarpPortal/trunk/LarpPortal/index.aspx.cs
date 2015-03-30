@@ -165,10 +165,18 @@ namespace LarpPortal
             }
         }
 
+        protected void txtSecurityResetCode_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         protected void MemberLogin(string AttemptedUsername, string AttemptedPassword)
         {
             Classes.cLogin Login = new Classes.cLogin();
-            Login.Load(txtUserName.Text, txtPassword.Text);
+            string PasswordToUse = txtPassword.Text;
+            if (PasswordToUse == "")
+                PasswordToUse = AttemptedPassword;
+            Login.Load(txtUserName.Text, PasswordToUse);
             int intUserID;
             string WhereAreYouGoing;
             Session["SecurityRole"] = Login.SecurityRoleID;

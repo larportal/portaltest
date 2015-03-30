@@ -317,7 +317,9 @@ namespace LarpPortal
                 Classes.cGameSystem GS = new Classes.cGameSystem();
                 GS.Load(GameSystemID, 0);
                 strURL = GS.GameSystemURL;
-                strImage = "";
+                strImage = GS.GameSystemLogo;
+                intImageHeight = GS.GameSystemLogoHeight;
+                intImageWidth = GS.GameSystemLogoWidth;
                 strGameOrCampaignName = GS.GameSystemName;
                 lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
             }

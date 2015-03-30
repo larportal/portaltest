@@ -14,7 +14,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/19/2014 10:18:29</publishTime>
     </File>
     <File Include="AboutUs.aspx">
-      <publishTime>03/01/2015 12:45:37</publishTime>
+      <publishTime>03/29/2015 18:38:56</publishTime>
     </File>
     <File Include="Account/Login.aspx">
       <publishTime>05/19/2014 10:18:32</publishTime>
@@ -149,7 +149,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 21:15:46</publishTime>
     </File>
     <File Include="bin/LarpPortal.dll">
-      <publishTime>03/29/2015 11:46:26</publishTime>
+      <publishTime>03/29/2015 21:17:44</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>05/19/2014 20:54:36</publishTime>
@@ -328,6 +328,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Contact.aspx">
       <publishTime>05/21/2014 20:59:46</publishTime>
     </File>
+    <File Include="ContactUs.aspx">
+      <publishTime>03/29/2015 18:38:06</publishTime>
+    </File>
     <File Include="Content/bootstrap.css">
       <publishTime>03/03/2015 19:05:55</publishTime>
     </File>
@@ -420,6 +423,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="img/logo/CM-8-MirrorMirror.jpg">
       <publishTime>02/28/2015 21:55:36</publishTime>
+    </File>
+    <File Include="img/logo/GS_1_Accelerant.jpg">
+      <publishTime>03/16/2015 20:31:56</publishTime>
+    </File>
+    <File Include="img/logo/GS_2_NERO.png">
+      <publishTime>03/29/2015 21:06:37</publishTime>
+    </File>
+    <File Include="img/logo/GS_7_Belegarth.gif">
+      <publishTime>03/29/2015 20:32:43</publishTime>
+    </File>
+    <File Include="img/logo/GS_8_Dagorhir.jpg">
+      <publishTime>03/16/2015 20:34:01</publishTime>
     </File>
     <File Include="img/logo/Logo_10_Occam%27sRazor.jpg">
       <publishTime>02/28/2015 15:10:20</publishTime>
@@ -662,7 +677,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 20:25:39</publishTime>
     </File>
     <File Include="index.aspx">
-      <publishTime>03/28/2015 21:01:41</publishTime>
+      <publishTime>03/29/2015 20:18:01</publishTime>
     </File>
     <File Include="Inventory.aspx">
       <publishTime>01/03/2015 12:47:56</publishTime>
@@ -683,7 +698,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="LearnMore.aspx">
-      <publishTime>03/21/2015 18:07:40</publishTime>
+      <publishTime>03/29/2015 18:49:42</publishTime>
     </File>
     <File Include="Medical.aspx">
       <publishTime>01/03/2015 12:47:57</publishTime>
@@ -740,7 +755,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LARPortal.pubxml.user">
-      <publishTime>03/28/2015 21:45:49</publishTime>
+      <publishTime>03/29/2015 18:56:25</publishTime>
     </File>
     <File Include="PublicCalendar.aspx">
       <publishTime>12/10/2014 21:37:31</publishTime>
@@ -749,7 +764,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/10/2014 21:15:32</publishTime>
     </File>
     <File Include="PublicCampaigns.aspx">
-      <publishTime>03/29/2015 07:51:46</publishTime>
+      <publishTime>03/29/2015 19:06:15</publishTime>
     </File>
     <File Include="PublicCampaigns.master">
       <publishTime>02/02/2015 17:01:54</publishTime>
