@@ -13,6 +13,24 @@ namespace LarpPortal.Character {
     public partial class CharAdd {
         
         /// <summary>
+        /// mvCharacterCreate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mvCharacterCreate;
+        
+        /// <summary>
+        /// vwCreateCharacter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwCreateCharacter;
+        
+        /// <summary>
         /// ddlUserCampaigns control.
         /// </summary>
         /// <remarks>
@@ -38,5 +56,14 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSave;
+        
+        /// <summary>
+        /// vwNoCampaigns control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwNoCampaigns;
     }
 }
