@@ -83,6 +83,9 @@ namespace LarpPortal.Character
                             li.Selected = false;
                     }
                 }
+                else
+                if (dtCharacters.Rows.Count == 0)
+                    Response.Redirect("CharAdd.aspx");
             }
         }
 
