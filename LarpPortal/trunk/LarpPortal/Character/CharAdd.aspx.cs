@@ -31,10 +31,17 @@ namespace LarpPortal.Character
             Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
             CampaignChoices.Load(uID);
 
-            ddlUserCampaigns.DataTextField = "CampaignName";
-            ddlUserCampaigns.DataValueField = "CampaignID";
-            ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
-            ddlUserCampaigns.DataBind();
+            if (CampaignChoices.CountOfUserCampaigns == 0)
+            {
+                mvCharacterCreate.SetActiveView(vwNoCampaigns);
+            }
+            else
+            {
+                ddlUserCampaigns.DataTextField = "CampaignName";
+                ddlUserCampaigns.DataValueField = "CampaignID";
+                ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
+                ddlUserCampaigns.DataBind();
+            }
         }
 
 
