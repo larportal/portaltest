@@ -112,7 +112,7 @@
                     <div class="panel-wrapper col-sm-3">
                         <div class="panel">
                             <div class="panelheader">
-                                <h2>Campaign Search</h2>
+                                <h2>Campaign Search<asp:Label ID="lblCampaignSearchBy" runat="server"> by Game System</asp:Label></h2>
                                 <div class="panel-body">
                                     <div class="panel-container  search-criteria">
                                         <asp:TreeView ID="tvGameSystem" runat="server" Visible="true" OnSelectedNodeChanged="tvGameSystem_SelectedNodeChanged" ExpandDepth="0"></asp:TreeView>

@@ -97,6 +97,8 @@ namespace LarpPortal.Classes
         private string _CampaignStyle = "";
         private string _GenreList = "";
         private string _TechLevelList = "";
+        private string _MarketingLocation = "";
+        private DateTime? _NextEventDate = null;
 
         public Int32 CampaignID
         {
@@ -516,6 +518,17 @@ namespace LarpPortal.Classes
 
         public string CampaignSizeRange { get; set; }
 
+        public string MarketingLocation
+        {
+            get { return _MarketingLocation; }
+            set { _MarketingLocation = value; }
+        }
+
+        public DateTime? NextEventDate
+        {
+            get { return _NextEventDate; }
+            set { _NextEventDate = value; }
+        }
 
         private cCampaignBase()
         {
@@ -531,7 +544,6 @@ namespace LarpPortal.Classes
             _UserID = intUserID;
             //so lets say we wanted to load data into this class from a sql query called uspGetSomeData thats take two paraeters @Parameter1 and @Parameter2
 
-
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
@@ -546,6 +558,8 @@ namespace LarpPortal.Classes
                     double dTemp;
                     if (DateTime.TryParse(ldt.Rows[0]["ActualEndDate"].ToString(), out dtTemp))
                         _ActualEndDate = dtTemp;
+                    if (DateTime.TryParse(ldt.Rows[0]["NextEventDate"].ToString(), out dtTemp))
+                        _NextEventDate = dtTemp;
                     if (int.TryParse(ldt.Rows[0]["ActualNumberOfEvents"].ToString(), out iTemp))
                         _ActualNumberOfEvents = iTemp;
                     if (bool.TryParse(ldt.Rows[0]["AllowCPDonation"].ToString(), out bTemp))
@@ -602,7 +616,7 @@ namespace LarpPortal.Classes
                     CampaignSizeRange = ldt.Rows[0]["CampaignSizeRange"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["MaximumCPPerYear"].ToString(), out iTemp))
                         _MaximumCPPerYear = iTemp;
-                    _MaxNumberOfGenres = 4; //TODO-Rick-2 Limit campaigns to number of genres parameter
+                    _MaxNumberOfGenres = 4; //TODO-Rick-4 Limit campaigns to number of genres parameter
                     if (double.TryParse(ldt.Rows[0]["MembershipFee"].ToString(), out dTemp))
                         _MembershipFee = dTemp;
                     _MembershipFeeFrequency = ldt.Rows[0]["MembershipFeeFrequency"].ToString().Trim();
@@ -642,7 +656,7 @@ namespace LarpPortal.Classes
                     _CampaignStyle = ldt.Rows[0]["StyleName"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["TechLevelID"].ToString(), out iTemp))
                         _TechLevelID = iTemp;
-                    _TechLevelName = "";//TODO-Rick-2 Redefine this to get multiples - Should not be in Campaigns table
+                    _TechLevelName = "";
                     if (int.TryParse(ldt.Rows[0]["TotalCharacterCap"].ToString(), out iTemp))
                         _TotalCharacterCPCap = iTemp;
                     _URL = ldt.Rows[0]["CampaignURL"].ToString().Trim();
@@ -665,8 +679,7 @@ namespace LarpPortal.Classes
                     _UserDefinedField5Value = ldt.Rows[0]["UserDefinedField5"].ToString().Trim();
                     _WebPageDescription = ldt.Rows[0]["CampaignWebPageDescription"].ToString().Trim();
                     _WebPageSelectionComments = ldt.Rows[0]["CampaignWebPageSelectionComments"].ToString().Trim();
-                    _WorldID = -1; //TODO-Rick-3 Figure out why WorldID is -1 and change if necessary
-                    // Go get two concatenated string lists, Genres and Tech Levels
+                    _MarketingLocation = ldt.Rows[0]["MarketingLocation"].ToString().Trim();
                     GetGenres(strUserName);
                     GetTechLevels(strUserName);
                 }
