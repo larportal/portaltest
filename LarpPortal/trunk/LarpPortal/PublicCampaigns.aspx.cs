@@ -27,8 +27,9 @@ namespace LarpPortal
                 Session["DefaultCampaignLogoImage"] = "http://placehold.it/820x130";
                 pnlOverview.Visible = false;
                 pnlSelectors.Visible = false;
+                pnlImageURL.Visible = false;
                 hplLinkToSite.Visible = false;
-                imgCampaignImage.Visible = false;
+                //imgCampaignImage.Visible = false;
                 pnlSignUpForCampaign.Visible = false;
                 if (Session["UserID"] == null)
                     UserID = 0;
@@ -123,28 +124,35 @@ namespace LarpPortal
                 Session["RadiusFilter"] = 0;
             }
 
+            pnlImageURL.Visible = false;
+            pnlOverview.Visible = false;
+            pnlSelectors.Visible = false;
+            pnlSignUpForCampaign.Visible = false;
+
             switch (ddlOrderBy.Text)
             {
                 case "Game System":
+                    lblCampaignSearchBy.Text = " by Game System";
                     tvGameSystem.Visible = true;
                     break;
                 case "Campaign":
+                    lblCampaignSearchBy.Text = " by Campaign";
                     tvCampaign.Visible = true;
                     break;
                 case "Genre":
-                    //TODO
+                    lblCampaignSearchBy.Text = " by Genre";
                     tvGenre.Visible = true;
                     break;
                 case "Style":
-                    //TODO
+                    lblCampaignSearchBy.Text = " by Style";
                     tvStyle.Visible = true;
                     break;
                 case "Tech Level":
-                    //TODO
+                    lblCampaignSearchBy.Text = " by Tech Level";
                     tvTechLevel.Visible = true;
                     break;
                 case "Size":
-                    //TODO
+                    lblCampaignSearchBy.Text = " by Size";
                     tvSize.Visible = true;
                     break;
                 default:
@@ -172,8 +180,8 @@ namespace LarpPortal
                 if (imgRatio == 0)
                     imgRatio = 1;
 
-                int CalculatedHeight = Convert.ToInt32(Math.Round(820 / imgRatio,0));
-                int CalculatedWidth = Convert.ToInt32(Math.Round(130 * imgRatio,0));
+                int CalculatedHeight = Convert.ToInt32(Math.Round(820 / imgRatio, 0));
+                int CalculatedWidth = Convert.ToInt32(Math.Round(130 * imgRatio, 0));
 
                 if (imgRatio == 6.308m)
                 {
@@ -190,9 +198,11 @@ namespace LarpPortal
                     imgCampaignImage.Height = 130;
                     imgCampaignImage.Width = CalculatedWidth;
                 }
+                pnlImageURL.Visible = true;
                 imgCampaignImage.Visible = true;
             }
             else
+                //pnlImageURL.Visible = false;
                 imgCampaignImage.Visible = false;
             if (OverviewVisible == 1)
                 pnlOverview.Visible = true;
@@ -352,9 +362,10 @@ namespace LarpPortal
                     lblTechLevel1.Text = "Tech Level: ";
                     lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
                     lblSize1.Text = "Size:";
-                    lblSize2.Text = " " + Cam.CampaignSizeRange;    
-                    //TODO-Rick-Add location info on the screen and logic it in
-                }
+                    lblSize2.Text = " " + Cam.CampaignSizeRange;
+                    lblLocation2.Text = Cam.MarketingLocation;
+                    lblEvent2.Text = string.Format("{0:MMM d, yyyy}", Cam.NextEventDate);
+                };
             }
             SetSiteImage(strImage);
             if(strURL != null)
@@ -422,6 +433,8 @@ namespace LarpPortal
                     lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
                     lblSize1.Text = "Size:";
                     lblSize2.Text = " " + Cam.CampaignSizeRange;
+                    lblLocation2.Text = Cam.MarketingLocation;
+                    lblEvent2.Text = string.Format("{0:MMM d, yyyy}", Cam.NextEventDate);
                 }
             }
             SetSiteImage(strImage);
@@ -494,6 +507,8 @@ namespace LarpPortal
                         lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
                         lblSize1.Text = "Size:";
                         lblSize2.Text = " " + Cam.CampaignSizeRange;
+                        lblLocation2.Text = Cam.MarketingLocation;
+                        lblEvent2.Text = string.Format("{0:MMM d, yyyy}", Cam.NextEventDate);
                     }
                 }
                 SetSiteImage(strImage);
@@ -567,6 +582,8 @@ namespace LarpPortal
                         lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
                         lblSize1.Text = "Size:";
                         lblSize2.Text = " " + Cam.CampaignSizeRange;
+                        lblLocation2.Text = Cam.MarketingLocation;
+                        lblEvent2.Text = string.Format("{0:MMM d, yyyy}", Cam.NextEventDate);
                     }
                 }
                 SetSiteImage(strImage);
@@ -637,11 +654,11 @@ namespace LarpPortal
                         lblStyle1.Text = "Style: ";
                         lblStyle2.Text = " " + Cam.StyleDescription;
                         lblTechLevel1.Text = "Tech Level: ";
-                        lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
+                        lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;
                         lblSize1.Text = "Size:";
                         lblSize2.Text = " " + Cam.CampaignSizeRange;
-                        lblLocation2.Text = "<i>Location</i>";
-                        lblEvent2.Text = "<i>Next Event Date</i>";
+                        lblLocation2.Text = Cam.MarketingLocation;
+                        lblEvent2.Text = string.Format("{0:MMM d, yyyy}", Cam.NextEventDate);
                     }
                 }
                 SetSiteImage(strImage);
@@ -712,9 +729,11 @@ namespace LarpPortal
                         lblStyle1.Text = "Style: ";
                         lblStyle2.Text = " " + Cam.StyleDescription;
                         lblTechLevel1.Text = "Tech Level: ";
-                        lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;  //TODO-Rick-00 Fix this too
+                        lblTechLevel2.Text = " " + Cam.TechLevelName + Cam.TechLevelList;
                         lblSize1.Text = "Size:";
                         lblSize2.Text = " " + Cam.CampaignSizeRange;
+                        lblLocation2.Text = Cam.MarketingLocation;
+                        lblEvent2.Text = string.Format("{0:MMM d, yyyy}", Cam.NextEventDate);
                     }
                 }
                 SetSiteImage(strImage);
@@ -2219,7 +2238,7 @@ namespace LarpPortal
 
         protected void btnSignUpForCampaign_Click(object sender, EventArgs e)
         {
-
+            //TODO-Rick-000-Put in sign up logic
         }
     }
 }
