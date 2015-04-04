@@ -45,7 +45,7 @@
                                 <li runat="server" id="liRelationShips"><a data-toggle="pill">Character RelationShips</a></li>
                                 <li runat="server" id="liPlaces"><a href="CharPlaces.aspx" data-toggle="pill">Character Places</a></li>
                                 <li runat="server" id="liItems"><a href="CharItems.aspx" data-toggle="pill">Character Items</a></li>
-                                <li runat="server" id="liRequests"><a data-toggle="pill">CharacterRequests</a></li>
+                                <li runat="server" id="liRequests"><a data-toggle="pill">Character Requests</a></li>
 <%--                                <li runat="server" id="liPoints"><a href="CharPoints.aspx" data-toggle="pill">Character Points/Build Mgmt</a></li>--%>
                             </ul>
                         </nav>

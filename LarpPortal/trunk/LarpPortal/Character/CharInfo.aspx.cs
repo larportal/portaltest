@@ -22,8 +22,8 @@ namespace LarpPortal.Character
             if (!IsPostBack)
             {
                 ViewState["CurrentCharacter"] = "";
-                //tbName.Attributes.Add("Placeholder", "Character Name");
-                //tbStatus.Attributes.Add("Placeholder", "Status");
+                tbFirstName.Attributes.Add("Placeholder", "First Name");
+                tbLastName.Attributes.Add("Placeholder", "Last Name");
                 //tbAKA.Attributes.Add("Placeholder", "Alias");
                 //tbLastEvent.Attributes.Add("Placeholder", "Last Events");
                 //tbDOB.Attributes.Add("Placeholder", "Game System");
@@ -38,18 +38,6 @@ namespace LarpPortal.Character
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            // Character Descriptor = chcampaignattributedescriptors
-            // Name = chcampaignAttributesStandard  where  CampaignAttributeStandardID = CampaignAttributeID
-            // CampaignAttributesStandard - AllowMultipleSelections
-
-            // To get skill set:
-            // select * from CHCharacterSkillSets - get for the user.
-            // select * from CHCharacterSkillsStandard get what's actually in the skill set
-            //      where CharacterSkillSetID = 111   key of CHCharacterSkillSets
-
-            //            pnlCharacterPicture.Visible = false;
-
-
             if (Session["SelectedCharacter"] != null)
             {
                 string sCurrent = ViewState["CurrentCharacter"].ToString();

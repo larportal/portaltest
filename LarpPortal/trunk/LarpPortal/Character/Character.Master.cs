@@ -46,8 +46,10 @@ namespace LarpPortal.Character
                 ddlCharacterSelector.DataSource = dtCharacters;
                 ddlCharacterSelector.DataBind();
 
-                if (ddlCharacterSelector.Items.Count > 1)
+                if (ddlCharacterSelector.Items.Count > 0)
                 {
+                    ddlCharacterSelector.ClearSelection();
+
                     if (Session["SelectedCharacter"] != null)
                     {
                         string sCurrentUser = Session["SelectedCharacter"].ToString();
@@ -61,15 +63,15 @@ namespace LarpPortal.Character
                     }
                     else
                     {
-                        ddlCharacterSelector.Items[1].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-
-                    if (ddlCharacterSelector.SelectedIndex == 0)
-                    {
                         ddlCharacterSelector.Items[0].Selected = true;
                         Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
                     }
+
+                    //if (ddlCharacterSelector.SelectedIndex == 0)
+                    //{
+                    //    ddlCharacterSelector.Items[0].Selected = true;
+                    //    Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+                    //}
                 }
                 ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
                 if (PageName.Contains("CHARADD"))
