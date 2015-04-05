@@ -14,7 +14,8 @@ namespace LarpPortal.Character
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+                tbCharacterName.Attributes.Add("PlaceHolder", "The nickname for the character.");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)

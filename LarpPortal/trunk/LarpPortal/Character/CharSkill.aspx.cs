@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -119,8 +120,13 @@ namespace LarpPortal.Character
 
         protected void tvSkills_TreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
         {
+            lblMessage.Text = "Skills Changed";
+            lblMessage.ForeColor = Color.Red;
             if (e.Node.Checked)
                 MarkParentNodes(e.Node);
+            else
+                DeselectChildNodes(e.Node);
+
             ListSkills();
         }
 
@@ -195,6 +201,16 @@ namespace LarpPortal.Character
             NodeToCheck.Checked = true;
             if (NodeToCheck.Parent != null)
                 MarkParentNodes(NodeToCheck.Parent);
+        }
+
+        protected void DeselectChildNodes(TreeNode NodeToCheck)
+        {
+            NodeToCheck.Checked = false;
+            foreach (TreeNode Child in NodeToCheck.ChildNodes)
+            {
+                Child.Checked = false;
+                DeselectChildNodes(Child);
+            }
         }
 
         protected string FormatDescString(DataRowView dTreeNode)
@@ -276,6 +292,8 @@ namespace LarpPortal.Character
                         }
                     }
                     Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
+                    lblMessage.Text = "Skills Saved";
+                    lblMessage.ForeColor = Color.Black;
                 }
             }
         }
