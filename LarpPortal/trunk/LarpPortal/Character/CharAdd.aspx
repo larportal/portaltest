@@ -71,12 +71,24 @@
 
                         <div class="row">&nbsp;</div>
                         <div class="row">&nbsp;</div>
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    &nbsp;
+                                </div>
+                                <div class="col-sm-4 text-center" style="font-size: larger">
+                                    The character name is the name by which your character is commonly known. You will be able 
+                                    to enter a different first, middle and last name after saving this screen. 
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">&nbsp;</div>
                         <div class="row">&nbsp;</div>
 
                         <div class="col-sm-12">
                             <div class="row">
-                                <div class="col-sm-10">&nbsp;</div>
+                                <div class="col-sm-8">&nbsp;</div>
                                 <div class="col-sm-2 NoRightPadding">
                                     <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="StandardButton" OnClick="btnSave_Click" />
                                 </div>

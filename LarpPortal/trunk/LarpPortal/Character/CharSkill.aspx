@@ -151,7 +151,7 @@
         <asp:ScriptManager ID="sm" runat="server" />
         <asp:UpdatePanel ID="upSkill" runat="server">
             <ContentTemplate>
-                <table style="width: 100%;">
+                <table style="width: 100%;" border="0">
                     <tr class="TableItems" style="vertical-align: top;">
                         <td style="width: 40%;" class="TableItems">
                             <asp:Panel ID="pnlTreeView" runat="server" ScrollBars="Vertical" Height="500px">
@@ -176,6 +176,12 @@
                                     <asp:BoundField DataField="Cost" HeaderText="Cost" DataFormatString="{0:0.00}" ItemStyle-HorizontalAlign="Right" />
                                 </Columns>
                             </asp:GridView>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" />
+                        <td align="right">
+                            <asp:Label ID="lblMessage" runat="server" />
                         </td>
                     </tr>
                     <tr>

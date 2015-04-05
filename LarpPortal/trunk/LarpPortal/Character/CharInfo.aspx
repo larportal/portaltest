@@ -163,17 +163,15 @@
 
                     <asp:UpdatePanel ID="pnlCharDesc" runat="server">
                         <ContentTemplate>
-                            <div class="col-sm-12">
+                            <div class="col-sm-10">
                                 <div class="row" style="border-left: 30px;">
                                     <asp:GridView ID="gvDescriptors" runat="server" AutoGenerateColumns="false" GridLines="None" OnRowCommand="gvDescriptors_RowCommand" DataKeyNames="CharacterAttributesBasicID"
                                         CssClass="table table-striped table-hover table-condensed">
                                         <EmptyDataRowStyle BackColor="Transparent" />
                                         <EmptyDataTemplate>
-                                            <table>
-                                                <tr>
-                                                    <td>You have no descriptors selected. Please select from the boxes below.</td>
-                                                </tr>
-                                            </table>
+                                            <div class="row">
+                                                <div class="text-center" style="background-color: transparent;" >You have no descriptors selected. Please select from the boxes below.</div>
+                                            </div>
                                         </EmptyDataTemplate>
                                         <Columns>
                                             <asp:BoundField DataField="CharacterDescriptor" HeaderText="Character Descriptor" />
@@ -277,4 +275,5 @@
             </div>
         </div>
     </div>
+    <asp:Label ID="lblMessage" runat="server" />
 </asp:Content>

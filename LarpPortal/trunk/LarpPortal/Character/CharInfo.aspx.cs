@@ -24,6 +24,7 @@ namespace LarpPortal.Character
                 ViewState["CurrentCharacter"] = "";
                 tbFirstName.Attributes.Add("Placeholder", "First Name");
                 tbLastName.Attributes.Add("Placeholder", "Last Name");
+                lblMessage.Text = "";
                 //tbAKA.Attributes.Add("Placeholder", "Alias");
                 //tbLastEvent.Attributes.Add("Placeholder", "Last Events");
                 //tbDOB.Attributes.Add("Placeholder", "Game System");
@@ -187,29 +188,36 @@ namespace LarpPortal.Character
         {
             if (ulFile.HasFile)
             {
-                string sUser = Session["LoginName"].ToString();
-                Classes.cPicture NewPicture = new Classes.cPicture();
-                NewPicture.PictureType = Classes.cPicture.PictureTypes.Profile;
-                NewPicture.CreateNewPictureRecord(sUser);
-                string sExtension = Path.GetExtension(ulFile.FileName);
-                NewPicture.PictureFileName = "CP" + NewPicture.PictureID.ToString("D10") + sExtension;
+                try
+                {
+                    string sUser = Session["LoginName"].ToString();
+                    Classes.cPicture NewPicture = new Classes.cPicture();
+                    NewPicture.PictureType = Classes.cPicture.PictureTypes.Profile;
+                    NewPicture.CreateNewPictureRecord(sUser);
+                    string sExtension = Path.GetExtension(ulFile.FileName);
+                    NewPicture.PictureFileName = "CP" + NewPicture.PictureID.ToString("D10") + sExtension;
 
-                int iCharacterID = 0;
-                int.TryParse(ViewState["CurrentCharacter"].ToString(), out iCharacterID);
-                NewPicture.CharacterID = iCharacterID;
+                    int iCharacterID = 0;
+                    int.TryParse(ViewState["CurrentCharacter"].ToString(), out iCharacterID);
+                    NewPicture.CharacterID = iCharacterID;
 
-                string LocalName = NewPicture.PictureLocalName;
+                    string LocalName = NewPicture.PictureLocalName;
 
-                if (!Directory.Exists(Path.GetDirectoryName(NewPicture.PictureLocalName)))
-                    Directory.CreateDirectory(Path.GetDirectoryName(NewPicture.PictureLocalName));
+                    if (!Directory.Exists(Path.GetDirectoryName(NewPicture.PictureLocalName)))
+                        Directory.CreateDirectory(Path.GetDirectoryName(NewPicture.PictureLocalName));
 
-                ulFile.SaveAs(NewPicture.PictureLocalName);
-                NewPicture.Save(sUser);
+                    ulFile.SaveAs(NewPicture.PictureLocalName);
+                    NewPicture.Save(sUser);
 
-                ViewState["UserIDPicture"] = NewPicture;
+                    ViewState["UserIDPicture"] = NewPicture;
 
-                imgCharacterPicture.ImageUrl = NewPicture.PictureURL;
-                pnlCharacterPicture.Visible = true;
+                    imgCharacterPicture.ImageUrl = NewPicture.PictureURL;
+                    pnlCharacterPicture.Visible = true;
+                }
+                catch (Exception ex)
+                {
+                    lblMessage.Text = ex.Message + "<br>" + ex.StackTrace;
+                }
             }
         }
 
