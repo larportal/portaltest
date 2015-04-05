@@ -294,6 +294,12 @@ namespace LarpPortal.Character
                     Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
                     lblMessage.Text = "Skills Saved";
                     lblMessage.ForeColor = Color.Black;
+
+                    string jsString = "alert('Character " + Char.AKA + " has been saved.');";
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                            "MyApplication",
+                            jsString,
+                            true);
                 }
             }
         }

@@ -268,7 +268,7 @@ namespace LarpPortal.Character
                     {
                         cChar.Race = new Classes.cRace();
                         int.TryParse(ddlRace.SelectedValue, out iTemp);
-                            cChar.Race.CampaignRaceID = iTemp;
+                        cChar.Race.CampaignRaceID = iTemp;
                     }
 
                     cChar.Descriptors = Session["CharDescriptors"] as List<Classes.cDescriptor>;
@@ -276,6 +276,18 @@ namespace LarpPortal.Character
                         Item.CharacterSkillSetID = cChar.CharacterSkillSetID;
 
                     cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
+
+                    string jsString = "alert('Character " + cChar.AKA + " has been saved.');";
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                            "MyApplication",
+                            jsString,
+                            true);
+
+    //                ScriptManager.RegisterStartupScript(this,this.GetType(),"Pop", "openModal();", true);
+
+    //                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+    //"<script>$('#basicModal').modal('show');</script>", false);
+
 
                     //tbRace.Text = cChar.Race.Description;
                     //if (cChar.Deaths.Count > 0)
@@ -382,11 +394,11 @@ namespace LarpPortal.Character
 
         protected void gvDescriptors_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-        //    int index = Convert.ToInt32(e.RowIndex);
-        //    List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-        //    Desc[index].RecordStatus = Classes.RecordStatuses.Delete;
-        //    Session["CharDescriptors"] = Desc;
-        //    BindData();
+            //    int index = Convert.ToInt32(e.RowIndex);
+            //    List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
+            //    Desc[index].RecordStatus = Classes.RecordStatuses.Delete;
+            //    Session["CharDescriptors"] = Desc;
+            //    BindData();
         }
 
 
@@ -407,7 +419,7 @@ namespace LarpPortal.Character
             DataTable dtCharDescriptors = new DataTable();
             dtCharDescriptors = Classes.cUtilities.CreateDataTable(Desc);
             DataView dvCharDescriptors = new DataView(dtCharDescriptors, "RecordStatus = 0 "
-                
+
                 //+ key.ToString()
                 , "", DataViewRowState.CurrentRows);
 

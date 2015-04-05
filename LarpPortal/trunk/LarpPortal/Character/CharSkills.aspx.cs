@@ -21,17 +21,6 @@ namespace LarpPortal.Character
             if (!IsPostBack)
             {
                 ViewState["CurrentCharacter"] = "";
-                //tbName.Attributes.Add("Placeholder", "Character Name");
-                //tbStatus.Attributes.Add("Placeholder", "Status");
-                //tbAKA.Attributes.Add("Placeholder", "Alias");
-                //tbLastEvent.Attributes.Add("Placeholder", "Last Events");
-                //tbDOB.Attributes.Add("Placeholder", "Game System");
-                //tbNumDeaths.Attributes.Add("Placeholder", "# deaths");
-                //tbOrigin.Attributes.Add("Placeholder", "Origin");
-                //tbDOD.Attributes.Add("Placeholder", "DOD");
-                //tbHome.Attributes.Add("Placeholder", "Home");
-                //tbRace.Attributes.Add("Placeholder", "Race");
-                //tbTeam.Attributes.Add("Placeholder", "Team USA");
             }
         }
 

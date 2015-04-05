@@ -170,7 +170,7 @@
                                         <EmptyDataRowStyle BackColor="Transparent" />
                                         <EmptyDataTemplate>
                                             <div class="row">
-                                                <div class="text-center" style="background-color: transparent;" >You have no descriptors selected. Please select from the boxes below.</div>
+                                                <div class="text-center" style="background-color: transparent;">You have no descriptors selected. Please select from the boxes below.</div>
                                             </div>
                                         </EmptyDataTemplate>
                                         <Columns>
@@ -240,6 +240,9 @@
                 </div>
                 <div class="panel-wrapper col-xs-3">
                     <div class="col-sm-12">
+                        <div class="row">
+                            To add a profile picture, use the browse button below.
+                        </div>
                         <div class="row">
                             <asp:FileUpload ID="ulFile" runat="server" CssClass="control-label Col-sm-12" />
                         </div>

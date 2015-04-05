@@ -126,6 +126,11 @@ namespace LarpPortal.Character
                 cChar.Pictures = Session["Items"] as List<Classes.cPicture>;
 
                 cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
+                string jsString = "alert('Character " + cChar.AKA + " has been saved.');";
+                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                        "MyApplication",
+                        jsString,
+                        true);
             }
         }
 

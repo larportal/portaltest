@@ -46,6 +46,12 @@ namespace LarpPortal.Character
                 cChar.CharacterHistory = taHistory.InnerText;
                 cChar.Comments = taHistory.InnerText;
                 cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
+
+                string jsString = "alert('Character " + cChar.AKA + " has been saved.');";
+                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                        "MyApplication",
+                        jsString,
+                        true);
             }
         }
     }
