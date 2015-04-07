@@ -33,8 +33,8 @@ namespace LarpPortal
                 else
                 {
                     GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "PublicCampaigns.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
-                    //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
-                    lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
+                    //lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
+                    lblPasswordReqs.Text = "<span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span>";
                 }
                 chkTermsOfUse.Visible = false;
                 btnValidateAccount.Visible = false;
@@ -46,6 +46,7 @@ namespace LarpPortal
                 Session["SecurityRole"] = 0;                   // Until login changes it
                 Session["WebPage"] = "~/publicCampaigns.aspx"; // Until login changes it
                 lblInvalidLogin.Visible = false;
+                lblInvalidActivationKey.Visible = false;
                 lblInvalidLogin2.Visible = false;
                 string SiteOpsMode;                
                 Classes.cLogin OpsMode = new Classes.cLogin();
@@ -53,23 +54,10 @@ namespace LarpPortal
                 SiteOpsMode = OpsMode.SiteOperationalMode;
                 Session["OperationalMode"] = SiteOpsMode;
                 ForgotPassword.Text = "<a id=" + "\"" + "lnkForgotPassword" + "\"" + " href=" + "\"" + "ForgotPassword.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + ">Forgot password?</a>";
-                //if (SiteOpsMode == "Test")
-                //{
-                //    txtLastLocation.Attributes.Add("Placeholder", "Last Location in the Portal");
-                //    txtName.Attributes.Add("Placeholder", "Member Name");
-                //    txtUserID.Attributes.Add("Placeholder", "UserID");
-                //    txtName.Visible = true;
-                //    txtLastLocation.Visible = true;
-                //    txtUserID.Visible = true;
-                //    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "PublicCampaigns.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
-                //    //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
-                //    lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
-                //}
             }
             txtName.Visible = false;
             txtLastLocation.Visible = false;
             txtUserID.Visible = false;
-            //TODO-Rick-4 Define password requirement ToolTip programatically instead of hard coded
             lblPasswordReqs.ToolTip = "LARP Portal login passwords must be at least 7 characters long and contain at least " +  
                 "1 uppercase letter, 1 lowercse letter, 1 number and 1 special character";
             if (!IsPostBack)
@@ -91,24 +79,6 @@ namespace LarpPortal
         {
             Session["AttemptedPassword"] = txtPassword.Text;
             Session["AttemptedUsername"] = txtUserName.Text;
-            // TODO-Rick-4 Remove "Signup" cheat on go live - It won't matter if we don't, but clean code and all
-            if (txtUserName.Text == "Signup")
-            {
-                if (txtPassword.Text == "Signup")
-                {
-                    txtNewUsername.Visible = true;
-                    txtFirstName.Visible = true;
-                    txtLastName.Visible = true;
-                    txtEmail.Visible = true;
-                    txtPasswordNew.Visible = true;
-                    txtPasswordNewRetype.Visible = true;
-                    chkTermsOfUse.Visible = true;
-                    GuestLogin.Text = "<a id=" + "\"" + "lnkGuestLogin" + "\"" + " href=" + "\"" + "PublicCampaigns.aspx" + "\"" + ">Enter LARP Portal as a guest</a>";
-                    //LearnMore.Text = "<asp:HyperLink ID=" + "\"" + "HyperLink1" + "\"" + " runat=" + "\"" + "server" + "\"" + " NavigateURL=" + "\"" + "~/LearnMore.aspx" + "\"" + " Target=" + "\"" + "_blank" + "\"" + ">Learn More About LARP Portal</asp:HyperLink></span>";
-                    lblPasswordReqs.Text = "<a id=" + "\"" + "PasswordReqs" + "\"" + " href=" + "\"" + "PasswordRequirements.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + "><span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span></a>";
-                    txtNewUsername.Focus();
-                }
-            }
             if (Page.IsValid)
             {
                 Classes.cLogin Login = new Classes.cLogin();
@@ -161,7 +131,9 @@ namespace LarpPortal
             }
             else
             {
-                // TODO-Rick-2 The user screwed up the new account validation code (SecurityResetCode) - Need handling
+                lblInvalidActivationKey.Visible = true;
+                txtSecurityResetCode.Text = "";
+                txtSecurityResetCode.Focus();
             }
         }
 
@@ -179,6 +151,7 @@ namespace LarpPortal
             Login.Load(txtUserName.Text, PasswordToUse);
             int intUserID;
             string WhereAreYouGoing;
+            Session["MemberEmailAddress"] = Login.Email;
             Session["SecurityRole"] = Login.SecurityRoleID;
             txtName.Text = Login.FirstName + " " + Login.LastName;
             txtLastLocation.Text = Login.LastLoggedInLocation;
@@ -264,7 +237,7 @@ namespace LarpPortal
                 }
                 // 4 - New request - If the email address is already on file, warn them and suggest they go to the Forgot Username / Password section
                 Classes.cLogin ExistingEmailAddress = new Classes.cLogin();
-                ExistingEmailAddress.GetUsernameByEmail(txtPasswordNew.Text);
+                ExistingEmailAddress.GetUsernameByEmail(txtEmail.Text);
                 if(ExistingEmailAddress.Username != "")
                     if (lblSignUpErrors.Text != "")
                     {

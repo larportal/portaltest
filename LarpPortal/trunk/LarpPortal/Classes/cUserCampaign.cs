@@ -20,7 +20,21 @@ namespace LarpPortal.Classes
         private string _EmailAddress = "";
         private Int32 _LastLoggedInCampaign;
         private string _Sort = "";
-        //private string _UserName = "";
+        private Boolean _UseLoginEmail = true;
+        private int _CampaignEmailID;
+        private int _PreferredCampaignHousingTypeID = 0;
+        private int _WriteUpLeadTimeNeeded = 0;
+        private string _WriteUpLengthPreference = "";
+        private string _BackgroundKnowledge = "";
+        private DateTime _LastWaiverDate;
+        private int _PlayerWaiverID = 0;
+        private decimal _CreditAmount = 0;
+        private Boolean _ShowRolesToOtherCampaigns = false;
+        private Boolean _AutoregisterForEvents = false;
+        private int _AutoregisterType = 0;
+        private int _OwnerCriticalityRating = 3;
+        private int _StatusID = 0;
+        private string _Comments = "";
 
         public Int32 CampaignPlayerID
         {
@@ -67,6 +81,81 @@ namespace LarpPortal.Classes
             get { return _Sort; }
             set { _Sort = value; }
         }
+        public Boolean UseLoginEmail
+        {
+            get { return _UseLoginEmail; }
+            set { _UseLoginEmail = value; }
+        }
+        private int CampaignEmailID
+        {
+            get { return _CampaignEmailID; }
+            set { _CampaignEmailID = value; }
+        }
+        public int PreferredCampaignHousingTypeID
+        {
+            get { return _PreferredCampaignHousingTypeID; }
+            set { _PreferredCampaignHousingTypeID = value; }
+        }
+        public int WriteUpLeadTimeNeeded
+        {
+            get { return _WriteUpLeadTimeNeeded; }
+            set { _WriteUpLeadTimeNeeded = value; }
+        }
+        public string WriteUpLengthPreference
+        {
+            get { return _WriteUpLengthPreference; }
+            set { _WriteUpLengthPreference = value; }
+        }
+        public string BackgroundKnowledge
+        {
+            get { return _BackgroundKnowledge; }
+            set { _BackgroundKnowledge = value; }
+        }
+        public DateTime LastWaiverDate
+        {
+            get { return _LastWaiverDate; }
+            set { _LastWaiverDate = value; }
+        }
+        public int PlayerWaiverID
+        {
+            get { return _PlayerWaiverID; }
+            set { _PlayerWaiverID = value; }
+        }
+        private decimal CreditAmount
+        {
+            get { return _CreditAmount; }
+            set { _CreditAmount = value; }
+        }
+        private Boolean ShowRolesToOtherCampaigns
+        {
+            get { return _ShowRolesToOtherCampaigns; }
+            set { _ShowRolesToOtherCampaigns = value; }
+        }
+        private Boolean AutoregisterForEvents
+        {
+            get { return _AutoregisterForEvents; }
+            set { _AutoregisterForEvents = value; }
+        }
+        private int AutoregisterType
+        {
+            get { return _AutoregisterType; }
+            set { _AutoregisterType = value; }
+        }
+        private int OwnerCriticalityRating
+        {
+            get { return _OwnerCriticalityRating; }
+            set { _OwnerCriticalityRating = value; }
+        }
+        private int StatusID
+        {
+            get { return _StatusID; }
+            set { _StatusID = value; }
+        }
+        private string Comments
+        {
+            get { return _Comments; }
+            set { _Comments = value; }
+        }
 
         /// <summary>
         /// This will load the details of a particular user campaign
@@ -110,22 +199,32 @@ namespace LarpPortal.Classes
         /// </summary>
         public void Save(int UserID)
         {
-            // I need to finish defining this one
-            //string stStoredProc = "uspInsUpdCMCampaignPlayers";
+            // I need to finish defining this one with the commented out fields that aren't necessary for adding.
+            string stStoredProc = "uspInsUpdCMCampaignPlayers";
             //string stCallingMethod = "cUserCampaign.Save";
-            //SortedList slParameters = new SortedList();
-            //slParameters.Add("@UserID", UserID);
-            //slParameters.Add("@CampaignPlayerRoleID", CampaignPlayerRoleID);
-            //slParameters.Add("@RoleAlignmentID", RoleAlignmentID);
-            //slParameters.Add("@CPEarnedForRole", CPEarnedForRole);
-            //slParameters.Add("@CPQuantityEarnedPerEvent", CPQuantityEarnedPerEvent);
-            //if (@CampaignPlayerRoleID == -1) // Set fields that can only be set on insert of new record
-            //{
-            //    slParameters.Add("@CampaignPlayerID", CampaignPlayerID);
-            //    slParameters.Add("@RoleID", RoleID);
-            //    slParameters.Add("@RoleAlignmentID", RoleAlignmentID);
-            //}
-            //cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@CampaignPlayerID", CampaignPlayerID);
+            slParameters.Add("@UserID", UserID);
+            slParameters.Add("@UseLoginEmail", UseLoginEmail);
+            slParameters.Add("@CampaignEmailID", CampaignEmailID);
+            slParameters.Add("@PreferredCampaignHousingTypeID", PreferredCampaignHousingTypeID);
+            slParameters.Add("@WriteUpLeadTimeNeeded", WriteUpLeadTimeNeeded);
+            slParameters.Add("@WriteUpLengthPreference", WriteUpLengthPreference);
+            slParameters.Add("@BackgroundKnowledge", BackgroundKnowledge);
+            slParameters.Add("@LastWaiverDate", LastWaiverDate);
+            slParameters.Add("@PlayerWaiverID", PlayerWaiverID);
+            slParameters.Add("@CreditAmount", CreditAmount);
+            slParameters.Add("@ShowRolesToOtherCampaigns", ShowRolesToOtherCampaigns);
+            slParameters.Add("@AutoregisterForEvents", AutoregisterForEvents);
+            slParameters.Add("@AutoregisterType", AutoregisterType);
+            slParameters.Add("@OwnerCriticalityRating", OwnerCriticalityRating);
+            slParameters.Add("@Comments", Comments);
+            if (@CampaignPlayerID == -1) // Set fields that can only be set on insert of new record
+            {
+                slParameters.Add("@CampaignID", CampaignID);
+                //slParameters.Add("@UserID", UserID);
+            }
+            cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
         }
 
         public void Delete(int RecordID, int UserID)

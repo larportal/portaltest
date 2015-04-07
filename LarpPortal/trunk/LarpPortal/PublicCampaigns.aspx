@@ -259,10 +259,12 @@
                                         <asp:TableRow>
                                             <asp:TableCell VerticalAlign="Top">
                                                 Available Roles:<br />
-                                                <asp:RadioButtonList ID="btnSignUp" runat="server" RepeatDirection="Horizontal"  RepeatLayout="Table">
-                                                </asp:RadioButtonList>
-                                                <asp:Button ID="btnSignUpForCampaign" runat="server" CssClass="btn btn-default" Visible="false" Text="Submit Request" OnClick="btnSignUpForCampaign_Click" />
+<%--                                                <asp:RadioButtonList ID="btnSignUp" runat="server" RepeatDirection="Horizontal"  RepeatLayout="Table">
+                                                </asp:RadioButtonList>--%>
+                                                <asp:CheckBoxList ID="chkSignUp" runat="server" RepeatDirection="Horizontal" RepeatLayout="Table"></asp:CheckBoxList>
+                                                <asp:Button ID="btnSignUpForCampaign" runat="server" CssClass="btn btn-primary" Visible="false" Text="Submit Request" OnClick="btnSignUpForCampaign_Click" />
                                                 <asp:Label ID="lblSignUpMessage" runat="server"></asp:Label>
+                                                <asp:Label ID="lblCurrentCampaign" runat="server" Visible="false"></asp:Label>
                                             </asp:TableCell>
                                             <asp:TableCell VerticalAlign="Top">
                                                 &nbsp;&nbsp;
