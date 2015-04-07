@@ -43,6 +43,7 @@ namespace LarpPortal.Classes
         public string TabIcon { get; set; }
         public string WhatIsLARPingText { get; set; }
         public string AboutUsText { get; set; }
+        public string TestingResultsText { get; set; }
         public string ContactUsText { get; set; }
         public string TermsOfUseText { get; set; }
         public string LearnMoreText { get; set; }
@@ -131,6 +132,23 @@ namespace LarpPortal.Classes
             foreach (DataRow dRow in dsAboutUs.Tables["MDBParameters"].Rows)
             {
                 AboutUsText = dRow["Comments"].ToString();
+            }
+        }
+
+        /// <summary>
+        /// This will get the text from the database for Testing Results
+        /// </summary>
+        public void getTestingResults()
+        {
+            string stStoredProc = "uspGetTestingResults";
+            string stCallingMethod = "cLogin.getTestingResults";
+            SortedList slParameters = new SortedList();
+            DataSet dsTestingResults = new DataSet();
+            dsTestingResults = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsTestingResults.Tables[0].TableName = "MDBParameters";
+            foreach (DataRow dRow in dsTestingResults.Tables["MDBParameters"].Rows)
+            {
+                TestingResultsText = dRow["Comments"].ToString();
             }
         }
 
@@ -295,6 +313,7 @@ namespace LarpPortal.Classes
                 LastName = dRow["LastName"].ToString();
                 LastLoggedInLocation = dRow["LastLoggedInLocation"].ToString();
                 SecurityResetCode = dRow["SecurityResetCode"].ToString();
+                Email = dRow["EmailAddress"].ToString();
             }
         }
 

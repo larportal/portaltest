@@ -472,13 +472,13 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.Table tblAddCampaigns;
         
         /// <summary>
-        /// btnSignUp control.
+        /// chkSignUp control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList btnSignUp;
+        protected global::System.Web.UI.WebControls.CheckBoxList chkSignUp;
         
         /// <summary>
         /// btnSignUpForCampaign control.
@@ -497,6 +497,15 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSignUpMessage;
+        
+        /// <summary>
+        /// lblCurrentCampaign control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCurrentCampaign;
         
         /// <summary>
         /// listCurrentRoles control.

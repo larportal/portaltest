@@ -246,6 +246,7 @@
     <Content Include="img\logo\GS_7_Belegarth.gif" />
     <Content Include="img\logo\GS_8_Dagorhir.jpg" />
     <Content Include="img\logo\Logo_33_FifthGate.png" />
+    <Content Include="img\logo\Logo_33_FifthGate2.png" />
     <Content Include="img\logo\Logo_7_CottingtonWoods.png" />
     <Content Include="img\logo\CM-8-MirrorMirror.jpg" />
     <Content Include="img\logo\Logo_10_Occam%27sRazor.jpg" />
@@ -351,6 +352,7 @@
     <Content Include="Security.aspx" />
     <Content Include="img\ThisPageUnderConstruction.jpg" />
     <Content Include="TermsOfUse.aspx" />
+    <Content Include="TestingResults.aspx" />
     <Content Include="ucUserCampaignsDropDownList.ascx" />
     <Content Include="UnreadMessages.aspx" />
     <Content Include="Waivers.aspx" />
@@ -898,6 +900,13 @@
     </Compile>
     <Compile Include="TermsOfUse.aspx.designer.cs">
       <DependentUpon>TermsOfUse.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestingResults.aspx.cs">
+      <DependentUpon>TestingResults.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestingResults.aspx.designer.cs">
+      <DependentUpon>TestingResults.aspx</DependentUpon>
     </Compile>
     <Compile Include="ucUserCampaignsDropDownList.ascx.cs">
       <DependentUpon>ucUserCampaignsDropDownList.ascx</DependentUpon>

@@ -34,11 +34,13 @@
                 <form role="form" runat="server">
                     <h2 class="form-signin-heading">Member Login</h2>
                     <div class="form-signin" role="form">
+                    <div>Username</div>
                     <div>
                         <asp:TextBox ID="txtUserName" runat="server" CssClass="form-control"></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RFVUserName" runat="server" ErrorMessage="Username is required" 
                             ControlToValidate="txtUserName" ValidationGroup="LoginGroup" display="Dynamic" ForeColor="Red"></asp:RequiredFieldValidator>
-                    </div>                                       
+                    </div> 
+                    <div>Password</div>                                      
                     <div>
                         <asp:TextBox ID="txtPassword" TextMode="Password" runat="server" CssClass="form-control" ></asp:TextBox>
                         <asp:RequiredFieldValidator ID="RFVPassword" runat="server" ErrorMessage="Password is required" 
@@ -59,6 +61,7 @@
                                 <asp:TableCell>&nbsp;&nbsp;</asp:TableCell>
                                 <asp:TableCell Wrap="True">
                                     <asp:Label ID="lblInvalidLogin" runat="server" ForeColor="Red">Invalid username and password</asp:Label>
+                                    <asp:Label ID="lblInvalidActivationKey" runat="server" ForeColor="Red">Invalid activation key</asp:Label>
                                 </asp:TableCell>
                             </asp:TableRow>
                             <asp:TableRow>

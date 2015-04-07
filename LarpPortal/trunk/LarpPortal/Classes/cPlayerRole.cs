@@ -49,6 +49,7 @@ namespace LarpPortal.Classes
         public int RoleAssignmentLevel { get; set; }
         public bool CanRegisterForEvents { get; set; }
         public int RoleAlignment { get; set; }
+        public int StatusID { get; set; }
         public string IsPC { get; set; }
         public string IsNPC { get; set; }
         
@@ -84,14 +85,14 @@ namespace LarpPortal.Classes
                     RoleID = iTemp;
                 switch (RoleID)
                 {
-                    case 8:
-                        IsPC = "true";
-                        break;
                     case 6:
                         IsNPC = "true";
                         break;
                     case 7:
                         IsNPC = "true";
+                        break;
+                    case 8:
+                        IsPC = "true";
                         break;
                     case 10:
                         IsNPC = "true";
@@ -123,8 +124,12 @@ namespace LarpPortal.Classes
                     RoleAssignmentLevel = iTemp;
                 if (int.TryParse(dRow["RoleAlignment"].ToString(), out iTemp))
                     RoleAlignment = iTemp;
+                if (int.TryParse(dRow["StatusID"].ToString(), out iTemp))
+                    StatusID = iTemp;
                 CampaignName = dRow["CampaignName"].ToString();
                 RoleDescription = dRow["RoleDescription"].ToString();
+                if (StatusID == 56)
+                    RoleDescription = RoleDescription + " (Pending)";
                 WriteUpLengthPreference = dRow["WriteUpLengthPreference"].ToString();
                 BackgroundKnowledge = dRow["BackgroundKnowledge"].ToString();
                 //WaiverFile = dRow["WaiverFile"].ToString();
@@ -165,9 +170,10 @@ namespace LarpPortal.Classes
             SortedList slParameters = new SortedList();
             slParameters.Add("@UserID", UserID);
             slParameters.Add("@CampaignPlayerRoleID", CampaignPlayerRoleID);
-            slParameters.Add("@RoleAlignmentID", RoleAlignmentID);
+            //slParameters.Add("@RoleAlignmentID", RoleAlignmentID);
             slParameters.Add("@CPEarnedForRole", CPEarnedForRole);
             slParameters.Add("@CPQuantityEarnedPerEvent", CPQuantityEarnedPerEvent);
+            slParameters.Add("@StatusID", StatusID);
             if (@CampaignPlayerRoleID==-1) // Set fields that can only be set on insert of new record
             {
                 slParameters.Add("@CampaignPlayerID", CampaignPlayerID);

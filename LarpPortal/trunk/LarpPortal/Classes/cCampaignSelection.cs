@@ -67,50 +67,8 @@ namespace LarpPortal.Classes
         //public string ZipCodeFilter { get; set; }
         //public int RadiusFilter { get; set; }
 
-        //public void SetSessionFilters()
-        //{
-        //    if (HttpContext.Current.Session["EndDate"] != null)
-        //        EndDate = HttpContext.Current.Session["EndDate"].ToString();
-        //    else
-        //        EndDate = "";
-        //    if (HttpContext.Current.Session["GameSystemFilter"] != null)
-        //        GameSystemFilter = HttpContext.Current.Session["GameSystemFilter"].ToString().ToInt32();
-        //    else
-        //        GameSystemFilter = 0;
-        //    if (HttpContext.Current.Session["CampaignFilter"] != null)
-        //        CampaignFilter = HttpContext.Current.Session["CampaignFilter"].ToString().ToInt32();
-        //    else
-        //        CampaignFilter = 0;
-        //    if (HttpContext.Current.Session["GenreFilter"] != null)
-        //        GenreFilter = HttpContext.Current.Session["GenreFilter"].ToString().ToInt32();
-        //    else
-        //        GenreFilter = 0;
-        //    if (HttpContext.Current.Session["StyleFilter"] != null)
-        //        StyleFilter = HttpContext.Current.Session["StyleFilter"].ToString().ToInt32();
-        //    else
-        //        StyleFilter = 0;
-        //    if (HttpContext.Current.Session["TechLevelFilter"] != null)
-        //        TechLevelFilter = HttpContext.Current.Session["TechLevelFilter"].ToString().ToInt32();
-        //    else
-        //        TechLevelFilter = 0;
-        //    if (HttpContext.Current.Session["SizeFilter"] != null)
-        //        SizeFilter = HttpContext.Current.Session["SizeFilter"].ToString().ToInt32();
-        //    else
-        //        SizeFilter = 0;
-        //    if (HttpContext.Current.Session["ZipCodeFilter"] != null)
-        //        ZipCodeFilter = HttpContext.Current.Session["ZipCodeFilter"].ToString();
-        //    else
-        //        ZipCodeFilter = "";
-        //    if (HttpContext.Current.Session["RadiusFilter"] != null)
-        //        RadiusFilter = HttpContext.Current.Session["RadiusFilter"].ToString().ToInt32();
-        //    else
-        //        RadiusFilter = 0; 
-        //}
-
-
         public DataTable LoadGameSystems(int UserID, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCodeFilter, int RadiusFilter)
         {
-            //, string EndDate, int GameSystemFilter, int CampaignFilter, int GenreFilter, int StyleFilter, int TechLevelFilter, int SizeFilter, string ZipCode, int RadiusFilter
             string stStoredProc = "uspGetGameSystemsByName";
             string stCallingMethod = "cGameSystems.LoadGameSystemsByName";
             string strUsername = UserID.ToString();

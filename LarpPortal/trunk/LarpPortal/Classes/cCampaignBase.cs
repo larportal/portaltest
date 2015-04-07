@@ -41,6 +41,7 @@ namespace LarpPortal.Classes
         private string _EmergencyEventContact = "";
         private string _InfoRequestEmail = "";
         private Boolean _PlayerApprovalRequired = false;
+        private Boolean _NPCApprovalRequired = false;
         private string _JoinRequestEmail = "";
         private Int32 _MinimumAge = -1;
         private Int32 _MinimumAgeWithSupervision = -1;
@@ -99,6 +100,10 @@ namespace LarpPortal.Classes
         private string _TechLevelList = "";
         private string _MarketingLocation = "";
         private DateTime? _NextEventDate = null;
+        private int _CampaignRoleID = 0;
+        private int _RoleID = 0;
+        private string _RoleDescription = "";
+        private Boolean _AutoApprove;
 
         public Int32 CampaignID
         {
@@ -239,6 +244,11 @@ namespace LarpPortal.Classes
         {
             get { return _PlayerApprovalRequired; }
             set { _PlayerApprovalRequired = value; }
+        }
+        public Boolean NPCApprovalRequired
+        {
+            get { return _NPCApprovalRequired; }
+            set { _NPCApprovalRequired = value; }
         }
         public string JoinRequestEmail
         {
@@ -530,6 +540,30 @@ namespace LarpPortal.Classes
             set { _NextEventDate = value; }
         }
 
+        private int CampaignRoleID
+        {
+            get { return _CampaignRoleID; }
+            set { _CampaignRoleID = value; }
+        }
+
+        private int RoleID
+        {
+            get { return _RoleID; }
+            set { _RoleID = value; }
+        }
+
+        private string RoleDescription
+        {
+            get { return _RoleDescription; }
+            set { _RoleDescription = value; }
+        }
+
+        private Boolean AutoApprove
+        {
+            get { return _AutoApprove; }
+            set { _AutoApprove = value; }
+        }
+
         private cCampaignBase()
         {
 
@@ -632,6 +666,8 @@ namespace LarpPortal.Classes
                     _PELSubmissionURL = ldt.Rows[0]["PELSubmissionURL"].ToString().Trim();
                     if (bool.TryParse(ldt.Rows[0]["PlayerApprovalRequired"].ToString(), out bTemp))
                         _PlayerApprovalRequired = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["NPCApprovalRequired"].ToString(), out bTemp))
+                        _NPCApprovalRequired = bTemp;
                     _PortalAccessDescription = ""; //TODO-Rick-4 Get portal access description from table - LOW priority because we "know" what it is and don't currently display it
                     _PortalAccessType = ldt.Rows[0]["PortalAccessType"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["PrimaryOwnerID"].ToString(), out iTemp))
@@ -727,6 +763,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@EmergencyEventContactInfo", _EmergencyEventContact);
                 slParams.Add("@InfoRequestEmail", _InfoRequestEmail);
                 slParams.Add("@PlayerApprovalRequired", _PlayerApprovalRequired);
+                slParams.Add("@NPCApprovalRequired", _NPCApprovalRequired);
                 slParams.Add("@JoinRequestEmail", _JoinRequestEmail);
                 slParams.Add("@MinimumAge", _MinimumAge);
                 slParams.Add("@MinimumAgeWithSupervision", _MinimumAgeWithSupervision);
@@ -820,6 +857,32 @@ namespace LarpPortal.Classes
                     _TechLevelList = _TechLevelList + ", " + dRow["TechLevelName"].ToString();
                 i = 2;
             }
+        }
+
+        public DataTable GetCampaignRequestableRoles(int CampaignID, int UserID)
+        {
+            string stStoredProc = "uspGetCampaignRequestableRoles";
+            string stCallingMethod = "cCampaignBase.GetCampaignRequestableRoles";
+            int iTemp;
+            bool bTemp;
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@CampaignID", CampaignID);
+            DataTable dtCampaignRoles = new DataTable();
+            DataSet dsCampaignRoles = new DataSet();
+            dtCampaignRoles = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Usename", stCallingMethod);
+            foreach (DataRow dRow in dtCampaignRoles.Rows)
+            {
+                if (int.TryParse(dRow["CampaignRoleID"].ToString(), out iTemp))
+                    CampaignRoleID = iTemp;
+                if (int.TryParse(dRow["RoleID"].ToString(), out iTemp))
+                    RoleID = iTemp;
+                if (int.TryParse(dRow["CampaignID"].ToString(), out iTemp))
+                    CampaignID = iTemp;
+                RoleDescription = dRow["RoleDescription"].ToString();
+                if (bool.TryParse(dRow["AutoApprove"].ToString(), out bTemp))
+                    AutoApprove = bTemp;
+            }
+            return dtCampaignRoles;
         }
     }
 }

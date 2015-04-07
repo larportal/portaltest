@@ -94,6 +94,7 @@ namespace LarpPortal
             string PageName;
             string TabClass;
             string TabIcon;
+            int UseTabIcons = 0;   // 0 = Leave tab icons off ; 1 = Include tab icons
             Classes.cLogin RoleTabs = new Classes.cLogin();
             RoleTabs.LoadTabsBySecurityRole(SecurityRole);
             intTabsNeeded = RoleTabs.TabCount - 1;
@@ -120,8 +121,19 @@ namespace LarpPortal
                 {
                     TabName = " " + TabName + RoleTabs.lsPageTabs[i].TabAlert.ToString() + UnreadCount;
                 }
-                hrefline = "<li" + ActiveState + "<a href=" + "\"" + PageName + "\"" + "\"><span class=\"" + "\"" +
-                    TabClass + " " + TabIcon + "\"> </span>" + TabName + "</a></li>";
+                if(UseTabIcons == 0)
+                {
+                    //Without icons
+                    hrefline = "<li" + ActiveState + "<a href=" + "\"" + PageName + "\"" + "\"><span class=\"" + "\"" +
+                        TabClass + " " + TabIcon + "\"> </span>" + TabName + "</a></li>";
+                }
+                else
+                {
+                    //With icons
+                    hrefline = "<li" + ActiveState + "<a href=" + "\"" + PageName + "\"" + "\"><span class=\"" +
+                        TabClass + " " + TabIcon + "\"> </span>" + TabName + "</a></li>";
+                }
+
                 DataRow TopTabRow = TopTabTable.NewRow();
                 TopTabRow["href_li"] = hrefline;
                 TopTabRow["DisplayText"] = TabName;
