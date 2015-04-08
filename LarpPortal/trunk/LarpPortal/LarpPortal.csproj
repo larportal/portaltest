@@ -345,11 +345,13 @@
     <Content Include="PasswordRequirements.aspx" />
     <Content Include="PlayerResume.aspx" />
     <Content Include="Preferences.aspx" />
-    <Content Include="Properties\PublishProfiles\LARPortal.pubxml.user" />
+    <Content Include="Properties\PublishProfiles\LARPortal.pubxml.user">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="PublicCalendar.aspx" />
     <Content Include="PublicCampaigns.aspx" />
     <Content Include="RSVPMessages.aspx" />
-    <Content Include="Security.aspx" />
+    <Content Include="MemberSecurity.aspx" />
     <Content Include="img\ThisPageUnderConstruction.jpg" />
     <Content Include="TermsOfUse.aspx" />
     <Content Include="TestingResults.aspx" />
@@ -872,12 +874,12 @@
     <Compile Include="RSVPMessages.aspx.designer.cs">
       <DependentUpon>RSVPMessages.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Security.aspx.cs">
-      <DependentUpon>Security.aspx</DependentUpon>
+    <Compile Include="MemberSecurity.aspx.cs">
+      <DependentUpon>MemberSecurity.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Security.aspx.designer.cs">
-      <DependentUpon>Security.aspx</DependentUpon>
+    <Compile Include="MemberSecurity.aspx.designer.cs">
+      <DependentUpon>MemberSecurity.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
