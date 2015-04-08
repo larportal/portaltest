@@ -321,11 +321,12 @@ namespace LarpPortal.Classes
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
             _PrimaryEmailAddress = new cEMail(_PrimaryEmailID, _LoginName, _UserID);
+            _UserEmails = new List<cEMail>();
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@intKeyID", _UserID);
-                slParams.Add("@strKeyType", "cUser");
+                slParams.Add("@strKeyType", "MDBUsers");
 
                 DataTable ldt = cUtilities.LoadDataTable("uspGetEmailsByKeyInfo", slParams, "LARPortal", _LoginName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
