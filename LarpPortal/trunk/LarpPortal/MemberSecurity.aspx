@@ -45,13 +45,13 @@
 			        <div class="formGroup row">                        
                         <asp:Label ID="lblPassword" runat="server" Cssclass="control-label col-sm-1">Password</asp:Label>
 				        <div class="pass-word col-sm-3">
-                            <asp:TextBox ID="txtPassword" runat="server" placeholder="password" BackColor="White"></asp:TextBox>
+                            <asp:TextBox ID="txtPassword" runat="server" placeholder="password" TextMode="Password"  BackColor="White"></asp:TextBox>
 				        </div>                         
 			        </div>
 			        <div class="formGroup row">
 				        <asp:Label ID="lblPassword2" runat="server" Cssclass="control-label col-sm-1">Password</asp:Label>
 				        <div class="pass-word col-sm-3">
-                            <asp:TextBox ID="txtPassword2" runat="server" placeholder="password" BackColor="White"></asp:TextBox>
+                            <asp:TextBox ID="txtPassword2" runat="server" placeholder="password" TextMode="Password" BackColor="White"></asp:TextBox>
 				        </div>
 			        </div>
 			        <div class="security-questions">
