@@ -868,7 +868,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/_references.js">
       <publishTime>03/04/2015 06:07:07</publishTime>
     </File>
-    <File Include="Security.aspx">
+    <File Include="MemberSecurity.aspx">
       <publishTime>03/10/2015 18:41:34</publishTime>
     </File>
     <File Include="Site.Master">
