@@ -79,7 +79,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@intEMailID", intEMailID);
                 
                 // need to put the correct stored procedure in to the class
-                DataTable ldt = cUtilities.LoadDataTable("uspGetSomeData", slParams, "DefaultSQLConnection", strUserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetEmailData", slParams, "LARPortal", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     _EMailID = ldt.Rows[0]["EMailID"].ToString().ToInt32();
@@ -87,7 +87,7 @@ namespace LarpPortal.Classes
                     _Comments = ldt.Rows[0]["Comments"].ToString().Trim();
                     _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
                     _DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
-                    if (ldt.Rows[0]["DateDeleted"] == null)
+                    if (ldt.Rows[0]["DateDeleted"] == DBNull.Value)
                     {
                         _DateDeleted = null;
                     }

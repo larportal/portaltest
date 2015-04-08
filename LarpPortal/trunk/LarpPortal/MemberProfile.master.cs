@@ -127,7 +127,7 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "Security.aspx";
+                        PageName = "MemberSecurity.aspx";
                         LineText = "Security";
                         break;
                 }
