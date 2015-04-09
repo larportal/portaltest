@@ -184,6 +184,15 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.TextBox txtSecurityAnswer1;
         
         /// <summary>
+        /// lblErrorQuestion2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorQuestion2;
+        
+        /// <summary>
         /// txtSecurityQuestion2 control.
         /// </summary>
         /// <remarks>
@@ -200,6 +209,15 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtSecurityAnswer2;
+        
+        /// <summary>
+        /// lblErrorQuestion3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorQuestion3;
         
         /// <summary>
         /// txtSecurityQuestion3 control.
