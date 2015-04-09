@@ -27,6 +27,9 @@ namespace LarpPortal
             lblErrorQuestions.Text = string.Empty;
             lblErrorQuestion2.Text = string.Empty;
             lblErrorQuestion3.Text = string.Empty;
+            lblPasswordReqs.Text = "<span class=" + "\"" + "glyphicon glyphicon-question-sign" + "\"" + "></span>";
+            lblPasswordReqs.ToolTip = "LARP Portal login passwords must be at least 7 characters long and contain at least " +
+               "1 uppercase letter, 1 lowercse letter, 1 number and 1 special character";
 
             if (Session["Username"] == null)
             {
