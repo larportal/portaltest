@@ -40,13 +40,14 @@
 				        </div>
 			        </div>
                     <div class="formGroup row">
-                        <asp:Label ID="lblError" runat="server" Font-Bold="true" Cssclass="control-label col-sm-4"/>
+                        <asp:Label ID="lblError" runat="server" Font-Bold="true" Cssclass="control-label col-sm-4"/>                        
                     </div>
 			        <div class="formGroup row">                        
+                        <asp:Label ID="lblPasswordReqs" runat="server" ToolTip=""></asp:Label>
                         <asp:Label ID="lblPassword" runat="server" Cssclass="control-label col-sm-1">Password</asp:Label>
 				        <div class="pass-word col-sm-3">
-                            <asp:TextBox ID="txtPassword" runat="server" placeholder="password" TextMode="Password"  BackColor="White"></asp:TextBox>
-				        </div>                         
+                            <asp:TextBox ID="txtPassword" runat="server" placeholder="password" TextMode="Password"  BackColor="White"></asp:TextBox>                            
+				        </div>
 			        </div>
 			        <div class="formGroup row">
 				        <asp:Label ID="lblPassword2" runat="server" Cssclass="control-label col-sm-1">Password</asp:Label>
