@@ -71,7 +71,10 @@
 					        <div class="col-sm-5">
                                 <asp:TextBox id="txtSecurityAnswer1" runat="server" placeholder="Enter your security answer 1" class="form-control"/>
 					        </div>
-				        </div>                        
+				        </div>
+                        <div class="formGroup row">
+                            <asp:Label ID="lblErrorQuestion2" runat="server" Font-Bold="true" Cssclass="control-label col-sm-4"/>
+                        </div>
 				        <div class="form-group row">
 					        <label for="security-question-2" class="control-label col-sm-1">Q 2</label>
 					        <div class="col-sm-5">
@@ -82,6 +85,9 @@
                                 <asp:TextBox id="txtSecurityAnswer2" runat="server" placeholder="Enter your security answer 2" class="form-control"/>
 					        </div>
 				        </div>
+                        <div class="formGroup row">
+                            <asp:Label ID="lblErrorQuestion3" runat="server" Font-Bold="true" Cssclass="control-label col-sm-4"/>
+                        </div>
                         <div class="form-group row">
 					        <label for="security-question-3" class="control-label col-sm-1">Q 3</label>
 					        <div class="col-sm-5">

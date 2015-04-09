@@ -25,6 +25,8 @@ namespace LarpPortal
         {
             lblError.Text = string.Empty;
             lblErrorQuestions.Text = string.Empty;
+            lblErrorQuestion2.Text = string.Empty;
+            lblErrorQuestion3.Text = string.Empty;
 
             if (Session["Username"] == null)
             {
@@ -105,7 +107,37 @@ namespace LarpPortal
                 return;
             }
 
-            
+            string strEnterAnswer = "Please enter answer to question";
+            string strEnterQuestion = "Please enter question to answer";
+            //If question entered and answer not entered
+            if (!string.IsNullOrWhiteSpace(txtSecurityQuestion2.Text) && string.IsNullOrWhiteSpace(txtSecurityAnswer2.Text))
+            {
+                lblErrorQuestion2.Text = strEnterAnswer;
+                lblErrorQuestion2.Focus();
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtSecurityQuestion3.Text) && string.IsNullOrWhiteSpace(txtSecurityAnswer3.Text))
+            {
+                lblErrorQuestion3.Text = strEnterAnswer;
+                lblErrorQuestion3.Focus();
+                return;
+            }
+
+            //If answer entered and question not entered
+            if (string.IsNullOrWhiteSpace(txtSecurityQuestion2.Text) && !string.IsNullOrWhiteSpace(txtSecurityAnswer2.Text))
+            {
+                lblErrorQuestion2.Text = strEnterQuestion;
+                lblErrorQuestion2.Focus();
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtSecurityQuestion3.Text) && !string.IsNullOrWhiteSpace(txtSecurityAnswer3.Text))
+            {
+                lblErrorQuestion3.Text = strEnterQuestion;
+                lblErrorQuestion3.Focus();
+                return;
+            }
 
             //Make sure that questions and answers do not repeat
                         
