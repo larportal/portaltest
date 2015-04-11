@@ -46,6 +46,13 @@
                 </div>
             </div>
 
+            <div class="col-sm-12">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <asp:Label ID="lblHelp" runat="server" Text="Fill in Information to describe your character. Some items are automatically updated after events." /></div>
+                </div>
+            </div>
+
             <div class="form-horizontal">
                 <div class="col-sm-9">
                     <div class="col-sm-12">
@@ -63,7 +70,7 @@
                                 <asp:TextBox ID="tbLastName" runat="server" CssClass="form-control" />
                             </div>
                             <div class="col-sm-1 text-right NoLeftPadding NoRightPadding">
-                                <label for="tbOrigin" class="control-label">Origin</label>
+                                <label for="tbOrigin" class="control-label">Birthplace</label>
                             </div>
                             <div class="col-sm-2">
                                 <asp:TextBox ID="tbOrigin" runat="server" CssClass="form-control" />
@@ -110,7 +117,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <asp:TextBox ID="tbType" runat="server" CssClass="form-control" Visible="false" />
-                                <asp:Label ID="lblType" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
+                                <asp:Label ID="lblType" runat="server" CssClass="form-control" BackColor="LightGray" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" ForeColor="Gray" />
                             </div>
                             <div class="col-sm-0-5"></div>
                             <div class="col-sm-2 text-right NoLeftPadding NoRightPadding">
@@ -161,6 +168,11 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-8">Select criteria that describes your character.</div>
+                        </div>
+                    </div>
                     <asp:UpdatePanel ID="pnlCharDesc" runat="server">
                         <ContentTemplate>
                             <div class="col-sm-10">
@@ -213,10 +225,10 @@
                             <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-sm-4 text-right NoRightPadding">
-                                        <label for="tbDateAdded" class="control-label">Date Added</label>
+                                        <label for="tbDateAdded" class="control-label" style="visibility: hidden">Date Added</label>
                                     </div>
                                     <div class="col-sm-1-5">
-                                        <asp:TextBox ID="tbDateAdded" runat="server" CssClass="form-control" />
+                                        <asp:TextBox ID="tbDateAdded" runat="server" CssClass="form-control" Visible="false" />
                                     </div>
                                     <div class="col-sm-0-5">
                                         &nbsp;

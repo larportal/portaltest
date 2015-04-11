@@ -51,6 +51,9 @@ namespace LarpPortal.Character
                         Classes.cCharacter cChar = new Classes.cCharacter();
                         cChar.LoadCharacter(iCharID);
 
+                        if (cChar.CampaignID == 0)
+                            Response.Redirect("CharNoCampaign.aspx", true);
+
                         lblHeader.Text = "Character Info - " + cChar.AKA + " - " + cChar.CampaignName;
 
                         ViewState["CharDesc"] = cChar.Descriptors;
