@@ -44,7 +44,7 @@ namespace LarpPortal.Character
                         {
                             Classes.cCharacter cChar = new Classes.cCharacter();
                             cChar.LoadCharacter(iCharID);
-                            //                            lblTotalPoints.Text = string.Format("{0:0.00}", (cChar.TotalCP));
+
                             TotalCP = cChar.TotalCP;
                             Session["TotalCP"] = TotalCP;
 
@@ -84,9 +84,7 @@ namespace LarpPortal.Character
                                     tvSkills.Nodes.Add(NewNode);
                                 }
                             }
-                            double TotalSpent = CalcSkillCost();
-                            //lblSpentPoints.Text = string.Format("{0:0.00}", TotalSpent);
-                            //lblAvailPoints.Text = string.Format("{0:0.00}", (TotalCP - TotalSpent));
+                            Session["CurrentSkillTree"] = tvSkills;
                             ListSkills();
                         }
                     }
@@ -123,11 +121,64 @@ namespace LarpPortal.Character
             lblMessage.Text = "Skills Changed";
             lblMessage.ForeColor = Color.Red;
             if (e.Node.Checked)
+            {
+                TreeView OrigTreeView = new TreeView();
+                CopyTreeNodes(tvSkills, OrigTreeView);
+                
+                int qwert = OrigTreeView.CheckedNodes.Count;
                 MarkParentNodes(e.Node);
+                int qwert2 = tvSkills.CheckedNodes.Count;
+
+                DataTable dtAllSkills = Session["Skills"] as DataTable;
+                double TotalSpent = 0.0;
+
+                DataTable dtSkillCosts = new DataTable();
+                dtSkillCosts.Columns.Add(new DataColumn("Skill", typeof(string)));
+                dtSkillCosts.Columns.Add(new DataColumn("Cost", typeof(double)));
+                dtSkillCosts.Columns.Add(new DataColumn("SortOrder", typeof(int)));
+
+                double TotalCP = 0.0;
+                double.TryParse(Session["TotalCP"].ToString(), out TotalCP);
+
+                foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
+                {
+                    int iSkillID;
+                    if (int.TryParse(SkillNode.Value, out iSkillID))
+                    {
+                        DataRow[] dSkillRow = dtAllSkills.Select("CampaignSkillsStandardID = " + iSkillID.ToString());
+                        if (dSkillRow.Length > 0)
+                        {
+                            double SkillCost;
+                            if (double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost))
+                                TotalSpent += SkillCost;
+                            DataRow dNewRow = dtSkillCosts.NewRow();
+                            dNewRow["Skill"] = dSkillRow[0]["SkillName"].ToString();
+                            dNewRow["Cost"] = SkillCost;
+                            dNewRow["SortOrder"] = 10;
+                            dtSkillCosts.Rows.Add(dNewRow);
+                        }
+                    }
+                }
+                if (TotalSpent > TotalCP)
+                {
+                    qwert = OrigTreeView.CheckedNodes.Count;
+                    qwert2 = tvSkills.CheckedNodes.Count;
+                    tvSkills.Nodes.Clear();
+                    TreeView OrigTree = Session["CurrentSkillTree"] as TreeView;
+                    CopyTreeNodes(OrigTree, tvSkills);
+                    
+                    string jsString = "alert('You do not have enough CP to but that.');";
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                            "MyApplication",
+                            jsString,
+                            true);
+                }
+            }
             else
                 DeselectChildNodes(e.Node);
 
             ListSkills();
+            Session["CurrentSkillTree"] = tvSkills;
         }
 
         protected void ListSkills()
@@ -187,9 +238,6 @@ namespace LarpPortal.Character
             NewRow["Skill"] = "";
             NewRow["SortOrder"] = 4;
             dtSkillCosts.Rows.Add(NewRow);
-
-            //lblSpentPoints.Text = string.Format("{0:0.00}", TotalSpent);
-            //lblAvailPoints.Text = string.Format("{0:0.00}", (TotalCP - TotalSpent));
 
             DataView dvSkillCost = new DataView(dtSkillCosts, "", "SortOrder", DataViewRowState.CurrentRows);
             gvCostList.DataSource = dvSkillCost;
@@ -303,5 +351,31 @@ namespace LarpPortal.Character
                 }
             }
         }
+
+
+        public void CopyTreeNodes(TreeView SourceTreeView, TreeView DesSourceView)
+        {
+            TreeNode newTn = null;
+            foreach (TreeNode tn in SourceTreeView.Nodes)
+            {
+                newTn = new TreeNode(tn.Text, tn.Value);
+                newTn.Checked = tn.Checked;
+                newTn.Expanded = tn.Expanded;
+                CopyChildren(newTn, tn);
+                DesSourceView.Nodes.Add(newTn);
+            }
+        }
+        public void CopyChildren(TreeNode parent, TreeNode original)
+        {
+            TreeNode newTn;
+            foreach (TreeNode tn in original.ChildNodes)
+            {
+                newTn = new TreeNode(tn.Text, tn.Value);
+                newTn.Checked = tn.Checked;
+                newTn.Expanded = tn.Expanded;
+                parent.ChildNodes.Add(newTn);
+                CopyChildren(newTn, tn);
+            }
+        } 
     }
 }

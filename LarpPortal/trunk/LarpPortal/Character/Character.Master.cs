@@ -93,15 +93,15 @@ namespace LarpPortal.Character
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            string s = width.Value;
+            //string s = width.Value;
             if (ddlCharacterSelector.SelectedValue != "")
             {
                 string t = ddlCharacterSelector.SelectedValue;
             }
-            string j = height.Value;
+            //string j = height.Value;
 
-            string sheight = HttpContext.Current.Request.Params["clientScreenHeight"];
-            string swidth = HttpContext.Current.Request.Params["clientScreenWidth"];
+            //string sheight = HttpContext.Current.Request.Params["clientScreenHeight"];
+            //string swidth = HttpContext.Current.Request.Params["clientScreenWidth"];
         }
 
         protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
