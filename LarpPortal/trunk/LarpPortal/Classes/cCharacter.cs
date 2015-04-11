@@ -232,7 +232,7 @@ namespace LarpPortal.Classes
                 };
 
                 string sPictureType = dPicture["PictureType"].ToString();
-                NewPicture.PictureType = (cPicture.PictureTypes) Enum.Parse(typeof(cPicture.PictureTypes), sPictureType);
+                NewPicture.PictureType = (cPicture.PictureTypes)Enum.Parse(typeof(cPicture.PictureTypes), sPictureType);
 
                 if (int.TryParse(dPicture["MDBPictureID"].ToString(), out iTemp))
                     NewPicture.PictureID = iTemp;
@@ -250,7 +250,7 @@ namespace LarpPortal.Classes
                     CampaignPlaceID = -1,
 
                     PlaceName = dPlaces["PlaceName"].ToString(),
-                    //                            Locale = dPlaces["Locale"].ToString(),
+                    Locale = dPlaces["Locale"].ToString(),
                     //                            RulebookDescription = dPlaces["RulebookDescription"].ToString(),
                     StaffComments = dPlaces["StaffComments"].ToString(),
                     Comments = dPlaces["PlayerComments"].ToString(),
@@ -261,12 +261,14 @@ namespace LarpPortal.Classes
                 if (int.TryParse(dPlaces["CharacterPlaceID"].ToString(), out iTemp))
                     NewPlace.CampaignPlaceID = iTemp;
 
+                if (int.TryParse(dPlaces["PlaceID"].ToString(), out iTemp))
+                    NewPlace.PlaceID = iTemp;
 
-                //if (int.TryParse(dPlaces["PlaceTypeID"].ToString(), out iTemp))
-                //    NewPlace.PlaceTypeID = iTemp;
+                if (int.TryParse(dPlaces["PlaceTypeID"].ToString(), out iTemp))
+                    NewPlace.PlaceTypeID = iTemp;
 
-                //if (int.TryParse(dPlaces["LocaleID"].ToString(), out iTemp))
-                //    NewPlace.LocaleID = iTemp;
+                if (int.TryParse(dPlaces["LocaleID"].ToString(), out iTemp))
+                    NewPlace.LocaleID = iTemp;
 
                 //if (int.TryParse(dPlaces["PlotLeadPerson"].ToString(), out iTemp))
                 //    NewPlace.PlotLeadPerson = iTemp;
@@ -517,7 +519,7 @@ namespace LarpPortal.Classes
 
             foreach (DataRow dRow in dsCharacterInfo.Tables["ProfilePicture"].Rows)
             {
-                if ( int.TryParse(dRow["MDBPictureID"].ToString(), out iTemp) )
+                if (int.TryParse(dRow["MDBPictureID"].ToString(), out iTemp))
                 {
                     ProfilePicture = new cPicture();
                     ProfilePicture.PictureID = iTemp;
@@ -601,25 +603,25 @@ namespace LarpPortal.Classes
                     else
                         Desc.Save(sUserUpdating, iUserID);
                 }
-  //              foreach (cPlace Place in Places)
-  //              {
-  // //                 Place.Save(sUserUpdating);
-  //              }
+                //              foreach (cPlace Place in Places)
+                //              {
+                // //                 Place.Save(sUserUpdating);
+                //              }
 
-  //              foreach (cCharacterDeath Death in Deaths)
-  //              {
-  //   //               Death.Save(sUserUpdating, connPortal);
-  //              }
+                //              foreach (cCharacterDeath Death in Deaths)
+                //              {
+                //   //               Death.Save(sUserUpdating, connPortal);
+                //              }
 
-  //              foreach (cActor Actor in Actors)
-  //              {
-  // //                 Actor.Save(sUserUpdating, connPortal);
-  //              }
+                //              foreach (cActor Actor in Actors)
+                //              {
+                // //                 Actor.Save(sUserUpdating, connPortal);
+                //              }
 
-  //              foreach (cRelationship Relationship in Relationships)
-  //              {
-  ////                  Relationship.Save(sUserUpdating);
-  //              }
+                //              foreach (cRelationship Relationship in Relationships)
+                //              {
+                ////                  Relationship.Save(sUserUpdating);
+                //              }
 
             }
 

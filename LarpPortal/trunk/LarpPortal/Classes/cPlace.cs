@@ -8,7 +8,7 @@ using System.Web;
 
 namespace LarpPortal.Classes
 {
-    class cPlace
+    public class cPlace
     {
         public cPlace()
         {
@@ -22,6 +22,7 @@ namespace LarpPortal.Classes
         }
 
         public int CampaignPlaceID { get; set; }
+        public int PlaceID { get; set; }
         public int PlaceTypeID { get; set; }
         public string PlaceName { get; set; }
         public int LocaleID { get; set; }
@@ -63,16 +64,13 @@ namespace LarpPortal.Classes
             }
             else
             {
-                SqlCommand CmdInsUpdCMCampaignPlaces = new SqlCommand("uspInsUpdCMCampaignPlaces", connPortal);
+                SqlCommand CmdInsUpdCMCampaignPlaces = new SqlCommand("uspInsUpdCHCampaignPlaces", connPortal);
                 CmdInsUpdCMCampaignPlaces.CommandType = CommandType.StoredProcedure;
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@CampaignRaceID", CampaignPlaceID);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@PlaceTypeID", PlaceTypeID);
+                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@CharacterPlaceIDID", CampaignPlaceID);
+                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@PlaceID", PlaceID);
                 CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@PlaceName", PlaceName);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@LocaleID", Locale);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@RulebookDescription", RulebookDescription);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@PlotLeadPerson", PlotLeadPerson);
                 CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@StaffComments", StaffComments);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@Comments", Comments);
+                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@PlayerComments", Comments);
                 CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@UserID", sUserUpdating);
 
                 CmdInsUpdCMCampaignPlaces.ExecuteNonQuery();
@@ -99,7 +97,7 @@ namespace LarpPortal.Classes
         {
             if (CampaignPlaceID > 0)
             {
-                SqlCommand CmdGetCampaignPlaceRecord = new SqlCommand("select * from CMCampaignPlaces where CampaignPlacesID = @CampaignPlaceID", connPortal);
+                SqlCommand CmdGetCampaignPlaceRecord = new SqlCommand("select * from CHCampaignPlaces where CampaignPlacesID = @CampaignPlaceID", connPortal);
                 CmdGetCampaignPlaceRecord.Parameters.AddWithValue("@CampaignPlaceID", CampaignPlaceID);
 
                 SqlDataAdapter SDAGetCampaignPlaceRecord = new SqlDataAdapter(CmdGetCampaignPlaceRecord);
@@ -109,8 +107,6 @@ namespace LarpPortal.Classes
 
                 foreach (DataRow dRow in dtCampaignPlaceRecord.Rows)
                 {
-
-
                     Comments = dRow["Comments"].ToString();
                     StaffComments = dRow["StaffComments"].ToString();
                     PlaceName = dRow["PlaceName"].ToString();
@@ -118,8 +114,8 @@ namespace LarpPortal.Classes
                     RulebookDescription = dRow["RulebookDescription"].ToString();
 
                     int iTemp;
-                    if (int.TryParse(dRow["PlaceTypeID"].ToString(), out iTemp))
-                        PlaceTypeID = iTemp;
+                    //if (int.TryParse(dRow["PlaceTypeID"].ToString(), out iTemp))
+                    //    PlaceTypeID = iTemp;
 
                     if (int.TryParse(dRow["LocaleID"].ToString(), out iTemp))
                         LocaleID = iTemp;
