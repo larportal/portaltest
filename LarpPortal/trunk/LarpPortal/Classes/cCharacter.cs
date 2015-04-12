@@ -603,10 +603,17 @@ namespace LarpPortal.Classes
                     else
                         Desc.Save(sUserUpdating, iUserID);
                 }
-                //              foreach (cPlace Place in Places)
-                //              {
-                // //                 Place.Save(sUserUpdating);
-                //              }
+
+                foreach (cPlace Place in Places)
+                {
+                    Place.CharacterID = CharacterID;
+                    if (Place.RecordStatus == RecordStatuses.Delete)
+                    {
+                     //   Place.Delete(sUserUpdating);
+                    }
+                    else
+                        Place.Save(sUserUpdating);
+                }
 
                 //              foreach (cCharacterDeath Death in Deaths)
                 //              {
