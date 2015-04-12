@@ -58,6 +58,69 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.TreeView tvSkills;
         
         /// <summary>
+        /// gvPlaces control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvPlaces;
+        
+        /// <summary>
+        /// mvAddingItems control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mvAddingItems;
+        
+        /// <summary>
+        /// vwNewItemButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwNewItemButton;
+        
+        /// <summary>
+        /// btnAddNewPlace control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddNewPlace;
+        
+        /// <summary>
+        /// vwNewPlace control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwNewPlace;
+        
+        /// <summary>
+        /// tbPlaceName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbPlaceName;
+        
+        /// <summary>
+        /// ddlLocalePlaces control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlLocalePlaces;
+        
+        /// <summary>
         /// tbPlayerComments control.
         /// </summary>
         /// <remarks>
@@ -67,13 +130,76 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.TextBox tbPlayerComments;
         
         /// <summary>
-        /// gvCostList control.
+        /// hidPlaceID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvCostList;
+        protected global::System.Web.UI.WebControls.HiddenField hidPlaceID;
+        
+        /// <summary>
+        /// btnSaveNewPlace control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveNewPlace;
+        
+        /// <summary>
+        /// vwExistingPlace control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwExistingPlace;
+        
+        /// <summary>
+        /// lblPlaceName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPlaceName;
+        
+        /// <summary>
+        /// lblLocale control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLocale;
+        
+        /// <summary>
+        /// trAlreadySelected control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trAlreadySelected;
+        
+        /// <summary>
+        /// btnCancelAdding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelAdding;
+        
+        /// <summary>
+        /// btnSaveExistingPlace control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveExistingPlace;
         
         /// <summary>
         /// btnSave control.

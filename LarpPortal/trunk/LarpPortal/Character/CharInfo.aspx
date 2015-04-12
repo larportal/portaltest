@@ -32,6 +32,14 @@
         {
             border: 1px solid black;
         }*/
+        .ReadOnly
+        {
+            border-width: 0px 0px 0px 0px;
+            border-color: transparent;
+            border-style: none;
+            background-color: lightgray;
+            color: darkgray;
+        }
     </style>
 </asp:Content>
 
@@ -80,7 +88,9 @@
                             </div>
                             <div class="col-sm-2">
                                 <asp:DropDownList ID="ddlStatus" runat="server" CssClass="form-control" Visible="false" />
-                                <asp:Label ID="lblStatus" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
+                                <asp:Label ID="lblStatus" runat="server" CssClass="form-control ReadOnly" />
+
+
                             </div>
                         </div>
                     </div>
@@ -105,7 +115,7 @@
                             </div>
                             <div class="col-sm-2">
                                 <asp:TextBox ID="tbDateLastEvent" runat="server" CssClass="form-control" Visible="false" />
-                                <asp:Label ID="lblDateLastEvent" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
+                                <asp:Label ID="lblDateLastEvent" runat="server" CssClass="form-control ReadOnly" />
                             </div>
                         </div>
                     </div>
@@ -116,8 +126,7 @@
                                 <label for="tbType" class="control-label">Type</label>
                             </div>
                             <div class="col-sm-3">
-                                <asp:TextBox ID="tbType" runat="server" CssClass="form-control" Visible="false" />
-                                <asp:Label ID="lblType" runat="server" CssClass="form-control" BackColor="LightGray" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" ForeColor="Gray" />
+                                <asp:Label ID="lblType" runat="server" CssClass="form-control ReadOnly" />
                             </div>
                             <div class="col-sm-0-5"></div>
                             <div class="col-sm-2 text-right NoLeftPadding NoRightPadding">
@@ -125,14 +134,14 @@
                             </div>
                             <div class="col-sm-2">
                                 <asp:TextBox ID="tbTeam" runat="server" CssClass="form-control" Visible="false" />
-                                <asp:Label ID="lblTeam" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
+                                <asp:Label ID="lblTeam" runat="server" CssClass="form-control ReadOnly" />
                             </div>
                             <div class="col-sm-1 text-right NoLeftPadding NoRightPadding">
                                 <label for="tbNumOfDeaths" class="control-label"># of Deaths</label>
                             </div>
                             <div class="col-sm-2">
                                 <asp:TextBox ID="tbNumOfDeaths" runat="server" CssClass="form-control" ReadOnly="true" Visible="false" />
-                                <asp:Label ID="lblNumOfDeaths" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
+                                <asp:Label ID="lblNumOfDeaths" runat="server" CssClass="form-control ReadOnly" />
                             </div>
                         </div>
                     </div>
@@ -157,7 +166,7 @@
                             </div>
                             <div class="col-sm-2">
                                 <asp:TextBox ID="tbDOD" runat="server" CssClass="form-control" ReadOnly="true" Visible="false" />
-                                <asp:Label ID="lblDOD" runat="server" CssClass="form-control" BackColor="Transparent" BorderStyle="none" BorderColor="Transparent" BorderWidth="0" />
+                                <asp:Label ID="lblDOD" runat="server" CssClass="form-control ReadOnly" />
                             </div>
                         </div>
                     </div>

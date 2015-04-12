@@ -144,6 +144,12 @@
         {
             text-align: right;
         }
+
+        .GridViewItem
+        {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
     </style>
 </head>
 <body style="width: 95%; height: 580px;">
@@ -153,10 +159,11 @@
             <ContentTemplate>
                 <table style="width: 100%;">
                     <tr class="TableItems" style="vertical-align: top;">
-                        <td style="width: 40%;" class="TableItems">
+                        <td style="width: 30%;" class="TableItems" rowspan="2">
                             <asp:Panel ID="pnlTreeView" runat="server" ScrollBars="Vertical" Height="500px">
-                                <asp:TreeView ID="tvSkills" runat="server" SkipLinkText="" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" ShowCheckBoxes="All"
-                                    ShowLines="false" OnTreeNodeCheckChanged="tvSkills_TreeNodeCheckChanged" Font-Underline="false" CssClass="TreeItems"
+                                <asp:TreeView ID="tvSkills" runat="server" SkipLinkText="" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" ShowCheckBoxes="none"
+                                    ShowLines="false" Font-Underline="false" CssClass="TreeItems"
+                                    OnSelectedNodeChanged="tvSkills_SelectedNodeChanged"
                                     LeafNodeStyle-CssClass="TreeItems" NodeStyle-CssClass="TreeItems">
                                     <LevelStyles>
                                         <asp:TreeNodeStyle Font-Underline="false" />
@@ -164,23 +171,104 @@
                                 </asp:TreeView>
                             </asp:Panel>
                         </td>
-                        <td style="width: 40%; padding-right: 20px;" class="TableItems">
-                            <div id="divDesc" />
-                            <br />
-                            <asp:TextBox ID="tbPlayerComments" runat="server" Visible="false" />
-                        </td>
-                        <td style="width: 20%;" class="TableItems" align="right">
-                            <asp:GridView ID="gvCostList" runat="server" AutoGenerateColumns="false" GridLines="None" OnRowDataBound="gvCostList_RowDataBound">
+                        <td style="width: 70%; padding-right: 20px;" class="TableItems">
+                            <asp:GridView ID="gvPlaces" runat="server" AutoGenerateColumns="false" GridLines="none"
+                                AlternatingRowStyle-BackColor="Linen" BorderColor="Black" BorderWidth="1px" BorderStyle="Solid"
+                                OnRowCommand="gvPlaces_RowCommand" Caption="<span style='font-size: larger; font-weight: bold;'>Character Places</span>">
                                 <Columns>
-                                    <asp:BoundField DataField="Skill" HeaderText="Skill" />
-                                    <asp:BoundField DataField="Cost" HeaderText="Cost" DataFormatString="{0:0.00}" ItemStyle-HorizontalAlign="Right" />
+                                    <asp:BoundField DataField="PlaceName" HeaderText="Place Name" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
+                                    <asp:BoundField DataField="Comments" HeaderText="Comments" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
+                                    <asp:BoundField DataField="Locale" HeaderText="Locale" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
+                                    <asp:TemplateField ShowHeader="False" ItemStyle-Width="16" ItemStyle-Wrap="false">
+                                        <ItemTemplate>
+                                            <asp:ImageButton ID="ibtnEdit" runat="server" CausesValidation="false" CommandName="EditItem" CssClass="NoRightPadding"
+                                                ImageUrl="~/img/edit.gif" CommandArgument='<%# Eval("CampaignPlaceID") %>' Width="16px"
+                                                Visible='<%# Eval("ShowButton") %>' />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
+                                    <asp:TemplateField ShowHeader="False" ItemStyle-Width="16" ItemStyle-Wrap="false">
+                                        <ItemTemplate>
+                                            <asp:ImageButton ID="ibtnDelete" runat="server" CausesValidation="false" CommandName="DeleteItem" CssClass="NoRightPadding"
+                                                ImageUrl="~/img/delete.png" CommandArgument='<%# Eval("CampaignPlaceID") %>' Width="16px" />
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
+                            <br />
+                            <asp:MultiView ID="mvAddingItems" runat="server" ActiveViewIndex="0">
+                                <asp:View ID="vwNewItemButton" runat="server">
+                                    <asp:Button ID="btnAddNewPlace" runat="server" Text="Add New Place" OnClick="btnAddNewPlace_Click" />
+                                </asp:View>
+
+                                <asp:View ID="vwNewPlace" runat="server">
+                                    <table border="0">
+                                        <tr>
+                                            <td colspan="2"><b style="font-size: larger;">Add a new place for this character.</b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Place Name</b></td>
+                                            <td><b>Located In</b></td>
+                                            <td><b>Player Comments</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align: top;">
+                                                <asp:TextBox ID="tbPlaceName" runat="server" Columns="30" /></td>
+                                            <td style="vertical-align: top;">
+                                                <asp:DropDownList ID="ddlLocalePlaces" runat="server" /></td>
+
+                                            <td>
+                                                <asp:TextBox ID="tbPlayerComments" runat="server" Columns="50" Rows="6" TextMode="MultiLine" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:HiddenField ID="hidPlaceID" runat="server" /></td>
+                                            <td>&nbsp;</td>
+                                            <td align="right">
+                                                <asp:Button ID="btnSaveNewPlace" runat="server" Text="Save New Place" OnClick="btnSaveNewPlace_Click" /></td>
+                                        </tr>
+                                    </table>
+                                    <br />
+                                </asp:View>
+
+                                <asp:View ID="vwExistingPlace" runat="server">
+                                    <table border="0">
+                                        <tr>
+                                            <td colspan="2"><b style="font-size: larger;">Add a campaign place to this character.</b>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Place Name</b></td>
+                                            <td><b>Locale</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="vertical-align: top;">
+                                                <asp:Label ID="lblPlaceName" runat="server" /></td>
+                                            <td>
+                                                <asp:Label ID="lblLocale" runat="server" /></td>
+                                        </tr>
+                                        <tr id="trAlreadySelected" runat="server">
+                                            <td colspan="2">
+                                                That place has already been added. Please choose another place.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <asp:Button ID="btnCancelAdding" runat="server" Text="Cancel" OnClick="btnCancelAdding_Click" /></td>
+                                            <td align="right">
+                                                <asp:Button ID="btnSaveExistingPlace" runat="server" Text="Save Existing Place" OnClick="btnSaveExistingPlace_Click" /></td>
+                                        </tr>
+                                    </table>
+                                    <br />
+                                </asp:View>
+                            </asp:MultiView>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" />
-                        <td align="right"><asp:Button ID="btnSave" runat="server" Text="&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;" OnClick="btnSave_Click" /></td>
+                        <td align="right">
+                            <asp:Button ID="btnSave" runat="server" Text="&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;" OnClick="btnSave_Click" /></td>
                     </tr>
                 </table>
             </ContentTemplate>

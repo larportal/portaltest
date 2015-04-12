@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,6 +15,11 @@ namespace LarpPortal.Classes
         {
             CampaignPlaceID = -1;
             RecordStatus = RecordStatuses.Active;
+            PlaceName = "";
+            Locale = "";
+            RulebookDescription = "";
+            StaffComments = "";
+            Comments = "";
         }
 
         public override string ToString()
@@ -22,6 +28,7 @@ namespace LarpPortal.Classes
         }
 
         public int CampaignPlaceID { get; set; }
+        public int CharacterID { get; set; }
         public int PlaceID { get; set; }
         public int PlaceTypeID { get; set; }
         public string PlaceName { get; set; }
@@ -34,46 +41,33 @@ namespace LarpPortal.Classes
         public RecordStatuses RecordStatus { get; set; }
 
         /// <summary>
-        /// Save a place record to the database. Use this if you don't already have a connection open.
+        /// Save a place record to the database. Use this if you have a connection open.
         /// </summary>
         /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
         public void Save(string sUserUpdating)
         {
-            using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
-            {
-                connPortal.Open();
-                Save(sUserUpdating, connPortal);
-            }
-        }
-
-        /// <summary>
-        /// Save a place record to the database. Use this if you have a connection open.
-        /// </summary>
-        /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
-        /// <param name="connPortal">Already OPEN connection to the database.</param>
-        public void Save(string sUserUpdating, SqlConnection connPortal)
-        {
             if (RecordStatus == RecordStatuses.Delete)
             {
-                SqlCommand CmdDelCHCampaignPlaces = new SqlCommand("uspDelCHCampaignPlaces", connPortal);
-                CmdDelCHCampaignPlaces.CommandType = CommandType.StoredProcedure;
-                CmdDelCHCampaignPlaces.Parameters.AddWithValue("@RecordID", CampaignPlaceID);
-                CmdDelCHCampaignPlaces.Parameters.AddWithValue("@UserID", sUserUpdating);
-
-                CmdDelCHCampaignPlaces.ExecuteNonQuery();
+                if (CampaignPlaceID != -1)
+                {
+                    SortedList sParam = new SortedList();
+                    sParam.Add("@RecordID", CampaignPlaceID);
+                    sParam.Add("@UserID", sUserUpdating);
+                    cUtilities.PerformNonQuery("uspDelCHCharacterPlaces", sParam, "LARPortal", sUserUpdating);
+                }
             }
             else
             {
-                SqlCommand CmdInsUpdCMCampaignPlaces = new SqlCommand("uspInsUpdCHCampaignPlaces", connPortal);
-                CmdInsUpdCMCampaignPlaces.CommandType = CommandType.StoredProcedure;
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@CharacterPlaceIDID", CampaignPlaceID);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@PlaceID", PlaceID);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@PlaceName", PlaceName);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@StaffComments", StaffComments);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@PlayerComments", Comments);
-                CmdInsUpdCMCampaignPlaces.Parameters.AddWithValue("@UserID", sUserUpdating);
-
-                CmdInsUpdCMCampaignPlaces.ExecuteNonQuery();
+                SortedList sParam = new SortedList();
+                sParam.Add("@CharacterPlaceID", CampaignPlaceID);
+                sParam.Add("@CharacterID", CharacterID);
+                sParam.Add("@PlaceID", PlaceID);
+                sParam.Add("@PlaceName", PlaceName.ToString());
+                sParam.Add("@LocatedInPlaceID", LocaleID);
+                sParam.Add("@StaffComments", StaffComments.ToString());
+                sParam.Add("@PlayerComments", Comments.ToString());
+                sParam.Add("@UserID", -1);
+                cUtilities.PerformNonQuery("uspInsUpdCHCharacterPlaces", sParam, "LARPortal", sUserUpdating);
             }
         }
 

@@ -68,7 +68,7 @@ namespace LarpPortal.Character
                         tbAKA.Text = cChar.AKA;
                         tbHome.Text = cChar.CurrentHome;
                         tbDateLastEvent.Text = "??";
-                        tbType.Text = cChar.CharType.Description;
+//                        tbType.Text = cChar.CharType.Description;
                         lblType.Text = cChar.CharType.Description;
                         tbTeam.Text = "Team";
                         lblTeam.Text = "";
