@@ -14,6 +14,7 @@ namespace LarpPortal.Character
     public partial class CharSkill : System.Web.UI.Page
     {
         protected DataTable _dtSkills = new DataTable();
+        private string AlertMessage = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -61,6 +62,7 @@ namespace LarpPortal.Character
                             _dtSkills = dsSkillSets.Tables[1];
                             Session["Skills"] = _dtSkills;
 
+
                             TreeNode MainNode = new TreeNode("Skills");
                             DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "", DataViewRowState.CurrentRows);
                             foreach (DataRowView dvRow in dvTopNodes)
@@ -89,6 +91,14 @@ namespace LarpPortal.Character
                         }
                     }
                 }
+            }
+            if (AlertMessage.Length > 0)
+            {
+                if (AlertMessage.Length > 0)
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                         "MyApplication",
+                        AlertMessage,
+                        true);
             }
         }
 
@@ -120,14 +130,13 @@ namespace LarpPortal.Character
         {
             lblMessage.Text = "Skills Changed";
             lblMessage.ForeColor = Color.Red;
+
             if (e.Node.Checked)
             {
                 TreeView OrigTreeView = new TreeView();
                 CopyTreeNodes(tvSkills, OrigTreeView);
-                
-                int qwert = OrigTreeView.CheckedNodes.Count;
+
                 MarkParentNodes(e.Node);
-                int qwert2 = tvSkills.CheckedNodes.Count;
 
                 DataTable dtAllSkills = Session["Skills"] as DataTable;
                 double TotalSpent = 0.0;
@@ -161,22 +170,35 @@ namespace LarpPortal.Character
                 }
                 if (TotalSpent > TotalCP)
                 {
-                    qwert = OrigTreeView.CheckedNodes.Count;
-                    qwert2 = tvSkills.CheckedNodes.Count;
                     tvSkills.Nodes.Clear();
                     TreeView OrigTree = Session["CurrentSkillTree"] as TreeView;
                     CopyTreeNodes(OrigTree, tvSkills);
-                    
-                    string jsString = "alert('You do not have enough CP to but that.');";
-                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                            "MyApplication",
-                            jsString,
-                            true);
+
+                    AlertMessage = "alert('You do not have enough CP to buy that.');";
+                }
+                else
+                {
+                    bMeetAllRequirements = true;
+                    CheckForRequirements(e.Node.Value);
+                    if (!bMeetAllRequirements)
+                    {
+                        tvSkills.Nodes.Clear();
+                        TreeView OrigTree = Session["CurrentSkillTree"] as TreeView;
+                        CopyTreeNodes(OrigTree, tvSkills);
+                        e.Node.Checked = false;
+                        AlertMessage = "alert('You do not have all the requirements to purchase that item.');";
+                    }
+                    else
+                    {
+                        CheckAllNodesWithValue(e.Node.Value, true);
+                    }
                 }
             }
             else
+            {
                 DeselectChildNodes(e.Node);
-
+                CheckAllNodesWithValue(e.Node.Value, false);
+            }
             ListSkills();
             Session["CurrentSkillTree"] = tvSkills;
         }
@@ -376,6 +398,41 @@ namespace LarpPortal.Character
                 parent.ChildNodes.Add(newTn);
                 CopyChildren(newTn, tn);
             }
-        } 
+        }
+
+        private bool bMeetAllRequirements = true;
+
+        private void CheckForRequirements(string sValueToCheckFor)
+        {
+            bMeetAllRequirements = true;
+
+            foreach (TreeNode trMainNodes in tvSkills.Nodes)
+                CheckChildNodes(trMainNodes, sValueToCheckFor);
+        }
+
+        private void CheckChildNodes(TreeNode NodeToCheck, string sValueToCheckFor)
+        {
+            if (NodeToCheck.Value == sValueToCheckFor)
+                if (!NodeToCheck.Parent.Checked)
+                    bMeetAllRequirements = false;
+
+            foreach (TreeNode trChildNode in NodeToCheck.ChildNodes)
+                CheckChildNodes(trChildNode, sValueToCheckFor);
+        }
+
+        private void CheckAllNodesWithValue(string sValueToCheckFor, bool bValueToSet)
+        {
+            foreach (TreeNode trMainNodes in tvSkills.Nodes)
+                SetChildNodes(trMainNodes, sValueToCheckFor, bValueToSet);
+        }
+
+        private void SetChildNodes(TreeNode NodeToCheck, string sValueToCheckFor, bool bValueToSet)
+        {
+            if (NodeToCheck.Value == sValueToCheckFor)
+                NodeToCheck.Checked = bValueToSet;
+
+            foreach (TreeNode trChildNode in NodeToCheck.ChildNodes)
+                SetChildNodes(trChildNode, sValueToCheckFor, bValueToSet);
+        }
     }
 }
