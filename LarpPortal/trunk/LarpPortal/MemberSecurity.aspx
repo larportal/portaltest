@@ -7,7 +7,7 @@
                 x.innerHTML = ""
         }
 </script>
-    <asp:Label ID="WIP" runat="server" BackColor="Yellow">My Profile - Security - Placeholder page - in progress</asp:Label>
+    <asp:Label ID="WIP" runat="server" BackColor="Yellow"></asp:Label>
       <div class="mainContent tab-content">
         <section id="security" class="security tab-pane" style="display:block">
 	        <div role="form" class="form-horizontal form-condensed">
