@@ -51,7 +51,8 @@
                                         <asp:Label ID="lblSetQuestions" runat="server">
                                             It would appear you haven't set any security questions yet.  You have to have at least one.
                                             You can have up to three.  You decide how many and you decide the questions and the answers.
-                                            If you forget your password you will have to answer all questions that you set so you decide how much security you want.
+                                            If you forget your password you will have to answer all questions that you set so you decide how much security you want.<br /><br />
+                                            Enter each security question or answer and then tab or enter to move on to the next field.
                                         </asp:Label><p></p>
                                         <asp:Label ID="lblSecurityQ1" runat="server">Security Question 1: </asp:Label>
                                         <asp:TextBox ID="txtSecurityQ1" runat="server"></asp:TextBox>
@@ -88,6 +89,11 @@
                                         <asp:Label ID="lblAnsweredQuestion3Wrong" runat="server"></asp:Label>
                                     </asp:Panel>
                                     <asp:Panel id="pnlSetPasswords" runat="server">
+                                        <asp:Label ID="lblPasswordRequirements" runat="server">
+                                            Password requirements:<br />
+                                            LARP Portal login passwords must be at least 7 characters long and contain at least <br />
+                                            1 uppercase letter, 1 lowercse letter, 1 number and 1 special character<br />
+                                        </asp:Label><p></p>
                                         <asp:Label ID="lblNewPassword" runat="server">New Password: </asp:Label>
                                         <asp:TextBox ID="txtNewPassword" runat="server" AutoPostBack="true" OnTextChanged="txtNewPassword_TextChanged"></asp:TextBox><p></p>
                                         <asp:Label ID="lblNewPasswordRetype" runat="server">Retype New Password: </asp:Label>
