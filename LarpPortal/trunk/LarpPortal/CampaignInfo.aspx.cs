@@ -22,8 +22,6 @@ namespace LarpPortal
                 Session["ActiveLeftNav"] = "CampaignInfoSetup";
                 if (Session["CampaignName"] != null)
                     lblTopCampaignName.Text = Session["CampaignName"].ToString();
-                //lblWIP.BackColor = System.Drawing.Color.Yellow;
-                //lblWIP.Text = " (WIP)";
             }
             int CampaignID;
             string UserName;
@@ -34,6 +32,7 @@ namespace LarpPortal
             {
                 UserName = "";
                 //If we have a null Username here should we assume all is FUBAR and redirect to login?
+                //TODO-Rick-01 Write an error record to an audit log if we reach this
                 Response.Redirect("~/index.aspx");
             }
             if (Session["CampaignID"] == null)

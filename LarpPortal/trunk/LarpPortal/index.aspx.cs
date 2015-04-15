@@ -41,10 +41,10 @@ namespace LarpPortal
                 txtSecurityResetCode.Visible = false;
                 lblSecurityResetCode.Visible = false;
                 lblSignUpErrors.Visible = false; 
-                Session["LoginName"] = "Guest";                // Until login changes it
-                Session["UserID"] = 0;                         // Until login changes it
-                Session["SecurityRole"] = 0;                   // Until login changes it
-                Session["WebPage"] = "~/publicCampaigns.aspx"; // Until login changes it
+                Session["LoginName"] = "Guest";                   // Until login changes it
+                Session["UserID"] = 0;                            // Until login changes it
+                Session["SecurityRole"] = 0;                      // Until login changes it
+                Session["WebPage"] = "~/MemberDemographics.aspx"; // Until login changes it
                 lblInvalidLogin.Visible = false;
                 lblInvalidActivationKey.Visible = false;
                 lblInvalidLogin2.Visible = false;
@@ -163,6 +163,7 @@ namespace LarpPortal
             Session["UserID"] = Login.MemberID;
             // Write login entry to UserLoginAudit table
             Login.LoginAudit(Login.MemberID, txtUserName.Text,txtPassword.Text);
+            Session["WebPage"] = Login.LastLoggedInLocation;
             // Go to the default or last page visited
             if(Session["WebPage"] == null)
             {

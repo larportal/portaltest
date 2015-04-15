@@ -19,6 +19,13 @@ namespace LarpPortal.Classes
             get { return _CampaignPlayerRoleID; }
             set { _CampaignPlayerRoleID = value; }
         }
+        public string _PlayerRoleString = "";
+        public string PlayerRoleString
+        {
+            get { return _PlayerRoleString; }
+            set { _PlayerRoleString = value; }
+        }
+
         public List<cPlayerRole> lsPlayerRoles = new List< cPlayerRole>();
         
         /// <summary>
@@ -33,6 +40,7 @@ namespace LarpPortal.Classes
             string stStoredProc = "uspGetPlayerRoles";
             string stCallingMethod = "cPlayerRoles.Load";
             int iTemp;
+            PlayerRoleString = CampaignIDToLoad.ToString() + ":/";
             SortedList slParameters = new SortedList();
             slParameters.Add("@UserID", UserID);
             slParameters.Add("@CampaignPlayerRoleID", CampaignPlayerRoleIDToLoad);
@@ -47,6 +55,7 @@ namespace LarpPortal.Classes
                     cPlayerRole PlayerRole = new cPlayerRole();
                     PlayerRole.Load(UserID, iTemp, 0);
                     lsPlayerRoles.Add(PlayerRole);
+                    PlayerRoleString = PlayerRoleString + iTemp.ToString() + "/";
                 }
             }
         }

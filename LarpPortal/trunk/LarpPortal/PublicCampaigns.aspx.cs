@@ -422,6 +422,14 @@ namespace LarpPortal
                 RequestEmail = Campaign.InfoRequestEmail;
             else
                 RequestEmail = Campaign.JoinRequestEmail;
+            if (RequestEmail.Contains("@"))
+            {
+                // It has a "@".  Assume the email format is close enough, go on.
+            }
+            else
+            {
+                RequestEmail = "";
+            }
             foreach (ListItem item in chkSignUp.Items)
             {
                 if(item.Selected)

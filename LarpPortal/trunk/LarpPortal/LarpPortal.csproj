@@ -217,6 +217,7 @@
     <Content Include="Character\CharHistory.aspx" />
     <Content Include="Character\CharInfo.aspx" />
     <Content Include="Character\CharItems.aspx" />
+    <Content Include="Character\CharNoCampaign.aspx" />
     <Content Include="Character\CharPlace.aspx" />
     <Content Include="Character\CharPlaces.aspx" />
     <Content Include="Character\CharPlaceTV.aspx" />
@@ -333,6 +334,7 @@
     <Content Include="Medical.aspx" />
     <Content Include="MemberDemographics.aspx" />
     <Content Include="NewUserLoginDirections.aspx" />
+    <Content Include="NightlyUpdates.aspx" />
     <Content Include="NoCurrentCampaignAssociations.aspx" />
     <Content Include="packages.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -413,7 +415,9 @@
     <Content Include="Global.asax" />
     <Content Include="Site.Master" />
     <Content Include="ViewSwitcher.ascx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Bundle.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -540,6 +544,13 @@
     </Compile>
     <Compile Include="Character\CharItems.aspx.designer.cs">
       <DependentUpon>CharItems.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharNoCampaign.aspx.cs">
+      <DependentUpon>CharNoCampaign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharNoCampaign.aspx.designer.cs">
+      <DependentUpon>CharNoCampaign.aspx</DependentUpon>
     </Compile>
     <Compile Include="Character\CharPlace.aspx.cs">
       <DependentUpon>CharPlace.aspx</DependentUpon>
@@ -795,6 +806,13 @@
     </Compile>
     <Compile Include="NewUserLoginDirections.aspx.designer.cs">
       <DependentUpon>NewUserLoginDirections.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NightlyUpdates.aspx.cs">
+      <DependentUpon>NightlyUpdates.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NightlyUpdates.aspx.designer.cs">
+      <DependentUpon>NightlyUpdates.aspx</DependentUpon>
     </Compile>
     <Compile Include="NoCurrentCampaignAssociations.aspx.cs">
       <DependentUpon>NoCurrentCampaignAssociations.aspx</DependentUpon>
