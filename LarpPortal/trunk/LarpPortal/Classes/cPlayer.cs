@@ -281,7 +281,8 @@ namespace LarpPortal.Classes
                 slParams.Add("@GenderStandard", _GenderStandared);
                 slParams.Add("@GenderOther", _GenderOther);
                 slParams.Add("@EmergencyContactName", _EmergencyContactName);
-                slParams.Add("@EmergencyContactPhone", _EmergencyContactPhoneID);
+                //slParams.Add("@EmergencyContactPhone", _EmergencyContactPhoneID);  Replacing with next line to make text phone - Rick 4/15/2015
+                slParams.Add("@EmergencyContactPhone", _EmergencyContactPhone);
                 slParams.Add("@MaxNumberEventsPerYear", _MaxNumberOfEventsPerYear);
                 slParams.Add("@CPPreferenceDefault", _CPPreferenceDefault);
                 slParams.Add("@CPDestinationDefault", _CPDestinationDefault);

@@ -527,6 +527,18 @@ namespace LarpPortal.Classes
             slParameters.Add("@LogonPassword", NewPassword);
             cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
         }
+
+        /// <summary>
+        /// This will save a record of the login in the login audit table
+        /// </summary>
+        public void NightlyUpdates()
+        {
+            int UserID = 185;   // Owner@larportal.com because why not?
+            string stStoredProc = "uspNightlyUpdates";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@UserID", UserID);
+            cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
+        }
     }
 }
 

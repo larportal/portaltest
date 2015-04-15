@@ -87,6 +87,10 @@ namespace LarpPortal
             Session["CampaignID"] = ddlUserCampaigns.SelectedItem.Value.ToInt32();
             Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
             User.Save();
+            // Go get all roles for that campaign and load them into a session variable
+            Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
+            Roles.Load(intUserID, 0, ddlUserCampaigns.SelectedItem.Value.ToInt32(), DateTime.Today);
+            Session["PlayerRoleString"] = Roles.PlayerRoleString;
             //TODO-Rick-2 If page is campaign related in any way, load campaign at top of code behind and set session variable CampaignName 
             Response.Redirect(Request.RawUrl);
         }

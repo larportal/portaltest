@@ -221,7 +221,7 @@
                                         </asp:TableHeaderRow>
                                         <asp:TableHeaderRow>
                                             <asp:TableCell HorizontalAlign="Left">
-                                                <asp:Label ID="lblLocation1" runat="server">Location:</asp:Label>
+                                                <asp:Label ID="lblLocation1" runat="server">Primary Location:</asp:Label>
                                             </asp:TableCell>
                                             <asp:TableCell>
                                                 &nbsp;&nbsp;
