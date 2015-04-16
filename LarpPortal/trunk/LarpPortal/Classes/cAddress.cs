@@ -11,6 +11,11 @@ namespace LarpPortal.Classes
     [Serializable()]
     public class cAddress
     {
+
+        public bool IsPrimary { get; set; }
+
+        public string strAddressType { get; set; }
+
         string strUserName = "";
         /// <summary>
         /// Table: MDBAddresses Field: AddressID  Notes: This field identifies the address record
