@@ -30,14 +30,19 @@ namespace LarpPortal
             if (string.IsNullOrWhiteSpace(strPhone))
                 return false;
 
-            string phone = string.Join(string.Empty, strPhone.Where(x => Char.IsDigit(x)).ToArray());
+            strPhone = strPhone.Trim();
+            //Make sure all values are digits
+            if (strPhone.All(x => Char.IsDigit(x)) == false)
+                return false;
+            //This line is a substitute to remove any non-digits and only if we ever disable check above
+            //string strPhone = string.Join(string.Empty, strPhone.Where(x => Char.IsDigit(x)).ToArray());
 
             //800s, 900, and zero digits on first position are not okay
-            if (phone.StartsWith("8") || phone.StartsWith("9") || phone.StartsWith("0"))
+            if (strPhone.StartsWith("8") || strPhone.StartsWith("9") || strPhone.StartsWith("0"))
                 return false;
 
             // Get all the digits from the string and make sure we have ten numeric value
-            return (phone.Length == 10);
+            return (strPhone.Length == 10);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -73,7 +78,7 @@ namespace LarpPortal
             string emergencynm = PLDemography.EmergencyContactName;
             string emergencyContactPhone = string.Empty;
             if (PLDemography.EmergencyContactPhone != null)
-                emergencyContactPhone = PLDemography.EmergencyContactPhone.PhoneNumber;
+                emergencyContactPhone = PLDemography.EmergencyContactPhone;
             //Classes.cPhone EmergencyPhone = new Classes.cPhone();
             //string emergencyph = EmergencyPhone.PhoneNumber; // = PLDemography.EmergencyContactPhone; 
             // Need to define the list for Addresses
@@ -135,6 +140,12 @@ namespace LarpPortal
             DateTime dob;
             if (DateTime.TryParse(txtDOB.Text, out dob))
                 PLDemography.DateOfBirth = dob;
+            else 
+            {
+                lblMessage.Text = "Please enter a valid date";
+                txtDOB.Focus();
+                return;
+            }
 
             PLDemography.AuthorName = txtPenname.Text;
             Demography.ForumUserName = txtForumname.Text;
@@ -142,21 +153,22 @@ namespace LarpPortal
             PLDemography.EmergencyContactName = txtEmergencyName.Text;
 
             /*
-             * 1)  Figurate out saving addresses, phones, etc. grids first 
+             * 1)  Figure out saving addresses, phones, etc. grids first 
              * Jeff mention keep my eye on the enum to flag deletes properly
              */
-            
-            //I am not sure how to handle emergency info
-            /* 2)
-            if (PLDemography.EmergencyContactPhone == null)
-                PLDemography.EmergencyContactPhone = new cPhone();
+
+            if (!isValidPhoneNumber(txtEmergencyPhone.Text))
+            {
+                lblMessage.Text = "Please enter a valid phone number";
+                txtEmergencyPhone.Focus();
+                return;
+            }
 
             if (PLDemography.EmergencyContactPhone != txtEmergencyPhone.Text)
             {
                 PLDemography.EmergencyContactPhone = txtEmergencyPhone.Text;
-                PLDemography.EmergencyContactPhoneID = -1;
             }
-            */
+           
 
             /* 3) handle picture update/add.
              */
