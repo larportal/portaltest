@@ -21,7 +21,7 @@ namespace LarpPortal.Classes
         private string _GenderOther = "";
         private string _EmergencyContactName = "";
         private Int32 _EmergencyContactPhoneID = -1;
-        private cPhone _EmergencyContactPhone ;
+        private string _EmergencyContactPhone ;
         private Int32 _MaxNumberOfEventsPerYear = 0;
         private string _CPPreferenceDefault = "";
         private Int32 _CPDestinationDefault = -1;
@@ -82,12 +82,16 @@ namespace LarpPortal.Classes
             get { return _EmergencyContactName; }
             set { _EmergencyContactName = value; }
         }
+
+        /// <summary>
+        /// This property is discontinued and shall not be used
+        /// </summary>
         public Int32 EmergencyContactPhoneID
         {
             get { return _EmergencyContactPhoneID; }
             set { _EmergencyContactPhoneID = value; }
         }
-        public cPhone EmergencyContactPhone
+        public string EmergencyContactPhone
         {
             get { return _EmergencyContactPhone; }
             set { _EmergencyContactPhone = value; }
@@ -236,8 +240,8 @@ namespace LarpPortal.Classes
                     _GenderStandared = ldt.Rows[0]["GenderStandard"].ToString();
                     _GenderOther = ldt.Rows[0]["GenderOther"].ToString();
                     _EmergencyContactName = ldt.Rows[0]["EmergencyContactName"].ToString();
-                    _EmergencyContactPhoneID = ldt.Rows[0]["EmergencyContactPhone"].ToString().ToInt32();
-                    _EmergencyContactPhone = new cPhone(_EmergencyContactPhoneID,_UserID,strUserName);
+                    _EmergencyContactPhone = ldt.Rows[0]["EmergencyContactPhone"].ToString();
+                   // _EmergencyContactPhone = new cPhone(_EmergencyContactPhoneID,_UserID,strUserName);
                     _MaxNumberOfEventsPerYear = ldt.Rows[0]["MaxNumberEventsPerYear"].ToString().ToInt32();
                     _CPPreferenceDefault = ldt.Rows[0]["CPPreferenceDefault"].ToString();
                     _CPDestinationDefault = ldt.Rows[0]["CPDestinationDefault"].ToString().ToInt32();
