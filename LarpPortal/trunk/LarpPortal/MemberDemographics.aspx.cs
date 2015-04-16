@@ -103,6 +103,15 @@ namespace LarpPortal
                 txtNickname.Text = nick;
                 txtPenname.Text = pen;
                 txtForumname.Text = forum;
+                
+                List<cAddress> _addresses = new List<cAddress>(); 
+                if (Demography.UserAddresses != null)
+                    _addresses = Demography.UserAddresses.ToList();
+                _addresses.Add(new cAddress()); //always add an empty one in case they need to insert a new one
+                gv_Address.DataSource = _addresses;
+                gv_Address.DataBind();
+
+                Session["dem_Addresses"] = _addresses;
             }
         }
 
@@ -179,6 +188,11 @@ namespace LarpPortal
             PLDemography.Save();
 
             lblMessage.Text = "Changes saved successfully.";
+        }
+
+        protected void gv_Address_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
         }
 
         

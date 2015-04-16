@@ -247,31 +247,31 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.Label lblMessage;
         
         /// <summary>
-        /// gvw_Address control.
+        /// gv_Address control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvw_Address;
+        protected global::System.Web.UI.WebControls.GridView gv_Address;
         
         /// <summary>
-        /// gvw_PhoneNums control.
+        /// gv_PhoneNums control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvw_PhoneNums;
+        protected global::System.Web.UI.WebControls.GridView gv_PhoneNums;
         
         /// <summary>
-        /// gvw_Emails control.
+        /// gv_Emails control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvw_Emails;
+        protected global::System.Web.UI.WebControls.GridView gv_Emails;
         
         /// <summary>
         /// btnSave control.
