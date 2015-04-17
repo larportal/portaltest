@@ -61,9 +61,9 @@ namespace LarpPortal.Character
 
                             _dtSkills = dsSkillSets.Tables[1];
                             Session["Skills"] = _dtSkills;
+                            Session["ExcludeSkills"] = dsSkillSets.Tables[2];
 
-
-                            TreeNode MainNode = new TreeNode("Skills");
+//                            TreeNode MainNode = new TreeNode("Skills");
                             DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "", DataViewRowState.CurrentRows);
                             foreach (DataRowView dvRow in dvTopNodes)
                             {
@@ -79,7 +79,7 @@ namespace LarpPortal.Character
                                         if (dtCharSkills.Select("CampaignSkillsStandardID = " + iNodeID.ToString()).Length > 0)
                                             NewNode.Checked = true;
                                         NewNode.SelectAction = TreeNodeSelectAction.None;
-                                        NewNode.NavigateUrl = "javascript:void(0);";
+//                                        NewNode.NavigateUrl = "javascript:void(0);";
                                         PopulateTreeView(iNodeID, NewNode);
                                     }
                                     NewNode.Expanded = false;
@@ -124,6 +124,7 @@ namespace LarpPortal.Character
                     PopulateTreeView(iNodeID, childNode);
                 }
             }
+            CheckExclusions();
         }
 
         protected void tvSkills_TreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
@@ -193,12 +194,30 @@ namespace LarpPortal.Character
                         CheckAllNodesWithValue(e.Node.Value, true);
                     }
                 }
+                List<TreeNode> FoundNodes = FindNodesByValue("961");
+                foreach (TreeNode t in FoundNodes)
+                {
+                    t.Text = t.Text.Replace("black", "grey");
+                    t.ImageUrl = "/img/delete.png";
+                    t.ShowCheckBox = false;
+                    DisableChildren(t);
+                }
             }
             else
             {
                 DeselectChildNodes(e.Node);
                 CheckAllNodesWithValue(e.Node.Value, false);
+
+                List<TreeNode> FoundNodes = FindNodesByValue("961");
+                foreach (TreeNode t in FoundNodes)
+                {
+                    t.Text = t.Text.Replace("grey", "black");
+                    t.ImageUrl = "";
+                    t.ShowCheckBox = true;
+                    EnableChildren(t);
+                }
             }
+            CheckExclusions();
             ListSkills();
             Session["CurrentSkillTree"] = tvSkills;
         }
@@ -413,8 +432,9 @@ namespace LarpPortal.Character
         private void CheckChildNodes(TreeNode NodeToCheck, string sValueToCheckFor)
         {
             if (NodeToCheck.Value == sValueToCheckFor)
-                if (!NodeToCheck.Parent.Checked)
-                    bMeetAllRequirements = false;
+                if ( NodeToCheck.Parent != null)
+                    if (!NodeToCheck.Parent.Checked)
+                     bMeetAllRequirements = false;
 
             foreach (TreeNode trChildNode in NodeToCheck.ChildNodes)
                 CheckChildNodes(trChildNode, sValueToCheckFor);
@@ -434,5 +454,179 @@ namespace LarpPortal.Character
             foreach (TreeNode trChildNode in NodeToCheck.ChildNodes)
                 SetChildNodes(trChildNode, sValueToCheckFor, bValueToSet);
         }
+
+        private void DisableNodeAndChildren(TreeNode tNode)
+        {
+            tNode.ShowCheckBox = false;
+            foreach (TreeNode ChildNode in tNode.ChildNodes)
+                DisableNodeAndChildren(ChildNode);
+        }
+
+        private List<TreeNode> FindNodesByValue(string ValueToSearchFor)
+        {
+            List<TreeNode> FoundNodes = new List<TreeNode>();
+
+            foreach (TreeNode tNode in tvSkills.Nodes)
+            {
+                if (tNode.Value == ValueToSearchFor)
+                    FoundNodes.Add(tNode);
+                SearchChildren(tNode, FoundNodes, ValueToSearchFor);
+            }
+
+            return FoundNodes;
+        }
+
+        private void SearchChildren(TreeNode tNode, List<TreeNode> FoundNodes, string ValueToSearchFor)
+        {
+            if (tNode.Value == ValueToSearchFor)
+                FoundNodes.Add(tNode);
+
+            foreach (TreeNode ChildNode in tNode.ChildNodes)
+                SearchChildren(ChildNode, FoundNodes, ValueToSearchFor);
+        }
+
+        private void DisableChildren(TreeNode tNode)
+        {
+            tNode.Text = tNode.Text.Replace("black", "grey");
+            tNode.ImageUrl = "/img/delete.png";
+            tNode.ShowCheckBox = false;
+
+            foreach (TreeNode tnChild in tNode.ChildNodes)
+                DisableChildren(tnChild);
+        }
+
+        private void EnableChildren(TreeNode tNode)
+        {
+            tNode.Text = tNode.Text.Replace("grey", "black");
+            tNode.ImageUrl = "";
+            tNode.ShowCheckBox = true;
+
+            foreach (TreeNode tnChild in tNode.ChildNodes)
+                EnableChildren(tnChild);
+        }
+
+        protected void CheckExclusions()
+        {
+            if (Session["ExcludeSkills"] == null)
+                return;
+
+            DataTable dtExclusions;
+            dtExclusions = Session["ExcludeSkills"] as DataTable;
+
+            foreach (DataRow dRow in dtExclusions.Rows)
+            {
+                string sSkill = dRow["CampaignSkillsStandardID"].ToString();
+                List<TreeNode> FoundNodes = FindNodesByValue(sSkill);
+                foreach (TreeNode tNode in FoundNodes)
+                {
+                    DataView dvPreReq = new DataView(dtExclusions, "PreRequisiteSkillID = " + sSkill, "", DataViewRowState.CurrentRows);
+                    foreach (DataRowView dExclude in dvPreReq)
+                    {
+                        string sExc = dExclude["CampaignSkillsStandardID"].ToString();
+                        List<TreeNode> ExcludedNodes = FindNodesByValue(sExc);
+                        foreach (TreeNode tnExc in ExcludedNodes)
+                            if (tNode.Checked)
+                                DisableChildren(tnExc);
+                            else
+                                EnableChildren(tnExc);
+                    }
+                }
+            }
+        }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //<script type="text/javascript">
+
+    //    function postBackByObject() {
+    //        var o = window.event.srcElement;
+    //        if (o.tagName == "INPUT" && o.type == "checkbox") {
+    //            __doPostBack("", "");
+    //        }
+    //    }
+
+    //    var cX = 0;
+    //    var cY = 0;
+    //    var rX = 0;
+    //    var rY = 0;
+
+    //    function UpdateCursorPosition(e) {
+    //        cX = e.pageX;
+    //        cY = e.pageY;
+    //    }
+    //    function UpdateCursorPositionDocAll(e) {
+    //        cX = event.clientX;
+    //        cY = event.clientY;
+    //    }
+
+    //    if (document.all) {
+    //        document.onmousemove = UpdateCursorPositionDocAll;
+    //    }
+    //    else {
+    //        document.onmousemove = UpdateCursorPosition;
+    //    }
+
+    //    function AssignPosition(d) {
+    //        if (self.pageYOffset) {
+    //            rX = self.pageXOffset;
+    //            rY = self.pageYOffset;
+    //        }
+    //        else if (document.documentElement && document.documentElement.scrollTop) {
+    //            rX = document.documentElement.scrollLeft;
+    //            rY = document.documentElement.scrollTop;
+    //        }
+    //        else if (document.body) {
+    //            rX = document.body.scrollLeft;
+    //            rY = document.body.scrollTop;
+    //        }
+    //        if (document.all) {
+    //            cX += rX;
+    //            cY += rY;
+    //        }
+    //        d.style.left = (cX + 10) + "px";
+    //        d.style.top = (cY + 10) + "px";
+    //        d.style.left = "500px";
+    //        d.style.top = "50px";
+    //    }
+
+    //    function HideContent(d) {
+    //        if (d.length < 1) { return; }
+    //        document.getElementById(d).style.display = "none";
+    //    }
+
+    //    function ShowContent(d) {
+    //        if (d.length < 1) { return; }
+    //        var dd = document.getElementById(d);
+    //        AssignPosition(dd);
+    //        dd.style.display = "block";
+    //    }
+
+    //    function ReverseContentDisplay(d) {
+    //        if (d.length < 1) { return; }
+    //        var dd = document.getElementById(d);
+    //        AssignPosition(dd);
+    //        if (dd.style.display == "none") { dd.style.display = "block"; }
+    //        else { dd.style.display = "none"; }
+    //    }
+    //    //-->
