@@ -128,6 +128,31 @@ namespace LarpPortal.Classes
             
         }
 
+        public static bool isValidPhoneNumber(string strPhone)
+        {
+            if (string.IsNullOrWhiteSpace(strPhone))
+                return false;
+
+            strPhone = strPhone.Trim();
+            //Make sure all values are digits
+            if (strPhone.All(x => Char.IsDigit(x)) == false)
+                return false;
+            //This line is a substitute to remove any non-digits and only if we ever disable check above
+            //string strPhone = string.Join(string.Empty, strPhone.Where(x => Char.IsDigit(x)).ToArray());
+
+            //800s, 900, and zero digits on first position are not okay
+            if (strPhone.StartsWith("8") || strPhone.StartsWith("9") || strPhone.StartsWith("0"))
+                return false;
+
+            // Get all the digits from the string and make sure we have ten numeric value
+            return (strPhone.Length == 10);
+        }
+
+        public bool isValidPhoneNumber()
+        {
+            return isValidPhoneNumber(AreaCode + PhoneNumber);
+        }
+
         public Boolean SaveUpdate()
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors

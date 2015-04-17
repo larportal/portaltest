@@ -19,31 +19,11 @@ namespace LarpPortal
         private Classes.cUser Demography = null;
         private Classes.cPlayer PLDemography = null;
 
-        private bool isValidEmail(string email)
-        {
-            return Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
-                RegexOptions.IgnoreCase);
-        }
-
-        private bool isValidPhoneNumber(string strPhone)
-        {
-            if (string.IsNullOrWhiteSpace(strPhone))
-                return false;
-
-            strPhone = strPhone.Trim();
-            //Make sure all values are digits
-            if (strPhone.All(x => Char.IsDigit(x)) == false)
-                return false;
-            //This line is a substitute to remove any non-digits and only if we ever disable check above
-            //string strPhone = string.Join(string.Empty, strPhone.Where(x => Char.IsDigit(x)).ToArray());
-
-            //800s, 900, and zero digits on first position are not okay
-            if (strPhone.StartsWith("8") || strPhone.StartsWith("9") || strPhone.StartsWith("0"))
-                return false;
-
-            // Get all the digits from the string and make sure we have ten numeric value
-            return (strPhone.Length == 10);
-        }
+        //private bool isValidEmail(string email)
+        //{
+        //    return Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
+        //        RegexOptions.IgnoreCase);
+        //}
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -131,6 +111,9 @@ namespace LarpPortal
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            //Since no matter what happens in this routine we want to preserve the state of the grids, we bind them now
+            BindAllGrids();
+
             if (!string.IsNullOrWhiteSpace(txtFirstName.Text))
                 Demography.FirstName = txtFirstName.Text.Trim();
 
@@ -165,8 +148,11 @@ namespace LarpPortal
              * 1)  Figure out saving addresses, phones, etc. grids first 
              * Jeff mention keep my eye on the enum to flag deletes properly
              */
+            // Using the inital records merge result with the new ones.
+            if (AddressesChangesValidate() == false)
+                return;
 
-            if (!isValidPhoneNumber(txtEmergencyPhone.Text))
+            if (!cPhone.isValidPhoneNumber(txtEmergencyPhone.Text))
             {
                 lblMessage.Text = "Please enter a valid phone number";
                 txtEmergencyPhone.Focus();
@@ -177,11 +163,14 @@ namespace LarpPortal
             {
                 PLDemography.EmergencyContactPhone = txtEmergencyPhone.Text;
             }
+
            
 
             /* 3) handle picture update/add.
              */
 
+            //At this point all validation must have been done so it is time to merge lists 
+            AddressesChangesUpdate();
 
             /* As I validate I will place the new values on the component prior to saving the values*/
             Demography.Save();
@@ -190,11 +179,205 @@ namespace LarpPortal
             lblMessage.Text = "Changes saved successfully.";
         }
 
-        protected void gv_Address_RowCommand(object sender, GridViewCommandEventArgs e)
+        private void AddressesChangesUpdate()
         {
+            List<cAddress> addresses = Session["dem_Addresses"] as List<cAddress>;
 
+            int userId = (int)Session["UserID"];
+            //For each element of the original list perform one of the following:
+            //If update, update information
+            //If delete, mark record for delete
+            //If new, mark record for adding
+            cAddress a1 = null;
+
+            if (Demography.UserAddresses != null)
+            {
+                foreach (cAddress a in Demography.UserAddresses) //state in database
+                {
+                    a1 = addresses.FirstOrDefault(x => x.IntAddressID == a.IntAddressID); //If record not found in memory that means it was deleted
+                    a1.SaveUpdate(userId, a1 == null);
+                    
+                }
+            }
+
+            a1 = addresses.FirstOrDefault(x => x.IntAddressID <= 0);
+            if (a1 != null && a1.IsValid()) // If new and valid, let push it to the database
+            {
+                a1.SaveUpdate(userId);
+            }
         }
 
+        private bool AddressesChangesValidate()
+        {
+            // First check if a new valid record was inserted
+            if (Session["dem_Addresses"] != null)
+            {                
+                List<cAddress> addresses = Session["dem_Addresses"] as List<cAddress>;
+
+                foreach (cAddress a in addresses)
+                {
+                    if (a.IntAddressID > 0 && !a.IsValid()) //if new records are invalid that is okay they will not make it to the database.
+                    {
+                        lblMessage.Text = a.strErrorDescription;
+                        return false;
+                    }                    
+                }
+            }
+
+            return true;
+        }
+                
+        protected void gv_Address_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            List<cAddress> addresses = null;
+            int gindex = -1;
+            cAddress address = null;
+            if (int.TryParse(e.CommandArgument.ToString(), out gindex))
+            {
+                addresses = Session["dem_Addresses"] as List<Classes.cAddress>;
+                if (gindex < addresses.Count())
+                    address = addresses[gindex];
+            }
+            else
+            {
+                //maybe send error on the screen to notify that the record does not exists
+                return;
+            }
+
+            switch (e.CommandName.ToUpper())
+            {
+                //case "DELETEITEM":
+                //    {
+                //        if (address != null) //We need to have at least one record so we adding can be possible
+                //        {
+                //            if (addresses.Count > 0)
+                //            {
+                //                addresses.Remove(address);
+                //            }
+                //            else //If they want to delete the only item we have, we still need an empty element to add information.....
+                //            {
+                //                addresses = new List<cAddress>() { new cAddress() };
+                //            }
+                //            Session["dem_Addresses"] = addresses;
+                //            BindAllGrids();
+                //        }
+                //        break;
+                //    }
+
+                case "EDIT":
+                case "EDITITEM":
+                    {
+                        if (address != null)
+                        {
+                            gv_Address.EditIndex = gindex;
+                        }
+                        BindAllGrids();
+                        break;
+                    }
+            }
+        }
+
+        private void BindAllGrids()
+        {
+            gv_Address.DataSource = Session["dem_Addresses"] as List<cAddress>;
+            gv_Address.DataBind();
+        }
+
+        protected void gv_Address_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView gv = (GridView)sender;
+            // Change the row state
+            gv.Rows[e.NewEditIndex].RowState = DataControlRowState.Edit;
+        }
+
+        protected void gv_Address_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {            
+            List<cAddress> addresses = null;
+            int gindex = e.RowIndex;
+            cAddress address = new cAddress(); ;
+            GridView gv = (GridView)sender;
+            addresses = Session["dem_Addresses"] as List<Classes.cAddress>;
+            if (gindex < addresses.Count())
+            {
+
+                address.StrAddress1 = (e.NewValues["StrAddress1"] + string.Empty).ToString().Trim();
+                address.StrAddress2 = (e.NewValues["StrAddress2"] + string.Empty).ToString().Trim();
+                address.StrCity = (e.NewValues["StrCity"] + string.Empty).ToString().ToUpper().Trim();
+                address.StrStateID = (e.NewValues["StrStateID"] + string.Empty).ToString().Trim();
+                address.StrPostalCode = (e.NewValues["StrPostalCode"] + string.Empty).ToString().Trim();
+                address.StrCountry = (e.NewValues["StrCountry"] + string.Empty).ToString().ToUpper().Trim();
+                int iRetVal = 0;
+                int.TryParse((gv.Rows[gindex].FindControl("ddAddressType") as DropDownList).SelectedValue, out iRetVal); //only native types can be returned so temp variable
+                address.IntAddressTypeID = iRetVal;
+                address.IsPrimary = (gv.Rows[gindex].FindControl("rbtnPrimary") as RadioButton).Checked;
+                if (address.IsValid())
+                {
+                    addresses[gindex].StrAddress1 = address.StrAddress1;
+                    addresses[gindex].StrAddress2 = address.StrAddress2;
+                    addresses[gindex].StrCity = address.StrCity;
+                    addresses[gindex].StrStateID = address.StrStateID;
+                    addresses[gindex].StrPostalCode = address.StrPostalCode;
+                    addresses[gindex].StrCountry = address.StrCountry;
+                    addresses[gindex].IntAddressTypeID = address.IntAddressTypeID;
+                    addresses[gindex].IsPrimary = address.IsPrimary;
+                    Session["dem_Addresses"] = addresses;
+                    gv.Rows[gindex].RowState = DataControlRowState.Normal;
+                    gv_Address.EditIndex = -1;
+                }
+                else
+                {
+                    lblMessage.Text = address.strErrorDescription;
+                    e.Cancel = true;
+                }
+            }
+            BindAllGrids();
+        }
+
+        protected void gv_Address_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            gv_Address.EditIndex = -1;
+            BindAllGrids();
+        }
         
+        protected void gv_Address_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            List<cAddress> addresses = Session["dem_Addresses"] as List<Classes.cAddress>;
+            if (e.RowIndex < addresses.Count)
+            {
+                addresses.RemoveAt(e.RowIndex); //always delete because it they are tring to delete the empty row it is better to delete and add the row, rather than to clear all properties
+            }
+                
+            if (addresses.Count == 0)   //Always make sure that there is one empty row for users to add information
+                addresses.Add(new cAddress()); 
+
+            Session["dem_Addresses"] = addresses;
+
+            BindAllGrids();
+        }
+
+        protected void gv_Address_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {                
+                DropDownList ddlCategories = e.Row.FindControl("ddAddressType") as DropDownList;
+                if (ddlCategories != null)
+                {
+                    //Get the data from DB and bind the dropdownlist
+                    ddlCategories.SelectedValue = (e.Row.DataItem as cAddress).IntAddressTypeID.ToString();
+                    ddlCategories.Enabled = false;
+                    if (e.Row.RowState == DataControlRowState.Edit)
+                        ddlCategories.Enabled = true;
+                }
+
+                RadioButton rbtn = e.Row.FindControl("rbtnPrimary") as RadioButton;
+                if (rbtn != null)
+                {
+                    rbtn.Checked = (e.Row.DataItem as cAddress).IsPrimary;
+                    rbtn.Enabled = false;
+                    if (e.Row.RowState == DataControlRowState.Edit)
+                        rbtn.Enabled = true;
+                }
+            }
+        }        
     }
 }
