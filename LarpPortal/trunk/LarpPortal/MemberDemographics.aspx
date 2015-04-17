@@ -122,12 +122,24 @@
                                     <!-- AlternatingRowStyle-BackColor="Linen" BorderColor="Black" BorderWidth="1px" BorderStyle="Solid"
                                          Caption="<span style='font-size: larger; font-weight: bold;'>Addresses</span>"
                                        -->  
-                                        
+        <%--<asp:UpdatePanel ID="gvAddressPanel" runat="server">
+            <ContentTemplate>
+        --%>                                       
 
                                     <asp:GridView ID="gv_Address" runat="server" AutoGenerateColumns="false"  Width="100%" TabIndex="14"
-                                        OnRowCommand="gv_Address_RowCommand" 
+                                        DataKeyNames="IntAddressID"
+                                        OnRowCommand="gv_Address_RowCommand" OnRowDataBound="gv_Address_RowDataBound"                                     
+                                        OnRowEditing="gv_Address_RowEditing" OnRowUpdating="gv_Address_RowUpdating" OnRowCancelingEdit="gv_Address_RowCancelingEdit"
+                                        OnRowDeleting="gv_Address_RowDeleting"
                                         CssClass="panel-container-table">
                                         <Columns>
+                                            <%--<asp:TemplateField HeaderText="Address 1">
+                                                <ItemTemplate>
+                                                    <asp:TextBox ID="Address1" runat="server" Text='<%# Bind("StrAddress1") %>'></asp:TextBox>
+                                                        
+                                                </ItemTemplate>
+                                            </asp:TemplateField>--%>
+
                                             <asp:BoundField DataField="StrAddress1" HeaderText="Address 1" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
                                             <asp:BoundField DataField="StrAddress2" HeaderText="Address 2" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
                                             <asp:BoundField DataField="StrCity" HeaderText="City" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
@@ -136,40 +148,48 @@
                                             <asp:BoundField DataField="StrCountry" HeaderText="Country" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />                                            
                                             <asp:TemplateField HeaderText="Type" ItemStyle-Width="16" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
-                                                    <asp:DropDownList runat="server" ID="ddAddressType" DataTextField="strAddressType"  >
-                                                        <asp:ListItem Text="mailing" Value="mailing"></asp:ListItem>
-                                                        <asp:ListItem Text="home" Value="home"></asp:ListItem>
+                                                    <!-- At some point I need to disable this two custom controls and enable only when editing to avoid confusions on the save -->
+                                                    <asp:DropDownList runat="server" ID="ddAddressType" DataTextField="strAddressTypeId"  >
+                                                        <asp:ListItem Text="None" Value="0" disabled="disabled"></asp:ListItem>
+                                                        <asp:ListItem Text="Home" Value="1"></asp:ListItem>
+                                                        <asp:ListItem Text="Mailing" Value="2"></asp:ListItem>
+                                                        <asp:ListItem Text="Work" Value="3"></asp:ListItem>
+                                                        <asp:ListItem Text="Site" Value="4"></asp:ListItem>
                                                     </asp:DropDownList>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             
                                             <asp:TemplateField  HeaderText="Primary" ItemStyle-Width="16" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
-                                                    <asp:RadioButton runat="server" ID="Primary" DataTextField="IsPrimary" />
+                                                    <asp:RadioButton runat="server" ID="rbtnPrimary" DataTextField="IsPrimary" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             
+                                            <asp:CommandField ShowEditButton="true" ButtonType="Image" EditImageUrl="~/img/edit.gif" ItemStyle-Width="20px" 
+                                                UpdateImageUrl="~/img/add22x22.png" CancelImageUrl="~/img/delete.png" />
 
-                                            <asp:TemplateField ShowHeader="False" ItemStyle-Width="16" ItemStyle-Wrap="false">
+                                            <asp:CommandField ShowDeleteButton="true" ButtonType="Image" DeleteImageUrl="~/img/delete.png" ItemStyle-Width="20px" />
+
+                                            <%--<asp:TemplateField ShowHeader="False" ItemStyle-Width="16" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
-                                                    <asp:ImageButton ID="ibtnEdit" runat="server" CausesValidation="false" CommandName="EditItem" CssClass="NoRightPadding"
+                                                    <asp:ImageButton ID="ibtnEdit" runat="server" CausesValidation="false" CommandName="Edit" CssClass="NoRightPadding"
                                                         ImageUrl="~/img/edit.gif" CommandArgument='<%# Eval("IntAddressID") %>' Width="16px" />
                                                 </ItemTemplate>
-                                            </asp:TemplateField>
+                                            </asp:TemplateField>--%>
 
-                                            <asp:TemplateField ShowHeader="False" ItemStyle-Width="16" ItemStyle-Wrap="false">
+                                            <%--<asp:TemplateField ShowHeader="False" ItemStyle-Width="16" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
                                                     <asp:ImageButton ID="ibtnDelete" runat="server" CausesValidation="false" CommandName="DeleteItem" CssClass="NoRightPadding"
                                                         ImageUrl="~/img/delete.png" CommandArgument='<%# Eval("IntAddressID") %>' Width="16px" />
                                                 </ItemTemplate>
-                                            </asp:TemplateField>
+                                            </asp:TemplateField>--%>
                                         </Columns>
                                          <%--<EmptyDataTemplate>
                                            <asp:TextBox ID="tbEmptyInsert" runat="server"></asp:TextBox><br />
                                            <asp:Button ID="btSend" Text="Insert" runat="server" CommandName="EmptyInsert" UseSubmitBehavior="False" />
                                         </EmptyDataTemplate>--%>
                                     </asp:GridView>
-
+            <%--    </ContentTemplate></asp:UpdatePanel>--%>
 
 <%--                                    <asp:GridView ID="gvPlaces" runat="server" AutoGenerateColumns="false" GridLines="none"
                                 AlternatingRowStyle-BackColor="Linen" BorderColor="Black" BorderWidth="1px" BorderStyle="Solid"

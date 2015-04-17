@@ -274,6 +274,7 @@ namespace LarpPortal.Classes
                 DataTable ldt = cUtilities.LoadDataTable("uspGetAddressByKey", slParams, "LARPortal", _LoginName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
+                    _UserAddresses = new List<cAddress>();
                     foreach(DataRow ldr in ldt.Rows)
                     {
                         cAddress cAdd = new cAddress(ldr["AddressID"].ToString().Trim().ToInt32(), _LoginName, _UserID);

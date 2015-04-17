@@ -14,8 +14,13 @@ namespace LarpPortal.Classes
 
         public bool IsPrimary { get; set; }
 
-        public string strAddressType { get; set; }
+        public int IntAddressTypeID { get; set; }
 
+        /// <summary>
+        /// When any validation is perform it tell what was wrong
+        /// </summary>
+        public string strErrorDescription { get; private set; }
+                        
         string strUserName = "";
         /// <summary>
         /// Table: MDBAddresses Field: AddressID  Notes: This field identifies the address record
@@ -209,6 +214,8 @@ namespace LarpPortal.Classes
                     if (ldt.Rows[0]["Address2"] != null) { _StrAddress2 = ldt.Rows[0]["Address2"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["City"] != null) { _StrCity = ldt.Rows[0]["City"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["StateID"] != null) { _StrStateID = ldt.Rows[0]["StateID"].ToString(); }//Table MDBAddresses
+                    if (ldt.Rows[0]["AddressTypeID"] != null) { IntAddressTypeID = (Int32)ldt.Rows[0]["AddressTypeID"]; }//Table MDBAddresses
+                    if (ldt.Rows[0]["PrimaryAddress"] != null) { IsPrimary = (bool)ldt.Rows[0]["PrimaryAddress"]; }//Table MDBAddresses                    
                     if (ldt.Rows[0]["PostalCode"] != null) { _StrPostalCode = ldt.Rows[0]["PostalCode"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["Country"] != null) { _StrCountry = ldt.Rows[0]["Country"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["MDBStatesStateName"] != null) { _StateName = ldt.Rows[0]["MDBStatesStateName"].ToString(); } //Table Table MDBStates
@@ -227,7 +234,49 @@ namespace LarpPortal.Classes
 
         }
 
-       
+        /// <summary>
+        /// This method tells if the currect state of the record is valid
+        /// </summary>
+        /// <returns></returns>
+        public bool IsValid()
+        {
+            strErrorDescription = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(StrAddress1))
+            {
+                strErrorDescription = "Address 1 must be entered";
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(StrCity))
+            {
+                strErrorDescription = "City must be entered";
+                return false;
+            }
+
+            if (isValidZipCode(StrPostalCode) == false)
+            {
+                strErrorDescription = (StrPostalCode ?? string.Empty) + "in not a valid Postal Code (please enter 5 numbers)";
+                return false;
+            }
+
+            return true;
+        }
+
+        public static bool isValidZipCode(string zipCode)
+        {
+            if (string.IsNullOrWhiteSpace(zipCode))
+                return false;
+
+            zipCode = zipCode.Trim();
+            //Make sure all values are digits
+            if (zipCode.All(x => Char.IsDigit(x)) == false)
+                return false;
+                        
+            // Get all the digits from the string and make sure we have 5 numeric value
+            return (zipCode.Length == 5);
+        }
+                       
         /// <summary>
         /// Deletes, Updates, or Creates Address in the database
         /// </summary>
@@ -243,21 +292,25 @@ namespace LarpPortal.Classes
             {
                 if(delete)
                 {
-                    slParams.Add("@Paramater1", userID);
-                    slParams.Add("@Paramater2", _IntAddressID);
-                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("upsDelMDBAddresses", slParams, "DefaultSQLConnection", strUserName);
+                    slParams.Add("@RecordID", _IntAddressID);
+                    slParams.Add("@UserID", userID);
+                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("upsDelMDBAddresses", slParams, "LARPortal", strUserName);
                 }
                 else
                 {
-                    slParams.Add("@Paramater1", userID);
-                    slParams.Add("@Paramater2", _IntAddressID);
-                    slParams.Add("@Paramater3", _StrAddress1);
-                    slParams.Add("@Paramater4", _StrAddress2);
-                    slParams.Add("@Paramater5", _StrCity);
-                    slParams.Add("@Paramater6", _StrStateID);
-                    slParams.Add("@Paramater7", _StrPostalCode);
-                    slParams.Add("@Paramater8", _StrCountry);
-                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("uspInsMDBAddresses", slParams, "DefaultSQLConnection", strUserName);
+                    slParams.Add("@UserID", userID);
+                    slParams.Add("@AddressID", _IntAddressID);
+                    slParams.Add("@KeyID", userID);
+                    slParams.Add("@KeyType", "cUser");
+                    slParams.Add("@AddressTypeID", IntAddressTypeID);
+                    slParams.Add("@PrimaryAddress", IsPrimary);
+                    slParams.Add("@Address1", _StrAddress1);
+                    slParams.Add("@Address2", _StrAddress2);
+                    slParams.Add("@City", _StrCity);
+                    slParams.Add("@StateID", _StrStateID);
+                    slParams.Add("@PostalCode", _StrPostalCode);
+                    slParams.Add("@Country", _StrCountry);
+                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBAddresses", slParams, "LARPortal", strUserName);
                     
                 }
 
