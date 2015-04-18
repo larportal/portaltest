@@ -66,6 +66,8 @@ namespace LarpPortal.Classes
         public int CampaignID { get; set; }
         public string CampaignName { get; set; }
         public int CharacterSkillSetID { get; set; }
+        public int TeamID { get; set; }
+        public string TeamName { get; set; }
 
         public List<cPlace> Places = new List<cPlace>();
         public List<cCharacterDeath> Deaths = new List<cCharacterDeath>();
@@ -199,6 +201,14 @@ namespace LarpPortal.Classes
 
                 if (int.TryParse(dRow["CharacterSkillSetID"].ToString(), out iTemp))
                     CharacterSkillSetID = iTemp;
+
+                if (int.TryParse(dRow["TeamID"].ToString(), out iTemp))
+                {
+                    TeamID = iTemp;
+                    TeamName = dRow["TeamName"].ToString();
+                }
+                else
+                    TeamName = "";
             }
 
             foreach (DataRow dItems in dsCharacterInfo.Tables["CharacterItems"].Rows)

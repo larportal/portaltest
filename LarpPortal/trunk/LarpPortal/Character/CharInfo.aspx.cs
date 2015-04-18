@@ -71,7 +71,7 @@ namespace LarpPortal.Character
 //                        tbType.Text = cChar.CharType.Description;
                         lblType.Text = cChar.CharType.Description;
                         tbTeam.Text = "Team";
-                        lblTeam.Text = "";
+                        lblTeam.Text = cChar.TeamName;
                         tbNumOfDeaths.Text = cChar.Deaths.Count.ToString();
                         lblNumOfDeaths.Text = cChar.Deaths.Count.ToString();
                         tbDOB.Text = cChar.DateOfBirth;
