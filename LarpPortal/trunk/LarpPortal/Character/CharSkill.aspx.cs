@@ -20,12 +20,16 @@ namespace LarpPortal.Character
         {
             if (!IsPostBack)
                 tvSkills.Attributes.Add("onclick", "postBackByObject()");
+            string Msg = "PageLoad: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+            AddLogMessage(Msg);
         }
 
         DataTable dtCharSkills = null;
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            string Msg = "PagePreRender: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+            AddLogMessage(Msg);
             if (!IsPostBack)
             {
                 if (Session["CurrentCharacter"] == null)
@@ -46,7 +50,7 @@ namespace LarpPortal.Character
                             Classes.cCharacter cChar = new Classes.cCharacter();
                             cChar.LoadCharacter(iCharID);
 
-                            string Msg = "CharacterLoaded: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                            Msg = "CharacterLoaded: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
                             AddLogMessage(Msg);
 
                             TotalCP = cChar.TotalCP;
@@ -66,8 +70,6 @@ namespace LarpPortal.Character
                             Session["Skills"] = _dtSkills;
                             Session["ExcludeSkills"] = dsSkillSets.Tables[2];
 
-//                            TreeNode MainNode = new TreeNode("Skills");
-
                             Msg = "About to populate skill tree: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
                             AddLogMessage(Msg);
 
@@ -75,6 +77,7 @@ namespace LarpPortal.Character
                             foreach (DataRowView dvRow in dvTopNodes)
                             {
                                 TreeNode NewNode = new TreeNode();
+                                NewNode.ShowCheckBox = true;
                                 NewNode.Text = FormatDescString(dvRow);
 
                                 int iNodeID;
@@ -86,7 +89,6 @@ namespace LarpPortal.Character
                                         if (dtCharSkills.Select("CampaignSkillsStandardID = " + iNodeID.ToString()).Length > 0)
                                             NewNode.Checked = true;
                                         NewNode.SelectAction = TreeNodeSelectAction.None;
-//                                        NewNode.NavigateUrl = "javascript:void(0);";
                                         PopulateTreeView(iNodeID, NewNode);
                                     }
                                     NewNode.Expanded = false;
@@ -94,6 +96,11 @@ namespace LarpPortal.Character
                                 }
                             }
                             Msg = "Done populating: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                            AddLogMessage(Msg);
+
+                            CheckExclusions();
+
+                            Msg = "Done checking exclusions: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
                             AddLogMessage(Msg);
 
                             Session["CurrentSkillTree"] = tvSkills;
@@ -121,6 +128,7 @@ namespace LarpPortal.Character
                 if (int.TryParse(dr["CampaignSkillsStandardID"].ToString(), out iNodeID))
                 {
                     TreeNode childNode = new TreeNode();
+                    childNode.ShowCheckBox = true;
                     childNode.Text = FormatDescString(dr);
 
                     childNode.Expanded = false;
@@ -131,10 +139,17 @@ namespace LarpPortal.Character
                     childNode.SelectAction = TreeNodeSelectAction.None;
                     childNode.NavigateUrl = "javascript:void(0);";
                     parentNode.ChildNodes.Add(childNode);
+                    //                    if ( childNode.Depth < 3 )
                     PopulateTreeView(iNodeID, childNode);
                 }
             }
-            CheckExclusions();
+            //            Msg = "Done populating, start exclusions: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+            //            AddLogMessage(Msg);
+
+            ////            CheckExclusions();
+
+            //            Msg = "Done with exclusions: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+            //            AddLogMessage(Msg);
         }
 
         protected void tvSkills_TreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
@@ -320,7 +335,8 @@ namespace LarpPortal.Character
                 dTreeNode["SkillShortDescription"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + "<br><br>" +
                 "Cost: " + dTreeNode["SkillCPCost"].ToString() + "<br><br>" +
                 dTreeNode["SkillLongDescription"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + @"'; return true;"" " +
-                @"href=""javascript:ShowContent('divDesc')"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() + @"</a>";
+                @"href=""javascript:ShowContent('divDesc')"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() +
+                    " - " + dTreeNode["CampaignSkillsStandardID"].ToString() + @"</a>";
 
             return sTreeNode;
         }
@@ -412,6 +428,9 @@ namespace LarpPortal.Character
                 newTn = new TreeNode(tn.Text, tn.Value);
                 newTn.Checked = tn.Checked;
                 newTn.Expanded = tn.Expanded;
+                newTn.ShowCheckBox = tn.ShowCheckBox;
+                newTn.ImageUrl = tn.ImageUrl;
+
                 CopyChildren(newTn, tn);
                 DesSourceView.Nodes.Add(newTn);
             }
@@ -424,6 +443,9 @@ namespace LarpPortal.Character
                 newTn = new TreeNode(tn.Text, tn.Value);
                 newTn.Checked = tn.Checked;
                 newTn.Expanded = tn.Expanded;
+                newTn.ShowCheckBox = tn.ShowCheckBox;
+                newTn.ImageUrl = tn.ImageUrl;
+
                 parent.ChildNodes.Add(newTn);
                 CopyChildren(newTn, tn);
             }
@@ -442,9 +464,9 @@ namespace LarpPortal.Character
         private void CheckChildNodes(TreeNode NodeToCheck, string sValueToCheckFor)
         {
             if (NodeToCheck.Value == sValueToCheckFor)
-                if ( NodeToCheck.Parent != null)
+                if (NodeToCheck.Parent != null)
                     if (!NodeToCheck.Parent.Checked)
-                     bMeetAllRequirements = false;
+                        bMeetAllRequirements = false;
 
             foreach (TreeNode trChildNode in NodeToCheck.ChildNodes)
                 CheckChildNodes(trChildNode, sValueToCheckFor);
@@ -478,8 +500,8 @@ namespace LarpPortal.Character
 
             foreach (TreeNode tNode in tvSkills.Nodes)
             {
-                if (tNode.Value == ValueToSearchFor)
-                    FoundNodes.Add(tNode);
+                //if (tNode.Value == ValueToSearchFor)
+                //    FoundNodes.Add(tNode);
                 SearchChildren(tNode, FoundNodes, ValueToSearchFor);
             }
 
@@ -529,6 +551,9 @@ namespace LarpPortal.Character
                 List<TreeNode> FoundNodes = FindNodesByValue(sSkill);
                 foreach (TreeNode tNode in FoundNodes)
                 {
+                    if ((tNode.ShowCheckBox.HasValue) && (!(tNode.ShowCheckBox.Value)))
+                        continue;
+
                     DataView dvPreReq = new DataView(dtExclusions, "PreRequisiteSkillID = " + sSkill, "", DataViewRowState.CurrentRows);
                     foreach (DataRowView dExclude in dvPreReq)
                     {
@@ -536,7 +561,11 @@ namespace LarpPortal.Character
                         List<TreeNode> ExcludedNodes = FindNodesByValue(sExc);
                         foreach (TreeNode tnExc in ExcludedNodes)
                             if (tNode.Checked)
-                                DisableChildren(tnExc);
+                            {
+                                if ((!tnExc.ShowCheckBox.HasValue) ||
+                                    ((tnExc.ShowCheckBox.HasValue ) && ( tnExc.ShowCheckBox.Value == true)))
+                                    DisableChildren(tnExc);
+                            }
                             else
                                 EnableChildren(tnExc);
                     }
