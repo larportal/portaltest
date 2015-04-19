@@ -335,8 +335,7 @@ namespace LarpPortal.Character
                 dTreeNode["SkillShortDescription"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + "<br><br>" +
                 "Cost: " + dTreeNode["SkillCPCost"].ToString() + "<br><br>" +
                 dTreeNode["SkillLongDescription"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + @"'; return true;"" " +
-                @"href=""javascript:ShowContent('divDesc')"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() +
-                    " - " + dTreeNode["CampaignSkillsStandardID"].ToString() + @"</a>";
+                @"href=""javascript:ShowContent('divDesc')"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() + @"</a>";
 
             return sTreeNode;
         }
@@ -585,7 +584,7 @@ namespace LarpPortal.Character
         {
             SortedList sParam = new SortedList();
             sParam.Add("@Msg", Msg);
-            Classes.cUtilities.PerformNonQuery("uspInsSystemLog", sParam, "LARPortal", Session["UserName"].ToString());
+//            Classes.cUtilities.PerformNonQuery("uspInsSystemLog", sParam, "LARPortal", Session["UserName"].ToString());
         }
     }
 }
