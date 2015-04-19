@@ -140,16 +140,16 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>--%>
 
-                                            <asp:BoundField DataField="StrAddress1" HeaderText="Address 1" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
-                                            <asp:BoundField DataField="StrAddress2" HeaderText="Address 2" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
-                                            <asp:BoundField DataField="StrCity" HeaderText="City" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
-                                            <asp:BoundField DataField="StrStateID" HeaderText="State" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
-                                            <asp:BoundField DataField="StrPostalCode" HeaderText="Postal/Zip Code" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
-                                            <asp:BoundField DataField="StrCountry" HeaderText="Country" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />                                            
-                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="16" ItemStyle-Wrap="false">
+                                            <asp:BoundField DataField="StrAddress1" HeaderText="Address 1" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
+                                            <asp:BoundField DataField="StrAddress2" HeaderText="Address 2" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
+                                            <asp:BoundField DataField="StrCity" HeaderText="City" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
+                                            <asp:BoundField DataField="StrStateID" HeaderText="State" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
+                                            <asp:BoundField DataField="StrPostalCode" HeaderText="Postal/Zip Code" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
+                                            <asp:BoundField DataField="StrCountry" HeaderText="Country" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />                                            
+                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="8%" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
                                                     <!-- At some point I need to disable this two custom controls and enable only when editing to avoid confusions on the save -->
-                                                    <asp:DropDownList runat="server" ID="ddAddressType" DataTextField="strAddressTypeId"  >
+                                                    <asp:DropDownList runat="server" ID="ddAddressType" DataTextField="strAddressTypeId" Width="50px"  >
                                                         <asp:ListItem Text="None" Value="0" disabled="disabled"></asp:ListItem>
                                                         <asp:ListItem Text="Home" Value="1"></asp:ListItem>
                                                         <asp:ListItem Text="Mailing" Value="2"></asp:ListItem>
@@ -159,16 +159,16 @@
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             
-                                            <asp:TemplateField  HeaderText="Primary" ItemStyle-Width="16" ItemStyle-Wrap="false">
+                                            <asp:TemplateField  HeaderText="Primary" ItemStyle-Width="30px" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
                                                     <asp:RadioButton runat="server" ID="rbtnPrimary" DataTextField="IsPrimary" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                             
-                                            <asp:CommandField ShowEditButton="true" ButtonType="Image" EditImageUrl="~/img/edit.gif" ItemStyle-Width="20px" 
+                                            <asp:CommandField ShowEditButton="true" ButtonType="Image" EditImageUrl="~/img/edit.gif" ItemStyle-Width="22px" 
                                                 UpdateImageUrl="~/img/add22x22.png" CancelImageUrl="~/img/delete.png" />
 
-                                            <asp:CommandField ShowDeleteButton="true" ButtonType="Image" DeleteImageUrl="~/img/delete.png" ItemStyle-Width="20px" />
+                                            <asp:CommandField ShowDeleteButton="true" ButtonType="Image" DeleteImageUrl="~/img/delete.png" ItemStyle-Width="22px" />
 
                                             <%--<asp:TemplateField ShowHeader="False" ItemStyle-Width="16" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
@@ -228,7 +228,42 @@
                                     <h2>Phone Numbers</h2>
                                 </div>
                                 <div class="panel-body">
-                                    <asp:GridView ID="gv_PhoneNums" runat="server" TabIndex="15" CssClass="panel-container-table" Width="100%"></asp:GridView>
+                                   
+                                    <asp:GridView ID="gv_PhoneNums" runat="server" AutoGenerateColumns="false" Width="100%" TabIndex="15" 
+                                        OnRowCommand="gv_PhoneNums_RowCommand" OnRowDataBound="gv_PhoneNums_RowDataBound"
+                                        OnRowEditing="gv_PhoneNums_RowEditing" OnRowUpdating="gv_PhoneNums_RowUpdating" OnRowCancelingEdit="gv_PhoneNums_RowCancelingEdit"
+                                        OnRowDeleting="gv_PhoneNums_RowDeleting"
+                                        CssClass="panel-container-table">
+                                        <Columns>
+                                            <asp:BoundField DataField="AreaCode" HeaderText="Area Code" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="30px" />
+                                            <asp:BoundField DataField="PhoneNumber" HeaderText="Phone #" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="60px" />
+                                            <asp:BoundField DataField="Extension" HeaderText="Extension" ItemStyle-CssClass ="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="90px" />
+                                           <asp:TemplateField HeaderText="Type" ItemStyle-Width="50px">
+                                               <ItemTemplate>
+                                                   <asp:DropDownList runat="server" ID="ddPhoneNumber" DataTextField="PhoneTypeID">
+                                                       <asp:ListItem Text="None" Value="0" disabled="disabled"></asp:ListItem>
+                                                       <asp:ListItem Text="Home" Value="1"></asp:ListItem>
+                                                       <asp:ListItem Text="Mobile" Value="2"></asp:ListItem>
+                                                       <asp:ListItem Text="Fax" Value="3"></asp:ListItem>
+                                                       <asp:ListItem Text="Work" Value="4"></asp:ListItem>
+                                                       <asp:ListItem Text="Business" Value="5"></asp:ListItem>
+                                                   </asp:DropDownList>
+                                               </ItemTemplate>
+                                           </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Primary" ItemStyle-Width="30px">
+                                                <ItemTemplate>
+                                                    <asp:RadioButton runat="server" ID="rbtnPrimary1"  />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            
+                                            <asp:CommandField ShowEditButton="true" ButtonType="Image" EditImageUrl="~/img/edit.gif" ItemStyle-Width="22px" 
+                                                UpdateImageUrl="~/img/add22x22.png" CancelImageUrl="~/img/delete.png" />
+
+                                            <asp:CommandField ShowDeleteButton="true" ButtonType="Image" DeleteImageUrl="~/img/delete.png" ItemStyle-Width="22px" />
+
+                                            
+                                        </Columns>
+                                    </asp:GridView>
                                 </div>
                             </div>
                         </div>
@@ -240,7 +275,9 @@
                                     <h2>Email Addresses</h2>
                                 </div>
                                 <div class="panel-body">
+                                    
                                     <asp:GridView ID="gv_Emails" runat="server" TabIndex="16" CssClass="panel-container-table" Width="100%"></asp:GridView>
+                                
                                 </div>
                             </div>
                         </div>

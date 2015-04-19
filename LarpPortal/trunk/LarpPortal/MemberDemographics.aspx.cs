@@ -92,6 +92,15 @@ namespace LarpPortal
                 gv_Address.DataBind();
 
                 Session["dem_Addresses"] = _addresses;
+
+                List<cPhone> _phones = new List<cPhone>();
+                if (Demography.UserPhones != null)
+                    _phones = Demography.UserPhones.ToList();
+                _phones.Add(new cPhone());
+                gv_PhoneNums.DataSource = _phones;
+                gv_PhoneNums.DataBind();
+
+                Session["dem_Phones"] = _phones;
             }
         }
 
@@ -152,9 +161,12 @@ namespace LarpPortal
             if (AddressesChangesValidate() == false)
                 return;
 
-            if (!cPhone.isValidPhoneNumber(txtEmergencyPhone.Text))
+            if (PhoneNumbersChangesValidate() == false)
+                return;
+
+            if (!cPhone.isValidPhoneNumber(txtEmergencyPhone.Text, 10))
             {
-                lblMessage.Text = "Please enter a valid phone number";
+                lblMessage.Text = cPhone.ErrorDescription;
                 txtEmergencyPhone.Focus();
                 return;
             }
@@ -171,6 +183,7 @@ namespace LarpPortal
 
             //At this point all validation must have been done so it is time to merge lists 
             AddressesChangesUpdate();
+            PhonesChangesUpdate();
 
             /* As I validate I will place the new values on the component prior to saving the values*/
             Demography.Save();
@@ -179,6 +192,33 @@ namespace LarpPortal
             lblMessage.Text = "Changes saved successfully.";
         }
 
+        private void PhonesChangesUpdate()
+        {
+            List<cPhone> phones = Session["dem_Phones"] as List<cPhone>;
+
+            int userId = (int)Session["UserID"];
+            //For each element of the original list perform one of the following:
+            //If update, update information
+            //If delete, mark record for delete
+            //If new, mark record for adding
+            cPhone a1 = null;
+
+            if (Demography.UserPhones != null)
+            {
+                foreach (cPhone a in Demography.UserPhones) //state in database
+                {
+                    a1 = phones.FirstOrDefault(x => x.PhoneNumberID == a.PhoneNumberID); //If record not found in memory that means it was deleted
+                    a.SaveUpdate(userId, a1 == null);
+                }
+            }
+
+            a1 = phones.FirstOrDefault(x => x.PhoneNumberID <= 0);
+            if (a1 != null && a1.IsValid()) // If new and valid, let push it to the database
+            {
+                a1.SaveUpdate(userId);
+            }
+        }
+        
         private void AddressesChangesUpdate()
         {
             List<cAddress> addresses = Session["dem_Addresses"] as List<cAddress>;
@@ -195,8 +235,7 @@ namespace LarpPortal
                 foreach (cAddress a in Demography.UserAddresses) //state in database
                 {
                     a1 = addresses.FirstOrDefault(x => x.IntAddressID == a.IntAddressID); //If record not found in memory that means it was deleted
-                    a1.SaveUpdate(userId, a1 == null);
-                    
+                    a.SaveUpdate(userId, a1 == null);                    
                 }
             }
 
@@ -205,6 +244,27 @@ namespace LarpPortal
             {
                 a1.SaveUpdate(userId);
             }
+        }
+
+        private bool PhoneNumbersChangesValidate()
+        {
+            // First check if a new valid record was inserted
+            if (Session["dem_Phones"] != null)
+            {
+                List<cPhone> phones = Session["dem_Phones"] as List<cPhone>;
+
+                foreach (cPhone a in phones)
+                {
+                    if (a.PhoneNumberID > 0 && !a.IsValid()) //if new records are invalid that is okay they will not make it to the database.
+                    {
+                        lblMessage.Text = a.strErrorDescription;
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+
         }
 
         private bool AddressesChangesValidate()
@@ -281,6 +341,9 @@ namespace LarpPortal
         {
             gv_Address.DataSource = Session["dem_Addresses"] as List<cAddress>;
             gv_Address.DataBind();
+
+            gv_PhoneNums.DataSource = Session["dem_Phones"] as List<cPhone>;
+            gv_PhoneNums.DataBind();
         }
 
         protected void gv_Address_RowEditing(object sender, GridViewEditEventArgs e)
@@ -320,6 +383,9 @@ namespace LarpPortal
                     addresses[gindex].StrCountry = address.StrCountry;
                     addresses[gindex].IntAddressTypeID = address.IntAddressTypeID;
                     addresses[gindex].IsPrimary = address.IsPrimary;
+                    if (address.IntAddressID < 1)//Always make sure that there is an extra records to edit, since there is not option to add records
+                        addresses.Add(new cAddress());
+
                     Session["dem_Addresses"] = addresses;
                     gv.Rows[gindex].RowState = DataControlRowState.Normal;
                     gv_Address.EditIndex = -1;
@@ -365,7 +431,7 @@ namespace LarpPortal
                     //Get the data from DB and bind the dropdownlist
                     ddlCategories.SelectedValue = (e.Row.DataItem as cAddress).IntAddressTypeID.ToString();
                     ddlCategories.Enabled = false;
-                    if (e.Row.RowState == DataControlRowState.Edit)
+                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
                         ddlCategories.Enabled = true;
                 }
 
@@ -374,10 +440,135 @@ namespace LarpPortal
                 {
                     rbtn.Checked = (e.Row.DataItem as cAddress).IsPrimary;
                     rbtn.Enabled = false;
-                    if (e.Row.RowState == DataControlRowState.Edit)
+                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
                         rbtn.Enabled = true;
                 }
             }
+        }
+
+        protected void gv_PhoneNums_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            List<cPhone> phones = null;
+            int gindex = -1;
+            cPhone phone = null;
+            if (int.TryParse(e.CommandArgument.ToString(), out gindex))
+            {
+                phones = Session["dem_Phones"] as List<cPhone>;
+                if (gindex < phones.Count())
+                    phone = phones[gindex];
+            }
+            else
+            {
+                return;
+            }
+            switch (e.CommandName.ToUpper())
+            {
+                case "EDIT":
+                case "EDITITEM":
+                    {
+                        if (phones != null)
+                        {
+                            gv_PhoneNums.EditIndex = gindex;
+                        }
+                        BindAllGrids();
+                        break;
+                    }
+            }
+        }
+
+        protected void gv_PhoneNums_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                DropDownList ddlCategories = e.Row.FindControl("ddPhoneNumber") as DropDownList;
+                if (ddlCategories != null)
+                {
+                    //Get the data from DB and bind the dropdownlist
+                    ddlCategories.SelectedValue = (e.Row.DataItem as cPhone).PhoneTypeID.ToString();
+                    ddlCategories.Enabled = false;
+                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
+                        ddlCategories.Enabled = true;
+                }
+
+                RadioButton rbtn = e.Row.FindControl("rbtnPrimary1") as RadioButton;
+                if (rbtn != null)
+                {
+                    rbtn.Checked = (e.Row.DataItem as cPhone).IsPrimary;
+                    rbtn.Enabled = false;
+                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
+                        rbtn.Enabled = true;
+                }
+            }
+        }
+
+        protected void gv_PhoneNums_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView gv = (GridView)sender;
+            // Change the row state
+            gv.Rows[e.NewEditIndex].RowState = DataControlRowState.Edit;
+        }
+
+        protected void gv_PhoneNums_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            List<cPhone> phones = null;
+            int gindex = e.RowIndex;
+            cPhone phone = new cPhone(); ;
+            GridView gv = (GridView)sender;
+            phones = Session["dem_Phones"] as List<Classes.cPhone>;
+            if (gindex < phones.Count())
+            {
+
+                phone.AreaCode = (e.NewValues["AreaCode"] + string.Empty).ToString().Trim();
+                phone.PhoneNumber = (e.NewValues["PhoneNumber"] + string.Empty).ToString().Trim();
+                phone.Extension = (e.NewValues["Extension"] + string.Empty).ToString().ToUpper().Trim();
+                int iRetVal = 0;
+                int.TryParse((gv.Rows[gindex].FindControl("ddPhoneNumber") as DropDownList).SelectedValue, out iRetVal); //only native types can be returned so temp variable
+                phone.PhoneTypeID = iRetVal;
+                phone.IsPrimary = (gv.Rows[gindex].FindControl("rbtnPrimary1") as RadioButton).Checked;
+                if (phone.IsValid())
+                {
+                    phones[gindex].AreaCode = phone.AreaCode;
+                    phones[gindex].PhoneNumber = phone.PhoneNumber;
+                    phones[gindex].Extension = phone.Extension;
+                    phones[gindex].PhoneTypeID = phone.PhoneTypeID;
+                    phones[gindex].IsPrimary = phone.IsPrimary;
+                    if (phone.PhoneNumberID < 1)
+                        phones.Add(new cPhone());
+
+                    Session["dem_Phones"] = phones;
+                    gv.Rows[gindex].RowState = DataControlRowState.Normal;
+                    gv_PhoneNums.EditIndex = -1;
+                }
+                else
+                {
+                    lblMessage.Text = phone.strErrorDescription;
+                    e.Cancel = true;
+                }
+            }
+            BindAllGrids();
+
+        }
+
+        protected void gv_PhoneNums_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            gv_PhoneNums.EditIndex = -1;
+            BindAllGrids();
+        }
+
+        protected void gv_PhoneNums_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            List<cPhone> phones = Session["dem_Phones"] as List<Classes.cPhone>;
+            if (e.RowIndex < phones.Count)
+            {
+                phones.RemoveAt(e.RowIndex); //always delete because it they are tring to delete the empty row it is better to delete and add the row, rather than to clear all properties
+            }
+
+            if (phones.Count == 0)   //Always make sure that there is one empty row for users to add information
+                phones.Add(new cPhone());
+
+            Session["dem_Phones"] = phones;
+
+            BindAllGrids();
         }        
     }
 }
