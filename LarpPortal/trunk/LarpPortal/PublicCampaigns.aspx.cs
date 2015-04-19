@@ -503,6 +503,11 @@ namespace LarpPortal
         protected void SignUpForSelectedRole(int RoleToSignUp, int UserID, int CampaignID, int StatusID)
         {
             int CampaignPlayerID = 0;
+            string Username = "";
+            if (Session["Username"] == null)
+                Username = "";
+            else
+                Username = Session["Username"].ToString();
             Classes.cUserCampaign CampaignPlayer = new Classes.cUserCampaign();
             CampaignPlayer.Load(UserID, CampaignID);
             CampaignPlayerID = CampaignPlayer.CampaignPlayerID; // if this comes back empty (-1) make one
@@ -521,8 +526,20 @@ namespace LarpPortal
             PlayerRole.RoleID = RoleToSignUp;
             PlayerRole.RoleAlignmentID = RoleAlignment;
             PlayerRole.Save(UserID);
+            if (Username != "")
+            {
+                Classes.cUser LastLogged = new Classes.cUser(Username, "Password");
+                string LastCampaign = LastLogged.LastLoggedInCampaign.ToString();
+                if (LastCampaign == null || LastCampaign == "0")
+                {
+                    LastLogged.LastLoggedInCampaign = CampaignID;
+                    LastLogged.Save();
+                }
+
+            }
+
             btnSignUpForCampaign.Visible = false;
-            lblSignUpMessage.Text = "Requests submitted. Choose more campaigns or return to the member section.";
+            lblSignUpMessage.Text = "Request submitted. Choose more campaigns or <a id=\"" + "lnkReturnToMember " + "\"href=\"" + "CampaignInfo.aspx\"" + ">return to the member section.</a>";
             lblSignUpMessage.Visible = true;
         }
 

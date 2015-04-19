@@ -45,7 +45,7 @@ namespace LarpPortal
                         PageName = "MemberDemographics.aspx";
                         LineText = "Demographics";
                         break;
-                    case 1:
+                    case 2:
                         if (Session["ActiveLeftNav"].ToString() == "PlayerResume")
                         {
                             ActiveState = " class=\"active\">";
@@ -54,10 +54,11 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "PlayerResume.aspx";
+                        //PageName = "PlayerResume.aspx";
+                        PageName = "PageUnderConstruction.aspx";
                         LineText = "Player Resume";
                         break;
-                    case 2:
+                    case 3:
                         if (Session["ActiveLeftNav"].ToString() == "LARPResume")
                         {
                             ActiveState = " class=\"active\">";
@@ -66,11 +67,12 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "LARPResume.aspx";
+                        //PageName = "LARPResume.aspx";
+                        PageName = "PageUnderConstruction.aspx";
                         LineText = "LARP Resume";
                         break;
 
-                    case 3:
+                    case 4:
                         if (Session["ActiveLeftNav"].ToString() == "Medical")
                         {
                             ActiveState = " class=\"active\">";
@@ -79,10 +81,11 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "Medical.aspx";
+                        //PageName = "Medical.aspx";
+                        PageName = "PageUnderConstruction.aspx";
                         LineText = "Medical";
                         break;
-                    case 4:
+                    case 5:
                         if (Session["ActiveLeftNav"].ToString() == "Waivers")
                         {    
                             ActiveState = " class=\"active\">";
@@ -91,10 +94,11 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "Waivers.aspx";
+                        //PageName = "Waivers.aspx";
+                        PageName = "PageUnderConstruction.aspx";
                         LineText = "Waivers & Consent";
                         break;
-                    case 5:
+                    case 6:
                         if (Session["ActiveLeftNav"].ToString() == "Preferences")
                         {
                             ActiveState = " class=\"active\">";
@@ -103,10 +107,11 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "Preferences.aspx";
+                        //PageName = "Preferences.aspx";
+                        PageName = "PageUnderConstruction.aspx";
                         LineText = "Player Preferences";
                         break;
-                    case 6:
+                    case 7:
                         if (Session["ActiveLeftNav"].ToString() == "Inventory")
                         {
                             ActiveState = " class=\"active\">";
@@ -115,10 +120,11 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        PageName = "Inventory.aspx";
+                        //PageName = "Inventory.aspx";
+                        PageName = "PageUnderConstruction.aspx";
                         LineText = "Player Inventory";
                         break;
-                    case 7:
+                    case 1:
                         if (Session["ActiveLeftNav"].ToString() == "Security")
                         {
                             ActiveState = " class=\"active\">";
