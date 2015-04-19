@@ -293,16 +293,20 @@ namespace LarpPortal.Classes
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+            //Not sure what the line below is supposed to do -ra
             _PrimaryPhone = new cPhone(_PrimaryPhoneNumberID, _UserID, _LoginName);
+
+            _UserPhones = new List<cPhone>();
+
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@intKeyID", _UserID);
                 slParams.Add("@strKeyType", "cUser");
-
+                
                 DataTable ldt = cUtilities.LoadDataTable("uspGetPhoneNumberByKeyInfo", slParams, "LARPortal", _LoginName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
-                {
+                {                    
                     foreach (DataRow ldr in ldt.Rows)
                     {
                         cPhone cPh = new cPhone(ldr["PhoneNumberID"].ToString().Trim().ToInt32(),  _UserID, _LoginName);
