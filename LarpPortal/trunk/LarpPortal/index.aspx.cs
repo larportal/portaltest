@@ -172,7 +172,7 @@ namespace LarpPortal
             else
             {
                 if (txtLastLocation.Text == "")
-                    txtLastLocation.Text = "Preferences.aspx";
+                    txtLastLocation.Text = "MemberDemographics.aspx";
                 Session["WebPage"] = "~/" + txtLastLocation.Text;
             }
             WhereAreYouGoing = Session["WebPage"].ToString();

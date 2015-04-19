@@ -368,7 +368,11 @@ namespace LarpPortal.Classes
                 slParams.Add("@ForumUsername", _ForumUserName);
                 slParams.Add("@NotificationPreferenceID", _NotificationPreference);
                 slParams.Add("@DeliveryPreferenceID", _DeliveryPreferenceID);
+                if (_LastLoggedInLocation == null)
+                    _LastLoggedInLocation = "MemberDemographics.aspx";
                 slParams.Add("@LastLoggedInLocation", _LastLoggedInLocation);
+                if (_LastLoggedInCampaign == null)
+                    _LastLoggedInCampaign = 0;
                 slParams.Add("@LastLoggedInCampaign", _LastLoggedInCampaign);
                 slParams.Add("@XRefNumber", _XRefNumber);
                 slParams.Add("@Comments", _Comments);
