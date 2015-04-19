@@ -25,15 +25,7 @@ namespace LarpPortal.Character
                 tbFirstName.Attributes.Add("Placeholder", "First Name");
                 tbLastName.Attributes.Add("Placeholder", "Last Name");
                 lblMessage.Text = "";
-                //tbAKA.Attributes.Add("Placeholder", "Alias");
-                //tbLastEvent.Attributes.Add("Placeholder", "Last Events");
-                //tbDOB.Attributes.Add("Placeholder", "Game System");
-                //tbNumDeaths.Attributes.Add("Placeholder", "# deaths");
-                //tbOrigin.Attributes.Add("Placeholder", "Origin");
-                //tbDOD.Attributes.Add("Placeholder", "DOD");
-                //tbHome.Attributes.Add("Placeholder", "Home");
-                //tbRace.Attributes.Add("Placeholder", "Race");
-                //tbTeam.Attributes.Add("Placeholder", "Team USA");
+                ViewState["NewRecCounter"] = -1;
             }
         }
 
@@ -98,16 +90,9 @@ namespace LarpPortal.Character
                         Session["CharDescriptors"] = cChar.Descriptors;
                         BindData();
 
-                        //if (cChar.CharacterPhoto.Length > 0)
-                        //{
-                        //    Classes.cPicture ProfilePicture = new Classes.cPicture();
-
                         if (cChar.ProfilePicture != null)
                         {
-                            //Classes.cPicture ProfilePicture = new Classes.cPicture();
-                            //ProfilePicture.PictureID = cChar.ProfilePictureID;
-                            //ProfilePicture.Load(cChar.ProfilePictureID, Session["UserID"].ToString());
-
+                            ViewState["UserIDPicture"] = cChar.ProfilePicture;
                             imgCharacterPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
                             pnlCharacterPicture.Visible = true;
                         }
@@ -213,6 +198,7 @@ namespace LarpPortal.Character
                     NewPicture.Save(sUser);
 
                     ViewState["UserIDPicture"] = NewPicture;
+                    ViewState.Remove("PictureDeleted");
 
                     imgCharacterPicture.ImageUrl = NewPicture.PictureURL;
                     pnlCharacterPicture.Visible = true;
@@ -227,7 +213,8 @@ namespace LarpPortal.Character
         protected void btnClearPicture_Click(object sender, EventArgs e)
         {
             if (ViewState["UserIDPicture"] != null)
-                ViewState.Remove("UserIDPicture");
+                ViewState["PictureDeleted"] = "Y";
+//                ViewState.Remove("UserIDPicture");
             pnlCharacterPicture.Visible = false;
         }
 
@@ -263,7 +250,11 @@ namespace LarpPortal.Character
 
                     cChar.DateOfBirth = tbDOB.Text;
                     if (ViewState["UserIDPicture"] != null)
+                    {
                         cChar.ProfilePicture = ViewState["UserIDPicture"] as Classes.cPicture;
+                        if (ViewState["PictureDeleted"] != null)
+                            cChar.ProfilePicture.RecordStatus = Classes.RecordStatuses.Delete;
+                    }
                     else
                         cChar.ProfilePicture = null;
 
@@ -421,10 +412,7 @@ namespace LarpPortal.Character
 
             DataTable dtCharDescriptors = new DataTable();
             dtCharDescriptors = Classes.cUtilities.CreateDataTable(Desc);
-            DataView dvCharDescriptors = new DataView(dtCharDescriptors, "RecordStatus = 0 "
-
-                //+ key.ToString()
-                , "", DataViewRowState.CurrentRows);
+            DataView dvCharDescriptors = new DataView(dtCharDescriptors, "RecordStatus = 0 ", "", DataViewRowState.CurrentRows);
 
             gvDescriptors.DataSource = null;
             gvDescriptors.DataSource = dvCharDescriptors;
@@ -440,10 +428,15 @@ namespace LarpPortal.Character
             int CampaignAttDescriptorID;
             NewDesc.CharacterDescriptor = ddlDescriptor.SelectedItem.Text;
 
+            int NewRecCounter = Convert.ToInt32(ViewState["NewRecCounter"]);
+            NewRecCounter--;
+            ViewState["NewRecCounter"] = NewRecCounter;
+
             if (int.TryParse(ddlDescriptor.SelectedValue, out CampaignAttStandardID))
                 NewDesc.CampaignAttributeStandardID = CampaignAttStandardID;
             if (int.TryParse(ddlName.SelectedValue, out CampaignAttDescriptorID))
                 NewDesc.CampaignAttributeDescriptorID = CampaignAttDescriptorID;
+            NewDesc.CharacterAttributesBasicID = NewRecCounter;
             NewDesc.RecordStatus = Classes.RecordStatuses.Active;
 
             Desc.Add(NewDesc);

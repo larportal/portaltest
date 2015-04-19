@@ -211,8 +211,9 @@ namespace LarpPortal.Classes
         public void Delete(string sUserID)
         {
             SortedList sParam = new SortedList();
-            sParam.Add("@CHCharacterPictureID", PictureID.ToString());
-            cUtilities.PerformNonQuery("uspDelCHCharacterPictures", sParam, "LARPortal", sUserID);
+            sParam.Add("@PictureID", PictureID.ToString());
+            sParam.Add("@UserID", sUserID);
+            cUtilities.PerformNonQuery("uspDelMDBPictures", sParam, "LARPortal", sUserID);
         }
 
 
