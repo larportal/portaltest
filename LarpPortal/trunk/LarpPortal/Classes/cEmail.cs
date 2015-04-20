@@ -6,6 +6,7 @@ using System.Data;
 using LarpPortal.Classes;
 using System.Reflection;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 
 namespace LarpPortal.Classes
@@ -22,6 +23,7 @@ namespace LarpPortal.Classes
         private string _UserName = "";
         private Int32 _UserID = -1;
 
+
         // ID for the EMail Address
         public Int32 EMailID
         {
@@ -35,6 +37,11 @@ namespace LarpPortal.Classes
             get { return _EMailAddress; }
             set { _EMailAddress = value; }
         }
+
+        public int EmailTypeID { get; set; }
+
+        public bool IsPrimary { get; set; }
+
         // Comments about the email address
         public string Comments
         {
@@ -60,7 +67,11 @@ namespace LarpPortal.Classes
             //set { _DateDeleted = value; }
         }
 
-        private cEMail()
+        public static string ErrorMessage { get; private set; }
+
+        public string strErrorMessage { get; set; }
+
+        public cEMail()
         {
 
         }
@@ -83,6 +94,8 @@ namespace LarpPortal.Classes
                 if (ldt.Rows.Count > 0)
                 {
                     _EMailID = ldt.Rows[0]["EMailID"].ToString().ToInt32();
+                    if (ldt.Rows[0]["PrimaryEmail"] != null) { IsPrimary = (bool)ldt.Rows[0]["PrimaryEmail"]; }//Table MDBEmails
+                    if (ldt.Rows[0]["EmailTypeID"] != null) { EmailTypeID = (int)ldt.Rows[0]["EmailTypeID"]; }//Table MDBEmails
                     _EMailAddress = ldt.Rows[0]["EMailAddress"].ToString().Trim();
                     _Comments = ldt.Rows[0]["Comments"].ToString().Trim();
                     _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
@@ -104,7 +117,7 @@ namespace LarpPortal.Classes
             }
         }
 
-        public Boolean SaveUpdate()
+        public Boolean SaveUpdate(int userID, bool delete = false)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
@@ -112,14 +125,24 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList();
-                slParams.Add("@UserID", _UserID);
-                slParams.Add("@EMailID", _EMailID);
-                slParams.Add("@EmailAddress", _EMailAddress);
-                slParams.Add("@Comments", _Comments);
-                //slParams.Add("@DateAdded", _DateAdded);
-                //slParams.Add("@DateChanged", _DateChanged);
-                //slParams.Add("@DateDeleted", _DateDeleted);
-                blnReturn = cUtilities.PerformNonQueryBoolean("InsUpdMDBEmails", slParams, "LARPortal", _UserName);
+                if (delete)
+                {
+                    slParams.Add("@RecordID", EMailID);
+                    slParams.Add("@UserID", userID);
+                    blnReturn = cUtilities.PerformNonQueryBoolean("uspDelMDBEmails", slParams, "LARPortal", _UserName + string.Empty);
+                }
+                else
+                {
+                    slParams.Add("@UserID", userID);
+                    slParams.Add("@EmailID", _EMailID);
+                    slParams.Add("@KeyID", userID);
+                    slParams.Add("@KeyType", "MDBUsers");
+                    slParams.Add("@EmailTypeID", EmailTypeID);
+                    slParams.Add("@EmailAddress", _EMailAddress);
+                    slParams.Add("@PrimaryEmail", IsPrimary);
+                    slParams.Add("@Comments", _Comments);
+                    blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBEmails", slParams, "LARPortal", _UserName);
+                }
             }
             catch (Exception ex)
             {
@@ -129,9 +152,39 @@ namespace LarpPortal.Classes
             }
             return blnReturn;
         }
-       
 
+        public static bool isValidEmail(string email)
+        {
+            ErrorMessage = string.Empty;
+
+            email = (email + string.Empty).Trim(); //If null set as empty string
+
+            bool isValid = Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
+                RegexOptions.IgnoreCase);
+
+            if (isValid == false)
+                ErrorMessage = email + " is not a valid Email";
+
+            return isValid;
+        }
+
+        public bool IsValid()
+        {
+            strErrorMessage = string.Empty;
+
+            if (isValidEmail(EmailAddress) == false)
+            {
+                strErrorMessage = (EmailAddress + string.Empty).Trim() + " is not a valid Email Address";
+                return false;
+            }
+
+            if (EmailTypeID < 1)
+            {
+                strErrorMessage = "Email Type is not a valid type";
+                return false;
+            }
+
+            return true;
+        }
     }
-
-
 }

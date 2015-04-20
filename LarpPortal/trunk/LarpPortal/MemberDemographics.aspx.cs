@@ -18,13 +18,7 @@ namespace LarpPortal
     {
         private Classes.cUser Demography = null;
         private Classes.cPlayer PLDemography = null;
-
-        //private bool isValidEmail(string email)
-        //{
-        //    return Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z",
-        //        RegexOptions.IgnoreCase);
-        //}
-
+                
         protected void Page_Load(object sender, EventArgs e)
         {
             lblMessage.Text = string.Empty;
@@ -88,19 +82,24 @@ namespace LarpPortal
                 if (Demography.UserAddresses != null)
                     _addresses = Demography.UserAddresses.ToList();
                 _addresses.Add(new cAddress()); //always add an empty one in case they need to insert a new one
-                gv_Address.DataSource = _addresses;
-                gv_Address.DataBind();
-
+                
                 Session["dem_Addresses"] = _addresses;
 
                 List<cPhone> _phones = new List<cPhone>();
                 if (Demography.UserPhones != null)
                     _phones = Demography.UserPhones.ToList();
                 _phones.Add(new cPhone());
-                gv_PhoneNums.DataSource = _phones;
-                gv_PhoneNums.DataBind();
-
+                
                 Session["dem_Phones"] = _phones;
+
+                List<cEMail> _emails = new List<cEMail>();
+                if (Demography.UserEmails != null)
+                    _emails = Demography.UserEmails.ToList();
+                _emails.Add(new cEMail());
+
+                Session["dem_Emails"] = _emails;
+
+                BindAllGrids();
             }
         }
 
@@ -153,15 +152,14 @@ namespace LarpPortal
 
             PLDemography.EmergencyContactName = txtEmergencyName.Text;
 
-            /*
-             * 1)  Figure out saving addresses, phones, etc. grids first 
-             * Jeff mention keep my eye on the enum to flag deletes properly
-             */
             // Using the inital records merge result with the new ones.
             if (AddressesChangesValidate() == false)
                 return;
 
             if (PhoneNumbersChangesValidate() == false)
+                return;
+
+            if (EmailsChangesValidate() == false)
                 return;
 
             if (!cPhone.isValidPhoneNumber(txtEmergencyPhone.Text, 10))
@@ -175,15 +173,14 @@ namespace LarpPortal
             {
                 PLDemography.EmergencyContactPhone = txtEmergencyPhone.Text;
             }
-
-           
-
+            
             /* 3) handle picture update/add.
              */
 
             //At this point all validation must have been done so it is time to merge lists 
             AddressesChangesUpdate();
             PhonesChangesUpdate();
+            EmailsChangesUpdate();
 
             /* As I validate I will place the new values on the component prior to saving the values*/
             Demography.Save();
@@ -213,6 +210,33 @@ namespace LarpPortal
             }
 
             a1 = phones.FirstOrDefault(x => x.PhoneNumberID <= 0);
+            if (a1 != null && a1.IsValid()) // If new and valid, let push it to the database
+            {
+                a1.SaveUpdate(userId);
+            }
+        }
+
+        private void EmailsChangesUpdate()
+        {
+            List<cEMail> emails = Session["dem_Emails"] as List<cEMail>;
+
+            int userId = (int)Session["UserID"];
+            //For each element of the original list perform one of the following:
+            //If update, update information
+            //If delete, mark record for delete
+            //If new, mark record for adding
+            cEMail a1 = null;
+
+            if (Demography.UserEmails != null)
+            {
+                foreach (cEMail a in Demography.UserEmails) //state in database
+                {
+                    a1 = emails.FirstOrDefault(x => x.EMailID == a.EMailID); //If record not found in memory that means it was deleted
+                    a.SaveUpdate(userId, a1 == null);
+                }
+            }
+
+            a1 = emails.FirstOrDefault(x => x.EMailID <= 0);
             if (a1 != null && a1.IsValid()) // If new and valid, let push it to the database
             {
                 a1.SaveUpdate(userId);
@@ -258,6 +282,27 @@ namespace LarpPortal
                     if (a.PhoneNumberID > 0 && !a.IsValid()) //if new records are invalid that is okay they will not make it to the database.
                     {
                         lblMessage.Text = a.strErrorDescription;
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+
+        }
+
+        private bool EmailsChangesValidate()
+        {
+            // First check if a new valid record was inserted
+            if (Session["dem_Emails"] != null)
+            {
+                List<cEMail> emails = Session["dem_Emails"] as List<cEMail>;
+
+                foreach (cEMail a in emails)
+                {
+                    if (a.EMailID > 0 && !a.IsValid()) //if new records are invalid that is okay they will not make it to the database.
+                    {
+                        lblMessage.Text = a.strErrorMessage;
                         return false;
                     }
                 }
@@ -344,6 +389,9 @@ namespace LarpPortal
 
             gv_PhoneNums.DataSource = Session["dem_Phones"] as List<cPhone>;
             gv_PhoneNums.DataBind();
+
+            gv_Emails.DataSource = Session["dem_Emails"] as List<cEMail>;
+            gv_Emails.DataBind();
         }
 
         protected void gv_Address_RowEditing(object sender, GridViewEditEventArgs e)
@@ -357,7 +405,7 @@ namespace LarpPortal
         {            
             List<cAddress> addresses = null;
             int gindex = e.RowIndex;
-            cAddress address = new cAddress(); ;
+            cAddress address = new cAddress();
             GridView gv = (GridView)sender;
             addresses = Session["dem_Addresses"] as List<Classes.cAddress>;
             if (gindex < addresses.Count())
@@ -383,7 +431,7 @@ namespace LarpPortal
                     addresses[gindex].StrCountry = address.StrCountry;
                     addresses[gindex].IntAddressTypeID = address.IntAddressTypeID;
                     addresses[gindex].IsPrimary = address.IsPrimary;
-                    if (address.IntAddressID < 1)//Always make sure that there is an extra records to edit, since there is not option to add records
+                    if (addresses[gindex].IntAddressID < 1)//Always make sure that there is an extra records to edit, since there is not option to add records
                         addresses.Add(new cAddress());
 
                     Session["dem_Addresses"] = addresses;
@@ -532,7 +580,7 @@ namespace LarpPortal
                     phones[gindex].Extension = phone.Extension;
                     phones[gindex].PhoneTypeID = phone.PhoneTypeID;
                     phones[gindex].IsPrimary = phone.IsPrimary;
-                    if (phone.PhoneNumberID < 1)
+                    if (phones[gindex].PhoneNumberID < 1)
                         phones.Add(new cPhone());
 
                     Session["dem_Phones"] = phones;
@@ -567,6 +615,126 @@ namespace LarpPortal
                 phones.Add(new cPhone());
 
             Session["dem_Phones"] = phones;
+
+            BindAllGrids();
+        }
+
+        protected void gv_Emails_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            List<cEMail> emails = null;
+            int gindex = -1;
+            cEMail email = null;
+            if (int.TryParse(e.CommandArgument.ToString(), out gindex))
+            {
+                emails = Session["dem_Emails"] as List<cEMail>;
+                if (gindex < emails.Count())
+                    email = emails[gindex];
+            }
+            else
+            {
+                return;
+            }
+            switch (e.CommandName.ToUpper())
+            {
+                case "EDIT":
+                case "EDITITEM":
+                    {
+                        if (emails != null)
+                        {
+                            gv_Emails.EditIndex = gindex;
+                        }
+                        BindAllGrids();
+                        break;
+                    }
+            }
+        }
+
+        protected void gv_Emails_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                DropDownList ddlCategories = e.Row.FindControl("ddEmailTypeId") as DropDownList;
+                if (ddlCategories != null)
+                {
+                    //Get the data from DB and bind the dropdownlist
+                    ddlCategories.SelectedValue = (e.Row.DataItem as cEMail).EmailTypeID.ToString();
+                    ddlCategories.Enabled = false;
+                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
+                        ddlCategories.Enabled = true;
+                }
+
+                RadioButton rbtn = e.Row.FindControl("rbtnPrimary2") as RadioButton;
+                if (rbtn != null)
+                {
+                    rbtn.Checked = (e.Row.DataItem as cEMail).IsPrimary;
+                    rbtn.Enabled = false;
+                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
+                        rbtn.Enabled = true;
+                }
+            }
+        }
+
+        protected void gv_Emails_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView gv = (GridView)sender;
+            gv.Rows[e.NewEditIndex].RowState = DataControlRowState.Edit;
+        }
+
+        protected void gv_Emails_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            List<cEMail> emails = null;
+            int gindex = e.RowIndex;
+            cEMail email = new cEMail();
+            GridView gv = (GridView)sender;
+            emails = Session["dem_Emails"] as List<cEMail>;
+            if (gindex < emails.Count())
+            {
+                email.EmailAddress = (e.NewValues["EmailAddress"] + string.Empty).ToString().Trim();
+                int iRetVal = 0;
+                int.TryParse((gv.Rows[gindex].FindControl("ddEmailTypeId") as DropDownList).SelectedValue, out iRetVal); //only native types can be returned so temp variable
+                email.EmailTypeID = iRetVal;
+                email.IsPrimary = (gv.Rows[gindex].FindControl("rbtnPrimary2") as RadioButton).Checked;
+                if (email.IsValid())
+                {
+                    emails[gindex].EmailAddress = email.EmailAddress;
+                    emails[gindex].EmailTypeID = email.EmailTypeID;
+                    emails[gindex].IsPrimary = email.IsPrimary;
+                    if (emails[gindex].EMailID < 1)
+                        emails.Add(new cEMail());
+
+                    Session["dem_Emails"] = emails;
+                    gv.Rows[gindex].RowState = DataControlRowState.Normal;
+                    gv_Emails.EditIndex = -1;
+                }
+                else
+                {
+                    lblMessage.Text = email.strErrorMessage;
+                    e.Cancel = true;
+                }
+                BindAllGrids();
+            }
+        }
+
+        protected void gv_Emails_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            gv_Emails.EditIndex = -1;
+            BindAllGrids();
+        }
+
+        protected void gv_Emails_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            List<cEMail> emails = Session["dem_Emails"] as List<Classes.cEMail>;
+            if (e.RowIndex < emails.Count)
+            {
+                emails.RemoveAt(e.RowIndex);
+            }
+
+            if (emails.Count == 0)
+            {
+                emails.Add(new cEMail());
+            }
+
+            Session["dem_Emails"] = emails;
 
             BindAllGrids();
         }        
