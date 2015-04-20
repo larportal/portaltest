@@ -233,7 +233,7 @@ namespace LarpPortal.Character
                 DeselectChildNodes(e.Node);
                 CheckAllNodesWithValue(e.Node.Value, false);
 
-                List<TreeNode> FoundNodes = FindNodesByValue("961");
+                List<TreeNode> FoundNodes = FindNodesByValue(e.Node.Value);
                 foreach (TreeNode t in FoundNodes)
                 {
                     t.Text = t.Text.Replace("grey", "black");
