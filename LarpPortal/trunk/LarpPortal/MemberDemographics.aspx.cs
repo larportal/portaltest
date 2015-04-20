@@ -205,7 +205,10 @@ namespace LarpPortal
                 foreach (cPhone a in Demography.UserPhones) //state in database
                 {
                     a1 = phones.FirstOrDefault(x => x.PhoneNumberID == a.PhoneNumberID); //If record not found in memory that means it was deleted
-                    a.SaveUpdate(userId, a1 == null);
+                    if (a1 == null)
+                        a.SaveUpdate(userId, true);
+                    else
+                        a1.SaveUpdate(userId);
                 }
             }
 
@@ -232,7 +235,10 @@ namespace LarpPortal
                 foreach (cEMail a in Demography.UserEmails) //state in database
                 {
                     a1 = emails.FirstOrDefault(x => x.EMailID == a.EMailID); //If record not found in memory that means it was deleted
-                    a.SaveUpdate(userId, a1 == null);
+                    if (a1 == null)
+                        a.SaveUpdate(userId, true);
+                    else
+                        a1.SaveUpdate(userId);
                 }
             }
 
@@ -259,7 +265,10 @@ namespace LarpPortal
                 foreach (cAddress a in Demography.UserAddresses) //state in database
                 {
                     a1 = addresses.FirstOrDefault(x => x.IntAddressID == a.IntAddressID); //If record not found in memory that means it was deleted
-                    a.SaveUpdate(userId, a1 == null);                    
+                    if (a1 == null)
+                        a.SaveUpdate(userId, true);
+                    else
+                        a1.SaveUpdate(userId);
                 }
             }
 
@@ -531,14 +540,9 @@ namespace LarpPortal
                 TextBox gv_PhoneNumber = e.Row.FindControl("gv_txtPhoneNumber") as TextBox;
                 if (gv_PhoneNumber != null)
                 {
-                    gv_PhoneNumber.Text =((e.Row.DataItem as cPhone).PhoneNumber + string.Empty);
-                    Int32 iValue = 0;
-                    // + string.Empty is a trick to avoid blow ups for null values. it defaults to empty string, 
-                    if (Int32.TryParse(gv_PhoneNumber.Text.Trim().Replace("-", string.Empty), out iValue))
-                    {
-                        gv_PhoneNumber.Text = String.Format("{0:###-####}", iValue);
-                    }
-
+                    //gv_PhoneNumber.Text =((e.Row.DataItem as cPhone).PhoneNumber + string.Empty);
+                    gv_PhoneNumber.Text = FormatNumber((e.Row.DataItem as cPhone).PhoneNumber, "###-####");
+                    
                     gv_PhoneNumber.Enabled = false;
                     if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
                     {
@@ -567,6 +571,19 @@ namespace LarpPortal
             }
         }
 
+        private string FormatNumber(string strValue, string formatPattern)
+        {
+            Int32 iValue = 0;
+            strValue = strValue ?? string.Empty;
+            // + string.Empty is a trick to avoid blow ups for null values. it defaults to empty string, 
+            if (Int32.TryParse(strValue.Trim().Replace("-", string.Empty), out iValue))
+            {
+                return String.Format("{0:"+ formatPattern + "}", iValue);
+            }
+
+            return string.Empty;
+        }
+
         protected void gv_PhoneNums_RowEditing(object sender, GridViewEditEventArgs e)
         {
             GridView gv = (GridView)sender;
@@ -585,7 +602,7 @@ namespace LarpPortal
             {
 
                 phone.AreaCode = (e.NewValues["AreaCode"] + string.Empty).ToString().Trim();
-                phone.PhoneNumber = (e.NewValues["PhoneNumber"] + string.Empty).ToString().Trim();
+                phone.PhoneNumber = ((gv.Rows[gindex].FindControl("gv_txtPhoneNumber") as TextBox).Text + string.Empty).Trim();
                 phone.Extension = (e.NewValues["Extension"] + string.Empty).ToString().ToUpper().Trim();
                 int iRetVal = 0;
                 int.TryParse((gv.Rows[gindex].FindControl("ddPhoneNumber") as DropDownList).SelectedValue, out iRetVal); //only native types can be returned so temp variable
