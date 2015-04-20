@@ -472,7 +472,7 @@ namespace LarpPortal
         protected void gv_Address_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
-            {                
+            {
                 DropDownList ddlCategories = e.Row.FindControl("ddAddressType") as DropDownList;
                 if (ddlCategories != null)
                 {
@@ -528,6 +528,24 @@ namespace LarpPortal
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                TextBox gv_PhoneNumber = e.Row.FindControl("gv_txtPhoneNumber") as TextBox;
+                if (gv_PhoneNumber != null)
+                {
+                    gv_PhoneNumber.Text =((e.Row.DataItem as cPhone).PhoneNumber + string.Empty);
+                    Int32 iValue = 0;
+                    // + string.Empty is a trick to avoid blow ups for null values. it defaults to empty string, 
+                    if (Int32.TryParse(gv_PhoneNumber.Text.Trim().Replace("-", string.Empty), out iValue))
+                    {
+                        gv_PhoneNumber.Text = String.Format("{0:###-####}", iValue);
+                    }
+
+                    gv_PhoneNumber.Enabled = false;
+                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
+                    {
+                        gv_PhoneNumber.Enabled = true;
+                    }                    
+                }
+
                 DropDownList ddlCategories = e.Row.FindControl("ddPhoneNumber") as DropDownList;
                 if (ddlCategories != null)
                 {

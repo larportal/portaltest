@@ -29,6 +29,7 @@
                         </div><!--.ContactInfoName  -->
                         <div class="col-sm-12">
                             <div class="form-group">
+                                <asp:Label AssociatedControlID="ddlGender" ID="lblGender" runat ="server" CssClass="control-label col-sm-1">Gender</asp:Label>
                                 <div class="col-sm-3">
                                     <asp:DropDownList ID="ddlGender" runat="server" CssClass="col-sm-12" TabIndex="5" AutoPostBack="true"                                         
                                         OnSelectedIndexChanged="ddlGender_SelectedIndexChanged">
@@ -38,7 +39,7 @@
                                         <asp:ListItem Text="Other" Value="O"></asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <asp:TextBox ID="txtGenderOther" placeholder="Other Description" TabIndex="6" CssClass="form-control" runat="server"></asp:TextBox>
                                 </div>
                                 <asp:Label AssociatedControlID="txtDOB" ID="lblDOB" runat="server" CssClass="control-label col-sm-1">DOB</asp:Label>
@@ -47,58 +48,64 @@
                                 </div>
                             </div>
                         </div><!-- contactInfo -->
-                       <br />
+                       <div class="col-sm-12">
+                           <div class="form-group">
+                               <div class="emptyrow col-sm-12">
+                                   <br />
+                               </div>
+                           </div>
+                       </div>
+                       <div class="col-sm-12">
                         <div class="form-group">
                             <div class="emergency col-sm-12">
-                                <h4>Emergency Contact Information</h4>
+                                <h3>Emergency Contact Information</h3>
                                 <div class="form-group">
-                                    <asp:Label AssociatedControlID="txtEmergencyName" ID="lblEmergencyName" runat="server" CssClass="control-label col-sm-2">Name</asp:Label>
-                                    <div class="col-sm-5">
+                                    <asp:Label AssociatedControlID="txtEmergencyName" ID="lblEmergencyName" runat="server" CssClass="control-label col-sm-1">Name</asp:Label>
+                                    <div class="col-sm-3">
                                         <asp:TextBox ID="txtEmergencyName" runat="server" TabIndex="11" CssClass="form-control" placeholder="Emergency Contact Name"></asp:TextBox>
                                     </div>
                                     <asp:Label AssociatedControlID="txtEmergencyPhone" ID="lblEmergencyPhone" runat="server" CssClass="control-label col-sm-1">Phone</asp:Label>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <asp:TextBox ID="txtEmergencyPhone" runat="server" TabIndex="12" CssClass="form-control" placeholder="Phone"></asp:TextBox>
                                     </div>
                                 </div>
                             </div><!-- Emergency Info -->
                         </div>
+                       </div> 
                     </div>
 
                     <div class="userNames col-sm-3">
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtUsername" ID="lblUsername" runat="server" CssClass="col-sm-2">User</asp:Label>
+                            <asp:Label AssociatedControlID="txtUsername" ID="lblUsername" runat="server" CssClass="col-sm-2">User Name</asp:Label>
                             <div class="userName col-sm-9">
                                 <asp:TextBox ID="txtUsername" runat="server" TabIndex="4" CssClass="form-control" ReadOnly="true" placeholder="User Name"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtNickname" ID="lblNickname" runat="server" CssClass="col-sm-2">Nick</asp:Label>
+                            <asp:Label AssociatedControlID="txtNickname" ID="lblNickname" runat="server" CssClass="col-sm-2">Nick Name</asp:Label>
                             <div class="userName col-sm-9">
                                 <asp:TextBox ID="txtNickname" runat="server" TabIndex="8" CssClass="form-control" placeholder="Nick Name"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtPenname" ID="lblPenname" runat="server" CssClass="col-sm-2">Pen</asp:Label>
+                            <asp:Label AssociatedControlID="txtPenname" ID="lblPenname" runat="server" CssClass="col-sm-2">Pen Name</asp:Label>
                             <div class="userName col-sm-9">
                                 <asp:TextBox ID="txtPenname" runat="server" TabIndex="9" CssClass="form-control" placeholder="Pen Name"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
-                            <asp:Label AssociatedControlID="txtForumname" ID="lblForumname" runat="server" CssClass="col-sm-2">Forum</asp:Label>
+                            <asp:Label AssociatedControlID="txtForumname" ID="lblForumname" runat="server" CssClass="col-sm-2">Forum Name</asp:Label>
                             <div class="userName col-sm-9">
                                 <asp:TextBox ID="txtForumname" runat="server" TabIndex="10" CssClass="form-control" placeholder="Forum Name"></asp:TextBox>
                             </div>
                         </div>
 
                         <div class="uploadFile row col-sm-12">
-                            <div class="input-group">
-                                <input type="text" class="form-control col-sm-1" readonly="readonly" placeholder="Browse to add photo">
-                                <span class="input-group-btn">
-                                    <%--<span class="btn btn-default btn-sm btnFile">Browse<input type="file" multiple>
-                                    </span>--%>
-                                    <asp:FileUpload ID="fuMemberImage" runat="server" TabIndex="13" CssClass="btn btn-default btn-sm btnFile" />
+                            <div class="input-group">                                
+                                <span class="input-group-btn">                                    
+                                    <asp:FileUpload ID="fuMemberImage" runat="server" TabIndex="13" Width="90px" CssClass="btn btn-default btn-sm btnFile col-sm-1" />
                                 </span>
+                                <input type="text" class="form-control col-sm-1" readonly="readonly" placeholder="Browse to add photo">
                             </div>
                         </div>
                     </div>
@@ -195,7 +202,12 @@
                                         CssClass="panel-container-table">
                                         <Columns>
                                             <asp:BoundField DataField="AreaCode" HeaderText="Area Code" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="50px" />
-                                            <asp:BoundField DataField="PhoneNumber" HeaderText="Phone #" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="60px" />
+                                            <asp:TemplateField HeaderText="Phone Number" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="60px">
+                                                <ItemTemplate>
+                                                    <asp:TextBox runat="server" ID="gv_txtPhoneNumber" CssClass="form-control col-sm-1"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <%--<asp:BoundField DataField="PhoneNumber" HeaderText="Phone #" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="60px" />--%>
                                             <asp:BoundField DataField="Extension" HeaderText="Extension" ItemStyle-CssClass ="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="90px" />
                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="80px">
                                                <ItemTemplate>
