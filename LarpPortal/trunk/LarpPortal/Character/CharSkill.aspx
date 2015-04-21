@@ -21,6 +21,17 @@
                 dd.style.display = "block";
             }
 
+            function DisableButton() {
+                document.forms[0].submit();
+                window.setTimeout("disableButton('" +
+                   window.event.srcElement.id + "')", 0);
+            }
+
+            function disableButton(buttonID) {
+                document.getElementById(buttonID).disabled = true;
+                document.getElementById(buttonID).value = "...Saving";
+            }
+
     </script>
 
     <style type="text/css">
