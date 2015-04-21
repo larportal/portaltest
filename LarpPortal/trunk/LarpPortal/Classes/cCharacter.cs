@@ -543,8 +543,12 @@ namespace LarpPortal.Classes
             return iNumCharacterRecords;
         }
 
-        public int SaveCharacter(string sUserUpdating, int iUserID)
+        public string SaveCharacter(string sUserUpdating, int iUserID)
         {
+            string Timing;
+
+            Timing = "Save character start: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+
             using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
             {
                 connPortal.Open();
@@ -587,6 +591,7 @@ namespace LarpPortal.Classes
                     CmdCHCharacterInsUpd.ExecuteNonQuery();
                 }
 
+                Timing += ", character record update done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
 
                 foreach (cPicture Picture in Pictures)
                 {
@@ -597,6 +602,13 @@ namespace LarpPortal.Classes
                         Picture.Save(sUserUpdating);
                 }
 
+                if (ProfilePicture != null)
+                    if (ProfilePicture.RecordStatus == RecordStatuses.Delete)
+                        ProfilePicture.Delete(sUserUpdating);
+                    else
+                        ProfilePicture.Save(sUserUpdating);
+
+
                 foreach (cCharacterSkill Skill in CharacterSkills)
                 {
                     if (Skill.RecordStatus == RecordStatuses.Delete)
@@ -604,6 +616,8 @@ namespace LarpPortal.Classes
                     else
                         Skill.Save(sUserUpdating);
                 }
+
+                Timing += ", skills update done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
 
                 foreach (cDescriptor Desc in Descriptors)
                 {
@@ -642,7 +656,9 @@ namespace LarpPortal.Classes
 
             }
 
-            return 0;
+            Timing += ", character save done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+
+            return Timing;
         }
     }
 }
