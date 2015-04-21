@@ -117,6 +117,9 @@
                     <asp:Label ID="lblHeader" runat="server" /></h1>
             </div>
             <div class="row">
+                <div class="col-xs-12">&nbsp;&nbsp;Skill validation may take a few moments.  Please wait while screen refreshes <u>BEFORE</u> Saving.</div>
+            </div>
+            <div class="row">
                 <div class="panel-wrapper" runat="server">
                     <div class="panel">
                         <div class="panelheader">

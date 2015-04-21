@@ -19,7 +19,11 @@ namespace LarpPortal.Character
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
+            {
                 tvSkills.Attributes.Add("onclick", "postBackByObject()");
+                btnSave.Attributes.Add("onclick", "DisableButton()");
+            }
+
             string Msg = "PageLoad: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
             AddLogMessage(Msg);
         }
@@ -256,6 +260,7 @@ namespace LarpPortal.Character
             dtSkillCosts.Columns.Add(new DataColumn("Skill", typeof(string)));
             dtSkillCosts.Columns.Add(new DataColumn("Cost", typeof(double)));
             dtSkillCosts.Columns.Add(new DataColumn("SortOrder", typeof(int)));
+            dtSkillCosts.Columns.Add(new DataColumn("SkillID", typeof(int)));
 
             double TotalCP = 0.0;
             double.TryParse(Session["TotalCP"].ToString(), out TotalCP);
@@ -265,17 +270,22 @@ namespace LarpPortal.Character
                 int iSkillID;
                 if (int.TryParse(SkillNode.Value, out iSkillID))
                 {
-                    DataRow[] dSkillRow = dtAllSkills.Select("CampaignSkillsStandardID = " + iSkillID.ToString());
-                    if (dSkillRow.Length > 0)
+                    DataRow[] drPrev = dtSkillCosts.Select("SkillID = " + iSkillID.ToString());
+                    if (drPrev.Length == 0)
                     {
-                        double SkillCost;
-                        if (double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost))
-                            TotalSpent += SkillCost;
-                        DataRow dNewRow = dtSkillCosts.NewRow();
-                        dNewRow["Skill"] = dSkillRow[0]["SkillName"].ToString();
-                        dNewRow["Cost"] = SkillCost;
-                        dNewRow["SortOrder"] = 10;
-                        dtSkillCosts.Rows.Add(dNewRow);
+                        DataRow[] dSkillRow = dtAllSkills.Select("CampaignSkillsStandardID = " + iSkillID.ToString());
+                        if (dSkillRow.Length > 0)
+                        {
+                            double SkillCost;
+                            if (double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost))
+                                TotalSpent += SkillCost;
+                            DataRow dNewRow = dtSkillCosts.NewRow();
+                            dNewRow["Skill"] = dSkillRow[0]["SkillName"].ToString();
+                            dNewRow["Cost"] = SkillCost;
+                            dNewRow["SortOrder"] = 10;
+                            dNewRow["SkillID"] = iSkillID;
+                            dtSkillCosts.Rows.Add(dNewRow);
+                        }
                     }
                 }
             }
@@ -370,12 +380,19 @@ namespace LarpPortal.Character
         protected void btnSave_Click(object sender, EventArgs e)
         {
             int iCharID;
+
             if (Session["SelectedCharacter"] != null)
             {
                 if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
                 {
+                    string Msg = "btnSave - About to load character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    AddLogMessage(Msg);
+                    
                     Classes.cCharacter Char = new Classes.cCharacter();
                     Char.LoadCharacter(iCharID);
+
+                    Msg = "btnSave - Done loading character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    AddLogMessage(Msg);
 
                     int CharacterSkillsSetID = -1;
 
@@ -384,6 +401,9 @@ namespace LarpPortal.Character
                         cSkill.RecordStatus = Classes.RecordStatuses.Delete;
                         CharacterSkillsSetID = cSkill.CharacterSkillSetID;
                     }
+
+                    Msg = "btnSave - About to go through checked nodes: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    AddLogMessage(Msg);
 
                     foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
                     {
@@ -405,9 +425,18 @@ namespace LarpPortal.Character
                             }
                         }
                     }
-                    Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
+
+                    Msg = "btnSave - About to save character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    AddLogMessage(Msg);
+
+                    Msg = Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
+                    AddLogMessage(Msg);
+
                     lblMessage.Text = "Skills Saved";
                     lblMessage.ForeColor = Color.Black;
+
+                    Msg = "btnSave - Done saving character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    AddLogMessage(Msg);
 
                     string jsString = "alert('Character " + Char.AKA + " has been saved.');";
                     ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
