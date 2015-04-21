@@ -41,14 +41,18 @@ namespace LarpPortal.Character
                     if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
                     {
                         Classes.cCharacter cChar = new Classes.cCharacter();
+                        DateTime dStart = DateTime.Now;
                         cChar.LoadCharacter(iCharID);
+                        DateTime dEnd = DateTime.Now;
+
+                        double num = (dEnd - dStart).TotalMilliseconds;
 
                         if (cChar.CampaignID == 0)
                             Response.Redirect("CharNoCampaign.aspx", true);
 
                         lblHeader.Text = "Character Info - " + cChar.AKA + " - " + cChar.CampaignName;
 
-                        ViewState["CharDesc"] = cChar.Descriptors;
+                        Session["CharDesc"] = cChar.Descriptors;
                         ViewState["ProfilePictureID"] = cChar.ProfilePictureID;
 
                         tbFirstName.Text = cChar.FirstName;
@@ -60,7 +64,7 @@ namespace LarpPortal.Character
                         tbAKA.Text = cChar.AKA;
                         tbHome.Text = cChar.CurrentHome;
                         tbDateLastEvent.Text = "??";
-//                        tbType.Text = cChar.CharType.Description;
+                        //                        tbType.Text = cChar.CharType.Description;
                         lblType.Text = cChar.CharType.Description;
                         tbTeam.Text = "Team";
                         lblTeam.Text = cChar.TeamName;
@@ -214,7 +218,7 @@ namespace LarpPortal.Character
         {
             if (ViewState["UserIDPicture"] != null)
                 ViewState["PictureDeleted"] = "Y";
-//                ViewState.Remove("UserIDPicture");
+            //                ViewState.Remove("UserIDPicture");
             pnlCharacterPicture.Visible = false;
         }
 
@@ -267,87 +271,18 @@ namespace LarpPortal.Character
 
                     cChar.Descriptors = Session["CharDescriptors"] as List<Classes.cDescriptor>;
                     foreach (Classes.cDescriptor Item in cChar.Descriptors)
+                    {
                         Item.CharacterSkillSetID = cChar.CharacterSkillSetID;
+                        // Put in check for negative values. Replace anything less than 0 with -1 so it will be updated/added. JBradshaw  4/20/15
+                        if (Item.CharacterAttributesBasicID < 0)
+                            Item.CharacterAttributesBasicID = -1;
+                    }
 
                     cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
 
                     string jsString = "alert('Character " + cChar.AKA + " has been saved.');";
                     ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                            "MyApplication",
-                            jsString,
-                            true);
-
-    //                ScriptManager.RegisterStartupScript(this,this.GetType(),"Pop", "openModal();", true);
-
-    //                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
-    //"<script>$('#basicModal').modal('show');</script>", false);
-
-
-                    //tbRace.Text = cChar.Race.Description;
-                    //if (cChar.Deaths.Count > 0)
-                    //{
-                    //    Classes.cCharacterDeath LastDeath = cChar.Deaths.OrderByDescending(t => t.DeathDate).First();
-                    //    tbDOD.Text = LastDeath.DeathDate.Value.ToShortDateString();
-                    //}
-
-                    //if (cChar.Deaths.Count > 0)
-                    //    if ( cChar.Deaths[0].DeathDate.HasValue )
-                    //        tbDOD.Text = cChar.Deaths[0].DeathDate.Value.ToShortDateString();
-                    //tbHome.Text = cChar.CurrentHome;
-                    //tbCharName.Text = cChar.LastName;
-                    //tbNumOfDeaths.Text = cChar.Deaths.Count().ToString();
-                    //tbOrigin.Text = cChar.WhereFrom;
-                    //tbRace.Text = cChar.Race.Description;
-
-                    //DataTable dtPictures = new DataTable();
-                    //dtPictures.Columns.Add("PictureID", typeof(Int32));
-                    //dtPictures.Columns.Add("FileName", typeof(String));
-
-                    //foreach (Classes.cPicture Pict in cChar.Pictures)
-                    //{
-                    //    DataRow dPict = dtPictures.NewRow();
-                    //    dPict["PictureID"] = Pict.PictureID;
-                    //    string sFileName = "/Pictures/" + Pict.PictureFileName;
-                    //    dPict["FileName"] = sFileName;
-                    //    string sFinalFileName = Server.MapPath(sFileName);
-                    //    if ( File.Exists(sFinalFileName))
-                    //        dtPictures.Rows.Add(dPict);
-                    //}
-
-                    //rptPictures.DataSource = dtPictures;
-                    //rptPictures.DataBind();
-
-                    //DataTable dtRelationship = new DataTable();
-
-                    //DataTable dtTraits = new DataTable();
-                    //dtTraits.Columns.Add(new DataColumn("ID", typeof(Int32)));
-                    //dtTraits.Columns.Add(new DataColumn("CharacterDescriptor", typeof(String)));
-                    //dtTraits.Columns.Add(new DataColumn("Name", typeof(string)));
-                    //dtTraits.Columns.Add(new DataColumn("Description", typeof(string)));
-
-                    //foreach ( Classes.cCharacterSkill cSkill in cChar.CharacterSkills )
-                    //{
-                    //    DataRow dNewRow = dtTraits.NewRow();
-                    //    dNewRow["ID"] = cSkill.CampaignSkillsStandardID;
-                    //    dNewRow["CharacterDescriptor"] = cSkill.CampaignSkillsStandardID.ToString();
-                    //    dNewRow["Name"] = cSkill.SkillName;
-                    //    dtTraits.Rows.Add(dNewRow);
-                    //}
-
-                    //gvDescriptors.DataSource = dtTraits;
-                    //gvDescriptors.DataBind();
-
-                    //DataTable dtPictures = new DataTable();
-                    //dtPictures.Columns.Add(new DataColumn("Picture", typeof(string)));
-
-                    //DataRow dPictureRow = dtPictures.NewRow();
-                    //dPictureRow["Picture"] = "../img/larpPortal.jpg";
-                    //dtPictures.Rows.Add(dPictureRow);
-
-                    //gvPictures.DataSource = dtPictures;
-                    //gvPictures.DataBind();
-                    //}
-
+                            "MyApplication", jsString, true);
                 }
             }
         }
@@ -357,7 +292,7 @@ namespace LarpPortal.Character
             int iCampaignAttributeStandardID;
 
             List<Classes.cDescriptor> Desc = new List<Classes.cDescriptor>();
-            Desc = ViewState["CharDesc"] as List<Classes.cDescriptor>;
+            Desc = Session["CharDesc"] as List<Classes.cDescriptor>;
 
             if (int.TryParse(ddlDescriptor.SelectedValue, out iCampaignAttributeStandardID))
             {
