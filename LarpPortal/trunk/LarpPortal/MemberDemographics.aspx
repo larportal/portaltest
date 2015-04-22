@@ -78,7 +78,7 @@
                         <div class="form-group">
                             <asp:Label AssociatedControlID="txtUsername" ID="lblUsername" runat="server" CssClass="col-sm-2">User Name</asp:Label>
                             <div class="userName col-sm-9">
-                                <asp:TextBox ID="txtUsername" runat="server" TabIndex="4" CssClass="form-control" ReadOnly="true" placeholder="User Name"></asp:TextBox>
+                                <asp:TextBox ID="txtUsername" runat="server" TabIndex="4" CssClass="form-control" placeholder="User Name"></asp:TextBox>
                             </div>
                         </div>
                         <div class="form-group">
