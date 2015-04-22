@@ -557,17 +557,32 @@ namespace LarpPortal
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                bool isEnabled = false;
+                if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
+                {
+                    isEnabled = true;
+                }
+
+                TextBox gv_AreaCode = e.Row.FindControl("gv_txtAreaCode") as TextBox;
+                if (gv_AreaCode != null)
+                {
+                    gv_AreaCode.Text = (e.Row.DataItem as cPhone).AreaCode;
+                    gv_AreaCode.Enabled = isEnabled;                    
+                }
+
                 TextBox gv_PhoneNumber = e.Row.FindControl("gv_txtPhoneNumber") as TextBox;
                 if (gv_PhoneNumber != null)
                 {
                     //gv_PhoneNumber.Text =((e.Row.DataItem as cPhone).PhoneNumber + string.Empty);
                     gv_PhoneNumber.Text = FormatNumber((e.Row.DataItem as cPhone).PhoneNumber, "###-####");
-                    
-                    gv_PhoneNumber.Enabled = false;
-                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
-                    {
-                        gv_PhoneNumber.Enabled = true;
-                    }                    
+                    gv_PhoneNumber.Enabled = isEnabled;                    
+                }
+
+                TextBox gv_Extension = e.Row.FindControl("gv_txtExtension") as TextBox;
+                if (gv_Extension != null)
+                {
+                    gv_Extension.Text = (e.Row.DataItem as cPhone).Extension;
+                    gv_Extension.Enabled = isEnabled;
                 }
 
                 DropDownList ddlCategories = e.Row.FindControl("ddPhoneNumber") as DropDownList;
@@ -575,18 +590,14 @@ namespace LarpPortal
                 {
                     //Get the data from DB and bind the dropdownlist
                     ddlCategories.SelectedValue = (e.Row.DataItem as cPhone).PhoneTypeID.ToString();
-                    ddlCategories.Enabled = false;
-                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
-                        ddlCategories.Enabled = true;
+                    ddlCategories.Enabled = isEnabled;
                 }
 
                 RadioButton rbtn = e.Row.FindControl("rbtnPrimary1") as RadioButton;
                 if (rbtn != null)
                 {
                     rbtn.Checked = (e.Row.DataItem as cPhone).IsPrimary;
-                    rbtn.Enabled = false;
-                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
-                        rbtn.Enabled = true;
+                    rbtn.Enabled = isEnabled;
                 }
             }
         }
@@ -621,9 +632,9 @@ namespace LarpPortal
             if (gindex < phones.Count())
             {
 
-                phone.AreaCode = (e.NewValues["AreaCode"] + string.Empty).ToString().Trim();
+                phone.AreaCode = ((gv.Rows[gindex].FindControl("gv_txtAreaCode") as TextBox).Text + string.Empty).Trim();
                 phone.PhoneNumber = ((gv.Rows[gindex].FindControl("gv_txtPhoneNumber") as TextBox).Text + string.Empty).Trim();
-                phone.Extension = (e.NewValues["Extension"] + string.Empty).ToString().ToUpper().Trim();
+                phone.Extension = ((gv.Rows[gindex].FindControl("gv_txtExtension") as TextBox).Text + string.Empty).Trim();
                 int iRetVal = 0;
                 int.TryParse((gv.Rows[gindex].FindControl("ddPhoneNumber") as DropDownList).SelectedValue, out iRetVal); //only native types can be returned so temp variable
                 phone.PhoneTypeID = iRetVal;
@@ -708,23 +719,32 @@ namespace LarpPortal
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                bool isEnabled = false;
+                if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
+                {
+                    isEnabled = true;
+                }
+
+                TextBox gv_EmailAddress = e.Row.FindControl("gv_txtEmailAddress") as TextBox;
+                if (gv_EmailAddress != null)
+                {
+                    gv_EmailAddress.Text = (e.Row.DataItem as cEMail).EmailAddress;
+                    gv_EmailAddress.Enabled = isEnabled;
+                }
+
                 DropDownList ddlCategories = e.Row.FindControl("ddEmailTypeId") as DropDownList;
                 if (ddlCategories != null)
                 {
                     //Get the data from DB and bind the dropdownlist
                     ddlCategories.SelectedValue = (e.Row.DataItem as cEMail).EmailTypeID.ToString();
-                    ddlCategories.Enabled = false;
-                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
-                        ddlCategories.Enabled = true;
+                    ddlCategories.Enabled = isEnabled;
                 }
 
                 RadioButton rbtn = e.Row.FindControl("rbtnPrimary2") as RadioButton;
                 if (rbtn != null)
                 {
                     rbtn.Checked = (e.Row.DataItem as cEMail).IsPrimary;
-                    rbtn.Enabled = false;
-                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
-                        rbtn.Enabled = true;
+                    rbtn.Enabled = isEnabled;
                 }
             }
         }
@@ -744,7 +764,7 @@ namespace LarpPortal
             emails = Session["dem_Emails"] as List<cEMail>;
             if (gindex < emails.Count())
             {
-                email.EmailAddress = (e.NewValues["EmailAddress"] + string.Empty).ToString().Trim();
+                email.EmailAddress = ((gv.Rows[gindex].FindControl("gv_txtEmailAddress") as TextBox).Text + string.Empty).Trim();
                 int iRetVal = 0;
                 int.TryParse((gv.Rows[gindex].FindControl("ddEmailTypeId") as DropDownList).SelectedValue, out iRetVal); //only native types can be returned so temp variable
                 email.EmailTypeID = iRetVal;
