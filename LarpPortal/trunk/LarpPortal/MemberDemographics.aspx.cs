@@ -136,7 +136,26 @@ namespace LarpPortal
             PLDemography.GenderOther = txtGenderOther.Text; //We shall trust this value since the select event clears the text when needed
 
             Demography.NickName = txtNickname.Text;
-            
+
+            if (string.IsNullOrWhiteSpace(txtUsername.Text)) //If left empty set back to original setting...They may not remember it....
+            {
+                txtUsername.Text = Demography.LoginName;
+            }
+
+            // 1 - No duplicate usernames allowed
+            Classes.cLogin Login = new Classes.cLogin();
+            Login.CheckForExistingUsername(txtUsername.Text);
+            if (Login.MemberID != 0 && Login.MemberID != Demography.UserID)  // UserID is taken
+            {
+                lblMessage.Text = "This username is already in use.  Please select a different one.";
+                txtUsername.Focus();
+                return;
+            }
+            else
+            {
+                Demography.LoginName = txtUsername.Text.Trim();
+            }
+
             DateTime dob;
             if (DateTime.TryParse(txtDOB.Text, out dob))
                 PLDemography.DateOfBirth = dob;
@@ -185,6 +204,7 @@ namespace LarpPortal
             /* As I validate I will place the new values on the component prior to saving the values*/
             Demography.Save();
             PLDemography.Save();
+            Session["Username"] = Demography.LoginName;
 
             lblMessage.Text = "Changes saved successfully.";
         }
