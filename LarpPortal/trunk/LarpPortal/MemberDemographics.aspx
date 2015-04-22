@@ -140,23 +140,40 @@
                                         OnRowDeleting="gv_Address_RowDeleting"
                                         CssClass="panel-container-table">
                                         <Columns>
-                                            <%--<asp:TemplateField HeaderText="Address 1">
+                                            <asp:TemplateField HeaderText="Address 1" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="200px">
                                                 <ItemTemplate>
-                                                    <asp:TextBox ID="Address1" runat="server" Text='<%# Bind("StrAddress1") %>'></asp:TextBox>
-                                                        
+                                                    <asp:TextBox runat="server" ID="gv_txtAddress1" CssClass="form-control col-sm-4"></asp:TextBox>
                                                 </ItemTemplate>
-                                            </asp:TemplateField>--%>
-
-                                            <asp:BoundField DataField="StrAddress1" HeaderText="Address 1" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
-                                            <asp:BoundField DataField="StrAddress2" HeaderText="Address 2" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
-                                            <asp:BoundField DataField="StrCity" HeaderText="City" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
-                                            <asp:BoundField DataField="StrStateID" HeaderText="State" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
-                                            <asp:BoundField DataField="StrPostalCode" HeaderText="Postal/Zip Code" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />
-                                            <asp:BoundField DataField="StrCountry" HeaderText="Country" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" />                                            
-                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="80px" ItemStyle-Wrap="false">
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Address 2" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="200px">
+                                                <ItemTemplate>
+                                                    <asp:TextBox runat="server" ID="gv_txtAddress2" CssClass="form-control col-sm-4"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="City" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <asp:TextBox runat="server" ID="gv_txtCity" CssClass="form-control col-sm-2"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="State" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="50px">
+                                                <ItemTemplate>
+                                                    <asp:TextBox runat="server" ID="gv_txtState" CssClass="form-control col-sm-1"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Postal/Zip Code" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <asp:TextBox runat="server" ID="gv_txtZipCode" CssClass="form-control col-sm-2"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Country" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="100px">
+                                                <ItemTemplate>
+                                                    <asp:TextBox runat="server" ID="gv_txtCountry" CssClass="form-control col-sm-2"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="100px" ItemStyle-Wrap="false">
                                                 <ItemTemplate>
                                                     <!-- At some point I need to disable this two custom controls and enable only when editing to avoid confusions on the save -->
-                                                    <asp:DropDownList runat="server" ID="ddAddressType" DataTextField="strAddressTypeId" Width="50px"  >
+                                                    <asp:DropDownList runat="server" ID="ddAddressType" DataTextField="strAddressTypeId" Width="100px"  >
                                                         <asp:ListItem Text="None" Value="0" disabled="disabled"></asp:ListItem>
                                                         <asp:ListItem Text="Home" Value="1"></asp:ListItem>
                                                         <asp:ListItem Text="Mailing" Value="2"></asp:ListItem>
@@ -193,34 +210,31 @@
                                 <div class="panel-header">
                                     <h2>Phone Numbers</h2>
                                 </div>
-                                <div class="panel-body">
-                                   
+                                <div class="panel-body">                                   
                                     <asp:GridView ID="gv_PhoneNums" runat="server" AutoGenerateColumns="false" Width="100%" TabIndex="15" 
                                         OnRowCommand="gv_PhoneNums_RowCommand" OnRowDataBound="gv_PhoneNums_RowDataBound"
                                         OnRowEditing="gv_PhoneNums_RowEditing" OnRowUpdating="gv_PhoneNums_RowUpdating" OnRowCancelingEdit="gv_PhoneNums_RowCancelingEdit"
                                         OnRowDeleting="gv_PhoneNums_RowDeleting"
                                         CssClass="panel-container-table">
-                                        <Columns>
-                                            <%--<asp:BoundField DataField="AreaCode" HeaderText="Area Code" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="50px" />
-                                            --%>
-                                            <asp:TemplateField HeaderText="Area Code" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="50px">
+                                        <Columns>                                            
+                                            <asp:TemplateField HeaderText="Area Code" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="80px">
                                                 <ItemTemplate>
                                                     <asp:TextBox runat="server" ID="gv_txtAreaCode" CssClass="form-control col-sm-1"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Phone Number" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="80px">
+                                            <asp:TemplateField HeaderText="Phone Number" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="100px">
                                                 <ItemTemplate>
-                                                    <asp:TextBox runat="server" ID="gv_txtPhoneNumber" CssClass="form-control col-sm-1"></asp:TextBox>
+                                                    <asp:TextBox runat="server" ID="gv_txtPhoneNumber" CssClass="form-control col-sm-2"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Extension" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="80px">
+                                            <asp:TemplateField HeaderText="Extension" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem">
                                                 <ItemTemplate>
                                                     <asp:TextBox runat="server" ID="gv_txtExtension" CssClass="form-control col-sm-1"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="80px">
+                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="100px" HeaderStyle-Width="100px">
                                                <ItemTemplate>
-                                                   <asp:DropDownList runat="server" ID="ddPhoneNumber" DataTextField="PhoneTypeID">
+                                                   <asp:DropDownList runat="server" ID="ddPhoneNumber" DataTextField="PhoneTypeID" Width="100px">
                                                        <asp:ListItem Text="None" Value="0" disabled="disabled"></asp:ListItem>
                                                        <asp:ListItem Text="Home" Value="1"></asp:ListItem>
                                                        <asp:ListItem Text="Mobile" Value="2"></asp:ListItem>
@@ -234,14 +248,10 @@
                                                 <ItemTemplate>
                                                     <asp:RadioButton runat="server" ID="rbtnPrimary1"  />
                                                 </ItemTemplate>
-                                            </asp:TemplateField>
-                                            
+                                            </asp:TemplateField>                                            
                                             <asp:CommandField ShowEditButton="true" ButtonType="Image" EditImageUrl="~/img/edit.gif" ItemStyle-Width="22px" 
                                                 UpdateImageUrl="~/img/add22x22.png" CancelImageUrl="~/img/delete.png" />
-
-                                            <asp:CommandField ShowDeleteButton="true" ButtonType="Image" DeleteImageUrl="~/img/delete.png" ItemStyle-Width="22px" />
-
-                                            
+                                            <asp:CommandField ShowDeleteButton="true" ButtonType="Image" DeleteImageUrl="~/img/delete.png" ItemStyle-Width="22px" />                                            
                                         </Columns>
                                     </asp:GridView>
                                 </div>
@@ -262,14 +272,14 @@
                                         OnRowDeleting="gv_Emails_RowDeleting"
                                         CssClass="panel-container-table">
                                         <Columns>
-                                            <asp:TemplateField HeaderText="Email Address" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="180px">
+                                            <asp:TemplateField HeaderText="Email Address" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem">
                                                 <ItemTemplate>
                                                     <asp:TextBox runat="server" ID="gv_txtEmailAddress" CssClass="form-control col-sm-4"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="80px">
+                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="100px" HeaderStyle-Width="100px">
                                                 <ItemTemplate>
-                                                    <asp:DropDownList runat="server" ID="ddEmailTypeId" DataTextField="EmailTypeId">
+                                                    <asp:DropDownList runat="server" ID="ddEmailTypeId" DataTextField="EmailTypeId" Width="100px">
                                                         <asp:ListItem Text="None" Value="0" disabled="disabled"></asp:ListItem>
                                                         <asp:ListItem Text="Home" Value="1"></asp:ListItem>
                                                         <asp:ListItem Text="Work" Value="2"></asp:ListItem>
@@ -285,8 +295,7 @@
                                                 UpdateImageUrl="~/img/add22x22.png" CancelImageUrl="~/img/delete.png" />
                                             <asp:CommandField ShowDeleteButton="true" ButtonType="Image" DeleteImageUrl="~/img/delete.png" ItemStyle-Width="22px" />
                                         </Columns>
-                                    </asp:GridView>
-                                
+                                    </asp:GridView>                                
                                 </div>
                             </div>
                         </div>
