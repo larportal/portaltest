@@ -65,7 +65,7 @@
                                         <asp:TextBox ID="txtEmergencyName" runat="server" TabIndex="11" CssClass="form-control" placeholder="Emergency Contact Name"></asp:TextBox>
                                     </div>
                                     <asp:Label AssociatedControlID="txtEmergencyPhone" ID="lblEmergencyPhone" runat="server" CssClass="control-label col-sm-1">Phone</asp:Label>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <asp:TextBox ID="txtEmergencyPhone" runat="server" TabIndex="12" CssClass="form-control" placeholder="Phone"></asp:TextBox>
                                     </div>
                                 </div>
@@ -201,15 +201,24 @@
                                         OnRowDeleting="gv_PhoneNums_RowDeleting"
                                         CssClass="panel-container-table">
                                         <Columns>
-                                            <asp:BoundField DataField="AreaCode" HeaderText="Area Code" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="50px" />
-                                            <asp:TemplateField HeaderText="Phone Number" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="60px">
+                                            <%--<asp:BoundField DataField="AreaCode" HeaderText="Area Code" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="50px" />
+                                            --%>
+                                            <asp:TemplateField HeaderText="Area Code" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="50px">
+                                                <ItemTemplate>
+                                                    <asp:TextBox runat="server" ID="gv_txtAreaCode" CssClass="form-control col-sm-1"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Phone Number" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="80px">
                                                 <ItemTemplate>
                                                     <asp:TextBox runat="server" ID="gv_txtPhoneNumber" CssClass="form-control col-sm-1"></asp:TextBox>
                                                 </ItemTemplate>
                                             </asp:TemplateField>
-                                            <%--<asp:BoundField DataField="PhoneNumber" HeaderText="Phone #" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="60px" />--%>
-                                            <asp:BoundField DataField="Extension" HeaderText="Extension" ItemStyle-CssClass ="GridViewItem" HeaderStyle-CssClass="GridViewHeader" ItemStyle-Width="90px" />
-                                           <asp:TemplateField HeaderText="Type" ItemStyle-Width="80px">
+                                            <asp:TemplateField HeaderText="Extension" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="80px">
+                                                <ItemTemplate>
+                                                    <asp:TextBox runat="server" ID="gv_txtExtension" CssClass="form-control col-sm-1"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:TemplateField HeaderText="Type" ItemStyle-Width="80px">
                                                <ItemTemplate>
                                                    <asp:DropDownList runat="server" ID="ddPhoneNumber" DataTextField="PhoneTypeID">
                                                        <asp:ListItem Text="None" Value="0" disabled="disabled"></asp:ListItem>
@@ -253,7 +262,11 @@
                                         OnRowDeleting="gv_Emails_RowDeleting"
                                         CssClass="panel-container-table">
                                         <Columns>
-                                            <asp:BoundField DataField="EmailAddress" HeaderText="Email Address" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewHEader" ItemStyle-Width="50px" />
+                                            <asp:TemplateField HeaderText="Email Address" HeaderStyle-CssClass="GridViewHeader" ItemStyle-CssClass="GridViewItem" ItemStyle-Width="180px">
+                                                <ItemTemplate>
+                                                    <asp:TextBox runat="server" ID="gv_txtEmailAddress" CssClass="form-control col-sm-4"></asp:TextBox>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                             <asp:TemplateField HeaderText="Type" ItemStyle-Width="80px">
                                                 <ItemTemplate>
                                                     <asp:DropDownList runat="server" ID="ddEmailTypeId" DataTextField="EmailTypeId">
