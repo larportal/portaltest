@@ -254,6 +254,12 @@ namespace LarpPortal.Classes
                 return false;
             }
 
+            if (string.IsNullOrWhiteSpace(StrPostalCode))
+            {
+                strErrorDescription = "Postal/Zip Code must be entered";
+                return false;
+            }
+
             if (isValidZipCode(StrPostalCode) == false)
             {
                 strErrorDescription = (StrPostalCode ?? string.Empty) + "in not a valid Postal Code (please enter 5 numbers)";

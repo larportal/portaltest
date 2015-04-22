@@ -440,12 +440,12 @@ namespace LarpPortal
             if (gindex < addresses.Count())
             {
 
-                address.StrAddress1 = (e.NewValues["StrAddress1"] + string.Empty).ToString().Trim();
-                address.StrAddress2 = (e.NewValues["StrAddress2"] + string.Empty).ToString().Trim();
-                address.StrCity = (e.NewValues["StrCity"] + string.Empty).ToString().ToUpper().Trim();
-                address.StrStateID = (e.NewValues["StrStateID"] + string.Empty).ToString().Trim();
-                address.StrPostalCode = (e.NewValues["StrPostalCode"] + string.Empty).ToString().Trim();
-                address.StrCountry = (e.NewValues["StrCountry"] + string.Empty).ToString().ToUpper().Trim();
+                address.StrAddress1 = ((gv.Rows[gindex].FindControl("gv_txtAddress1") as TextBox).Text + string.Empty).Trim();
+                address.StrAddress2 = ((gv.Rows[gindex].FindControl("gv_txtAddress2") as TextBox).Text + string.Empty).Trim();
+                address.StrCity = ((gv.Rows[gindex].FindControl("gv_txtCity") as TextBox).Text + string.Empty).Trim();
+                address.StrStateID = ((gv.Rows[gindex].FindControl("gv_txtState") as TextBox).Text + string.Empty).Trim();
+                address.StrPostalCode = ((gv.Rows[gindex].FindControl("gv_txtZipCode") as TextBox).Text + string.Empty).Trim();
+                address.StrCountry = ((gv.Rows[gindex].FindControl("gv_txtCountry") as TextBox).Text + string.Empty).Trim();
                 int iRetVal = 0;
                 int.TryParse((gv.Rows[gindex].FindControl("ddAddressType") as DropDownList).SelectedValue, out iRetVal); //only native types can be returned so temp variable
                 address.IntAddressTypeID = iRetVal;
@@ -502,23 +502,67 @@ namespace LarpPortal
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                bool isEnabled = false;
+                if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
+                {
+                    isEnabled = true;
+                }
+
+                TextBox gv_Address1 = e.Row.FindControl("gv_txtAddress1") as TextBox;
+                if (gv_Address1 != null)
+                {
+                    gv_Address1.Text = (e.Row.DataItem as cAddress).StrAddress1;
+                    gv_Address1.Enabled = isEnabled;
+                }
+
+                TextBox gv_Address2 = e.Row.FindControl("gv_txtAddress2") as TextBox;
+                if (gv_Address2 != null)
+                {
+                    gv_Address2.Text = (e.Row.DataItem as cAddress).StrAddress2;
+                    gv_Address2.Enabled = isEnabled;
+                }
+                                
+                TextBox gv_City = e.Row.FindControl("gv_txtCity") as TextBox;
+                if (gv_City != null)
+                {
+                    gv_City.Text = (e.Row.DataItem as cAddress).StrCity;
+                    gv_City.Enabled = isEnabled;
+                }
+
+                TextBox gv_txtZipCode = e.Row.FindControl("gv_txtZipCode") as TextBox;
+                if (gv_txtZipCode != null)
+                {
+                    gv_txtZipCode.Text = (e.Row.DataItem as cAddress).StrPostalCode;
+                    gv_txtZipCode.Enabled = isEnabled;
+                }
+
+                TextBox gv_State = e.Row.FindControl("gv_txtState") as TextBox;
+                if (gv_State != null)
+                {
+                    gv_State.Text = (e.Row.DataItem as cAddress).StrStateID;
+                    gv_State.Enabled = isEnabled;
+                }
+
+                TextBox gv_Country = e.Row.FindControl("gv_txtCountry") as TextBox;
+                if (gv_Country != null)
+                {
+                    gv_Country.Text = (e.Row.DataItem as cAddress).StrCountry;
+                    gv_Country.Enabled = isEnabled;
+                }
+
                 DropDownList ddlCategories = e.Row.FindControl("ddAddressType") as DropDownList;
                 if (ddlCategories != null)
                 {
                     //Get the data from DB and bind the dropdownlist
                     ddlCategories.SelectedValue = (e.Row.DataItem as cAddress).IntAddressTypeID.ToString();
-                    ddlCategories.Enabled = false;
-                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
-                        ddlCategories.Enabled = true;
+                    ddlCategories.Enabled = isEnabled;                    
                 }
 
                 RadioButton rbtn = e.Row.FindControl("rbtnPrimary") as RadioButton;
                 if (rbtn != null)
                 {
                     rbtn.Checked = (e.Row.DataItem as cAddress).IsPrimary;
-                    rbtn.Enabled = false;
-                    if (e.Row.RowState.ToString().Contains(DataControlRowState.Edit.ToString()))
-                        rbtn.Enabled = true;
+                    rbtn.Enabled = isEnabled;                    
                 }
             }
         }
