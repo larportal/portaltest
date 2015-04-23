@@ -175,10 +175,12 @@ namespace LarpPortal.Character
                 dtSkillCosts.Columns.Add(new DataColumn("Skill", typeof(string)));
                 dtSkillCosts.Columns.Add(new DataColumn("Cost", typeof(double)));
                 dtSkillCosts.Columns.Add(new DataColumn("SortOrder", typeof(int)));
+                dtSkillCosts.Columns.Add(new DataColumn("SkillID", typeof(int)));
 
                 double TotalCP = 0.0;
                 double.TryParse(Session["TotalCP"].ToString(), out TotalCP);
 
+                string sSkills = "";
                 foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
                 {
                     int iSkillID;
@@ -189,12 +191,18 @@ namespace LarpPortal.Character
                         {
                             double SkillCost;
                             if (double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost))
-                                TotalSpent += SkillCost;
-                            DataRow dNewRow = dtSkillCosts.NewRow();
-                            dNewRow["Skill"] = dSkillRow[0]["SkillName"].ToString();
-                            dNewRow["Cost"] = SkillCost;
-                            dNewRow["SortOrder"] = 10;
-                            dtSkillCosts.Rows.Add(dNewRow);
+                            {
+                                if (dtSkillCosts.Select("SkillID = " + iSkillID.ToString()).Length == 0)
+                                    TotalSpent += SkillCost;
+                                if (SkillCost > 0)
+                                    sSkills += dSkillRow[0]["SkillName"].ToString() + ":" + SkillCost.ToString() + ", ";
+                                DataRow dNewRow = dtSkillCosts.NewRow();
+                                dNewRow["Skill"] = dSkillRow[0]["SkillName"].ToString();
+                                dNewRow["Cost"] = SkillCost;
+                                dNewRow["SkillID"] = iSkillID;
+                                dNewRow["SortOrder"] = 10;
+                                dtSkillCosts.Rows.Add(dNewRow);
+                            }
                         }
                     }
                 }
@@ -340,12 +348,12 @@ namespace LarpPortal.Character
         protected string FormatDescString(DataRowView dTreeNode)
         {
             string sTreeNode =
-                @"<a onmouseover=""ShowContent('divDesc'); " +
-                @"document.getElementById('divDesc').innerHTML = '<b>" + dTreeNode["SkillName"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + @"</b><br>" +
-                dTreeNode["SkillShortDescription"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + "<br><br>" +
-                "Cost: " + dTreeNode["SkillCPCost"].ToString() + "<br><br>" +
-                dTreeNode["SkillLongDescription"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + @"'; return true;"" " +
-                @"href=""javascript:ShowContent('divDesc')"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() + @"</a>";
+                   @"<a onmouseover=""ShowContent('divDesc'); " +
+                   @"document.getElementById('divDesc').innerHTML = '<b>" + dTreeNode["SkillName"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + @"</b><br>" +
+                   dTreeNode["SkillShortDescription"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + "<br><br>" +
+                   "Cost: " + dTreeNode["SkillCPCost"].ToString() + "<br><br>" +
+                   dTreeNode["SkillLongDescription"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + @"'; return true;"" " +
+                   @"href=""javascript:ShowContent('divDesc')"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() + @"</a>";
 
             return sTreeNode;
         }

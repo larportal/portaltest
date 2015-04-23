@@ -99,10 +99,10 @@
             document.getElementById('<%= lblFrameHeight.ClientID %>').value = (obj.contentWindow.document.body.scrollHeight - 150).toString();
         }
 
-        var w = window.innerWidth;
-        document.getElementById('<%= lblFrameHeight.ClientID %>').value = (w - 150).toString();
+//        var w = window.innerWidth;
+//        document.getElementById('<%= lblFrameHeight.ClientID %>').value = (w - 150).toString();
 
-        alert(w);
+//        alert(w);
 
     </script>
 </asp:Content>
