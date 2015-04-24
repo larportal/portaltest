@@ -229,13 +229,22 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.TextBox txtForumname;
         
         /// <summary>
-        /// fuMemberImage control.
+        /// ulFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuMemberImage;
+        protected global::System.Web.UI.WebControls.FileUpload ulFile;
+        
+        /// <summary>
+        /// btnUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUpload;
         
         /// <summary>
         /// imgPlayerImage control.

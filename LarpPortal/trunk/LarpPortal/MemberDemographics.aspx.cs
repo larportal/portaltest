@@ -11,6 +11,7 @@ using System.Collections;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
+using System.IO;
 
 namespace LarpPortal
 {
@@ -46,13 +47,27 @@ namespace LarpPortal
             string forum = Demography.ForumUserName;
             string pict = PLDemography.UserPhoto;
             if (pict == "")
+            {
                 imgPlayerImage.ImageUrl = "http://placehold.it/150x150";
+            }
             else
-                imgPlayerImage.ImageUrl = "img/player/" + pict;
+            {
+                if (string.IsNullOrWhiteSpace(Path.GetDirectoryName(pict)))
+                    imgPlayerImage.ImageUrl = "img/player/" + pict;
+                else
+                    imgPlayerImage.ImageUrl = pict;
+            }
             string emergencynm = PLDemography.EmergencyContactName;
             string emergencyContactPhone = string.Empty;
             if (PLDemography.EmergencyContactPhone != null)
+            {
                 emergencyContactPhone = PLDemography.EmergencyContactPhone;
+                Int32 iPhone;
+                if (Int32.TryParse(emergencyContactPhone.Replace("(","").Replace(")","").Replace("-",""), out iPhone))
+                {
+                    emergencyContactPhone = iPhone.ToString("(###)###-####");
+                }
+            }
             //Classes.cPhone EmergencyPhone = new Classes.cPhone();
             //string emergencyph = EmergencyPhone.PhoneNumber; // = PLDemography.EmergencyContactPhone; 
             // Need to define the list for Addresses
@@ -77,6 +92,9 @@ namespace LarpPortal
                 txtNickname.Text = nick;
                 txtPenname.Text = pen;
                 txtForumname.Text = forum;
+
+                if (Session["dem_Img_Url"] != null && !string.IsNullOrWhiteSpace(Session["dem_Img_Url"].ToString()))
+                    imgPlayerImage.ImageUrl = Session["dem_Img_Url"].ToString();
                 
                 List<cAddress> _addresses = new List<cAddress>(); 
                 if (Demography.UserAddresses != null)
@@ -200,6 +218,27 @@ namespace LarpPortal
             AddressesChangesUpdate();
             PhonesChangesUpdate();
             EmailsChangesUpdate();
+
+            if (Session["dem_Img_Url"] != null)
+            {
+                PLDemography.UserPhoto = Session["dem_Img_Url"].ToString();
+                imgPlayerImage.ImageUrl = Session["dem_Img_Url"].ToString();
+                Session["dem_Img_Url"] = "";
+                Session.Remove("dem_Img_Id");
+
+                //Classes.cPicture NewPicture = new Classes.cPicture();
+                //int iPictureId =0;
+                //if (Session["dem_Img_Id"] != null && Int32.TryParse(Session["dem_Img_Id"].ToString(), out iPictureId))
+                //{
+                //    //This code will be enabled once the stored procedure is created
+                //    string userID = Session["UserID"].ToString();
+                //    //NewPicture.Load(iPictureId, userID);
+                //    //NewPicture.PictureFileName = NewPicture.PictureFileName.Replace("_2", "_1");
+                //    //NewPicture.Save(userID);
+                //    //Time to trash the old main picture with the picture in memory                    
+                //    //PLDemography.UserPhoto = NewPicture.PictureFileName;                    
+                //}
+            }
 
             /* As I validate I will place the new values on the component prior to saving the values*/
             Demography.Save();
@@ -462,6 +501,12 @@ namespace LarpPortal
                     addresses[gindex].IsPrimary = address.IsPrimary;
                     if (addresses[gindex].IntAddressID < 1)//Always make sure that there is an extra records to edit, since there is not option to add records
                         addresses.Add(new cAddress());
+                    //if the primary record is checked then all other record must not be ckeched
+                    if (addresses[gindex].IsPrimary)
+                    {
+                        addresses.ForAll(x => x.IsPrimary = false);
+                        addresses[gindex].IsPrimary = true;
+                    }
 
                     Session["dem_Addresses"] = addresses;
                     gv.Rows[gindex].RowState = DataControlRowState.Normal;
@@ -692,6 +737,12 @@ namespace LarpPortal
                     phones[gindex].IsPrimary = phone.IsPrimary;
                     if (phones[gindex].PhoneNumberID < 1)
                         phones.Add(new cPhone());
+                    //if the primary record is checked then all other record must not be ckeched
+                    if (phones[gindex].IsPrimary)
+                    {
+                        phones.ForAll(x => x.IsPrimary = false);
+                        phones[gindex].IsPrimary = true;
+                    }
 
                     Session["dem_Phones"] = phones;
                     gv.Rows[gindex].RowState = DataControlRowState.Normal;
@@ -821,6 +872,13 @@ namespace LarpPortal
                     if (emails[gindex].EMailID < 1)
                         emails.Add(new cEMail());
 
+                    //if the primary record is checked then all other record must not be ckeched
+                    if (emails[gindex].IsPrimary)
+                    {
+                        emails.ForAll(x => x.IsPrimary = false);
+                        emails[gindex].IsPrimary = true;
+                    }
+
                     Session["dem_Emails"] = emails;
                     gv.Rows[gindex].RowState = DataControlRowState.Normal;
                     gv_Emails.EditIndex = -1;
@@ -856,6 +914,94 @@ namespace LarpPortal
             Session["dem_Emails"] = emails;
 
             BindAllGrids();
-        }        
+        }
+
+        protected void btnUpload_Click(object sender, EventArgs e)
+        {
+            if (ulFile.HasFile)
+            {
+                try
+                {
+                    //If file is not an image do not let it in the system
+                    System.Drawing.Imaging.ImageFormat imgFormat = System.Drawing.Imaging.ImageFormat.Jpeg;
+                    string fExt = ulFile.FileName.Substring(ulFile.FileName.IndexOf(".")+ 1).ToUpper();
+                    string[] validImageExt = {"BMP","GIF","ICO","JPG", "JPEG","PNG"};
+
+                    if (!validImageExt.Contains(fExt))
+                    {
+                        lblMessage.Text = "Invalid File time. Supported types are " + string.Join(", ", validImageExt);
+                        return;
+                    }
+                    else
+                    {
+                        if (fExt == "BMP")
+                            imgFormat = System.Drawing.Imaging.ImageFormat.Bmp;                        
+                        if (fExt == "GIF")
+                            imgFormat = System.Drawing.Imaging.ImageFormat.Gif;
+                        if (fExt == "ICO")
+                            imgFormat = System.Drawing.Imaging.ImageFormat.Icon;
+                        if (fExt == "PNG")
+                            imgFormat = System.Drawing.Imaging.ImageFormat.Png;
+                        
+
+                    }
+
+                    string sUser = Session["LoginName"].ToString();
+                    Classes.cPicture NewPicture = new Classes.cPicture();
+                    NewPicture.PictureType = Classes.cPicture.PictureTypes.Player;
+                    NewPicture.CreateNewPictureRecord(sUser);
+                    string sExtension = Path.GetExtension(ulFile.FileName);
+                    ////The new picture should always be userId + '_2' so when we save the information we finalize it as userId + '_1'
+                    //NewPicture.PictureFileName = Demography.UserID.ToString() + "_2" + sExtension;
+                    //While the stored procedure is created I will safe the picture with the users name
+                    NewPicture.PictureFileName = Demography.UserID.ToString() + "_" + ulFile.FileName;
+
+                    //Not sure I understand what this means
+                    //int iCharacterID = 0;
+                    //int.TryParse(Session["dem_Img"].ToString(), out iCharacterID);
+                    //NewPicture.CharacterID = iCharacterID;
+
+                    string LocalName = NewPicture.PictureLocalName;
+
+                    if (!Directory.Exists(Path.GetDirectoryName(NewPicture.PictureLocalName)))
+                        Directory.CreateDirectory(Path.GetDirectoryName(NewPicture.PictureLocalName));
+
+                    ulFile.SaveAs(NewPicture.PictureLocalName);
+                    NewPicture.Save(sUser);
+
+                    Session["dem_Img_Id"] = NewPicture.PictureID;
+                    Session["dem_Img_Url"] = NewPicture.PictureURL;                    
+                    imgPlayerImage.ImageUrl = NewPicture.PictureURL;
+
+                    /* If picture size if greater than half a megabyte we need to resize the image to 150 x 150 pixels*/
+                    //FileInfo fInfo = new FileInfo(NewPicture.PictureLocalName);
+                    //if (fInfo.Length > 500000)
+                    //{
+                    //    System.Drawing.Image image = System.Drawing.Bitmap.FromFile(NewPicture.PictureLocalName);
+                    //    System.Drawing.Image newImage = ScaleImage(image, 150, 150);
+                    //    newImage.Save(NewPicture.PictureURL, imgFormat);
+                    //}
+                    
+                }
+                catch (Exception ex)
+                {
+                    lblMessage.Text = ex.Message + "<br>" + ex.StackTrace;
+                }
+            }
+        }
+
+        private System.Drawing.Image ScaleImage(System.Drawing.Image image, int maxWidth, int maxHeight)
+        {
+            var ratioX = (double)maxWidth / image.Width;
+            var ratioY = (double)maxHeight / image.Height;
+            var ratio = Math.Min(ratioX, ratioY);
+
+            var newWidth = (int)(image.Width * ratio);
+            var newHeight = (int)(image.Height * ratio);
+
+            var newImage = new System.Drawing.Bitmap(newWidth, newHeight);
+            System.Drawing.Graphics.FromImage(newImage).DrawImage(image, 0, 0, newWidth, newHeight);
+            return newImage;
+        }
     }
 }

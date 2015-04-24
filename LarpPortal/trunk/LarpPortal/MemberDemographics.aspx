@@ -2,12 +2,12 @@
 
 <asp:Content ID="MyProfileDemographics" ContentPlaceHolderID="Demographics" runat="server">
    
-<asp:Label ID="WIP" runat="server" BackColor="Yellow"> Profile - Demographics - Placeholder page - in progress</asp:Label>
+<asp:Label ID="WIP" runat="server" BackColor="Yellow"></asp:Label>
     <div class="mainContent tab-content">
         <section id="demographics" class="demographics tab-pane active">
             <div role="form" class="form-horizontal form-condensed">
                 <div class="col-sm-12">
-                    <h1 class="col-sm-4">My Profile - <span>Demographics</span></h1>
+                    <h1 class="col-sm-6">My Profile - Demographics<span></span></h1>
                 </div>
                 <div class="col-sm-12">
                     <div class="col-sm-7">
@@ -100,14 +100,30 @@
                             </div>
                         </div>
 
-                        <div class="uploadFile row col-sm-12">
+                        <div class="form-group">
+                            <div class="row">
+                                To add a profile picture, use the browse button below.
+                            </div>
+                            <div class="row">
+                                <asp:FileUpload ID="ulFile" runat="server" CssClass="form-control col-sm-3"  Height="30px" />
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">&nbsp;</div>
+                                <div class="col-sm-5">
+                                    <asp:Button ID="btnUpload" runat="server" Text="Upload" CssClass="btn btn-default" Height="30px" OnClick="btnUpload_Click" />
+                                </div>
+                            </div>
+                        
+                        </div>
+
+                        <%--<div class="uploadFile row col-sm-12">
                             <div class="input-group">                                
                                 <span class="input-group-btn">                                    
-                                    <asp:FileUpload ID="fuMemberImage" runat="server" TabIndex="13" Width="90px" CssClass="btn btn-default btn-sm btnFile col-sm-1" />
+                                    <asp:FileUpload ID="fuMemberImage" runat="server" TabIndex="13" Width="90px" CssClass="StandardButton" />
                                 </span>
                                 <input type="text" class="form-control col-sm-1" readonly="readonly" placeholder="Browse to add photo">
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                     <div class="userPhoto col-sm-2">
                         <asp:Image ID="imgPlayerImage" runat="server" AlternateText="Player Picture" Height="150" Width="150" />
@@ -126,13 +142,6 @@
                                     <h2>Addresses</h2>
                                 </div>
                                 <div class="panel-body">
-                                    <!-- AlternatingRowStyle-BackColor="Linen" BorderColor="Black" BorderWidth="1px" BorderStyle="Solid"
-                                         Caption="<span style='font-size: larger; font-weight: bold;'>Addresses</span>"
-                                       -->  
-        <%--<asp:UpdatePanel ID="gvAddressPanel" runat="server">
-            <ContentTemplate>
-        --%>                                       
-
                                     <asp:GridView ID="gv_Address" runat="server" AutoGenerateColumns="false"  Width="100%" TabIndex="14"
                                         DataKeyNames="IntAddressID"
                                         OnRowCommand="gv_Address_RowCommand" OnRowDataBound="gv_Address_RowDataBound"                                     
