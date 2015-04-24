@@ -231,13 +231,13 @@ namespace LarpPortal.Character
                         CheckAllNodesWithValue(e.Node.Value, true);
                     }
                 }
-                List<TreeNode> FoundNodes = FindNodesByValue("961");
+                List<TreeNode> FoundNodes = FindNodesByValue(e.Node.Value);
                 foreach (TreeNode t in FoundNodes)
                 {
-                    t.Text = t.Text.Replace("black", "grey");
-                    t.ImageUrl = "/img/delete.png";
+                    //t.Text = t.Text.Replace("black", "grey");
+                    //t.ImageUrl = "/img/delete.png";
                     t.ShowCheckBox = false;
-                    DisableChildren(t);
+                    EnableChildren(t);
                 }
             }
             else
