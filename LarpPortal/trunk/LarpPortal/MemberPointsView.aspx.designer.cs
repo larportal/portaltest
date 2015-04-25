@@ -10,24 +10,24 @@
 namespace LarpPortal {
     
     
-    public partial class MemberPoints {
+    public partial class MemberPointsView {
         
         /// <summary>
-        /// ddlUserCampaigns control.
+        /// lblGridHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::LarpPortal.ucUserCampaignsDropDownList ddlUserCampaigns;
+        protected global::System.Web.UI.WebControls.Label lblGridHeader;
         
         /// <summary>
-        /// PointsContent control.
+        /// lblCPAuditTableCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder PointsContent;
+        protected global::System.Web.UI.WebControls.Label lblCPAuditTableCode;
     }
 }

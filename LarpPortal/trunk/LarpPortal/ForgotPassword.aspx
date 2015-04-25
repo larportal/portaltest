@@ -16,13 +16,13 @@
 							    <div class="panel-container"><p></p>
                                     <asp:Panel ID="pnlIDYourself" runat="server">
                                         <b>Section 1 - Fill in all three fields and click 'Get Password'</b><p></p>
-                                        <asp:Label ID="lblUsername" runat="server">Username: </asp:Label>
-                                        <asp:TextBox ID="txtUsername" runat="server" AutoPostBack="true" OnTextChanged="txtUsername_TextChanged"></asp:TextBox>
-                                        <asp:Label ID="lblForgotUsername" runat="server">Forgot your username?  Fill in the email address and click 'Forgot Username'</asp:Label>
-                                        <p></p>
                                         <asp:Label ID="lblEmailAddress" runat="server">Email Address: </asp:Label>
-                                        <asp:TextBox ID="txtEmailAddress" runat="server" TextMode="Email" AutoPostBack="true" OnTextChanged="txtEmailAddress_TextChanged"></asp:TextBox>
-                                        <asp:Button ID="btnForgotUsername" runat="server" OnClick="btnForgotUsername_Click" CssClass="btn btn-primary" Text="Forgot Username" />
+                                        <asp:TextBox ID="txtEmailAddress" runat="server" TextMode="Email" AutoPostBack="true" OnTextChanged="txtEmailAddress_TextChanged"></asp:TextBox><p></p>
+
+                                        <asp:Label ID="lblUsername" runat="server">Username: </asp:Label>
+                                        <asp:TextBox ID="txtUsername" runat="server" AutoPostBack="true" OnTextChanged="txtUsername_TextChanged"></asp:TextBox><br />
+                                        <asp:Label ID="lblForgotUsername" runat="server">Forgot your username or new to the system?  Fill in the email address and click 'Forgot Username'</asp:Label>
+                                        <asp:Button ID="btnForgotUsername" runat="server" OnClick="btnForgotUsername_Click" CssClass="btn btn-primary" Text="Forgot Username" /><br />
                                         <asp:Label ID="lblUsernameISEmail" runat="server"></asp:Label>
                                         <p></p>
                                         <asp:Label ID="lblLastName" runat="server">Last Name: </asp:Label>
