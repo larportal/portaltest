@@ -91,7 +91,8 @@ namespace LarpPortal
                 {
                     if (ValidUser.Email == ValidUser.Username)
                     {
-                        lblUsernameISEmail.Text = "Your email address is your username.  We recommend you change your username after logging in.";          
+                        lblUsernameISEmail.Text = "Your email address is your username.  We recommend you change your username after logging in.";
+                        txtUsername.Text = ValidUser.Username;
                     }
                     else
                     {
@@ -109,10 +110,12 @@ namespace LarpPortal
         {
             string strBody;
             string FirstName = "";
+            string LastName = "";
             string LoginUsername = "";
             Classes.cLogin Username = new Classes.cLogin();
             Username.GetUsernameByEmail(EmailAddress);
             FirstName = Username.FirstName;
+            LastName = Username.LastName;
             LoginUsername = Username.Username;
             string strFromUser = "support";
             string strFromDomain = "larportal.com";
@@ -356,13 +359,13 @@ namespace LarpPortal
         protected void txtUsername_TextChanged(object sender, EventArgs e)
         {
             lblUsernameISEmail.Visible = false;
-            txtEmailAddress.Focus();
+            txtLastName.Focus();
         }
 
         protected void txtEmailAddress_TextChanged(object sender, EventArgs e)
         {
             lblUsernameISEmail.Visible = false;
-            txtLastName.Focus();
+            txtUsername.Focus();
         }
 
         protected void txtLastName_TextChanged(object sender, EventArgs e)

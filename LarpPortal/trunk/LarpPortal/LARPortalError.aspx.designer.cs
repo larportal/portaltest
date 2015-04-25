@@ -10,24 +10,15 @@
 namespace LarpPortal {
     
     
-    public partial class MemberPoints {
+    public partial class LARPortalError {
         
         /// <summary>
-        /// ddlUserCampaigns control.
+        /// hplLogin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::LarpPortal.ucUserCampaignsDropDownList ddlUserCampaigns;
-        
-        /// <summary>
-        /// PointsContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder PointsContent;
+        protected global::System.Web.UI.WebControls.HyperLink hplLogin;
     }
 }

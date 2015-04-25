@@ -328,11 +328,13 @@
     <Content Include="index.aspx" />
     <Content Include="css\main.css" />
     <Content Include="Inventory.aspx" />
+    <Content Include="LARPortalError.aspx" />
     <Content Include="larpPortal.jpg" />
     <Content Include="LARPResume.aspx" />
     <Content Include="LearnMore.aspx" />
     <Content Include="Medical.aspx" />
     <Content Include="MemberDemographics.aspx" />
+    <Content Include="MemberPointsView.aspx" />
     <Content Include="NewUserLoginDirections.aspx" />
     <Content Include="NightlyUpdates.aspx" />
     <Content Include="NoCurrentCampaignAssociations.aspx" />
@@ -708,6 +710,13 @@
     <Compile Include="LARPortal.Master.designer.cs">
       <DependentUpon>LARPortal.Master</DependentUpon>
     </Compile>
+    <Compile Include="LARPortalError.aspx.cs">
+      <DependentUpon>LARPortalError.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LARPortalError.aspx.designer.cs">
+      <DependentUpon>LARPortalError.aspx</DependentUpon>
+    </Compile>
     <Compile Include="LARPortalMasterReferences.Master.cs">
       <DependentUpon>LARPortalMasterReferences.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -777,6 +786,13 @@
     </Compile>
     <Compile Include="MemberPoints.master.designer.cs">
       <DependentUpon>MemberPoints.master</DependentUpon>
+    </Compile>
+    <Compile Include="MemberPointsView.aspx.cs">
+      <DependentUpon>MemberPointsView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberPointsView.aspx.designer.cs">
+      <DependentUpon>MemberPointsView.aspx</DependentUpon>
     </Compile>
     <Compile Include="MemberProfile.master.cs">
       <DependentUpon>MemberProfile.master</DependentUpon>
@@ -980,6 +996,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reports\CPAudit.rdlc" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -135,8 +135,8 @@ namespace LarpPortal
                 DataRow LeftNavRow = LeftNavTable.NewRow();
                 LeftNavRow["href_li"] = hrefline;
                 LeftNavTable.Rows.Add(LeftNavRow);
-                menu_ul_memberprofile.DataSource = LeftNavTable;
-                menu_ul_memberprofile.DataBind();
+                //menu_ul_memberprofile.DataSource = LeftNavTable;
+                //menu_ul_memberprofile.DataBind();
             }
         }
     }

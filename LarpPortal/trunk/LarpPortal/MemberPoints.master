@@ -1,12 +1,28 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="MemberPoints.master.cs" Inherits="LarpPortal.MemberPoints" %>
-
+<%@ Register TagPrefix="UC1" TagName="UserCampaignDDL" Src="~/ucUserCampaignsDropDownList.ascx" %>
 <asp:Content ID="LeftNavMemberPoints" ContentPlaceHolderID="MainPage" runat="server">
     <asp:Table runat="server">
         <asp:TableRow>
             <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
               <div class="contentArea">
 				<nav class="userSubNav">
-                    <asp:Repeater ID="menu_ul_memberprofile" runat="server">
+
+
+					<div class="col-sm-12">
+                        <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
+						<ul class="nav nav-pills panel-wrapper list-unstyled scroll-500">
+							<li class="active"><a href="#view-points" data-toggle="pill" class="main-toggle">View Points</a></li>
+							<li><label class="tree-toggle"><a href="PageUnderConstruction.aspx" data-toggle="pill">Earn Points  <span class="caret"> </span></a></label>
+								<ul class="tree nav nav-pills">
+									<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Standard</a></li>
+									<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Non Standard</a></li>
+								</ul>
+							</li>
+							<li><a href="PageUnderConstruction.aspx" data-toggle="pill" class="main-toggle">Spend Points</a></li>
+						</ul>
+					</div>
+
+<%--                    <asp:Repeater ID="menu_ul_memberprofile" runat="server">
                         <HeaderTemplate>
                             <ul class="nav nav-pills">
                         </HeaderTemplate>
@@ -16,7 +32,8 @@
                         <FooterTemplate>
                             </ul>
                         </FooterTemplate>
-                    </asp:Repeater>
+                    </asp:Repeater>--%>
+
 				</nav>
               </div>
             </asp:TableCell>
