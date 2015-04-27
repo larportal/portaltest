@@ -182,6 +182,10 @@
     <Content Include="Account\OpenAuthProviders.ascx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
+    <Content Include="AdminDailyFifthGateCharacters.aspx" />
+    <Content Include="AdminDailyFifthGateCharacterSkills.aspx" />
+    <Content Include="AdminMaintenance.aspx" />
+    <Content Include="AdminViewLogins.aspx" />
     <Content Include="AllMessages.aspx" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\AspNet.ScriptManager.bootstrap.dll" />
@@ -474,6 +478,34 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
+    <Compile Include="AdminDailyFifthGateCharacters.aspx.cs">
+      <DependentUpon>AdminDailyFifthGateCharacters.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminDailyFifthGateCharacters.aspx.designer.cs">
+      <DependentUpon>AdminDailyFifthGateCharacters.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AdminDailyFifthGateCharacterSkills.aspx.cs">
+      <DependentUpon>AdminDailyFifthGateCharacterSkills.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminDailyFifthGateCharacterSkills.aspx.designer.cs">
+      <DependentUpon>AdminDailyFifthGateCharacterSkills.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AdminMaintenance.aspx.cs">
+      <DependentUpon>AdminMaintenance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminMaintenance.aspx.designer.cs">
+      <DependentUpon>AdminMaintenance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AdminViewLogins.aspx.cs">
+      <DependentUpon>AdminViewLogins.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminViewLogins.aspx.designer.cs">
+      <DependentUpon>AdminViewLogins.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AllMessages.aspx.cs">
       <DependentUpon>AllMessages.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -591,6 +623,7 @@
     </Compile>
     <Compile Include="Classes\cActor.cs" />
     <Compile Include="Classes\cAddress.cs" />
+    <Compile Include="Classes\cAdminViews.cs" />
     <Compile Include="Classes\cBank.cs" />
     <Compile Include="Classes\cCalendar.cs" />
     <Compile Include="Classes\cCampaignBase.cs" />

@@ -19,11 +19,6 @@ namespace LarpPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["ActiveLeftNav"] = "PointsView";
-            // Delete after page is tested
-            //Session["Username"] = "ryulin";
-            //Session["UserID"] = "2";
-            //Session["SecurityRole"] = "10";
-            // End delete
             string uName = "";
             int uID = 0;
             if (Session["Username"] != null)
@@ -44,7 +39,6 @@ namespace LarpPortal
             int CampaignID = 0;
             int CharacterID = 0;
             int CPAuditRowCounter = 1;
-            int iTemp = 0;
             DateTime dtTemp;
             double dTemp = 0;
             string TransactionDate = "";
@@ -54,11 +48,9 @@ namespace LarpPortal
             string Status = "Spent";
             string CPApprovedDate;
             string RecvFromCampaign = "";
-            int OwningPlayerID = 0;
             string OwningPlayer = "";
             string ReceivingCampaign = "";
             string Character = "";
-            int ReceivingPlayerID = 0;
             string ReceivingPlayer = "";
             string CampaignDDL = Session["CampaignName"].ToString();
             string dq = "\"";
@@ -109,11 +101,9 @@ namespace LarpPortal
                         else
                             CPApprovedDate = "";
                         TableCode = TableCode + "<td>" + CPApprovedDate +"</td>";
-                        //RecvFromCampaign = dRow["RecvFromCampaign"].ToString(); Defining higher up
                         TableCode = TableCode + "<td>" + RecvFromCampaign +"</td>";
                         OwningPlayer = dRow["OwningPlayer"].ToString();
                         TableCode = TableCode + "<td>" + OwningPlayer +"</td>";
-                        //ReceivingCampaign = dRow["ReceivingCampaign"].ToString(); Defining higher up
                         TableCode = TableCode + "<td>" + ReceivingCampaign +"</td>";
                         Character = dRow["Character"].ToString();
                         TableCode = TableCode + "<td>" + Character +"</td>";
@@ -121,10 +111,9 @@ namespace LarpPortal
                             ReceivingPlayer = "";
                         ReceivingPlayer = dRow["ReceivingPlayer"].ToString();
                         TableCode = TableCode + "<td>" + ReceivingPlayer +"</td>";
-                        TableCode = TableCode + "<td>" + CPApprovedDate + "</td></tr>";
-                        CPAuditRowCounter++;
+                        TableCode = TableCode + "<td>" + CPApprovedDate + "</td></tr>"; 
                     }
-
+                    CPAuditRowCounter++;
                 }
                 // Build the table close
                 lblCPAuditTableCode.Text = TableCode + "</table>";

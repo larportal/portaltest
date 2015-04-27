@@ -421,17 +421,23 @@ namespace LarpPortal.Classes
         /// <summary>
         /// This will save a record of the login in the login audit table
         /// </summary>
-        public void LoginAudit(int UserID, string Username, string Password)
+        public void LoginAudit(int UserID, string Username, string Password, string IPAddress, string Browser, string BrowserVersion, string OSPlatform, string OSVersion)
         {
             string stStoredProc = "uspWriteLoginAudit";
             SortedList slParameters = new SortedList();
             if (Email == null)
                 Email = "";
-            slParameters.Add("@UserLoginAuditID", -1);
+            slParameters.Add("@UserLoginAuditID", -1); //
             slParameters.Add("@Email", Email);
-            slParameters.Add("@UserID", UserID);
-            slParameters.Add("@Username", Username);
-            slParameters.Add("@Password", Password);
+            slParameters.Add("@UserID", UserID);  //
+            slParameters.Add("@Username", Username);  //
+            slParameters.Add("@Password", Password);  //
+            slParameters.Add("@IPAddress", IPAddress);  //
+            slParameters.Add("@Browser", Browser);  //
+            slParameters.Add("@BrowserVersion", BrowserVersion);  //
+            slParameters.Add("@OSPlatform", OSPlatform);  //
+            slParameters.Add("@OSVersion", OSVersion);  //
+            slParameters.Add("@Comments", "");
             cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
         }
 
