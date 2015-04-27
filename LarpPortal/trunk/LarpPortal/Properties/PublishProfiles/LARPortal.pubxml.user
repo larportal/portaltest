@@ -34,6 +34,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Account/Web.config">
       <publishTime>05/19/2014 10:18:32</publishTime>
     </File>
+    <File Include="AdminDailyFifthGateCharacters.aspx">
+      <publishTime>04/26/2015 13:17:02</publishTime>
+    </File>
+    <File Include="AdminDailyFifthGateCharacterSkills.aspx">
+      <publishTime>04/26/2015 13:17:02</publishTime>
+    </File>
+    <File Include="AdminMaintenance.aspx">
+      <publishTime>04/26/2015 13:14:18</publishTime>
+    </File>
+    <File Include="AdminViewLogins.aspx">
+      <publishTime>04/26/2015 13:17:02</publishTime>
+    </File>
     <File Include="AllMessages.aspx">
       <publishTime>01/03/2015 12:47:56</publishTime>
     </File>
@@ -149,7 +161,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 21:15:46</publishTime>
     </File>
     <File Include="bin/LarpPortal.dll">
-      <publishTime>04/24/2015 07:25:20</publishTime>
+      <publishTime>04/26/2015 14:55:07</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>05/19/2014 20:54:36</publishTime>
@@ -347,7 +359,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 20:25:39</publishTime>
     </File>
     <File Include="css/main.css">
-      <publishTime>03/10/2015 06:52:08</publishTime>
+      <publishTime>04/26/2015 16:10:27</publishTime>
     </File>
     <File Include="css/normalize.css">
       <publishTime>11/24/2014 13:09:40</publishTime>
@@ -692,7 +704,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/10/2014 21:17:20</publishTime>
     </File>
     <File Include="LARPortal.Master">
-      <publishTime>03/06/2015 20:25:39</publishTime>
+      <publishTime>04/26/2015 15:20:14</publishTime>
     </File>
     <File Include="LARPortalError.aspx">
       <publishTime>04/19/2015 19:04:25</publishTime>
@@ -728,10 +740,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/13/2014 13:36:07</publishTime>
     </File>
     <File Include="MemberPoints.master">
-      <publishTime>04/22/2015 19:14:05</publishTime>
+      <publishTime>04/25/2015 08:22:02</publishTime>
     </File>
     <File Include="MemberPointsView.aspx">
-      <publishTime>04/23/2015 13:42:41</publishTime>
+      <publishTime>04/24/2015 22:59:18</publishTime>
     </File>
     <File Include="MemberProfile.master">
       <publishTime>12/10/2014 21:18:06</publishTime>
@@ -770,7 +782,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LARPortal.pubxml.user">
-      <publishTime>04/23/2015 22:32:33</publishTime>
+      <publishTime>04/26/2015 15:45:53</publishTime>
     </File>
     <File Include="PublicCalendar.aspx">
       <publishTime>12/10/2014 21:37:31</publishTime>
@@ -881,7 +893,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/04/2015 06:07:07</publishTime>
     </File>
     <File Include="MemberSecurity.aspx">
-      <publishTime>04/09/2015 20:03:44</publishTime>
+      <publishTime>04/26/2015 15:37:38</publishTime>
     </File>
     <File Include="Site.Master">
       <publishTime>08/06/2014 18:34:44</publishTime>

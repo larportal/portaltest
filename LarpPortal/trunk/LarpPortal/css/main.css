@@ -6510,7 +6510,8 @@ label[for="middle-initial"] {
 .form-condensed label, .form-condensed a, .form-condensed p {
   font-size: 12px; }
 .form-condensed input {
-  height: 20px; }
+  height: 24px; 
+  line-height: 1; }
 .form-condensed a {
   padding-top: 2px; }
 .form-condensed .form-group {

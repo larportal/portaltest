@@ -54,6 +54,18 @@ namespace LarpPortal
                 SiteOpsMode = OpsMode.SiteOperationalMode;
                 Session["OperationalMode"] = SiteOpsMode;
                 ForgotPassword.Text = "<a id=" + "\"" + "lnkForgotPassword" + "\"" + " href=" + "\"" + "ForgotPassword.aspx" + "\"" + " target=" + "\"" + "_blank" + "\"" + ">Forgot password?</a>";
+                // Get OS and browser settings and save them to session variables
+                HttpBrowserCapabilities bc = HttpContext.Current.Request.Browser;
+                string UserAgent = HttpContext.Current.Request.UserAgent;
+                Session["IPAddress"] = HttpContext.Current.Request.UserHostAddress;
+                Session["Browser"] = bc.Browser;
+                Session["BrowserVersion"] = bc.Version;
+                Session["Platform"] = bc.Platform;
+                Session["OSVersion"] = Request.UserAgent;
+                //string BrowserCheck = "";
+                //BrowserCheck = "IP: " + Session["IPAddress"].ToString();
+                //BrowserCheck = BrowserCheck + " || Browser/Version: " + Session["Browser"].ToString() + "/" + Session["BrowserVersion"].ToString();
+                //BrowserCheck = BrowserCheck + " || Platform/Version: " + Session["Platform"].ToString() + "/" + Session["OSVersion"].ToString();
             }
             txtName.Visible = false;
             txtLastLocation.Visible = false;
@@ -162,7 +174,22 @@ namespace LarpPortal
             Session["LoginPassword"] = Session["AttemptedPassword"];
             Session["UserID"] = Login.MemberID;
             // Write login entry to UserLoginAudit table
-            Login.LoginAudit(Login.MemberID, txtUserName.Text,txtPassword.Text);
+            string txtIPAddress = "";
+            string txtBrowser = "";
+            string txtBrowserVersion = "";
+            string txtPlatform = "";
+            string txtOSVersion = "";
+            if (Session["IPAddress"] != null)
+                txtIPAddress = Session["IPAddress"].ToString();
+            if (Session["Browser"] != null)
+                txtBrowser = Session["Browser"].ToString();
+            if (Session["BrowserVersion"] != null)
+                txtBrowserVersion = Session["BrowserVersion"].ToString();
+            if (Session["Platform"] != null)
+                txtPlatform = Session["Platform"].ToString();
+            if (Session["OSVersion"] != null)
+                txtOSVersion = Session["OSVersion"].ToString();
+            Login.LoginAudit(Login.MemberID, txtUserName.Text,txtPassword.Text, txtIPAddress, txtBrowser, txtBrowserVersion, txtPlatform, txtOSVersion);
             Session["WebPage"] = Login.LastLoggedInLocation;
             // Go to the default or last page visited
             if(Session["WebPage"] == null)
