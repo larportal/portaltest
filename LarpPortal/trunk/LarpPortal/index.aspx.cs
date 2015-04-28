@@ -62,10 +62,6 @@ namespace LarpPortal
                 Session["BrowserVersion"] = bc.Version;
                 Session["Platform"] = bc.Platform;
                 Session["OSVersion"] = Request.UserAgent;
-                //string BrowserCheck = "";
-                //BrowserCheck = "IP: " + Session["IPAddress"].ToString();
-                //BrowserCheck = BrowserCheck + " || Browser/Version: " + Session["Browser"].ToString() + "/" + Session["BrowserVersion"].ToString();
-                //BrowserCheck = BrowserCheck + " || Platform/Version: " + Session["Platform"].ToString() + "/" + Session["OSVersion"].ToString();
             }
             txtName.Visible = false;
             txtLastLocation.Visible = false;
