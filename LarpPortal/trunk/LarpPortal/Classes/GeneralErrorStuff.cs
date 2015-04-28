@@ -46,7 +46,7 @@ namespace LarpPortal.Classes
         /// <param name="pvException">The actual exception that happened.</param>
         /// <param name="pvsLocation">The location where the error happened.</param>
         /// <returns>The formatted string of the error.</returns>
-        public string FormatError(string pvsComputerName, string pvsErrorType, Exception pvException, string pvsLocation)
+        public string FormatError(string pvsErrorType, Exception pvException, string pvsLocation)
         {
             // First make the error string. We will always do this.
             string lsErrorText = "";
@@ -54,7 +54,6 @@ namespace LarpPortal.Classes
             try
             {
                 lsErrorText = "General Error generated on : " + pvsLocation + "<br><br>";
-                lsErrorText += "Error is on machine " + pvsComputerName + "<br>";
                 lsErrorText += "Location of Error: " + pvsLocation + "<br><br>";
                 if ( pvException != null )
                     lsErrorText += "Error: " + pvException.ToString() + "<br><br>";
@@ -103,8 +102,7 @@ namespace LarpPortal.Classes
         /// <param name="pvSQLException">The actual exception that happened.</param>
         /// <param name="pvsLocation">The location where the error happened.</param>
         /// <returns>The formatted string of the error.</returns>
-        public string FormatError(string pvsComputerName, string pvsErrorType, SqlException pvSQLException, 
-            string pvsLocation)
+        public string FormatError(string pvsErrorType, SqlException pvSQLException, string pvsLocation)
         {
             string lsErrorText = "";
 
@@ -113,7 +111,6 @@ namespace LarpPortal.Classes
             foreach (SqlError SQLExcept in pvSQLException.Errors)
             {
                 lsErrorText += "Location of Error: " + pvsLocation + "<br><br>";
-                lsErrorText += "Error is on machine " + pvsComputerName + "<br><br>";
                 lsErrorText += "Error: " + SQLExcept.ToString() + "<br><br>";
                 lsErrorText += "Line Number: " + SQLExcept.LineNumber.ToString(CultureInfo.CurrentCulture) + "<br><br>";
                 lsErrorText += "Message: " + SQLExcept.Message.ToString(CultureInfo.CurrentCulture) + "<br><br>";
