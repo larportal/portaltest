@@ -5,32 +5,73 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
 
     <script type="text/javascript">
 
-            function postBackByObject() {
-                var o = window.event.srcElement;
-                if (o.tagName == "INPUT" && o.type == "checkbox") {
-                    __doPostBack("", "");
+        function postBackByObject() {
+            var o = window.event.srcElement;
+            if (o.tagName == "INPUT" && o.type == "checkbox") {
+                __doPostBack("", "");
+            }
+        }
+
+        function ShowContent(d) {
+            if (d.length < 1) { return; }
+            var dd = document.getElementById(d);
+            dd.style.display = "block";
+        }
+
+        function GetContent(d) {
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                data: "{'CampaignID':'" + d.toString() + "'}",
+                url: "/CampaignInfo.asmx/GetCampaignInfo",
+                type: "POST",
+                dataType: 'json',
+                success: function (result) {
+                    divDesc.innerHTML = result.d;
+                },
+                error: function (xhr, msg) {
+                    alert("error: " + xhr.responseText + "   " + msg.toString());
                 }
-            }
+            });
+        }
 
-            function ShowContent(d) {
-                if (d.length < 1) { return; }
-                var dd = document.getElementById(d);
-                dd.style.display = "block";
-            }
+        function Callback(result) {
+            var outDiv = document.getElementById("outputDiv");
+            outDiv.innerText = result;
+        }
+        //$.ajax({
+        //    type: "get",
+        //    url: "/CampaignInfo.aspx/GetCampaignInfo",
+        //    data: "{ CampaignID: " + d + "}",
+        //    contentType: "application/json",
+        //    dataType: "json",
+        //    success: OnSuccessCall,
+        //    error: OnErrorCall
+        //});
+        //}
 
-            function DisableButton() {
-                document.forms[0].submit();
-                window.setTimeout("disableButton('" +
-                   window.event.srcElement.id + "')", 0);
-            }
+        function OnSuccessCall(response) {
+            alert(response.d);
+        }
 
-            function disableButton(buttonID) {
-                document.getElementById(buttonID).disabled = true;
-                document.getElementById(buttonID).value = "...Saving";
-            }
+        function OnErrorCall(response) {
+            alert(response.status + " " + response.statusText);
+        }
+
+
+        function DisableButton() {
+            document.forms[0].submit();
+            window.setTimeout("disableButton('" +
+               window.event.srcElement.id + "')", 0);
+        }
+
+        function disableButton(buttonID) {
+            document.getElementById(buttonID).disabled = true;
+            document.getElementById(buttonID).value = "...Saving";
+        }
 
     </script>
 
@@ -101,9 +142,10 @@
         }
     </style>
 </head>
-<body style="width: 95%; height: 580px;">
+<body style="width: auto; height: 560px;">
     <form id="form1" runat="server">
         <asp:ScriptManager ID="sm" runat="server" />
+
         <asp:UpdatePanel ID="upSkill" runat="server">
             <ContentTemplate>
                 <table style="width: 100%;" border="0">
@@ -111,7 +153,7 @@
                         <td style="width: 40%;" class="TableItems">
                             <asp:Panel ID="pnlTreeView" runat="server" ScrollBars="Vertical" Height="500px">
                                 <asp:TreeView ID="tvSkills" runat="server" SkipLinkText="" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" ShowCheckBoxes="All"
-                                    ShowLines="false" OnTreeNodeCheckChanged="tvSkills_TreeNodeCheckChanged" Font-Underline="false" CssClass="TreeItems"
+                                    ShowLines="false" OnTreeNodeCheckChanged="tvSkills_TreeNodeCheckChanged" Font-Underline="false" CssClass="TreeItems" EnableClientScript="false"
                                     LeafNodeStyle-CssClass="TreeItems" NodeStyle-CssClass="TreeItems">
                                     <LevelStyles>
                                         <asp:TreeNodeStyle Font-Underline="false" />
@@ -120,28 +162,34 @@
                             </asp:Panel>
                         </td>
                         <td style="width: 40%; padding-right: 20px;" class="TableItems">
-                            <div id="divDesc" />
-                            <br />
-                            <asp:TextBox ID="tbPlayerComments" runat="server" Visible="false" />
+                            <asp:Panel ID="pnlDescription" runat="server" ScrollBars="Vertical" Height="500px">
+                                <div id="divDesc" />
+                                <br />
+                                <asp:TextBox ID="tbPlayerComments" runat="server" Visible="false" />
+                            </asp:Panel>
                         </td>
                         <td style="width: 20%;" class="TableItems" align="right">
-                            <asp:GridView ID="gvCostList" runat="server" AutoGenerateColumns="false" GridLines="None" OnRowDataBound="gvCostList_RowDataBound">
-                                <Columns>
-                                    <asp:BoundField DataField="Skill" HeaderText="Skill" />
-                                    <asp:BoundField DataField="Cost" HeaderText="Cost" DataFormatString="{0:0.00}" ItemStyle-HorizontalAlign="Right" />
-                                </Columns>
-                            </asp:GridView>
+                            <asp:Panel ID="pnlCostList" runat="server" ScrollBars="Vertical" Height="500px">
+                                <asp:GridView ID="gvCostList" runat="server" AutoGenerateColumns="false" GridLines="None" OnRowDataBound="gvCostList_RowDataBound">
+                                    <Columns>
+                                        <asp:BoundField DataField="Skill" HeaderText="Skill" />
+                                        <asp:BoundField DataField="Cost" HeaderText="Cost" DataFormatString="{0:0.00}" ItemStyle-HorizontalAlign="Right" />
+                                        <asp:TemplateField>
+                                            <ItemTemplate>
+                                                &nbsp;&nbsp;
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </asp:Panel>
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" />
-                        <td align="right">
+                        <td colspan="2">
                             <asp:Label ID="lblMessage" runat="server" />
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" />
-                        <td align="right"><asp:Button ID="btnSave" runat="server" Text="&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;" OnClick="btnSave_Click" /></td>
+                        <td align="right">
+                            <asp:Button ID="btnSave" runat="server" Text="&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;" OnClick="btnSave_Click" /></td>
                     </tr>
                 </table>
             </ContentTemplate>

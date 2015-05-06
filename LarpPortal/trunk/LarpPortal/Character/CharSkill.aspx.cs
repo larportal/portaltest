@@ -23,17 +23,12 @@ namespace LarpPortal.Character
                 tvSkills.Attributes.Add("onclick", "postBackByObject()");
                 btnSave.Attributes.Add("onclick", "DisableButton()");
             }
-
-            string Msg = "PageLoad: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-            AddLogMessage(Msg);
         }
 
         DataTable dtCharSkills = null;
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            string Msg = "PagePreRender: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-            AddLogMessage(Msg);
             if (!IsPostBack)
             {
                 if (Session["CurrentCharacter"] == null)
@@ -54,9 +49,6 @@ namespace LarpPortal.Character
                             Classes.cCharacter cChar = new Classes.cCharacter();
                             cChar.LoadCharacter(iCharID);
 
-                            Msg = "CharacterLoaded: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                            AddLogMessage(Msg);
-
                             TotalCP = cChar.TotalCP;
                             Session["TotalCP"] = TotalCP;
 
@@ -68,14 +60,15 @@ namespace LarpPortal.Character
                             DataSet dsSkillSets = new DataSet();
                             SortedList sParam = new SortedList();
                             sParam.Add("@CampaignID", cChar.CampaignID);
+                            sParam.Add("@CharacterID", Session["UserID"].ToString());
                             dsSkillSets = Classes.cUtilities.LoadDataSet("uspGetCampaignSkills", sParam, "LARPortal", Session["LoginName"].ToString(), "");
 
                             _dtSkills = dsSkillSets.Tables[1];
                             Session["Skills"] = _dtSkills;
                             Session["ExcludeSkills"] = dsSkillSets.Tables[2];
 
-                            Msg = "About to populate skill tree: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                            AddLogMessage(Msg);
+                            //Msg = "About to populate skill tree: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                            //AddLogMessage(Msg);
 
                             DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "", DataViewRowState.CurrentRows);
                             foreach (DataRowView dvRow in dvTopNodes)
@@ -99,13 +92,13 @@ namespace LarpPortal.Character
                                     tvSkills.Nodes.Add(NewNode);
                                 }
                             }
-                            Msg = "Done populating: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                            AddLogMessage(Msg);
+                            //Msg = "Done populating: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                            //AddLogMessage(Msg);
 
                             CheckExclusions();
 
-                            Msg = "Done checking exclusions: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                            AddLogMessage(Msg);
+                            //Msg = "Done checking exclusions: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                            //AddLogMessage(Msg);
 
                             Session["CurrentSkillTree"] = tvSkills;
                             ListSkills();
@@ -355,6 +348,10 @@ namespace LarpPortal.Character
                    dTreeNode["SkillLongDescription"].ToString().Replace("'", "\\'").Replace("\"", "\\'") + @"'; return true;"" " +
                    @"href=""javascript:ShowContent('divDesc')"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() + @"</a>";
 
+            sTreeNode = @"<a onmouseover=""GetContent(" + dTreeNode["CampaignSkillsStandardID"].ToString() + @"); """ +
+                   @"href=""javascript:GetContent(" + dTreeNode["CampaignSkillsStandardID"].ToString() + 
+                    @")"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() + @"</a>";
+
             return sTreeNode;
         }
 
@@ -393,14 +390,14 @@ namespace LarpPortal.Character
             {
                 if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
                 {
-                    string Msg = "btnSave - About to load character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    AddLogMessage(Msg);
+                    //string Msg = "btnSave - About to load character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    //AddLogMessage(Msg);
                     
                     Classes.cCharacter Char = new Classes.cCharacter();
                     Char.LoadCharacter(iCharID);
 
-                    Msg = "btnSave - Done loading character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    AddLogMessage(Msg);
+                    //Msg = "btnSave - Done loading character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    //AddLogMessage(Msg);
 
                     int CharacterSkillsSetID = -1;
 
@@ -410,8 +407,8 @@ namespace LarpPortal.Character
                         CharacterSkillsSetID = cSkill.CharacterSkillSetID;
                     }
 
-                    Msg = "btnSave - About to go through checked nodes: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    AddLogMessage(Msg);
+                    //Msg = "btnSave - About to go through checked nodes: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    //AddLogMessage(Msg);
 
                     foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
                     {
@@ -434,17 +431,22 @@ namespace LarpPortal.Character
                         }
                     }
 
-                    Msg = "btnSave - About to save character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    AddLogMessage(Msg);
+                    //Msg = "btnSave - About to save character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    //Classes.LogWriter lWriter = new Classes.LogWriter();
+                    //lWriter.AddLogMessage(Msg, "Skills", "", "ID");
 
-                    Msg = Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
-                    AddLogMessage(Msg);
+                    string Msg = Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
+                    //AddLogMessage(Msg);
+
+                    Exception t = new Exception("This is the message");
+                    Classes.ErrorAtServer lobjErrors = new Classes.ErrorAtServer();
+                    lobjErrors.ProcessError(t, "Skills", "", "Session");
 
                     lblMessage.Text = "Skills Saved";
                     lblMessage.ForeColor = Color.Black;
 
-                    Msg = "btnSave - Done saving character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    AddLogMessage(Msg);
+                    //Msg = "btnSave - Done saving character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+                    //AddLogMessage(Msg);
 
                     string jsString = "alert('Character " + Char.AKA + " has been saved.');";
                     ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
@@ -609,19 +611,19 @@ namespace LarpPortal.Character
             }
         }
 
-        protected override void OnUnload(EventArgs e)
-        {
-            base.OnUnload(e);
+        //protected override void OnUnload(EventArgs e)
+        //{
+        //    base.OnUnload(e);
 
-            string Msg = "Page Unload: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-            AddLogMessage(Msg);
-        }
+        //    string Msg = "Page Unload: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+        //    AddLogMessage(Msg);
+        //}
 
-        protected void AddLogMessage(string Msg)
-        {
-            SortedList sParam = new SortedList();
-            sParam.Add("@Msg", Msg);
-//            Classes.cUtilities.PerformNonQuery("uspInsSystemLog", sParam, "LARPortal", Session["UserName"].ToString());
-        }
+//        protected void AddLogMessage(string Msg)
+//        {
+//            SortedList sParam = new SortedList();
+//            sParam.Add("@Msg", Msg);
+////            Classes.cUtilities.PerformNonQuery("uspInsSystemLog", sParam, "LARPortal", Session["UserName"].ToString());
+//        }
     }
 }

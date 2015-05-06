@@ -85,8 +85,12 @@
 </asp:Content>
 
 <asp:Content ID="Scripts" ContentPlaceHolderID="CharHeaderScripts" runat="server">
+        <script src="/Scripts/jquery-1.10.2.min.js"></script>
 
     <script type="text/javascript">
+        //var PanelID = document.getElementById('divMainArea');
+        //Panel.setAttribute("style", "width:1500px");
+
         function resizeIframe(obj) {
             obj.style.height = (obj.contentWindow.document.body.scrollHeight - 150) + 'px';
             var myHidden = document.getElementById('<%= hidFrameHeight.ClientID %>');
@@ -94,23 +98,16 @@
             if (myHidden)//checking whether it is found on DOM, but not necessary
             {
                 myHidden.value = (obj.contentWindow.document.body.scrollHeight - 150).toString();
-                //alert(myHidden.value);
             }
             document.getElementById('<%= lblFrameHeight.ClientID %>').value = (obj.contentWindow.document.body.scrollHeight - 150).toString();
         }
-
-//        var w = window.innerWidth;
-//        document.getElementById('<%= lblFrameHeight.ClientID %>').value = (w - 150).toString();
-
-//        alert(w);
-
     </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <asp:Label ID="lblFrameHeight" runat="server" />
     <asp:HiddenField ID="hidFrameHeight" runat="server" />
-    <div class="mainContent tab-content" style="width: 900px;">
+    <div class="mainContent tab-content" id="divMainArea">
         <section role="form" class="form-horizontal form-condensed">
             <div class="row">
                 <h1 class="col-xs-10" style="padding-top: 0px;">
@@ -125,10 +122,10 @@
                         <div class="panelheader">
                             <h2>Skills</h2>
                             <div class="panel-body">
-                                <div class="panel-container search-criteria">
+                                <div class="panel-container search-criteria" style="padding: 0px;">
                                     <asp:Panel ID="pnlFrame" runat="server" Height="600px">
                                         <iframe id="FrameSkills" name="FrameSkills" src="CharSkill.aspx"
-                                            style="border: 0px solid green; width: 100%; height: 1580px;" />
+                                            style="width: 100%; height: 600px;" />
                                     </asp:Panel>
                                 </div>
                             </div>
