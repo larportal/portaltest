@@ -57,7 +57,8 @@
             <div class="col-sm-12">
                 <div class="row">
                     <div class="col-sm-10">
-                        <asp:Label ID="lblHelp" runat="server" Text="Fill in Information to describe your character. Some items are automatically updated after events." /></div>
+                        <asp:Label ID="lblHelp" runat="server" Text="Fill in Information to describe your character. Some items are automatically updated after events." />
+                    </div>
                 </div>
             </div>
 
@@ -276,21 +277,16 @@
                         <br />
                         <asp:Panel ID="pnlCharacterPicture" runat="server">
                             <div class="row">
-                                <div>
-                                    <table border="0" style="background-color: transparent;">
-                                        <tr>
-                                            <td align="center">
-                                                <asp:Image ID="imgCharacterPicture" CssClass="col-sm-12" runat="server" Width="125" Height="125" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="background-color: transparent;">&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td align="center">
-                                                <asp:Button ID="btnClearPicture" runat="server" CssClass="StandardButton col-sm-12" Text="Clear Picture" OnClick="btnClearPicture_Click" /></td>
-                                        </tr>
-                                    </table>
+                                <div class="col-sm-12">
+                                    <asp:Image ID="imgCharacterPicture" CssClass="col-sm-12" runat="server" Width="125" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-5">&nbsp;</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <asp:Button ID="btnClearPicture" runat="server" CssClass="StandardButton col-sm-12" Text="Clear Picture" OnClick="btnClearPicture_Click" />
                                 </div>
                             </div>
                         </asp:Panel>
