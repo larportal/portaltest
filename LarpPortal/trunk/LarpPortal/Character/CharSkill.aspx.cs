@@ -60,7 +60,7 @@ namespace LarpPortal.Character
                             DataSet dsSkillSets = new DataSet();
                             SortedList sParam = new SortedList();
                             sParam.Add("@CampaignID", cChar.CampaignID);
-                            sParam.Add("@CharacterID", Session["UserID"].ToString());
+                            sParam.Add("@CharacterID", Session["CurrentCharacter"].ToString());
                             dsSkillSets = Classes.cUtilities.LoadDataSet("uspGetCampaignSkills", sParam, "LARPortal", Session["LoginName"].ToString(), "");
 
                             _dtSkills = dsSkillSets.Tables[1];
