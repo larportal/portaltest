@@ -52,6 +52,7 @@ namespace LarpPortal
             string ReceivingCampaign = "";
             string Character = "";
             string ReceivingPlayer = "";
+            string StatusName = "";
             string CampaignDDL = Session["CampaignName"].ToString();
             string dq = "\"";
             string TableCode = "<table id=" + dq + "events-table" + dq + "class=" + dq + "table table-striped table-bordered table-hover table-condensed" + dq;
@@ -95,7 +96,8 @@ namespace LarpPortal
                         else
                             CPAmount = 0;
                         TableCode = TableCode + "<td>" + CPAmount +"</td>";
-                        TableCode = TableCode + "<td>" + Status +"</td>";
+                        StatusName = dRow["StatusName"].ToString();
+                        TableCode = TableCode + "<td>" + StatusName +"</td>";
                         if (DateTime.TryParse(dRow["CPApprovedDate"].ToString(), out dtTemp))
                             CPApprovedDate = string.Format("{0:MM/d/yyyy}", dtTemp);
                         else

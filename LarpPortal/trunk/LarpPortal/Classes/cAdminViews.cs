@@ -44,12 +44,15 @@ namespace LarpPortal.Classes
         public string PlayerComments { get; set; }
         public string World { get; set; }
         public string DescriptorValue { get; set; }
+        public int SkillID { get; set; }
         public string SkillName { get; set; }
         public int PlotLeadPerson { get; set; }
         public int CharacterSkillSetID { get; set; }
         public int SkillTypeID { get; set; }
         public int SkillTypeID2 { get; set; }
         public double TotalCP { get; set; }
+        public string AttributeDesc { get; set; }
+        public string OrderOrigin { get; set; }
 
         /// <summary>
         /// This will get all user logins for the past 30 days
@@ -140,14 +143,17 @@ namespace LarpPortal.Classes
             {
                 if (int.TryParse(dRow["SkillTypeID"].ToString(), out iTemp))
                     SkillTypeID = iTemp;
-                if (int.TryParse(dRow["SkillTypeID2"].ToString(), out iTemp))
-                    SkillTypeID2 = iTemp;
+                if (int.TryParse(dRow["SkillID"].ToString(), out iTemp))
+                    SkillID = iTemp;
                 CharacterAKA = dRow["CharacterAKA"].ToString();
                 FirstName = dRow["FirstName"].ToString();
                 LastName = dRow["LastName"].ToString();
                 World = dRow["World"].ToString();
                 DescriptorValue = dRow["DescriptorValue"].ToString();
                 SkillName = dRow["SkillName"].ToString();
+                AttributeDesc = dRow["AttributeDesc"].ToString();
+                OrderOrigin = dRow["OrderOrigin"].ToString();
+                TeamName = dRow["Team"].ToString();
                 CharacterSkillCount++;
             }
             return dtCharacterSkills;
