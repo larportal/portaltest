@@ -43,7 +43,10 @@ namespace LarpPortal
             string DescriptorValue = "";
             string SkillName = "";
             int SkillTypeID = 0;
-            int SkillTypeID2 = 0;
+            int SkillID = 0;
+            string OrderOrigin = "";
+            string AttributeDesc = "";
+            string TeamName = "";
             string dq = "\"";
             string TableCode = "<table id=" + dq + "events-table" + dq + "class=" + dq + "table table-striped table-bordered table-hover table-condensed" + dq;
             TableCode = TableCode + " data-toggle=" + dq + "table" + dq + " data-height=" + dq + "250" + dq + " data-sort-name=" + dq;
@@ -64,8 +67,8 @@ namespace LarpPortal
                     if (CharacterSkillRowCounter == 1)
                     {
                         // Build the header row
-                        TableCode = TableCode + "CharacterAKA</td><td>FirstName</td><td>LastName</td><td>World</td><td>DescriptorValue</td>";
-                        TableCode = TableCode + "<td>SkillName</td><td>SkillTypeID</td><td>SkillTypeID</td></tr>";
+                        TableCode = TableCode + "CharacterAKA</td><td>FirstName</td><td>LastName</td><td>World</td><td>Team</td><td>SkillTypeID</td>";
+                        TableCode = TableCode + "<td>Order Origin</td><td>Skill</td><td>Attribute</td><td>DescriptorValue</td><td>SkillID</td></tr>";
                     }
                     CharacterAKA = dRow["CharacterAKA"].ToString();
                     TableCode = TableCode + "<td>" + CharacterAKA + "</td>";
@@ -75,16 +78,22 @@ namespace LarpPortal
                     TableCode = TableCode + "<td>" + LastName + "</td>";
                     World = dRow["World"].ToString();
                     TableCode = TableCode + "<td>" + World + "</td>";
-                    DescriptorValue = dRow["DescriptorValue"].ToString();
-                    TableCode = TableCode + "<td>" + DescriptorValue + "</td>";
-                    SkillName = dRow["SkillName"].ToString();
-                    TableCode = TableCode + "<td>" + SkillName + "</td>";
+                    TeamName = dRow["Team"].ToString();
+                    TableCode = TableCode + "<td>" + TeamName + "</td>";
                     if (int.TryParse(dRow["SkillTypeID"].ToString(), out iTemp))
                         SkillTypeID = iTemp;
                     TableCode = TableCode + "<td>" + SkillTypeID + "</td>";
-                    if (int.TryParse(dRow["SkillTypeID2"].ToString(), out iTemp))
-                        SkillTypeID2 = iTemp;
-                    TableCode = TableCode + "<td>" + SkillTypeID2 + "</td></tr>";
+                    OrderOrigin = dRow["OrderOrigin"].ToString();
+                    TableCode = TableCode + "<td>" + OrderOrigin + "</td>";
+                    SkillName = dRow["SkillName"].ToString();
+                    TableCode = TableCode + "<td>" + SkillName + "</td>";
+                    AttributeDesc = dRow["AttributeDesc"].ToString();
+                    TableCode = TableCode + "<td>" + AttributeDesc + "</td>";
+                    DescriptorValue = dRow["DescriptorValue"].ToString();
+                    TableCode = TableCode + "<td>" + DescriptorValue + "</td>";
+                    if (int.TryParse(dRow["SkillID"].ToString(), out iTemp))
+                        SkillID = iTemp;
+                    TableCode = TableCode + "<td>" + SkillID + "</td></tr>";
                     CharacterSkillRowCounter++;
                 }
                 // Build the table close

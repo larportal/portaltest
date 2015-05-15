@@ -215,6 +215,7 @@
     <Content Include="bin\System.Web.Optimization.dll" />
     <Content Include="bin\System.Web.Providers.dll" />
     <Content Include="bin\WebGrease.dll" />
+    <Content Include="CampaignInfo.asmx" />
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
     <Content Include="Character\CharAdd.aspx" />
@@ -523,6 +524,10 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="CampaignInfo.asmx.cs">
+      <DependentUpon>CampaignInfo.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CampaignInfo.aspx.cs">
       <DependentUpon>CampaignInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -645,7 +650,6 @@
     <Compile Include="Classes\cEmptyClass.cs" />
     <Compile Include="Classes\cGameSystem.cs" />
     <Compile Include="Classes\cGameSystems.cs" />
-    <Compile Include="Classes\ClientErrors.cs" />
     <Compile Include="Classes\cLocation.cs" />
     <Compile Include="Classes\cLocationMaintenance.cs" />
     <Compile Include="Classes\cLocationType.cs" />
@@ -682,6 +686,7 @@
     <Compile Include="Classes\cUtilities.cs" />
     <Compile Include="Classes\ExtensionMethods.cs" />
     <Compile Include="Classes\GeneralErrorStuff.cs" />
+    <Compile Include="Classes\LogWriter.cs" />
     <Compile Include="Classes\ServerErrors.cs" />
     <Compile Include="Classes\cUserCampaigns.cs" />
     <Compile Include="ContactUs.aspx.cs">

@@ -45,6 +45,8 @@ namespace LarpPortal.Classes
         public string ReceivingCampaign { get; set; }
         public string Character { get; set; }
         public int CPAuditCount { get; set; }
+        public int StatusID { get; set; }
+        public string StatusName { get; set; }
         //public List<cPageTab> lsPageTabs = new List<cPageTab>();
 
         /// <summary>
@@ -88,6 +90,8 @@ namespace LarpPortal.Classes
                     SentToCampaignPlayerID = iTemp;
                 if (int.TryParse(dRow["CharacterID"].ToString(), out iTemp))
                     CharacterID = iTemp;
+                if (int.TryParse(dRow["StatusID"].ToString(), out iTemp))
+                    StatusID = iTemp;
                 if (decimal.TryParse(dRow["CPAmount"].ToString(), out dTemp))
                     CPAmount = dTemp;
                 if (DateTime.TryParse(dRow["TransactionDate"].ToString(), out dtTemp))
@@ -104,6 +108,7 @@ namespace LarpPortal.Classes
                 ReceivingPlayer = dRow["ReceivingPlayer"].ToString();
                 ReceivingCampaign = dRow["ReceivingCampaign"].ToString();
                 Character = dRow["Character"].ToString();
+                StatusName = dRow["StatusName"].ToString();
             }
             return dtCPAuditList;
         }
