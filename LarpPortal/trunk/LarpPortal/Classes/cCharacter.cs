@@ -342,6 +342,7 @@ namespace LarpPortal.Classes
                     CharacterID = CharacterIDToLoad,
                     Name = dRelationship["Name"].ToString(),
                     RelationDescription = dRelationship["RelationDescription"].ToString(),
+                    OtherDescription = dRelationship["OtherDescription"].ToString(),
                     RelationTypeID = -1,
                     RelationCharacterID = -1,
                     PlayerAssignedStatus = -1,
@@ -364,7 +365,7 @@ namespace LarpPortal.Classes
                     NewRelationship.RelationTypeID = iTemp;
 
                 if (int.TryParse(dRelationship["RelationCharacterID"].ToString(), out iTemp))
-                    NewRelationship.PlayerAssignedStatus = iTemp;
+                    NewRelationship.RelationCharacterID = iTemp;
 
                 if (int.TryParse(dRelationship["PlayerAssignedStatus"].ToString(), out iTemp))
                     NewRelationship.PlayerAssignedStatus = iTemp;
@@ -633,7 +634,7 @@ namespace LarpPortal.Classes
                     Place.CharacterID = CharacterID;
                     if (Place.RecordStatus == RecordStatuses.Delete)
                     {
-                     //   Place.Delete(sUserUpdating);
+                        //   Place.Delete(sUserUpdating);
                     }
                     else
                         Place.Save(sUserUpdating);
@@ -649,11 +650,10 @@ namespace LarpPortal.Classes
                 // //                 Actor.Save(sUserUpdating, connPortal);
                 //              }
 
-                //              foreach (cRelationship Relationship in Relationships)
-                //              {
-                ////                  Relationship.Save(sUserUpdating);
-                //              }
-
+                foreach (cRelationship Relat in Relationships)
+                {
+                    Relat.Save(sUserUpdating, iUserID);
+                }
             }
 
             Timing += ", character save done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");

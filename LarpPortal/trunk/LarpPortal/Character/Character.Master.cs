@@ -30,6 +30,8 @@ namespace LarpPortal.Character
                     liSkills.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARREQUESTS"))
                     liRequests.Attributes.Add("class", "active");
+                else if (PageName.Contains("CHARRELATIONSHI"))
+                    liRelationShips.Attributes.Add("class", "active");
                 //else if (PageName.Contains("CHARPOINTS"))
                 //    liPoints.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARPLACES"))
