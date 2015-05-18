@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace LarpPortal.Classes
 {
+    [Serializable]
     class cRelationship
     {
         public cRelationship()
@@ -24,11 +27,12 @@ namespace LarpPortal.Classes
                 "   RelationTypeID: " + RelationTypeID.ToString();
         }
 
-        public int? CharacterRelationshipID { get; set; }
+        public int CharacterRelationshipID { get; set; }
         public int CharacterID { get; set; }
         public string Name { get; set; }
         public int RelationTypeID { get; set; }
         public int RelationCharacterID { get; set; }
+        public string OtherDescription { get; set; }
         public string RelationDescription { get; set; }
         public int PlayerAssignedStatus { get; set; }
         public bool ListedInHistory { get; set; }
@@ -46,53 +50,43 @@ namespace LarpPortal.Classes
         /// Save a relationship record to the database. Use this if you don't already have a connection open.
         /// </summary>
         /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
-        public void Save(string sUserUpdating)
-        {
-            using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
-            {
-                connPortal.Open();
-                Save(sUserUpdating, connPortal);
-            }
-        }
+//        public void Save(string sUserUpdating)
+//        {
+//            using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
+//            {
+//                connPortal.Open();
+          //      Save(sUserUpdating, connPortal);
+//            }
+//        }
 
         /// <summary>
         /// Save a relationship record to the database. Use this if you already have a connection open.
         /// </summary>
         /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
-        /// <param name="connPortal">Already OPEN connection to the database.</param>
-        public void Save(string sUserUpdating, SqlConnection connPortal)
+        public void Save(string sUserUpdating, int iUserID)
         {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
             if (RecordStatus == RecordStatuses.Delete)
             {
-                SqlCommand CmdDelCHCharacterDeath = new SqlCommand("uspDelCHCharacterRelationships", connPortal);
-                CmdDelCHCharacterDeath.CommandType = CommandType.StoredProcedure;
-                CmdDelCHCharacterDeath.Parameters.AddWithValue("@RecordID", CharacterRelationshipID);
-                CmdDelCHCharacterDeath.Parameters.AddWithValue("@UserID", sUserUpdating);
-
-                CmdDelCHCharacterDeath.ExecuteNonQuery();
+                SortedList sParams = new SortedList();
+                sParams.Add("@RecordID", CharacterRelationshipID);
+                sParams.Add("@UserID", iUserID);
+                cUtilities.PerformNonQuery("uspDelCHCharacterRelationships", sParams, "LARportal", sUserUpdating);
             }
             else
             {
-                SqlCommand CmdInsUpdCHCharacterDeath = new SqlCommand("uspInsUpdCHCharacterRelationships", connPortal);
-                CmdInsUpdCHCharacterDeath.CommandType = CommandType.StoredProcedure;
-
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@CharacterRelationshipID", CharacterRelationshipID);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@CharacterID", CharacterID);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@Name", Name);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@RelationTypeID", RelationTypeID);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@RelationCharacterID", RelationCharacterID);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@PlayerAssignedStatus", PlayerAssignedStatus);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@ListedInHistory", ListedInHistory);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@ReulbookCharacter", RulebookCharacter);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@RulebookCharacterID", RulebookCharacterID);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@PlayerComments", PlayerComments);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@HideFromPC", HideFromPC);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@StaffAssignedRelationCharacterID", StaffAssignedRelationCharacterID);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@StaffAssignedStatus", StaffAssignedStatus);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@StaffComments", StaffComments);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@Comments", Comments);
-
-                CmdInsUpdCHCharacterDeath.ExecuteNonQuery();
+                SortedList sParams = new SortedList();
+                sParams.Add("@CharacterRelationshipID", CharacterRelationshipID);
+                sParams.Add("@UserID", iUserID);
+                sParams.Add("@CharacterID", CharacterID);
+                sParams.Add("@RelationTypeID", RelationTypeID);
+                sParams.Add("@RelationCharacterID", RelationCharacterID);
+                sParams.Add("@OtherDescription", OtherDescription);
+                sParams.Add("@PlayerComments", PlayerComments);
+                sParams.Add("@Name", Name);
+                cUtilities.PerformNonQuery("uspInsUpdCHCharacterRelationships", sParams, "LARportal", sUserUpdating);
             }
         }
 
@@ -120,6 +114,7 @@ namespace LarpPortal.Classes
                     Name = dRow["Name"].ToString();
                     PlayerComments = dRow["PlayerComments"].ToString();
                     RelationDescription = dRow["RelationDescription"].ToString();
+                    OtherDescription = dRow["OtherDescription"].ToString();
 
                     int iTemp;
                     if (int.TryParse(dRow["CharacterID"].ToString(), out iTemp))
@@ -158,16 +153,16 @@ namespace LarpPortal.Classes
             }
         }
 
-        /// <summary>
-        /// Load a character relationship record when you do NOT has an open connection. Make sure to set CharacterRelationshipID to the record to load.
-        /// </summary>
-        public void Load()
-        {
-            using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
-            {
-                connPortal.Open();
-                Load(connPortal);
-            }
-        }
+        ///// <summary>
+        ///// Load a character relationship record when you do NOT has an open connection. Make sure to set CharacterRelationshipID to the record to load.
+        ///// </summary>
+        //public void Load()
+        //{
+        //    using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
+        //    {
+        //        connPortal.Open();
+        //        Load(connPortal);
+        //    }
+        //}
     }
 }
