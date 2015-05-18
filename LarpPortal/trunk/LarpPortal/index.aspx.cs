@@ -16,6 +16,9 @@ namespace LarpPortal
         {
             if(!IsPostBack)
             {
+                // Destroys everything in the session which is essentially what logging out does.
+                Session.Clear();
+
                 // TODO-Rick-2 Make the next 7 things visible for real release
                 int HidePublicAccess = 0;  // 1 (think of 1 as true) will hide the public access
                 if (HidePublicAccess == 1)
