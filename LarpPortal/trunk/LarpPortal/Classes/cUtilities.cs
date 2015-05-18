@@ -27,7 +27,37 @@ namespace LarpPortal.Classes
         {
         }
 
+        public enum LoadDataTableCommandType
+        {
+            StoredProcedure,
+            Text
+        };
+
+        /// <summary>
+        /// Load a datatable from a stored procedure.
+        /// </summary>
+        /// <param name="strStoredProc">Stored procedure to call.</param>
+        /// <param name="slParameters">SortedList of parameters.</param>
+        /// <param name="strLConn">Name of the connection to use.</param>
+        /// <param name="strUserName">User doing this.</param>
+        /// <param name="strCallingMethod">What's the name of the method calling this.</param>
+        /// <returns></returns>
         public static DataTable LoadDataTable(string strStoredProc, SortedList slParameters, string strLConn, string strUserName, string strCallingMethod)
+        {
+            return LoadDataTable(strStoredProc, slParameters, strLConn, strUserName, strCallingMethod, LoadDataTableCommandType.StoredProcedure);
+        }
+
+        /// <summary>
+        /// Load a datatable from a stored procedure/SQL command.
+        /// </summary>
+        /// <param name="strStoredProc">Stored procedure/SQL command to run.</param>
+        /// <param name="slParameters">SortedList of parameters.</param>
+        /// <param name="strLConn">Name of the connection to use.</param>
+        /// <param name="strUserName">User doing this.</param>
+        /// <param name="strCallingMethod">What's the name of the method calling this.</param>
+        /// <param name="strCommandType">use LoadDataTableCommandType to tell the type.</param>
+        /// <returns></returns>
+        public static DataTable LoadDataTable(string strStoredProc, SortedList slParameters, string strLConn, string strUserName, string strCallingMethod, LoadDataTableCommandType strCommandType)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
@@ -36,7 +66,10 @@ namespace LarpPortal.Classes
             {
                 SqlCommand lcmd = new SqlCommand();
                 lcmd.CommandText = strStoredProc;
-                lcmd.CommandType = CommandType.StoredProcedure;
+                if (strCommandType == LoadDataTableCommandType.Text)
+                    lcmd.CommandType = CommandType.Text;
+                else
+                    lcmd.CommandType = CommandType.StoredProcedure;
                 lcmd.CommandTimeout = 0;
                 lcmd.Connection = lconn;
                 if (slParameters.Count > 0)
