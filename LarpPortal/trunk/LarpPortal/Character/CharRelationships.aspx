@@ -1,4 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharRelationships.aspx.cs" Inherits="LarpPortal.Character.CharRelationships" EnableViewState="true" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharRelationships.aspx.cs" 
+    Inherits="LarpPortal.Character.CharRelationships" EnableViewState="true" MaintainScrollPositionOnPostback="true" %>
 
 <asp:Content ID="ScriptSection" ContentPlaceHolderID="CharHeaderScripts" runat="server">
     <script type="text/javascript">

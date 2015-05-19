@@ -16,6 +16,7 @@ namespace LarpPortal.Classes
         public cRelationship()
         {
             CharacterRelationshipID = -1;
+            OtherDescription = "";
             RecordStatus = RecordStatuses.Active;
         }
 
