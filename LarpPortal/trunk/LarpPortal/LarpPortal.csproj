@@ -226,6 +226,7 @@
     <Content Include="Character\CharPlace.aspx" />
     <Content Include="Character\CharPlaces.aspx" />
     <Content Include="Character\CharPlaceTV.aspx" />
+    <Content Include="Character\CharRelationships.aspx" />
     <Content Include="Character\CharSkill.aspx" />
     <Content Include="Character\CharSkills.aspx" />
     <Content Include="ContactUs.aspx" />
@@ -611,6 +612,13 @@
     </Compile>
     <Compile Include="Character\CharPlaceTV.aspx.designer.cs">
       <DependentUpon>CharPlaceTV.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharRelationships.aspx.cs">
+      <DependentUpon>CharRelationships.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharRelationships.aspx.designer.cs">
+      <DependentUpon>CharRelationships.aspx</DependentUpon>
     </Compile>
     <Compile Include="Character\CharSkill.aspx.cs">
       <DependentUpon>CharSkill.aspx</DependentUpon>
