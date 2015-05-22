@@ -115,6 +115,9 @@ namespace LarpPortal.Character
             tbOtherNonChar.Style["Display"] = "none";
             tbOther.Text = "";
             tbOther.Style["Display"] = "none";
+            tbCharacterName.Text = "";
+            tbPlayerComments.Text = "";
+            tbPlayerCommentsNonChar.Text = "";
         }
 
         protected void btnSaveNonChar_Click(object sender, EventArgs e)
@@ -357,12 +360,19 @@ namespace LarpPortal.Character
                     Classes.cCharacter cChar = new Classes.cCharacter();
                     cChar.LoadCharacter(iCharID);
 
-                    foreach (Classes.cRelationship Relat in Rel)
+                    for (int i = 0; i < Rel.Count; i++)
                     {
-                        if (Relat.RelationCharacterID < 0)
-                            Relat.RelationCharacterID = -1;
-                        Relat.CharacterID = iCharID;
+                        if (Rel[i].CharacterRelationshipID < 0)
+                            Rel[i].CharacterRelationshipID = -1;
+                        Rel[i].CharacterID = iCharID;
                     }
+
+                    //foreach (Classes.cRelationship Relat in Rel)
+                    //{
+                    //    if (Relat.RelationCharacterID < 0)
+                    //        Relat.RelationCharacterID = -1;
+                    //    Relat.CharacterID = iCharID;
+                    //}
 
                     cChar.Relationships = Rel;
                     cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
