@@ -18,6 +18,22 @@ namespace LarpPortal.Classes
             CharacterRelationshipID = -1;
             OtherDescription = "";
             RecordStatus = RecordStatuses.Active;
+            OtherDescription = "";
+            CharacterID = -1;
+            Name = "";
+            RelationCharacterID = -1;
+            RelationTypeID = -1;
+            RelationDescription = "";
+            PlayerAssignedStatus = 0;
+            ListedInHistory = false;
+            RulebookCharacter = false;
+            RulebookCharacterID = -1;
+            PlayerComments = "";
+            HideFromPC = false;
+            StaffAssignedRelationCharacterID = -1;
+            StaffAssignedStatus = -1;
+            StaffComments = "";
+            Comments = "";
         }
 
         public override string ToString()
@@ -51,14 +67,14 @@ namespace LarpPortal.Classes
         /// Save a relationship record to the database. Use this if you don't already have a connection open.
         /// </summary>
         /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
-//        public void Save(string sUserUpdating)
-//        {
-//            using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
-//            {
-//                connPortal.Open();
-          //      Save(sUserUpdating, connPortal);
-//            }
-//        }
+        //        public void Save(string sUserUpdating)
+        //        {
+        //            using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
+        //            {
+        //                connPortal.Open();
+        //      Save(sUserUpdating, connPortal);
+        //            }
+        //        }
 
         /// <summary>
         /// Save a relationship record to the database. Use this if you already have a connection open.
