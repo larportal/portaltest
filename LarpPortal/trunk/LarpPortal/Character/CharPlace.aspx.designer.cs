@@ -67,6 +67,24 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.GridView gvPlaces;
         
         /// <summary>
+        /// hidCampaignPlaceID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidCampaignPlaceID;
+        
+        /// <summary>
+        /// hidNonCampPlaceID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidNonCampPlaceID;
+        
+        /// <summary>
         /// mvAddingItems control.
         /// </summary>
         /// <remarks>
@@ -85,121 +103,130 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.View vwNewItemButton;
         
         /// <summary>
-        /// btnAddNewPlace control.
+        /// btnAddNonCampPlace control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddNewPlace;
+        protected global::System.Web.UI.WebControls.Button btnAddNonCampPlace;
         
         /// <summary>
-        /// vwNewPlace control.
+        /// vwNonCampaignPlace control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwNewPlace;
+        protected global::System.Web.UI.WebControls.View vwNonCampaignPlace;
         
         /// <summary>
-        /// tbPlaceName control.
+        /// tbNonCampPlaceName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbPlaceName;
+        protected global::System.Web.UI.WebControls.TextBox tbNonCampPlaceName;
         
         /// <summary>
-        /// ddlLocalePlaces control.
+        /// ddlNonCampLocalePlaces control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlLocalePlaces;
+        protected global::System.Web.UI.WebControls.DropDownList ddlNonCampLocalePlaces;
         
         /// <summary>
-        /// tbPlayerComments control.
+        /// tbNonCampPlayerComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbPlayerComments;
+        protected global::System.Web.UI.WebControls.TextBox tbNonCampPlayerComments;
         
         /// <summary>
-        /// hidPlaceID control.
+        /// btnNonCampCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidPlaceID;
+        protected global::System.Web.UI.WebControls.Button btnNonCampCancel;
         
         /// <summary>
-        /// btnSaveNewPlace control.
+        /// btnNonCampSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveNewPlace;
+        protected global::System.Web.UI.WebControls.Button btnNonCampSave;
         
         /// <summary>
-        /// vwExistingPlace control.
+        /// vwCampaignPlace control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwExistingPlace;
+        protected global::System.Web.UI.WebControls.View vwCampaignPlace;
         
         /// <summary>
-        /// lblPlaceName control.
+        /// hidExistingID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPlaceName;
+        protected global::System.Web.UI.WebControls.HiddenField hidExistingID;
         
         /// <summary>
-        /// lblLocale control.
+        /// lblCampaignPlaceName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblLocale;
+        protected global::System.Web.UI.WebControls.Label lblCampaignPlaceName;
         
         /// <summary>
-        /// trAlreadySelected control.
+        /// lblCampaignLocale control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow trAlreadySelected;
+        protected global::System.Web.UI.WebControls.Label lblCampaignLocale;
         
         /// <summary>
-        /// btnCancelAdding control.
+        /// tbCampaignPlayerComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCancelAdding;
+        protected global::System.Web.UI.WebControls.TextBox tbCampaignPlayerComments;
         
         /// <summary>
-        /// btnSaveExistingPlace control.
+        /// btnCampaignCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveExistingPlace;
+        protected global::System.Web.UI.WebControls.Button btnCampaignCancel;
+        
+        /// <summary>
+        /// btnCampaignSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCampaignSave;
         
         /// <summary>
         /// btnSave control.

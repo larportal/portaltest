@@ -150,6 +150,21 @@
             padding-left: 5px;
             padding-right: 5px;
         }
+
+        .StandardButton
+        {
+            background-color: darkblue;
+            border-color: black;
+            border-width: 1px;
+            border-style: solid;
+            color: white;
+        }
+
+            .StandardButton:hover
+            {
+                background-color: lightblue;
+            }
+
     </style>
 </head>
 <body style="width: 95%; height: 580px;">
@@ -177,13 +192,12 @@
                                 OnRowCommand="gvPlaces_RowCommand" Caption="<span style='font-size: larger; font-weight: bold;'>Character Places</span>">
                                 <Columns>
                                     <asp:BoundField DataField="PlaceName" HeaderText="Place Name" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
-                                    <asp:BoundField DataField="Comments" HeaderText="Comments" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
                                     <asp:BoundField DataField="Locale" HeaderText="Locale" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
+                                    <asp:BoundField DataField="Comments" HeaderText="Comments" ItemStyle-CssClass="GridViewItem" HeaderStyle-CssClass="GridViewItem" />
                                     <asp:TemplateField ShowHeader="False" ItemStyle-Width="16" ItemStyle-Wrap="false">
                                         <ItemTemplate>
                                             <asp:ImageButton ID="ibtnEdit" runat="server" CausesValidation="false" CommandName="EditItem" CssClass="NoRightPadding"
-                                                ImageUrl="~/img/edit.gif" CommandArgument='<%# Eval("CampaignPlaceID") %>' Width="16px"
-                                                Visible='<%# Eval("ShowButton") %>' />
+                                                ImageUrl="~/img/edit.gif" CommandArgument='<%# Eval("CampaignPlaceID") %>' Width="16px" />
                                         </ItemTemplate>
                                     </asp:TemplateField>
 
@@ -195,13 +209,13 @@
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
-                            <br />
+                            <br /><asp:HiddenField ID="hidCampaignPlaceID" runat="server" /><asp:HiddenField ID="hidNonCampPlaceID" runat="server" />
                             <asp:MultiView ID="mvAddingItems" runat="server" ActiveViewIndex="0">
                                 <asp:View ID="vwNewItemButton" runat="server">
-                                    <asp:Button ID="btnAddNewPlace" runat="server" Text="Add New Place" OnClick="btnAddNewPlace_Click" />
+                                    <asp:Button ID="btnAddNonCampPlace" runat="server" Text="Add New Place" OnClick="btnAddNonCampPlace_Click" CssClass="StandardButton" />
                                 </asp:View>
 
-                                <asp:View ID="vwNewPlace" runat="server">
+                                <asp:View ID="vwNonCampaignPlace" runat="server">
                                     <table border="0">
                                         <tr>
                                             <td colspan="2"><b style="font-size: larger;">Add a new place for this character.</b>
@@ -214,50 +228,49 @@
                                         </tr>
                                         <tr>
                                             <td style="vertical-align: top;">
-                                                <asp:TextBox ID="tbPlaceName" runat="server" Columns="30" /></td>
+                                                <asp:TextBox ID="tbNonCampPlaceName" runat="server" Columns="30" /></td>
                                             <td style="vertical-align: top;">
-                                                <asp:DropDownList ID="ddlLocalePlaces" runat="server" /></td>
-
+                                                <asp:DropDownList ID="ddlNonCampLocalePlaces" runat="server" /></td>
                                             <td>
-                                                <asp:TextBox ID="tbPlayerComments" runat="server" Columns="50" Rows="6" TextMode="MultiLine" /></td>
+                                                <asp:TextBox ID="tbNonCampPlayerComments" runat="server" Columns="50" Rows="6" TextMode="MultiLine" /></td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <asp:HiddenField ID="hidPlaceID" runat="server" /></td>
+                                                <asp:Button ID="btnNonCampCancel" runat="server" Text="Cancel" OnClick="btnCancelAdding_Click" CssClass="StandardButton" /></td>
                                             <td>&nbsp;</td>
                                             <td align="right">
-                                                <asp:Button ID="btnSaveNewPlace" runat="server" Text="Save New Place" OnClick="btnSaveNewPlace_Click" /></td>
+                                                <asp:Button ID="btnNonCampSave" runat="server" Text="Save New Place" OnClick="btnNonCampSave_Click" CssClass="StandardButton" /></td>
                                         </tr>
                                     </table>
                                     <br />
                                 </asp:View>
 
-                                <asp:View ID="vwExistingPlace" runat="server">
+                                <asp:View ID="vwCampaignPlace" runat="server">
                                     <table border="0">
                                         <tr>
-                                            <td colspan="2"><b style="font-size: larger;">Add a campaign place to this character.</b>
+                                            <td colspan="3"><b style="font-size: larger;">Add a campaign place to this character.<asp:HiddenField ID="hidExistingID" runat="server" /></b>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><b>Place Name</b></td>
                                             <td><b>Locale</b></td>
+                                            <td><b>Player Comments</b></td>
                                         </tr>
                                         <tr>
                                             <td style="vertical-align: top;">
-                                                <asp:Label ID="lblPlaceName" runat="server" /></td>
+                                                <asp:Label ID="lblCampaignPlaceName" runat="server" /></td>
+                                            <td style="vertical-align: top;">
+                                                <asp:Label ID="lblCampaignLocale" runat="server" /></td>
                                             <td>
-                                                <asp:Label ID="lblLocale" runat="server" /></td>
-                                        </tr>
-                                        <tr id="trAlreadySelected" runat="server">
-                                            <td colspan="2">
-                                                That place has already been added. Please choose another place.
+                                                <asp:TextBox ID="tbCampaignPlayerComments" runat="server" Columns="50" Rows="6" TextMode="MultiLine" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <asp:Button ID="btnCancelAdding" runat="server" Text="Cancel" OnClick="btnCancelAdding_Click" /></td>
+                                                <asp:Button ID="btnCampaignCancel" runat="server" Text="Cancel" OnClick="btnCancelAdding_Click" CssClass="StandardButton" /></td>
+                                            <td>&nbsp;</td>
                                             <td align="right">
-                                                <asp:Button ID="btnSaveExistingPlace" runat="server" Text="Save Existing Place" OnClick="btnSaveExistingPlace_Click" /></td>
+                                                <asp:Button ID="btnCampaignSave" runat="server" Text="Save Existing Place" OnClick="btnCampaignSave_Click" CssClass="StandardButton" /></td>
                                         </tr>
                                     </table>
                                     <br />
@@ -268,7 +281,7 @@
                     <tr>
                         <td colspan="2" />
                         <td align="right">
-                            <asp:Button ID="btnSave" runat="server" Text="&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;" OnClick="btnSave_Click" /></td>
+                            <asp:Button ID="btnSave" runat="server" Text="&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;" OnClick="btnSave_Click" CssClass="StandardButton" /></td>
                     </tr>
                 </table>
             </ContentTemplate>
