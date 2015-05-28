@@ -18,7 +18,6 @@ namespace LarpPortal
             {
                 // Destroys everything in the session which is essentially what logging out does.
                 Session.Clear();
-
                 // TODO-Rick-2 Make the next 7 things visible for real release
                 int HidePublicAccess = 0;  // 1 (think of 1 as true) will hide the public access
                 if (HidePublicAccess == 1)
@@ -65,6 +64,17 @@ namespace LarpPortal
                 Session["BrowserVersion"] = bc.Version;
                 Session["Platform"] = bc.Platform;
                 Session["OSVersion"] = Request.UserAgent;
+                // Check for browser.  If not Chrome pop message
+                if (bc.Browser != "Chrome")
+                {
+                    string jsString = "alert('LARP Portal is optimized for Chrome.  You may experience issues with other browsers.');";
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                            "MyApplication",
+                            jsString,
+                            true);
+                }
+
+                //
             }
             txtName.Visible = false;
             txtLastLocation.Visible = false;
