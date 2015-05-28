@@ -31,6 +31,16 @@
                                         <asp:Button ID="btnGetPassword" runat="server" OnClick="btnGetPassword_Click" CssClass="btn btn-primary" Text="Get Password" />
                                         <asp:Label ID="lblInvalidCombination" runat="server" ForeColor="Red">That username, email address, last name combination is not valid.  Click OK and try again.</asp:Label>
                                         <p></p><asp:Button ID="btnInvalidCombination" runat="server" OnClick="btnInvalidCombination_Click" CssClass="btn btn-primary" Text="OK" />
+                                        <p></p><br /><br /><br /><br />
+                                        <b>Need assistance? Email support.</b><p></p>
+                                        Your name: <asp:TextBox ID="txtSupportName" runat="server" AutoPostBack="true" OnTextChanged="txtSupportName_TextChanged"></asp:TextBox><p></p>
+                                        Your email address: <asp:TextBox ID="txtSupportEmail" runat="server" AutoPostBack="true" OnTextChanged="txtSupportEmail_TextChanged"></asp:TextBox><p></p>
+                                        Subject: Trouble with username / password<p></p>
+                                        Details about the issue:<p></p><p></p><p></p><p></p>
+                                        <asp:TextBox ID="txtSupportBody" runat="server" TextMode="MultiLine" Columns="50" Rows="5" AutoPostBack="true" OnTextChanged="txtSupportBody_TextChanged"></asp:TextBox><br />
+                                        <asp:CheckBox ID="chkSupportCCMe" runat="server" Checked="true" AutoPostBack="true" /> CC me on the support request email.<p></p>
+                                        <asp:Button ID="btnSupportSendEmail" runat="server" OnClick="btnSupportSendEmail_Click" CssClass="btn btn-primary" Text="Send Email" />
+                                        <asp:Label ID="lblSupportSentEmail" runat="server"></asp:Label>
                                     </asp:Panel>
                                     <asp:Panel ID="pnlVariables" runat="server">
                                         <asp:Label ID="Q1" runat="server"></asp:Label>
@@ -92,7 +102,7 @@
                                         <asp:Label ID="lblPasswordRequirements" runat="server">
                                             Password requirements:<br />
                                             LARP Portal login passwords must be at least 7 characters long and contain at least <br />
-                                            1 uppercase letter, 1 lowercse letter, 1 number and 1 special character<br />
+                                            1 uppercase letter, 1 lowercase letter, 1 number and 1 special character<br />
                                         </asp:Label><p></p>
                                         <asp:Label ID="lblNewPassword" runat="server">New Password: </asp:Label>
                                         <asp:TextBox ID="txtNewPassword" runat="server" AutoPostBack="true" OnTextChanged="txtNewPassword_TextChanged"></asp:TextBox><p></p>
