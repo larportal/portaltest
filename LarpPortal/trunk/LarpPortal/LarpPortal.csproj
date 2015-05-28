@@ -221,6 +221,7 @@
     <Content Include="Character\CharAdd.aspx" />
     <Content Include="Character\CharHistory.aspx" />
     <Content Include="Character\CharInfo.aspx" />
+    <Content Include="Character\CharInfo2.aspx" />
     <Content Include="Character\CharItems.aspx" />
     <Content Include="Character\CharNoCampaign.aspx" />
     <Content Include="Character\CharPlace.aspx" />
@@ -577,6 +578,13 @@
     </Compile>
     <Compile Include="Character\CharInfo.aspx.designer.cs">
       <DependentUpon>CharInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharInfo2.aspx.cs">
+      <DependentUpon>CharInfo2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharInfo2.aspx.designer.cs">
+      <DependentUpon>CharInfo2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Character\CharItems.aspx.cs">
       <DependentUpon>CharItems.aspx</DependentUpon>

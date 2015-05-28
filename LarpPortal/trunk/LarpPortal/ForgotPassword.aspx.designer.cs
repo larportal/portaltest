@@ -130,6 +130,60 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.Button btnInvalidCombination;
         
         /// <summary>
+        /// txtSupportName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSupportName;
+        
+        /// <summary>
+        /// txtSupportEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSupportEmail;
+        
+        /// <summary>
+        /// txtSupportBody control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSupportBody;
+        
+        /// <summary>
+        /// chkSupportCCMe control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkSupportCCMe;
+        
+        /// <summary>
+        /// btnSupportSendEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSupportSendEmail;
+        
+        /// <summary>
+        /// lblSupportSentEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSupportSentEmail;
+        
+        /// <summary>
         /// pnlVariables control.
         /// </summary>
         /// <remarks>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 using System.Net;
 using System.Net.Mail;
 
@@ -183,6 +184,63 @@ namespace LarpPortal
                     txtAnswerQuestion1.Focus();
                 }
             } 
+        }
+
+        protected void txtSupportName_TextChanged(object sender, EventArgs e)
+        {
+            txtSupportEmail.Focus();
+        }
+
+        protected void txtSupportEmail_TextChanged(object sender, EventArgs e)
+        {
+            txtSupportBody.Focus();
+        }
+
+        protected void txtSupportBody_TextChanged(object sender, EventArgs e)
+        {
+            btnSupportSendEmail.Focus();
+        }
+
+        protected void btnSupportSendEmail_Click(object sender, EventArgs e)
+        {
+            string strBody;
+            string strFromUser = "support";
+            string strFromDomain = "larportal.com";
+            string strFrom = strFromUser + "@" + strFromDomain;
+            string strSMTPPassword = "Piccolo1";
+            string strSubject = "Trouble with username / password";
+            strBody = "From: " + txtSupportName.Text + "<br>Email: " + txtSupportEmail.Text + "<br><br>Issue Details:<br><br>";
+            strBody = strBody + txtSupportBody.Text;
+            strBody = strBody + "<br><br>Answers Provided:<br>Email Address: " + txtEmailAddress.Text + "<br>";
+            strBody = strBody + "Username: " + txtUsername.Text + "<br>";
+            strBody = strBody + "Last Name: " + txtLastName.Text;
+            MailMessage mail = new MailMessage(strFrom, "support@larportal.com");
+            SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
+            if(chkSupportCCMe.Checked)
+            {
+                MailAddress copy = new MailAddress(txtSupportEmail.Text);
+                mail.CC.Add(copy);
+            }
+            client.EnableSsl = false;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
+            client.Timeout = 10000;
+            mail.Subject = strSubject;
+            mail.Body = strBody;
+            mail.IsBodyHtml = true;
+
+            try
+            {
+                client.Send(mail);
+                lblSupportSentEmail.Text = "An email has been sent to LARP Portal support.";
+                lblSupportSentEmail.Visible = true;
+            }
+            catch (Exception)
+            {
+                lblSupportSentEmail.Text = "An email has been sent to LARP Portal support.";
+                lblSupportSentEmail.Visible = true;
+
+            }
         }
 
         protected void btnInvalidCombination_Click(object sender, EventArgs e)
