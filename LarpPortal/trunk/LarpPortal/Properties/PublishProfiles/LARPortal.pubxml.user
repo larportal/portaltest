@@ -161,7 +161,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 21:15:46</publishTime>
     </File>
     <File Include="bin/LarpPortal.dll">
-      <publishTime>05/21/2015 07:31:32</publishTime>
+      <publishTime>05/27/2015 20:26:06</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>05/19/2014 20:54:36</publishTime>
@@ -316,6 +316,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Character/CharInfo.aspx">
       <publishTime>05/06/2015 20:09:37</publishTime>
     </File>
+    <File Include="Character/CharInfo2.aspx">
+      <publishTime>05/21/2015 19:56:50</publishTime>
+    </File>
     <File Include="Character/CharItems.aspx">
       <publishTime>03/28/2015 21:42:47</publishTime>
     </File>
@@ -323,7 +326,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/12/2015 16:56:04</publishTime>
     </File>
     <File Include="Character/CharPlace.aspx">
-      <publishTime>04/13/2015 10:25:14</publishTime>
+      <publishTime>05/26/2015 07:07:11</publishTime>
     </File>
     <File Include="Character/CharPlaces.aspx">
       <publishTime>03/28/2015 21:42:47</publishTime>
@@ -395,7 +398,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/15/2014 13:32:26</publishTime>
     </File>
     <File Include="ForgotPassword.aspx">
-      <publishTime>04/22/2015 08:30:30</publishTime>
+      <publishTime>05/27/2015 20:24:40</publishTime>
     </File>
     <File Include="GameSystemTest2.aspx">
       <publishTime>10/11/2014 17:44:58</publishTime>
@@ -788,7 +791,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LARPortal.pubxml.user">
-      <publishTime>05/18/2015 20:58:47</publishTime>
+      <publishTime>05/21/2015 07:32:08</publishTime>
     </File>
     <File Include="PublicCalendar.aspx">
       <publishTime>12/10/2014 21:37:31</publishTime>
