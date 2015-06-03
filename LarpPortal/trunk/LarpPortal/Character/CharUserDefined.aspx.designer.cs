@@ -10,7 +10,7 @@
 namespace LarpPortal.Character {
     
     
-    public partial class CharItems {
+    public partial class CharUserDefined {
         
         /// <summary>
         /// lblHeader control.
@@ -49,84 +49,147 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Label lblUpdateDate;
         
         /// <summary>
-        /// tbCostume control.
+        /// divUserDef1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbCostume;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divUserDef1;
         
         /// <summary>
-        /// tbMakeup control.
+        /// lblUserDef1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbMakeup;
+        protected global::System.Web.UI.WebControls.Label lblUserDef1;
         
         /// <summary>
-        /// tbAccessories control.
+        /// tbUserField1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbAccessories;
+        protected global::System.Web.UI.WebControls.TextBox tbUserField1;
         
         /// <summary>
-        /// tbWeapons control.
+        /// divUserDef2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbWeapons;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divUserDef2;
         
         /// <summary>
-        /// tbOtherItems control.
+        /// lblUserDef2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbOtherItems;
+        protected global::System.Web.UI.WebControls.Label lblUserDef2;
         
         /// <summary>
-        /// fuItem control.
+        /// tbUserField2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload fuItem;
+        protected global::System.Web.UI.WebControls.TextBox tbUserField2;
         
         /// <summary>
-        /// btnUpload control.
+        /// divUserDef3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUpload;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divUserDef3;
         
         /// <summary>
-        /// dlItems control.
+        /// lblUserDef3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList dlItems;
+        protected global::System.Web.UI.WebControls.Label lblUserDef3;
         
         /// <summary>
-        /// btnSubmit control.
+        /// tbUserField3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSubmit;
+        protected global::System.Web.UI.WebControls.TextBox tbUserField3;
+        
+        /// <summary>
+        /// divUserDef4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divUserDef4;
+        
+        /// <summary>
+        /// lblUserDef4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUserDef4;
+        
+        /// <summary>
+        /// tbUserField4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbUserField4;
+        
+        /// <summary>
+        /// divUserDef5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divUserDef5;
+        
+        /// <summary>
+        /// lblUserDef5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUserDef5;
+        
+        /// <summary>
+        /// tbUserField5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbUserField5;
+        
+        /// <summary>
+        /// btnSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSave;
     }
 }

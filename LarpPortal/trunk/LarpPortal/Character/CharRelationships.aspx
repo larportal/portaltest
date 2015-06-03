@@ -54,14 +54,49 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
     <div class="mainContent tab-content col-sm-12">
+        <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
+            <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Relationships" />
+        </div>
+        <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
+            <table>
+                <tr style="vertical-align: middle;">
+                    <td style="width: 10px"></td>
+                    <td>
+                        <b>Selected Character:</b>
+                    </td>
+                    <td style="padding-left: 10px;">
+                        <asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" />
+                    </td>
+                    <td style="padding-left: 20px;">
+                        <b>Campaign:</b>
+                    </td>
+                    <td style="padding-left: 10px;">
+                        <asp:Label ID="lblCampaign" runat="server" Text="" />
+                    </td>
+                    <td style="padding-left: 20px;">
+                        <b>Last Update:</b>
+                    </td>
+                    <td style="padding-left: 10px;">
+                        <asp:Label ID="lblUpdateDate" runat="server" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+
+
+
+
+
+
         <div id="character-info" class="character-info tab-pane active">
             <section role="form" class="form-horizontal form-condensed">
-                <div class="row">
+<%--                <div class="row">
                     <h1 class="col-xs-10" style="padding-top: 0px;">
                         <asp:Label ID="lblHeader" runat="server" /></h1>
-                </div>
+                </div>--%>
                 <div class="row" style="padding-left: 20px;">
                     Select an in game PC or NPC character and the corresponding relationship  from the lists provided - or enter the name of a person that is not on the list in the field provided.
                 </div>

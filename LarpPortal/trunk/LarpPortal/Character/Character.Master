@@ -18,6 +18,7 @@
             border-width: 1px;
             border-style: solid;
             color: white;
+            padding: 0px 0px 0px 0px;
         }
 
             .StandardButton:hover
@@ -28,14 +29,13 @@
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainPage" runat="server" ID="CharacterMain">
-    <asp:Table ID="Table1" runat="server">
-        <asp:TableRow VerticalAlign="Top">
-            <asp:TableCell Wrap="false" VerticalAlign="Top" Width="287">
-                <div class="contentArea" style="width: 227px;">
-                    <nav class="userSubNav" style="width: 227px;">
-                        <ul class="nav nav-pills" style="width: 227px;">
-                            <li>
-                                <asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" /></li>
+    <asp:Table ID="Table2" runat="server" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" GridLines="none" Width="100%">
+        <asp:TableRow>
+            <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
+                <div class="contentArea">
+                    <nav class="userSubNav">
+<%--                        <asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" />--%>
+                        <ul class="nav nav-pills" "panel-wrapper list-unstyled scroll-500">
                             <li runat="server" id="liInfo"><a href="CharInfo.aspx" runat="server" id="hlCharInfo">Character Info</a></li>
                             <li runat="server" id="liSkills"><a href="CharSkills.aspx" runat="server" id="hlCharSkill">Character Skills</a></li>
                             <li runat="server" id="liHistory"><a href="CharHistory.aspx">Character History</a></li>
@@ -43,12 +43,14 @@
                             <li runat="server" id="liPlaces"><a href="CharPlaces.aspx">Character Places</a></li>
                             <li runat="server" id="liItems"><a href="CharItems.aspx">Character Items</a></li>
                             <li runat="server" id="liRequests"><a>Character Requests</a></li>
-                            <%--                                <li runat="server" id="liPoints"><a href="CharPoints.aspx" data-toggle="pill">Character Points/Build Mgmt</a></li>--%>
+                            <li runat="server" id="liGoals"><a href="CharUserDefined.aspx">Character Goals & Preferences</a></li>
+                            <li runat="server" id="liCardCust"><a href="CharCardCustomization.aspx">Character Card Customization</a></li>
+                            <li runat="server" id="liAddNewChar"><a href="CharAdd.aspx">Add New Character</a></li>
                         </ul>
                     </nav>
                 </div>
             </asp:TableCell>
-            <asp:TableCell Width="100%" Style="text-align: left;">
+            <asp:TableCell VerticalAlign="Top" Style="text-align: left; padding-left: 5px;">
                 <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
             </asp:TableCell>
         </asp:TableRow>
