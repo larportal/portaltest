@@ -38,84 +38,89 @@ namespace LarpPortal.Character
                     liPlaces.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARREQUESTS"))
                     liPlaces.Attributes.Add("class", "active");
+                else if (PageName.Contains("CHARUSERDEFINED"))
+                    liGoals.Attributes.Add("class", "active");
+                else if (PageName.Contains("CHARADD"))
+                    liAddNewChar.Attributes.Add("class", "active");
+                else if (PageName.Contains("CARDCUSTOM"))
+                    liCardCust.Attributes.Add("class", "active");
 
-                SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", "CharacterMaster.Page_Load");
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
-
-                if (ddlCharacterSelector.Items.Count > 0)
+                if (Session["SelectedCharacter"] == null)
                 {
-                    ddlCharacterSelector.ClearSelection();
+                    SortedList slParameters = new SortedList();
+                    slParameters.Add("@intUserID", Session["UserID"].ToString());
+                    DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
+                        "LARPortal", "Character", "CharacterMaster.Page_Load");
 
-                    if (Session["SelectedCharacter"] != null)
-                    {
-                        string sCurrentUser = Session["SelectedCharacter"].ToString();
-                        foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
-                        {
-                            if (sCurrentUser == liAvailableUser.Value)
-                                liAvailableUser.Selected = true;
-                            else
-                                liAvailableUser.Selected = false;
-                        }
-                    }
+                    if (dtCharacters.Rows.Count > 0)
+                        Session["SelectedCharacter"] = dtCharacters.Rows[0]["CharacterID"].ToString();
                     else
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
+                        Response.Redirect("CharAdd.aspx");
+                }
+            //    ddlCharacterSelector.DataTextField = "CharacterAKA";
+            //    ddlCharacterSelector.DataValueField = "CharacterID";
+            //    ddlCharacterSelector.DataSource = dtCharacters;
+            //    ddlCharacterSelector.DataBind();
 
-                    //if (ddlCharacterSelector.SelectedIndex == 0)
-                    //{
-                    //    ddlCharacterSelector.Items[0].Selected = true;
-                    //    Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    //}
-                }
-                ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
-                if (PageName.Contains("CHARADD"))
-                {
-                    ddlCharacterSelector.SelectedIndex = -1;
-                    foreach (ListItem li in ddlCharacterSelector.Items)
-                    {
-                        if (li.Value == "-1")
-                            li.Selected = true;
-                        else
-                            li.Selected = false;
-                    }
-                }
-                else
-                if (dtCharacters.Rows.Count == 0)
-                    Response.Redirect("CharAdd.aspx");
+            //    if (ddlCharacterSelector.Items.Count > 0)
+            //    {
+            //        ddlCharacterSelector.ClearSelection();
+
+            //        if (Session["SelectedCharacter"] != null)
+            //        {
+            //            string sCurrentUser = Session["SelectedCharacter"].ToString();
+            //            foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
+            //            {
+            //                if (sCurrentUser == liAvailableUser.Value)
+            //                    liAvailableUser.Selected = true;
+            //                else
+            //                    liAvailableUser.Selected = false;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            ddlCharacterSelector.Items[0].Selected = true;
+            //            Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+            //        }
+
+            //        //if (ddlCharacterSelector.SelectedIndex == 0)
+            //        //{
+            //        //    ddlCharacterSelector.Items[0].Selected = true;
+            //        //    Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+            //        //}
+            //    }
+            //    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
+            //    if (PageName.Contains("CHARADD"))
+            //    {
+            //        ddlCharacterSelector.SelectedIndex = -1;
+            //        foreach (ListItem li in ddlCharacterSelector.Items)
+            //        {
+            //            if (li.Value == "-1")
+            //                li.Selected = true;
+            //            else
+            //                li.Selected = false;
+            //        }
+            //    }
+            //    else
+            //    if (dtCharacters.Rows.Count == 0)
+            //        Response.Redirect("CharAdd.aspx");
             }
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            //string s = width.Value;
-            if (ddlCharacterSelector.SelectedValue != "")
-            {
-                string t = ddlCharacterSelector.SelectedValue;
-            }
-            //string j = height.Value;
-
-            //string sheight = HttpContext.Current.Request.Params["clientScreenHeight"];
-            //string swidth = HttpContext.Current.Request.Params["clientScreenWidth"];
         }
 
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("CharAdd.aspx");
+        //protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (ddlCharacterSelector.SelectedValue == "-1")
+        //        Response.Redirect("CharAdd.aspx");
 
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
-            {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                Response.Redirect("CharInfo.aspx");
-            }
-        }
+        //    if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
+        //    {
+        //        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+        //        Response.Redirect("CharInfo.aspx");
+        //    }
+        //}
     }
 }

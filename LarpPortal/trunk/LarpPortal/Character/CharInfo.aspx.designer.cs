@@ -22,6 +22,33 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
+        /// ddlCharacterSelector control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCharacterSelector;
+        
+        /// <summary>
+        /// lblCampaign control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCampaign;
+        
+        /// <summary>
+        /// lblUpdateDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUpdateDate;
+        
+        /// <summary>
         /// lblHelp control.
         /// </summary>
         /// <remarks>
@@ -67,15 +94,6 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.TextBox tbOrigin;
         
         /// <summary>
-        /// ddlStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
-        
-        /// <summary>
         /// lblStatus control.
         /// </summary>
         /// <remarks>
@@ -83,6 +101,15 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblStatus;
+        
+        /// <summary>
+        /// ddlStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
         
         /// <summary>
         /// tbAKA control.
@@ -121,13 +148,22 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Label lblDateLastEvent;
         
         /// <summary>
-        /// lblType control.
+        /// ulFile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblType;
+        protected global::System.Web.UI.WebControls.FileUpload ulFile;
+        
+        /// <summary>
+        /// tbType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbType;
         
         /// <summary>
         /// tbTeam control.
@@ -157,13 +193,13 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.TextBox tbNumOfDeaths;
         
         /// <summary>
-        /// lblNumOfDeaths control.
+        /// btnUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblNumOfDeaths;
+        protected global::System.Web.UI.WebControls.Button btnUpload;
         
         /// <summary>
         /// tbDOB control.
@@ -202,13 +238,22 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Label lblDOD;
         
         /// <summary>
-        /// pnlCharDesc control.
+        /// imgCharacterPicture control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel pnlCharDesc;
+        protected global::System.Web.UI.WebControls.Image imgCharacterPicture;
+        
+        /// <summary>
+        /// btnClearPicture control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnClearPicture;
         
         /// <summary>
         /// gvDescriptors control.
@@ -238,15 +283,6 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.DropDownList ddlName;
         
         /// <summary>
-        /// tbDateAdded control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbDateAdded;
-        
-        /// <summary>
         /// btnAddDesc control.
         /// </summary>
         /// <remarks>
@@ -263,51 +299,6 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSave;
-        
-        /// <summary>
-        /// ulFile control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload ulFile;
-        
-        /// <summary>
-        /// btnUpload control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUpload;
-        
-        /// <summary>
-        /// pnlCharacterPicture control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlCharacterPicture;
-        
-        /// <summary>
-        /// imgCharacterPicture control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgCharacterPicture;
-        
-        /// <summary>
-        /// btnClearPicture control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClearPicture;
         
         /// <summary>
         /// lblMessage control.

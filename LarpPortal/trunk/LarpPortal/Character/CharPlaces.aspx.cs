@@ -16,158 +16,73 @@ namespace LarpPortal.Character
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                SortedList slParameters = new SortedList();
+                slParameters.Add("@intUserID", Session["UserID"].ToString());
+                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
+                    "LARPortal", "Character", "CharacterMaster.Page_Load");
+                ddlCharacterSelector.DataTextField = "CharacterAKA";
+                ddlCharacterSelector.DataValueField = "CharacterID";
+                ddlCharacterSelector.DataSource = dtCharacters;
+                ddlCharacterSelector.DataBind();
 
+                if (ddlCharacterSelector.Items.Count > 0)
+                {
+                    ddlCharacterSelector.ClearSelection();
+
+                    if (Session["SelectedCharacter"] != null)
+                    {
+                        DataRow[] drValue = dtCharacters.Select("CharacterID = " + Session["SelectedCharacter"].ToString());
+                        foreach (DataRow dRow in drValue)
+                        {
+                            DateTime DateChanged;
+                            if (DateTime.TryParse(dRow["DateChanged"].ToString(), out DateChanged))
+                                lblUpdateDate.Text = DateChanged.ToShortDateString();
+                            else
+                                lblUpdateDate.Text = "Unknown";
+                            lblCampaign.Text = dRow["CampaignName"].ToString();
+                        }
+                        string sCurrentUser = Session["SelectedCharacter"].ToString();
+                        foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
+                        {
+                            if (sCurrentUser == liAvailableUser.Value)
+                                liAvailableUser.Selected = true;
+                            else
+                                liAvailableUser.Selected = false;
+                        }
+                    }
+                    else
+                    {
+                        ddlCharacterSelector.Items[0].Selected = true;
+                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+                    }
+
+                    if (ddlCharacterSelector.SelectedIndex == 0)
+                    {
+                        ddlCharacterSelector.Items[0].Selected = true;
+                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+                    }
+                    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
+                }
+                else
+                    Response.Redirect("CharAdd.aspx");
+            }
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+        }
+
+        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlCharacterSelector.SelectedValue == "-1")
+                Response.Redirect("CharAdd.aspx");
+
+            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
             {
-                MethodBase lmth = MethodBase.GetCurrentMethod();
-                string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-
-                if (Session["SelectedCharacter"] != null)
-                {
-                    int iCharID;
-                    if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-                    {
-                        Classes.cCharacter cChar = new Classes.cCharacter();
-                        cChar.LoadCharacter(iCharID);
-
-                        lblHeader.Text = "Character Places - " + cChar.AKA + " - " + cChar.CampaignName;
-
-//                        DataTable dtPlaces = Classes.cUtilities.CreateDataTable(cChar.Places);
-//                        gvPlaces.DataSource = dtPlaces;
-//                        gvPlaces.DataBind();
-
-//                        SortedList sParam = new SortedList();
-//                        sParam.Add("@CampaignID", cChar.CampaignID);
-//                        _dtPlaces = Classes.cUtilities.LoadDataTable("uspGetCampaignPlaces", sParam, "LARPortal", "", lsRoutineName);
-
-//                        //ddlPlacesFilter.DataSource = _dtPlaces;
-//                        //ddlPlacesFilter.DataTextField = "FullName";
-//                        //ddlPlacesFilter.DataValueField = "CampaignPlaceID";
-//                        //ddlPlacesFilter.DataBind();
-
-//                        Session["Places"] = dtPlaces;
-
-//                        DataView dvTopNodes = new DataView(_dtPlaces, "LocaleID = 0", "", DataViewRowState.CurrentRows);
-//                        foreach (DataRowView dvRow in dvTopNodes)
-//                        {
-//                            TreeNode NewNode = new TreeNode();
-////                            NewNode.Text = FormatDescString(dvRow);
-//                            NewNode.Text = dvRow["PlaceName"].ToString();
-
-//                            //int iNodeID;
-//                            //if (int.TryParse(dvRow["CampaignSkillsStandardID"].ToString(), out iNodeID))
-//                            //{
-//                            //    NewNode.Value = iNodeID.ToString();
-//                            //    if (dtCharSkills != null)
-//                            //    {
-//                            //        if (dtCharSkills.Select("CampaignSkillsStandardID = " + iNodeID.ToString()).Length > 0)
-//                            //            NewNode.Checked = true;
-//                            //        NewNode.SelectAction = TreeNodeSelectAction.None;
-//                            //        NewNode.NavigateUrl = "javascript:void(0);";
-//                            //        PopulateTreeView(iNodeID, NewNode);
-//                            //    }
-//                            //    NewNode.Expanded = false;
-//                            //    tvSkills.Nodes.Add(NewNode);
-//                            //}
-//                            tvPlaces.Nodes.Add(NewNode);
-//                        }
-
-
-
-
-
-
-
-
-
-
-
-                    }
-                }
-            }
-        }
-
-        protected void gvRelationships_RowEditing(object sender, GridViewEditEventArgs e)
-        {
-
-        }
-
-        protected void gvRelationships_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-
-        }
-
-        protected void btnSave_Click(object sender, EventArgs e)
-        {
-                int iCharID;
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-                {
-                    Classes.cCharacter cChar = new Classes.cCharacter();
-                    //cChar.CharacterHistory = taHistory.InnerText;
-                    //cChar.Comments = taHistory.InnerText;
-                    cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
-                }
-
-        }
-
-        //protected void gvPlaces_RowEditing(object sender, GridViewEditEventArgs e)
-        //{
-        //    string t;
-        //    gvPlaces.EditIndex = e.NewEditIndex;
-        //    //Bind data to the GridView control.
-        //    BindPlaces();
-        //}
-
-        //protected void gvPlaces_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        //{
-
-        //}
-
-        //protected void gvPlaces_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
-        //{
-        //    gvPlaces.EditIndex = -1;
-        //    BindPlaces();
-        //}
-
-        //protected void gvPlaces_RowUpdating(object sender, GridViewUpdateEventArgs e)
-        //{
-        //    string NewValue = ((TextBox)gvPlaces.Rows[e.RowIndex].Cells[0].FindControl("uxTestEditMode")).Text;
-        //    string RowID = gvPlaces.DataKeys[e.RowIndex].Values["ID"].ToString();
-        //    DataTable dtRecs = Session["Places"] as DataTable;
-        //    DataView dv = new DataView(dtRecs, "ID = " + RowID, "", DataViewRowState.CurrentRows);
-        //    if (dv.Count > 0)
-        //        dv[0]["Name"] = RowID;
-        //    Session["Places"] = dtRecs;
-        //    BindPlaces();
-        //}
-
-        //private void BindPlaces()
-        //{
-        //    gvPlaces.DataSource = Session["Places"];
-        //    gvPlaces.DataBind();
-        //}
-
-        protected void gvPlaces_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                if ((e.Row.RowState & DataControlRowState.Edit) > 0)
-                {
-                    DropDownList ddList = (DropDownList)e.Row.FindControl("ddlPlaces");
-                    //bind dropdownlist
-                    DataTable dtRecs = Session["Places"] as DataTable;
-                    ddList.DataSource = dtRecs;
-                    ddList.DataTextField = "Name";
-                    ddList.DataValueField = "Name";
-                    ddList.DataBind();
-
-                    DataRowView dr = e.Row.DataItem as DataRowView;
-                    ddList.SelectedValue = dr["Name"].ToString();
-                }
+                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+                Response.Redirect("CharInfo.aspx");
             }
         }
     }

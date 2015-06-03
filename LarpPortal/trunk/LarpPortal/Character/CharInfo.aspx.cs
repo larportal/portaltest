@@ -26,6 +26,56 @@ namespace LarpPortal.Character
                 tbLastName.Attributes.Add("Placeholder", "Last Name");
                 lblMessage.Text = "";
                 ViewState["NewRecCounter"] = -1;
+
+                SortedList slParameters = new SortedList();
+                slParameters.Add("@intUserID", Session["UserID"].ToString());
+                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
+                    "LARPortal", "Character", "CharacterMaster.Page_Load");
+                ddlCharacterSelector.DataTextField = "CharacterAKA";
+                ddlCharacterSelector.DataValueField = "CharacterID";
+                ddlCharacterSelector.DataSource = dtCharacters;
+                ddlCharacterSelector.DataBind();
+
+                if (ddlCharacterSelector.Items.Count > 0)
+                {
+                    ddlCharacterSelector.ClearSelection();
+
+                    if (Session["SelectedCharacter"] != null)
+                    {
+                        DataRow[] drValue = dtCharacters.Select("CharacterID = " + Session["SelectedCharacter"].ToString());
+                        foreach (DataRow dRow in drValue)
+                        {
+                            DateTime DateChanged;
+                            if (DateTime.TryParse(dRow["DateChanged"].ToString(), out DateChanged))
+                                lblUpdateDate.Text = DateChanged.ToShortDateString();
+                            else
+                                lblUpdateDate.Text = "Unknown";
+                            lblCampaign.Text = dRow["CampaignName"].ToString();
+                        }
+                        string sCurrentUser = Session["SelectedCharacter"].ToString();
+                        foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
+                        {
+                            if (sCurrentUser == liAvailableUser.Value)
+                                liAvailableUser.Selected = true;
+                            else
+                                liAvailableUser.Selected = false;
+                        }
+                    }
+                    else
+                    {
+                        ddlCharacterSelector.Items[0].Selected = true;
+                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+                    }
+
+                    if (ddlCharacterSelector.SelectedIndex == 0)
+                    {
+                        ddlCharacterSelector.Items[0].Selected = true;
+                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+                    }
+                    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
+                }
+                else
+                    Response.Redirect("CharAdd.aspx");
             }
         }
 
@@ -50,7 +100,7 @@ namespace LarpPortal.Character
                         if (cChar.CampaignID == 0)
                             Response.Redirect("CharNoCampaign.aspx", true);
 
-                        lblHeader.Text = "Character Info - " + cChar.AKA + " - " + cChar.CampaignName;
+                        //lblHeader.Text = "Character Info - " + cChar.AKA + " - " + cChar.CampaignName;
 
                         Session["CharDesc"] = cChar.Descriptors;
                         ViewState["ProfilePictureID"] = cChar.ProfilePictureID;
@@ -65,11 +115,11 @@ namespace LarpPortal.Character
                         tbHome.Text = cChar.CurrentHome;
                         tbDateLastEvent.Text = "??";
                         //                        tbType.Text = cChar.CharType.Description;
-                        lblType.Text = cChar.CharType.Description;
+                        tbType.Text = cChar.CharType.Description;
                         tbTeam.Text = "Team";
                         lblTeam.Text = cChar.TeamName;
                         tbNumOfDeaths.Text = cChar.Deaths.Count.ToString();
-                        lblNumOfDeaths.Text = cChar.Deaths.Count.ToString();
+                       // lblNumOfDeaths.Text = cChar.Deaths.Count.ToString();
                         tbDOB.Text = cChar.DateOfBirth;
                         //                        tbRace.Text = cChar.Race.Description;
                         if (cChar.Deaths.Count > 0)
@@ -98,10 +148,14 @@ namespace LarpPortal.Character
                         {
                             ViewState["UserIDPicture"] = cChar.ProfilePicture;
                             imgCharacterPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
-                            pnlCharacterPicture.Visible = true;
+                            imgCharacterPicture.Visible = true;
+                            btnClearPicture.Visible = true;
                         }
                         else
-                            pnlCharacterPicture.Visible = false;
+                        {
+                            imgCharacterPicture.Visible = false;
+                            btnClearPicture.Visible = false;
+                        }
 
                         Classes.cCampaignRaces Races = new Classes.cCampaignRaces();
                         Races.CampaignID = cChar.CampaignID;
@@ -205,7 +259,8 @@ namespace LarpPortal.Character
                     ViewState.Remove("PictureDeleted");
 
                     imgCharacterPicture.ImageUrl = NewPicture.PictureURL;
-                    pnlCharacterPicture.Visible = true;
+                    imgCharacterPicture.Visible = true;
+                    btnClearPicture.Visible = true;
                 }
                 catch (Exception ex)
                 {
@@ -219,7 +274,13 @@ namespace LarpPortal.Character
             if (ViewState["UserIDPicture"] != null)
                 ViewState["PictureDeleted"] = "Y";
             //                ViewState.Remove("UserIDPicture");
-            pnlCharacterPicture.Visible = false;
+            imgCharacterPicture.Visible = false;
+            btnClearPicture.Visible = false;
+
+            SortedList sParam = new SortedList();
+            sParam.Add("@CharacterID", Session["SelectedCharacter"].ToString());
+
+            Classes.cUtilities.LoadDataTable("uspClearCharacterProfilePicture", sParam, "LARPortal", Session["UserID"].ToString(), "CharInfo.btnClearPicture"); 
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -395,5 +456,21 @@ namespace LarpPortal.Character
                 }
             }
         }
+
+        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlCharacterSelector.SelectedValue == "-1")
+                Response.Redirect("CharAdd.aspx");
+
+            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
+            {
+                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+                Response.Redirect("CharInfo.aspx");
+            }
+        }
+
+
+
+
     }
 }

@@ -140,6 +140,21 @@
         {
             text-align: right;
         }
+
+        .StandardButton
+        {
+            background-color: darkblue;
+            border-color: black;
+            border-width: 1px;
+            border-style: solid;
+            color: white;
+        }
+
+            .StandardButton:hover
+            {
+                background-color: lightblue;
+            }
+
     </style>
 </head>
 <body style="width: auto; height: 560px;">
@@ -189,7 +204,7 @@
                             <asp:Label ID="lblMessage" runat="server" />
                         </td>
                         <td align="right">
-                            <asp:Button ID="btnSave" runat="server" Text="&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;" OnClick="btnSave_Click" /></td>
+                            <asp:Button ID="btnSave" runat="server" Width="100px" CssClass="StandardButton" Text="Save" OnClick="btnSave_Click" /></td>
                     </tr>
                 </table>
             </ContentTemplate>
