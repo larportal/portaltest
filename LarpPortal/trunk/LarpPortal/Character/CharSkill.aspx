@@ -42,17 +42,6 @@
             var outDiv = document.getElementById("outputDiv");
             outDiv.innerText = result;
         }
-        //$.ajax({
-        //    type: "get",
-        //    url: "/CampaignInfo.aspx/GetCampaignInfo",
-        //    data: "{ CampaignID: " + d + "}",
-        //    contentType: "application/json",
-        //    dataType: "json",
-        //    success: OnSuccessCall,
-        //    error: OnErrorCall
-        //});
-        //}
-
         function OnSuccessCall(response) {
             alert(response.d);
         }
@@ -154,12 +143,38 @@
             {
                 background-color: lightblue;
             }
-
     </style>
 </head>
 <body style="width: auto; height: 560px;">
     <form id="form1" runat="server">
         <asp:ScriptManager ID="sm" runat="server" />
+
+        <%-- Added Javascript to maintain the position on partial postbacks.     JBradshaw  6/4/2015 --%>
+        <script type="text/javascript">
+            // It is important to place this JavaScript code after ScriptManager1
+            var xPos, yPos;
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+
+            function BeginRequestHandler(sender, args) {
+                if ($get('<%=pnlTreeView.ClientID%>') != null) {
+                    // Get X and Y positions of scrollbar before the partial postback
+                    xPos = $get('<%=pnlTreeView.ClientID%>').scrollLeft;
+                    yPos = $get('<%=pnlTreeView.ClientID%>').scrollTop;
+                }
+            }
+
+            function EndRequestHandler(sender, args) {
+                if ($get('<%=pnlTreeView.ClientID%>') != null) {
+                    // Set X and Y positions back to the scrollbar
+                    // after partial postback
+                    $get('<%=pnlTreeView.ClientID%>').scrollLeft = xPos;
+                    $get('<%=pnlTreeView.ClientID%>').scrollTop = yPos;
+                }
+            }
+
+            prm.add_beginRequest(BeginRequestHandler);
+            prm.add_endRequest(EndRequestHandler);
+        </script>
 
         <asp:UpdatePanel ID="upSkill" runat="server">
             <ContentTemplate>
