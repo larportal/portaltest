@@ -34,7 +34,6 @@
             <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
                 <div class="contentArea">
                     <nav class="userSubNav">
-<%--                        <asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" />--%>
                         <ul class="nav nav-pills" "panel-wrapper list-unstyled scroll-500">
                             <li runat="server" id="liInfo"><a href="CharInfo.aspx" runat="server" id="hlCharInfo">Character Info</a></li>
                             <li runat="server" id="liSkills"><a href="CharSkills.aspx" runat="server" id="hlCharSkill">Character Skills</a></li>
@@ -46,6 +45,9 @@
                             <li runat="server" id="liGoals"><a href="CharUserDefined.aspx">Character Goals & Preferences</a></li>
                             <li runat="server" id="liCardCust"><a href="CharCardCustomization.aspx">Character Card Customization</a></li>
                             <li runat="server" id="liAddNewChar"><a href="CharAdd.aspx">Add New Character</a></li>
+                            <li>&nbsp;</li>
+                            <li>&nbsp;</li>
+                            <li runat="server" id="liCharacterCard" style="display: none;"><a id="hlCharCard" href="CharCard.aspx" runat="server" target="_blank">Preview Character Card</a></li>
                         </ul>
                     </nav>
                 </div>
