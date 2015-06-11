@@ -44,17 +44,18 @@ namespace LarpPortal.Classes
         public double SkillCPCost { get; set; }
         public string SkillShortDescription { get; set; }
         public string SkillLongDescription { get; set; }
+        public string PlayerDescription { get; set; }
+        public string PlayerIncant { get; set; }
+        public string SkillCardDescription { get; set; }
+        public string SkillIncant { get; set; }
+        public bool CardDisplayDescription { get; set; }
+        public bool CardDisplayIncant { get; set; }
         public string CampaignSkillsStandardComments { get; set; }
         public string SkillTypeDescription { get; set; }
         public bool AllowPassiveUse { get; set; }
         public bool OpenToAll { get; set; }
         public string SkillTypeComments { get; set; }
         public RecordStatuses RecordStatus { get; set; }
-
-
-
-
-
 
         ///// <summary>
         ///// Delete the picture. Set the ID before doing this.
@@ -78,7 +79,7 @@ namespace LarpPortal.Classes
             sParam.Add("@CharacterSkillSetID", CharacterSkillSetID);
             sParam.Add("@CampaignSkillsStandardID", CampaignSkillsStandardID);
             sParam.Add("@DisplayOnCard", 1);
-            sParam.Add("@CPCostPaid", 0);
+            sParam.Add("@CPCostPaid", CPCostPaid);
             sParam.Add("@UserID", -1);
 
             cUtilities.PerformNonQuery("uspInsUpdCHCharacterSkillsStandard", sParam, "LARPortal", sUserID);
