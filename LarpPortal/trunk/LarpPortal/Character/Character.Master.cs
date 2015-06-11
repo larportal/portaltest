@@ -54,56 +54,9 @@ namespace LarpPortal.Character
 
                     if (dtCharacters.Rows.Count > 0)
                         Session["SelectedCharacter"] = dtCharacters.Rows[0]["CharacterID"].ToString();
-                    else
+                    else if (!PageName.Contains("CHARADD"))
                         Response.Redirect("CharAdd.aspx");
                 }
-            //    ddlCharacterSelector.DataTextField = "CharacterAKA";
-            //    ddlCharacterSelector.DataValueField = "CharacterID";
-            //    ddlCharacterSelector.DataSource = dtCharacters;
-            //    ddlCharacterSelector.DataBind();
-
-            //    if (ddlCharacterSelector.Items.Count > 0)
-            //    {
-            //        ddlCharacterSelector.ClearSelection();
-
-            //        if (Session["SelectedCharacter"] != null)
-            //        {
-            //            string sCurrentUser = Session["SelectedCharacter"].ToString();
-            //            foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
-            //            {
-            //                if (sCurrentUser == liAvailableUser.Value)
-            //                    liAvailableUser.Selected = true;
-            //                else
-            //                    liAvailableUser.Selected = false;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            ddlCharacterSelector.Items[0].Selected = true;
-            //            Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-            //        }
-
-            //        //if (ddlCharacterSelector.SelectedIndex == 0)
-            //        //{
-            //        //    ddlCharacterSelector.Items[0].Selected = true;
-            //        //    Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-            //        //}
-            //    }
-            //    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
-            //    if (PageName.Contains("CHARADD"))
-            //    {
-            //        ddlCharacterSelector.SelectedIndex = -1;
-            //        foreach (ListItem li in ddlCharacterSelector.Items)
-            //        {
-            //            if (li.Value == "-1")
-            //                li.Selected = true;
-            //            else
-            //                li.Selected = false;
-            //        }
-            //    }
-            //    else
-            //    if (dtCharacters.Rows.Count == 0)
-            //        Response.Redirect("CharAdd.aspx");
             }
         }
 

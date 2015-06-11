@@ -37,7 +37,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="mainContent tab-content col-sm-12">
         <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
-            <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Relationships" />
+            <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Card Customization" />
         </div>
         <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
             <table>

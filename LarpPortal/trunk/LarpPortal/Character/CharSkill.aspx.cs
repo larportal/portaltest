@@ -255,6 +255,8 @@ namespace LarpPortal.Character
         protected void ListSkills()
         {
             DataTable dtAllSkills = Session["Skills"] as DataTable;
+            DataTable dtCharSkills = Session["CharSkills"] as DataTable;
+
             double TotalSpent = 0.0;
 
             DataTable dtSkillCosts = new DataTable();
@@ -271,22 +273,34 @@ namespace LarpPortal.Character
                 int iSkillID;
                 if (int.TryParse(SkillNode.Value, out iSkillID))
                 {
+                    double SkillCost = 0.0;
+
                     DataRow[] drPrev = dtSkillCosts.Select("SkillID = " + iSkillID.ToString());
                     if (drPrev.Length == 0)
                     {
-                        DataRow[] dSkillRow = dtAllSkills.Select("CampaignSkillsStandardID = " + iSkillID.ToString());
-                        if (dSkillRow.Length > 0)
+                        string sSkillName = "";
+                        DataRow[] drCharSkills = dtCharSkills.Select("CampaignSkillsStandardID = " + iSkillID.ToString());
+                        if (drCharSkills.Length > 0)
                         {
-                            double SkillCost;
-                            if (double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost))
-                                TotalSpent += SkillCost;
-                            DataRow dNewRow = dtSkillCosts.NewRow();
-                            dNewRow["Skill"] = dSkillRow[0]["SkillName"].ToString();
-                            dNewRow["Cost"] = SkillCost;
-                            dNewRow["SortOrder"] = 10;
-                            dNewRow["SkillID"] = iSkillID;
-                            dtSkillCosts.Rows.Add(dNewRow);
+                            double.TryParse(drCharSkills[0]["CPCostPaid"].ToString(), out SkillCost);
+                            sSkillName = drCharSkills[0]["SkillName"].ToString();
                         }
+                        else
+                        {
+                            DataRow[] dSkillRow = dtAllSkills.Select("CampaignSkillsStandardID = " + iSkillID.ToString());
+                            if (dSkillRow.Length > 0)
+                            {
+                                double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost);
+                                sSkillName = dSkillRow[0]["SkillName"].ToString();
+                            }
+                        }
+                        TotalSpent += SkillCost;
+                        DataRow dNewRow = dtSkillCosts.NewRow();
+                        dNewRow["Skill"] = sSkillName;
+                        dNewRow["Cost"] = SkillCost;
+                        dNewRow["SortOrder"] = 10;
+                        dNewRow["SkillID"] = iSkillID;
+                        dtSkillCosts.Rows.Add(dNewRow);
                     }
                 }
             }
@@ -349,7 +363,7 @@ namespace LarpPortal.Character
                    @"href=""javascript:ShowContent('divDesc')"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() + @"</a>";
 
             sTreeNode = @"<a onmouseover=""GetContent(" + dTreeNode["CampaignSkillsStandardID"].ToString() + @"); """ +
-                   @"href=""javascript:GetContent(" + dTreeNode["CampaignSkillsStandardID"].ToString() + 
+                   @"href=""javascript:GetContent(" + dTreeNode["CampaignSkillsStandardID"].ToString() +
                     @")"" style=""text-decoration: none; color: black;"" > " + dTreeNode["SkillName"].ToString() + @"</a>";
 
             return sTreeNode;
@@ -390,14 +404,10 @@ namespace LarpPortal.Character
             {
                 if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
                 {
-                    //string Msg = "btnSave - About to load character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    //AddLogMessage(Msg);
-                    
+                    DataTable dtCampaignSkills = Session["Skills"] as DataTable;
+
                     Classes.cCharacter Char = new Classes.cCharacter();
                     Char.LoadCharacter(iCharID);
-
-                    //Msg = "btnSave - Done loading character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    //AddLogMessage(Msg);
 
                     int CharacterSkillsSetID = -1;
 
@@ -406,9 +416,6 @@ namespace LarpPortal.Character
                         cSkill.RecordStatus = Classes.RecordStatuses.Delete;
                         CharacterSkillsSetID = cSkill.CharacterSkillSetID;
                     }
-
-                    //Msg = "btnSave - About to go through checked nodes: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    //AddLogMessage(Msg);
 
                     foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
                     {
@@ -426,6 +433,13 @@ namespace LarpPortal.Character
                                 Newskill.CampaignSkillsStandardID = iSkillID;
                                 Newskill.CharacterSkillSetID = CharacterSkillsSetID;
                                 Newskill.CPCostPaid = 0;
+                                DataView dvCampaignSkill = new DataView(dtCampaignSkills, "CampaignSkillsStandardID = " + iSkillID.ToString(), "", DataViewRowState.CurrentRows);
+                                if (dvCampaignSkill.Count > 0)
+                                {
+                                    double dSkillCPCost = 0;
+                                    if (double.TryParse(dvCampaignSkill[0]["SkillCPCost"].ToString(), out dSkillCPCost))
+                                        Newskill.CPCostPaid = dSkillCPCost;
+                                }
                                 Char.CharacterSkills.Add(Newskill);
                             }
                         }
@@ -601,7 +615,7 @@ namespace LarpPortal.Character
                             if (tNode.Checked)
                             {
                                 if ((!tnExc.ShowCheckBox.HasValue) ||
-                                    ((tnExc.ShowCheckBox.HasValue ) && ( tnExc.ShowCheckBox.Value == true)))
+                                    ((tnExc.ShowCheckBox.HasValue) && (tnExc.ShowCheckBox.Value == true)))
                                     DisableChildren(tnExc);
                             }
                             else
@@ -619,11 +633,11 @@ namespace LarpPortal.Character
         //    AddLogMessage(Msg);
         //}
 
-//        protected void AddLogMessage(string Msg)
-//        {
-//            SortedList sParam = new SortedList();
-//            sParam.Add("@Msg", Msg);
-////            Classes.cUtilities.PerformNonQuery("uspInsSystemLog", sParam, "LARPortal", Session["UserName"].ToString());
-//        }
+        //        protected void AddLogMessage(string Msg)
+        //        {
+        //            SortedList sParam = new SortedList();
+        //            sParam.Add("@Msg", Msg);
+        ////            Classes.cUtilities.PerformNonQuery("uspInsSystemLog", sParam, "LARPortal", Session["UserName"].ToString());
+        //        }
     }
 }
