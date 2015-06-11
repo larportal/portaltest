@@ -437,7 +437,9 @@ namespace LarpPortal.Classes
                     SkillLongDescription = dSkill["SkillLongDescription"].ToString(),
                     CampaignSkillsStandardComments = dSkill["CampaignSkillsStandardComments"].ToString(),
                     SkillTypeDescription = dSkill["SkillTypeDescription"].ToString(),
-                    SkillTypeComments = dSkill["SkillTypeComments"].ToString()
+                    SkillTypeComments = dSkill["SkillTypeComments"].ToString(),
+                    PlayerDescription = dSkill["PlayerDescription"].ToString(),
+                    PlayerIncant = dSkill["PlayerIncant"].ToString()
                 };
 
                 if (int.TryParse(dSkill["CharacterSkillsStandardID"].ToString(), out iTemp))
@@ -487,6 +489,9 @@ namespace LarpPortal.Classes
 
                 if (bool.TryParse(dSkill["OpenToAll"].ToString(), out bTemp))
                     NewSkill.OpenToAll = bTemp;
+
+                if (bool.TryParse(dSkill["CardDisplayDescription"].ToString(), out bTemp))
+                    NewSkill.CardDisplayDescription = bTemp;
 
                 NewSkill.RecordStatus = RecordStatuses.Active;
 
