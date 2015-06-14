@@ -10,42 +10,33 @@
 namespace LarpPortal {
     
     
-    public partial class AdminMaintenance {
+    public partial class SystemErrors {
         
         /// <summary>
-        /// hplViewLogins control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplViewLogins;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// hplDailyFifthGateCharacters control.
+        /// ddlDataAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplDailyFifthGateCharacters;
+        protected global::System.Web.UI.WebControls.DropDownList ddlDataAmount;
         
         /// <summary>
-        /// hplDailyFifthGateCharacterSkills control.
+        /// gvErrors control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplDailyFifthGateCharacterSkills;
-        
-        /// <summary>
-        /// hlDisplaySystemErrors control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlDisplaySystemErrors;
+        protected global::System.Web.UI.WebControls.GridView gvErrors;
     }
 }

@@ -70,7 +70,7 @@ namespace LarpPortal.Character
                             //Msg = "About to populate skill tree: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
                             //AddLogMessage(Msg);
 
-                            DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "", DataViewRowState.CurrentRows);
+                            DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "DisplayOrder", DataViewRowState.CurrentRows);
                             foreach (DataRowView dvRow in dvTopNodes)
                             {
                                 TreeNode NewNode = new TreeNode();
@@ -118,7 +118,7 @@ namespace LarpPortal.Character
 
         private void PopulateTreeView(int parentId, TreeNode parentNode)
         {
-            DataView dvChild = new DataView(_dtSkills, "PreRequisiteSkillID = " + parentId.ToString(), "SkillName", DataViewRowState.CurrentRows);
+            DataView dvChild = new DataView(_dtSkills, "PreRequisiteSkillID = " + parentId.ToString(), "DisplayOrder", DataViewRowState.CurrentRows);
             foreach (DataRowView dr in dvChild)
             {
                 int iNodeID;
@@ -274,6 +274,7 @@ namespace LarpPortal.Character
                 if (int.TryParse(SkillNode.Value, out iSkillID))
                 {
                     double SkillCost = 0.0;
+                    double DisplayOrder = 10;
 
                     DataRow[] drPrev = dtSkillCosts.Select("SkillID = " + iSkillID.ToString());
                     if (drPrev.Length == 0)
@@ -284,6 +285,7 @@ namespace LarpPortal.Character
                         {
                             double.TryParse(drCharSkills[0]["CPCostPaid"].ToString(), out SkillCost);
                             sSkillName = drCharSkills[0]["SkillName"].ToString();
+                            double.TryParse(drCharSkills[0]["DisplayOrder"].ToString(), out DisplayOrder);
                         }
                         else
                         {
@@ -292,13 +294,14 @@ namespace LarpPortal.Character
                             {
                                 double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost);
                                 sSkillName = dSkillRow[0]["SkillName"].ToString();
+                                double.TryParse(dSkillRow[0]["DisplayOrder"].ToString(), out DisplayOrder);
                             }
                         }
                         TotalSpent += SkillCost;
                         DataRow dNewRow = dtSkillCosts.NewRow();
                         dNewRow["Skill"] = sSkillName;
                         dNewRow["Cost"] = SkillCost;
-                        dNewRow["SortOrder"] = 10;
+                        dNewRow["SortOrder"] = DisplayOrder;
                         dNewRow["SkillID"] = iSkillID;
                         dtSkillCosts.Rows.Add(dNewRow);
                     }
