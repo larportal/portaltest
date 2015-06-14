@@ -55,6 +55,7 @@ namespace LarpPortal.Classes
         public bool AllowPassiveUse { get; set; }
         public bool OpenToAll { get; set; }
         public string SkillTypeComments { get; set; }
+        public int DisplayOrder { get; set; }
         public RecordStatuses RecordStatus { get; set; }
 
         ///// <summary>

@@ -13,7 +13,6 @@
             text-align: right;
             padding-left: 10px;
             padding-right: 5px;
-            font-size: 10pt;
         }
 
         .LeftRightPadding
@@ -24,10 +23,21 @@
 
         .PrintButton
         {
-            padding-left: 10px;
-            padding-right: 10px;
-            font-size: 16px;
+            padding-left: 40px;
+            padding-right: 40px;
+            font-size: 48px;
+            border-radius: 15px;
+            background-color: darkblue;
+            border-color: black;
+            border-width: 1px;
+            border-style: solid;
+            color: white;
         }
+
+            .PrintButton:hover
+            {
+                background-color: lightblue;
+            }
 
         .HeaderLabel
         {
@@ -41,27 +51,42 @@
             {
                 font-size: 10pt;
             }
+
+            body
+            {
+                font-size: 10pt;
+            }
+
             .hiddenOnPrint
             {
                 display: none;
             }
+
+            .TableLabel
+            {
+                font-weight: bold;
+                text-align: right;
+                padding-left: 10px;
+                padding-right: 5px;
+                font-size: 10pt;
+            }
         }
+
         Label
         {
             font-size: 10pt;
         }
-
     </style>
 </head>
 <body>
     <form id="form1" runat="server">
         <div>
-            <table style="width: 100%" border="0">
-                <tr>
-                    <td colspan="4">
+            <table border="0">
+                <tr style="vertical-align: top;">
+                    <td colspan="6">
                         <asp:Label ID="lblCharName" runat="server" CssClass="HeaderLabel" /></td>
-                    <td colspan="2" style="text-align: right;">
-                        <asp:Button ID="printButton" runat="server" CssClass="PrintButton hiddenOnPrint" Text="Print" OnClientClick="javascript:window.print();" /></td>
+                    <td style="text-align: right; width: 300px;" class="hiddenOnPrint" rowspan="4">
+                        <asp:Button ID="printButton" runat="server" CssClass="PrintButton" Text="Print" OnClientClick="javascript:window.print();" /></td>
                 </tr>
                 <tr>
                     <td class="TableLabel">Common Name: </td>
@@ -82,6 +107,17 @@
                     <td>
                         <asp:Label ID="lblPlayerName" runat="server" /></td>
                 </tr>
+                <tr>
+                    <td class="TableLabel">Total CP: </td>
+                    <td>
+                        <asp:Label ID="lblTotalCP" runat="server" /></td>
+                    <td class="TableLabel">Total Spent: </td>
+                    <td>
+                        <asp:Label ID="lblCPSpent" runat="server" /></td>
+                    <td class="TableLabel">Total Avail: </td>
+                    <td>
+                        <asp:Label ID="lblCPAvail" runat="server" /></td>
+                </tr>
             </table>
             <br />
             <br />
@@ -95,10 +131,13 @@
             <br />
             <asp:GridView ID="gvSkills" runat="server" AutoGenerateColumns="false" RowStyle-VerticalAlign="top" HeaderStyle-BackColor="LightGray" AlternatingRowStyle-BackColor="Linen">
                 <Columns>
-                    <asp:BoundField DataField="SkillName" HeaderText="Skill" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding" />
-                    <asp:BoundField DataField="CPCostPaid" ItemStyle-HorizontalAlign="Right" HeaderText="Cost" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding" />
+                    <asp:BoundField DataField="SkillName" HeaderText="Skill" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding" ItemStyle-Wrap="false" />
+                    <asp:BoundField DataField="CPCostPaid" ItemStyle-HorizontalAlign="Right" HeaderText="Cost" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding"
+                        DataFormatString="{0:0.00}" />
                     <asp:BoundField DataField="FullDescription" ItemStyle-HorizontalAlign="Left" HeaderText="Complete Card Description" HtmlEncode="false" ItemStyle-CssClass="LeftRightPadding"
                         HeaderStyle-CssClass="LeftRightPadding" />
+                    <asp:BoundField DataField="DisplaySkill" Visible="false" />
+                    <asp:BoundField DataField="DisplayOrder" Visible="false" />
                 </Columns>
             </asp:GridView>
 

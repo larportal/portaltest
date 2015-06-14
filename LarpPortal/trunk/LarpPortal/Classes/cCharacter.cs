@@ -475,6 +475,9 @@ namespace LarpPortal.Classes
                 if (int.TryParse(dSkill["SkillCostFixed"].ToString(), out iTemp))
                     NewSkill.SkillCostFixed = iTemp;
 
+                if (int.TryParse(dSkill["DisplayOrder"].ToString(), out iTemp))
+                    NewSkill.DisplayOrder = iTemp;
+
                 if (double.TryParse(dSkill["SkillCPCost"].ToString(), out dTemp))
                     NewSkill.SkillCPCost = dTemp;
 

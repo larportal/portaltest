@@ -17,6 +17,7 @@
                                             <asp:HyperLink ID="hplViewLogins" runat="server" NavigateUrl="~/AdminViewLogins.aspx" Target="_blank">View Logins</asp:HyperLink><br /><br />
                                             <asp:HyperLink ID="hplDailyFifthGateCharacters" runat="server" NavigateUrl="~/AdminDailyFifthGateCharacters.aspx" Target="_blank">Daily Fifth Gate Characters</asp:HyperLink><br /><br />
                                             <asp:HyperLink ID="hplDailyFifthGateCharacterSkills" runat="server" NavigateUrl="~/AdminDailyFifthGateCharacterSkills.aspx" Target="_blank">Daily Fifth Gate Character Skills</asp:HyperLink><br /><br />
+                                            <asp:HyperLink ID="hlDisplaySystemErrors" runat="server" NavigateUrl="~/SystemErrors.aspx" Target="_blank">Error Log</asp:HyperLink>
 										</div>
 									</div>
 								</div>
