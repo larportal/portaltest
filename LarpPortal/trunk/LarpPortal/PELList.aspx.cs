@@ -55,12 +55,19 @@ namespace LarpPortal
             DataView dvPELs = new DataView(dtPELs, "", "ActualArrivalDate desc, ActualArrivalTime desc, RegistrationID desc", DataViewRowState.CurrentRows);
             gvPELList.DataSource = dvPELs;
             gvPELList.DataBind();
+
+            if (Session["UpdatePELMessage"] != null)
+            {
+                string jsString = Session["UpdatePELMessage"].ToString();
+                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "MyApplication", jsString, true);
+                Session.Remove("UpdatePELMessage");
+            }
         }
 
         protected void gvPELList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string sRegistrationID = e.CommandArgument.ToString();
-            Response.Redirect("PELEdit.aspx?RegistrationID=" + sRegistrationID, true);
+            Response.Redirect("PELEdit.aspx?RegistrationID=" + sRegistrationID, false);
         }
     }
 }

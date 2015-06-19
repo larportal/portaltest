@@ -43,7 +43,7 @@ namespace LarpPortal.Classes
 
                         ConnErrors.Close();
                     }
-                    catch (Exception ex)
+                    catch //(Exception ex)
                     {
                         // Not much we can do so just leave it.....
                     }
