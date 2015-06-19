@@ -22,6 +22,15 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
+        /// lblEditMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEditMessage;
+        
+        /// <summary>
         /// hidRegistrationID control.
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.HiddenField hidPELID;
         
         /// <summary>
+        /// hidTextBoxEnabled control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidTextBoxEnabled;
+        
+        /// <summary>
         /// rptQuestions control.
         /// </summary>
         /// <remarks>
@@ -47,6 +65,15 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptQuestions;
+        
+        /// <summary>
+        /// btnCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancel;
         
         /// <summary>
         /// btnSubmit control.

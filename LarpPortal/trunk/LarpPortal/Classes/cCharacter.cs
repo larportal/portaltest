@@ -267,7 +267,6 @@ namespace LarpPortal.Classes
                     RecordStatus = RecordStatuses.Active
                 };
 
-                //TODO: What are these next fields?
                 if (int.TryParse(dPlaces["CharacterPlaceID"].ToString(), out iTemp))
                     NewPlace.CampaignPlaceID = iTemp;
 
@@ -279,9 +278,6 @@ namespace LarpPortal.Classes
 
                 if (int.TryParse(dPlaces["LocaleID"].ToString(), out iTemp))
                     NewPlace.LocaleID = iTemp;
-
-                //if (int.TryParse(dPlaces["PlotLeadPerson"].ToString(), out iTemp))
-                //    NewPlace.PlotLeadPerson = iTemp;
 
                 Places.Add(NewPlace);
             }
@@ -439,7 +435,9 @@ namespace LarpPortal.Classes
                     SkillTypeDescription = dSkill["SkillTypeDescription"].ToString(),
                     SkillTypeComments = dSkill["SkillTypeComments"].ToString(),
                     PlayerDescription = dSkill["PlayerDescription"].ToString(),
-                    PlayerIncant = dSkill["PlayerIncant"].ToString()
+                    PlayerIncant = dSkill["PlayerIncant"].ToString(),
+                    SkillCardDescription = dSkill["SkillCardDescription"].ToString(),
+                    SkillIncant = dSkill["SkillIncant"].ToString()
                 };
 
                 if (int.TryParse(dSkill["CharacterSkillsStandardID"].ToString(), out iTemp))
@@ -495,6 +493,9 @@ namespace LarpPortal.Classes
 
                 if (bool.TryParse(dSkill["CardDisplayDescription"].ToString(), out bTemp))
                     NewSkill.CardDisplayDescription = bTemp;
+
+                if (bool.TryParse(dSkill["CardDisplayIncant"].ToString(), out bTemp))
+                    NewSkill.CardDisplayIncant = bTemp;
 
                 NewSkill.RecordStatus = RecordStatuses.Active;
 

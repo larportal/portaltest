@@ -95,14 +95,11 @@ namespace LarpPortal.Character
                                 string SkillIncant = "";
                                 if (dSkillRow["SkillIncant"].ToString().Length > 0)
                                     SkillIncant = dSkillRow["SkillIncant"].ToString();
-                                //else      Is there a card Incant?
-                                //    SkillDescription = dRow["SkillShortDescription"].ToString();
                                 if (SkillIncant.Length > 0)
-                                    FullDesc += SkillIncant + "; ";
+                                    FullDesc += "<i>" + SkillIncant + "</i>; ";
                             }
                         }
 
-//                        string sPlayerIncant;
                         if (dSkillRow["PlayerIncant"].ToString().Trim().Length > 0)
                             FullDesc += "<b><i>" + dSkillRow["PlayerIncant"].ToString().Trim() + "</b></i>";
 

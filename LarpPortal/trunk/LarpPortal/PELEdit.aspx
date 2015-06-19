@@ -11,9 +11,11 @@
         <div id="character-info" class="character-info tab-pane active col-sm-12">
             <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
                 <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="PEL (Post Event Letter)" />
+                <asp:Label ID="lblEditMessage" runat="server" Font-Size="18px" Style="font-weight: 500" Visible="false" />
             </div>
             <asp:HiddenField ID="hidRegistrationID" runat="server" />
             <asp:HiddenField ID="hidPELID" runat="server" />
+            <asp:HiddenField ID="hidTextBoxEnabled" runat="server" Value="1" />
             <asp:Repeater ID="rptQuestions" runat="server">
                 <ItemTemplate>
                     <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
@@ -23,7 +25,8 @@
                                 <div class="panel-body">
                                     <div class="panel-container search-criteria" style="padding-bottom: 10px;">
                                         <asp:TextBox ID="tbAnswer" runat="server" Text='<%# Eval("Answer") %>' Columns="100" Style="width: 100%"
-                                            BorderColor="black" BorderStyle="Solid" BorderWidth="1" TextMode="MultiLine" Rows="4" />
+                                            BorderColor="black" BorderStyle="Solid" BorderWidth="1" TextMode="MultiLine" Rows="4"
+                                            Enabled="<%# TextBoxEnabled %>" />
                                     </div>
                                 </div>
                             </div>
@@ -34,10 +37,15 @@
                 </ItemTemplate>
             </asp:Repeater>
             <br />
-            <div class="col-sm-12" style="text-align: right;">
-                <asp:Button ID="btnSubmit" runat="server" Text="Save And Submit" OnCommand="ProcessButton" CommandName="Submit" CssClass="StandardButton" Width="150px" />
-                <asp:Image ID="imgSpacer" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />
-                <asp:Button ID="btnSave" runat="server" Text="Save" OnCommand="ProcessButton" CommandName="Save" CssClass="StandardButton" Width="150px" />
+            <div class="row col-sm-12" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
+                <div class="col-sm-4">
+                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="StandardButton" Width="150px" OnClick="btnCancel_Click" />
+                </div>
+                <div class="col-sm-8" style="text-align: right;">
+                    <asp:Button ID="btnSubmit" runat="server" Text="Save And Submit" OnCommand="ProcessButton" CommandName="Submit" CssClass="StandardButton" Width="150px" />
+                    <asp:Image ID="imgSpacer" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />
+                    <asp:Button ID="btnSave" runat="server" Text="Save" OnCommand="ProcessButton" CommandName="Save" CssClass="StandardButton" Width="150px" />
+                </div>
             </div>
             <br />
             <br />
