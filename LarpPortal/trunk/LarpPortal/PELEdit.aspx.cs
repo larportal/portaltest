@@ -21,18 +21,50 @@ namespace LarpPortal
             if (!IsPostBack)
             {
                 DataTable dtQuestions = new DataTable();
+                bool bUser = true;
 
-                if (Request.QueryString["RegistrationID"] == null)
+                if ((Request.QueryString["RegistrationID"] == null) &&
+                    (Request.QueryString["Approving"] == null))
+                    Response.Redirect("PELList.aspx", true);
+                if (Request.QueryString["RegistrationID"] != null)
+                    hidRegistrationID.Value = Request.QueryString["RegistrationID"];
+                else if (Request.QueryString["Approving"] != null)
+                {
+                    hidRegistrationID.Value = Request.QueryString["Approving"];
+                    bUser = false;
+                }
+                else
                     Response.Redirect("PELList.aspx", true);
 
-                hidRegistrationID.Value = Request.QueryString["RegistrationID"];
                 SortedList sParams = new SortedList();
                 sParams.Add("@RegistrationID", hidRegistrationID.Value);
 
                 dtQuestions = Classes.cUtilities.LoadDataTable("uspGetPELQuestions", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.Page_PreRender");
 
+                string sEventInfo = "";
                 if (dtQuestions.Rows.Count > 0)
                 {
+                    sEventInfo = "<b>Event: </b> " + dtQuestions.Rows[0]["EventDescription"].ToString();
+
+                    DateTime dtEventDate;
+                    if (DateTime.TryParse(dtQuestions.Rows[0]["EventStartDate"].ToString(), out dtEventDate))
+                        sEventInfo += "&nbsp;&nbsp;<b>Event Date: </b> " + dtEventDate.ToShortDateString();
+
+                    sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
+
+                    if (!bUser)
+                    {
+                        sEventInfo += "&nbsp;&nbsp;<b>User: </b> ";
+                        if (dtQuestions.Rows[0]["FirstName"].ToString().Trim().Length > 0)
+                            sEventInfo += dtQuestions.Rows[0]["FirstName"].ToString().Trim() + " ";
+                        if (dtQuestions.Rows[0]["MiddleName"].ToString().Trim().Length > 0)
+                            sEventInfo += dtQuestions.Rows[0]["MiddleName"].ToString().Trim() + " ";
+                        if (dtQuestions.Rows[0]["LastName"].ToString().Trim().Length > 0)
+                            sEventInfo += dtQuestions.Rows[0]["LastName"].ToString().Trim();
+                    }
+
+                    lblEventInfo.Text = sEventInfo;
+
                     int iTemp;
                     if (int.TryParse(dtQuestions.Rows[0]["PELID"].ToString(), out iTemp))
                         hidPELID.Value = iTemp.ToString();
@@ -54,18 +86,39 @@ namespace LarpPortal
                     else if (dtQuestions.Rows[0]["PELDateSubmitted"] != DBNull.Value)
                     {
                         btnSubmit.Visible = false;
-                        btnSave.Text = "Done";
-                        btnSave.CommandName = "Done";
-                        DateTime dtTemp;
-                        if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
+                        if (bUser)
                         {
-                            lblEditMessage.Visible = true;
-                            lblEditMessage.Text = "<br>This PEL was submitted on " + dtTemp.ToShortDateString() + " and cannot be edited.";
-                            TextBoxEnabled = false;
-                            hidTextBoxEnabled.Value = "0";
-                            btnCancel.Visible = false;
+                            btnSave.Text = "Done";
+                            btnSave.CommandName = "Done";
+                            DateTime dtTemp;
+                            if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
+                            {
+                                lblEditMessage.Visible = true;
+                                lblEditMessage.Text = "<br>This PEL was submitted on " + dtTemp.ToShortDateString() + " and cannot be edited.";
+                                TextBoxEnabled = false;
+                                hidTextBoxEnabled.Value = "0";
+                                btnCancel.Visible = false;
+                            }
+                        }
+                        else
+                        {
+                            btnSave.Text = "Approve";
+                            btnSave.CommandName = "Approve";
+                            DateTime dtTemp;
+                            if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
+                            {
+                                lblEditMessage.Visible = true;
+                                lblEditMessage.Text = "<br>This PEL was submitted on " + dtTemp.ToShortDateString();
+                                TextBoxEnabled = false;
+                                hidTextBoxEnabled.Value = "0";
+                            }
                         }
                     }
+                }
+
+                foreach (DataRow dRow in dtQuestions.Rows)
+                {
+                    dRow["Answer"] = dRow["Answer"].ToString().Replace("\n", "<br>");
                 }
 
                 DataView dvQuestions = new DataView(dtQuestions, "", "SortOrder", DataViewRowState.CurrentRows);
@@ -81,7 +134,7 @@ namespace LarpPortal
             if (int.TryParse(hidPELID.Value, out iTemp))
                 iPELID = iTemp;
 
-            if (e.CommandName.ToUpper() != "DONE")
+            if ((e.CommandName.ToUpper() == "SAVE") || (e.CommandName.ToUpper() == "SUBMIT"))
             {
                 foreach (RepeaterItem item in rptQuestions.Items)
                 {
@@ -123,27 +176,43 @@ namespace LarpPortal
                             }
                         }
                     }
+                    Session["UpdatePELMessage"] = "alert('The PEL has been saved.');";
                 }
 
-                Session["UpdatePELMessage"] = "alert('The PEL has been saved.');";
-
-                if (e.CommandName.ToUpper() == "SUBMIT")
-                {
-                    SortedList sParams = new SortedList();
-                    sParams.Add("@UserID", Session["UserID"].ToString());
-                    sParams.Add("@PELID", iPELID);
-                    sParams.Add("@DateSubmitted", DateTime.Now);
-
-                    Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());
-                    Session["UpdatePELMessage"] = "alert('The PEL has been saved and submitted.');";
-                }
             }
-            Response.Redirect("PELList.aspx", true);
+            if (e.CommandName.ToUpper() == "SUBMIT")
+            {
+                SortedList sParams = new SortedList();
+                sParams.Add("@UserID", Session["UserID"].ToString());
+                sParams.Add("@PELID", iPELID);
+                sParams.Add("@DateSubmitted", DateTime.Now);
+
+                Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());
+                Session["UpdatePELMessage"] = "alert('The PEL has been saved and submitted.');";
+            }
+            if (e.CommandName.ToUpper() == "APPROVE")
+            {
+                SortedList sParams = new SortedList();
+                sParams.Add("@UserID", Session["UserID"].ToString());
+                sParams.Add("@PELID", iPELID);
+                sParams.Add("@DateApproved", DateTime.Now);
+
+                Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());
+                Session["UpdatePELMessage"] = "alert('The PEL has been approved.');";
+            }
+
+            if (Request.QueryString["Approving"] != null)
+                Response.Redirect("PELApprovalList.aspx", true);
+            else
+                Response.Redirect("PELList.aspx", true);
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PELList.aspx", true);
+            if (Request.QueryString["Approving"] != null)
+                Response.Redirect("PELApprovalList.aspx", true);
+            else
+                Response.Redirect("PELList.aspx", true);
         }
     }
 }

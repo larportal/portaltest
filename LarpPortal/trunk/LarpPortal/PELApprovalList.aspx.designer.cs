@@ -10,7 +10,7 @@
 namespace LarpPortal {
     
     
-    public partial class PELList {
+    public partial class PELApprovalList {
         
         /// <summary>
         /// lblHeader control.
@@ -22,13 +22,13 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
-        /// lblCharInfo control.
+        /// ddlCampaignWithPELCount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCharInfo;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCampaignWithPELCount;
         
         /// <summary>
         /// gvPELList control.
