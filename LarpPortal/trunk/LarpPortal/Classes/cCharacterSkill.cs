@@ -20,8 +20,8 @@ namespace LarpPortal.Classes
 
         public override string ToString()
         {
-            return "ID: " + CharacterSkillSetID.ToString() +
-                "   UserID: " + SkillSetName.ToString();
+            return "ID: " + CharacterSkillsStandardID.ToString() +
+                "   UserID: " + SkillName.ToString();
         }
 
         public int CharacterSkillsStandardID { get; set; }
