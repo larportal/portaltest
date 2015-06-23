@@ -49,7 +49,13 @@ namespace LarpPortal.Character
                     if (dtSkills.Columns["FullDescription"] == null)
                         dtSkills.Columns.Add(new DataColumn("FullDescription", typeof(string)));
                     if (dtSkills.Columns["DisplaySkill"] == null)
-                        dtSkills.Columns.Add(new DataColumn("DisplaySkill", typeof(Boolean)));
+                    {
+                        DataColumn dcDisplaySkill = new DataColumn();       // Need to define the column and then attributes because want the default value to be true.
+                        dcDisplaySkill.ColumnName = "DisplaySkill";
+                        dcDisplaySkill.DataType = typeof(Boolean);
+                        dcDisplaySkill.DefaultValue = true;
+                        dtSkills.Columns.Add(dcDisplaySkill);
+                    }
 
                     double CPCost;
                     double CPSpent = 0.0;
@@ -59,7 +65,6 @@ namespace LarpPortal.Character
                         if (double.TryParse(dSkillRow["CPCostPaid"].ToString(), out CPCost))
                             CPSpent += CPCost;
 
-                        dSkillRow["DisplaySkill"] = true;
                         DataView dvPreReqs = new DataView(dsCampaignSkills.Tables[1], "CampaignSkillsStandardID = " + dSkillRow["CampaignSkillsStandardID"].ToString() + 
                             " and SuppressPrerequisiteSkill = 1", "", DataViewRowState.CurrentRows);
                         foreach (DataRowView dPreReq in dvPreReqs)
