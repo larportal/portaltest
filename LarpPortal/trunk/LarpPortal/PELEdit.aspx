@@ -19,7 +19,7 @@
             <asp:HiddenField ID="hidRegistrationID" runat="server" />
             <asp:HiddenField ID="hidPELID" runat="server" />
             <asp:HiddenField ID="hidTextBoxEnabled" runat="server" Value="1" />
-            <div style="max-height: 500px; overflow-y: auto; margin-right: 10px;">
+            <div id="divQuestions" runat="server" style="max-height: 500px; overflow-y: auto; margin-right: 10px;" >
                 <asp:Repeater ID="rptQuestions" runat="server">
                     <ItemTemplate>
                         <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
@@ -43,6 +43,49 @@
                 </asp:Repeater>
             </div>
             <br />
+
+            <asp:Panel ID="pnlStaffComments" runat="server" Visible="false">
+                <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
+                    <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
+                        <div class="panelheader">
+                            <h2>Staff Comments</h2>
+                            <div class="panel-body">
+                                <div class="panel-container search-criteria" style="padding-bottom: 10px;">
+                                    <asp:TextBox ID="tbStaffComment" runat="server" Columns="100" Style="width: 100%"
+                                        BorderColor="black" BorderStyle="Solid" BorderWidth="1" TextMode="MultiLine" Rows="4" />
+                                    <asp:Label ID="lblStaffComment" runat="server" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
+                    <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
+                        <div class="panelheader">
+                            <h2>CP Award</h2>
+                            <div class="panel-body">
+                                <div class="panel-container search-criteria" style="padding-bottom: 10px;">
+                                    <asp:MultiView ID="mvCPAwarded" runat="server" ActiveViewIndex="0">
+                                        <asp:View ID="vwCPAwardedEntry" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>For completing this PEL, the person should be awarded </td>
+                                                    <td style="padding-left: 10px; padding-right: 10px;"><asp:TextBox ID="tbCPAwarded" runat="server" Columns="6" BorderColor="black" BorderStyle="Solid" BorderWidth="1" Text="5.0" /></td>
+                                                    <td>CP.</td>
+                                                </tr>
+                                            </table>
+                                        </asp:View>
+                                        <asp:View ID="vwCPAwardedDisplay" runat="server">
+                                            <asp:Label ID="lblCPAwarded" runat="server" />
+                                        </asp:View>
+                                    </asp:MultiView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </asp:Panel>
+
             <div class="row col-sm-12" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
                 <div class="col-sm-4">
                     <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="StandardButton" Width="150px" OnClick="btnCancel_Click" />

@@ -105,7 +105,21 @@ namespace LarpPortal
                             btnSave.Text = "Approve";
                             btnSave.CommandName = "Approve";
                             DateTime dtTemp;
-                            if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
+                            pnlStaffComments.Visible = true;
+                            divQuestions.Attributes.Add("style", "max-height: 400px; overflow-y: auto; margin-right: 10px;");
+                            if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateApproved"].ToString(), out dtTemp))
+                            {
+                                lblEditMessage.Visible = true;
+                                lblEditMessage.Text = "<br>This PEL was approved on " + dtTemp.ToShortDateString();
+                                TextBoxEnabled = false;
+                                hidTextBoxEnabled.Value = "0";
+                                pnlStaffComments.Visible = true;
+                                double dCPAwarded = 0;
+                                double.TryParse(dtQuestions.Rows[0]["CPAwarded"].ToString(), out dCPAwarded);
+                                lblCPAwarded.Text = "For completing this PEL, this person was awarded " + String.Format("{0:0.##}", dCPAwarded) + " CP.";
+                                mvCPAwarded.SetActiveView(vwCPAwardedDisplay);
+                            }
+                            else if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
                             {
                                 lblEditMessage.Visible = true;
                                 lblEditMessage.Text = "<br>This PEL was submitted on " + dtTemp.ToShortDateString();
@@ -195,6 +209,11 @@ namespace LarpPortal
                 SortedList sParams = new SortedList();
                 sParams.Add("@UserID", Session["UserID"].ToString());
                 sParams.Add("@PELID", iPELID);
+
+                double dCPAwarded;
+                if (double.TryParse(tbCPAwarded.Text, out dCPAwarded))
+                    sParams.Add("@CPAwarded", dCPAwarded);
+                sParams.Add("@Comments", tbStaffComment.Text);
                 sParams.Add("@DateApproved", DateTime.Now);
 
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());

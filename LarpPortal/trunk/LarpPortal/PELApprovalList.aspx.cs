@@ -19,6 +19,12 @@ namespace LarpPortal
                 BindData();
                 ddlCampaignWithPELCount_SelectedIndexChanged(null, null);
             }
+            if (Session["UpdatePELMessage"] != null)
+            {
+                string jsString = Session["UpdatePELMessage"].ToString();
+                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "MyApplication", jsString, true);
+                Session.Remove("UpdatePELMessage");
+            }
         }
 
         protected void ddlCampaignWithPELCount_SelectedIndexChanged(object sender, EventArgs e)
