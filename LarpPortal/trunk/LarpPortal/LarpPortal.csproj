@@ -233,6 +233,8 @@
     <Content Include="Character\CharSkills.aspx" />
     <Content Include="Character\CharUserDefined.aspx" />
     <Content Include="ContactUs.aspx" />
+    <Content Include="PELs\PELAppove.aspx" />
+    <Content Include="DevelopmentList.aspx" />
     <Content Include="ForgotPassword.aspx" />
     <Content Include="img\blank.gif" />
     <Content Include="img\checkbox.png" />
@@ -357,9 +359,9 @@
     <Content Include="LARPortal.Master" />
     <Content Include="PageUnderConstruction.aspx" />
     <Content Include="PasswordRequirements.aspx" />
-    <Content Include="PELApprovalList.aspx" />
-    <Content Include="PELEdit.aspx" />
-    <Content Include="PELList.aspx" />
+    <Content Include="PELs\PELApprovalList.aspx" />
+    <Content Include="PELs\PELEdit.aspx" />
+    <Content Include="PELs\PELList.aspx" />
     <Content Include="PlayerResume.aspx" />
     <Content Include="Preferences.aspx" />
     <Content Include="Properties\PublishProfiles\LARPortal.pubxml.user">
@@ -735,12 +737,26 @@
     <Compile Include="ContactUs.aspx.designer.cs">
       <DependentUpon>ContactUs.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PELs\PELAppove.aspx.cs">
+      <DependentUpon>PELAppove.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PELs\PELAppove.aspx.designer.cs">
+      <DependentUpon>PELAppove.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DevelopmentList.aspx.cs">
+      <DependentUpon>DevelopmentList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DevelopmentList.aspx.designer.cs">
+      <DependentUpon>DevelopmentList.aspx</DependentUpon>
     </Compile>
     <Compile Include="ForgotPassword.aspx.cs">
       <DependentUpon>ForgotPassword.aspx</DependentUpon>
@@ -928,25 +944,25 @@
     <Compile Include="PasswordRequirements.aspx.designer.cs">
       <DependentUpon>PasswordRequirements.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PELApprovalList.aspx.cs">
+    <Compile Include="PELs\PELApprovalList.aspx.cs">
       <DependentUpon>PELApprovalList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PELApprovalList.aspx.designer.cs">
+    <Compile Include="PELs\PELApprovalList.aspx.designer.cs">
       <DependentUpon>PELApprovalList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PELEdit.aspx.cs">
+    <Compile Include="PELs\PELEdit.aspx.cs">
       <DependentUpon>PELEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PELEdit.aspx.designer.cs">
+    <Compile Include="PELs\PELEdit.aspx.designer.cs">
       <DependentUpon>PELEdit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PELList.aspx.cs">
+    <Compile Include="PELs\PELList.aspx.cs">
       <DependentUpon>PELList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PELList.aspx.designer.cs">
+    <Compile Include="PELs\PELList.aspx.designer.cs">
       <DependentUpon>PELList.aspx</DependentUpon>
     </Compile>
     <Compile Include="PlayerResume.aspx.cs">

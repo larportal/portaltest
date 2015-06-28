@@ -63,7 +63,12 @@ namespace LarpPortal
         {
             SortedList sParams = new SortedList();
             if (cbIncludeCompleted.Checked)
+            {
                 sParams.Add("@IncludeCompleted", "1");
+                gvDevelopmentList.Columns[6].Visible = true;
+            }
+            else
+                gvDevelopmentList.Columns[6].Visible = false;
 
             DataTable dtDevoList = Classes.cUtilities.LoadDataTable("uspGetDevelopmentList", sParams, "LARPortal", "DevelopmentList", "DevelopmentList.Page_PreRender",
                 Classes.cUtilities.LoadDataTableCommandType.Text);
@@ -76,6 +81,7 @@ namespace LarpPortal
             DataView dvDevoList = new DataView(dtDevoList, sFilter, ViewState["SortExp"].ToString() + " " + ViewState["SortOrder"].ToString(), DataViewRowState.CurrentRows);
             gvDevelopmentList.DataSource = dvDevoList;
             gvDevelopmentList.DataBind();
+
 
             DataTable dtAssigned = dtDevoList.DefaultView.ToTable(true, "AssignedTo");
             DataRow NewRow = dtAssigned.NewRow();
