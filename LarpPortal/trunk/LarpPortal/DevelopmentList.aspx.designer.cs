@@ -10,51 +10,69 @@
 namespace LarpPortal {
     
     
-    public partial class AdminMaintenance {
+    public partial class DevelopmentList {
         
         /// <summary>
-        /// hplViewLogins control.
+        /// form1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplViewLogins;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// hplDailyFifthGateCharacters control.
+        /// ddlWho control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplDailyFifthGateCharacters;
+        protected global::System.Web.UI.WebControls.DropDownList ddlWho;
         
         /// <summary>
-        /// hplDailyFifthGateCharacterSkills control.
+        /// imgBlank1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplDailyFifthGateCharacterSkills;
+        protected global::System.Web.UI.WebControls.Image imgBlank1;
         
         /// <summary>
-        /// hlDisplaySystemErrors control.
+        /// cbIncludeCompleted control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlDisplaySystemErrors;
+        protected global::System.Web.UI.WebControls.CheckBox cbIncludeCompleted;
         
         /// <summary>
-        /// hlDisplayDevoList control.
+        /// imgBlank2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hlDisplayDevoList;
+        protected global::System.Web.UI.WebControls.Image imgBlank2;
+        
+        /// <summary>
+        /// btnSubmit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSubmit;
+        
+        /// <summary>
+        /// gvDevelopmentList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvDevelopmentList;
     }
 }
