@@ -5,27 +5,10 @@
 
 <asp:Content ContentPlaceHolderID="HeaderScripts" runat="server">
     <asp:ContentPlaceHolder ID="CharHeaderScripts" runat="server" />
-
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="HeaderStyles" runat="server">
     <asp:ContentPlaceHolder ID="CharHeaderStyles" runat="server" />
-    <style type="text/css">
-        .StandardButton
-        {
-            background-color: darkblue;
-            border-color: black;
-            border-width: 1px;
-            border-style: solid;
-            color: white;
-            padding: 0px 0px 0px 0px;
-        }
-
-            .StandardButton:hover
-            {
-                background-color: lightblue;
-            }
-    </style>
 </asp:Content>
 
 <asp:Content ContentPlaceHolderID="MainPage" runat="server" ID="CharacterMain">

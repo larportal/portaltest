@@ -1,38 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharNoCampaign.aspx.cs" Inherits="LarpPortal.Character.CharNoCampaign" %>
 
 <asp:Content ID="Styles" runat="server" ContentPlaceHolderID="CharHeaderStyles">
-    <style type="text/css">
-        .NoRightPadding
-        {
-            padding-right: 0px;
-        }
-
-        .NoLeftPadding
-        {
-            padding-left: 0px;
-        }
-
-        [disabled]
-        { /* Text and background colour, medium red on light yellow */
-            color: #933;
-            background-color: #ffc;
-        }
-
-        .control-label
-        {
-            text-align: right;
-        }
-
-        .WithBorder
-        {
-            border: 1px solid black;
-        }
-
-        /*div, label
-        {
-            border: 1px solid black;
-        }*/
-    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">

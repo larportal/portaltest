@@ -26,11 +26,6 @@
             width: auto;
             margin-bottom: 10px;
         }
-
-        .NoPadding
-        {
-            padding: 0px 0px 0px 0px;
-        }
     </style>
 </asp:Content>
 
