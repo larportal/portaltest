@@ -38,7 +38,7 @@
                         DataFormatString="{0:MM/dd/yyyy}" />
                     <asp:BoundField DataField="RequestedCompletionDate" HeaderText="Req Complete Date" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" 
                         SortExpression="RequestedCompletionDate" DataFormatString="{0:MM/dd/yyyy}" />
-                    <asp:BoundField DataField="ProjectedCompletionDate" HeaderText="Proj Completed Date" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" 
+                    <asp:BoundField DataField="ProjectedCompletionDate" HeaderText="Projected Completed Date" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" 
                         SortExpression="ProjectedCompletionDate" DataFormatString="{0:MM/dd/yyyy}" />
                     <asp:BoundField DataField="DateCompleted" HeaderText="Date Completed" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" 
                         SortExpression="DateCompleted" DataFormatString="{0:MM/dd/yyyy}" />
