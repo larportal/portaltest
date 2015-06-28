@@ -2,53 +2,6 @@
 
 <asp:Content ID="Styles" runat="server" ContentPlaceHolderID="CharHeaderStyles">
     <style type="text/css">
-        .NoRightPadding
-        {
-            padding-right: 0px;
-        }
-
-        .NoLeftPadding
-        {
-            padding-left: 0px;
-        }
-
-        [disabled]
-        { /* Text and background colour, medium red on light yellow */
-            color: #933;
-            background-color: #ffc;
-        }
-
-        .control-label
-        {
-            text-align: right;
-        }
-
-        .WithBorder
-        {
-            border: 1px solid black;
-        }
-
-        /*div, label
-        {
-            border: 1px solid black;
-        }*/
-        .ReadOnly
-        {
-            border-width: 0px 0px 0px 0px;
-            border-color: transparent;
-            border-style: none;
-            background-color: lightgray;
-            color: darkgray;
-        }
-
-        .TableLabel
-        {
-            padding-left: 10px;
-            padding-right: 10px;
-            font-weight: bold;
-            text-align: right;
-        }
-
         .TableTextBox
         {
             border: 1px solid black;

@@ -1,0 +1,79 @@
+﻿/*This style sheet is for all of the things specific for LarpPortal. If you want to override something, put it in here.
+
+Make sure this is the last CSS in the include list. If not some of these items may get overwritten.*/
+
+.StandardButton
+{
+    background-color: #093760;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    color: white;
+    padding: 0px 0px 0px 0px;
+}
+
+    .StandardButton:hover
+    {
+        background-color: lightblue;
+    }
+
+.NoRightPadding
+{
+    padding-right: 0px;
+}
+
+.NoLeftPadding
+{
+    padding-left: 0px;
+}
+
+.NoPadding
+{
+    padding: 0px 0px 0px 0px;
+}
+
+[disabled]
+{ /* Text and background colour, medium red on light yellow */
+    color: #933;
+    background-color: #ffc;
+}
+
+.control-label
+{
+    text-align: right;
+}
+
+.WithBorder
+{
+    border: 1px solid black;
+}
+
+/*div, label
+{
+    border: 1px solid black;
+}*/
+
+
+.TableLabel
+{
+    font-weight: bold;
+    text-align: right;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.LeftRightPadding
+{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+        .ReadOnly
+        {
+            border-width: 0px 0px 0px 0px;
+            border-color: transparent;
+            border-style: none;
+            background-color: lightgray;
+            color: darkgray;
+        }
+
