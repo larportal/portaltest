@@ -22,7 +22,7 @@ namespace LarpPortal
                 string ReleaseName = "";
                 string DetailedDescription = "";
                 DateTime dtTemp;
-                string dq = "\"";
+                //string dq = "\"";
                 string TableCode = "";               
                 if ((Request.QueryString["WhatsNewID"] == null))
                 {
