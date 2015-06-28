@@ -63,8 +63,6 @@ namespace LarpPortal
         {
             if (ddlUserCampaigns.SelectedValue == "-1")
             {
-                //TODO-Rick-01- Set up code to go to campaign selection page to sign up for a new campaign
-                //For now let's just dump them on public campaign page
                 Response.Redirect("~/PublicCampaigns.aspx");
             }
             int intUserID;
@@ -91,7 +89,6 @@ namespace LarpPortal
             Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
             Roles.Load(intUserID, 0, ddlUserCampaigns.SelectedItem.Value.ToInt32(), DateTime.Today);
             Session["PlayerRoleString"] = Roles.PlayerRoleString;
-            //TODO-Rick-2 If page is campaign related in any way, load campaign at top of code behind and set session variable CampaignName 
             Response.Redirect(Request.RawUrl);
         }
     }

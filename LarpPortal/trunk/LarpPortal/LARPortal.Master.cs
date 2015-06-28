@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Collections;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.IO;
 
 namespace LarpPortal
 {
@@ -17,6 +18,33 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if(!IsPostBack)
+            {
+                string PageName = Request.Url.AbsolutePath + ".aspx";
+                Session["LastLoggedInLocation"] = PageName;
+                if (Session["LastWrittenLoggedInLocation"] != null && Session["LastWrittenLoggedInLocation"] == Session["LastLoggedInLocation"])
+                {
+                    // Do nothing
+                }
+                else
+                {
+                    if(PageName.Contains("Error") || PageName.Contains("WhatsNewDetail"))
+                    {
+                        // Do nothing
+                    }
+                    else
+                    {
+                        // Set them equal and write to MDBUser LastLoggedInLocation
+                        Session["LastWrittenLoggedInLocation"] = Session["LastLoggedInLocation"];
+                        Classes.cLogin LastLoggedIn = new Classes.cLogin();
+                        if(Session["UserID"] != null)
+                        {
+                            int intUserID = Session["UserID"].ToString().ToInt32();
+                            LastLoggedIn.LogLastPage(intUserID, PageName);
+                        }
+                    }  
+                }
+            }
             // Uncomment this if trying to run the page without going through the index.aspx page
             //Session["SecurityRole"] = 0;
             int i;

@@ -547,9 +547,10 @@ namespace LarpPortal
                         break;
 
                         //hrefline = Text1 + ActiveState + TreeToggle + Text2 + PageName + Text3 + LineText + SpanClass + Text4 + LineEnd;
-                        DataRow LeftNavRow = LeftNavTable.NewRow();
-                        LeftNavRow["href_li"] = hrefline;
-                        LeftNavTable.Rows.Add(LeftNavRow);
+                        // Next three lines should be uncommented?  They're currently unreachable so commented out to get rid of the warning
+                        //DataRow LeftNavRow = LeftNavTable.NewRow();
+                        //LeftNavRow["href_li"] = hrefline;
+                        //LeftNavTable.Rows.Add(LeftNavRow);
                         
                         // TODO-Rick-2 Uncomment the next two lines when running the section and creating the nav by code
                         //menu_ul_membercampaignsadmin.DataSource = LeftNavTable;

@@ -375,8 +375,8 @@ namespace LarpPortal.Classes
                 if (_LastLoggedInLocation == null)
                     _LastLoggedInLocation = "MemberDemographics.aspx";
                 slParams.Add("@LastLoggedInLocation", _LastLoggedInLocation);
-                if (_LastLoggedInCampaign == null)
-                    _LastLoggedInCampaign = 0;
+                //if (_LastLoggedInCampaign == null)
+                //    _LastLoggedInCampaign = 0;
                 slParams.Add("@LastLoggedInCampaign", _LastLoggedInCampaign);
                 slParams.Add("@XRefNumber", _XRefNumber);
                 slParams.Add("@Comments", _Comments);

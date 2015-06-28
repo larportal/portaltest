@@ -219,9 +219,10 @@
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
     <Content Include="Character\CharAdd.aspx" />
+    <Content Include="Character\CharCard.aspx" />
+    <Content Include="Character\CharCardCustomization.aspx" />
     <Content Include="Character\CharHistory.aspx" />
     <Content Include="Character\CharInfo.aspx" />
-    <Content Include="Character\CharInfo2.aspx" />
     <Content Include="Character\CharItems.aspx" />
     <Content Include="Character\CharNoCampaign.aspx" />
     <Content Include="Character\CharPlace.aspx" />
@@ -230,9 +231,11 @@
     <Content Include="Character\CharRelationships.aspx" />
     <Content Include="Character\CharSkill.aspx" />
     <Content Include="Character\CharSkills.aspx" />
+    <Content Include="Character\CharUserDefined.aspx" />
     <Content Include="ContactUs.aspx" />
     <Content Include="ForgotPassword.aspx" />
     <Content Include="img\blank.gif" />
+    <Content Include="img\checkbox.png" />
     <Content Include="img\construction.gif" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -354,6 +357,9 @@
     <Content Include="LARPortal.Master" />
     <Content Include="PageUnderConstruction.aspx" />
     <Content Include="PasswordRequirements.aspx" />
+    <Content Include="PELApprovalList.aspx" />
+    <Content Include="PELEdit.aspx" />
+    <Content Include="PELList.aspx" />
     <Content Include="PlayerResume.aspx" />
     <Content Include="Preferences.aspx" />
     <Content Include="Properties\PublishProfiles\LARPortal.pubxml.user">
@@ -364,6 +370,7 @@
     <Content Include="RSVPMessages.aspx" />
     <Content Include="MemberSecurity.aspx" />
     <Content Include="img\ThisPageUnderConstruction.jpg" />
+    <Content Include="SystemErrors.aspx" />
     <Content Include="TermsOfUse.aspx" />
     <Content Include="TestingResults.aspx" />
     <Content Include="ucUserCampaignsDropDownList.ascx" />
@@ -386,6 +393,8 @@
     <Content Include="MemberCampaignsAdmin.master" />
     <Content Include="LARPortalMasterReferences.Master" />
     <Content Include="Character\Character.Master" />
+    <Content Include="WhatsNew.aspx" />
+    <Content Include="WhatsNewDetail.aspx" />
     <None Include="Properties\PublishProfiles\LARPortal.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="PlayerRoleTest.aspx" />
@@ -565,6 +574,20 @@
     <Compile Include="Character\CharAdd.aspx.designer.cs">
       <DependentUpon>CharAdd.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Character\CharCard.aspx.cs">
+      <DependentUpon>CharCard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharCard.aspx.designer.cs">
+      <DependentUpon>CharCard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharCardCustomization.aspx.cs">
+      <DependentUpon>CharCardCustomization.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharCardCustomization.aspx.designer.cs">
+      <DependentUpon>CharCardCustomization.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Character\CharHistory.aspx.cs">
       <DependentUpon>CharHistory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -578,13 +601,6 @@
     </Compile>
     <Compile Include="Character\CharInfo.aspx.designer.cs">
       <DependentUpon>CharInfo.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Character\CharInfo2.aspx.cs">
-      <DependentUpon>CharInfo2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Character\CharInfo2.aspx.designer.cs">
-      <DependentUpon>CharInfo2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Character\CharItems.aspx.cs">
       <DependentUpon>CharItems.aspx</DependentUpon>
@@ -641,6 +657,13 @@
     </Compile>
     <Compile Include="Character\CharSkills.aspx.designer.cs">
       <DependentUpon>CharSkills.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\CharUserDefined.aspx.cs">
+      <DependentUpon>CharUserDefined.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharUserDefined.aspx.designer.cs">
+      <DependentUpon>CharUserDefined.aspx</DependentUpon>
     </Compile>
     <Compile Include="Classes\cActor.cs" />
     <Compile Include="Classes\cAddress.cs" />
@@ -905,6 +928,27 @@
     <Compile Include="PasswordRequirements.aspx.designer.cs">
       <DependentUpon>PasswordRequirements.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PELApprovalList.aspx.cs">
+      <DependentUpon>PELApprovalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PELApprovalList.aspx.designer.cs">
+      <DependentUpon>PELApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PELEdit.aspx.cs">
+      <DependentUpon>PELEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PELEdit.aspx.designer.cs">
+      <DependentUpon>PELEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PELList.aspx.cs">
+      <DependentUpon>PELList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PELList.aspx.designer.cs">
+      <DependentUpon>PELList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PlayerResume.aspx.cs">
       <DependentUpon>PlayerResume.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -984,6 +1028,13 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="SystemErrors.aspx.cs">
+      <DependentUpon>SystemErrors.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemErrors.aspx.designer.cs">
+      <DependentUpon>SystemErrors.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TermsOfUse.aspx.cs">
       <DependentUpon>TermsOfUse.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1047,12 +1098,24 @@
     <Compile Include="WhatIsLARPing.aspx.designer.cs">
       <DependentUpon>WhatIsLARPing.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WhatsNew.aspx.cs">
+      <DependentUpon>WhatsNew.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WhatsNew.aspx.designer.cs">
+      <DependentUpon>WhatsNew.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WhatsNewDetail.aspx.cs">
+      <DependentUpon>WhatsNewDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WhatsNewDetail.aspx.designer.cs">
+      <DependentUpon>WhatsNewDetail.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Reports\CPAudit.rdlc" />
+    <Folder Include="Reports\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
