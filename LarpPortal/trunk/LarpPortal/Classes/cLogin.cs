@@ -31,6 +31,7 @@ namespace LarpPortal.Classes
         public int SecurityRoleID { get; set; }
         public string LastLoggedInLocation { get; set; }
         public int LastLoggedInCampaign { get; set; }
+        public int LastLoggedInCharacter { get; set; }
         public string SiteOperationalMode { get; set; }
         public string SiteFooter { get; set; }
         public int SecurityRoleTabID { get; set; }
@@ -43,6 +44,7 @@ namespace LarpPortal.Classes
         public string TabIcon { get; set; }
         public string WhatIsLARPingText { get; set; }
         public string AboutUsText { get; set; }
+        public string WhatsNewText { get; set; }
         public string TestingResultsText { get; set; }
         public string ContactUsText { get; set; }
         public string TermsOfUseText { get; set; }
@@ -134,6 +136,7 @@ namespace LarpPortal.Classes
                 AboutUsText = dRow["Comments"].ToString();
             }
         }
+
 
         /// <summary>
         /// This will get the text from the database for Testing Results
@@ -301,6 +304,8 @@ namespace LarpPortal.Classes
                     SecurityRoleID = iTemp;
                 if (int.TryParse(dRow["LastLoggedInCampaign"].ToString(), out iTemp))
                     LastLoggedInCampaign = iTemp;
+                if (int.TryParse(dRow["LastLoggedInCharacter"].ToString(), out iTemp))
+                    LastLoggedInCharacter = iTemp;
                 if (int.TryParse(dRow["LoginCount"].ToString(), out iTemp))
                     LoginCount = iTemp;
                 if (int.TryParse(dRow["UserSecurityID"].ToString(), out iTemp))
@@ -438,6 +443,18 @@ namespace LarpPortal.Classes
             slParameters.Add("@OSPlatform", OSPlatform);  //
             slParameters.Add("@OSVersion", OSVersion);  //
             slParameters.Add("@Comments", "");
+            cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
+        }
+
+        /// <summary>
+        /// This will update the MDBUser LastLoggedInLocation field with the latest page visited
+        /// </summary>
+        public void LogLastPage(int UserID, string LastPage)
+        {
+            string stStoredProc = "uspWriteLastLoggedInLocation";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@UserID", UserID);  //
+            slParameters.Add("@LastPage", LastPage);  //
             cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
         }
 

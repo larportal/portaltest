@@ -292,6 +292,9 @@ namespace LarpPortal
                             AutoApprove10 = AutoApprove;
                             break;
                         default:
+                            //TODO - Get rid of these two lines once 6 and 7 are really defined.  This will shut up the warnings
+                            RoleDescription6 = RoleDescription7;
+                            RoleDescription7 = RoleDescription6;
                             break;
                     }
                 }

@@ -49,7 +49,7 @@
                             </ul>
                         </li>
                         <li><a href="PageUnderConstruction.aspx" data-toggle="pill">PEL</a></li>
-                        <li><a href="PublicCampaigns.aspx" data-toggle="pill">Public Campaign View</a></li>
+                        <li><a href="PublicCampaigns.aspx" data-toggle="pill">Find a Campaign</a></li>
                     </ul>
 <%--                    <asp:Repeater ID="menu_ul_membercampaignsadmin" runat="server">
                         <HeaderTemplate>

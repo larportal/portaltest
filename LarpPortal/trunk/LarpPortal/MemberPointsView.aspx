@@ -15,7 +15,7 @@
 								</div>
 								<div class="panel-body">
 									<div class="panel-container-table">
-                                        <asp:Label ID="lblCPAuditTableCode" runat="server" >Build the table here programatically.  If you see this code the build failed.</asp:Label>
+                                        <asp:Label ID="lblCPAuditTableCode" runat="server" >There was an error building your points view.  Please contact support@larportal.com</asp:Label>
 <%--                                        <asp:GridView ID="gvCP" runat="server" Width="100%" AutoGenerateColumns="false" 
                                             OnPageIndexChanged="gvCP_SelectedIndexChanged" OnRowDataBound="gvCP_RowDataBound" OnSorting="gvCP_Sorting">
                                             <Columns>--%>

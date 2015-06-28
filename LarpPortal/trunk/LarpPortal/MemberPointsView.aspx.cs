@@ -46,6 +46,8 @@ namespace LarpPortal
             string AdditionalNotes = "";
             double CPAmount = 0;
             string Status = "Spent";
+            if (Status != "Spent")
+                Status = "Spent";
             string CPApprovedDate;
             string RecvFromCampaign = "";
             string OwningPlayer = "";
@@ -53,7 +55,9 @@ namespace LarpPortal
             string Character = "";
             string ReceivingPlayer = "";
             string StatusName = "";
-            string CampaignDDL = Session["CampaignName"].ToString();
+            string CampaignDDL = "";
+            if(Session["CampaignName"] != null)
+                CampaignDDL = Session["CampaignName"].ToString();
             string dq = "\"";
             string TableCode = "<table id=" + dq + "events-table" + dq + "class=" + dq + "table table-striped table-bordered table-hover table-condensed" + dq;
             TableCode = TableCode + " data-toggle=" + dq + "table" + dq + " data-height=" + dq + "250" + dq + " data-sort-name=" + dq;
