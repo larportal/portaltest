@@ -15,26 +15,14 @@ namespace LarpPortal.PELs
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            if (hidTextBoxEnabled.Value == "1")
-                TextBoxEnabled = true;
-
             if (!IsPostBack)
             {
                 DataTable dtQuestions = new DataTable();
-                bool bUser = true;
 
-                if ((Request.QueryString["RegistrationID"] == null) &&
-                    (Request.QueryString["Approving"] == null))
-                    Response.Redirect("PELList.aspx", true);
-                if (Request.QueryString["RegistrationID"] != null)
-                    hidRegistrationID.Value = Request.QueryString["RegistrationID"];
-                else if (Request.QueryString["Approving"] != null)
-                {
+                if (Request.QueryString["Approving"] != null)
                     hidRegistrationID.Value = Request.QueryString["Approving"];
-                    bUser = false;
-                }
                 else
-                    Response.Redirect("PELList.aspx", true);
+                    Response.Redirect("PELApprove.aspx", true);
 
                 SortedList sParams = new SortedList();
                 sParams.Add("@RegistrationID", hidRegistrationID.Value);
@@ -52,8 +40,6 @@ namespace LarpPortal.PELs
 
                     sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
 
-                    if (!bUser)
-                    {
                         sEventInfo += "&nbsp;&nbsp;<b>User: </b> ";
                         if (dtQuestions.Rows[0]["FirstName"].ToString().Trim().Length > 0)
                             sEventInfo += dtQuestions.Rows[0]["FirstName"].ToString().Trim() + " ";
@@ -61,7 +47,6 @@ namespace LarpPortal.PELs
                             sEventInfo += dtQuestions.Rows[0]["MiddleName"].ToString().Trim() + " ";
                         if (dtQuestions.Rows[0]["LastName"].ToString().Trim().Length > 0)
                             sEventInfo += dtQuestions.Rows[0]["LastName"].ToString().Trim();
-                    }
 
                     lblEventInfo.Text = sEventInfo;
 
@@ -79,29 +64,12 @@ namespace LarpPortal.PELs
                             lblEditMessage.Visible = true;
                             lblEditMessage.Text = "<br>This PEL was approved on " + dtTemp.ToShortDateString() + " and cannot be edited.";
                             TextBoxEnabled = false;
-                            hidTextBoxEnabled.Value = "0";
                             btnCancel.Visible = false;
                         }
                     }
                     else if (dtQuestions.Rows[0]["PELDateSubmitted"] != DBNull.Value)
                     {
                         btnSubmit.Visible = false;
-                        if (bUser)
-                        {
-                            btnSave.Text = "Done";
-                            btnSave.CommandName = "Done";
-                            DateTime dtTemp;
-                            if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
-                            {
-                                lblEditMessage.Visible = true;
-                                lblEditMessage.Text = "<br>This PEL was submitted on " + dtTemp.ToShortDateString() + " and cannot be edited.";
-                                TextBoxEnabled = false;
-                                hidTextBoxEnabled.Value = "0";
-                                btnCancel.Visible = false;
-                            }
-                        }
-                        else
-                        {
                             btnSave.Text = "Approve";
                             btnSave.CommandName = "Approve";
                             DateTime dtTemp;
@@ -112,7 +80,6 @@ namespace LarpPortal.PELs
                                 lblEditMessage.Visible = true;
                                 lblEditMessage.Text = "<br>This PEL was approved on " + dtTemp.ToShortDateString();
                                 TextBoxEnabled = false;
-                                hidTextBoxEnabled.Value = "0";
                                 pnlStaffComments.Visible = true;
                                 double dCPAwarded = 0;
                                 double.TryParse(dtQuestions.Rows[0]["CPAwarded"].ToString(), out dCPAwarded);
@@ -124,9 +91,7 @@ namespace LarpPortal.PELs
                                 lblEditMessage.Visible = true;
                                 lblEditMessage.Text = "<br>This PEL was submitted on " + dtTemp.ToShortDateString();
                                 TextBoxEnabled = false;
-                                hidTextBoxEnabled.Value = "0";
                             }
-                        }
                     }
                 }
 
@@ -232,6 +197,11 @@ namespace LarpPortal.PELs
                 Response.Redirect("PELApprovalList.aspx", true);
             else
                 Response.Redirect("PELList.aspx", true);
+        }
+
+        protected void rptQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            string i = e.CommandArgument.ToString();
         }
     }
 }

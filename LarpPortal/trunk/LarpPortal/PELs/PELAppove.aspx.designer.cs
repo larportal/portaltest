@@ -22,6 +22,15 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
+        /// imgPicture control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgPicture;
+        
+        /// <summary>
         /// lblEditMessage control.
         /// </summary>
         /// <remarks>
@@ -56,15 +65,6 @@ namespace LarpPortal.PELs {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidPELID;
-        
-        /// <summary>
-        /// hidTextBoxEnabled control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidTextBoxEnabled;
         
         /// <summary>
         /// divQuestions control.
