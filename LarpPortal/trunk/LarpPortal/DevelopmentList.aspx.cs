@@ -70,8 +70,7 @@ namespace LarpPortal
             else
                 gvDevelopmentList.Columns[6].Visible = false;
 
-            DataTable dtDevoList = Classes.cUtilities.LoadDataTable("uspGetDevelopmentList", sParams, "LARPortal", "DevelopmentList", "DevelopmentList.Page_PreRender",
-                Classes.cUtilities.LoadDataTableCommandType.Text);
+            DataTable dtDevoList = Classes.cUtilities.LoadDataTable("uspGetDevelopmentList", sParams, "LARPortal", "DevelopmentList", "DevelopmentList.Page_PreRender");
 
             string sFilter = "";
 
