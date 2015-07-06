@@ -9,7 +9,10 @@ Make sure this is the last CSS in the include list. If not some of these items m
     border-width: 1px;
     border-style: solid;
     color: white;
-    padding: 0px 0px 0px 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
     .StandardButton:hover
