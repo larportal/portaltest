@@ -218,7 +218,7 @@ namespace LarpPortal.Classes
                     if (ldt.Rows[0]["PrimaryAddress"] != null) { IsPrimary = (bool)ldt.Rows[0]["PrimaryAddress"]; }//Table MDBAddresses                    
                     if (ldt.Rows[0]["PostalCode"] != null) { _StrPostalCode = ldt.Rows[0]["PostalCode"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["Country"] != null) { _StrCountry = ldt.Rows[0]["Country"].ToString(); } //Table MDBAddresses
-                    if (ldt.Rows[0]["MDBStatesStateName"] != null) { _StateName = ldt.Rows[0]["MDBStatesStateName"].ToString(); } //Table Table MDBStates
+                    //if (ldt.Rows[0]["MDBStatesStateName"] != null) { _StateName = ldt.Rows[0]["MDBStatesStateName"].ToString(); } //Table Table MDBStates
                     _DateAdded = (DateTime)ldt.Rows[0]["DateAdded"];
                     _DateChanged = (DateTime)ldt.Rows[0]["DateChanged"];
                     _DateDeleted = (DateTime)ldt.Rows[0]["DateDeleted"];

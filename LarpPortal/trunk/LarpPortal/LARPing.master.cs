@@ -17,127 +17,51 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Session["ActiveTopNav"] = "LARPing";
-            //string hrefline;
-            //string ActiveState;
-            //string PageName;
-            //string LineText;
-            //int liLinesNeeded = 0;
-            //DataTable LeftNavTable = new DataTable();
-            //LeftNavTable.Columns.Add("href_li");
-            //ActiveState = ">";
-            //PageName = "~/DESTINATIONPAGE.aspx";
-            //LineText = "";
-            //for (int i = 0; i <= liLinesNeeded; i++)
-            //{
-            //    //build on case of i
-            //    switch (i)
-            //    {
-            //        case 0:
-            //            if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing")
-            //            {
-            //                ActiveState = " class=\"active\">";
-            //            }
-            //            else
-            //            {
-            //                ActiveState = ">";
-            //            }
-            //            PageName = "WhatIsLARPing.aspx";
-            //            LineText = "What is LARPing?";
-            //            break;
-            //        case 1:
-            //            if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing2")
-            //            {
-            //                ActiveState = " class=\"active\">";
-            //            }
-            //            else
-            //            {
-            //                ActiveState = ">";
-            //            }
-            //            PageName = "WhatIsLARPing2.aspx";
-            //            LineText = "Menu Item TBD 2";
-            //            break;
-            //        case 2:
-            //            if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing3")
-            //            {
-            //                ActiveState = " class=\"active\">";
-            //            }
-            //            else
-            //            {
-            //                ActiveState = ">";
-            //            }
-            //            PageName = "WhatIsLARPing3.aspx";
-            //            LineText = "Menu Item TBD 3";
-            //            break;
+            // Define lblLeftNav to be the code for the menu depending on the page calling it
+            string MenuChoice;
+            if (Session["ActiveLeftNav"] != null)
+            {
+                MenuChoice = Session["ActiveLeftNav"].ToString();
+                switch (MenuChoice)
+                {
+                    case "WhatIsLARPing":
+                        break;
+                    case "FAQ":
+                        BuildFAQLeftNav();
+                        break;
+                    case "TBD1":
+                        break;
+                    case "TBD2":
+                        break;
+                    case "TBD3":
+                        break;
 
-            //        case 3:
-            //            if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing4")
-            //            {
-            //                ActiveState = " class=\"active\">";
-            //            }
-            //            else
-            //            {
-            //                ActiveState = ">";
-            //            }
-            //            PageName = "WhatIsLARPing4.aspx";
-            //            LineText = "Menu Item TBD 4";
-            //            break;
-            //        case 4:
-            //            if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing5")
-            //            {
-            //                ActiveState = " class=\"active\">";
-            //            }
-            //            else
-            //            {
-            //                ActiveState = ">";
-            //            }
-            //            PageName = "WhatIsLARPing5.aspx";
-            //            LineText = "Menu Item TBD 5";
-            //            break;
-            //        case 5:
-            //            if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing6")
-            //            {
-            //                ActiveState = " class=\"active\">";
-            //            }
-            //            else
-            //            {
-            //                ActiveState = ">";
-            //            }
-            //            PageName = "WhatIsLARPing6.aspx";
-            //            LineText = "Menu Item TBD 6";
-            //            break;
-            //        case 6:
-            //            if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing7")
-            //            {
-            //                ActiveState = " class=\"active\">";
-            //            }
-            //            else
-            //            {
-            //                ActiveState = ">";
-            //            }
-            //            PageName = "WhatIsLARPing7.aspx";
-            //            LineText = "Menu Item TBD 7";
-            //            break;
-            //        case 7:
-            //            if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing8")
-            //            {
-            //                ActiveState = " class=\"active\">";
-            //            }
-            //            else
-            //            {
-            //                ActiveState = ">";
-            //            }
-            //            PageName = "WhatIsLARPing8.aspx";
-            //            LineText = "Menu Item TBD 8";
-            //            break;
-            //    }
-            //    hrefline = "<li" + ActiveState + "<a href=" + "\"" + PageName + "\"" + " data-toggle=" + "\"" + "pill" + "\"" + ">" + LineText + "</a></li>";
-            //    DataRow LeftNavRow = LeftNavTable.NewRow();
-            //    LeftNavRow["href_li"] = hrefline;
-            //    LeftNavTable.Rows.Add(LeftNavRow);
-            //    menu_ul_memberprofile.DataSource = LeftNavTable;
-            //    menu_ul_memberprofile.DataBind();
-            //}
+                }
+            }
+            else
+            {
+                MenuChoice = Session["ActiveLeftNav"].ToString();
+            }
         }
+
+        private void BuildFAQLeftNav ()
+        {
+            string LeftNavCode = "";
+            string dq = "\"";
+            LeftNavCode = "&nbsp;FAQs:<br /><br /><ul class = " + dq + "nav nav-pills" + dq + " " + dq + "panel-wrapper list-unstyled scroll-500" + dq + ">";
+            string stStoredProc = "uspGetFAQCategories";
+            string stCallingMethod = "LARPing.master.cs.BuildFAQLeftNav";
+            DataTable dtFAQCategories = new DataTable();
+            SortedList sParams = new SortedList();
+            dtFAQCategories = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", Session["UserName"].ToString(), stCallingMethod);
+            foreach (DataRow dRow in dtFAQCategories.Rows)
+            {
+                LeftNavCode = LeftNavCode + "<li runat=" + dq + "server" + dq + " id=" + dq + "liCategory" + dRow["FAQCategoryID"].ToString() +dq + "><a href=" + dq +
+                    "FAQ.aspx?CategoryID=" + dRow["FAQCategoryID"].ToString() + "&CategoryName=" + dRow["CategoryName"] + dq + ">" + dRow["CategoryName"].ToString() + "</a></li>";
+            }
+            LeftNavCode = LeftNavCode + "<ul>";
+            lblLeftNav.Text = LeftNavCode;
+        }
+
     }
 }

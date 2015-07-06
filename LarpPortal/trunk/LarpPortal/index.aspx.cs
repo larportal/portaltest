@@ -79,6 +79,7 @@ namespace LarpPortal
             txtName.Visible = false;
             txtLastLocation.Visible = false;
             txtLastCharacter.Visible = false;
+            txtLastCampaign.Visible = false;
             txtUserID.Visible = false;
             lblPasswordReqs.ToolTip = "LARP Portal login passwords must be at least 7 characters long and contain at least " +  
                 "1 uppercase letter, 1 lowercse letter, 1 number and 1 special character";
@@ -178,6 +179,7 @@ namespace LarpPortal
             txtName.Text = Login.FirstName + " " + Login.LastName;
             txtLastLocation.Text = Login.LastLoggedInLocation;
             txtLastCharacter.Text = Login.LastLoggedInCharacter.ToString();
+            txtLastCampaign.Text = Login.LastLoggedInCampaign.ToString();
             txtUserID.Text = Login.MemberID.ToString();
             intUserID = Login.MemberID;
             Session["LoginName"] = Login.FirstName;
@@ -186,6 +188,8 @@ namespace LarpPortal
             Session["UserID"] = Login.MemberID;
             if (txtLastCharacter.Text != "0")
                 Session["SelectedCharacter"] = txtLastCharacter.Text;
+            if (txtLastCampaign.Text != "0")
+                Session["CampaignID"] = txtLastCampaign.Text;
             // Write login entry to UserLoginAudit table
             string txtIPAddress = "";
             string txtBrowser = "";

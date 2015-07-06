@@ -79,6 +79,7 @@
                     <asp:TextBox ID="txtUserID" runat="server"></asp:TextBox>
                     <asp:TextBox ID="txtLastLocation" runat="server"></asp:TextBox>
                     <asp:TextBox ID="txtLastCharacter" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="txtLastCampaign" runat="server"></asp:TextBox>
                     </div>
                     <h2 class="form-signin-heading">LARP Portal Guests</h2>
                     <div class="form-signin">

@@ -7,36 +7,36 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LarpPortal {
+namespace LarpPortal.General {
     
     
-    public partial class MemberPointsView {
+    public partial class FAQ {
         
         /// <summary>
-        /// lblHeader control.
+        /// pnlFAQ control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblHeader;
+        protected global::System.Web.UI.WebControls.Panel pnlFAQ;
         
         /// <summary>
-        /// lblGridHeader control.
+        /// lblFAQHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblGridHeader;
+        protected global::System.Web.UI.WebControls.Label lblFAQHeader;
         
         /// <summary>
-        /// gvPointsList control.
+        /// tvFAQ control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPointsList;
+        protected global::System.Web.UI.WebControls.TreeView tvFAQ;
     }
 }
