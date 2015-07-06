@@ -16,7 +16,8 @@ namespace LarpPortal.PELs
         {
             DataTable dtPELs = new DataTable();
             SortedList sParams = new SortedList();
-            sParams.Add("UserID", 41);
+            ///TODO: Put in userID in PELList.
+            //sParams.Add("UserID", Session["UserID"].ToString());
 
             dtPELs = Classes.cUtilities.LoadDataTable("uspGetPELsForUser", sParams, "LARPortal", Session["UserName"].ToString(), "PELList.Page_PreRender");
 
@@ -67,7 +68,7 @@ namespace LarpPortal.PELs
         protected void gvPELList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string sRegistrationID = e.CommandArgument.ToString();
-            Response.Redirect("PELEdit.aspx?RegistrationID=" + sRegistrationID, false);
+            Response.Redirect("PELEdit.aspx?RegistrationID=" + sRegistrationID, true);
         }
     }
 }
