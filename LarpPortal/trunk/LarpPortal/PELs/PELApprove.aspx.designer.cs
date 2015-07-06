@@ -94,24 +94,6 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.Panel pnlStaffComments;
         
         /// <summary>
-        /// tbStaffComment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbStaffComment;
-        
-        /// <summary>
-        /// lblStaffComment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblStaffComment;
-        
-        /// <summary>
         /// mvCPAwarded control.
         /// </summary>
         /// <remarks>
@@ -164,24 +146,6 @@ namespace LarpPortal.PELs {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCancel;
-        
-        /// <summary>
-        /// btnSubmit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSubmit;
-        
-        /// <summary>
-        /// imgSpacer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgSpacer;
         
         /// <summary>
         /// btnSave control.

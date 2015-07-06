@@ -6,20 +6,42 @@
         {
             border: 1px solid black;
         }
+
+        th, tr:nth-child(even) > td
+        {
+            background-color: transparent;
+        }
     </style>
     <div class="mainContent tab-content col-sm-12">
         <div id="character-info" class="character-info tab-pane active col-sm-12">
-            <div class="row" style="padding-left: 15px; padding-top: 10px;">
-                <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="PEL (Post Event Letter)" />
-                <asp:Label ID="lblEditMessage" runat="server" Font-Size="18px" Style="font-weight: 500" Visible="false" />
+            <div class="row col-lg-12" style="padding-left: 15px; padding-top: 10px;">
+                <table class="col-lg-12">
+                    <tr>
+                        <td style="width: 80%;">
+                            <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="PEL (Post Event Letter)" />
+                        </td>
+                        <td rowspan="3" style="width: 20%; text-align: right;">
+                            <asp:Image ID="imgPicture" runat="server" Width="100px" Height="100px" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Label ID="lblEditMessage" runat="server" Font-Size="18px" Style="font-weight: 500" Visible="false" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Label ID="lblEventInfo" runat="server" />
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
-                <asp:Label ID="lblEventInfo" runat="server" />
             </div>
             <asp:HiddenField ID="hidRegistrationID" runat="server" />
             <asp:HiddenField ID="hidPELID" runat="server" />
             <asp:HiddenField ID="hidTextBoxEnabled" runat="server" Value="1" />
-            <div id="divQuestions" runat="server" style="max-height: 500px; overflow-y: auto; margin-right: 10px;" >
+            <div id="divQuestions" runat="server" style="max-height: 500px; overflow-y: auto; margin-right: 10px;">
                 <asp:Repeater ID="rptQuestions" runat="server">
                     <ItemTemplate>
                         <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
@@ -31,7 +53,7 @@
                                             <asp:TextBox ID="tbAnswer" runat="server" Text='<%# Eval("Answer") %>' Columns="100" Style="width: 100%"
                                                 BorderColor="black" BorderStyle="Solid" BorderWidth="1" TextMode="MultiLine" Rows="4"
                                                 Visible="<%# TextBoxEnabled %>" />
-                                            <asp:Label ID="lblAnswer" runat="server" Text='<%# Eval("Answer") %>' Enabled="<%# !(TextBoxEnabled) %>" />
+                                            <asp:Label ID="lblAnswer" runat="server" Text='<%# Eval("Answer") %>' Visible="<%# !(TextBoxEnabled) %>" />
                                         </div>
                                     </div>
                                 </div>
@@ -44,7 +66,7 @@
             </div>
             <br />
 
-            <asp:Panel ID="pnlStaffComments" runat="server" Visible="false">
+<%--            <asp:Panel ID="pnlStaffComments" runat="server" Visible="false">
                 <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
                     <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
                         <div class="panelheader">
@@ -70,7 +92,8 @@
                                             <table>
                                                 <tr>
                                                     <td>For completing this PEL, the person should be awarded </td>
-                                                    <td style="padding-left: 10px; padding-right: 10px;"><asp:TextBox ID="tbCPAwarded" runat="server" Columns="6" BorderColor="black" BorderStyle="Solid" BorderWidth="1" Text="5.0" /></td>
+                                                    <td style="padding-left: 10px; padding-right: 10px;">
+                                                        <asp:TextBox ID="tbCPAwarded" runat="server" Columns="6" BorderColor="black" BorderStyle="Solid" BorderWidth="1" Text="5.0" /></td>
                                                     <td>CP.</td>
                                                 </tr>
                                             </table>
@@ -84,7 +107,7 @@
                         </div>
                     </div>
                 </div>
-            </asp:Panel>
+            </asp:Panel>--%>
 
             <div class="row col-sm-12" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
                 <div class="col-sm-4">

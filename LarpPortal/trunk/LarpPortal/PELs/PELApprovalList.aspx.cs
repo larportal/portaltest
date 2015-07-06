@@ -52,8 +52,8 @@ namespace LarpPortal.PELs
             {
                 string sFilter = "CampaignID = " + sValue + " and DateSubmitted is not null";
                 //if (!cbDisplayApproved.Checked)
-                    sFilter += " and DateApproved is null";
-                DataView dvPELs = new DataView(dtPELs, sFilter, "", DataViewRowState.CurrentRows);
+                //    sFilter += " and DateApproved is null";
+                DataView dvPELs = new DataView(dtPELs, sFilter, "PELStatus desc, DateSubmitted", DataViewRowState.CurrentRows);
                 gvPELList.DataSource = dvPELs;
                 gvPELList.DataBind();
             }
@@ -104,11 +104,6 @@ namespace LarpPortal.PELs
                     dRow["PELStatus"] = "Submitted";
                     dRow["ButtonText"] = "View";
                 }
-                else if (dRow["DateStarted"] != System.DBNull.Value)
-                {
-                    dRow["PELStatus"] = "Started";
-                    dRow["ButtonText"] = "Edit";
-                }
             }
 
             return dtPELs;
@@ -117,7 +112,7 @@ namespace LarpPortal.PELs
         protected void gvPELList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string sRegistrationID = e.CommandArgument.ToString();
-            Response.Redirect("PELEdit.aspx?Approving=" + sRegistrationID, false);
+            Response.Redirect("PELApprove.aspx?RegistrationID=" + sRegistrationID, false);
         }
     }
 }

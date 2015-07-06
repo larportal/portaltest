@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -12,6 +13,7 @@ namespace LarpPortal.PELs
     public partial class PELAppove : System.Web.UI.Page
     {
         public bool TextBoxEnabled = true;
+        private DataTable _dtPELComments = new DataTable();
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
@@ -19,15 +21,15 @@ namespace LarpPortal.PELs
             {
                 DataTable dtQuestions = new DataTable();
 
-                if (Request.QueryString["Approving"] != null)
-                    hidRegistrationID.Value = Request.QueryString["Approving"];
+                if (Request.QueryString["RegistrationID"] != null)
+                    hidRegistrationID.Value = Request.QueryString["RegistrationID"];
                 else
-                    Response.Redirect("PELApprove.aspx", true);
+                    Response.Redirect("PELApprovalList.aspx", true);
 
                 SortedList sParams = new SortedList();
                 sParams.Add("@RegistrationID", hidRegistrationID.Value);
 
-                dtQuestions = Classes.cUtilities.LoadDataTable("uspGetPELQuestions", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.Page_PreRender");
+                dtQuestions = Classes.cUtilities.LoadDataTable("uspGetPELQuestionsAndAnswers", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.Page_PreRender");
 
                 string sEventInfo = "";
                 if (dtQuestions.Rows.Count > 0)
@@ -40,13 +42,13 @@ namespace LarpPortal.PELs
 
                     sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
 
-                        sEventInfo += "&nbsp;&nbsp;<b>User: </b> ";
-                        if (dtQuestions.Rows[0]["FirstName"].ToString().Trim().Length > 0)
-                            sEventInfo += dtQuestions.Rows[0]["FirstName"].ToString().Trim() + " ";
-                        if (dtQuestions.Rows[0]["MiddleName"].ToString().Trim().Length > 0)
-                            sEventInfo += dtQuestions.Rows[0]["MiddleName"].ToString().Trim() + " ";
-                        if (dtQuestions.Rows[0]["LastName"].ToString().Trim().Length > 0)
-                            sEventInfo += dtQuestions.Rows[0]["LastName"].ToString().Trim();
+                    sEventInfo += "&nbsp;&nbsp;<b>User: </b> ";
+                    if (dtQuestions.Rows[0]["CharacterFirstName"].ToString().Trim().Length > 0)
+                        sEventInfo += dtQuestions.Rows[0]["CharacterFirstName"].ToString().Trim() + " ";
+                    if (dtQuestions.Rows[0]["CharacterMiddleName"].ToString().Trim().Length > 0)
+                        sEventInfo += dtQuestions.Rows[0]["CharacterMiddleName"].ToString().Trim() + " ";
+                    if (dtQuestions.Rows[0]["CharacterLastName"].ToString().Trim().Length > 0)
+                        sEventInfo += dtQuestions.Rows[0]["CharacterLastName"].ToString().Trim();
 
                     lblEventInfo.Text = sEventInfo;
 
@@ -55,7 +57,6 @@ namespace LarpPortal.PELs
                         hidPELID.Value = iTemp.ToString();
                     if (dtQuestions.Rows[0]["PELDateApproved"] != DBNull.Value)
                     {
-                        btnSubmit.Visible = false;
                         btnSave.Text = "Done";
                         btnSave.CommandName = "Done";
                         DateTime dtTemp;
@@ -69,29 +70,36 @@ namespace LarpPortal.PELs
                     }
                     else if (dtQuestions.Rows[0]["PELDateSubmitted"] != DBNull.Value)
                     {
-                        btnSubmit.Visible = false;
-                            btnSave.Text = "Approve";
-                            btnSave.CommandName = "Approve";
-                            DateTime dtTemp;
-                            pnlStaffComments.Visible = true;
-                            divQuestions.Attributes.Add("style", "max-height: 400px; overflow-y: auto; margin-right: 10px;");
-                            if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateApproved"].ToString(), out dtTemp))
-                            {
-                                lblEditMessage.Visible = true;
-                                lblEditMessage.Text = "<br>This PEL was approved on " + dtTemp.ToShortDateString();
-                                TextBoxEnabled = false;
-                                pnlStaffComments.Visible = true;
-                                double dCPAwarded = 0;
-                                double.TryParse(dtQuestions.Rows[0]["CPAwarded"].ToString(), out dCPAwarded);
-                                lblCPAwarded.Text = "For completing this PEL, this person was awarded " + String.Format("{0:0.##}", dCPAwarded) + " CP.";
-                                mvCPAwarded.SetActiveView(vwCPAwardedDisplay);
-                            }
-                            else if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
-                            {
-                                lblEditMessage.Visible = true;
-                                lblEditMessage.Text = "<br>This PEL was submitted on " + dtTemp.ToShortDateString();
-                                TextBoxEnabled = false;
-                            }
+                        btnSave.Text = "Approve";
+                        btnSave.CommandName = "Approve";
+                        DateTime dtTemp;
+                        //                        pnlStaffComments.Visible = true;
+                        divQuestions.Attributes.Add("style", "max-height: 400px; overflow-y: auto; margin-right: 10px;");
+                        if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateApproved"].ToString(), out dtTemp))
+                        {
+                            lblEditMessage.Visible = true;
+                            lblEditMessage.Text = "<br>This PEL was approved on " + dtTemp.ToShortDateString();
+                            TextBoxEnabled = false;
+                            //                          pnlStaffComments.Visible = true;
+                            double dCPAwarded = 0;
+                            double.TryParse(dtQuestions.Rows[0]["CPAwarded"].ToString(), out dCPAwarded);
+                            lblCPAwarded.Text = "For completing this PEL, this person was awarded " + String.Format("{0:0.##}", dCPAwarded) + " CP.";
+                            mvCPAwarded.SetActiveView(vwCPAwardedDisplay);
+                        }
+                        else if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
+                        {
+                            lblEditMessage.Visible = true;
+                            lblEditMessage.Text = "<br>This PEL was submitted on " + dtTemp.ToShortDateString();
+                            TextBoxEnabled = false;
+                        }
+                    }
+                    if (hidPELID.Value.Length != 0)
+                    {
+                        // Load the comments for this PEL so we can display them in DataItemBound.
+                        SortedList sParamsForComments = new SortedList();
+                        sParamsForComments.Add("@PELID", hidPELID.Value);
+                        _dtPELComments = Classes.cUtilities.LoadDataTable("uspGetPELStaffComments", sParamsForComments, "LARPortal", Session["UserName"].ToString(),
+                            "PELApprove.Page_PreRender");
                     }
                 }
 
@@ -178,30 +186,145 @@ namespace LarpPortal.PELs
                 double dCPAwarded;
                 if (double.TryParse(tbCPAwarded.Text, out dCPAwarded))
                     sParams.Add("@CPAwarded", dCPAwarded);
-                sParams.Add("@Comments", tbStaffComment.Text);
+                //            sParams.Add("@Comments", tbStaffComment.Text);
                 sParams.Add("@DateApproved", DateTime.Now);
 
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());
                 Session["UpdatePELMessage"] = "alert('The PEL has been approved.');";
             }
 
-            if (Request.QueryString["Approving"] != null)
-                Response.Redirect("PELApprovalList.aspx", true);
-            else
-                Response.Redirect("PELList.aspx", true);
+            Response.Redirect("PELApprovalList.aspx", true);
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            if (Request.QueryString["Approving"] != null)
-                Response.Redirect("PELApprovalList.aspx", true);
-            else
-                Response.Redirect("PELList.aspx", true);
+            Response.Redirect("PELApprovalList.aspx", true);
         }
 
         protected void rptQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             string i = e.CommandArgument.ToString();
+            if (e.CommandName.ToUpper() == "ENTERCOMMENT")
+            {
+                Panel pnlNewCommentPanel = (Panel)e.Item.FindControl("pnlCommentSection");
+                if (pnlNewCommentPanel != null)
+                {
+                    pnlNewCommentPanel.Visible = true;
+                    Image imgPlayerImage = (Image)e.Item.FindControl("imgProfilePicture");
+                    if (imgPlayerImage != null)
+                    {
+                        string uName = "";
+                        int uID = 0;
+
+                        if (Session["Username"] != null)
+                            uName = Session["Username"].ToString();
+                        if (Session["UserID"] != null)
+                            int.TryParse(Session["UserID"].ToString(), out uID);
+
+                        Classes.cPlayer PLDemography = new Classes.cPlayer(uID, uName);
+                        string pict = PLDemography.UserPhoto;
+                        if (pict == "")
+                        {
+                            imgPlayerImage.ImageUrl = "http://placehold.it/150x150";
+                        }
+                        else
+                        {
+                            imgPlayerImage.ImageUrl = pict;
+                        }
+                    }
+
+                    Button btnAddComment = (Button)e.Item.FindControl("btnAddComment");
+                    if (btnAddComment != null)
+                        btnAddComment.Visible = false;
+                }
+            }
+            else if (e.CommandName.ToUpper() == "ADDCOMMENT")
+            {
+                int iAnswerID;
+                if (int.TryParse(e.CommandArgument.ToString(), out iAnswerID))
+                {
+                    TextBox tbNewComment = (TextBox)e.Item.FindControl("tbNewComment");
+                    if (tbNewComment != null)
+                    {
+                        if (tbNewComment.Text.Length > 0)
+                        {
+                            SortedList sParams = new SortedList();
+                            sParams.Add("@UserID", Session["UserID"]);
+                            sParams.Add("@PELAnswerID", iAnswerID);
+                            sParams.Add("@PELStaffCommentID", "-1");
+                            sParams.Add("@CommenterID", Session["UserID"]);
+                            sParams.Add("@StaffComments", tbNewComment.Text.Trim());
+
+                            MethodBase lmth = MethodBase.GetCurrentMethod();
+                            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+                            DataTable dtAddResponse = Classes.cUtilities.LoadDataTable("uspInsUpdCMPELStaffComments", sParams, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
+
+                            SortedList sParamsForComments = new SortedList();
+                            sParamsForComments.Add("@PELID", hidPELID.Value);
+                            _dtPELComments = Classes.cUtilities.LoadDataTable("uspGetPELStaffComments", sParamsForComments, "LARPortal", Session["UserName"].ToString(),
+                                "PELApprove.Page_PreRender");
+
+                            DataList dlComments = e.Item.FindControl("dlComments") as DataList;
+                            GetComments(iAnswerID.ToString(), dlComments);
+                        }
+                    }
+                    Panel pnlCommentSection = (Panel)e.Item.FindControl("pnlCommentSection");
+                    if (pnlCommentSection != null)
+                        pnlCommentSection.Visible = false;
+                    Button btnAddComment = (Button)e.Item.FindControl("btnAddComment");
+                    if (btnAddComment != null)
+                        btnAddComment.Visible = true;
+                }
+            }
+            else if (e.CommandName.ToUpper() == "CANCELCOMMENT")
+            {
+                Panel pnlCommentSection = (Panel)e.Item.FindControl("pnlCommentSection");
+                if (pnlCommentSection != null)
+                    pnlCommentSection.Visible = false;
+                Button btnAddComment = (Button)e.Item.FindControl("btnAddComment");
+                if (btnAddComment != null)
+                    btnAddComment.Visible = false;
+            }
+        }
+
+        public void rptQuestions_ItemDataBound(Object Sender, RepeaterItemEventArgs e)
+        {
+            if ((e.Item.ItemType == ListItemType.Item) || (e.Item.ItemType == ListItemType.AlternatingItem))
+            {
+                DataRowView dr = (DataRowView)DataBinder.GetDataItem(e.Item);
+                string sAnswerID = dr["PELAnswerID"].ToString();
+
+                DataList dlComments = e.Item.FindControl("dlComments") as DataList;
+                if (dlComments != null)
+                {
+                    GetComments(sAnswerID, dlComments);
+                }
+                TextBox tbNewComment = (TextBox)e.Item.FindControl("tbNewComment");
+                if (tbNewComment != null)
+                    tbNewComment.Attributes.Add("PlaceHolder", "Enter comment here.");
+            }
+        }
+
+        protected void btnAddComment_Command(object sender, CommandEventArgs e)
+        {
+
+        }
+
+        protected void GetComments(string sAnswerID, DataList dlComments)
+        {
+            foreach (DataRow dRow in _dtPELComments.Rows)
+                if (!dRow["UserPhoto"].ToString().ToUpper().Contains("/IMG/P"))
+                    dRow["UserPhoto"] = dRow["UserPhoto"].ToString() + "/IMG/PLAYER/";
+
+            DataView dvComments = new DataView(_dtPELComments, "PELAnswerID = '" + sAnswerID + "'", "DateAdded desc", DataViewRowState.CurrentRows);
+            dlComments.DataSource = dvComments;
+            dlComments.DataBind();
         }
     }
 }
+
+
+
+
+// OnItemDataBound="rptQuestions_ItemDataBound">
