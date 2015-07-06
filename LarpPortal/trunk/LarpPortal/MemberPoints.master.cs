@@ -18,6 +18,9 @@ namespace LarpPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["ActiveTopNav"] = "Points";
+            string ActiveLeftNev = "";
+            if (Session["ActiveLeftNav"] != null)
+                ActiveLeftNev = Session["ActiveLeftNav"].ToString();
             string hrefline;
             string ActiveState;
             string PageName;
@@ -34,7 +37,7 @@ namespace LarpPortal
                 switch (i)
                 {
                     case 0:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing")
+                        if (ActiveLeftNev == "WhatIsLARPing")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -46,7 +49,7 @@ namespace LarpPortal
                         LineText = "What is LARPing?";
                         break;
                     case 1:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing2")
+                        if (ActiveLeftNev == "WhatIsLARPing2")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -58,7 +61,7 @@ namespace LarpPortal
                         LineText = "Menu Item TBD 2";
                         break;
                     case 2:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing3")
+                        if (ActiveLeftNev == "WhatIsLARPing3")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -71,7 +74,7 @@ namespace LarpPortal
                         break;
 
                     case 3:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing4")
+                        if (ActiveLeftNev == "WhatIsLARPing4")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -83,7 +86,7 @@ namespace LarpPortal
                         LineText = "Menu Item TBD 4";
                         break;
                     case 4:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing5")
+                        if (ActiveLeftNev == "WhatIsLARPing5")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -95,7 +98,7 @@ namespace LarpPortal
                         LineText = "Menu Item TBD 5";
                         break;
                     case 5:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing6")
+                        if (ActiveLeftNev == "WhatIsLARPing6")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -107,7 +110,7 @@ namespace LarpPortal
                         LineText = "Menu Item TBD 6";
                         break;
                     case 6:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing7")
+                        if (ActiveLeftNev == "WhatIsLARPing7")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -119,7 +122,7 @@ namespace LarpPortal
                         LineText = "Menu Item TBD 7";
                         break;
                     case 7:
-                        if (Session["ActiveLeftNav"].ToString() == "WhatIsLARPing8")
+                        if (ActiveLeftNev == "WhatIsLARPing8")
                         {
                             ActiveState = " class=\"active\">";
                         }

@@ -233,6 +233,7 @@
     <Content Include="Character\CharSkills.aspx" />
     <Content Include="Character\CharUserDefined.aspx" />
     <Content Include="ContactUs.aspx" />
+    <Content Include="General\FAQ.aspx" />
     <Content Include="PELs\PELAppove.aspx" />
     <Content Include="DevelopmentList.aspx" />
     <Content Include="ForgotPassword.aspx" />
@@ -736,6 +737,13 @@
     </Compile>
     <Compile Include="ContactUs.aspx.designer.cs">
       <DependentUpon>ContactUs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="General\FAQ.aspx.cs">
+      <DependentUpon>FAQ.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="General\FAQ.aspx.designer.cs">
+      <DependentUpon>FAQ.aspx</DependentUpon>
     </Compile>
     <Compile Include="PELs\PELAppove.aspx.cs">
       <DependentUpon>PELAppove.aspx</DependentUpon>

@@ -5,7 +5,8 @@
             <asp:TableCell Wrap="false" VerticalAlign="Top" width="227">
               <div class="contentArea">
 					<nav class="userSubNav">
-                        <asp:Repeater ID="menu_ul_memberprofile" runat="server">
+                        <asp:Label ID="lblLeftNav" runat="server"></asp:Label>
+<%--                        <asp:Repeater ID="menu_ul_memberprofile" runat="server">
                             <HeaderTemplate>
                                 <ul class="nav nav-pills">
                             </HeaderTemplate>
@@ -15,7 +16,7 @@
                             <FooterTemplate>
                                 </ul>
                             </FooterTemplate>
-                        </asp:Repeater>
+                        </asp:Repeater>--%>
 					</nav>
               </div>
             </asp:TableCell>

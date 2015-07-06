@@ -35,9 +35,7 @@ namespace LarpPortal
 
         protected void gvWhatsNewList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            //string sRedirecter = e.CommandArgument.ToString();
-            //sRedirecter = sRedirecter.Trim();
-            //Response.Redirect(sRedirecter, false);
+
         }
 
 
