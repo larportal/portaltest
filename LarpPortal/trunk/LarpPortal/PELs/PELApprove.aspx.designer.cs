@@ -10,7 +10,7 @@
 namespace LarpPortal.PELs {
     
     
-    public partial class PELAppove {
+    public partial class PELApprove {
         
         /// <summary>
         /// lblHeader control.

@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 namespace LarpPortal.PELs
 {
-    public partial class PELAppove : System.Web.UI.Page
+    public partial class PELApprove : System.Web.UI.Page
     {
         public bool TextBoxEnabled = true;
         private DataTable _dtPELComments = new DataTable();
