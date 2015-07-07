@@ -7,13 +7,11 @@
             &nbsp;&nbsp;
             <asp:Panel ID="pnlFAQ" runat="server" CssClass="panel" Width="900px" ScrollBars="Auto" Wrap="true">
                 <div class="panel-header">
-                    <h2>
-                        <asp:Label ID="lblFAQHeader" runat="server" Text="FAQs"></asp:Label></h2>
-
-                    <div class="panel-body" style="padding-bottom: 5px">
+                    <h2><asp:Label ID="lblFAQHeader" runat="server" Text="FAQs"></asp:Label></h2>
+                     <div class="panel-body" style="padding-bottom: 5px">
                         <div class="panel-container search-criteria">
                             <div style="max-height: 500px; overflow-y: auto;">
-                                <asp:TreeView ID="tvFAQ" runat="server" Visible="true" OnSelectedNodeChanged="tvFAQ_SelectedNodeChanged" ExpandDepth="0" NodeStyle-ChildNodesPadding="5px"></asp:TreeView>
+                                <asp:TreeView ID="tvFAQ" runat="server" Visible="true" OnSelectedNodeChanged="tvFAQ_SelectedNodeChanged" ExpandDepth="0" NodeWrap="true"></asp:TreeView>
                             </div>
                         </div>
                     </div>

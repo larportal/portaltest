@@ -34,7 +34,7 @@ namespace LarpPortal.General
                 if((Request.QueryString["CategoryName"] == null))
                 {
                     CategoryName = "";
-                    lblFAQHeader.Text = "FAQs";
+                    lblFAQHeader.Text = "FAQs - General";
                 }
                 else
                 {
