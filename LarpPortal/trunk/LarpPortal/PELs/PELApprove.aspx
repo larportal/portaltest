@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PELApprove.aspx.cs" Inherits="LarpPortal.PELs.PELAppove" MasterPageFile="~/MemberCampaigns.master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PELApprove.aspx.cs" Inherits="LarpPortal.PELs.PELApprove" MasterPageFile="~/MemberCampaigns.master" %>
 
 <asp:Content ContentPlaceHolderID="MemberCampaignsContent" ID="PELList" runat="server">
     <style type="text/css">
