@@ -158,6 +158,78 @@ namespace LarpPortal.Classes
             }
             return dtCharacterSkills;
         }
+
+        /// <summary>
+        /// This will return a list of all Madrigal Characters
+        /// </summary>
+        public DataTable MadrigalCharacterList()
+        {
+            CharacterCount = 0;
+            int iTemp = 0;
+            double dTemp;
+            string stStoredProc = "uspAdminMadrigalCharacterList";
+            string stCallingMethod = "cAdminViews.MadrigalCharacterList";
+            SortedList slParameters = new SortedList();
+            DataTable dtCharacters = new DataTable();
+            DataSet dsCharacters = new DataSet();
+            dtCharacters = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Usename", stCallingMethod);
+            foreach (DataRow dRow in dtCharacters.Rows)
+            {
+                if (int.TryParse(dRow["PlotLeadPerson"].ToString(), out iTemp))
+                    PlotLeadPerson = iTemp;
+                if (int.TryParse(dRow["CharacterSkillSetID"].ToString(), out iTemp))
+                    CharacterSkillSetID = iTemp;
+                if (double.TryParse(dRow["TotalCP"].ToString(), out dTemp))
+                    TotalCP = dTemp;
+                CharacterAKA = dRow["CharacterAKA"].ToString();
+                TeamName = dRow["TeamName"].ToString();
+                CharacterFirstName = dRow["CharacterFirstName"].ToString();
+                CharacterMiddleName = dRow["CharacterMiddleName"].ToString();
+                CharacterLastName = dRow["CharacterLastName"].ToString();
+                FirstName = dRow["FirstName"].ToString();
+                LastName = dRow["LastName"].ToString();
+                DateOfBirth = dRow["DateOfBirth"].ToString();
+                WhereFrom = dRow["WhereFrom"].ToString();
+                CurrentHome = dRow["CurrentHome"].ToString();
+                PlayerComments = dRow["PlayerComments"].ToString();
+                CharacterCount++;
+            }
+            return dtCharacters;
+        }
+
+        /// <summary>
+        /// This will return a list of all Madrigal Character Skill
+        /// </summary>
+        public DataTable MadrigalCharacterSkillList()
+        {
+            CharacterSkillCount = 0;
+            int iTemp = 0;
+            string stStoredProc = "uspAdminMadrigalCharacterSkillList";
+            string stCallingMethod = "cAdminViews.MadrigalCharacterSkillList";
+            SortedList slParameters = new SortedList();
+            DataTable dtCharacterSkills = new DataTable();
+            DataSet dsCharacterSkills = new DataSet();
+            dtCharacterSkills = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Usename", stCallingMethod);
+            foreach (DataRow dRow in dtCharacterSkills.Rows)
+            {
+                if (int.TryParse(dRow["SkillTypeID"].ToString(), out iTemp))
+                    SkillTypeID = iTemp;
+                if (int.TryParse(dRow["SkillID"].ToString(), out iTemp))
+                    SkillID = iTemp;
+                CharacterAKA = dRow["CharacterAKA"].ToString();
+                FirstName = dRow["FirstName"].ToString();
+                LastName = dRow["LastName"].ToString();
+                World = dRow["World"].ToString();
+                DescriptorValue = dRow["DescriptorValue"].ToString();
+                SkillName = dRow["SkillName"].ToString();
+                AttributeDesc = dRow["AttributeDesc"].ToString();
+                OrderOrigin = dRow["OrderOrigin"].ToString();
+                TeamName = dRow["Team"].ToString();
+                CharacterSkillCount++;
+            }
+            return dtCharacterSkills;
+        }
+
     }
 }
 

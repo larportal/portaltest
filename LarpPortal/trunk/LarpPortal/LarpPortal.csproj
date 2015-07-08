@@ -182,10 +182,12 @@
     <Content Include="Account\OpenAuthProviders.ascx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
-    <Content Include="AdminDailyFifthGateCharacters.aspx" />
-    <Content Include="AdminDailyFifthGateCharacterSkills.aspx" />
-    <Content Include="AdminMaintenance.aspx" />
-    <Content Include="AdminViewLogins.aspx" />
+    <Content Include="Admin\AdminDailyFifthGateCharacters.aspx" />
+    <Content Include="Admin\AdminDailyFifthGateCharacterSkills.aspx" />
+    <Content Include="Admin\AdminDailyMadrigalCharacters.aspx" />
+    <Content Include="Admin\AdminDailyMadrigalCharacterSkills.aspx" />
+    <Content Include="Admin\AdminMaintenance.aspx" />
+    <Content Include="Admin\AdminViewLogins.aspx" />
     <Content Include="AllMessages.aspx" />
     <Content Include="bin\Antlr3.Runtime.dll" />
     <Content Include="bin\AspNet.ScriptManager.bootstrap.dll" />
@@ -234,8 +236,7 @@
     <Content Include="Character\CharUserDefined.aspx" />
     <Content Include="ContactUs.aspx" />
     <Content Include="General\FAQ.aspx" />
-    <Content Include="PELs\PELAppove.aspx" />
-    <Content Include="DevelopmentList.aspx" />
+    <Content Include="Admin\DevelopmentList.aspx" />
     <Content Include="ForgotPassword.aspx" />
     <Content Include="img\blank.gif" />
     <Content Include="img\checkbox.png" />
@@ -361,6 +362,7 @@
     <Content Include="PageUnderConstruction.aspx" />
     <Content Include="PasswordRequirements.aspx" />
     <Content Include="PELs\PELApprovalList.aspx" />
+    <Content Include="PELs\PELApprove.aspx" />
     <Content Include="PELs\PELEdit.aspx" />
     <Content Include="PELs\PELList.aspx" />
     <Content Include="PlayerResume.aspx" />
@@ -373,7 +375,7 @@
     <Content Include="RSVPMessages.aspx" />
     <Content Include="MemberSecurity.aspx" />
     <Content Include="img\ThisPageUnderConstruction.jpg" />
-    <Content Include="SystemErrors.aspx" />
+    <Content Include="Admin\SystemErrors.aspx" />
     <Content Include="TermsOfUse.aspx" />
     <Content Include="TestingResults.aspx" />
     <Content Include="ucUserCampaignsDropDownList.ascx" />
@@ -493,32 +495,46 @@
     <Compile Include="Account\RegisterExternalLogin.aspx.designer.cs">
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
-    <Compile Include="AdminDailyFifthGateCharacters.aspx.cs">
+    <Compile Include="Admin\AdminDailyFifthGateCharacters.aspx.cs">
       <DependentUpon>AdminDailyFifthGateCharacters.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AdminDailyFifthGateCharacters.aspx.designer.cs">
+    <Compile Include="Admin\AdminDailyFifthGateCharacters.aspx.designer.cs">
       <DependentUpon>AdminDailyFifthGateCharacters.aspx</DependentUpon>
     </Compile>
-    <Compile Include="AdminDailyFifthGateCharacterSkills.aspx.cs">
+    <Compile Include="Admin\AdminDailyFifthGateCharacterSkills.aspx.cs">
       <DependentUpon>AdminDailyFifthGateCharacterSkills.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AdminDailyFifthGateCharacterSkills.aspx.designer.cs">
+    <Compile Include="Admin\AdminDailyFifthGateCharacterSkills.aspx.designer.cs">
       <DependentUpon>AdminDailyFifthGateCharacterSkills.aspx</DependentUpon>
     </Compile>
-    <Compile Include="AdminMaintenance.aspx.cs">
+    <Compile Include="Admin\AdminDailyMadrigalCharacters.aspx.cs">
+      <DependentUpon>AdminDailyMadrigalCharacters.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminDailyMadrigalCharacters.aspx.designer.cs">
+      <DependentUpon>AdminDailyMadrigalCharacters.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminDailyMadrigalCharacterSkills.aspx.cs">
+      <DependentUpon>AdminDailyMadrigalCharacterSkills.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AdminDailyMadrigalCharacterSkills.aspx.designer.cs">
+      <DependentUpon>AdminDailyMadrigalCharacterSkills.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AdminMaintenance.aspx.cs">
       <DependentUpon>AdminMaintenance.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AdminMaintenance.aspx.designer.cs">
+    <Compile Include="Admin\AdminMaintenance.aspx.designer.cs">
       <DependentUpon>AdminMaintenance.aspx</DependentUpon>
     </Compile>
-    <Compile Include="AdminViewLogins.aspx.cs">
+    <Compile Include="Admin\AdminViewLogins.aspx.cs">
       <DependentUpon>AdminViewLogins.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="AdminViewLogins.aspx.designer.cs">
+    <Compile Include="Admin\AdminViewLogins.aspx.designer.cs">
       <DependentUpon>AdminViewLogins.aspx</DependentUpon>
     </Compile>
     <Compile Include="AllMessages.aspx.cs">
@@ -745,13 +761,6 @@
     <Compile Include="General\FAQ.aspx.designer.cs">
       <DependentUpon>FAQ.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PELs\PELAppove.aspx.cs">
-      <DependentUpon>PELAppove.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="PELs\PELAppove.aspx.designer.cs">
-      <DependentUpon>PELAppove.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -759,11 +768,11 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DevelopmentList.aspx.cs">
+    <Compile Include="Admin\DevelopmentList.aspx.cs">
       <DependentUpon>DevelopmentList.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="DevelopmentList.aspx.designer.cs">
+    <Compile Include="Admin\DevelopmentList.aspx.designer.cs">
       <DependentUpon>DevelopmentList.aspx</DependentUpon>
     </Compile>
     <Compile Include="ForgotPassword.aspx.cs">
@@ -959,6 +968,13 @@
     <Compile Include="PELs\PELApprovalList.aspx.designer.cs">
       <DependentUpon>PELApprovalList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PELs\PELApprove.aspx.cs">
+      <DependentUpon>PELApprove.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PELs\PELApprove.aspx.designer.cs">
+      <DependentUpon>PELApprove.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PELs\PELEdit.aspx.cs">
       <DependentUpon>PELEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1052,11 +1068,11 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="SystemErrors.aspx.cs">
+    <Compile Include="Admin\SystemErrors.aspx.cs">
       <DependentUpon>SystemErrors.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SystemErrors.aspx.designer.cs">
+    <Compile Include="Admin\SystemErrors.aspx.designer.cs">
       <DependentUpon>SystemErrors.aspx</DependentUpon>
     </Compile>
     <Compile Include="TermsOfUse.aspx.cs">

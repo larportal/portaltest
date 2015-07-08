@@ -34,6 +34,30 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Account/Web.config">
       <publishTime>05/19/2014 10:18:32</publishTime>
     </File>
+    <File Include="Admin/AdminDailyFifthGateCharacters.aspx">
+      <publishTime>04/26/2015 13:17:02</publishTime>
+    </File>
+    <File Include="Admin/AdminDailyFifthGateCharacterSkills.aspx">
+      <publishTime>04/26/2015 13:17:02</publishTime>
+    </File>
+    <File Include="Admin/AdminDailyMadrigalCharacters.aspx">
+      <publishTime>07/07/2015 20:16:06</publishTime>
+    </File>
+    <File Include="Admin/AdminDailyMadrigalCharacterSkills.aspx">
+      <publishTime>07/07/2015 20:16:06</publishTime>
+    </File>
+    <File Include="Admin/AdminMaintenance.aspx">
+      <publishTime>07/07/2015 20:20:46</publishTime>
+    </File>
+    <File Include="Admin/AdminViewLogins.aspx">
+      <publishTime>04/27/2015 07:00:31</publishTime>
+    </File>
+    <File Include="Admin/DevelopmentList.aspx">
+      <publishTime>06/28/2015 17:11:50</publishTime>
+    </File>
+    <File Include="Admin/SystemErrors.aspx">
+      <publishTime>06/14/2015 13:55:32</publishTime>
+    </File>
     <File Include="AdminDailyFifthGateCharacters.aspx">
       <publishTime>04/26/2015 13:17:02</publishTime>
     </File>
@@ -164,10 +188,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 21:15:46</publishTime>
     </File>
     <File Include="bin/LarpPortal.dll">
-      <publishTime>06/29/2015 07:25:13</publishTime>
+      <publishTime>07/08/2015 09:16:54</publishTime>
     </File>
     <File Include="bin/LarpPortal.pdb">
-      <publishTime>06/29/2015 07:25:12</publishTime>
+      <publishTime>07/08/2015 09:16:54</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>05/19/2014 20:54:36</publishTime>
@@ -420,6 +444,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="GameSystemTest2.aspx">
       <publishTime>10/11/2014 17:44:58</publishTime>
+    </File>
+    <File Include="General/FAQ.aspx">
+      <publishTime>07/07/2015 09:09:22</publishTime>
     </File>
     <File Include="Global.asax">
       <publishTime>05/19/2014 10:18:41</publishTime>
@@ -725,7 +752,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 20:25:39</publishTime>
     </File>
     <File Include="index.aspx">
-      <publishTime>06/22/2015 20:37:41</publishTime>
+      <publishTime>07/04/2015 11:01:48</publishTime>
     </File>
     <File Include="Inventory.aspx">
       <publishTime>01/03/2015 12:47:56</publishTime>
@@ -773,7 +800,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/25/2015 08:22:02</publishTime>
     </File>
     <File Include="MemberPointsView.aspx">
-      <publishTime>06/27/2015 16:48:15</publishTime>
+      <publishTime>07/06/2015 17:00:55</publishTime>
     </File>
     <File Include="MemberProfile.master">
       <publishTime>12/10/2014 21:18:06</publishTime>
@@ -815,10 +842,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/28/2015 17:11:49</publishTime>
     </File>
     <File Include="PELs/PELApprovalList.aspx">
-      <publishTime>06/28/2015 17:11:49</publishTime>
+      <publishTime>07/06/2015 19:54:21</publishTime>
+    </File>
+    <File Include="PELs/PELApprove.aspx">
+      <publishTime>07/07/2015 08:42:35</publishTime>
     </File>
     <File Include="PELs/PELEdit.aspx">
-      <publishTime>06/28/2015 17:11:49</publishTime>
+      <publishTime>07/06/2015 19:54:21</publishTime>
     </File>
     <File Include="PELs/PELList.aspx">
       <publishTime>06/28/2015 17:11:49</publishTime>
@@ -833,7 +863,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LARPortal.pubxml.user">
-      <publishTime>06/27/2015 20:44:34</publishTime>
+      <publishTime>07/07/2015 20:58:08</publishTime>
     </File>
     <File Include="PublicCalendar.aspx">
       <publishTime>12/10/2014 21:37:31</publishTime>
@@ -974,7 +1004,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/29/2015 07:25:37</publishTime>
+      <publishTime>07/08/2015 09:17:05</publishTime>
     </File>
     <File Include="WebForm1.aspx">
       <publishTime>12/02/2014 20:09:36</publishTime>
@@ -986,7 +1016,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:09:11</publishTime>
     </File>
     <File Include="WhatsNew.aspx">
-      <publishTime>06/27/2015 18:25:22</publishTime>
+      <publishTime>07/02/2015 06:08:25</publishTime>
     </File>
     <File Include="WhatsNewDetail.aspx">
       <publishTime>06/27/2015 20:38:18</publishTime>
