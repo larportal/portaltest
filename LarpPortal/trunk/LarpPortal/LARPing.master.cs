@@ -48,12 +48,15 @@ namespace LarpPortal
         {
             string LeftNavCode = "";
             string dq = "\"";
+            string stUsername = "Public";
+            if (Session["UserName"] != null)
+                stUsername = Session["UserName"].ToString();
             LeftNavCode = "&nbsp;FAQs:<br /><br /><ul class = " + dq + "nav nav-pills" + dq + " " + dq + "panel-wrapper list-unstyled scroll-500" + dq + ">";
             string stStoredProc = "uspGetFAQCategories";
             string stCallingMethod = "LARPing.master.cs.BuildFAQLeftNav";
             DataTable dtFAQCategories = new DataTable();
             SortedList sParams = new SortedList();
-            dtFAQCategories = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", Session["UserName"].ToString(), stCallingMethod);
+            dtFAQCategories = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", stUsername, stCallingMethod);
             foreach (DataRow dRow in dtFAQCategories.Rows)
             {
                 LeftNavCode = LeftNavCode + "<li runat=" + dq + "server" + dq + " id=" + dq + "liCategory" + dRow["FAQCategoryID"].ToString() +dq + "><a href=" + dq +

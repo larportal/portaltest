@@ -13,6 +13,15 @@ namespace LarpPortal {
     public partial class AdminMaintenance {
         
         /// <summary>
+        /// tblAdmin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table tblAdmin;
+        
+        /// <summary>
         /// hplViewLogins control.
         /// </summary>
         /// <remarks>
@@ -31,15 +40,6 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.HyperLink hplDailyFifthGateCharacters;
         
         /// <summary>
-        /// hplDailyFifthGateCharacterSkills control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink hplDailyFifthGateCharacterSkills;
-        
-        /// <summary>
         /// hlDisplaySystemErrors control.
         /// </summary>
         /// <remarks>
@@ -49,6 +49,15 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.HyperLink hlDisplaySystemErrors;
         
         /// <summary>
+        /// hplDailyFifthGateCharacterSkills control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hplDailyFifthGateCharacterSkills;
+        
+        /// <summary>
         /// hlDisplayDevoList control.
         /// </summary>
         /// <remarks>
@@ -56,5 +65,23 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink hlDisplayDevoList;
+        
+        /// <summary>
+        /// hplDailyMadrigalCharacters control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hplDailyMadrigalCharacters;
+        
+        /// <summary>
+        /// hplDailyMadrigalCharacterSkills control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hplDailyMadrigalCharacterSkills;
     }
 }

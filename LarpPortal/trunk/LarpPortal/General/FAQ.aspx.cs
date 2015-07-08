@@ -51,6 +51,9 @@ namespace LarpPortal.General
             string QuestionText = "";
             string AnswerText = "";
             int iTemp;
+            string stUserName = "Guest";
+            if (Session["UserName"] != null)
+                stUserName = Session["UserName"].ToString();
             TreeNode FAQQuestionNode;
             TreeNode FAQAnswerNode;
             tvFAQ.Nodes.Clear();
@@ -59,7 +62,7 @@ namespace LarpPortal.General
             DataTable dtFAQQuestions = new DataTable();
             SortedList sParams = new SortedList();
             sParams.Add("@FAQCategoryID", FAQCategoryID);
-            dtFAQQuestions = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", Session["UserName"].ToString(), stCallingMethod);
+            dtFAQQuestions = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", stUserName, stCallingMethod);
             foreach (DataRow dRow in dtFAQQuestions.Rows)
             {
                 if (int.TryParse(dRow["FAQID"].ToString(), out iTemp))
