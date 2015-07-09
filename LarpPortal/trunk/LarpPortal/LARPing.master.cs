@@ -44,26 +44,45 @@ namespace LarpPortal
             }
         }
 
-        private void BuildFAQLeftNav ()
+        private void BuildFAQLeftNav()
         {
-            string LeftNavCode = "";
             string dq = "\"";
-            string stUsername = "Public";
-            if (Session["UserName"] != null)
-                stUsername = Session["UserName"].ToString();
-            LeftNavCode = "&nbsp;FAQs:<br /><br /><ul class = " + dq + "nav nav-pills" + dq + " " + dq + "panel-wrapper list-unstyled scroll-500" + dq + ">";
-            string stStoredProc = "uspGetFAQCategories";
-            string stCallingMethod = "LARPing.master.cs.BuildFAQLeftNav";
-            DataTable dtFAQCategories = new DataTable();
-            SortedList sParams = new SortedList();
-            dtFAQCategories = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", stUsername, stCallingMethod);
-            foreach (DataRow dRow in dtFAQCategories.Rows)
+            lblLeftNav.Text = "&nbsp;FAQs:<br /><br /><ul class = " + dq + "nav nav-pills" + dq + " " + dq + "panel-wrapper list-unstyled scroll-500" + dq + "><li>1</li><li>2</li></ul>";
+            try
             {
-                LeftNavCode = LeftNavCode + "<li runat=" + dq + "server" + dq + " id=" + dq + "liCategory" + dRow["FAQCategoryID"].ToString() +dq + "><a href=" + dq +
-                    "FAQ.aspx?CategoryID=" + dRow["FAQCategoryID"].ToString() + "&CategoryName=" + dRow["CategoryName"] + dq + ">" + dRow["CategoryName"].ToString() + "</a></li>";
+                string LeftNavCode = "";
+
+                string stUsername = "Public";
+                if (Session["UserName"] != null)
+                    stUsername = Session["UserName"].ToString();
+                LeftNavCode = "&nbsp;FAQs:<br /><br /><ul class = " + dq + "nav nav-pills" + dq + " " + dq + "panel-wrapper list-unstyled scroll-500" + dq + ">";
+                string stStoredProc = "uspGetFAQCategories";
+                string stCallingMethod = "LARPing.master.cs.BuildFAQLeftNav";
+                DataTable dtFAQCategories = new DataTable();
+                SortedList sParams = new SortedList();
+                dtFAQCategories = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", stUsername, stCallingMethod);
+                if (dtFAQCategories.Rows.Count == 0)
+                {
+                    LeftNavCode = "<li></li>";
+                }
+                else
+                {
+                    foreach (DataRow dRow in dtFAQCategories.Rows)
+                    {
+                        LeftNavCode = LeftNavCode + "<li runat=" + dq + "server" + dq + " id=" + dq + "liCategory" + dRow["FAQCategoryID"].ToString() + dq + "><a href=" + dq +
+                            "FAQ.aspx?CategoryID=" + dRow["FAQCategoryID"].ToString() + "&CategoryName=" + dRow["CategoryName"] + dq + ">" + dRow["CategoryName"].ToString() + "</a></li>";
+                    }
+                }
+                LeftNavCode = LeftNavCode + "<ul>";
+                if (LeftNavCode != null)
+                    lblLeftNav.Text = LeftNavCode;
+                else
+                    lblLeftNav.Text = "";
             }
-            LeftNavCode = LeftNavCode + "<ul>";
-            lblLeftNav.Text = LeftNavCode;
+            catch (Exception ex)
+            {
+                
+            }
         }
 
     }

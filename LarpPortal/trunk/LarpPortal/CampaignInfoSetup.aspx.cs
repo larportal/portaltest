@@ -42,7 +42,7 @@ namespace LarpPortal
             }
             else
             {
-                CampaignID = ((int)Session["CampaignID"]);
+                int.TryParse(Session["CampaignID"].ToString(), out CampaignID);
             }
             if (Session["UserID"] != null)
                 UserID = ((int)Session["UserID"]);
