@@ -22,6 +22,8 @@ namespace LarpPortal
                 Session["ActiveLeftNav"] = "CampaignInfoSetup";
                 if (Session["CampaignName"] != null)
                     lblTopCampaignName.Text = Session["CampaignName"].ToString();
+                else
+                    lblTopCampaignName.Text = "";
             }
             int CampaignID;
             string UserName;
@@ -31,8 +33,6 @@ namespace LarpPortal
             else
             {
                 UserName = "";
-                //If we have a null Username here should we assume all is FUBAR and redirect to login?
-                //TODO-Rick-01 Write an error record to an audit log if we reach this
                 Response.Redirect("~/index.aspx");
             }
             if (Session["CampaignID"] == null)
@@ -42,10 +42,11 @@ namespace LarpPortal
             }
             else
             {
-                CampaignID = ((int)Session["CampaignID"]);
+                int.TryParse(Session["CampaignID"].ToString(), out CampaignID);
             }
             if (Session["UserID"] != null)
-                UserID = ((int)Session["UserID"]);
+                int.TryParse(Session["UserID"].ToString(), out UserID);
+                //UserID = ((int)Session["UserID"]);
             else
             {
                 UserID = 0;
