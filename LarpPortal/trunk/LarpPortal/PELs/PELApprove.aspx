@@ -81,6 +81,7 @@
                                                         <ItemTemplate>
                                                             <tr style="vertical-align: top;" class="panel-body panel-container search-criteria" >
                                                                 <td class="LeftRightPadding" style="padding-bottom: 5px;"><asp:Image runat="server" Width="50" Height="50" ImageUrl='<%# Eval("UserPhoto") %>' /></td>
+                                                                <td class="LeftRightPadding" style="padding-bottom: 5px;"><asp:Label runat="server" Text='<%# Eval("UserName") %>' Font-Bold="true" /></td>
                                                                 <td class="LeftRightPadding" style="padding-bottom: 5px;"><asp:Label runat="server" Text='<%# Eval("DateAdded") %>' /></td>
                                                                 <td class="LeftRightPadding" style="padding-bottom: 5px;"><asp:Label runat="server" Text='<%# Eval("StaffComments") %>' /></td>
                                                             </tr>

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.IO;
 using System.Reflection;
 using System.Web;
 using System.Web.UI;
@@ -223,14 +224,16 @@ namespace LarpPortal.PELs
 
                         Classes.cPlayer PLDemography = new Classes.cPlayer(uID, uName);
                         string pict = PLDemography.UserPhoto;
-                        if (pict == "")
-                        {
-                            imgPlayerImage.ImageUrl = "http://placehold.it/150x150";
-                        }
-                        else
-                        {
+                        imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
+
+                        //if (pict == "")
+                        //{
+                        //    imgPlayerImage.ImageUrl = "http://placehold.it/150x150";
+                        //}
+                        //else
+                        //{
                             imgPlayerImage.ImageUrl = pict;
-                        }
+                        //}
                     }
 
                     Button btnAddComment = (Button)e.Item.FindControl("btnAddComment");
@@ -314,8 +317,18 @@ namespace LarpPortal.PELs
         protected void GetComments(string sAnswerID, DataList dlComments)
         {
             foreach (DataRow dRow in _dtPELComments.Rows)
-                if (!dRow["UserPhoto"].ToString().ToUpper().Contains("/IMG/P"))
-                    dRow["UserPhoto"] = dRow["UserPhoto"].ToString() + "/IMG/PLAYER/";
+            {
+                string sProfileFileName = HttpContext.Current.Request.PhysicalApplicationPath + dRow["UserPhoto"].ToString();
+                sProfileFileName = sProfileFileName.Replace("~/img/Player/", "img\\Player\\");
+//                sProfileFileName = sProfileFileName.Replace("~/img/Player/", @"\\");
+
+                //if ((dRow["UserPhoto"].ToString().ToUpper().Contains("/IMG/P")) && (dRow["UserPhoto"].ToString().Length > 0))
+                //    dRow["UserPhoto"] = dRow["UserPhoto"].ToString() + "/IMG/PLAYER/";
+                if (!File.Exists(sProfileFileName))
+                    dRow["UserPhoto"] = "/img/BlankProfile.png";
+            }
+                //if ((!dRow["UserPhoto"].ToString().ToUpper().Contains("/IMG/P")) && (dRow["UserPhoto"].ToString().Length > 0))
+                //    dRow["UserPhoto"] = dRow["UserPhoto"].ToString() + "/IMG/PLAYER/";
 
             DataView dvComments = new DataView(_dtPELComments, "PELAnswerID = '" + sAnswerID + "'", "DateAdded desc", DataViewRowState.CurrentRows);
             dlComments.DataSource = dvComments;

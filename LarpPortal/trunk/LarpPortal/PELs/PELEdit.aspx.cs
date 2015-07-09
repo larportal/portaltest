@@ -50,7 +50,7 @@ namespace LarpPortal.PELs
                         Classes.cCharacter cChar = new Classes.cCharacter();
                         cChar.LoadCharacter(iCharacterID);
                         imgPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
-                        imgPicture.Attributes["onerror"] = "this.src='http://larportal.com/img/blank.gif';";
+                        imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
                     }
 
                     lblEventInfo.Text = sEventInfo;
