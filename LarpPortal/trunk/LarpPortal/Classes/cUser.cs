@@ -39,6 +39,7 @@ namespace LarpPortal.Classes
         //private cUserCampaign _UserCampaign;
         private List<cUserCampaign> _UserCampaigns = new List<cUserCampaign>();
         private int _LastLoggedInCampaign = 0;
+        private int _LastLoggedInCharacter = 0;
         private Int32 _XRefNumber = -1;
         private string _Comments = "";
         private DateTime _DateAdded;
@@ -70,6 +71,14 @@ namespace LarpPortal.Classes
             get { return _LastLoggedInCampaign; }
             set { _LastLoggedInCampaign = value; }
         }
+        public int LastLoggedInCharacter            // JLB 7/11/2015 Added to save the last character that was saved.
+        {
+            get { return _LastLoggedInCharacter; }
+            set { _LastLoggedInCharacter = value; }
+        }
+
+
+
         public Int32 XRefNumber
         {
             get { return _XRefNumber; }
@@ -244,6 +253,9 @@ namespace LarpPortal.Classes
 		            _DeliveryPreferenceID = ldt.Rows[0]["DeliveryPreferenceID"].ToString().ToInt32();
 		            _LastLoggedInLocation = ldt.Rows[0]["LastLoggedInLocation"].ToString();
                     _LastLoggedInCampaign = ldt.Rows[0]["LastLoggedInCampaign"].ToString().ToInt32();
+
+                    _LastLoggedInCharacter = ldt.Rows[0]["LastLoggedInCharacter"].ToString().ToInt32();
+
 		            _XRefNumber = ldt.Rows[0]["XRefNumber"].ToString().ToInt32();
 		            _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
                     _DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
@@ -378,6 +390,7 @@ namespace LarpPortal.Classes
                 //if (_LastLoggedInCampaign == null)
                 //    _LastLoggedInCampaign = 0;
                 slParams.Add("@LastLoggedInCampaign", _LastLoggedInCampaign);
+                slParams.Add("@LastLoggedInCharacter", _LastLoggedInCharacter);     //JLB 07/11/2015 Save the last character selected.
                 slParams.Add("@XRefNumber", _XRefNumber);
                 slParams.Add("@Comments", _Comments);
                 slParams.Add("@LogonPassword", _LoginPassword);
