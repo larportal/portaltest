@@ -35,6 +35,16 @@ namespace LarpPortal.Character
                 ddlCharacterSelector.DataSource = dtCharacters;
                 ddlCharacterSelector.DataBind();
 
+                if (Session["SelectedCharacter"] == null)
+                {
+                    if (dtCharacters.Rows.Count > 0)
+                    {
+                        int iCharacterID = 0;
+                        if (int.TryParse(dtCharacters.Rows[0]["LastLoggedInCharacter"].ToString(), out iCharacterID))
+                            Session["SelectedCharacter"] = iCharacterID;
+                    }
+                }
+
                 if (ddlCharacterSelector.Items.Count > 0)
                 {
                     ddlCharacterSelector.ClearSelection();
@@ -59,11 +69,6 @@ namespace LarpPortal.Character
                             else
                                 liAvailableUser.Selected = false;
                         }
-                    }
-                    else
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
                     }
 
                     if (ddlCharacterSelector.SelectedIndex == 0)
@@ -464,12 +469,18 @@ namespace LarpPortal.Character
             if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
             {
                 Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
+
+                // Save the character so it will be the last logged in character.
+                int iLoggedInChar = 0;
+                if (int.TryParse(ddlCharacterSelector.SelectedValue, out iLoggedInChar))
+                {
+                    Classes.cUser UserInfo = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCharacter = iLoggedInChar;
+                    UserInfo.Save();
+                }
+
                 Response.Redirect("CharInfo.aspx");
             }
         }
-
-
-
-
     }
 }
