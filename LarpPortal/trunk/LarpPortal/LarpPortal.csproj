@@ -229,6 +229,7 @@
     <Content Include="Character\CharSkills.aspx" />
     <Content Include="Character\CharUserDefined.aspx" />
     <Content Include="ContactUs.aspx" />
+    <Content Include="Events\Events.aspx" />
     <Content Include="General\FAQ.aspx" />
     <Content Include="Admin\DevelopmentList.aspx" />
     <Content Include="ForgotPassword.aspx" />
@@ -360,12 +361,14 @@
     <Content Include="PELs\PELEdit.aspx" />
     <Content Include="PELs\PELList.aspx" />
     <Content Include="PlayerResume.aspx" />
+    <Content Include="Points\PointsAssign.aspx" />
     <Content Include="Preferences.aspx" />
     <Content Include="Properties\PublishProfiles\LARPortal.pubxml.user">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="PublicCalendar.aspx" />
     <Content Include="PublicCampaigns.aspx" />
+    <Content Include="Roles\Roles.aspx" />
     <Content Include="RSVPMessages.aspx" />
     <Content Include="MemberSecurity.aspx" />
     <Content Include="img\ThisPageUnderConstruction.jpg" />
@@ -748,6 +751,13 @@
     <Compile Include="ContactUs.aspx.designer.cs">
       <DependentUpon>ContactUs.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Events\Events.aspx.cs">
+      <DependentUpon>Events.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\Events.aspx.designer.cs">
+      <DependentUpon>Events.aspx</DependentUpon>
+    </Compile>
     <Compile Include="General\FAQ.aspx.cs">
       <DependentUpon>FAQ.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -997,6 +1007,13 @@
     <Compile Include="PlayerRoleTest.aspx.designer.cs">
       <DependentUpon>PlayerRoleTest.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Points\PointsAssign.aspx.cs">
+      <DependentUpon>PointsAssign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Points\PointsAssign.aspx.designer.cs">
+      <DependentUpon>PointsAssign.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Preferences.aspx.cs">
       <DependentUpon>Preferences.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1032,6 +1049,13 @@
     </Compile>
     <Compile Include="PublicCampaigns.master.designer.cs">
       <DependentUpon>PublicCampaigns.master</DependentUpon>
+    </Compile>
+    <Compile Include="Roles\Roles.aspx.cs">
+      <DependentUpon>Roles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Roles\Roles.aspx.designer.cs">
+      <DependentUpon>Roles.aspx</DependentUpon>
     </Compile>
     <Compile Include="RSVPMessages.aspx.cs">
       <DependentUpon>RSVPMessages.aspx</DependentUpon>
@@ -1149,7 +1173,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Calendar\" />
+    <Folder Include="Inventory\" />
     <Folder Include="Reports\" />
+    <Folder Include="Rules\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

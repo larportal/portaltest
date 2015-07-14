@@ -5,19 +5,8 @@
         <section id="campaign-info" class="campaign-info tab-pane active">
             <div role="form" class="form-horizontal form-condensed">
                 <div class="col-sm-12">
-                    <h1 class="col-sm-6">Campaign Information -
-                        <asp:Label ID="lblTopCampaignName" runat="server"></asp:Label>
-                        <asp:Label ID="lblWIP" runat="server"></asp:Label></h1>
-<%--                    <div class="panel-wrapper">
-                        <div class="uploadFile col-sm-4">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Browse to add photo">
-                                <span class="input-group-btn">
-                                    <span class="btn btn-default btn-sm btnFile">Browse<input type="file" multiple></span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>--%>
+                    <h4 class="col-sm-6">Campaign Information -
+                        <asp:Label ID="lblTopCampaignName" runat="server"></asp:Label></h4>
                 </div>
                 <div class="col-sm-12">
                     <div class="col-sm-6">

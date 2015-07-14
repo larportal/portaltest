@@ -1,15 +1,16 @@
-﻿using System;
+﻿using LarpPortal.Classes;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using LarpPortal.Classes;
-using System.Data;
-using System.Reflection;
-using System.Collections;
-using System.Configuration;
-using System.Data.SqlClient;
 
 namespace LarpPortal
 {
@@ -18,551 +19,46 @@ namespace LarpPortal
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["ActiveTopNav"] = "Campaigns";
-            //BruteForceLeftNav(); //This one brute forces the build of the left nav (more or less)
-            //BuildLeftNav(); // This one builds the left nav through code
-        }
+            string PageName = Path.GetFileName(Request.PhysicalPath).ToUpper();
+            if (PageName.Contains("CAMPAIGNINFO"))
+                Session["ActiveLeftNav"] = "CampaignInfo";
+            else if (PageName.Contains("RULESVIEW"))
+                Session["ActiveLeftNav"] = "Rules";
+            else if (PageName.Contains("CALENDAR"))
+                Session["ActiveLeftNav"] = "Calendar";
+            else if (PageName.Contains("EVENTS"))
+                Session["ActiveLeftNav"] = "Events";
+            else if (PageName.Contains("CAMPAIGNCHARACTER"))
+                Session["ActiveLeftNav"] = "CampaignCharacter";
+            else if (PageName.Contains("ROLES"))
+                Session["ActiveLeftNav"] = "Roles";
+            else if (PageName.Contains("POINTS"))
+                Session["ActiveLeftNav"] = "Points";
+            else if (PageName.Contains("PEL"))
+                Session["ActiveLeftNav"] = "PEL";
+            else if (PageName.Contains("INVENTORY"))
+                Session["ActiveLeftNav"] = "Inventory";
 
-        private void BruteForceLeftNav()
-        {
-            string hrefline;
-            string DoubleQuote = "\"";
-            string ActiveState;
-            int liLinesNeeded = 39;
-            DataTable LeftNavTable = new DataTable();
-            LeftNavTable.Columns.Add("href_li");
-            for (int i = 0; i <= liLinesNeeded; i++)
-            {
-                ActiveState = ">";
-                //build on case of i
-                switch (i)
-                {
-                    case 0:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignInfoSetup")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        hrefline = "<li" + ActiveState + "<label class=" + DoubleQuote + "tree-toggle" + DoubleQuote + "><a href=" + DoubleQuote + "><a href=" +
-                            DoubleQuote + "PageUnderConstruction.aspx" + DoubleQuote + ">Campaign Info</a></label><ul>";
-                        //<li class="active"><label class="tree-toggle"><a href="lblCampaignInfoSetup" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Campaign Info<span class="caret"></span></a></label><ul class="tree nav nav-pills>
-
-                        break;
-                    case 1:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupInfo")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li class="active"><label class="tree-toggle"><a href="lblCampaignInfoSetup" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Campaign Info<span class="caret"></span></a></label><ul class="tree nav nav-pills>
-                        hrefline = "<li class=" + DoubleQuote + "<label class=" + DoubleQuote + "tree-toggle=" + DoubleQuote + "><a href=" + DoubleQuote + "";
-                        break;
-                    case 2:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupPeople")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Set Up: Campaign Info</a></li>
-                        hrefline = "";
-                        break;
-                    case 3:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupPeople")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Set Up: Campaign People</a></li>
-                        hrefline = "";
-                        break;
-                    case 4:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupRules")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Set Up: Campaign Places</a></li>
-                        hrefline = "";
-                        break;
-                    case 5:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupRulesIndex")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Set Up: Campaign Rules</a></li>
-                        hrefline = "";
-                        break;
-                    case 6:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignMessages")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Set Up: Campaign Rules Index</a></li></ul></li>
-                        hrefline = "";
-                        break;
-                    case 7:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignMessagesView")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><label class="tree-toggle"><a href="lblCampaignMessages" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Campaign Messages<span class="caret"></span></a></label><ul class="tree nav nav-pills>
-                        hrefline = "";
-                        break;
-                    case 8:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignMessagesSend")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">View Previous</a></li>
-                        hrefline = "";
-                        break;
-                    case 9:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignMessagesPreviewScheduled")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Send New</a></li>
-                        hrefline = "";
-                        break;
-                    case 10:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCalendar")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Preview Scheduled</a></li></ul></li>
-                        hrefline = "";
-                        break;
-                    case 11:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetup")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><label class="tree-toggle"><a href="lblCampaignEventSetup" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Events<span class="caret"></span></a></label><ul class="tree nav nav-pills>
-                        hrefline = "";
-                        break;
-                    case 12:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetupPlanning")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><label class="tree-toggle"><a href="lblCampaignEventSetup" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Calendar</a></label></li>
-                        hrefline = "";
-                        break;
-                    case 13:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetupDefaults")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Planning</a></li>
-                        hrefline = "";
-                        break;
-                    case 14:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetupMarketing")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Defaults</a></li>
-                        hrefline = "";
-                        break;
-                    case 15:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetupFoodOptions")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Marketing</a></li>
-                        hrefline = "";
-                        break;
-                    case 16:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventHousing")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Food Options</a></li>
-                        hrefline = "";
-                        break;
-                    case 17:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventPayments")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Assign Housing</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 18:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventCheckIn")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Record Payments</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 19:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventDonations")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Check-In</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 20:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventCheckOut")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Accept Donations</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 21:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacters")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Approve Check-Out</a></li></ul></li>
-
-                        hrefline = "";
-                        break;
-                    case 22:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersNPCInfo")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><label class="tree-toggle"><a href="lblCampaignCharacters" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Characters<span class="caret"></span></a></label><ul class="tree nav nav-pills>
-
-                        hrefline = "";
-                        break;
-                    case 23:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersNPCItems")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">NPC Info</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 24:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersNPCHistory")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">NPC Items</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 25:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersSetupTraitsAndAttributes")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">NPC History</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 26:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersSetupSkillHeadersAndTypes")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Traits & Attributes</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 27:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersSetupSkills")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Skill Headers & Types</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 28:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignRoles")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Skills</a></li></ul></li>
-
-                        hrefline = "";
-                        break;
-                    case 29:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignRolesAssign")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><label class="tree-toggle"><a href="lblCampaignRoles" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Roles<span class="caret"></span></a></label><ul class="tree nav nav-pills>
-
-                        hrefline = "";
-                        break;
-                    case 30:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignRolesSetup")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Assign Roles</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 31:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPoints")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Roles</a></li></ul></li>
-
-                        hrefline = "";
-                        break;
-                    case 32:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPointsSetupStandard")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><label class="tree-toggle"><a href="lblCampaignCharacterBuildPoints" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Character Build Points<span class="caret"></span></a></label><ul class="tree nav nav-pills>
-
-                        hrefline = "";
-                        break;
-                    case 33:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPointsSetupOther")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Standard Points</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 34:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPointsAssign")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Setup Other Points</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 35:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPointsAccept")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        //<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Assign Points</a></li>
-
-                        hrefline = "";
-                        break;
-                    case 36:
-                        if (Session["ActiveLeftNav"].ToString() == "PELSetup")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-
-                        // <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Accept Points</a></li></ul></li>
-
-                        hrefline = "";
-                        break;
-                    case 37:
-                        if (Session["ActiveLeftNav"].ToString() == "InventoryProps")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        // <li><label class="tree-toggle"><a href="lblInventoryProps" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Inventory/Props<span class="caret"></span></a></label></li>
-                        hrefline = "";
-                        break;
-                    case 38:
-                        if (Session["ActiveLeftNav"].ToString() == "SiteLocationUse")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //<li><label class="tree-toggle"><a href="lblSiteLocationUse" data-toggle="pill"><a href="PageUnderConstruction.aspx" data-toggle="pill">Site Location Use Setup<span class="caret"></span></a></label></li>
-                        hrefline = "";
-                        break;
-
-                        //hrefline = Text1 + ActiveState + TreeToggle + Text2 + PageName + Text3 + LineText + SpanClass + Text4 + LineEnd;
-                        // Next three lines should be uncommented?  They're currently unreachable so commented out to get rid of the warning
-                        //DataRow LeftNavRow = LeftNavTable.NewRow();
-                        //LeftNavRow["href_li"] = hrefline;
-                        //LeftNavTable.Rows.Add(LeftNavRow);
-
-                    // TODO-Rick-2 Uncomment the next two lines when running the section after turning the left nav menu into code driven
-                    //menu_ul_membercampaignsadmin.DataSource = LeftNavTable;
-                    //menu_ul_membercampaignsadmin.DataBind();
-                }
-            }
+            BuildLeftNav(); // This one builds the left nav through code
         }
 
         private void BuildLeftNav()
         {
+            // Session["PlayerRoleString"] formatted as CampaignID:/RoleID/RoleID/RoleID/ where CampaignID should be the currently selected CampaignID and RoleID is all the RoleIDs the player has for that campaign.
+            // Campaign and roles can be extracted as substrings
+            // For example 33:/7/8/ would be Campaign 33 (Fifth Gate) with Roles 7 (Event NPC) and 8 (PC)
+
+            string ActiveNav;
+            if (Session["ActiveLeftNav"] != null)
+                ActiveNav = Session["ActiveLeftNav"].ToString();
+            else
+                ActiveNav = "CampaignInfo";  // Set default
+            string PlayerRoles = "";
+            if (Session["PlayerRoleString"] != null)
+                PlayerRoles = Session["PlayerRoleString"].ToString();
             // Load My Campaigns selection
             string hrefline;
+            string hreflinecumulative = "";
             // Constant values
             string DoubleQuote = "\"";
             string Text1 = "<li";
@@ -585,7 +81,8 @@ namespace LarpPortal
             string LineEnd2;    // Value for LineEnd for middle level choices
             string LineEnd3;    // Value for LineEnd for bottom level choices
             string LineEnd4;    // Value for choices with no indent
-            int liLinesNeeded = 38; // REPLACE WITH NUMBER OF MENU ITEMS NEEDED (base 0 base) - Controls left nav behavior
+            int liLinesNeeded = 53; // REPLACE WITH NUMBER OF MENU ITEMS NEEDED (base 0 base) - Controls left nav behavior
+            bool SkipLine = false;
             DataTable LeftNavTable = new DataTable();
             LeftNavTable.Columns.Add("href_li");
             ActiveState = ">";
@@ -599,9 +96,9 @@ namespace LarpPortal
             SC1 = "<span class=" + DoubleQuote + "caret" + DoubleQuote + "></span><";
             SC2 = "<";
             LineEnd = "";
-            LineEnd1 = "</label><ul class=" + DoubleQuote + "tree nav nav-pills>";
+            LineEnd1 = "</li>"; // "</label><ul class=" + DoubleQuote + "tree nav nav-pills>";
             LineEnd2 = "</li>";
-            LineEnd3 = "</li></ul></li>";
+            LineEnd3 = "</li>"; // "</li></ul></li>";
             LineEnd4 = "</label></li>";
             for (int i = 0; i <= liLinesNeeded; i++)
             {
@@ -610,7 +107,7 @@ namespace LarpPortal
                 switch (i)
                 {
                     case 0:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignInfoSetup")
+                        if (PageName == "CAMPAIGNINFO")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -618,91 +115,116 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        TreeToggle = Toggle1a + "lblCampaignInfoSetup" + Toggle1b;
+                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignInfoSetup" + Toggle1b;
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
                         //PageName = "CampaignSetupInfo.aspx";
-                        PageName = "PageUnderConstruction.aspx";
+                        PageName = "/CampaignInfo.aspx";
                         LineText = "Campaign Info";
                         break;
                     case 1:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupInfo")
+                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Set Up: Campaign Info";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Set Up: Campaign Info";
+                            SkipLine = true;
                         break;
                     case 2:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupPeople")
+                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPIAGNINFOSUPEOPLE")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Set Up: Campaign People";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Set Up: Campaign People";
+                            SkipLine = true;
                         break;
 
                     case 3:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupPeople")
+                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNINFOSUPLACES")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Set Up: Campaign Places";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Set Up: Campaign Places";
+                            SkipLine = true;
                         break;
                     case 4:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupRules")
+                        if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNINFOSURULES")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Set Up: Campaign Rules";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Set Up: Campaign Rules";
+                            SkipLine = true;
                         break;
                     case 5:
-                        if (Session["ActiveLeftNav"].ToString() == "SetupRulesIndex")
+                        if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
                         {
-                            // ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNINFOSURULESINDEX")
+                            {
+                                // ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd3;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Set Up: Campaign Rules Index";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd3;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Set Up: Campaign Rules Index";
+                            SkipLine = true;
                         break;
                     case 6:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignMessages")
+                        if (PageName == "CAMPAIGNMESSAGES" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -710,60 +232,79 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        TreeToggle = Toggle1a + "lblCampaignMessages" + Toggle1b;
+                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignMessages" + Toggle1b;
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
-                        PageName = "PageUnderConstruction.aspx";
+                        PageName = "/PageUnderConstruction.aspx";
                         LineText = "Campaign Messages";
                         break;
                     case 7:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignMessagesView")
+                        if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/4/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNMESSAGESVIEWPREV")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - View Previous";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "View Previous";
+                            SkipLine = true;
                         break;
                     case 8:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignMessagesSend")
+                        if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNMESSAGESSENDNEW")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Send New";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Send New";
+                            SkipLine = true;
                         break;
                     case 9:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignMessagesPreviewScheduled")
+                        if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNMESSAGESPREVSCHEDULED")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd3;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Preview Scheduled";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd3;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Preview Scheduled";
+                            SkipLine = true;
                         break;
-                    case 10:
+
+                    //Missing 10
+                    //Missing 11
+
+                    case 12:
                         //This one is just a link?
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCalendar")
+                        if (PageName == "CALENDARVIEW")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -771,14 +312,19 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        TreeToggle = Toggle1a + "lblCampaignEventSetup" + Toggle1b;
+                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
                         SpanClass = SC2;
                         LineEnd = LineEnd4;
-                        PageName = "PageUnderConstruction.aspx";
+                        PageName = "/PageUnderConstruction.aspx";
                         LineText = "Calendar";
                         break;
-                    case 11:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetup")
+
+                    //Missing 13
+                    //Missing 14
+                    //Missing 15
+
+                    case 16:
+                        if (PageName == "EVENTS")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -786,272 +332,203 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        TreeToggle = Toggle1a + "lblCampaignEventSetup" + Toggle1b;
+                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
-                        PageName = "PageUnderConstruction.aspx";
+                        PageName = "/PageUnderConstruction.aspx";
+                        //PageName = "/Events/Events.aspx";
                         LineText = "Events";
                         break;
-                    case 12:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetupPlanning")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Planning";
-                        break;
-                    case 13:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetupDefaults")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Defaults";
-                        break;
 
-                    case 14:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetupMarketing")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Marketing";
-                        break;
-                    case 15:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventSetupFoodOptions")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Food Options";
-                        break;
-                    case 16:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventHousing")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Assign Housing";
-                        break;
-                    case 17:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventPayments")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Record Payments";
-                        break;
-                    case 18:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventCheckIn")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Check-In";
-                        break;
+                    //Missing 17
+                    //Missing 18
+
                     case 19:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventDonations")
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/2/") || PlayerRoles.Contains("/28/")))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "EVENTSSUPLANNING")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Planning";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Accept Donations";
+                            SkipLine = true;
                         break;
                     case 20:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignEventCheckOut")
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/2/") || PlayerRoles.Contains("/28/")))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "EVENTSSUDEFAULTS")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Defaults";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd3;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Approve Check-Out";
-                        LineEnd = LineEnd3;
+                            SkipLine = true;
                         break;
-                    case 21:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacters")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle1a + "lblCampaignCharacters" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd1;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Characters";
-                        break;
+
+                    //Missing 21
+
                     case 22:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersNPCInfo")
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/2/") || PlayerRoles.Contains("/28/")))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "EVENTSSUMARKETING")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Marketing";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "NPC Info";
+                            SkipLine = true;
                         break;
                     case 23:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersNPCItems")
+                        if (ActiveNav == "Events" && PlayerRoles.Contains("/33/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "EVENTSSUFOODOPTIONS")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Food Options";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "NPC Items";
+                            SkipLine = true;
                         break;
                     case 24:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersNPCHistory")
+                        if (ActiveNav == "Events" && PlayerRoles.Contains("/11/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "EVENTSASSIGNHOUSING")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Assign Housing";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "NPC History";
+                            SkipLine = true;
                         break;
                     case 25:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersSetupTraitsAndAttributes")
+                        if (ActiveNav == "Events" && PlayerRoles.Contains("/22/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "EVENTSRECORDPAYMENTS")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Record Payments";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Traits & Attributes";
+                            SkipLine = true;
                         break;
                     case 26:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersSetupSkillHeadersAndTypes")
+                        if (ActiveNav == "Events" && PlayerRoles.Contains("/16/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "EVENTSCHECKIN")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Check-In";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Skill Headers & Types";
+                            SkipLine = true;
                         break;
                     case 27:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharactersSetupSkills")
+                        if (ActiveNav == "Events" && PlayerRoles.Contains("/34/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "EVENTSACCEPTDONATIONS")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Accept Donations";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd3;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Skills";
-                        LineEnd = LineEnd3;
+                            SkipLine = true;
                         break;
                     case 28:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignRoles")
+                        if (ActiveNav == "Events" && PlayerRoles.Contains("/35/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "EVENTSCHECKOUT")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd3;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Approve Check-Out";
+                            LineEnd = LineEnd3;
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle1a + "lblCampaignRoles" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd1;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Roles";
+                            SkipLine = true;
                         break;
                     case 29:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignRolesAssign")
+                        if (PageName == "CAMPAIGNCHARACTERS" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/5/") || PlayerRoles.Contains("/20/")))
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -1059,121 +536,136 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Assign Roles";
-                        break;
-                    case 30:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignRolesSetup")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd3;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Roles";
-                        LineEnd = LineEnd3;
-                        break;
-                    case 31:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPoints")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle1a + "lblCampaignCharacterBuildPoints" + Toggle1b;
+                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignCharacters" + Toggle1b;
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Character Build Points";
+                        PageName = "/PageUnderConstruction.aspx";
+                        LineText = "Characters";
+                        break;
+                    case 30:
+                        if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
+                        {
+                            if (PageName == "CAMPAIGNCHARACTERINFO")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - NPC Info";
+                        }
+                        else
+                            SkipLine = true;
+                        break;
+                    case 31:
+                        if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
+                        {
+                            if (PageName == "CAMPAIGNCHARACTERITEMS")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - NPC Items";
+                        }
+                        else
+                            SkipLine = true;
                         break;
                     case 32:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPointsSetupStandard")
+                        if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNCHARACTERHISTORY")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - NPC History";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Standard Points";
+                            SkipLine = true;
                         break;
-                    case 33:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPointsSetupOther")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Setup Other Points";
-                        break;
+                    //Missing 33
                     case 34:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPointsAssign")
+                        if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNCHARACTERSUTRAITS")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Traits & Attributes";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd2;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Assign Points";
+                            SkipLine = true;
                         break;
                     case 35:
-                        if (Session["ActiveLeftNav"].ToString() == "CampaignCharacterBuildPointsAccept")
+                        if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNCHARACTERSUSKILLTYPES")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Skill Headers & Types";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd3;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Accept Points";
+                            SkipLine = true;
                         break;
                     case 36:
-                        if (Session["ActiveLeftNav"].ToString() == "PELSetup")
+                        if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "CAMPAIGNCHARACTERSUSKILLS")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd3;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Skills";
+                            LineEnd = LineEnd3;
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle1a + "PELSetup" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd4;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "PEL";
+                            SkipLine = true;
                         break;
                     case 37:
-                        //Just a link?
-                        if (Session["ActiveLeftNav"].ToString() == "InventoryProps")
+                        if (PageName == "ROLES")
                         {
                             ActiveState = " class=\"active\">";
                         }
@@ -1181,38 +673,285 @@ namespace LarpPortal
                         {
                             ActiveState = ">";
                         }
-                        TreeToggle = Toggle1a + "lblInventoryProps" + Toggle1b;
+                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignRoles" + Toggle1b;
+                        SpanClass = SC1;
+                        LineEnd = LineEnd1;
+                        PageName = "/PageUnderConstruction.aspx";
+                        //PageName = "/Roles/Roles.aspx";
+                        LineText = "Roles";
+                        break;
+                    //Missing 38
+                    case 39:
+                        if (ActiveNav == "Roles" && PlayerRoles.Contains("/21/"))
+                        {
+                            if (PageName == "ROLESASSIGNROLES")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Assign Roles";
+                        }
+                        else
+                            SkipLine = true;
+                        break;
+                    case 40:
+                        if (ActiveNav == "Roles" && PlayerRoles.Contains("/1/"))
+                        {
+                            if (PageName == "ROLESSUROLES")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd3;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Roles";
+                            LineEnd = LineEnd3;
+                        }
+                        else
+                            SkipLine = true;
+                        break;
+                    case 41:
+                        if (PageName == "POINTS" && (PlayerRoles.Contains("/34/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/35/")))
+                        {
+                            ActiveState = " class=\"active\">";
+                        }
+                        else
+                        {
+                            ActiveState = ">";
+                        }
+                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignCharacterBuildPoints" + Toggle1b;
+                        SpanClass = SC1;
+                        LineEnd = LineEnd1;
+                        PageName = "/PageUnderConstruction.aspx";
+                        PageName = "/Points/PointsAssign.aspx";
+                        LineText = "Character Build Points";
+                        break;
+                    case 42:
+                        if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
+                        {
+                            if (PageName == "POINTSSUSTANDARDS")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Standard Points";
+                        }
+                        else
+                            SkipLine = true;
+                        break;
+                    //Missing 43
+                    case 44:
+                        if (ActiveNav == "Points" && PlayerRoles.Contains("/34/"))
+                        {
+                            if (PageName == "POINTSSUOTHER")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Setup Other Points";
+                        }
+                        else
+                            SkipLine = true;
+                        break;
+                    case 45:
+                        if (ActiveNav == "Points" && (PlayerRoles.Contains("/35/") || PlayerRoles.Contains("/28/")))
+                        {
+                            if (PageName == "POINTSASSIGN")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = "/Points/PointsAssign.aspx";
+                            LineText = "&nbsp; - Assign Points";
+                        }
+                        else
+                            SkipLine = true;
+                        break;
+                    case 46:
+                        if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
+                        {
+                            if (PageName == "POINTSACCEPT")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd3;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp; - Accept Points";
+                        }
+                        SkipLine = true;
+                        break;
+                    case 47:
+                        if (PageName == "PEL")
+                        {
+                            ActiveState = " class=\"active\">";
+                        }
+                        else
+                        {
+                            ActiveState = ">";
+                        }
+                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignRoles" + Toggle1b;
+                        SpanClass = SC1;
+                        LineEnd = LineEnd1;
+                        PageName = "/PageUnderConstruction.aspx";
+                        PageName = "/PELs/PELList.aspx";
+                        LineText = "PELs";
+                        break;
+
+                    case 48:
+                        if (PageName == "PELSU" && PlayerRoles.Contains("/28/"))
+                        {
+                            ActiveState = " class=\"active\">";
+                        }
+                        else
+                        {
+                            ActiveState = ">";
+                        }
+                        TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
                         SpanClass = SC1;
                         LineEnd = LineEnd4;
-                        PageName = "PageUnderConstruction.aspx";
+                        PageName = "/PageUnderConstruction.aspx";
+                        LineText = "&nbsp; - PEL Setup";
+                        break;
+                    case 49:
+                        if (PageName == "PELApprovalList" && PlayerRoles.Contains("/28/"))
+                        {
+                            ActiveState = " class=\"active\">";
+                        }
+                        else
+                        {
+                            ActiveState = ">";
+                        }
+                        TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
+                        SpanClass = SC1;
+                        LineEnd = LineEnd4;
+                        PageName = "/PageUnderConstruction.aspx";
+                        PageName = "/PELs/PELApprovalList";
+                        LineText = "&nbsp; - PEL Approval List";
+                        break;
+                    case 50:
+                        if (PageName == "PELApprove" && PlayerRoles.Contains("/28/"))
+                        {
+                            ActiveState = " class=\"active\">";
+                        }
+                        else
+                        {
+                            ActiveState = ">";
+                        }
+                        TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
+                        SpanClass = SC1;
+                        LineEnd = LineEnd4;
+                        PageName = "/PageUnderConstruction.aspx";
+                        PageName = "/PELs/PELApprove";
+                        LineText = "&nbsp; - PEL Approval";
+                        break;
+                    case 51:
+                        if (PageName == "PELEdit" && PlayerRoles.Contains("/28/"))
+                        {
+                            ActiveState = " class=\"active\">";
+                        }
+                        else
+                        {
+                            ActiveState = ">";
+                        }
+                        TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
+                        SpanClass = SC1;
+                        LineEnd = LineEnd4;
+                        PageName = "/PageUnderConstruction.aspx";
+                        PageName = "/PELs/PELEdit";
+                        LineText = "&nbsp; - PEL Edit";
+                        break;
+
+                    case 52:
+                        //Just a link?
+                        if (PageName == "INVENTORY" && PlayerRoles.Contains("/36/"))
+                        {
+                            ActiveState = " class=\"active\">";
+                        }
+                        else
+                        {
+                            ActiveState = ">";
+                        }
+                        TreeToggle = Toggle2; // Toggle1a + "lblInventoryProps" + Toggle1b;
+                        SpanClass = SC1;
+                        LineEnd = LineEnd4;
+                        PageName = "/PageUnderConstruction.aspx";
                         LineText = "Inventory/Props";
                         break;
-                    case 38:
-                        //Just a link?
-                        if (Session["ActiveLeftNav"].ToString() == "SiteLocationUse")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle1a + "lblSiteLocationUse" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd4;
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Site Location Use Setup";
+                    //case 38:
+                    //    //Just a link?
+                    //    if (Session["ActiveLeftNav"].ToString() == "SiteLocationUse")
+                    //    {
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    TreeToggle = Toggle1a + "lblSiteLocationUse" + Toggle1b;
+                    //    SpanClass = SC1;
+                    //    LineEnd = LineEnd4;
+                    //    PageName = "/PageUnderConstruction.aspx";
+                    //    LineText = "Site Location Use Setup";
+                    //    break;
+                    default:
+                        SkipLine = true;
                         break;
                 }
-                hrefline = Text1 + ActiveState + TreeToggle + Text2 + PageName + Text3 + LineText + SpanClass + Text4 + LineEnd;
-                DataRow LeftNavRow = LeftNavTable.NewRow();
-                LeftNavRow["href_li"] = hrefline;
-                LeftNavTable.Rows.Add(LeftNavRow);
 
+                if (SkipLine == false)
+                {
+                    hrefline = Text1 + ActiveState + TreeToggle + Text2 + PageName + Text3 + LineText + SpanClass + Text4 + LineEnd;
+                    DataRow LeftNavRow = LeftNavTable.NewRow();
+                    LeftNavRow["href_li"] = hrefline;
+                    LeftNavTable.Rows.Add(LeftNavRow);
+                    hreflinecumulative = hreflinecumulative + hrefline;
+                    lblLeftNav.Text = hreflinecumulative;
+                }
+                SkipLine = false;
                 //TODO-Rick-2 Uncomment the next two lines when running live when defining the nav by code
                 //menu_ul_membercampaignsadmin.DataSource = LeftNavTable;
                 //menu_ul_membercampaignsadmin.DataBind();
             }
         }
+
     }
 }
