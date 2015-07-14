@@ -55,7 +55,7 @@ namespace LarpPortal.Classes
                     cPlayerRole PlayerRole = new cPlayerRole();
                     PlayerRole.Load(UserID, iTemp, 0);
                     lsPlayerRoles.Add(PlayerRole);
-                    PlayerRoleString = PlayerRoleString + iTemp.ToString() + "/";
+                    PlayerRoleString = PlayerRoleString + PlayerRole.RoleID.ToString() + "/";
                 }
             }
         }

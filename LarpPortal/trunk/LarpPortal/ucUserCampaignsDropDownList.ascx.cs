@@ -35,10 +35,6 @@ namespace LarpPortal
                 uID = (Session["UserID"].ToString().ToInt32());
             Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
             CampaignChoices.Load(uID);
-            //==== Example returning a data table
-            //DataTable NewDataTable = new DataTable();
-            //NewDataTable = cUtilities.CreateDataTable(CampaignChoices.lsUserCampaigns);
-            //===== End example
             if (CampaignChoices.CountOfUserCampaigns == 0)
                 Response.Redirect("~/NoCurrentCampaignAssociations.aspx");
             ddlUserCampaigns.DataTextField = "CampaignName";
@@ -49,7 +45,11 @@ namespace LarpPortal
             
             if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
             {
+                // Define Player roles here
                 Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
+                Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
+                Roles.Load(uID, 0, ddlUserCampaigns.SelectedItem.Value.ToInt32(), DateTime.Today);
+                Session["PlayerRoleString"] = Roles.PlayerRoleString;
                 Response.Redirect(Request.RawUrl);
             }
         }

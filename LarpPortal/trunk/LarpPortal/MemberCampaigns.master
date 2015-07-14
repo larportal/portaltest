@@ -27,14 +27,15 @@
 
 <%@ Register TagPrefix="UC1" TagName="UserCampaignDDL" Src="~/ucUserCampaignsDropDownList.ascx" %>
 <asp:Content ID="LeftNavMemberCampaigns" ContentPlaceHolderID="MainPage" runat="server">
-    <asp:Table runat="server">
+    <asp:Table runat="server" CssClass="table">
         <asp:TableRow>
             <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
               <div class="contentArea">
 				<nav class="userSubNav">
                     <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
                     <ul class="nav nav-pills" "panel-wrapper list-unstyled scroll-500">
-                        <li class="active"><a href="CampaignInfo.aspx" data-toggle="pill">Campaign Info</a></li>
+                        <asp:Label ID="lblLeftNav" runat="server"></asp:Label>
+<%--                        <li class="active"><a href="CampaignInfo.aspx" data-toggle="pill">Campaign Info</a></li>
                         <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Rules</a></li>
                         <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Calendar</a></li>
                         <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Event RSVP</a></li>
@@ -49,7 +50,7 @@
                             </ul>
                         </li>
                         <li><a href="PageUnderConstruction.aspx" data-toggle="pill">PEL</a></li>
-                        <li><a href="PublicCampaigns.aspx" data-toggle="pill">Find a Campaign</a></li>
+                        <li><a href="PublicCampaigns.aspx" data-toggle="pill">Find a Campaign</a></li>--%>
                     </ul>
 <%--                    <asp:Repeater ID="menu_ul_membercampaignsadmin" runat="server">
                         <HeaderTemplate>
