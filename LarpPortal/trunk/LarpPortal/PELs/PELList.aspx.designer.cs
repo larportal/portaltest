@@ -31,6 +31,24 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.Label lblCharInfo;
         
         /// <summary>
+        /// mvPELList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mvPELList;
+        
+        /// <summary>
+        /// vwPELList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwPELList;
+        
+        /// <summary>
         /// gvPELList control.
         /// </summary>
         /// <remarks>
@@ -38,5 +56,23 @@ namespace LarpPortal.PELs {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvPELList;
+        
+        /// <summary>
+        /// vwNoPELs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwNoPELs;
+        
+        /// <summary>
+        /// lblCampaignName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCampaignName;
     }
 }
