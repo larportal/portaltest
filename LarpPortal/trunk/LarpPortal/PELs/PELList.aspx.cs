@@ -17,45 +17,59 @@ namespace LarpPortal.PELs
             DataTable dtPELs = new DataTable();
             SortedList sParams = new SortedList();
             ///TODO: Put in userID in PELList.
-            //sParams.Add("UserID", Session["UserID"].ToString());
+            if (Session["CampaignID"] == null)
+                return;
+
+            sParams.Add("@UserID", Session["UserID"].ToString());
+            sParams.Add("@CampaignID", Session["CampaignID"].ToString());
 
             dtPELs = Classes.cUtilities.LoadDataTable("uspGetPELsForUser", sParams, "LARPortal", Session["UserName"].ToString(), "PELList.Page_PreRender");
 
-            if (dtPELs.Columns["PELStatus"] == null)
-                dtPELs.Columns.Add(new DataColumn("PELStatus", typeof(string)));
-            if (dtPELs.Columns["ButtonText"] == null)
-                dtPELs.Columns.Add(new DataColumn("ButtonText", typeof(string)));
-
-            foreach (DataRow dRow in dtPELs.Rows)
+            if (dtPELs.Rows.Count > 0)
             {
-                if (dRow["DateApproved"] != System.DBNull.Value)
-                {
-                    dRow["PELStatus"] = "Approved";
-                    dRow["ButtonText"] = "View";
-                }
-                else if (dRow["DateSubmitted"] != System.DBNull.Value)
-                {
-                    dRow["PELStatus"] = "Submitted";
-                    dRow["ButtonText"] = "View";
-                }
-                else if (dRow["DateStarted"] != System.DBNull.Value)
-                {
-                    dRow["PELStatus"] = "Started";
-                    dRow["ButtonText"] = "Edit";
-                }
-                else
-                {
-                    dRow["PELStatus"] = "";
-                    dRow["ButtonText"] = "Create";
-                    int iPELID;
-                    if (int.TryParse(dRow["RegistrationID"].ToString(), out iPELID))
-                        dRow["PELID"] = iPELID * -1;
-                }
-            }
+                mvPELList.SetActiveView(vwPELList);
 
-            DataView dvPELs = new DataView(dtPELs, "", "ActualArrivalDate desc, ActualArrivalTime desc, RegistrationID desc", DataViewRowState.CurrentRows);
-            gvPELList.DataSource = dvPELs;
-            gvPELList.DataBind();
+                if (dtPELs.Columns["PELStatus"] == null)
+                    dtPELs.Columns.Add(new DataColumn("PELStatus", typeof(string)));
+                if (dtPELs.Columns["ButtonText"] == null)
+                    dtPELs.Columns.Add(new DataColumn("ButtonText", typeof(string)));
+
+                foreach (DataRow dRow in dtPELs.Rows)
+                {
+                    if (dRow["DateApproved"] != System.DBNull.Value)
+                    {
+                        dRow["PELStatus"] = "Approved";
+                        dRow["ButtonText"] = "View";
+                    }
+                    else if (dRow["DateSubmitted"] != System.DBNull.Value)
+                    {
+                        dRow["PELStatus"] = "Submitted";
+                        dRow["ButtonText"] = "View";
+                    }
+                    else if (dRow["DateStarted"] != System.DBNull.Value)
+                    {
+                        dRow["PELStatus"] = "Started";
+                        dRow["ButtonText"] = "Edit";
+                    }
+                    else
+                    {
+                        dRow["PELStatus"] = "";
+                        dRow["ButtonText"] = "Create";
+                        int iPELID;
+                        if (int.TryParse(dRow["RegistrationID"].ToString(), out iPELID))
+                            dRow["PELID"] = iPELID * -1;
+                    }
+                }
+
+                DataView dvPELs = new DataView(dtPELs, "", "ActualArrivalDate desc, ActualArrivalTime desc, RegistrationID desc", DataViewRowState.CurrentRows);
+                gvPELList.DataSource = dvPELs;
+                gvPELList.DataBind();
+            }
+            else
+            {
+                mvPELList.SetActiveView(vwNoPELs);
+                lblCampaignName.Text = Session["CampaignName"].ToString();
+            }
 
             if (Session["UpdatePELMessage"] != null)
             {
