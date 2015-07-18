@@ -116,7 +116,14 @@ namespace LarpPortal
                             ActiveState = ">";
                         }
                         TreeToggle = Toggle2; // Toggle1a + "lblCampaignInfoSetup" + Toggle1b;
-                        SpanClass = SC1;
+                        if (PlayerRoles.Contains("/5/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/32/"))
+                        {
+                            SpanClass = SC1;
+                        }
+                        else
+                        {
+                            SpanClass = SC2;
+                        }
                         LineEnd = LineEnd1;
                         //PageName = "CampaignSetupInfo.aspx";
                         PageName = "/CampaignInfo.aspx";
@@ -137,7 +144,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Set Up: Campaign Info";
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Info";
                         }
                         else
                             SkipLine = true;
@@ -157,7 +164,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Set Up: Campaign People";
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign People";
                         }
                         else
                             SkipLine = true;
@@ -178,7 +185,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Set Up: Campaign Places";
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Places";
                         }
                         else
                             SkipLine = true;
@@ -198,7 +205,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Set Up: Campaign Rules";
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Rules";
                         }
                         else
                             SkipLine = true;
@@ -218,7 +225,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Set Up: Campaign Rules Index";
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Rules Index";
                         }
                         else
                             SkipLine = true;
@@ -233,7 +240,14 @@ namespace LarpPortal
                             ActiveState = ">";
                         }
                         TreeToggle = Toggle2; // Toggle1a + "lblCampaignMessages" + Toggle1b;
-                        SpanClass = SC1;
+                        if (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/"))
+                        {
+                            SpanClass = SC1;
+                        }
+                        else
+                        {
+                            SpanClass = SC2;
+                        }
                         LineEnd = LineEnd1;
                         PageName = "/PageUnderConstruction.aspx";
                         LineText = "Campaign Messages";
@@ -253,7 +267,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - View Previous";
+                            LineText = "&nbsp;&nbsp;&nbsp;View Previous";
                         }
                         else
                             SkipLine = true;
@@ -273,7 +287,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Send New";
+                            LineText = "&nbsp;&nbsp;&nbsp;Send New";
                         }
                         else
                             SkipLine = true;
@@ -293,7 +307,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Preview Scheduled";
+                            LineText = "&nbsp;&nbsp;&nbsp;Preview Scheduled";
                         }
                         else
                             SkipLine = true;
@@ -336,7 +350,7 @@ namespace LarpPortal
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
                         PageName = "/PageUnderConstruction.aspx";
-                        //PageName = "/Events/Events.aspx";
+                        PageName = "/Events/Events.aspx";
                         LineText = "Events";
                         break;
 
@@ -358,7 +372,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Planning";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Planning";
                         }
                         else
                             SkipLine = true;
@@ -378,7 +392,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Defaults";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Defaults";
                         }
                         else
                             SkipLine = true;
@@ -401,7 +415,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Marketing";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Marketing";
                         }
                         else
                             SkipLine = true;
@@ -421,7 +435,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Food Options";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Food Options";
                         }
                         else
                             SkipLine = true;
@@ -441,7 +455,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Assign Housing";
+                            LineText = "&nbsp;&nbsp;&nbsp;Assign Housing";
                         }
                         else
                             SkipLine = true;
@@ -461,7 +475,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Record Payments";
+                            LineText = "&nbsp;&nbsp;&nbsp;Record Payments";
                         }
                         else
                             SkipLine = true;
@@ -481,7 +495,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Check-In";
+                            LineText = "&nbsp;&nbsp;&nbsp;Check-In";
                         }
                         else
                             SkipLine = true;
@@ -501,7 +515,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Accept Donations";
+                            LineText = "&nbsp;&nbsp;&nbsp;Accept Donations";
                         }
                         else
                             SkipLine = true;
@@ -521,7 +535,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Approve Check-Out";
+                            LineText = "&nbsp;&nbsp;&nbsp;Approve Check-Out";
                             LineEnd = LineEnd3;
                         }
                         else
@@ -537,7 +551,14 @@ namespace LarpPortal
                             ActiveState = ">";
                         }
                         TreeToggle = Toggle2; // Toggle1a + "lblCampaignCharacters" + Toggle1b;
-                        SpanClass = SC1;
+                        if (PlayerRoles.Contains("/5/") || PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/"))
+                        {
+                            SpanClass = SC1;
+                        }
+                        else
+                        {
+                            SpanClass = SC2;
+                        }
                         LineEnd = LineEnd1;
                         PageName = "/PageUnderConstruction.aspx";
                         LineText = "Characters";
@@ -557,7 +578,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - NPC Info";
+                            LineText = "&nbsp;&nbsp;&nbsp;NPC Info";
                         }
                         else
                             SkipLine = true;
@@ -577,7 +598,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - NPC Items";
+                            LineText = "&nbsp;&nbsp;&nbsp;NPC Items";
                         }
                         else
                             SkipLine = true;
@@ -597,7 +618,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - NPC History";
+                            LineText = "&nbsp;&nbsp;&nbsp;&nbsp;NPC History";
                         }
                         else
                             SkipLine = true;
@@ -618,7 +639,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Traits & Attributes";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Traits & Attributes";
                         }
                         else
                             SkipLine = true;
@@ -638,7 +659,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Skill Headers & Types";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Skill Headers & Types";
                         }
                         else
                             SkipLine = true;
@@ -658,7 +679,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Skills";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Skills";
                             LineEnd = LineEnd3;
                         }
                         else
@@ -696,7 +717,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Assign Roles";
+                            LineText = "&nbsp;&nbsp;&nbsp;Assign Roles";
                         }
                         else
                             SkipLine = true;
@@ -716,7 +737,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Roles";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Roles";
                             LineEnd = LineEnd3;
                         }
                         else
@@ -753,7 +774,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Standard Points";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Standard Points";
                         }
                         else
                             SkipLine = true;
@@ -774,7 +795,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Setup Other Points";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Other Points";
                         }
                         else
                             SkipLine = true;
@@ -795,7 +816,7 @@ namespace LarpPortal
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
                             PageName = "/Points/PointsAssign.aspx";
-                            LineText = "&nbsp; - Assign Points";
+                            LineText = "&nbsp;&nbsp;&nbsp;Assign Points";
                         }
                         else
                             SkipLine = true;
@@ -815,9 +836,10 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
                             PageName = "/PageUnderConstruction.aspx";
-                            LineText = "&nbsp; - Accept Points";
+                            LineText = "&nbsp;&nbsp;&nbsp;Accept Points";
                         }
-                        SkipLine = true;
+                        else
+                            SkipLine = true;
                         break;
                     case 47:
                         if (PageName == "PEL")
@@ -837,68 +859,79 @@ namespace LarpPortal
                         break;
 
                     case 48:
-                        if (PageName == "PELSU" && PlayerRoles.Contains("/28/"))
+                        if (ActiveNav == "PEL" && PlayerRoles.Contains("/28/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "PELSU" && PlayerRoles.Contains("/28/"))
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
+                            SpanClass = SC1;
+                            LineEnd = LineEnd4;
+                            PageName = "/PageUnderConstruction.aspx";
+                            LineText = "&nbsp;&nbsp;&nbsp;PEL Setup";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd4;
-                        PageName = "/PageUnderConstruction.aspx";
-                        LineText = "&nbsp; - PEL Setup";
+                            SkipLine = true;
                         break;
                     case 49:
-                        if (PageName == "PELApprovalList" && PlayerRoles.Contains("/28/"))
+                        if (ActiveNav == "PEL" && PlayerRoles.Contains("/28/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "PELApprovalList" && PlayerRoles.Contains("/28/"))
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
+                            SpanClass = SC1;
+                            LineEnd = LineEnd4;
+                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = "/PELs/PELApprovalList";
+                            LineText = "&nbsp;&nbsp;&nbsp;PEL Approval List";
                         }
                         else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd4;
-                        PageName = "/PageUnderConstruction.aspx";
-                        PageName = "/PELs/PELApprovalList";
-                        LineText = "&nbsp; - PEL Approval List";
+                            SkipLine = true;
+
                         break;
-                    case 50:
-                        if (PageName == "PELApprove" && PlayerRoles.Contains("/28/"))
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd4;
-                        PageName = "/PageUnderConstruction.aspx";
-                        PageName = "/PELs/PELApprove";
-                        LineText = "&nbsp; - PEL Approval";
-                        break;
-                    case 51:
-                        if (PageName == "PELEdit" && PlayerRoles.Contains("/28/"))
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd4;
-                        PageName = "/PageUnderConstruction.aspx";
-                        PageName = "/PELs/PELEdit";
-                        LineText = "&nbsp; - PEL Edit";
-                        break;
+                    //case 50:
+                        //if (PageName == "PELApprove" && PlayerRoles.Contains("/28/"))
+                        //{
+                        //    ActiveState = " class=\"active\">";
+                        //}
+                        //else
+                        //{
+                        //    ActiveState = ">";
+                        //}
+                        //TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
+                        //SpanClass = SC1;
+                        //LineEnd = LineEnd4;
+                        //PageName = "/PageUnderConstruction.aspx";
+                        //PageName = "/PELs/PELApprove";
+                        //LineText = "&nbsp;&nbsp;&nbsp;PEL Approval";
+                        //break;
+                    //case 51:
+                        //if (PageName == "PELEdit" && PlayerRoles.Contains("/28/"))
+                        //{
+                        //    ActiveState = " class=\"active\">";
+                        //}
+                        //else
+                        //{
+                        //    ActiveState = ">";
+                        //}
+                        //TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
+                        //SpanClass = SC1;
+                        //LineEnd = LineEnd4;
+                        //PageName = "/PageUnderConstruction.aspx";
+                        //PageName = "/PELs/PELEdit";
+                        //LineText = "&nbsp;&nbsp;&nbsp;PEL Edit";
+                        //break;
 
                     case 52:
                         //Just a link?
