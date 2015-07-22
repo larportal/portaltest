@@ -32,24 +32,59 @@ namespace LarpPortal.PELs
 
                 dtQuestions = Classes.cUtilities.LoadDataTable("uspGetPELQuestionsAndAnswers", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.Page_PreRender");
 
+                int iCharacterID = 0;
+                int iUserID = 0;
+
                 string sEventInfo = "";
                 if (dtQuestions.Rows.Count > 0)
                 {
+                    hidPELTemplateID.Value = dtQuestions.Rows[0]["PELTemplateID"].ToString();
                     sEventInfo = "<b>Event: </b> " + dtQuestions.Rows[0]["EventDescription"].ToString();
 
                     DateTime dtEventDate;
                     if (DateTime.TryParse(dtQuestions.Rows[0]["EventStartDate"].ToString(), out dtEventDate))
                         sEventInfo += "&nbsp;&nbsp;<b>Event Date: </b> " + dtEventDate.ToShortDateString();
 
-                    sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
+                    int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
+                    int.TryParse(dtQuestions.Rows[0]["UserID"].ToString(), out iUserID);
+                    
+                    if (iCharacterID != 0)
+                    {
+                        // A character.
+                        sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
+                    }
+                    else
+                    {
+                        // Non character.
+                        sEventInfo += "&nbsp;&nbsp;<b>Player: </b> " + dtQuestions.Rows[0]["NickName"].ToString();
+                    }
 
-                    int iCharacterID;
                     int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     if (iCharacterID != 0)
                     {
                         Classes.cCharacter cChar = new Classes.cCharacter();
                         cChar.LoadCharacter(iCharacterID);
-                        imgPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
+                        imgPicture.ImageUrl = "/img/BlankProfile.png";    // Default it to this so if it is not set it will display the blank profile picture.
+                        if (cChar.ProfilePicture != null)
+                            if (!string.IsNullOrEmpty(cChar.ProfilePicture.PictureURL))
+                                imgPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
+                        imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
+                    }
+                    else
+                    {
+                        Classes.cPlayer PLDemography = null;
+
+                        string uName = "";
+                        int uID = 0;
+                        if ( !string.IsNullOrEmpty(Session["Username"].ToString()))
+                            uName = Session["Username"].ToString();
+                        int.TryParse(Session["UserID"].ToString(), out uID);
+
+                        PLDemography = new Classes.cPlayer(uID, uName);
+
+                        imgPicture.ImageUrl = "/img/BlankProfile.png";    // Default it to this so if it is not set it will display the blank profile picture.
+                        if (!string.IsNullOrEmpty(PLDemography.UserPhoto))
+                            imgPicture.ImageUrl = PLDemography.UserPhoto;
                         imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
                     }
 
@@ -124,11 +159,14 @@ namespace LarpPortal.PELs
                         HiddenField hidAnswerID = (HiddenField)item.FindControl("hidAnswerID");
                         int iQuestionID = 0;
                         int iAnswerID = 0;
+                        int iPELTemplateID = 0;
 
                         if (hidQuestionID != null)
                             int.TryParse(hidQuestionID.Value, out iQuestionID);
                         if (hidAnswerID != null)
                             int.TryParse(hidAnswerID.Value, out iAnswerID);
+                        if (hidPELTemplateID != null)
+                            int.TryParse(hidPELTemplateID.Value, out iPELTemplateID);
 
                         if (iPELID == 0)
                             iPELID = -1;
@@ -138,6 +176,7 @@ namespace LarpPortal.PELs
                         sParams.Add("@PELAnswerID", iAnswerID);
                         sParams.Add("@PELQuestionsID", iQuestionID);
                         sParams.Add("@PELID", iPELID);
+                        sParams.Add("@PELTemplateID", iPELTemplateID);
                         sParams.Add("@Answer", tbAnswer.Text);
                         sParams.Add("@RegistrationID", hidRegistrationID.Value);
 

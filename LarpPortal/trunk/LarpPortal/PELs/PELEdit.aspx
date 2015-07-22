@@ -40,6 +40,7 @@
             </div>
             <asp:HiddenField ID="hidRegistrationID" runat="server" />
             <asp:HiddenField ID="hidPELID" runat="server" />
+            <asp:HiddenField ID="hidPELTemplateID" runat="server" />
             <asp:HiddenField ID="hidTextBoxEnabled" runat="server" Value="1" />
             <div id="divQuestions" runat="server" style="max-height: 500px; overflow-y: auto; margin-right: 10px;">
                 <asp:Repeater ID="rptQuestions" runat="server">
