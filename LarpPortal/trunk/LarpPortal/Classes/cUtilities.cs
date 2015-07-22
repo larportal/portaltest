@@ -13,6 +13,11 @@ using System.DirectoryServices;
 using LarpPortal.Classes;
 using Excel;
 
+// General comment: 7/19/2015 JBradshaw changed so if the routines that get a datatable/dataset get an error, it re-throws the error
+//                            so the calling routine knows that the call failed.
+
+
+
 namespace LarpPortal.Classes
 {
     //public enum RecordStatuses
@@ -178,11 +183,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName, lcmd, strUserName + strCallingMethod);
+                throw exSQL;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
+                throw ex;
             }
             finally
             {
@@ -336,6 +343,7 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName);
+                throw ex;
             }
             finally
             {
@@ -653,11 +661,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName + ":" + strStoredProc, lcmd, strUserName + strCallingMethod);
+                throw exSQL;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
+                throw ex;
             }
             //finally
             //{
@@ -696,11 +706,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName + ":" + strStoredProc, lcmd, strUserName + strCallingMethod);
+                throw exSQL;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
+                throw ex;
             }
             finally
             {
