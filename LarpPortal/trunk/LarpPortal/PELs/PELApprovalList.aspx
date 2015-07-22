@@ -6,10 +6,10 @@
         <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
             <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="PEL (Post Event Letter)" />
         </div>
-        <div class="row" style="padding-left: 15px;">
+<%--        <div class="row" style="padding-left: 15px;">
             Campaigns with Unapproved PELS:
             <asp:DropDownList ID="ddlCampaignWithPELCount" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCampaignWithPELCount_SelectedIndexChanged" />
-        </div>
+        </div>--%>
         <br />
 
         <div class="row" style="padding-left: 15px; padding-right: 15px;">
