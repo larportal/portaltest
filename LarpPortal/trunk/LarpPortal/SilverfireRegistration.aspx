@@ -55,6 +55,12 @@
                                         <asp:Label ID="lblCharacterAKA" runat="server" /></td>
                                 </tr>
 
+                                <tr>
+                                    <td class="TableLabel">Team</td>
+                                    <td>
+                                        <asp:DropDownList ID="ddlTeams" runat="server" /><asp:Label ID="lblNoTeamMember" runat="server" Text="Not a member of any team." Visible="false" /></td>
+                                </tr>
+
                                 <tr style="vertical-align: top;">
                                     <td class="TableLabel">Payment Choice</td>
                                     <td>Describe how you plan to pay for the event. ( Payment is not being collected through this site at this time )</td>
@@ -97,6 +103,7 @@
                             </table>
                             <asp:HiddenField ID="hidEventID" runat="server" />
                             <asp:HiddenField ID="hidCharacterID" runat="server" />
+                            <asp:HiddenField ID="hidTeamMember" runat="server" Value="0" />
                         </asp:View>
                         <asp:View ID="vwNoPlayer" runat="server">
                             <br />
