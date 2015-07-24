@@ -58,6 +58,24 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.Label lblCharacterAKA;
         
         /// <summary>
+        /// ddlTeams control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTeams;
+        
+        /// <summary>
+        /// lblNoTeamMember control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNoTeamMember;
+        
+        /// <summary>
         /// ddlPaymentType control.
         /// </summary>
         /// <remarks>
@@ -119,6 +137,15 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidCharacterID;
+        
+        /// <summary>
+        /// hidTeamMember control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidTeamMember;
         
         /// <summary>
         /// vwNoPlayer control.
