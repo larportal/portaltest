@@ -96,13 +96,13 @@ namespace LarpPortal.Classes
                     // Write the exception to error log and then throw it again...
                     ErrorAtServer lobjError = new ErrorAtServer();
                     lobjError.ProcessError(exSQL, lsRoutineName + ":" + strStoredProc, lcmd, strUserName + strCallingMethod);
-                    throw exSQL;
+                    throw;
                 }
                 catch (Exception ex)
                 {
                     ErrorAtServer lobjError = new ErrorAtServer();
                     lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
-                    throw ex;
+                    throw;
                 }
             }
             return ldt;
@@ -134,6 +134,7 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName);
+                throw;
             }
             return dsUnUpdated;
         }
@@ -183,13 +184,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName, lcmd, strUserName + strCallingMethod);
-                throw exSQL;
+                throw;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -226,13 +227,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName, lcmd, strUserName);
-                throw exSQL;
+                throw;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -268,11 +269,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName, lcmd, strUserName);
+                throw;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName);
+                throw;
             }
             finally
             {
@@ -316,6 +319,7 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName);
+                throw;
             }
             finally
             {
@@ -343,7 +347,7 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -391,6 +395,7 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
+                throw;
             }
             SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
             DataTable ldt = new DataTable();
@@ -416,11 +421,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName, lcmd, strUserName + strCallingMethod);
+                throw;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
+                throw;
             }
             finally
             {
@@ -569,11 +576,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName, lcmd, strUserName + lsRoutineName);
+                throw;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + lsRoutineName);
+                throw;
             }
             finally
             {
@@ -661,13 +670,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName + ":" + strStoredProc, lcmd, strUserName + strCallingMethod);
-                throw exSQL;
+                throw;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
-                throw ex;
+                throw;
             }
             //finally
             //{
@@ -706,13 +715,13 @@ namespace LarpPortal.Classes
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(exSQL, lsRoutineName + ":" + strStoredProc, lcmd, strUserName + strCallingMethod);
-                throw exSQL;
+                throw;
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + strCallingMethod);
-                throw ex;
+                throw;
             }
             finally
             {
