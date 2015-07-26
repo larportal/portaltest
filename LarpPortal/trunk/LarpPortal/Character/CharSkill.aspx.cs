@@ -55,6 +55,20 @@ namespace LarpPortal.Character
                             dtCharSkills = Classes.cUtilities.CreateDataTable(cChar.CharacterSkills);
                             Session["CharSkills"] = dtCharSkills;
 
+                            // Creating a small array of character skills so if the campaign characters are closed you can't sell back a skill.
+                            if (ViewState["SkillList"] != null)
+                                ViewState.Remove("SkillList");
+
+                            if (cChar.CharacterSkills.Count > 0)
+                            {
+                                List<int> SkillList = new List<int>();
+                                foreach (Classes.cCharacterSkill dSkill in cChar.CharacterSkills)
+                                {
+                                    SkillList.Add(dSkill.CampaignSkillsStandardID);
+                                }
+                                ViewState["SkillList"] = SkillList;
+                            }
+
                             Session["CurrentCharacter"] = Session["SelectedCharacter"];
 
                             DataSet dsSkillSets = new DataSet();
@@ -151,9 +165,6 @@ namespace LarpPortal.Character
 
         protected void tvSkills_TreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
         {
-            lblMessage.Text = "Skills Changed";
-            lblMessage.ForeColor = Color.Red;
-
             if (e.Node.Checked)
             {
                 TreeView OrigTreeView = new TreeView();
@@ -235,6 +246,25 @@ namespace LarpPortal.Character
             }
             else
             {
+                // Check to see if we should not allow them to sell it back.
+                if (ViewState["SkillList"] != null)
+                {
+                    int iSkillID;
+                    if (int.TryParse(e.Node.Value, out iSkillID))
+                    {
+                        List<int> SkillList = ViewState["SkillList"] as List<int>;
+                        if (SkillList.Contains(iSkillID))
+                        {
+                            e.Node.Checked = true;
+                            string jsString = "alert('You cannot sell back skills once a campaign has been closed.');";
+                            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                                    "MyApplication",
+                                    jsString,
+                                    true);
+                            return;
+                        }
+                    }
+                }
                 DeselectChildNodes(e.Node);
                 CheckAllNodesWithValue(e.Node.Value, false);
 
@@ -250,6 +280,9 @@ namespace LarpPortal.Character
             CheckExclusions();
             ListSkills();
             Session["CurrentSkillTree"] = tvSkills;
+
+            lblMessage.Text = "Skills Changed";
+            lblMessage.ForeColor = Color.Red;
         }
 
         protected void ListSkills()
