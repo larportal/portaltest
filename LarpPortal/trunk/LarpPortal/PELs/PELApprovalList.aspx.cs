@@ -34,28 +34,113 @@ namespace LarpPortal.PELs
 
             dtPELs = Classes.cUtilities.LoadDataTable("uspGetPELsToApprove", sParams, "LARPortal", Session["UserName"].ToString(), "PELApprovalList.Page_PreRender");
 
-            if (dtPELs.Columns["PELStatus"] == null)
-                dtPELs.Columns.Add(new DataColumn("PELStatus", typeof(string)));
-            if (dtPELs.Columns["ButtonText"] == null)
-                dtPELs.Columns.Add(new DataColumn("ButtonText", typeof(string)));
+            string sSelectedChar = "";
+            string sSelectedEventDate = "";
+            string sSelectedEventName = "";
+            string sSelectedPELStatus = "";
 
-            foreach (DataRow dRow in dtPELs.Rows)
+            // While creating the filter am also saving the selected values so we can go back and have the drop down list use them.
+            string sRowFilter = "(1 = 1)";      // This is so it's easier to build the filter string. Now can always say 'and ....'
+
+            if (ddlCharacterName.SelectedIndex > 0)
             {
-                if (dRow["DateApproved"] != System.DBNull.Value)
-                {
-                    dRow["PELStatus"] = "Approved";
-                    dRow["ButtonText"] = "View";
-                }
-                else if (dRow["DateSubmitted"] != System.DBNull.Value)
-                {
-                    dRow["PELStatus"] = "Submitted";
-                    dRow["ButtonText"] = "View";
-                }
+                sRowFilter += " and (CharacterAKA = '" + ddlCharacterName.SelectedValue.Replace("'", "''") + "')";
+                sSelectedChar = ddlCharacterName.SelectedValue;
             }
 
-            DataView dvPELs = new DataView(dtPELs, "", "PELStatus desc, DateSubmitted", DataViewRowState.CurrentRows);
+            if (ddlEventDate.SelectedIndex > 0)
+            {
+                sRowFilter += " and (EventStartDate = '" + ddlEventDate.SelectedValue + "')";
+                sSelectedEventDate = ddlEventDate.SelectedValue;
+            }
+
+            if (ddlEventName.SelectedIndex > 0)
+            {
+                sRowFilter += " and (EventName = '" + ddlEventName.SelectedValue.Replace("'", "''") + "')";
+                sSelectedEventName = ddlEventName.SelectedValue;
+            }
+
+            if (ddlStatus.SelectedIndex > 0)
+            {
+                sRowFilter += " and (PELStatus = '" + ddlStatus.SelectedValue.Replace("'", "''") + "')";
+                sSelectedPELStatus = ddlStatus.SelectedValue;
+            }
+
+            DataView dvPELs = new DataView(dtPELs, sRowFilter, "PELStatus desc, DateSubmitted", DataViewRowState.CurrentRows);
             gvPELList.DataSource = dvPELs;
             gvPELList.DataBind();
+
+            DataView view = new DataView(dtPELs, sRowFilter, "EventName", DataViewRowState.CurrentRows);
+            DataTable dtDistinctEvents = view.ToTable(true, "EventName");
+
+            ddlEventName.DataSource = dtDistinctEvents;
+            ddlEventName.DataTextField = "EventName";
+            ddlEventName.DataValueField = "EventName";
+            ddlEventName.DataBind();
+            ddlEventName.Items.Insert(0, new ListItem("No Filter", ""));
+            ddlEventName.SelectedIndex = -1;
+            if (sSelectedEventName != "")
+                foreach (ListItem li in ddlEventName.Items)
+                    if (li.Value == sSelectedEventName)
+                        li.Selected = true;
+                    else
+                        li.Selected = false;
+            if (ddlEventName.SelectedIndex == -1)     // Didn't find what was selected.
+                ddlEventName.SelectedIndex = 0;
+
+            view = new DataView(dtPELs, sRowFilter, "CharacterAKA", DataViewRowState.CurrentRows);
+            DataTable dtDistinctChars = view.ToTable(true, "CharacterAKA");
+
+            ddlCharacterName.DataSource = dtDistinctChars;
+            ddlCharacterName.DataTextField = "CharacterAKA";
+            ddlCharacterName.DataValueField = "CharacterAKA";
+            ddlCharacterName.DataBind();
+            ddlCharacterName.Items.Insert(0, new ListItem("No Filter", ""));
+            ddlCharacterName.SelectedIndex = -1;
+            if (sSelectedChar != "")
+                foreach (ListItem li in ddlCharacterName.Items)
+                    if (li.Value == sSelectedChar)
+                        li.Selected = true;
+                    else
+                        li.Selected = false;
+            if (ddlCharacterName.SelectedIndex == -1)     // Didn't find what was selected.
+                ddlCharacterName.SelectedIndex = 0;
+
+            view = new DataView(dtPELs, sRowFilter, "EventStartDate", DataViewRowState.CurrentRows);
+            DataTable dtDistinctDates = view.ToTable(true, "EventStartDateStr");
+
+            ddlEventDate.DataSource = dtDistinctDates;
+            ddlEventDate.DataTextField = "EventStartDateStr";
+            ddlEventDate.DataValueField = "EventStartDateStr";
+            ddlEventDate.DataBind();
+            ddlEventDate.Items.Insert(0, new ListItem("No Filter", ""));
+            ddlEventDate.SelectedIndex = -1;
+            if (sSelectedEventDate != "")
+                foreach (ListItem li in ddlEventDate.Items)
+                    if (li.Value == sSelectedEventDate)
+                        li.Selected = true;
+                    else
+                        li.Selected = false;
+            if (ddlEventDate.SelectedIndex == -1)     // Didn't find what was selected.
+                ddlEventDate.SelectedIndex = 0;
+
+            view = new DataView(dtPELs, sRowFilter, "PELStatus desc", DataViewRowState.CurrentRows);
+            DataTable dtDistinctStatus = view.ToTable(true, "PELStatus");
+
+            ddlStatus.DataSource = dtDistinctStatus;
+            ddlStatus.DataTextField = "PELStatus";
+            ddlStatus.DataValueField = "PELStatus";
+            ddlStatus.DataBind();
+            ddlStatus.Items.Insert(0, new ListItem("No Filter", ""));
+            ddlStatus.SelectedIndex = -1;
+            if (sSelectedPELStatus != "")
+                foreach (ListItem li in ddlStatus.Items)
+                    if (li.Value == sSelectedPELStatus)
+                        li.Selected = true;
+                    else
+                        li.Selected = false;
+            if (ddlStatus.SelectedIndex == -1)     // Didn't find what was selected.
+                ddlStatus.SelectedIndex = 0;
 
             return dtPELs;
         }
