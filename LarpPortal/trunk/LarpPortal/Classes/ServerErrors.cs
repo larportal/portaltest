@@ -119,8 +119,6 @@ namespace LarpPortal.Classes
                         lcmdAddErrorMessage.Parameters.AddWithValue("@SessionID", pvsSessionID);
 
                         lcmdAddErrorMessage.ExecuteNonQuery();
-
-                        ConnErrors.Close();
                     }
                     catch // (Exception ex)
                     {
