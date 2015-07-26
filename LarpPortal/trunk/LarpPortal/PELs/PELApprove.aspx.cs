@@ -54,7 +54,11 @@ namespace LarpPortal.PELs
                         sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
                     }
 
-                    sEventInfo += "&nbsp;&nbsp;<b>Player: </b> " + dtQuestions.Rows[0]["NickName"].ToString();
+                    sEventInfo += "&nbsp;&nbsp;<b>Player: </b> ";
+                    if (dtQuestions.Rows[0]["NickName"].ToString() != "")
+                        sEventInfo += dtQuestions.Rows[0]["NickName"].ToString();
+                    else
+                        sEventInfo += dtQuestions.Rows[0]["FirstName"].ToString() + " " + dtQuestions.Rows[0]["LastName"].ToString();
 
                     int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     if (iCharacterID != 0)
