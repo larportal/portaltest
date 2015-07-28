@@ -13,6 +13,33 @@ namespace LarpPortal {
     public partial class SilverfireRegistration {
         
         /// <summary>
+        /// mvDisplay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mvDisplay;
+        
+        /// <summary>
+        /// vwNotOpenYet control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwNotOpenYet;
+        
+        /// <summary>
+        /// vwRegistrationOpen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwRegistrationOpen;
+        
+        /// <summary>
         /// mvPlayerInfo control.
         /// </summary>
         /// <remarks>
@@ -173,5 +200,14 @@ namespace LarpPortal {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View vwError;
+        
+        /// <summary>
+        /// vwRegistrationClosed control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwRegistrationClosed;
     }
 }

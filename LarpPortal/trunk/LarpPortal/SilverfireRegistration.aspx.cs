@@ -21,6 +21,22 @@ namespace LarpPortal
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            DateTime dtRegistrationStart = new DateTime(2015, 7, 30, 20, 0, 0);
+            DateTime dtRegistrationEnd = new DateTime(2015, 8, 1, 20, 0, 0);
+
+            if (DateTime.Now < dtRegistrationStart )
+            {
+                mvDisplay.SetActiveView(vwNotOpenYet);
+                return;
+            }
+            else if (DateTime.Now > dtRegistrationEnd )
+            {
+                mvDisplay.SetActiveView(vwRegistrationClosed);
+                return;
+            }
+
+            // If we get this far, it means we are during the correct time frame.
+
             SortedList sParam = new SortedList();
             sParam.Add("@UserID", Session["UserID"].ToString());
 
