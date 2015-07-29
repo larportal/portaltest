@@ -73,6 +73,19 @@ namespace LarpPortal.Character
 
                             DataSet dsSkillSets = new DataSet();
                             SortedList sParam = new SortedList();
+
+                            Classes.cCampaignBase cCampaign = new Classes.cCampaignBase(cChar.CampaignID, Session["LoginName"].ToString(), Convert.ToInt32(Session["UserID"].ToString()));
+                            if (cCampaign.AllowCharacterRebuild)
+                            {
+                                hidAllowCharacterRebuild.Value = "1";
+                                lblSkillsLocked.Visible = false;
+                            }
+                            else
+                            {
+                                hidAllowCharacterRebuild.Value = "0";
+                                lblSkillsLocked.Visible = true;
+                            }
+
                             sParam.Add("@CampaignID", cChar.CampaignID);
                             sParam.Add("@CharacterID", Session["CurrentCharacter"].ToString());
                             dsSkillSets = Classes.cUtilities.LoadDataSet("uspGetCampaignSkills", sParam, "LARPortal", Session["LoginName"].ToString(), "");
@@ -80,9 +93,6 @@ namespace LarpPortal.Character
                             _dtSkills = dsSkillSets.Tables[1];
                             Session["Skills"] = _dtSkills;
                             Session["ExcludeSkills"] = dsSkillSets.Tables[2];
-
-                            //Msg = "About to populate skill tree: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                            //AddLogMessage(Msg);
 
                             DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "DisplayOrder", DataViewRowState.CurrentRows);
                             foreach (DataRowView dvRow in dvTopNodes)
@@ -106,13 +116,8 @@ namespace LarpPortal.Character
                                     tvSkills.Nodes.Add(NewNode);
                                 }
                             }
-                            //Msg = "Done populating: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                            //AddLogMessage(Msg);
 
                             CheckExclusions();
-
-                            //Msg = "Done checking exclusions: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                            //AddLogMessage(Msg);
 
                             Session["CurrentSkillTree"] = tvSkills;
                             ListSkills();
@@ -154,13 +159,6 @@ namespace LarpPortal.Character
                     PopulateTreeView(iNodeID, childNode);
                 }
             }
-            //            Msg = "Done populating, start exclusions: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-            //            AddLogMessage(Msg);
-
-            ////            CheckExclusions();
-
-            //            Msg = "Done with exclusions: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-            //            AddLogMessage(Msg);
         }
 
         protected void tvSkills_TreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
@@ -238,8 +236,6 @@ namespace LarpPortal.Character
                 List<TreeNode> FoundNodes = FindNodesByValue(e.Node.Value);
                 foreach (TreeNode t in FoundNodes)
                 {
-                    //t.Text = t.Text.Replace("black", "grey");
-                    //t.ImageUrl = "/img/delete.png";
                     t.ShowCheckBox = false;
                     EnableChildren(t);
                 }
@@ -249,19 +245,22 @@ namespace LarpPortal.Character
                 // Check to see if we should not allow them to sell it back.
                 if (ViewState["SkillList"] != null)
                 {
-                    int iSkillID;
-                    if (int.TryParse(e.Node.Value, out iSkillID))
+                    if (hidAllowCharacterRebuild.Value == "0")
                     {
-                        List<int> SkillList = ViewState["SkillList"] as List<int>;
-                        if (SkillList.Contains(iSkillID))
+                        int iSkillID;
+                        if (int.TryParse(e.Node.Value, out iSkillID))
                         {
-                            e.Node.Checked = true;
-                            string jsString = "alert('You cannot sell back skills once a campaign has been closed.');";
-                            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                                    "MyApplication",
-                                    jsString,
-                                    true);
-                            return;
+                            List<int> SkillList = ViewState["SkillList"] as List<int>;
+                            if (SkillList.Contains(iSkillID))
+                            {
+                                e.Node.Checked = true;
+                                string jsString = "alert('o	This campaign is not allowing skills to be rebuilt at this time.  Once a skill is selected and saved, it cannot be changed.');";
+                                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                                        "MyApplication",
+                                        jsString,
+                                        true);
+                                return;
+                            }
                         }
                     }
                 }
@@ -481,22 +480,12 @@ namespace LarpPortal.Character
                         }
                     }
 
-                    //Msg = "btnSave - About to save character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    //Classes.LogWriter lWriter = new Classes.LogWriter();
-                    //lWriter.AddLogMessage(Msg, "Skills", "", "ID");
-
-                    string Msg = Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
-                    //AddLogMessage(Msg);
-
                     Exception t = new Exception("This is the message");
                     Classes.ErrorAtServer lobjErrors = new Classes.ErrorAtServer();
                     lobjErrors.ProcessError(t, "Skills", "", "Session");
 
                     lblMessage.Text = "Skills Saved";
                     lblMessage.ForeColor = Color.Black;
-
-                    //Msg = "btnSave - Done saving character: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-                    //AddLogMessage(Msg);
 
                     string jsString = "alert('Character " + Char.AKA + " has been saved.');";
                     ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
@@ -660,20 +649,5 @@ namespace LarpPortal.Character
                 }
             }
         }
-
-        //protected override void OnUnload(EventArgs e)
-        //{
-        //    base.OnUnload(e);
-
-        //    string Msg = "Page Unload: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
-        //    AddLogMessage(Msg);
-        //}
-
-        //        protected void AddLogMessage(string Msg)
-        //        {
-        //            SortedList sParam = new SortedList();
-        //            sParam.Add("@Msg", Msg);
-        ////            Classes.cUtilities.PerformNonQuery("uspInsSystemLog", sParam, "LARPortal", Session["UserName"].ToString());
-        //        }
     }
 }

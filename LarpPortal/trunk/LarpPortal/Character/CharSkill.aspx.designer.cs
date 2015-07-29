@@ -103,6 +103,15 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Label lblMessage;
         
         /// <summary>
+        /// lblSkillsLocked control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSkillsLocked;
+        
+        /// <summary>
         /// btnSave control.
         /// </summary>
         /// <remarks>
@@ -110,5 +119,14 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSave;
+        
+        /// <summary>
+        /// hidAllowCharacterRebuild control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidAllowCharacterRebuild;
     }
 }
