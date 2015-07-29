@@ -143,6 +143,12 @@
             {
                 background-color: lightblue;
             }
+
+        .SkillsLocked
+        {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body style="width: auto; height: 560px;">
@@ -217,11 +223,13 @@
                     <tr>
                         <td colspan="2">
                             <asp:Label ID="lblMessage" runat="server" />
+                            <asp:Label ID="lblSkillsLocked" runat="server" Text="Changes not allowed after Save" CssClass="SkillsLocked" Visible="false" />
                         </td>
                         <td align="right">
                             <asp:Button ID="btnSave" runat="server" Width="100px" CssClass="StandardButton" Text="Save" OnClick="btnSave_Click" /></td>
                     </tr>
                 </table>
+                <asp:HiddenField ID="hidAllowCharacterRebuild" runat="server" Value="0" />
             </ContentTemplate>
         </asp:UpdatePanel>
     </form>
