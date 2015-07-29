@@ -350,7 +350,11 @@ namespace LarpPortal
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
                         PageName = "/PageUnderConstruction.aspx";
-                        PageName = "/Events/Events.aspx";
+                        if(PlayerRoles.Contains("33:/"))
+                        {
+                            PageName = "/SilverfireRegistration.aspx";
+                        }
+                        //PageName = "/Events/Events.aspx";
                         LineText = "Events";
                         break;
 
@@ -756,7 +760,7 @@ namespace LarpPortal
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
                         PageName = "/PageUnderConstruction.aspx";
-                        PageName = "/Points/PointsAssign.aspx";
+                        //PageName = "/Points/PointsAssign.aspx";
                         LineText = "Character Build Points";
                         break;
                     case 42:

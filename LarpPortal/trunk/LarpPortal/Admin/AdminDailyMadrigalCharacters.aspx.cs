@@ -72,7 +72,7 @@ namespace LarpPortal.Admin
                     {
                         // Build the header row
                         TableCode = TableCode + "CharacterAKA</td><td>TeamName</td><td>CharacterFirstName</td><td>CharacterMiddleName</td><td>CharacterLastName</td>";
-                        TableCode = TableCode + "<td>PlotLeadPerson</td><td>FirstName</td><td>LastName</td><td>DateOfBirth</td><td>WhereFrom</td>";
+                        TableCode = TableCode + "<td>PlotLeadPerson</td><td>FirstName</td><td>LastName</td><td>DateOfBirth</td><td>Country</td>";
                         TableCode = TableCode + "<td>CurrentHome</td><td>TotalCP</td><td>PlayerComments</td><td>CharacterSkillSetID</td></tr>";
                     }
                     CharacterAKA = dRow["CharacterAKA"].ToString();
@@ -94,7 +94,7 @@ namespace LarpPortal.Admin
                     TableCode = TableCode + "<td>" + LastName + "</td>";
                     DateOfBirth = dRow["DateOfBirth"].ToString();
                     TableCode = TableCode + "<td>" + DateOfBirth + "</td>";
-                    WhereFrom = dRow["WhereFrom"].ToString();
+                    WhereFrom = dRow["Country"].ToString();
                     TableCode = TableCode + "<td>" + WhereFrom + "</td>";
                     CurrentHome = dRow["CurrentHome"].ToString();
                     TableCode = TableCode + "<td>" + CurrentHome + "</td>";
