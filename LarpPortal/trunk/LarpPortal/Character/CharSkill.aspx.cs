@@ -245,16 +245,16 @@ namespace LarpPortal.Character
                 // Check to see if we should not allow them to sell it back.
                 if (ViewState["SkillList"] != null)
                 {
-                    if (hidAllowCharacterRebuild.Value == "0")
+                    int iSkillID;
+                    if (int.TryParse(e.Node.Value, out iSkillID))
                     {
-                        int iSkillID;
-                        if (int.TryParse(e.Node.Value, out iSkillID))
+                        List<int> SkillList = ViewState["SkillList"] as List<int>;
+                        if (SkillList.Contains(iSkillID))
                         {
-                            List<int> SkillList = ViewState["SkillList"] as List<int>;
-                            if (SkillList.Contains(iSkillID))
+                            if (hidAllowCharacterRebuild.Value == "0")
                             {
                                 e.Node.Checked = true;
-                                string jsString = "alert('o	This campaign is not allowing skills to be rebuilt at this time.  Once a skill is selected and saved, it cannot be changed.');";
+                                string jsString = "alert('This campaign is not allowing skills to be rebuilt at this time.  Once a skill is selected and saved, it cannot be changed.');";
                                 ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
                                         "MyApplication",
                                         jsString,
@@ -480,10 +480,8 @@ namespace LarpPortal.Character
                         }
                     }
 
-                    Exception t = new Exception("This is the message");
-                    Classes.ErrorAtServer lobjErrors = new Classes.ErrorAtServer();
-                    lobjErrors.ProcessError(t, "Skills", "", "Session");
-
+                    string Msg = Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
+                    
                     lblMessage.Text = "Skills Saved";
                     lblMessage.ForeColor = Color.Black;
 
