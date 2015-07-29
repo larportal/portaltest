@@ -1,6 +1,6 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaignsAdmin.master" AutoEventWireup="true" CodeBehind="SilverfireRegistration.aspx.cs" Inherits="LarpPortal.SilverfireRegistration" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="SilverfireRegistration.aspx.cs" Inherits="LarpPortal.SilverfireRegistration" %>
 
-<asp:Content ID="CampaignInfoSetup" ContentPlaceHolderID="MemberCampaignsAdminContent" runat="server">
+<asp:Content ID="CampaignInfoSetup" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
 
     <style type="text/css">
         .TableTextBox
