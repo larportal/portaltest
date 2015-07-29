@@ -72,6 +72,7 @@ namespace LarpPortal.Classes
         private Int32 _WorldID = -1;
         private Int32 _StatusID = -1;
         private string _StatusDescription = "";
+        private bool _AllowCharacterRebuild = true;
         private string _CancellationPolicy = "";
         private string _CrossCampaignPosting = "";
         private decimal _EventCharacterCPCap = 0;
@@ -400,6 +401,11 @@ namespace LarpPortal.Classes
             get { return _StatusDescription; }
             set { _StatusDescription = value; }
         }
+        public bool AllowCharacterRebuild
+        {
+            get { return _AllowCharacterRebuild; }
+            set { _AllowCharacterRebuild = value; }
+        }
         public string CancellationPolicy
         {
             get { return _CancellationPolicy; }
@@ -689,6 +695,8 @@ namespace LarpPortal.Classes
                     _StyleDescription = ldt.Rows[0]["StyleName"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["StyleID"].ToString(), out iTemp))
                         _StyleID = iTemp;
+                    if (bool.TryParse(ldt.Rows[0]["AllowCharacterRebuild"].ToString(), out bTemp))      //  JLB 7/28/2015
+                        _AllowCharacterRebuild = bTemp;
                     _CampaignStyle = ldt.Rows[0]["StyleName"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["TechLevelID"].ToString(), out iTemp))
                         _TechLevelID = iTemp;
