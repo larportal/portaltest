@@ -189,7 +189,7 @@ namespace LarpPortal.Classes
                 FirstName = dRow["FirstName"].ToString();
                 LastName = dRow["LastName"].ToString();
                 DateOfBirth = dRow["DateOfBirth"].ToString();
-                WhereFrom = dRow["WhereFrom"].ToString();
+                WhereFrom = dRow["Country"].ToString();
                 CurrentHome = dRow["CurrentHome"].ToString();
                 PlayerComments = dRow["PlayerComments"].ToString();
                 CharacterCount++;
@@ -219,7 +219,7 @@ namespace LarpPortal.Classes
                 CharacterAKA = dRow["CharacterAKA"].ToString();
                 FirstName = dRow["FirstName"].ToString();
                 LastName = dRow["LastName"].ToString();
-                World = dRow["World"].ToString();
+                World = dRow["Country"].ToString();
                 DescriptorValue = dRow["DescriptorValue"].ToString();
                 SkillName = dRow["SkillName"].ToString();
                 AttributeDesc = dRow["AttributeDesc"].ToString();

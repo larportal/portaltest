@@ -67,7 +67,7 @@ namespace LarpPortal.Admin
                     if (CharacterSkillRowCounter == 1)
                     {
                         // Build the header row
-                        TableCode = TableCode + "CharacterAKA</td><td>FirstName</td><td>LastName</td><td>World</td><td>Team</td><td>SkillTypeID</td>";
+                        TableCode = TableCode + "CharacterAKA</td><td>FirstName</td><td>LastName</td><td>Country</td><td>Team</td><td>SkillTypeID</td>";
                         TableCode = TableCode + "<td>Order Origin</td><td>Skill</td><td>Attribute</td><td>DescriptorValue</td><td>SkillID</td></tr>";
                     }
                     CharacterAKA = dRow["CharacterAKA"].ToString();
@@ -76,7 +76,7 @@ namespace LarpPortal.Admin
                     TableCode = TableCode + "<td>" + FirstName + "</td>";
                     LastName = dRow["LastName"].ToString();
                     TableCode = TableCode + "<td>" + LastName + "</td>";
-                    World = dRow["World"].ToString();
+                    World = dRow["Country"].ToString();
                     TableCode = TableCode + "<td>" + World + "</td>";
                     TeamName = dRow["Team"].ToString();
                     TableCode = TableCode + "<td>" + TeamName + "</td>";

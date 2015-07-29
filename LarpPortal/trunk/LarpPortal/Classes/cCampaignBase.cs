@@ -892,5 +892,7 @@ namespace LarpPortal.Classes
             }
             return dtCampaignRoles;
         }
+
+
     }
 }
