@@ -45,6 +45,7 @@ namespace LarpPortal
             DataSet dsUser = Classes.cUtilities.LoadDataSet("uspGetSilverfireCharacter", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
 
             mvPlayerInfo.SetActiveView(vwNoPlayer);
+            mvDisplay.SetActiveView(vwRegistrationOpen);
 
             foreach (DataRow dRow in dsUser.Tables[0].Rows)
             {
