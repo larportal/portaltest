@@ -53,6 +53,12 @@
                                         </tr>
 
                                         <tr>
+                                            <td class="TableLabel">Email</td>
+                                            <td>
+                                                <asp:Label ID="lblPlayerEmail" runat="server" /></td>
+                                        </tr>
+
+                                        <tr>
                                             <td class="TableLabel">Role</td>
                                             <td>
                                                 <asp:Label ID="lblRole" runat="server" Text="PC" /></td>
@@ -91,7 +97,7 @@
 
                                         <tr style="vertical-align: top;">
                                             <td class="TableLabel">Comments</td>
-                                            <td>Describe any special arrangements or considerations.</td>
+                                            <td>Describe any special arrangements or considerations (including team changes).</td>
                                         </tr>
 
                                         <tr style="vertical-align: top;">
@@ -124,7 +130,9 @@
                                     <br />
                                     <br />
                                     <br />
-                                    <h2 style="text-align: center; color: black; font-size: 24pt;">You have been registered for this event.</h2>
+                                    <h2 style="text-align: center; color: black; font-size: 24pt;">You have been added to the wait list for this event.</h2>
+                                    <br />
+                                    <h2 style="text-align: center; color: black; font-size: 24pt;">You will be notified via email if you are registered.</h2>
                                 </asp:View>
                                 <asp:View ID="vwError" runat="server">
                                     <br />
@@ -140,7 +148,7 @@
                             <br />
                             <br />
                             <br />
-                            <h2 style="text-align: center; color: black; font-size: 24pt;">You do not have any Silverfire Characters.</h2>
+                            <h2 style="text-align: center; color: black; font-size: 24pt;">This event is now closed and not accepting any more registrations.</h2>
                         </asp:View>
                     </asp:MultiView>
                 </div>

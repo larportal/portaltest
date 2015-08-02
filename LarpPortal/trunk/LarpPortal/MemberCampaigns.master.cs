@@ -883,9 +883,9 @@ namespace LarpPortal
                             SkipLine = true;
                         break;
                     case 49:
-                        if (ActiveNav == "PEL" && PlayerRoles.Contains("/28/"))
+                        if (ActiveNav == "PEL" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/4/")))
                         {
-                            if (PageName == "PELApprovalList" && PlayerRoles.Contains("/28/"))
+                            if (PageName == "PELApprovalList" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/4/")))
                             {
                                 ActiveState = " class=\"active\">";
                             }

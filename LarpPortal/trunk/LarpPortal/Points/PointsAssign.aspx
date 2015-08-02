@@ -9,38 +9,6 @@
             <div class="col-sm-1">
                 <h4>Assign By:</h4>
             </div>
-<%--            <div class="col-sm-3">
-                <div class="checkbox col-sm-12">
-                    <ul class="list-unstyled">
-                        <li>
-                            <label>
-                                <asp:CheckBox ID="chkEventRegistration" runat="server" Text="Event Registration" />
-                            </label>
-
-                        </li>
-                        <li>
-                            <label>
-                                <asp:CheckBox ID="chkEarnType" runat="server" Text="Earn Type" />
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <asp:CheckBox ID="chkEarnDescription" runat="server" Text="Earn Description" />
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <asp:CheckBox ID="chkPlayerName" runat="server" Text="Player Name" />
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <asp:CheckBox ID="chkCharacterName" runat="server" Text="Character Name" />
-                            </label>
-                        </li>
-                    </ul>
-                </div>
-            </div>--%>
             <div class="col-sm-4">
                 <div class="col-sm-12 form-group">
                     <label for="ddlAttenance" class="col-sm-5 control-label">Attendance</label>
@@ -79,7 +47,6 @@
             </div>
         </div>
 
-
         <div id="character-info" class="character-info tab-pane active">
             <section role="form">
                 <%-- class="form-horizontal form-condensed">--%>
@@ -101,57 +68,42 @@
                                                 CssClass="table table-striped table-hover table-condensed">
                                                 <Columns>
 
-<%--                                                   <asp:TemplateField>
+                                                   <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <asp:HiddenField ID="hidPointID" runat="server" Value='<%# Eval("CPOpportunityID") %>' />
+                                                            <asp:HiddenField ID="hidPointID" runat="server" Value='<%# Eval("CampaignCPOpportunityID") %>' />
                                                         </ItemTemplate>
-                                                    </asp:TemplateField>--%>
+                                                    </asp:TemplateField>
 
-                                                    <%--                                                    <asp:TemplateField HeaderText="Date">
+                                                    <asp:TemplateField HeaderText="Event">
                                                         <ItemTemplate>
-                                                            <asp:Label runat="server" Text='<%# Eval("EarnDate") %>' />
+                                                            <asp:Label runat="server" Text='<%# Eval("EventID") %>' />
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:Label ID="lblEarnDate" runat="server" Text='<%# Eval("EarnDate") %>' />
-                                                        </EditItemTemplate>
-                                                    </asp:TemplateField>--%>
-                                                    <asp:TemplateField HeaderText="Date">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblEarnDate" runat="server" Text="DateValus"></asp:Label>
-                                                        </ItemTemplate>
-                                                        <EditItemTemplate>
-                                                            <asp:Label ID="lblEarnDate2" runat="server" Text="DateValue"></asp:Label>
+                                                            <asp:Label ID="lblEvent" runat="server" Text='<%# Eval("EventID") %>' />
                                                         </EditItemTemplate>
                                                     </asp:TemplateField>
 
-                                                    <%--                                                    <asp:TemplateField HeaderText="Player Name" ItemStyle-Wrap="true">
+                                                    <asp:TemplateField HeaderText="Player Name" ItemStyle-Wrap="true">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblPlayerName" runat="server" Text='<%# Eval("PlayerName") %>' />
+                                                            <asp:Label ID="lblPlayerName" runat="server" Text='<%# Eval("CampaignPlayerID") %>' />
                                                         </ItemTemplate>
-                                                    </asp:TemplateField>--%>
-                                                    <asp:TemplateField HeaderText="Character Name">
+                                                    </asp:TemplateField>
+
+
+                                                    <asp:TemplateField HeaderText="Character Name" ItemStyle-HorizontalAlign="center" ItemStyle-Wrap="false" ItemStyle-Width="100px">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblCharacterName" runat="server" Text="CharName"></asp:Label>
+                                                            <asp:Label runat="server" Text='<%# Eval("ReasonID") %>' />
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:Label ID="lblCharacterName2" runat="server" Text="CharName2"></asp:Label>
+                                                            <asp:Label ID="lblCharacterName" runat="server" Text='<%# Eval("ReasonID") %>' />
                                                         </EditItemTemplate>
                                                     </asp:TemplateField>
 
-                                                    <%--                                                    <asp:TemplateField HeaderText="Character Name" ItemStyle-HorizontalAlign="center" ItemStyle-Wrap="false" ItemStyle-Width="100px">
+                                                   <asp:TemplateField HeaderText="Earn Description" ItemStyle-Wrap="true">
                                                         <ItemTemplate>
-                                                            <asp:Image ID="imgDisplay" runat="server" ImageUrl='<%# Boolean.Parse(Eval("CardDisplayDescription").ToString()) ? "../img/checkbox.png" : "../img/delete.png" %>' />
+                                                            <asp:Label ID="lblEarnDescription" runat="server" Text='<%# Eval("Description") %>' />
                                                         </ItemTemplate>
-                                                        <EditItemTemplate>
-                                                            <asp:CheckBox ID="cbDisplayDesc" runat="server" Text="" CssClass="NoPadding" Checked='<%# Eval("CardDisplayDescription") %>' />
-                                                        </EditItemTemplate>
-                                                    </asp:TemplateField>--%>
-
-                                                    <%--                                                    <asp:TemplateField HeaderText="Earn Description" ItemStyle-Wrap="true">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblIncantDesc" runat="server" Text='<%# Eval("SkillIncant") %>' />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>--%>
+                                                    </asp:TemplateField>
 
                                                     <%--                                                    <asp:TemplateField HeaderText="Value" ItemStyle-HorizontalAlign="center" ItemStyle-Wrap="false" ItemStyle-Width="100px">
                                                         <ItemTemplate>
