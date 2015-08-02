@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Collections;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Net;
+using System.Net.Mail;
 
 namespace LarpPortal
 {
@@ -22,14 +24,14 @@ namespace LarpPortal
         protected void Page_PreRender(object sender, EventArgs e)
         {
             DateTime dtRegistrationStart = new DateTime(2015, 7, 30, 20, 0, 0);
-            DateTime dtRegistrationEnd = new DateTime(2015, 8, 1, 20, 0, 0);
+            DateTime dtRegistrationEnd = new DateTime(2015, 9, 4, 20, 0, 0);
 
-            if (DateTime.Now < dtRegistrationStart )
+            if (DateTime.Now < dtRegistrationStart)
             {
                 mvDisplay.SetActiveView(vwNotOpenYet);
                 return;
             }
-            else if (DateTime.Now > dtRegistrationEnd )
+            else if (DateTime.Now > dtRegistrationEnd)
             {
                 mvDisplay.SetActiveView(vwRegistrationClosed);
                 return;
@@ -54,6 +56,8 @@ namespace LarpPortal
                     lblPlayerName.Text = dRow["NickName"].ToString().Trim() + " ( " + dRow["FirstName"].ToString().Trim() + " " + dRow["LastName"].ToString().Trim() + " )";
                 else
                     lblPlayerName.Text = dRow["FirstName"].ToString().Trim() + " " + dRow["LastName"].ToString().Trim();
+
+                lblPlayerEmail.Text = dRow["EmailAddress"].ToString();
 
                 lblCharacterAKA.Text = dRow["CharacterAKA"].ToString();
 
@@ -127,7 +131,7 @@ namespace LarpPortal
                 string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
                 DataTable dtUser = Classes.cUtilities.LoadDataTable("uspInsUpdCMRegistrations", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
                 mvPlayerInfo.SetActiveView(vwRegistered);
-
+                NotifyOfNewRegistration();
                 string jsString = "alert('Character " + lblCharacterAKA.Text + " has been registered.');";
                 ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
                         "MyApplication",
@@ -139,5 +143,47 @@ namespace LarpPortal
                 mvPlayerInfo.SetActiveView(vwError);
             }
         }
+
+        protected void NotifyOfNewRegistration()
+        {
+            string EmailAddress = "fifthgategm@gmail.com";
+            string strBody;
+            string FirstName = "";
+            string LastName = "";
+            string LoginUsername = "";
+            Classes.cLogin Username = new Classes.cLogin();
+            Username.GetUsernameByEmail(EmailAddress);
+            FirstName = Username.FirstName;
+            LastName = Username.LastName;
+            LoginUsername = Username.Username;
+            string strFromUser = "support";
+            string strFromDomain = "larportal.com";
+            string strFrom = strFromUser + "@" + strFromDomain;
+            string strSMTPPassword = "Piccolo1";
+            string strSubject = "New Silverfire event registration - " + lblPlayerName.Text;
+            strBody = lblPlayerName.Text + " has just registered for the upcoming Silverfire event.  <br>Email: " + lblPlayerEmail.Text + "<br>Character: " + lblCharacterAKA.Text + "<br>Team: ";
+            strBody = strBody + ddlTeams.SelectedItem.Text + "<br>Payment Method: " + ddlPaymentType.SelectedItem.Text + "<br>Player Comments: " + tbComment.Text;
+            MailMessage mail = new MailMessage(strFrom, EmailAddress);
+            mail.Bcc.Add("support@larportal.com");
+            SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
+            client.EnableSsl = false;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
+            client.Timeout = 10000;
+            mail.Subject = strSubject;
+            mail.Body = strBody;
+            mail.IsBodyHtml = true;
+
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception)
+            {
+                //lblUsernameISEmail.Text = "There was an issue. Please contact us at support@larportal.com for assistance.";
+                //lblUsernameISEmail.Visible = true;
+            }
+        }
+
     }
 }

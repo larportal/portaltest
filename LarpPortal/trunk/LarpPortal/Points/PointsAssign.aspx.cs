@@ -50,7 +50,7 @@ namespace LarpPortal.Points
             DataTable dtOpportunities = new DataTable();
             SortedList sParams = new SortedList();
             sParams.Add("@CampaignID", intCampaignID);
-            sParams.Add("@StatusID", 19);
+            sParams.Add("@StatusID", 19);   // 19 = Claimed
             dtOpportunities = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
             gvPoints.DataSource = dtOpportunities;
             gvPoints.DataBind();
