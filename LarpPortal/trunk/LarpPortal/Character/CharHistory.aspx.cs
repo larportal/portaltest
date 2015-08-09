@@ -39,6 +39,15 @@ namespace LarpPortal.Character
                             else
                                 lblUpdateDate.Text = "Unknown";
                             lblCampaign.Text = dRow["CampaignName"].ToString();
+                            Session["CharacterHistoryEmail"] = dRow["CharacterHistoryNotificationEmail"];
+                            Session["PlayerName"] = dRow["PlayerName"];
+                            Session["PlayerEmail"] = dRow["EmailAddress"];
+                            if (Session["CampaignID"] == null)
+                                Session["CampaignID"] = dRow["CampaignID"];
+                            else
+                            {
+                                Session["CampaignID"] = dRow["CampaignID"];
+                            }
                         }
                         string sCurrentUser = Session["SelectedCharacter"].ToString();
                         foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
@@ -102,6 +111,37 @@ namespace LarpPortal.Character
                         "MyApplication",
                         jsString,
                         true);
+                CharacterHistoryEmailNotificaiton();
+            }
+        }
+
+        protected void CharacterHistoryEmailNotificaiton()
+        {
+            string strTo = "";
+            string strCampaignName = lblCampaign.Text;
+            string strPlayerName = "";
+            string strPlayerEmail = "";
+            if (Session["CharacterHistoryEmail"] != null)
+                strTo = Session["CharacterHistoryEmail"].ToString();
+            if (Session["PlayerName"] != null)
+                strPlayerName = Session["PlayerName"].ToString();
+            if (Session["PlayerEmail"] != null)
+                strPlayerEmail = Session["PlayerEmail"].ToString();
+            string strSubject = "Character History submitted - Character: " + ddlCharacterSelector.SelectedItem.Text;
+            string strBody = "A new character history has been submitted for campaign " + lblCampaign.Text + "<br><br>";
+            strBody = strBody + "Player: " + strPlayerName + "<br>";
+            strBody = strBody + "Player Email:" + strPlayerEmail + "<br>";
+            strBody = strBody + "Character:" + ddlCharacterSelector.SelectedItem.Text + "<br><br>";
+            strBody = strBody + "History Text:<br>" + tbHistory.Text;
+
+            Classes.cEmailMessageService SubmitCharacterHistory = new Classes.cEmailMessageService();
+            try
+            {
+                SubmitCharacterHistory.SendMail(strSubject, strBody, strTo, strPlayerEmail, "");
+            }
+            catch (Exception)
+            {
+
             }
         }
 
