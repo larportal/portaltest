@@ -14,6 +14,9 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Added to redirect http to https
+            setSecureProtocol(true);
+            //
             if(!IsPostBack)
             {
                 // Destroys everything in the session which is essentially what logging out does.
@@ -96,6 +99,27 @@ namespace LarpPortal
                 txtPasswordNewRetype.Attributes.Add("Placeholder", "Retype Password");
                 btnSignUp.Visible = false;
             }
+        }
+
+        public static void setSecureProtocol(bool bSecure)
+        {
+            string redirectURL = null;
+            HttpContext context = HttpContext.Current;
+            // If we want HTTPS and it is currently HTTP
+            if (bSecure && !context.Request.IsSecureConnection)
+                redirectURL = context.Request.Url.ToString().Replace("http:", "https:");
+            else
+                // If we want HTTP and it is currently HTTPS
+                if (!bSecure && context.Request.IsSecureConnection)
+                    redirectURL = context.Request.Url.ToString().Replace("https:", "http:");
+            //else
+            // in all other cases we don't need to redirect
+
+            if (context.Request.IsLocal)
+                redirectURL = null;
+            // check if we need to redirect, and if so use redirectUrl to do the job
+            if (redirectURL != null)
+                context.Response.Redirect(redirectURL);
         }
 
         protected void btnLogin_Click(object sender, EventArgs e)
@@ -320,12 +344,9 @@ namespace LarpPortal
                     string ActivationKey = "";
                     ActivationKey = Activation.SecurityResetCode;
                     GenerateWelcomeEmail(txtFirstName.Text, txtLastName.Text, txtNewUsername.Text, txtEmail.Text, ActivationKey);
-                    // TODO-Rick-0c Redirect to page that will tell user to go look in their email for login directions - Done but 0b isn't so leaving placeholder for now
-                    //Response.Redirect("~/NewUserLoginDirections.aspx", "_blank");
                     Response.Write("<script>");
                     Response.Write("window.open('NewUserLoginDirections.aspx','_blank')");
                     Response.Write("</script>");
-                    // TODO-Rick-0d Oh yeah, create page NewUserLoginDirections.aspx before directing them there.
                     // TODO-Rick-0e Account for versioning of 'terms of use' and keeping track of date/time and which version user agreed to
                 }
             }
@@ -338,28 +359,15 @@ namespace LarpPortal
         protected void GenerateWelcomeEmail(string FirstName, string LastName, string Username, string strTo, string ActivationKey)
         {
             string strBody;
-            string strFromUser = "support";
-            string strFromDomain = "larportal.com";
-            string strFrom = strFromUser + "@" + strFromDomain;
-            string strSMTPPassword = "Piccolo1";
             string strSubject = "Your LARP Portal Activation Key";
             strBody = "Hi " + FirstName + "<p></p>Welcome to LARP Portal.  The activation key for your new account is " + ActivationKey + ".  To activate your ";
             strBody = strBody + "account return to www.larportal.com.  Enter your username and password into the Member Login section and click the Login ";
             strBody = strBody + "button.  When the site prompts you for your activation key, enter it and click the Login button again.<p></p>If you have ";
             strBody = strBody + "any questions please email us at support@larportal.com.";
-            MailMessage mail = new MailMessage(strFrom, strTo);
-            SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
-            client.EnableSsl = false;
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
-            client.Timeout = 10000;
-            mail.Subject = strSubject;
-            mail.Body = strBody;
-            mail.IsBodyHtml = true;
-
+            Classes.cEmailMessageService NotifyStaff = new Classes.cEmailMessageService();
             try
             {
-                client.Send(mail);
+                NotifyStaff.SendMail(strSubject, strBody, strTo, "" , "support@larportal.com");
             }
             catch (Exception)
             {

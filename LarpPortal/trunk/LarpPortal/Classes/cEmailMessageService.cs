@@ -5,6 +5,12 @@ using System.Linq;
 using System.Web;
 using System.Net;
 using System.Net.Mail;
+using System.Data;
+using LarpPortal.Classes;
+using System.Reflection;
+using System.Collections;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace LarpPortal.Classes
 {
@@ -12,62 +18,46 @@ namespace LarpPortal.Classes
     {
         private MailMessage mail { get; set; }
 
-        public void EmailMessageService()
+        public void SendMail(string subject, string body, string Tos, string ccs, string bccs)
         {
-            mail = new MailMessage() { From = new MailAddress("support@larportal.com") };
-        }
-
-        public void SendMail(string subject, string body)
-        {
-            if (mail == null)
-                throw new Exception("No mail message to send");
-
+            if (string.IsNullOrEmpty(Tos))
+                throw new ArgumentException("There are no To email addresses");
+            if (string.IsNullOrEmpty(body))
+                throw new ArgumentException("The body is empty");
+            if (subject == null)
+                throw new ArgumentException("The subject is empty");
+            string strFrom = "support@larportal.com";
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(strFrom);
             mail.Subject = subject;
             mail.Body = body;
-            SmtpClient emailClient = new SmtpClient("smtpout.secureserver.net");
-            emailClient.UseDefaultCredentials = false;
-            emailClient.EnableSsl = true;
-            emailClient.Credentials = new System.Net.NetworkCredential("support@larportal.com", "Piccolo1");
-            emailClient.Send(mail);
-        }
-
-//----------->	I would add a trim to the email address and also check to make sure the address is not blank.
-        public void SetMailTo(string[] toEmails)
-        {
-            foreach (string e in toEmails)
-                mail.To.Add(new MailAddress(e));
-        }
-
-        public void SetMailCc(string[] toEmails)
-        {
-            foreach (string e in toEmails)
-                mail.CC.Add(new MailAddress(e));
-        }
-
-        public void TheseSettingsWorkForSendingAndNeedToBeIncorporatedInTheClassRippedOffFromIndexASPX()
-        {
-            string strTo;
-            string strBody;
-            string strFromUser = "support";
-            string strFromDomain = "larportal.com";
-            string strFrom = strFromUser + "@" + strFromDomain;
+            string[] recipients = Tos.Split(",".ToArray());
+            foreach (string rec in recipients)
+                mail.To.Add(rec.Trim());
+            if (!string.IsNullOrEmpty(ccs))
+            {
+                string[] ccEmails = ccs.Split(",".ToArray());
+                foreach (string cc in ccEmails)
+                    mail.CC.Add(cc.Trim());
+            }
+            if(!string.IsNullOrEmpty(bccs))
+            {
+                string[] bccEmails = bccs.Split(",".ToArray());
+                foreach (string bcc in bccEmails)
+                    mail.Bcc.Add(bcc.Trim());
+            }
             string strSMTPPassword = "Piccolo1";
-            string strSubject = "Subject Text";
-            strBody = "Body Text";
-            strTo = "To address(es) defined in code";
-            MailMessage mail = new MailMessage(strFrom, strTo);
             SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
             client.EnableSsl = false;
             client.UseDefaultCredentials = false;
             client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
             client.Timeout = 10000;
-            mail.Subject = strSubject;
-            mail.Body = strBody;
             mail.IsBodyHtml = true;
 
             try
             {
                 client.Send(mail);
+                WriteEmailLog(strFrom, Tos, ccs, bccs, subject, body);
             }
             catch (Exception)
             {
@@ -75,6 +65,31 @@ namespace LarpPortal.Classes
                 //lblEmailFailed.Text = "There was an issue. Please contact us at support@larportal.com for assistance.";
                 //lblEmailFailed.Visible = true;
             }
+        }
+
+        public void WriteEmailLog(string EmailFrom, string EmailTo, string EmailCCs, string EmailBCCs, string Subject, string Body)
+        {
+            string stStoredProc = "LARPortalAudit.dbo.uspInsertEmailLog";
+            string stCallingMethod = "cEmailMessageService.WriteEmailLog";
+            //DataTable dtCharacters = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@EmailID", -1);
+            sParams.Add("@EmailFrom", EmailFrom);
+            sParams.Add("@EmailTo", EmailTo);
+            sParams.Add("@EmailCCs", EmailCCs);
+            sParams.Add("@EmailBCCs", EmailBCCs);
+            sParams.Add("@Subject", Subject);
+            sParams.Add("@Body", Body);
+            try
+            {
+                Classes.cUtilities.PerformNonQuery(stStoredProc, sParams, "LARPortal", stCallingMethod);
+            }
+            catch(Exception)
+            {
+                // Keep going.  Nothing to see here (at this time)
+            }
+            
+
         }
     }
 }
