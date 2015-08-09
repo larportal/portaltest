@@ -85,17 +85,17 @@
 
                                                     <asp:TemplateField HeaderText="Player Name" ItemStyle-Wrap="true">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblPlayerName" runat="server" Text='<%# Eval("CampaignPlayerID") %>' />
+                                                            <asp:Label ID="lblPlayerName" runat="server" Text='<%# Eval("PlayerName") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
 
 
                                                     <asp:TemplateField HeaderText="Character Name" ItemStyle-HorizontalAlign="center" ItemStyle-Wrap="false" ItemStyle-Width="100px">
                                                         <ItemTemplate>
-                                                            <asp:Label runat="server" Text='<%# Eval("ReasonID") %>' />
+                                                            <asp:Label runat="server" Text='<%# Eval("PlayerName") %>' />
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:Label ID="lblCharacterName" runat="server" Text='<%# Eval("ReasonID") %>' />
+                                                            <asp:Label ID="lblCharacterName" runat="server" Text='<%# Eval("PlayerName") %>' />
                                                         </EditItemTemplate>
                                                     </asp:TemplateField>
 
@@ -105,32 +105,29 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
 
-                                                    <%--                                                    <asp:TemplateField HeaderText="Value" ItemStyle-HorizontalAlign="center" ItemStyle-Wrap="false" ItemStyle-Width="100px">
+                                                   <asp:TemplateField HeaderText="Value" ItemStyle-Wrap="true">
                                                         <ItemTemplate>
-                                                            <asp:Image ID="imgIncant" runat="server" ImageUrl='<%# Boolean.Parse(Eval("CardDisplayIncant").ToString()) ? "../img/checkbox.png" : "../img/delete.png" %>' />
+                                                            <asp:Label ID="lblValue" runat="server" Text='<%# Eval("CPValue") %>' />
                                                         </ItemTemplate>
-                                                        <EditItemTemplate>
-                                                            <asp:CheckBox ID="cbDisplayIncant" runat="server" Text="" CssClass="NoPadding" Checked='<%# Eval("CardDisplayIncant") %>' />
-                                                        </EditItemTemplate>
-                                                    </asp:TemplateField>--%>
+                                                    </asp:TemplateField>
 
-                                                    <%--                                                    <asp:TemplateField HeaderText="Assign CP">
+                                                    <asp:TemplateField HeaderText="Assign CP">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblCardDesc" runat="server" Text='<%# Eval("PlayerDescription") %>' />
+                                                            <asp:CheckBox ID="chkAssignCPCurrent" runat="server" />
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:TextBox ID="tbPlayDesc" runat="server" Text='<%# Eval("PlayerDescription") %>' BorderColor="Black" BorderStyle="Solid" BorderWidth="1" />
+                                                            <asp:CheckBox ID="chkAssignCPAction" runat="server" />
                                                         </EditItemTemplate>
-                                                    </asp:TemplateField>--%>
+                                                    </asp:TemplateField>
 
-                                                    <%--                                                    <asp:TemplateField HeaderText="Reason Unassigned">
+                                                    <asp:TemplateField HeaderText="Reason Unassigned">
                                                         <ItemTemplate>
-                                                            <asp:Label ID="lblCardIncant" runat="server" Text='<%# Eval("PlayerIncant") %>' />
+                                                            <asp:Label ID="lblStaffComments" runat="server" Text='<%# Eval("StaffComments") %>' />
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
-                                                            <asp:TextBox ID="tbPlayIncant" runat="server" Text='<%# Eval("PlayerIncant") %>' BorderColor="Black" BorderStyle="Solid" BorderWidth="1" />
+                                                            <asp:TextBox ID="tbStaffComments" runat="server" Text='<%# Eval("StaffComments") %>' BorderColor="Black" BorderStyle="Solid" BorderWidth="1" />
                                                         </EditItemTemplate>
-                                                    </asp:TemplateField>--%>
+                                                    </asp:TemplateField>
 
                                                     <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                         <ItemTemplate>

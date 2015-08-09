@@ -53,7 +53,15 @@ namespace LarpPortal.Classes
         public double TotalCP { get; set; }
         public string AttributeDesc { get; set; }
         public string OrderOrigin { get; set; }
-
+        public int RegistrationID { get; set; }
+        public string EventName { get; set;}
+        public string DateRegistered { get; set;}
+        public string OrderName { get; set;}
+        public string Description { get; set;}
+        public string EmailAddress { get; set;}
+        public string PlayerCommentsToStaff { get; set;}
+        public int RegCount { get; set; }
+ 
         /// <summary>
         /// This will get all user logins for the past 30 days
         /// May eventually make it day parameter passable but defaulting 30 for now
@@ -101,7 +109,7 @@ namespace LarpPortal.Classes
             SortedList slParameters = new SortedList();
             DataTable dtCharacters = new DataTable();
             DataSet dsCharacters = new DataSet();
-            dtCharacters = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Usename", stCallingMethod);
+            dtCharacters = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Username", stCallingMethod);
             foreach (DataRow dRow in dtCharacters.Rows)
             {
                 if (int.TryParse(dRow["PlotLeadPerson"].ToString(), out iTemp))
@@ -127,6 +135,41 @@ namespace LarpPortal.Classes
         }
 
         /// <summary>
+        /// This will return a list of all Fifth Gate Registrations
+        /// </summary>
+        public DataTable FifthGateRegistrations()
+        {
+            RegCount = 0;
+            int iTemp = 0;
+            string stStoredProc = "uspAdminFifthGateRegistrations";
+            string stCallingMethod = "cAdminViews.FifthGateRegistrations";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@EventID", 512);
+            slParameters.Add("@SkillTypeID", 24);
+            DataTable dtRegistrations = new DataTable();
+            DataSet dsRegistrations = new DataSet();
+            dtRegistrations = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Username", stCallingMethod);
+            foreach (DataRow dRow in dtRegistrations.Rows)
+            {
+                if (int.TryParse(dRow["RegistrationID"].ToString(), out iTemp))
+                    RegistrationID = iTemp;
+                EventName = dRow["EventName"].ToString();
+                DateRegistered = dRow["DateRegistered"].ToString();
+                CharacterAKA = dRow["CharacterAKA"].ToString();
+                OrderName = dRow["OrderName"].ToString();
+                TeamName = dRow["TeamName"].ToString();
+                FirstName = dRow["FirstName"].ToString();
+                LastName = dRow["LastName"].ToString();
+                Description = dRow["Description"].ToString();
+                EmailAddress = dRow["EmailAddress"].ToString();
+                PlayerCommentsToStaff = dRow["PlayerCommentsToStaff"].ToString();
+              
+                RegCount++;
+            }
+            return dtRegistrations;
+        }
+
+        /// <summary>
         /// This will return a list of all Fifth Gate Character Skill
         /// </summary>
         public DataTable FifthGateCharacterSkillList()
@@ -138,7 +181,7 @@ namespace LarpPortal.Classes
             SortedList slParameters = new SortedList();
             DataTable dtCharacterSkills = new DataTable();
             DataSet dsCharacterSkills = new DataSet();
-            dtCharacterSkills = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Usename", stCallingMethod);
+            dtCharacterSkills = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Username", stCallingMethod);
             foreach (DataRow dRow in dtCharacterSkills.Rows)
             {
                 if (int.TryParse(dRow["SkillTypeID"].ToString(), out iTemp))
@@ -172,7 +215,7 @@ namespace LarpPortal.Classes
             SortedList slParameters = new SortedList();
             DataTable dtCharacters = new DataTable();
             DataSet dsCharacters = new DataSet();
-            dtCharacters = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Usename", stCallingMethod);
+            dtCharacters = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Username", stCallingMethod);
             foreach (DataRow dRow in dtCharacters.Rows)
             {
                 if (int.TryParse(dRow["PlotLeadPerson"].ToString(), out iTemp))
@@ -209,7 +252,7 @@ namespace LarpPortal.Classes
             SortedList slParameters = new SortedList();
             DataTable dtCharacterSkills = new DataTable();
             DataSet dsCharacterSkills = new DataSet();
-            dtCharacterSkills = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Usename", stCallingMethod);
+            dtCharacterSkills = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Username", stCallingMethod);
             foreach (DataRow dRow in dtCharacterSkills.Rows)
             {
                 if (int.TryParse(dRow["SkillTypeID"].ToString(), out iTemp))

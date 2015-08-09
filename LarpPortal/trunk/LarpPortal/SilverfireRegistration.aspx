@@ -110,7 +110,7 @@
                                             <td class="TableLabel"></td>
                                             <td style="text-align: center; text-align: right;">
                                                 <span style="text-align: center;">
-                                                    <asp:Label ID="lblAlreadyRegistered" runat="server" Text="You have already registered for this event." Visible="false" /></span>
+                                                    <asp:Label ID="lblAlreadyRegistered" runat="server" Text="You have been added to the wait list for the event." Visible="false" /></span>
                                                 <span style="text-align: right;">
                                                     <asp:Button ID="btnRegister" runat="server" CssClass="StandardButton" Width="100" Text="Register" OnClick="btnRegister_Click" /></span>
                                             </td>

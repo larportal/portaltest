@@ -121,6 +121,7 @@ namespace LarpPortal
             sParam.Add("@DateRegistered", DateTime.Now);
             sParam.Add("@EventPaymentTypeID", ddlPaymentType.SelectedValue);
             sParam.Add("@PlayerCommentsToStaff", tbComment.Text.Trim());
+            sParam.Add("@RegistrationStatus", 44);
             if (hidTeamMember.Value == "1")
                 if (ddlTeams.SelectedIndex != 0)
                     sParam.Add("@TeamID", ddlTeams.SelectedValue);
@@ -131,12 +132,12 @@ namespace LarpPortal
                 string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
                 DataTable dtUser = Classes.cUtilities.LoadDataTable("uspInsUpdCMRegistrations", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
                 mvPlayerInfo.SetActiveView(vwRegistered);
-                NotifyOfNewRegistration();
                 string jsString = "alert('Character " + lblCharacterAKA.Text + " has been registered.');";
                 ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
                         "MyApplication",
                         jsString,
                         true);
+                NotifyOfNewRegistration();
             }
             catch
             {
@@ -146,37 +147,35 @@ namespace LarpPortal
 
         protected void NotifyOfNewRegistration()
         {
-            string EmailAddress = "fifthgategm@gmail.com";
             string strBody;
-            string FirstName = "";
-            string LastName = "";
-            string LoginUsername = "";
-            Classes.cLogin Username = new Classes.cLogin();
-            Username.GetUsernameByEmail(EmailAddress);
-            FirstName = Username.FirstName;
-            LastName = Username.LastName;
-            LoginUsername = Username.Username;
-            string strFromUser = "support";
-            string strFromDomain = "larportal.com";
-            string strFrom = strFromUser + "@" + strFromDomain;
-            string strSMTPPassword = "Piccolo1";
+            //string strFromUser = "support";
+            //string strFromDomain = "larportal.com";
+            //string strFrom = strFromUser + "@" + strFromDomain;
+            //string strSMTPPassword = "Piccolo1";
             string strSubject = "New Silverfire event registration - " + lblPlayerName.Text;
+            string strTeam = "";
+            if (ddlTeams.SelectedIndex >= 0)
+                strTeam = ddlTeams.SelectedItem.Text;
             strBody = lblPlayerName.Text + " has just registered for the upcoming Silverfire event.  <br>Email: " + lblPlayerEmail.Text + "<br>Character: " + lblCharacterAKA.Text + "<br>Team: ";
-            strBody = strBody + ddlTeams.SelectedItem.Text + "<br>Payment Method: " + ddlPaymentType.SelectedItem.Text + "<br>Player Comments: " + tbComment.Text;
-            MailMessage mail = new MailMessage(strFrom, EmailAddress);
-            mail.Bcc.Add("support@larportal.com");
-            SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
-            client.EnableSsl = false;
-            client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
-            client.Timeout = 10000;
-            mail.Subject = strSubject;
-            mail.Body = strBody;
-            mail.IsBodyHtml = true;
+            strBody = strBody + strTeam + "<br>Payment Method: " + ddlPaymentType.SelectedItem.Text + "<br>Player Comments: " + tbComment.Text;
+            //string EmailAddress = "fifthgategm@gmail.com";
+            //MailMessage mail = new MailMessage(strFrom, EmailAddress);
+            //mail.Bcc.Add("support@larportal.com");
+            //SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
+            //client.EnableSsl = false;
+            //client.UseDefaultCredentials = false;
+            //client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
+            //client.Timeout = 10000;
+            //mail.Subject = strSubject;
+            //mail.Body = strBody;
+            //mail.IsBodyHtml = true;
+
+            Classes.cEmailMessageService RegistrationEmail = new Classes.cEmailMessageService();
 
             try
             {
-                client.Send(mail);
+                //client.Send(mail);
+                RegistrationEmail.SendMail(strSubject, strBody, "fifthgategm@gmail.com", lblPlayerEmail.Text, "support@larportal.com");
             }
             catch (Exception)
             {
