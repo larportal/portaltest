@@ -292,6 +292,7 @@ namespace LarpPortal
                         else
                             SkipLine = true;
                         break;
+
                     case 9:
                         if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
                         {
@@ -313,8 +314,8 @@ namespace LarpPortal
                             SkipLine = true;
                         break;
 
-                    //Missing 10
-                    //Missing 11
+                    //Missing 10 - Rules
+                    //Missing 11 - Rules Section - iterative per section
 
                     case 12:
                         //This one is just a link?
@@ -333,9 +334,9 @@ namespace LarpPortal
                         LineText = "Calendar";
                         break;
 
-                    //Missing 13
-                    //Missing 14
-                    //Missing 15
+                    //Missing 13 - Special events
+                    //Missing 14 - Scheduling
+                    //Missing 15 - Event scheduling
 
                     case 16:
                         if (PageName == "EVENTS")
@@ -358,8 +359,28 @@ namespace LarpPortal
                         LineText = "Events";
                         break;
 
-                    //Missing 17
-                    //Missing 18
+                    case 17:
+                        if (PageName == "EVENTS")
+                        {
+                            ActiveState = " class=\"active\">";
+                        }
+                        else
+                        {
+                            ActiveState = ">";
+                        }
+                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
+                        SpanClass = SC1;
+                        LineEnd = LineEnd1;
+                        PageName = "/PageUnderConstruction.aspx";
+                        if (PlayerRoles.Contains("33:/"))
+                        {
+                            PageName = "/SilverfireRegistration.aspx";
+                        }
+                        //PageName = "/Events/Events.aspx";
+                        LineText = "RSVP / Register";
+                        break;
+
+                    //Missing 18 - Shopping cart / payment
 
                     case 19:
                         if (ActiveNav == "Events" && (PlayerRoles.Contains("/2/") || PlayerRoles.Contains("/28/")))
@@ -402,7 +423,7 @@ namespace LarpPortal
                             SkipLine = true;
                         break;
 
-                    //Missing 21
+                    //Missing 21 - Setup scheduling
 
                     case 22:
                         if (ActiveNav == "Events" && (PlayerRoles.Contains("/2/") || PlayerRoles.Contains("/28/")))
@@ -627,7 +648,9 @@ namespace LarpPortal
                         else
                             SkipLine = true;
                         break;
-                    //Missing 33
+
+                    //Missing 33 - NPC Skills
+
                     case 34:
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
@@ -705,7 +728,9 @@ namespace LarpPortal
                         //PageName = "/Roles/Roles.aspx";
                         LineText = "Roles";
                         break;
-                    //Missing 38
+
+                    //Missing 38 - My roles
+
                     case 39:
                         if (ActiveNav == "Roles" && PlayerRoles.Contains("/21/"))
                         {
@@ -726,6 +751,7 @@ namespace LarpPortal
                         else
                             SkipLine = true;
                         break;
+
                     case 40:
                         if (ActiveNav == "Roles" && PlayerRoles.Contains("/1/"))
                         {
@@ -747,6 +773,7 @@ namespace LarpPortal
                         else
                             SkipLine = true;
                         break;
+
                     case 41:
                         if (PageName == "POINTS" && (PlayerRoles.Contains("/34/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/35/")))
                         {
@@ -763,6 +790,7 @@ namespace LarpPortal
                         //PageName = "/Points/PointsAssign.aspx";
                         LineText = "Character Build Points";
                         break;
+
                     case 42:
                         if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
                         {
@@ -783,7 +811,9 @@ namespace LarpPortal
                         else
                             SkipLine = true;
                         break;
-                    //Missing 43
+
+                    //Missing 43 - Modify game system points
+
                     case 44:
                         if (ActiveNav == "Points" && PlayerRoles.Contains("/34/"))
                         {
@@ -804,6 +834,7 @@ namespace LarpPortal
                         else
                             SkipLine = true;
                         break;
+
                     case 45:
                         if (ActiveNav == "Points" && (PlayerRoles.Contains("/35/") || PlayerRoles.Contains("/28/")))
                         {
@@ -845,6 +876,7 @@ namespace LarpPortal
                         else
                             SkipLine = true;
                         break;
+
                     case 47:
                         if (PageName == "PEL")
                         {
@@ -882,6 +914,7 @@ namespace LarpPortal
                         else
                             SkipLine = true;
                         break;
+
                     case 49:
                         if (ActiveNav == "PEL" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/4/")))
                         {
@@ -904,6 +937,7 @@ namespace LarpPortal
                             SkipLine = true;
 
                         break;
+
                     //case 50:
                         //if (PageName == "PELApprove" && PlayerRoles.Contains("/28/"))
                         //{
@@ -920,6 +954,7 @@ namespace LarpPortal
                         //PageName = "/PELs/PELApprove";
                         //LineText = "&nbsp;&nbsp;&nbsp;PEL Approval";
                         //break;
+
                     //case 51:
                         //if (PageName == "PELEdit" && PlayerRoles.Contains("/28/"))
                         //{
@@ -953,6 +988,7 @@ namespace LarpPortal
                         PageName = "/PageUnderConstruction.aspx";
                         LineText = "Inventory/Props";
                         break;
+
                     //case 38:
                     //    //Just a link?
                     //    if (Session["ActiveLeftNav"].ToString() == "SiteLocationUse")
