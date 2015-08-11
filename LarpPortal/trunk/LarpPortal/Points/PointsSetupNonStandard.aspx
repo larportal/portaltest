@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="PointsAssign.aspx.cs" Inherits="LarpPortal.Points.PointsAssign" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="PointsSetupNonStandard.aspx.cs" Inherits="LarpPortal.Points.PointsSetupNonStandard" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
     <div role="form" class="form-horizontal form-condensed">
         <div class="col-sm-12">

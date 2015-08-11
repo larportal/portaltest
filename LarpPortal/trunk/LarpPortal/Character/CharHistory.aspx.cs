@@ -133,6 +133,7 @@ namespace LarpPortal.Character
             strBody = strBody + "Player Email:" + strPlayerEmail + "<br>";
             strBody = strBody + "Character:" + ddlCharacterSelector.SelectedItem.Text + "<br><br>";
             strBody = strBody + "History Text:<br>" + tbHistory.Text;
+            strBody = strBody.Replace(System.Environment.NewLine, "<br />");
 
             Classes.cEmailMessageService SubmitCharacterHistory = new Classes.cEmailMessageService();
             try
