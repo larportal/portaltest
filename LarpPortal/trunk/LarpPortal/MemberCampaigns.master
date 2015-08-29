@@ -23,7 +23,13 @@
             padding-right: 10px;
         }
     </style>
+    <asp:ContentPlaceHolder ID="MemberStyles" runat="server" />
 </asp:Content>
+
+<asp:Content ID="HeaderScripts" ContentPlaceHolderID="HeaderScripts" runat="server">
+    <asp:ContentPlaceHolder ID="MemberScripts" runat="server" />
+</asp:Content>
+
 
 <%@ Register TagPrefix="UC1" TagName="UserCampaignDDL" Src="~/ucUserCampaignsDropDownList.ascx" %>
 <asp:Content ID="LeftNavMemberCampaigns" ContentPlaceHolderID="MainPage" runat="server">
