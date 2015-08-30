@@ -395,7 +395,6 @@
     <Content Include="MemberSecurity.aspx" />
     <Content Include="img\ThisPageUnderConstruction.jpg" />
     <Content Include="Admin\SystemErrors.aspx" />
-    <Content Include="SilverfireRegistration.aspx" />
     <Content Include="TermsOfUse.aspx" />
     <Content Include="TestingResults.aspx" />
     <Content Include="ucUserCampaignsDropDownList.ascx" />
@@ -420,7 +419,6 @@
     <Content Include="Character\Character.Master" />
     <Content Include="WhatsNew.aspx" />
     <Content Include="WhatsNewDetail.aspx" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\LARPortal.pubxml" />
@@ -1166,13 +1164,6 @@
     </Compile>
     <Compile Include="MemberSecurity.aspx.designer.cs">
       <DependentUpon>MemberSecurity.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="SilverfireRegistration.aspx.cs">
-      <DependentUpon>SilverfireRegistration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SilverfireRegistration.aspx.designer.cs">
-      <DependentUpon>SilverfireRegistration.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
