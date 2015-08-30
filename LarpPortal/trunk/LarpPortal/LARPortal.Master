@@ -14,12 +14,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/bootstrap.css" />
     <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/bower_components/bootstrap-table/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="/css/LarpPortal.css" />
-    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+<%--    <script src="js/vendor/modernizr-2.6.2.min.js"></script>--%>
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+
     <asp:ContentPlaceHolder ID="HeaderStyles" runat="server" />
     <asp:ContentPlaceHolder ID="HeaderScripts" runat="server" />
+
 </head>
 <body>
     <form role="form" runat="server">
