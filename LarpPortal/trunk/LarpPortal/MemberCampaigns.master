@@ -9,58 +9,39 @@
         }
     </style>
     <asp:ContentPlaceHolder ID="MemberStyles" runat="server" />
+
+    <style type="text/css">
+        div
+        {
+            border: 0px black solid;
+        }
+    </style>
 </asp:Content>
 
 <asp:Content ID="HeaderScripts" ContentPlaceHolderID="HeaderScripts" runat="server">
     <asp:ContentPlaceHolder ID="MemberScripts" runat="server" />
 </asp:Content>
 
-
 <%@ Register TagPrefix="UC1" TagName="UserCampaignDDL" Src="~/ucUserCampaignsDropDownList.ascx" %>
 <asp:Content ID="LeftNavMemberCampaigns" ContentPlaceHolderID="MainPage" runat="server">
-    <asp:Table runat="server" CssClass="table">
-        <asp:TableRow>
-            <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
-              <div class="contentArea">
-				<nav class="userSubNav">
-                    <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
-                    <br />
-                    <ul class="nav nav-pills" "panel-wrapper list-unstyled scroll-500">
-                        <asp:Label ID="lblLeftNav" runat="server"></asp:Label>
-<%--                        <li class="active"><a href="CampaignInfo.aspx" data-toggle="pill">Campaign Info</a></li>
-                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Rules</a></li>
-                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Calendar</a></li>
-                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Event RSVP</a></li>
-                        <li><a href="/Character/CharInfo.aspx" data-toggle="pill">Characters</a></li>
-                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Roles</a></li>
-                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Character Build Points <span class="caret"></span></a>
-                            <ul class="tree nav nav-pills">
-                                <li><a href="PageUnderConstruction.aspx" data-toggle="pill">View Points</a></li>
-                                <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Earn Standard Points</a></li>
-                                <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Earn Non-Standard Points</a></li>
-                                <li><a href="PageUnderConstruction.aspx" data-toggle="pill">Spend Points</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="PageUnderConstruction.aspx" data-toggle="pill">PEL</a></li>
-                        <li><a href="PublicCampaigns.aspx" data-toggle="pill">Find a Campaign</a></li>--%>
-                    </ul>
-<%--                    <asp:Repeater ID="menu_ul_membercampaignsadmin" runat="server">
-                        <HeaderTemplate>
-                            <ul class="nav nav-pills panel-wrapper list-unstyled scroll-500">
-                        </HeaderTemplate>
-                        <ItemTemplate>
-                            <%# Eval("href_li")%>
-                        </ItemTemplate>
-                        <FooterTemplate>
-                            </ul>
-                        </FooterTemplate>
-                    </asp:Repeater>--%>
-				</nav>
-              </div>
-            </asp:TableCell>
-            <asp:TableCell verticalalign="Top" CssClass="col-sm-12">
+
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="contentArea">
+                    <nav class="userSubNav">
+                        <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
+                        <br />
+                        <ul class="nav nav-pills">
+                            <%-- panel-wrapper list-unstyled scroll-500">--%>
+                            <asp:Label ID="lblLeftNav" runat="server"></asp:Label>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-lg-10">
                 <asp:ContentPlaceHolder ID="MemberCampaignsContent" runat="server"></asp:ContentPlaceHolder>
-            </asp:TableCell>
-        </asp:TableRow>
-    </asp:Table>
+            </div>
+        </div>
+    </div>
 </asp:Content>
