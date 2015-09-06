@@ -38,14 +38,9 @@ Make sure this is the last CSS in the include list. If not some of these items m
 
 .CancelButton
 {
-  background-image: -webkit-linear-gradient(top, #d9534f 0%, #c12e2a 100%);
-  background-image:      -o-linear-gradient(top, #d9534f 0%, #c12e2a 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#d9534f), to(#c12e2a));
-  background-image:         linear-gradient(to bottom, #d9534f 0%, #c12e2a 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9534f', endColorstr='#ffc12e2a', GradientType=0);
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   background-repeat: repeat-x;
-  border-color: #b92c28;
+    border-color: #b92c28;
+    background-image: linear-gradient(to bottom, #d9534f 0%, #c12e2a 100%);
 }
 
 .CancelButton:hover,
@@ -91,10 +86,10 @@ Make sure this is the last CSS in the include list. If not some of these items m
     border: 1px solid black;
 }
 
-/*div, label
+div
 {
-    border: 1px solid black;
-}*/
+    border: 0px solid black;
+}
 
 
 .TableLabel
@@ -121,4 +116,23 @@ Make sure this is the last CSS in the include list. If not some of these items m
         }
 
 
+input[type="checkbox"],
+input[type="radio"] {
+    padding: 0px;
+    height: 12px;
+    width: 12px;
+    margin: 5px 0px 0px 0px;
+}
 
+.CheckBoxList
+{
+    display:inline-block; 
+    vertical-align:middle;
+}
+
+    .CheckBoxList label
+    {
+        margin-bottom: 0px;
+        font-size: 10pt;
+        font-weight: 400 !important;
+    }
