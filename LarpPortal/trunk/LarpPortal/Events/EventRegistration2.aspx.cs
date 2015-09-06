@@ -21,6 +21,7 @@ namespace LarpPortal.Events
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            tbSelectedMeals.Attributes.Add("Placehold", "Select Meals");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -39,7 +40,7 @@ namespace LarpPortal.Events
                     dtEventInfo.Tables[2].TableName = "PaymentType";
 
                     // Eventually the row filter needs to be     StatusName = 'Scheduled' and RegistrationOpenDateTime <= GetDate() and RegistrationCloseDateTime >= GetDate()
-                    DataView dvEventInfo = new DataView(dtEventInfo.Tables["EventInfo"], "StatusName = 'Scheduled' and RegistrationOpenDateTime > '" + System.DateTime.Today + "'",
+                    DataView dvEventInfo = new DataView(dtEventInfo.Tables["EventInfo"], "StatusName = 'Scheduled'",    // and RegistrationOpenDateTime > '" + System.DateTime.Today + "'",
                         "", DataViewRowState.CurrentRows);
 
                     DataTable dtEventDates = dvEventInfo.ToTable(true, "StartDate", "EventID", "EventName");
@@ -63,150 +64,10 @@ namespace LarpPortal.Events
                         ddlEventDate_SelectedIndexChanged(null, null);
                 }
             }
-
-
-
-            //DateTime dtRegistrationStart = new DateTime(2015, 7, 30, 20, 0, 0);
-            //DateTime dtRegistrationEnd = new DateTime(2015, 9, 4, 20, 0, 0);
-
-            //if (DateTime.Now < dtRegistrationStart)
-            //{
-            //    mvDisplay.SetActiveView(vwNotOpenYet);
-            //    return;
-            //}
-            //else if (DateTime.Now > dtRegistrationEnd)
-            //{
-            //    mvDisplay.SetActiveView(vwRegistrationClosed);
-            //    return;
-            //}
-
-            //// If we get this far, it means we are during the correct time frame.
-
-            //SortedList sParam = new SortedList();
-            //sParam.Add("@UserID", Session["UserID"].ToString());
-
-            //MethodBase lmth = MethodBase.GetCurrentMethod();
-            //string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            //DataSet dsUser = Classes.cUtilities.LoadDataSet("uspGetSilverfireCharacter", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
-
-            //mvPlayerInfo.SetActiveView(vwNoPlayer);
-            //mvDisplay.SetActiveView(vwRegistrationOpen);
-
-            //foreach (DataRow dRow in dsUser.Tables[0].Rows)
-            //{
-            //    mvPlayerInfo.SetActiveView(vwPlayerInfo);
-            //    if (dRow["NickName"].ToString().Trim().Length > 0)
-            //        lblPlayerName.Text = dRow["NickName"].ToString().Trim() + " ( " + dRow["FirstName"].ToString().Trim() + " " + dRow["LastName"].ToString().Trim() + " )";
-            //    else
-            //        lblPlayerName.Text = dRow["FirstName"].ToString().Trim() + " " + dRow["LastName"].ToString().Trim();
-
-            //    lblPlayerEmail.Text = dRow["EmailAddress"].ToString();
-
-            //    lblCharacterAKA.Text = dRow["CharacterAKA"].ToString();
-
-            //    ddlPaymentType.SelectedIndex = -1;
-
-            //    if (dRow["EventPaymentTypeID"] != DBNull.Value)
-            //    {
-            //        lblAlreadyRegistered.Visible = true;
-            //        btnRegister.Visible = false;
-
-            //        foreach (ListItem li in ddlPaymentType.Items)
-            //            if (dRow["EventPaymentTypeID"].ToString() == li.Value)
-            //                li.Selected = true;
-            //    }
-            //    else
-            //    {
-            //        lblAlreadyRegistered.Visible = false;
-            //        btnRegister.Visible = true;
-            //    }
-
-            //    hidCharacterID.Value = dRow["CharacterID"].ToString();
-
-            //    tbComment.Text = dRow["CommentToStaff"].ToString();
-            //    hidEventID.Value = dRow["EventID"].ToString();
-
-            //    if (dsUser.Tables[1].Rows.Count > 0)
-            //    {
-            //        ddlTeams.DataTextField = "TeamName";
-            //        ddlTeams.DataValueField = "TeamID";
-            //        ddlTeams.DataSource = dsUser.Tables[1];
-            //        ddlTeams.DataBind();
-            //        ddlTeams.Items.Insert(0, new ListItem("No team selected", "0"));
-            //        ddlTeams.Visible = true;
-            //        lblNoTeamMember.Visible = false;
-            //        hidTeamMember.Value = "1";
-            //        ddlTeams.SelectedIndex = -1;
-            //        if (dRow["TeamID"] != DBNull.Value)
-            //            foreach (ListItem li in ddlTeams.Items)
-            //                if (li.Value == dRow["TeamID"].ToString())
-            //                    li.Selected = true;
-            //        if (ddlTeams.SelectedIndex == -1)
-            //            ddlTeams.SelectedIndex = 0;
-            //    }
-            //    else
-            //    {
-            //        ddlTeams.Visible = false;
-            //        lblNoTeamMember.Visible = true;
-            //        hidTeamMember.Value = "0";
-            //    }
-            //}
         }
 
         protected void btnRegister_Click(object sender, EventArgs e)
         {
-            SortedList sParam = new SortedList();
-            sParam.Add("@RegistrationID", hidRegistrationID.Value);
-            sParam.Add("@UserID", Session["UserID"].ToString());
-            sParam.Add("@EventID", ddlEventDate.SelectedValue);
-            sParam.Add("@RoleAlignmentID", ddlRoles.SelectedValue);
-            sParam.Add("@CharacterID", ddlCharacterList.SelectedValue);
-            sParam.Add("@DateRegistered", DateTime.Now);
-            sParam.Add("@EventPaymentTypeID", ddlPaymentChoice.SelectedValue);
-            sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
-            sParam.Add("@RegistrationStatus", 44);
-            if (hidTeamMember.Value == "1")
-                if (ddlTeams.SelectedIndex != 0)
-                    sParam.Add("@TeamID", ddlTeams.SelectedValue);
-
-            if (ddlFullEvent.SelectedValue == "N")
-            {
-                DateTime dtTemp;
-                if (DateTime.TryParse(tbArriveDate.Text, out dtTemp))
-                {
-                    sParam.Add("@ExpectedArrivalDate", string.Format("{0:MM/dd/yyyy}", dtTemp));
-                    if (DateTime.TryParse(tbArriveTime.Text, out dtTemp))
-                    {
-                        sParam.Add("@ExpectedArrivalTime", string.Format("{0:HH:mm:ss}", dtTemp));
-                    }
-                }
-                if (DateTime.TryParse(tbDepartDate.Text, out dtTemp))
-                {
-                    sParam.Add("@ExpectedDepartureDate", string.Format("{0:MM/dd/yyyy}", dtTemp));
-                    if (DateTime.TryParse(tbDepartTime.Text, out dtTemp))
-                    {
-                        sParam.Add("@ExpectedArrivalTime", string.Format("{0:HH:mm:ss}", dtTemp));
-                    }
-                }
-            }
-
-            try
-            {
-                MethodBase lmth = MethodBase.GetCurrentMethod();
-                string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-                DataTable dtUser = Classes.cUtilities.LoadDataTable("uspInsUpdCMRegistrations", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
-                mvPlayerInfo.SetActiveView(vwRegistered);
-                string jsString = "alert('Character " + lblCharacter.Text + " has been registered.');";
-                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                        "MyApplication",
-                        jsString,
-                        true);
-                NotifyOfNewRegistration();
-            }
-            catch
-            {
-                mvPlayerInfo.SetActiveView(vwError);
-            }
         }
 
         protected void NotifyOfNewRegistration()
@@ -273,27 +134,39 @@ namespace LarpPortal.Events
                 dtEventInfo.Tables[4].TableName = "Teams";
                 dtEventInfo.Tables[5].TableName = "Registration";
                 dtEventInfo.Tables[6].TableName = "RolesForEvent";
+                dtEventInfo.Tables[7].TableName = "RegistrationStatuses";
+                dtEventInfo.Tables[8].TableName = "Meals";
             }
 
             DateTime dtEventStartDateTime = DateTime.MinValue;
             DateTime dtEventEndDateTime = DateTime.MinValue;
+            DateTime dtEventRegOpenDateTime = DateTime.MinValue;
+            DateTime dtEventRegCloseDateTime = DateTime.MaxValue;
 
             foreach (DataRow dRow in dtEventInfo.Tables["EventInfo"].Rows)
             {
                 lblEventName.Text = dRow["EventName"].ToString();
                 lblEventStatus.Text = dRow["StatusName"].ToString();
                 lblEventDescription.Text = dRow["EventDescription"].ToString();
+                lblInGameLocation.Text = dRow["IGEventLocation"].ToString();
 
-                divRSVP.Visible = false;
-
-                lblSiteLocation.Text = dRow["SiteName"].ToString() + " " + dRow["SiteAddress1"].ToString() + " " + dRow["SiteCity"].ToString() + " " + 
+                lblSiteLocation.Text = dRow["SiteName"].ToString() + " " + dRow["SiteAddress1"].ToString() + " " + dRow["SiteCity"].ToString() + " " +
                     dRow["SiteStateID"].ToString() + ", " + dRow["SitePostalCode"].ToString();
 
                 DateTime dtTemp;
                 double dTemp;
 
                 if (DateTime.TryParse(dRow["RegistrationOpenDateTime"].ToString(), out dtTemp))
+                {
                     lblEventOpenDate.Text = string.Format("{0: MM/dd/yy hh:mm tt}", dtTemp);
+                    dtEventRegOpenDateTime = dtTemp;
+                }
+                if (DateTime.TryParse(dRow["RegistrationCloseDateTime"].ToString(), out dtTemp))
+                    dtEventRegCloseDateTime = dtTemp;
+
+                if (DateTime.TryParse(dRow["PaymentDueDate"].ToString(), out dtTemp))
+                    lblPaymentDue.Text = string.Format("{0: MM/dd/yy}", dtTemp);
+
                 if (double.TryParse(dRow["PreregistrationPrice"].ToString(), out dTemp))
                     lblPreRegPrice.Text = dTemp.ToString("C");
                 if (DateTime.TryParse(dRow["PreregistrationDeadline"].ToString(), out dtTemp))
@@ -320,6 +193,12 @@ namespace LarpPortal.Events
                 SetCheckDisplay(dRow["NPCFoodService"], imgNPCFoodService);
                 SetCheckDisplay(dRow["CookingFacilitiesAvailable"], imgCookingAllowed);
             }
+
+            if ((DateTime.Now >= dtEventRegOpenDateTime) &&
+                (DateTime.Now <= dtEventRegCloseDateTime))
+                mvButtons.SetActiveView(vwRegisterButtons);
+            else
+                mvButtons.SetActiveView(vwRSVPButtons);
 
             tbArriveDate.Text = dtEventStartDateTime.ToString("MM/dd/yyyy");
             tbArriveTime.Text = dtEventStartDateTime.ToString("hh:mm tt");
@@ -379,6 +258,14 @@ namespace LarpPortal.Events
 
                 if (bIncludeReg)
                 {
+                    if (dtEventInfo.Tables["Meals"].Rows.Count > 0)
+                    {
+                        cbMealList.DataSource = dtEventInfo.Tables["Meals"];
+                        cbMealList.DataTextField = "MealDescription";
+                        cbMealList.DataValueField = "EventMealID";
+                        cbMealList.DataBind();
+                    }
+
                     if (dtEventInfo.Tables["Teams"].Rows.Count > 0)
                     {
                         ddlTeams.Visible = true;
@@ -404,6 +291,7 @@ namespace LarpPortal.Events
                     DateTime dtArrivalDateTime = DateTime.MinValue;
                     DateTime dtDepartureDatetime = DateTime.MinValue;
 
+
                     foreach (DataRow dReg in dtEventInfo.Tables["Registration"].Rows)
                     {
                         hidRegistrationID.Value = dReg["RegistrationID"].ToString();
@@ -411,6 +299,7 @@ namespace LarpPortal.Events
 
                         btnRegister.Text = "Change Registration";
                         btnRegister.Width = Unit.Pixel(200);
+
 
                         if (dReg["ExpectedArrivalDate"] != DBNull.Value)
                         {
@@ -532,6 +421,116 @@ namespace LarpPortal.Events
                 else
                     imgCheckBox.ImageUrl = "~/img/Checked-Checkbox-icon.png";
             }
+        }
+
+        protected void btnRegister_Command(object sender, CommandEventArgs e)
+        {
+            SortedList sParam = new SortedList();
+            sParam.Add("@RegistrationID", hidRegistrationID.Value);
+            sParam.Add("@UserID", Session["UserID"].ToString());
+            sParam.Add("@EventID", ddlEventDate.SelectedValue);
+            sParam.Add("@RoleAlignmentID", ddlRoles.SelectedValue);
+            sParam.Add("@CharacterID", ddlCharacterList.SelectedValue);
+            sParam.Add("@DateRegistered", DateTime.Now);
+            sParam.Add("@EventPaymentTypeID", ddlPaymentChoice.SelectedValue);
+            sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
+            if (hidTeamMember.Value == "1")
+                if (ddlTeams.SelectedIndex != 0)
+                    sParam.Add("@TeamID", ddlTeams.SelectedValue);
+
+            string sStatusToSearchFor = "";
+
+            switch (e.CommandName.ToString().ToUpper())
+            {
+                case "RSVPATTEND":
+                    sStatusToSearchFor = "RSVP-Plan to Attend";
+                    break;
+
+                case "RSVPCANNOTATTEND":
+                    sStatusToSearchFor = "RSVP-Cannot Attend";
+                    break;
+
+                case "UNREGISTER":
+                    break;
+
+                case "REGISTER":
+                    sStatusToSearchFor = "Wait List";
+                    break;
+            }
+
+            if (sStatusToSearchFor != "")
+            {
+                SortedList sParams = new SortedList();
+                string sSQL = "select StatusID, StatusName from MDBStatus " +
+                    "where StatusType like 'Registration' " +
+                        "and DateDeleted is null";
+                DataTable dtRegStatus = Classes.cUtilities.LoadDataTable(sSQL, sParams, "LARPortal", Session["UserName"].ToString(), "EventRegistration.btnRegister_Command",
+                    cUtilities.LoadDataTableCommandType.Text);
+                DataView dvRegStatus = new DataView(dtRegStatus, "StatusName = '" + sStatusToSearchFor + "'", "", DataViewRowState.CurrentRows);
+                if (dvRegStatus.Count > 0)
+                {
+                    int iRegStatus;
+                    if (int.TryParse(dvRegStatus[0]["StatusID"].ToString(), out iRegStatus))
+                        sParam.Add("@RegistrationStatus", iRegStatus);
+                }
+            }
+
+            if (ddlFullEvent.SelectedValue == "N")
+            {
+                DateTime dtTemp;
+                if (DateTime.TryParse(tbArriveDate.Text, out dtTemp))
+                {
+                    sParam.Add("@ExpectedArrivalDate", string.Format("{0:MM/dd/yyyy}", dtTemp));
+                    if (DateTime.TryParse(tbArriveTime.Text, out dtTemp))
+                    {
+                        sParam.Add("@ExpectedArrivalTime", string.Format("{0:HH:mm:ss}", dtTemp));
+                    }
+                }
+                if (DateTime.TryParse(tbDepartDate.Text, out dtTemp))
+                {
+                    sParam.Add("@ExpectedDepartureDate", string.Format("{0:MM/dd/yyyy}", dtTemp));
+                    if (DateTime.TryParse(tbDepartTime.Text, out dtTemp))
+                    {
+                        sParam.Add("@ExpectedDepartureTime", string.Format("{0:HH:mm:ss}", dtTemp));
+                    }
+                }
+            }
+
+            try
+            {
+                MethodBase lmth = MethodBase.GetCurrentMethod();
+                string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+                DataTable dtUser = Classes.cUtilities.LoadDataTable("uspInsUpdCMRegistrations", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
+                mvPlayerInfo.SetActiveView(vwRegistered);
+                string jsString = "alert('Character " + lblCharacter.Text + " has been registered.');";
+                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                        "MyApplication",
+                        jsString,
+                        true);
+                NotifyOfNewRegistration();
+            }
+            catch
+            {
+                mvPlayerInfo.SetActiveView(vwError);
+            }
+        }
+
+
+        protected void cbFoodList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string sMeals = "";
+            for (int i = 0; i < cbMealList.Items.Count; i++)
+            {
+                if (cbMealList.Items[i].Selected)
+                {
+                    sMeals += cbMealList.Items[i].Text + ", ";
+                }
+            }
+            sMeals = sMeals.Trim();
+            if ((sMeals.EndsWith(",")) && (sMeals.Length > 0))
+                sMeals = sMeals.Substring(0, sMeals.Length - 1);
+            tbSelectedMeals.Text = sMeals;
+            _Reload = false;
         }
     }
 }
