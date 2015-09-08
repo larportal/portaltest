@@ -302,7 +302,7 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-lg-3">Role:</div>
                                                         <div class="col-lg-5 NoPadding">
-                                                            <asp:DropDownList ID="ddlRoles" runat="server">
+                                                            <asp:DropDownList ID="ddlRoles" runat="server" OnSelectedIndexChanged="ddlRoles_SelectedIndexChanged" AutoPostBack="true">
                                                                 <asp:ListItem Text="PC" Value="PC" />
                                                                 <asp:ListItem Text="NPC" Value="NPC" />
                                                                 <asp:ListItem Text="Staff" Value="Staff" />
@@ -334,10 +334,10 @@
                                                         </asp:View>
                                                         <asp:View ID="vwSendCPTo" runat="server">
                                                             <div class="row PrePostPadding" id="divSendCPTo" runat="server">
-                                                                <div class="TableLabel col-lg-2">
+                                                                <div class="TableLabel col-lg-3">
                                                                     Send CP to 
                                                                 </div>
-                                                                <div class="col-lg-2 NoPadding">
+                                                                <div class="col-lg-3 NoPadding">
                                                                     <asp:TextBox ID="tbSendCPTo" runat="server" />
                                                                 </div>
                                                             </div>
@@ -370,7 +370,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="row PrePostPadding">
+                                                    <div class="row PrePostPadding" runat="server" id="divTeams">
                                                         <div class="TableLabel col-lg-3">Team Name: </div>
                                                         <div class="col-lg-4 NoPadding">
                                                             <asp:DropDownList ID="ddlTeams" runat="server">
@@ -380,7 +380,7 @@
                                                             <asp:Label ID="lblNoTeams" runat="server" Text="No Teams" />
                                                         </div>
                                                     </div>
-                                                    <div class="row PrePostPadding">
+                                                    <div class="row PrePostPadding" runat="server" id="divHousing">
                                                         <div class="TableLabel col-lg-3">Housing Plan: </div>
                                                         <div class="col-lg-3 NoPadding">
                                                             <asp:DropDownList ID="ddlHousing" runat="server" />

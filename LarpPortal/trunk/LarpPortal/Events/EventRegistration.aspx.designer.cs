@@ -391,6 +391,15 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.TextBox tbDepartTime;
         
         /// <summary>
+        /// divTeams control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTeams;
+        
+        /// <summary>
         /// ddlTeams control.
         /// </summary>
         /// <remarks>
@@ -407,6 +416,15 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblNoTeams;
+        
+        /// <summary>
+        /// divHousing control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHousing;
         
         /// <summary>
         /// ddlHousing control.

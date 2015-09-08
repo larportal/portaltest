@@ -531,5 +531,22 @@ namespace LarpPortal.Events
             tbSelectedMeals.Text = sMeals;
             _Reload = false;
         }
+
+        protected void ddlRoles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlRoles.SelectedItem.Text == "PC")
+            {
+                mvCharacters.SetActiveView(vwCharacter);
+                divTeams.Visible = true;
+                divHousing.Visible = true;
+            }
+            else
+            {
+                mvCharacters.SetActiveView(vwSendCPTo);
+                divTeams.Visible = false;
+                divHousing.Visible = false;
+            }
+            _Reload = false;
+        }
     }
 }
