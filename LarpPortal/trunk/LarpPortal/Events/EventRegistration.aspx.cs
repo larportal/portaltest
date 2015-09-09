@@ -18,6 +18,7 @@ namespace LarpPortal.Events
         {
             tbSelectedMeals.Attributes.Add("Placehold", "Select Meals");
             ddlFullEvent.Attributes.Add("onchange", "ddl_changed(this);");
+            ddlSendToCampaign.Attributes.Add("onChange", "ddlSendToCampaign(this);");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -369,12 +370,32 @@ namespace LarpPortal.Events
                                 if (li.Value == dReg["TeamID"].ToString())
                                     li.Selected = true;
                         }
+                        ddlRoles_SelectedIndexChanged(null, null);
                         if (dReg["RoleAlignmentID"].ToString() != "")
                         {
                             ddlRoles.ClearSelection();
+                            bool bSelectionFound = false;
+                            
                             foreach (ListItem li in ddlRoles.Items)
                                 if (li.Value == dReg["RoleAlignmentID"].ToString())
+                                {
                                     li.Selected = true;
+                                    bSelectionFound = true;
+                                }
+                            if (bSelectionFound)
+                            {
+                                if (ddlRoles.SelectedItem.Text != "PC")
+                                {
+                                    if (dReg["NPCCampaignID"] != DBNull.Value)
+                                        if (dReg["NPCCampaignID"].ToString() != "")
+                                        {
+                                            ddlSendToCampaign.ClearSelection();
+                                            foreach (ListItem liItem in ddlSendToCampaign.Items)
+                                                if (liItem.Value == dReg["NPCCampaignID"].ToString())
+                                                    liItem.Selected = true;
+                                        }
+                                }
+                            }
                         }
                         if (dReg["CharacterID"].ToString() != "")
                         {
@@ -433,6 +454,9 @@ namespace LarpPortal.Events
             sParam.Add("@DateRegistered", DateTime.Now);
             sParam.Add("@EventPaymentTypeID", ddlPaymentChoice.SelectedValue);
             sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
+            if (ddlRoles.SelectedItem.Text != "PC")
+                sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
+
             if (hidTeamMember.Value == "1")
                 if (ddlTeams.SelectedIndex != 0)
                     sParam.Add("@TeamID", ddlTeams.SelectedValue);
@@ -545,8 +569,34 @@ namespace LarpPortal.Events
                 mvCharacters.SetActiveView(vwSendCPTo);
                 divTeams.Visible = false;
                 divHousing.Visible = false;
+
+                int uID = 0;
+                if (Session["UserID"] != null)
+                {
+                    if (int.TryParse(Session["UserID"].ToString(), out uID))
+                    {
+                        Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
+                        CampaignChoices.Load(uID);
+                        if (CampaignChoices.CountOfUserCampaigns == 0)
+                            Response.Redirect("~/NoCurrentCampaignAssociations.aspx");
+
+                        ddlSendToCampaign.DataTextField = "CampaignName";
+                        ddlSendToCampaign.DataValueField = "CampaignID";
+                        ddlSendToCampaign.DataSource = CampaignChoices.lsUserCampaigns;
+                        ddlSendToCampaign.DataBind();
+                        ddlSendToCampaign.Items.Add(new ListItem("Other", "-1"));
+                    }
+                }
             }
             _Reload = false;
         }
+
+        //protected void ddlSendToCampaign_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    if (ddlSendToCampaign.SelectedValue == "-1")
+        //        tbSendToCPOther.Visible = true;
+        //    else
+        //        tbSendToCPOther.Visible = false;
+        //}
     }
 }

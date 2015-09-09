@@ -67,11 +67,6 @@
 
 <asp:Content ID="EventScripts" ContentPlaceHolderID="MemberScripts" runat="server">
     <script type="text/javascript">
-        $('.table > tr').click(function () {
-            alert("Row Clicked");
-            // row was clicked
-        });
-
         function ddl_changed(ddl) {
             var panel = document.getElementById("<%= divFullEventNo.ClientID %>");
             if (panel) {
@@ -79,6 +74,16 @@
                     panel.style.display = "none";
                 else
                     panel.style.display = "block";
+            }
+        }
+
+        function ddlSendToCampaign(ddl) {
+            var panel = document.getElementById("<%= tbSendToCPOther.ClientID %>");
+            if (panel) {
+                if (ddl.value == "-1")
+                    panel.style.display = "block";
+                else
+                    panel.style.display = "none";
             }
         }
 
@@ -337,8 +342,13 @@
                                                                 <div class="TableLabel col-lg-3">
                                                                     Send CP to 
                                                                 </div>
-                                                                <div class="col-lg-3 NoPadding">
-                                                                    <asp:TextBox ID="tbSendCPTo" runat="server" />
+                                                                <div class="col-lg-9">
+                                                                    <div class="row">
+                                                                        <asp:DropDownList ID="ddlSendToCampaign" runat="server" />
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <asp:TextBox ID="tbSendToCPOther" runat="server" CssClass="col-lg-10" MaxLength="500" Style="display: none;" TextMode="MultiLine" />
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </asp:View>
