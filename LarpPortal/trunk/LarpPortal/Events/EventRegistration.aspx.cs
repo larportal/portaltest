@@ -19,6 +19,7 @@ namespace LarpPortal.Events
             tbSelectedMeals.Attributes.Add("Placehold", "Select Meals");
             ddlFullEvent.Attributes.Add("onchange", "ddl_changed(this);");
             ddlSendToCampaign.Attributes.Add("onChange", "ddlSendToCampaign(this);");
+            tbSelectedMeals.Attributes.Add("placeholder", "Click to select the meals you want.");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -118,29 +119,32 @@ namespace LarpPortal.Events
                 if (int.TryParse(Session["UserID"].ToString(), out iUserID))
                     sParams.Add("@UserID", iUserID);
             }
-            DataSet dtEventInfo = Classes.cUtilities.LoadDataSet("uspGetEventInfo", sParams, "LARPortal", Session["UserName"].ToString(), "EventRegistration.gvEvents_RowCommand");
+            DataSet dsEventInfo = Classes.cUtilities.LoadDataSet("uspGetEventInfo", sParams, "LARPortal", Session["UserName"].ToString(), "EventRegistration.gvEvents_RowCommand");
 
-            dtEventInfo.Tables[0].TableName = "EventInfo";
-            dtEventInfo.Tables[1].TableName = "Housing";
-            dtEventInfo.Tables[2].TableName = "PaymentType";
+            dsEventInfo.Tables[0].TableName = "EventInfo";
+            dsEventInfo.Tables[1].TableName = "Housing";
+            dsEventInfo.Tables[2].TableName = "PaymentType";
 
-            if (dtEventInfo.Tables.Count >= 5)
+            if (dsEventInfo.Tables.Count >= 5)
             {
                 bIncludeReg = true;
-                dtEventInfo.Tables[3].TableName = "Character";
-                dtEventInfo.Tables[4].TableName = "Teams";
-                dtEventInfo.Tables[5].TableName = "Registration";
-                dtEventInfo.Tables[6].TableName = "RolesForEvent";
-                dtEventInfo.Tables[7].TableName = "RegistrationStatuses";
-                dtEventInfo.Tables[8].TableName = "Meals";
+                dsEventInfo.Tables[3].TableName = "Character";
+                dsEventInfo.Tables[4].TableName = "Teams";
+                dsEventInfo.Tables[5].TableName = "Registration";
+                dsEventInfo.Tables[6].TableName = "RolesForEvent";
+                dsEventInfo.Tables[7].TableName = "RegistrationStatuses";
+                dsEventInfo.Tables[8].TableName = "Meals";
+                dsEventInfo.Tables[9].TableName = "PlayerInfo";
             }
+
+            ViewState["Meals"] = dsEventInfo.Tables["Meals"];
 
             DateTime dtEventStartDateTime = DateTime.MinValue;
             DateTime dtEventEndDateTime = DateTime.MinValue;
             DateTime dtEventRegOpenDateTime = DateTime.MinValue;
             DateTime dtEventRegCloseDateTime = DateTime.MaxValue;
 
-            foreach (DataRow dRow in dtEventInfo.Tables["EventInfo"].Rows)
+            foreach (DataRow dRow in dsEventInfo.Tables["EventInfo"].Rows)
             {
                 lblEventName.Text = dRow["EventName"].ToString();
                 lblEventStatus.Text = dRow["StatusName"].ToString();
@@ -204,9 +208,9 @@ namespace LarpPortal.Events
 
             lblRegistrationStatus.Text = "Not Registered";
 
-            if (dtEventInfo.Tables["Character"].Rows.Count > 0)
+            if (dsEventInfo.Tables["Character"].Rows.Count > 0)
             {
-                ddlCharacterList.DataSource = dtEventInfo.Tables["Character"];
+                ddlCharacterList.DataSource = dsEventInfo.Tables["Character"];
                 ddlCharacterList.DataTextField = "CharacterAKA";
                 ddlCharacterList.DataValueField = "CharacterID";
                 ddlCharacterList.DataBind();
@@ -215,24 +219,24 @@ namespace LarpPortal.Events
                 lblCharacter.Visible = false;
             }
 
-            if (dtEventInfo.Tables["Character"].Rows.Count == 1)
+            if (dsEventInfo.Tables["Character"].Rows.Count == 1)
             {
                 ddlCharacterList.Visible = false;
                 lblCharacter.Visible = true;
                 lblCharacter.Text = ddlCharacterList.Items[0].Text;
             }
 
-            ddlHousing.DataSource = new DataView(dtEventInfo.Tables["Housing"], "", "Description", DataViewRowState.CurrentRows);
+            ddlHousing.DataSource = new DataView(dsEventInfo.Tables["Housing"], "", "Description", DataViewRowState.CurrentRows);
             ddlHousing.DataTextField = "Description";
             ddlHousing.DataValueField = "HousingTypeID";
             ddlHousing.DataBind();
 
-            ddlRoles.DataSource = dtEventInfo.Tables["RolesForEvent"];
+            ddlRoles.DataSource = dsEventInfo.Tables["RolesForEvent"];
             ddlRoles.DataTextField = "Description";
             ddlRoles.DataValueField = "RoleAlignmentID";
             ddlRoles.DataBind();
 
-            if (dtEventInfo.Tables["RolesForEvent"].Rows.Count == 1)
+            if (dsEventInfo.Tables["RolesForEvent"].Rows.Count == 1)
             {
                 ddlRoles.Visible = false;
                 lblRole.Text = ddlRoles.Items[0].Text;
@@ -245,181 +249,184 @@ namespace LarpPortal.Events
                 ddlRoles.Items[0].Selected = true;
             }
 
+            ddlSendToCampaign.ClearSelection();
+
             hidRegistrationID.Value = "-1";
 
-            foreach (DataRow dCharInfo in dtEventInfo.Tables["Character"].Rows)
+            foreach (DataRow dCharInfo in dsEventInfo.Tables["Character"].Rows)
             {
-                lblPlayerName.Text = dCharInfo["PlayerName"].ToString();
-                lblEMail.Text = dCharInfo["EmailAddress"].ToString();
                 lblCharacter.Text = dCharInfo["CharacterAKA"].ToString().Trim();
+            }
 
-                if (bIncludeReg)
+            if (bIncludeReg)
+            {
+                foreach (DataRow dUserInfo in dsEventInfo.Tables["PlayerInfo"].Rows)
                 {
-                    if (dtEventInfo.Tables["Meals"].Rows.Count > 0)
+                    lblPlayerName.Text = dUserInfo["FirstName"].ToString().Trim() + " " + dUserInfo["LastName"].ToString().Trim();
+                    lblEMail.Text = dUserInfo["EMailAddress"].ToString().Trim();
+                }
+
+                if (dsEventInfo.Tables["Meals"].Rows.Count > 0)
+                {
+                    mvMenu.SetActiveView(vwFoodAvail);
+                    cbMealList.DataSource = dsEventInfo.Tables["Meals"];
+                    cbMealList.DataTextField = "MealDescription";
+                    cbMealList.DataValueField = "EventMealID";
+                    cbMealList.DataBind();
+                    foreach (DataRow dMeal in dsEventInfo.Tables["Meals"].Rows)
                     {
-                        mvMenu.SetActiveView(vwFoodAvail);
-                        cbMealList.DataSource = dtEventInfo.Tables["Meals"];
-                        cbMealList.DataTextField = "MealDescription";
-                        cbMealList.DataValueField = "EventMealID";
-                        cbMealList.DataBind();
+                        if (dMeal["RegistrationMealsID"] != DBNull.Value)
+                        {
+                            ListItem li = cbMealList.Items.FindByValue(dMeal["RegistrationMealsID"].ToString());
+                            if (li != null)
+                                li.Selected = true;
+                        }
                     }
-                    else
-                        mvMenu.SetActiveView(vwNoFood);
+                    cbFoodList_SelectedIndexChanged(null, null);
+                }
+                else
+                    mvMenu.SetActiveView(vwNoFood);
 
-                    if (dtEventInfo.Tables["Teams"].Rows.Count > 0)
+                if (dsEventInfo.Tables["Teams"].Rows.Count > 0)
+                {
+                    ddlTeams.Visible = true;
+                    ddlTeams.DataSource = dsEventInfo.Tables["Teams"];
+                    ddlTeams.DataTextField = "TeamName";
+                    ddlTeams.DataValueField = "TeamID";
+                    ddlTeams.DataBind();
+                    ddlTeams.Items.Insert(0, new ListItem("No Team", "0"));
+                    lblNoTeams.Visible = false;
+                }
+                else
+                {
+                    ddlTeams.Visible = false;
+                    lblNoTeams.Visible = true;
+                }
+
+                ddlPaymentChoice.DataSource = dsEventInfo.Tables["PaymentType"];
+                ddlPaymentChoice.DataTextField = "Description";
+                ddlPaymentChoice.DataValueField = "PaymentTypeID";
+                ddlPaymentChoice.DataBind();
+                ddlPaymentChoice.Items.Insert(0, new ListItem("No Payment", "0"));
+
+                DateTime dtArrivalDateTime = DateTime.MinValue;
+                DateTime dtDepartureDatetime = DateTime.MinValue;
+                foreach (DataRow dReg in dsEventInfo.Tables["Registration"].Rows)
+                {
+                    hidRegistrationID.Value = dReg["RegistrationID"].ToString();
+                    lblRegistrationStatus.Text = dReg["RegistrationStatus"].ToString();
+
+                    btnRegister.Text = "Change Registration";
+                    btnRegister.Width = Unit.Pixel(200);
+
+
+                    if (dReg["ExpectedArrivalDate"] != DBNull.Value)
                     {
-                        ddlTeams.Visible = true;
-                        ddlTeams.DataSource = dtEventInfo.Tables["Teams"];
-                        ddlTeams.DataTextField = "TeamName";
-                        ddlTeams.DataValueField = "TeamID";
-                        ddlTeams.DataBind();
-                        ddlTeams.Items.Insert(0, new ListItem("No Team", "0"));
-                        lblNoTeams.Visible = false;
+                        try
+                        {
+                            DateTime dtTempDate = (DateTime)dReg["ExpectedArrivalDate"];
+                            if (dReg["ExpectedArrivalTime"] != DBNull.Value)
+                                dtTempDate += ((TimeSpan)(dReg["ExpectedArrivalTime"]));
+                            else
+                                dtTempDate += dtEventStartDateTime.TimeOfDay;
+                            dtArrivalDateTime = dtTempDate; // Get this far - it's OK.
+                        }
+                        catch
+                        {
+                            // Just in case. Actually don't need to do anything here. 
+                        }
                     }
-                    else
+                    if (dReg["ExpectedDepartureDate"] != DBNull.Value)
                     {
-                        ddlTeams.Visible = false;
-                        lblNoTeams.Visible = true;
+                        try
+                        {
+                            DateTime dtTempDate = (DateTime)dReg["ExpectedDepartureDate"];
+                            if (dReg["ExpectedDepartureTime"] != DBNull.Value)
+                                dtTempDate += (TimeSpan)dReg["ExpectedDepartureTime"];
+                            else
+                                dtTempDate += dtEventEndDateTime.TimeOfDay;
+                            dtDepartureDatetime = dtTempDate;
+                        }
+                        catch
+                        {
+                            // Just in case. Actually don't need to do anything here. 
+                        }
                     }
 
-                    ddlPaymentChoice.DataSource = dtEventInfo.Tables["PaymentType"];
-                    ddlPaymentChoice.DataTextField = "Description";
-                    ddlPaymentChoice.DataValueField = "PaymentTypeID";
-                    ddlPaymentChoice.DataBind();
-                    ddlPaymentChoice.Items.Insert(0, new ListItem("No Payment", "0"));
+                    divFullEventNo.Style.Add("display", "none");
 
-                    DateTime dtArrivalDateTime = DateTime.MinValue;
-                    DateTime dtDepartureDatetime = DateTime.MinValue;
-
-
-                    foreach (DataRow dReg in dtEventInfo.Tables["Registration"].Rows)
+                    if ((dtArrivalDateTime != DateTime.MinValue) ||
+                        (dtDepartureDatetime != DateTime.MinValue))
                     {
-                        hidRegistrationID.Value = dReg["RegistrationID"].ToString();
-                        lblRegistrationStatus.Text = dReg["RegistrationStatus"].ToString();
-
-                        btnRegister.Text = "Change Registration";
-                        btnRegister.Width = Unit.Pixel(200);
-
-
-                        if (dReg["ExpectedArrivalDate"] != DBNull.Value)
+                        if ((dtArrivalDateTime != dtEventStartDateTime) ||
+                            (dtDepartureDatetime != dtEventEndDateTime))
                         {
-                            try
+                            ListItem liNo = ddlFullEvent.Items.FindByValue("N");
+                            if (liNo != null)
                             {
-                                DateTime dtTempDate = (DateTime)dReg["ExpectedArrivalDate"];
-                                if (dReg["ExpectedArrivalTime"] != DBNull.Value)
-                                    dtTempDate += ((TimeSpan)(dReg["ExpectedArrivalTime"]));
-                                else
-                                    dtTempDate += dtEventStartDateTime.TimeOfDay;
-                                dtArrivalDateTime = dtTempDate; // Get this far - it's OK.
+                                ddlFullEvent.ClearSelection();
+                                liNo.Selected = true;
                             }
-                            catch
+                            if (dtArrivalDateTime != DateTime.MinValue)
                             {
-                                // Just in case. Actually don't need to do anything here. 
+                                tbArriveDate.Text = dtArrivalDateTime.ToString("MM/dd/yyyy");
+                                tbArriveTime.Text = dtArrivalDateTime.ToString("HH:mm");
                             }
+                            if (dtDepartureDatetime != DateTime.MinValue)
+                            {
+                                tbDepartDate.Text = dtDepartureDatetime.ToString("MM/dd/yyyy");
+                                tbDepartTime.Text = dtDepartureDatetime.ToString("HH:mm");
+                            }
+
+                            divFullEventNo.Style.Add("display", "block");
                         }
-                        if (dReg["ExpectedDepartureDate"] != DBNull.Value)
-                        {
-                            try
+                    }
+
+                    if (dReg["TeamID"].ToString() != "")
+                    {
+                        ddlTeams.ClearSelection();
+                        foreach (ListItem li in ddlTeams.Items)
+                            if (li.Value == dReg["TeamID"].ToString())
+                                li.Selected = true;
+                    }
+                    ddlRoles_SelectedIndexChanged(null, null);
+                    if (dReg["RoleAlignmentID"].ToString() != "")
+                    {
+                        ddlRoles.ClearSelection();
+                        bool bSelectionFound = false;
+
+                        foreach (ListItem li in ddlRoles.Items)
+                            if (li.Value == dReg["RoleAlignmentID"].ToString())
                             {
-                                DateTime dtTempDate = (DateTime)dReg["ExpectedDepartureDate"];
-                                if (dReg["ExpectedDepartureTime"] != DBNull.Value)
-                                    dtTempDate += (TimeSpan)dReg["ExpectedDepartureTime"];
-                                else
-                                    dtTempDate += dtEventEndDateTime.TimeOfDay;
-                                dtDepartureDatetime = dtTempDate;
+                                li.Selected = true;
+                                bSelectionFound = true;
                             }
-                            catch
-                            {
-                                // Just in case. Actually don't need to do anything here. 
-                            }
-                        }
-
-                        divFullEventNo.Style.Add("display", "none");
-
-                        if ((dtArrivalDateTime != DateTime.MinValue) ||
-                            (dtDepartureDatetime != DateTime.MinValue))
+                        if (bSelectionFound)
                         {
-                            if ((dtArrivalDateTime != dtEventStartDateTime) ||
-                                (dtDepartureDatetime != dtEventEndDateTime))
+                            if (ddlRoles.SelectedItem.Text != "PC")
                             {
-                                ListItem liNo = ddlFullEvent.Items.FindByValue("N");
-                                if (liNo != null)
-                                {
-                                    ddlFullEvent.ClearSelection();
-                                    liNo.Selected = true;
-                                }
-                                if (dtArrivalDateTime != DateTime.MinValue)
-                                {
-                                    tbArriveDate.Text = dtArrivalDateTime.ToString("MM/dd/yyyy");
-                                    tbArriveTime.Text = dtArrivalDateTime.ToString("HH:mm");
-                                }
-                                if (dtDepartureDatetime != DateTime.MinValue)
-                                {
-                                    tbDepartDate.Text = dtDepartureDatetime.ToString("MM/dd/yyyy");
-                                    tbDepartTime.Text = dtDepartureDatetime.ToString("HH:mm");
-                                }
-
-                                divFullEventNo.Style.Add("display", "block");
+                                if (dReg["NPCCampaignID"] != DBNull.Value)
+                                    if (dReg["NPCCampaignID"].ToString() != "")
+                                    {
+                                        ddlSendToCampaign.ClearSelection();
+                                        foreach (ListItem liItem in ddlSendToCampaign.Items)
+                                            if (liItem.Value == dReg["NPCCampaignID"].ToString())
+                                                liItem.Selected = true;
+                                    }
                             }
                         }
-
-                        if (dReg["TeamID"].ToString() != "")
-                        {
-                            ddlTeams.ClearSelection();
-                            foreach (ListItem li in ddlTeams.Items)
-                                if (li.Value == dReg["TeamID"].ToString())
-                                    li.Selected = true;
-                        }
-                        ddlRoles_SelectedIndexChanged(null, null);
-                        if (dReg["RoleAlignmentID"].ToString() != "")
-                        {
-                            ddlRoles.ClearSelection();
-                            bool bSelectionFound = false;
-                            
-                            foreach (ListItem li in ddlRoles.Items)
-                                if (li.Value == dReg["RoleAlignmentID"].ToString())
-                                {
-                                    li.Selected = true;
-                                    bSelectionFound = true;
-                                }
-                            if (bSelectionFound)
-                            {
-                                if (ddlRoles.SelectedItem.Text != "PC")
-                                {
-                                    if (dReg["NPCCampaignID"] != DBNull.Value)
-                                        if (dReg["NPCCampaignID"].ToString() != "")
-                                        {
-                                            ddlSendToCampaign.ClearSelection();
-                                            foreach (ListItem liItem in ddlSendToCampaign.Items)
-                                                if (liItem.Value == dReg["NPCCampaignID"].ToString())
-                                                    liItem.Selected = true;
-                                        }
-                                }
-                            }
-                        }
-                        if (dReg["CharacterID"].ToString() != "")
-                        {
-                            ddlCharacterList.ClearSelection();
-                            foreach (ListItem li in ddlCharacterList.Items)
-                                if (li.Value == dReg["CharacterID"].ToString())
-                                    li.Selected = true;
-                            if (ddlCharacterList.SelectedIndex < 0)
-                                ddlCharacterList.SelectedIndex = 0;
-                        }
+                    }
+                    if (dReg["CharacterID"].ToString() != "")
+                    {
+                        ddlCharacterList.ClearSelection();
+                        foreach (ListItem li in ddlCharacterList.Items)
+                            if (li.Value == dReg["CharacterID"].ToString())
+                                li.Selected = true;
+                        if (ddlCharacterList.SelectedIndex < 0)
+                            ddlCharacterList.SelectedIndex = 0;
                     }
                 }
             }
-
-
-            //        <asp:DropDownList ID="ddlTeams" runat="server" />
-            //        <asp:DropDownList ID="ddlHousing" runat="server" />
-            //        <asp:DropDownList ID="ddlMealPlan" runat="server" />
-            //        <asp:TextBox ID="tbPayment" runat="server" TextMode="MultiLine" CssClass="col-lg-12" Rows="4" /></div>
-            //        <asp:DropDownList ID="ddlPaymentChoice" runat="server" /></div>
-            //        <asp:TextBox ID="tbComments" runat="server" TextMode="MultiLine" CssClass="col-lg-12" Rows="4" /></div>
-            //<asp:HiddenField ID="hidEventID" runat="server" />
-            //<asp:HiddenField ID="hidCharacterID" runat="server" />
-            //<asp:HiddenField ID="hidTeamMember" runat="server" Value="0" />
 
             _Reload = false;
         }
@@ -524,6 +531,30 @@ namespace LarpPortal.Events
                 MethodBase lmth = MethodBase.GetCurrentMethod();
                 string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
                 DataTable dtUser = Classes.cUtilities.LoadDataTable("uspInsUpdCMRegistrations", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
+
+                foreach (DataRow dRegRecord in dtUser.Rows)
+                {
+                    SortedList sParamsClearMeals = new SortedList();
+                    sParamsClearMeals.Add("@RegistrationID", dRegRecord["RegistrationID"].ToString());
+                    Classes.cUtilities.PerformNonQuery("uspClearRegistrationMeals", sParamsClearMeals, "LARPortal", Session["UserName"].ToString());
+
+                    if (ViewState["Meals"] != null)
+                    {
+                        DataTable dtMeals = ViewState["Meals"] as DataTable;
+                        foreach (DataRow dMeals in dtMeals.Rows)
+                        {
+                            ListItem liMeal = cbMealList.Items.FindByValue(dMeals["EventMealID"].ToString());
+                            if (liMeal.Selected)
+                            {
+                                SortedList sMealParms = new SortedList();
+                                sMealParms.Add("@EventMealID", liMeal.Value);
+                                sMealParms.Add("@RegistrationID", dRegRecord["RegistrationID"].ToString());
+                                Classes.cUtilities.LoadDataTable("uspInsUpdCMRegistrationMeals", sMealParms, "LARPortal", Session["UserName"].ToString(), "EventRegistration.btnRegister.SavingMeals");
+                            }
+                        }
+                    }
+                }
+
                 mvPlayerInfo.SetActiveView(vwRegistered);
                 string jsString = "alert('Character " + lblCharacter.Text + " has been registered.');";
                 ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
@@ -590,13 +621,5 @@ namespace LarpPortal.Events
             }
             _Reload = false;
         }
-
-        //protected void ddlSendToCampaign_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    if (ddlSendToCampaign.SelectedValue == "-1")
-        //        tbSendToCPOther.Visible = true;
-        //    else
-        //        tbSendToCPOther.Visible = false;
-        //}
     }
 }
