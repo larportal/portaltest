@@ -277,7 +277,6 @@ namespace LarpPortal.Events
                     {
                         if (dMeal["RegistrationMealsID"] != DBNull.Value)
                         {
-
                             ListItem li = cbMealList.Items.FindByValue(dMeal["EventMealID"].ToString());
                             if (li != null)
                                 li.Selected = true;
@@ -295,7 +294,7 @@ namespace LarpPortal.Events
                     ddlTeams.DataTextField = "TeamName";
                     ddlTeams.DataValueField = "TeamID";
                     ddlTeams.DataBind();
-                    ddlTeams.Items.Insert(0, new ListItem("No Team", "0"));
+                    ddlTeams.Items.Insert(0, new ListItem("No Team", "-1"));
                     lblNoTeams.Visible = false;
                 }
                 else
@@ -317,9 +316,28 @@ namespace LarpPortal.Events
                     hidRegistrationID.Value = dReg["RegistrationID"].ToString();
                     lblRegistrationStatus.Text = dReg["RegistrationStatus"].ToString();
 
+                    ddlHousing.ClearSelection();
+                    if (dReg["CampaignHousingTypeID"] != DBNull.Value)
+                    {
+                        ListItem lHousing = ddlHousing.Items.FindByValue(dReg["CampaignHousingTypeID"].ToString());
+                        if (lHousing != null)
+                            lHousing.Selected = true;
+                    }
+                    if (ddlHousing.SelectedIndex < 0)
+                        ddlHousing.Items[0].Selected = true;
+
+                    ddlPaymentChoice.ClearSelection();
+                    if (dReg["EventPaymentTypeID"] != DBNull.Value)
+                    {
+                        ListItem lPaymentType = ddlPaymentChoice.Items.FindByValue(dReg["EventPaymentTypeID"].ToString());
+                        if (lPaymentType != null)
+                            lPaymentType.Selected = true;
+                    }
+                    if (ddlPaymentChoice.SelectedIndex < 0)
+                        ddlPaymentChoice.Items[0].Selected = true;
+
                     btnRegister.Text = "Change Registration";
                     btnRegister.Width = Unit.Pixel(200);
-
 
                     if (dReg["ExpectedArrivalDate"] != DBNull.Value)
                     {
@@ -462,12 +480,14 @@ namespace LarpPortal.Events
             sParam.Add("@DateRegistered", DateTime.Now);
             sParam.Add("@EventPaymentTypeID", ddlPaymentChoice.SelectedValue);
             sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
+            sParam.Add("@CampaignHousingTypeID", ddlHousing.SelectedIndex);
             if (ddlRoles.SelectedItem.Text != "PC")
                 sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
 //            sParam.Add("@TeamID", ddlTeams.SelectedValue);
 
             //if (hidTeamMember.Value == "1")
-            //    if (ddlTeams.SelectedIndex != 0)
+            if (ddlTeams.Visible)
+//                if (ddlTeams.SelectedIndex != 0)
                     sParam.Add("@TeamID", ddlTeams.SelectedValue);
 
             string sStatusToSearchFor = "";
@@ -557,7 +577,7 @@ namespace LarpPortal.Events
                     }
                 }
 
-                mvPlayerInfo.SetActiveView(vwRegistered);
+//                mvPlayerInfo.SetActiveView(vwRegistered);
                 string jsString = "alert('Character " + lblCharacter.Text + " has been registered.');";
                 ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
                         "MyApplication",
