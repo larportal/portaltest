@@ -277,7 +277,8 @@ namespace LarpPortal.Events
                     {
                         if (dMeal["RegistrationMealsID"] != DBNull.Value)
                         {
-                            ListItem li = cbMealList.Items.FindByValue(dMeal["RegistrationMealsID"].ToString());
+
+                            ListItem li = cbMealList.Items.FindByValue(dMeal["EventMealID"].ToString());
                             if (li != null)
                                 li.Selected = true;
                         }
@@ -463,9 +464,10 @@ namespace LarpPortal.Events
             sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
             if (ddlRoles.SelectedItem.Text != "PC")
                 sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
+//            sParam.Add("@TeamID", ddlTeams.SelectedValue);
 
-            if (hidTeamMember.Value == "1")
-                if (ddlTeams.SelectedIndex != 0)
+            //if (hidTeamMember.Value == "1")
+            //    if (ddlTeams.SelectedIndex != 0)
                     sParam.Add("@TeamID", ddlTeams.SelectedValue);
 
             string sStatusToSearchFor = "";
