@@ -89,6 +89,26 @@ namespace LarpPortal.Character
                         cChar.LoadCharacter(iCharID);
 
                         tbHistory.Text = cChar.CharacterHistory;
+                        lblHistory.Text = cChar.CharacterHistory.Replace(Environment.NewLine, "<br>");
+
+                        if (cChar.DateHistoryApproved != null)
+                        {
+                            mvButtons.SetActiveView(vwAlreadyApproved);
+                            tbHistory.Visible = false;
+                            lblHistory.Visible = true;
+                        }
+                        else if (cChar.DateHistorySubmitted != null)
+                        {
+                            mvButtons.SetActiveView(vwAlreadySubmitted);
+                            tbHistory.Visible = false;
+                            lblHistory.Visible = true;
+                        }
+                        else
+                        {
+                            mvButtons.SetActiveView(vwButtons);
+                            tbHistory.Visible = true;
+                            lblHistory.Visible = false;
+                        }
                     }
                 }
             }
@@ -156,6 +176,46 @@ namespace LarpPortal.Character
                 Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
                 Response.Redirect("CharInfo.aspx");
             }
+        }
+
+        protected void btnCancel_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("CharHistory.aspx", true);
+        }
+
+        protected void btnSubmitOrSave_Command(object sender, CommandEventArgs e)
+        {
+            int iCharID;
+            if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+            {
+                Classes.cCharacter cChar = new Classes.cCharacter();
+                cChar.LoadCharacter(iCharID);
+
+                cChar.CharacterHistory = tbHistory.Text;
+                cChar.Comments = tbHistory.Text;
+                if (e.CommandName == "SUBMIT")
+                {
+                    cChar.DateHistorySubmitted = DateTime.Now;
+                    lblCharHistoryMessage.Text = "The character history for " + cChar.AKA + " has been submitted for staff approval.";
+                }
+                else
+                    lblCharHistoryMessage.Text = "The character history for " + cChar.AKA + " has been saved.";
+
+                cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+                //string jsString = "alert('Character " + cChar.AKA + " has been saved.');";
+                //ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                //        "MyApplication",
+                //        jsString,
+                //        true);
+//                CharacterHistoryEmailNotificaiton();
+            }
+        }
+
+        protected void btnClose_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeModal();", true);
         }
     }
 }
