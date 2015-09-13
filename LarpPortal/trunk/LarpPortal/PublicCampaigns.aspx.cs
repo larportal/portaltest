@@ -721,6 +721,7 @@ namespace LarpPortal
                     lblSize2.Text = " " + Cam.CampaignSizeRange;
                     lblLocation2.Text = Cam.MarketingLocation;
                     lblEvent2.Text = string.Format("{0:MMM d, yyyy}", Cam.NextEventDate);
+                    lblLastUpdated2.Text = string.Format("{0:MMM d, yyyy}", Cam.DateChanged);
                 };
             }
             SetSiteImage(strImage);

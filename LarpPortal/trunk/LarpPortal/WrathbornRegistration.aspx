@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="WrathbornRegistration.aspx.cs" Inherits="LarpPortal.WrathbornRegistration" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="WrathbornRegistration.aspx.cs" Inherits="LarpPortal.WrathbornRegistration" %>
 
 <asp:Content ID="CampaignInfoSetup" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
 
@@ -110,7 +110,7 @@
                                             <td class="TableLabel"></td>
                                             <td style="text-align: center; text-align: right;">
                                                 <span style="text-align: center;">
-                                                    <asp:Label ID="lblAlreadyRegistered" runat="server" Text="You have been added to the wait list for the event." Visible="false" /></span>
+                                                    <asp:Label ID="lblAlreadyRegistered" runat="server" Text="You have been added to the registration list for the event." Visible="false" /></span>
                                                 <span style="text-align: right;">
                                                     <asp:Button ID="btnRegister" runat="server" CssClass="StandardButton" Width="100" Text="Register" OnClick="btnRegister_Click" /></span>
                                             </td>
@@ -124,13 +124,13 @@
                                     <br />
                                     <br />
                                     <br />
-                                    <h2 style="text-align: center; color: black; font-size: 24pt;">You do not have any Wraithborne Characters.</h2>
+                                    <h2 style="text-align: center; color: black; font-size: 24pt;">You do not have any Wrathborn Characters.</h2>
                                 </asp:View>
                                 <asp:View ID="vwRegistered" runat="server">
                                     <br />
                                     <br />
                                     <br />
-                                    <h2 style="text-align: center; color: black; font-size: 24pt;">You have been added to the wait list for this event.</h2>
+                                    <h2 style="text-align: center; color: black; font-size: 24pt;">You have been added to the registration list for this event.</h2>
                                     <br />
                                     <h2 style="text-align: center; color: black; font-size: 24pt;">You will be notified via email if you are registered.</h2>
                                 </asp:View>

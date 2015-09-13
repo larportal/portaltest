@@ -13,7 +13,7 @@ using System.Data.SqlClient;
 
 namespace LarpPortal.Reports.FifthGate
 {
-    public partial class SF2Registrations : System.Web.UI.Page
+    public partial class WB2Registrations : System.Web.UI.Page
     {
 
         protected void Page_Load(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace LarpPortal.Reports.FifthGate
             TableCode = TableCode + " data-select-item-name=" + dq + "total-point" + dq + "><tr><td>";
             Classes.cAdminViews Reg5G = new Classes.cAdminViews();
             DataTable dtReg5G = new DataTable();
-            dtReg5G = Reg5G.FifthGateRegistrations(512,24);  // Event 512 Silverfire Event 2 - Skill Type 24 Orders
+            dtReg5G = Reg5G.FifthGateRegistrations(530, 25);  // Event 530 Silverfire Event 2 - Skill Type 25 Origins
             if (Reg5G.RegCount == 0)
             {
                 // Build table with no records

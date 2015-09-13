@@ -172,39 +172,22 @@ namespace LarpPortal
         protected void NotifyOfNewRegistration()
         {
             string strBody;
-            //string strFromUser = "support";
-            //string strFromDomain = "larportal.com";
-            //string strFrom = strFromUser + "@" + strFromDomain;
-            //string strSMTPPassword = "Piccolo1";
             string strSubject = "New Wrathborn event registration - " + lblPlayerName.Text;
             string strTeam = "";
             if (ddlTeams.SelectedIndex >= 0)
                 strTeam = ddlTeams.SelectedItem.Text;
             strBody = lblPlayerName.Text + " has just registered for the upcoming Wrathborn event.  <br>Email: " + lblPlayerEmail.Text + "<br>Character: " + lblCharacterAKA.Text + "<br>Team: ";
             strBody = strBody + strTeam + "<br>Payment Method: " + ddlPaymentType.SelectedItem.Text + "<br>Player Comments: " + tbComment.Text;
-            //string EmailAddress = "fifthgategm@gmail.com";
-            //MailMessage mail = new MailMessage(strFrom, EmailAddress);
-            //mail.Bcc.Add("support@larportal.com");
-            //SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
-            //client.EnableSsl = false;
-            //client.UseDefaultCredentials = false;
-            //client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
-            //client.Timeout = 10000;
-            //mail.Subject = strSubject;
-            //mail.Body = strBody;
-            //mail.IsBodyHtml = true;
 
             Classes.cEmailMessageService RegistrationEmail = new Classes.cEmailMessageService();
 
             try
             {
-                //client.Send(mail);
                 RegistrationEmail.SendMail(strSubject, strBody, "fifthgategm@gmail.com", lblPlayerEmail.Text, "support@larportal.com");
             }
             catch (Exception)
             {
-                //lblUsernameISEmail.Text = "There was an issue. Please contact us at support@larportal.com for assistance.";
-                //lblUsernameISEmail.Visible = true;
+
             }
         }
     }

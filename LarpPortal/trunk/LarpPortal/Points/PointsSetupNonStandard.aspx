@@ -2,9 +2,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
     <div role="form" class="form-horizontal form-condensed">
         <div class="col-sm-12">
-            <h3 class="col-sm-5">Assign Character Build Value&#47;Points </h3>
+            <h3 class="col-sm-5">Setup Donations and Other Non-Standard Points</h3>
         </div>
-        <div class="col-sm-12">
+<%--        <div class="col-sm-12">
             <div class="col-sm-1">
                 <h4>Assign By:</h4>
             </div>
@@ -44,17 +44,16 @@
                     </asp:DropDownList>
                 </div>
             </div>
-        </div>
+        </div>--%>
 
         <div id="character-info" class="character-info tab-pane active">
             <section role="form">
-                <%-- class="form-horizontal form-condensed">--%>
                 <div class="form-horizontal col-sm-12">
                     <div class="row">
                         <div id="Div1" class="panel-wrapper" runat="server">
                             <div class="panel">
                                 <div class="panelheader">
-                                    <h2>Points Awaiting Assignment</h2>
+                                    <h2>Setup Points</h2>
                                     <div class="panel-body">
                                         <div class="panel-container" style="height: 500px; overflow: auto;">
                                             <%--OnRowEditing="gvPoints_RowEditing"--%><%--OnRowUpdating="gvPoints_RowUpdating"--%>
