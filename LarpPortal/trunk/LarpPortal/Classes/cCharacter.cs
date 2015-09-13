@@ -44,6 +44,8 @@ namespace LarpPortal.Classes
         public int PlotLeadPerson { get; set; }
         public bool RulebookCharacter { get; set; }
         public string CharacterHistory { get; set; }
+        public DateTime? DateHistorySubmitted { get; set; }          // Added JBradshaw 9/12/2015
+        public DateTime? DateHistoryApproved { get; set; }           // Added JBradshaw 9/12/2015
         public string DateOfBirth { get; set; }
         public string WhereFrom { get; set; }
         public string CurrentHome { get; set; }
@@ -176,6 +178,16 @@ namespace LarpPortal.Classes
                     StartDate = dtTemp;
                 else
                     StartDate = null;
+
+                if (DateTime.TryParse(dRow["DateHistorySubmitted"].ToString(), out dtTemp))
+                    DateHistorySubmitted = dtTemp;
+                else
+                    DateHistorySubmitted = null;
+
+                if (DateTime.TryParse(dRow["DateHistoryApproved"].ToString(), out dtTemp))
+                    DateHistoryApproved = dtTemp;
+                else
+                    DateHistoryApproved = null;
 
                 CharacterEmail = dRow["CharacterEmail"].ToString();
 
@@ -580,6 +592,8 @@ namespace LarpPortal.Classes
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@PlotLeadPerson", PlotLeadPerson);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@RulebookCharacter", RulebookCharacter);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterHistory", CharacterHistory);
+                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@DateHistorySubmitted", DateHistorySubmitted);
+                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@DateHistoryApproved", DateHistoryApproved);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@DateOfBirth", DateOfBirth);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@WhereFrom", WhereFrom);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@CurrentHome", CurrentHome);
