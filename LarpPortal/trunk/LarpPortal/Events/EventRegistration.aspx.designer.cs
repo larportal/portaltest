@@ -265,6 +265,42 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.Label lblEMail;
         
         /// <summary>
+        /// mvEventScheduledOpen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mvEventScheduledOpen;
+        
+        /// <summary>
+        /// vwEventRegistrationNotOpen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwEventRegistrationNotOpen;
+        
+        /// <summary>
+        /// lblPaymentInstructions1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPaymentInstructions1;
+        
+        /// <summary>
+        /// vwEventRegistrationOpen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwEventRegistrationOpen;
+        
+        /// <summary>
         /// mvCharacters control.
         /// </summary>
         /// <remarks>
@@ -526,13 +562,13 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.View vwNoFood;
         
         /// <summary>
-        /// tbPayment control.
+        /// lblPaymentInstructions2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbPayment;
+        protected global::System.Web.UI.WebControls.Label lblPaymentInstructions2;
         
         /// <summary>
         /// ddlPaymentChoice control.
@@ -659,5 +695,23 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View vwError;
+        
+        /// <summary>
+        /// lblRegistrationMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRegistrationMessage;
+        
+        /// <summary>
+        /// btnClose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnClose;
     }
 }
