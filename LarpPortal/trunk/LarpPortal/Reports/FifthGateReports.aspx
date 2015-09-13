@@ -32,6 +32,11 @@
                                                             <asp:HyperLink ID="hplSF2Registration" runat="server" NavigateUrl="~/Reports/FifthGate/SF2Registrations.aspx" Target="_blank">Silverfire Event 2 Registration</asp:HyperLink>
                                                         </asp:TableCell>
                                                     </asp:TableRow>
+                                                    <asp:TableRow>
+                                                        <asp:TableCell>
+                                                            <asp:HyperLink ID="hplWB2Registration" runat="server" NavigateUrl="~/Reports/FifthGate/WB2Registrations.aspx" Target="_blank">Wrathborn Event 2 Registration</asp:HyperLink>
+                                                        </asp:TableCell>
+                                                    </asp:TableRow>
                                                 </asp:Table>
 										    </div>
 									    </div>

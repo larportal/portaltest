@@ -105,6 +105,7 @@ namespace LarpPortal.Classes
         private int _RoleID = 0;
         private string _RoleDescription = "";
         private Boolean _AutoApprove;
+        private DateTime? _DateChanged = null;
 
         public Int32 CampaignID
         {
@@ -546,6 +547,12 @@ namespace LarpPortal.Classes
             set { _NextEventDate = value; }
         }
 
+        public DateTime? DateChanged
+        {
+            get { return _DateChanged; }
+            set { _DateChanged = value; }
+        }
+
         private int CampaignRoleID
         {
             get { return _CampaignRoleID; }
@@ -689,6 +696,8 @@ namespace LarpPortal.Classes
                     _ShareLocationUseNotes = ldt.Rows[0]["ShareLocationUseNotes"].ToString().Trim();
                     if (DateTime.TryParse(ldt.Rows[0]["CampaignStartDate"].ToString(), out dtTemp))
                         _StartDate = dtTemp;
+                    if (DateTime.TryParse(ldt.Rows[0]["DateChanged"].ToString(), out dtTemp))
+                        _DateChanged = dtTemp;
                     _StatusDescription = ldt.Rows[0]["StatusDescription"].ToString().Trim(); 
                     if (int.TryParse(ldt.Rows[0]["StatusID"].ToString(), out iTemp))
                         _StatusID = iTemp;

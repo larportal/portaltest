@@ -351,34 +351,39 @@ namespace LarpPortal
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
                         PageName = "/PageUnderConstruction.aspx";
-                        if(PlayerRoles.Contains("33:/"))
-                        {
-                            PageName = "/SilverfireRegistration.aspx";
-                        }
                         //PageName = "/Events/Events.aspx";
-                        LineText = "Events";
+                        PageName = "/Events/EventRegistration.aspx";
+                        LineText = "RSVP/Register";
+                        //if(PlayerRoles.Contains("33:/"))
+                        //{
+                        //    PageName = "/WrathbornRegistration.aspx";
+                        //    LineText = "Wrathborn Registration";
+                        //}
                         break;
 
-                    case 17:
-                        if (PageName == "EVENTS")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd1;
-                        PageName = "/PageUnderConstruction.aspx";
-                        if (PlayerRoles.Contains("33:/"))
-                        {
-                            PageName = "/SilverfireRegistration.aspx";
-                        }
-                        //PageName = "/Events/Events.aspx";
-                        LineText = "RSVP / Register";
-                        break;
+                    //case 17:
+                    //    if (PageName == "EVENTS")
+                    //    {
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
+                    //    SpanClass = SC1;
+                    //    LineEnd = LineEnd1;
+                    //    PageName = "/PageUnderConstruction.aspx";
+                    //    //PageName = "/Events/Events.aspx";
+                    //    LineText = "RSVP / Register";
+                    //    if (PlayerRoles.Contains("33:/"))
+                    //    {
+                    //        PageName = "/SilverfireRegistration.aspx";
+                    //        LineText = "Silverfire Registration";
+                    //    }
+                        
+                        
+                        //break;
 
                     //Missing 18 - Shopping cart / payment
 
@@ -829,6 +834,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = "/PageUnderConstruction.aspx";
+                            //PageName = "/Points/PointsSetupNonStandard.aspx";
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Other Points";
                         }
                         else

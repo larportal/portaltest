@@ -445,6 +445,24 @@ namespace LarpPortal {
         protected global::System.Web.UI.WebControls.Label lblEvent2;
         
         /// <summary>
+        /// lblLastUpdated1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLastUpdated1;
+        
+        /// <summary>
+        /// lblLastUpdated2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblLastUpdated2;
+        
+        /// <summary>
         /// pnlSignUpForCampaign control.
         /// </summary>
         /// <remarks>

@@ -137,15 +137,15 @@ namespace LarpPortal.Classes
         /// <summary>
         /// This will return a list of all Fifth Gate Registrations
         /// </summary>
-        public DataTable FifthGateRegistrations()
+        public DataTable FifthGateRegistrations(int EventID, int SkillTypeID)
         {
             RegCount = 0;
             int iTemp = 0;
             string stStoredProc = "uspAdminFifthGateRegistrations";
             string stCallingMethod = "cAdminViews.FifthGateRegistrations";
             SortedList slParameters = new SortedList();
-            slParameters.Add("@EventID", 512);
-            slParameters.Add("@SkillTypeID", 24);
+            slParameters.Add("@EventID", EventID);  // 512 SilverFire - 530 Wrathborn
+            slParameters.Add("@SkillTypeID", SkillTypeID);   // 24 Orders - 25 Origins
             DataTable dtRegistrations = new DataTable();
             DataSet dsRegistrations = new DataSet();
             dtRegistrations = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", "Username", stCallingMethod);

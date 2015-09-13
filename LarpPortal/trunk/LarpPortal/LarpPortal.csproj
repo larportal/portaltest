@@ -357,7 +357,6 @@
     <Content Include="PELs\PELList.aspx" />
     <Content Include="PlayerResume.aspx" />
     <Content Include="Points\PointsAssign.aspx" />
-    <Content Include="Points\PointsSetupNonStandard.aspx" />
     <Content Include="Preferences.aspx" />
     <Content Include="Properties\PublishProfiles\LARPortal.pubxml.user">
       <SubType>Designer</SubType>
@@ -731,6 +730,7 @@
     <Compile Include="Classes\cPlayerRoles.cs" />
     <Compile Include="Classes\cPlayerSkill.cs" />
     <Compile Include="Classes\cPlayerWaiver.cs" />
+    <Compile Include="Classes\cPoints.cs" />
     <Compile Include="Classes\cRace.cs" />
     <Compile Include="Classes\cRole.cs" />
     <Compile Include="Classes\cSchedule.cs" />
@@ -1049,13 +1049,6 @@
     </Compile>
     <Compile Include="Points\PointsAssign.aspx.designer.cs">
       <DependentUpon>PointsAssign.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Points\PointsSetupNonStandard.aspx.cs">
-      <DependentUpon>PointsSetupNonStandard.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Points\PointsSetupNonStandard.aspx.designer.cs">
-      <DependentUpon>PointsSetupNonStandard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Preferences.aspx.cs">
       <DependentUpon>Preferences.aspx</DependentUpon>

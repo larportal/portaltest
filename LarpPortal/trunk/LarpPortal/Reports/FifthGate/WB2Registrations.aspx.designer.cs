@@ -7,27 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LarpPortal.Points {
+namespace LarpPortal.Reports.FifthGate {
     
     
-    public partial class PointsSetupNonStandard {
+    public partial class WB2Registrations {
         
         /// <summary>
-        /// Div1 control.
+        /// lblCharacters control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
-        
-        /// <summary>
-        /// gvPoints control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPoints;
+        protected global::System.Web.UI.WebControls.Label lblCharacters;
     }
 }

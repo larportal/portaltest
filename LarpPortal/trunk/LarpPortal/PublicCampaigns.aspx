@@ -241,6 +241,17 @@
                                                 <asp:Label ID="lblEvent2" runat="server"></asp:Label>
                                             </asp:TableCell>
                                         </asp:TableHeaderRow>
+                                        <asp:TableHeaderRow>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblLastUpdated1" runat="server">Last Updated:</asp:Label>
+                                            </asp:TableCell>
+                                            <asp:TableCell>
+                                                &nbsp;&nbsp;
+                                            </asp:TableCell>
+                                            <asp:TableCell HorizontalAlign="Left">
+                                                <asp:Label ID="lblLastUpdated2" runat="server"></asp:Label>
+                                            </asp:TableCell>
+                                        </asp:TableHeaderRow>
                                     </asp:Table>
                                 </div>
                             </div>
