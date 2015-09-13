@@ -60,6 +60,18 @@
             cursor: pointer;
             border: 1px solid #A9A9A9;
         }
+
+        .container
+        {
+            display: table;
+            vertical-align: middle;
+        }
+
+        .vertical-center-row
+        {
+            display: table-cell;
+            vertical-align: middle;
+        }
     </style>
 
     <link rel="stylesheet" href="http://localhost:49282/code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -91,14 +103,19 @@
             $("#<%= tbArriveDate.ClientID %>").datepicker();
             $("#<%= tbDepartDate.ClientID %>").datepicker();
         });
+
+        function openModal() {
+            $('#myModal').modal('show');
+        }
+        function closeModal() {
+            $('#myModal').hide();
+        }
     </script>
 
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-    <script>
-    </script>
-
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
 </asp:Content>
 
 <asp:Content ID="CampaignInfoSetup" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
@@ -327,122 +344,134 @@
                                                             <asp:Label ID="lblEMail" runat="server" />
                                                         </div>
                                                     </div>
-                                                    <asp:MultiView ID="mvCharacters" runat="server" ActiveViewIndex="0">
-                                                        <asp:View ID="vwCharacter" runat="server">
-                                                            <div class="row PrePostPadding" id="divCharacters" runat="server">
-                                                                <div class="TableLabel col-lg-3">Character: </div>
-                                                                <div class="col-lg-5 NoPadding">
-                                                                    <asp:Label ID="lblCharacter" runat="server" />
-                                                                    <asp:DropDownList ID="ddlCharacterList" runat="server" />
+                                                    <asp:MultiView ID="mvEventScheduledOpen" runat="server" ActiveViewIndex="0">
+                                                        <asp:View ID="vwEventRegistrationNotOpen" runat="server">
+                                                            <div class="row PrePostPadding">
+                                                                <div class="TableLabel col-lg-3">Payment Instructions: </div>
+                                                                <div class="col-lg-9 NoPadding">
+                                                                    <asp:Label ID="lblPaymentInstructions1" runat="server" CssClass="col-lg-11 NoPadding" />
                                                                 </div>
                                                             </div>
                                                         </asp:View>
-                                                        <asp:View ID="vwSendCPTo" runat="server">
-                                                            <div class="row PrePostPadding" id="divSendCPTo" runat="server">
+                                                        <asp:View ID="vwEventRegistrationOpen" runat="server">
+                                                            <asp:MultiView ID="mvCharacters" runat="server" ActiveViewIndex="0">
+                                                                <asp:View ID="vwCharacter" runat="server">
+                                                                    <div class="row PrePostPadding" id="divCharacters" runat="server">
+                                                                        <div class="TableLabel col-lg-3">Character: </div>
+                                                                        <div class="col-lg-5 NoPadding">
+                                                                            <asp:Label ID="lblCharacter" runat="server" />
+                                                                            <asp:DropDownList ID="ddlCharacterList" runat="server" />
+                                                                        </div>
+                                                                    </div>
+                                                                </asp:View>
+                                                                <asp:View ID="vwSendCPTo" runat="server">
+                                                                    <div class="row PrePostPadding" id="divSendCPTo" runat="server">
+                                                                        <div class="TableLabel col-lg-3">
+                                                                            Send CP to 
+                                                                        </div>
+                                                                        <div class="col-lg-9">
+                                                                            <div class="row">
+                                                                                <asp:DropDownList ID="ddlSendToCampaign" runat="server" />
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <asp:TextBox ID="tbSendToCPOther" runat="server" CssClass="col-lg-10" MaxLength="500" Style="display: none;" TextMode="MultiLine" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </asp:View>
+                                                            </asp:MultiView>
+                                                            <div class="row PrePostPadding">
                                                                 <div class="TableLabel col-lg-3">
-                                                                    Send CP to 
+                                                                    Full Event: 
                                                                 </div>
-                                                                <div class="col-lg-9">
-                                                                    <div class="row">
-                                                                        <asp:DropDownList ID="ddlSendToCampaign" runat="server" />
+                                                                <div class="col-lg-1 NoPadding">
+                                                                    <asp:DropDownList ID="ddlFullEvent" runat="server">
+                                                                        <asp:ListItem Text="Yes" Value="Y" Selected="True" />
+                                                                        <asp:ListItem Text="No" Value="N" />
+                                                                    </asp:DropDownList>
+                                                                </div>
+                                                                <div class="col-lg-7" id="divFullEventNo" style="display: none;" runat="server">
+                                                                    <div class="row NoPadding">
+                                                                        <div class="col-lg-6 NoPadding">Arrival Date/Time</div>
+                                                                        <div class="col-lg-6 NoPadding">Depart Date/Time</div>
                                                                     </div>
-                                                                    <div class="row">
-                                                                        <asp:TextBox ID="tbSendToCPOther" runat="server" CssClass="col-lg-10" MaxLength="500" Style="display: none;" TextMode="MultiLine" />
+                                                                    <div class="row NoPadding">
+                                                                        <div class="col-lg-6 NoPadding">
+                                                                            <asp:TextBox ID="tbArriveDate" runat="server" CssClass="TextEntry" Width="100px" />
+                                                                            <asp:TextBox ID="tbArriveTime" runat="server" CssClass="TextEntry" Width="100px" TextMode="Time" />
+                                                                        </div>
+                                                                        <div class="col-lg-6 NoPadding">
+                                                                            <asp:TextBox ID="tbDepartDate" runat="server" CssClass="TextEntry" Width="100px" />
+                                                                            <asp:TextBox ID="tbDepartTime" runat="server" CssClass="TextEntry" Width="100px" TextMode="Time" />
+                                                                        </div>
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row PrePostPadding" runat="server" id="divTeams">
+                                                                <div class="TableLabel col-lg-3">Team Name: </div>
+                                                                <div class="col-lg-4 NoPadding">
+                                                                    <asp:DropDownList ID="ddlTeams" runat="server">
+                                                                        <asp:ListItem Text="Team 1" Value="Team1" />
+                                                                        <asp:ListItem Text="Team 2" Value="Team2" />
+                                                                    </asp:DropDownList>
+                                                                    <asp:Label ID="lblNoTeams" runat="server" Text="No Teams" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="row PrePostPadding" runat="server" id="divHousing">
+                                                                <div class="TableLabel col-lg-3">Housing Plan: </div>
+                                                                <div class="col-lg-3 NoPadding">
+                                                                    <asp:DropDownList ID="ddlHousing" runat="server" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="row PrePostPadding">
+                                                                <div class="TableLabel col-lg-3">Meal Plan: </div>
+                                                                <div class="col-lg-6 NoPadding">
+                                                                    <asp:MultiView ID="mvMenu" runat="server" ActiveViewIndex="0">
+                                                                        <asp:View ID="vwFoodAvail" runat="server">
+                                                                            <asp:UpdatePanel ID="upMealSelection" runat="server">
+                                                                                <ContentTemplate>
+                                                                                    <asp:TextBox ID="tbSelectedMeals" Text="" runat="server" CssClass="txtbox"
+                                                                                        Height="20px" Width="322px"></asp:TextBox>
+                                                                                    <asp:Panel ID="PnlMealList" runat="server" CssClass="PnlDesign">
+                                                                                        <asp:CheckBoxList ID="cbMealList" runat="server" Width="200px" RepeatLayout="flow" CssClass="CheckBoxList" AutoPostBack="true"
+                                                                                            OnSelectedIndexChanged="cbFoodList_SelectedIndexChanged">
+                                                                                            <asp:ListItem Text="One" Value="one" />
+                                                                                            <asp:ListItem Text="Two" Value="two" />
+                                                                                        </asp:CheckBoxList>
+                                                                                    </asp:Panel>
+                                                                                    <ajaxToolkit:PopupControlExtender ID="PceSelectCustomer" runat="server" TargetControlID="tbSelectedMeals"
+                                                                                        PopupControlID="PnlMealList" Position="Bottom">
+                                                                                    </ajaxToolkit:PopupControlExtender>
+                                                                                    <asp:Label ID="Label1" runat="server" Text="" Style="visibility: hidden; border: 1px solid black;"></asp:Label>
+                                                                                </ContentTemplate>
+                                                                            </asp:UpdatePanel>
+                                                                        </asp:View>
+                                                                        <asp:View ID="vwNoFood" runat="server">
+                                                                            This event has not been set up with food services.
+                                                                        </asp:View>
+                                                                    </asp:MultiView>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row PrePostPadding">
+                                                                <div class="TableLabel col-lg-3">Payment Instructions: </div>
+                                                                <div class="col-lg-9 NoPadding">
+                                                                    <asp:Label ID="lblPaymentInstructions2" runat="server" CssClass="col-lg-11 NoPadding" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="row PrePostPadding">
+                                                                <div class="TableLabel col-lg-3">Payment Choice: </div>
+                                                                <div class="col-lg-4 NoPadding">
+                                                                    <asp:DropDownList ID="ddlPaymentChoice" runat="server" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="row PrePostPadding">
+                                                                <div class="TableLabel col-lg-3">Comments: </div>
+                                                                <div class="col-lg-9 NoPadding">
+                                                                    <asp:TextBox ID="tbComments" runat="server" TextMode="MultiLine" CssClass="col-lg-11 NoPadding" Rows="4" />
                                                                 </div>
                                                             </div>
                                                         </asp:View>
                                                     </asp:MultiView>
-                                                    <div class="row PrePostPadding">
-                                                        <div class="TableLabel col-lg-3">
-                                                            Full Event: 
-                                                        </div>
-                                                        <div class="col-lg-1 NoPadding">
-                                                            <asp:DropDownList ID="ddlFullEvent" runat="server">
-                                                                <asp:ListItem Text="Yes" Value="Y" Selected="True" />
-                                                                <asp:ListItem Text="No" Value="N" />
-                                                            </asp:DropDownList>
-                                                        </div>
-                                                        <div class="col-lg-7" id="divFullEventNo" style="display: none;" runat="server">
-                                                            <div class="row NoPadding">
-                                                                <div class="col-lg-6 NoPadding">Arrival Date/Time</div>
-                                                                <div class="col-lg-6 NoPadding">Depart Date/Time</div>
-                                                            </div>
-                                                            <div class="row NoPadding">
-                                                                <div class="col-lg-6 NoPadding">
-                                                                    <asp:TextBox ID="tbArriveDate" runat="server" CssClass="TextEntry" Width="100px" />
-                                                                    <asp:TextBox ID="tbArriveTime" runat="server" CssClass="TextEntry" Width="100px" TextMode="Time" />
-                                                                </div>
-                                                                <div class="col-lg-6 NoPadding">
-                                                                    <asp:TextBox ID="tbDepartDate" runat="server" CssClass="TextEntry" Width="100px" />
-                                                                    <asp:TextBox ID="tbDepartTime" runat="server" CssClass="TextEntry" Width="100px" TextMode="Time" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row PrePostPadding" runat="server" id="divTeams">
-                                                        <div class="TableLabel col-lg-3">Team Name: </div>
-                                                        <div class="col-lg-4 NoPadding">
-                                                            <asp:DropDownList ID="ddlTeams" runat="server">
-                                                                <asp:ListItem Text="Team 1" Value="Team1" />
-                                                                <asp:ListItem Text="Team 2" Value="Team2" />
-                                                            </asp:DropDownList>
-                                                            <asp:Label ID="lblNoTeams" runat="server" Text="No Teams" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="row PrePostPadding" runat="server" id="divHousing">
-                                                        <div class="TableLabel col-lg-3">Housing Plan: </div>
-                                                        <div class="col-lg-3 NoPadding">
-                                                            <asp:DropDownList ID="ddlHousing" runat="server" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="row PrePostPadding">
-                                                        <div class="TableLabel col-lg-3">Meal Plan: </div>
-                                                        <div class="col-lg-6 NoPadding">
-                                                            <asp:MultiView ID="mvMenu" runat="server" ActiveViewIndex="0">
-                                                                <asp:View ID="vwFoodAvail" runat="server">
-                                                                    <asp:UpdatePanel ID="upMealSelection" runat="server">
-                                                                        <ContentTemplate>
-                                                                            <asp:TextBox ID="tbSelectedMeals" Text="" runat="server" CssClass="txtbox"
-                                                                                Height="20px" Width="322px"></asp:TextBox>
-                                                                            <asp:Panel ID="PnlMealList" runat="server" CssClass="PnlDesign">
-                                                                                <asp:CheckBoxList ID="cbMealList" runat="server" Width="200px" RepeatLayout="flow" CssClass="CheckBoxList" AutoPostBack="true"
-                                                                                    OnSelectedIndexChanged="cbFoodList_SelectedIndexChanged">
-                                                                                    <asp:ListItem Text="One" Value="one" />
-                                                                                    <asp:ListItem Text="Two" Value="two" />
-                                                                                </asp:CheckBoxList>
-                                                                            </asp:Panel>
-                                                                            <ajaxToolkit:PopupControlExtender ID="PceSelectCustomer" runat="server" TargetControlID="tbSelectedMeals"
-                                                                                PopupControlID="PnlMealList" Position="Bottom">
-                                                                            </ajaxToolkit:PopupControlExtender>
-                                                                            <asp:Label ID="Label1" runat="server" Text="" Style="visibility: hidden; border: 1px solid black;"></asp:Label>
-                                                                        </ContentTemplate>
-                                                                    </asp:UpdatePanel>
-                                                                </asp:View>
-                                                                <asp:View ID="vwNoFood" runat="server">
-                                                                    This event has not been set up with food services.
-                                                                </asp:View>
-                                                            </asp:MultiView>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row PrePostPadding">
-                                                        <div class="TableLabel col-lg-3">Payment Instructions: </div>
-                                                        <div class="col-lg-9 NoPadding">
-                                                            <asp:TextBox ID="tbPayment" runat="server" TextMode="MultiLine" CssClass="col-lg-11 NoPadding" Rows="4" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="row PrePostPadding">
-                                                        <div class="TableLabel col-lg-3">Payment Choice: </div>
-                                                        <div class="col-lg-4 NoPadding">
-                                                            <asp:DropDownList ID="ddlPaymentChoice" runat="server" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="row PrePostPadding">
-                                                        <div class="TableLabel col-lg-3">Comments: </div>
-                                                        <div class="col-lg-9 NoPadding">
-                                                            <asp:TextBox ID="tbComments" runat="server" TextMode="MultiLine" CssClass="col-lg-11 NoPadding" Rows="4" />
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -493,12 +522,6 @@
                             <asp:HiddenField ID="hidCharacterID" runat="server" />
                             <asp:HiddenField ID="hidTeamMember" runat="server" Value="0" />
                         </asp:View>
-                        <%--                                <asp:View ID="vwNoPlayer" runat="server">
-                                    <br />
-                                    <br />
-                                    <br />
-                                    <h2 style="text-align: center; color: black; font-size: 24pt;">You do not have any Silverfire Characters.</h2>
-                                </asp:View>--%>
                         <asp:View ID="vwRegistered" runat="server">
                             <br />
                             <br />
@@ -516,10 +539,27 @@
                         </asp:View>
 
                     </asp:MultiView>
-                    <%--                        </asp:View>
-                    </asp:MultiView>--%>
                 </div>
             </div>
         </section>
     </div>
+
+    <div class="modal" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" style="color: white;">×</a>
+                    LARPortal Registration
+                </div>
+                <div class="modal-body" style="background-color: white;">
+                    <p>
+                        <asp:Label ID="lblRegistrationMessage" runat="server" /></p>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="btnClose" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnClose_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
 </asp:Content>

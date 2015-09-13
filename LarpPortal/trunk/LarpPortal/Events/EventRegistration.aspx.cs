@@ -121,6 +121,7 @@ namespace LarpPortal.Events
             }
             DataSet dsEventInfo = Classes.cUtilities.LoadDataSet("uspGetEventInfo", sParams, "LARPortal", Session["UserName"].ToString(), "EventRegistration.gvEvents_RowCommand");
 
+
             dsEventInfo.Tables[0].TableName = "EventInfo";
             dsEventInfo.Tables[1].TableName = "Housing";
             dsEventInfo.Tables[2].TableName = "PaymentType";
@@ -162,8 +163,12 @@ namespace LarpPortal.Events
                     lblEventOpenDate.Text = string.Format("{0: MM/dd/yy hh:mm tt}", dtTemp);
                     dtEventRegOpenDateTime = dtTemp;
                 }
+                else
+                    dtEventRegOpenDateTime = DateTime.MinValue;
                 if (DateTime.TryParse(dRow["RegistrationCloseDateTime"].ToString(), out dtTemp))
                     dtEventRegCloseDateTime = dtTemp;
+                else
+                    dtEventRegCloseDateTime = DateTime.MaxValue;
 
                 if (DateTime.TryParse(dRow["PaymentDueDate"].ToString(), out dtTemp))
                     lblPaymentDue.Text = string.Format("{0: MM/dd/yy}", dtTemp);
@@ -197,9 +202,15 @@ namespace LarpPortal.Events
 
             if ((DateTime.Now >= dtEventRegOpenDateTime) &&
                 (DateTime.Now <= dtEventRegCloseDateTime))
+            {
                 mvButtons.SetActiveView(vwRegisterButtons);
+                mvEventScheduledOpen.SetActiveView(vwEventRegistrationOpen);
+            }
             else
+            {
                 mvButtons.SetActiveView(vwRSVPButtons);
+                mvEventScheduledOpen.SetActiveView(vwEventRegistrationNotOpen);
+            }
 
             tbArriveDate.Text = dtEventStartDateTime.ToString("MM/dd/yyyy");
             tbArriveTime.Text = dtEventStartDateTime.ToString("hh:mm tt");
@@ -491,15 +502,18 @@ namespace LarpPortal.Events
                     sParam.Add("@TeamID", ddlTeams.SelectedValue);
 
             string sStatusToSearchFor = "";
+            string sRegistrationMessage = "";
 
             switch (e.CommandName.ToString().ToUpper())
             {
                 case "RSVPATTEND":
                     sStatusToSearchFor = "RSVP-Plan to Attend";
+                    sRegistrationMessage = "Thank you for RSVPing.";
                     break;
 
                 case "RSVPCANNOTATTEND":
                     sStatusToSearchFor = "RSVP-Cannot Attend";
+                    sRegistrationMessage = "Thank you for RSVPing.";
                     break;
 
                 case "UNREGISTER":
@@ -507,6 +521,7 @@ namespace LarpPortal.Events
 
                 case "REGISTER":
                     sStatusToSearchFor = "Wait List";
+                    sRegistrationMessage = "Thank you for registrating for the event.";
                     break;
             }
 
@@ -577,12 +592,14 @@ namespace LarpPortal.Events
                     }
                 }
 
-//                mvPlayerInfo.SetActiveView(vwRegistered);
-                string jsString = "alert('Character " + lblCharacter.Text + " has been registered.');";
-                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                        "MyApplication",
-                        jsString,
-                        true);
+                lblRegistrationMessage.Text = sRegistrationMessage;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+                ddlEventDate_SelectedIndexChanged(null, null);
+                //string jsString = "alert('Character " + lblCharacter.Text + " has been registered.');";
+                //ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                //        "MyApplication",
+                //        jsString,
+                //        true);
                 NotifyOfNewRegistration();
             }
             catch
@@ -642,6 +659,11 @@ namespace LarpPortal.Events
                 }
             }
             _Reload = false;
+        }
+
+        protected void btnClose_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeModal();", true);
         }
     }
 }
