@@ -528,7 +528,7 @@ namespace LarpPortal.Events
                     break;
             }
 
-            if (hidRegistrationID.Value == "-1")
+            if ((hidRegistrationID.Value == "-1") || (sStatusToSearchFor == "Canceled"))
             {
                 if (sStatusToSearchFor != "")
                 {
