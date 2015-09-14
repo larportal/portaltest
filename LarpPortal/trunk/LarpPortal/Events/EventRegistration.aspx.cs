@@ -445,6 +445,7 @@ namespace LarpPortal.Events
                                     }
                             }
                         }
+                        ddlRoles_SelectedIndexChanged(null, null);
                     }
                     if (dReg["CharacterID"].ToString() != "")
                     {
@@ -517,28 +518,33 @@ namespace LarpPortal.Events
                     break;
 
                 case "UNREGISTER":
+                    sStatusToSearchFor = "Canceled";
+                    sRegistrationMessage = "Your registration has been canceled.";
                     break;
 
                 case "REGISTER":
                     sStatusToSearchFor = "Wait List";
-                    sRegistrationMessage = "Thank you for registrating for the event.";
+                    sRegistrationMessage = "Thank you for registering for the event.";
                     break;
             }
 
-            if (sStatusToSearchFor != "")
+            if (hidRegistrationID.Value == "-1")
             {
-                SortedList sParams = new SortedList();
-                string sSQL = "select StatusID, StatusName from MDBStatus " +
-                    "where StatusType like 'Registration' " +
-                        "and DateDeleted is null";
-                DataTable dtRegStatus = Classes.cUtilities.LoadDataTable(sSQL, sParams, "LARPortal", Session["UserName"].ToString(), "EventRegistration.btnRegister_Command",
-                    Classes.cUtilities.LoadDataTableCommandType.Text);
-                DataView dvRegStatus = new DataView(dtRegStatus, "StatusName = '" + sStatusToSearchFor + "'", "", DataViewRowState.CurrentRows);
-                if (dvRegStatus.Count > 0)
+                if (sStatusToSearchFor != "")
                 {
-                    int iRegStatus;
-                    if (int.TryParse(dvRegStatus[0]["StatusID"].ToString(), out iRegStatus))
-                        sParam.Add("@RegistrationStatus", iRegStatus);
+                    SortedList sParams = new SortedList();
+                    string sSQL = "select StatusID, StatusName from MDBStatus " +
+                        "where StatusType like 'Registration' " +
+                            "and DateDeleted is null";
+                    DataTable dtRegStatus = Classes.cUtilities.LoadDataTable(sSQL, sParams, "LARPortal", Session["UserName"].ToString(), "EventRegistration.btnRegister_Command",
+                        Classes.cUtilities.LoadDataTableCommandType.Text);
+                    DataView dvRegStatus = new DataView(dtRegStatus, "StatusName = '" + sStatusToSearchFor + "'", "", DataViewRowState.CurrentRows);
+                    if (dvRegStatus.Count > 0)
+                    {
+                        int iRegStatus;
+                        if (int.TryParse(dvRegStatus[0]["StatusID"].ToString(), out iRegStatus))
+                            sParam.Add("@RegistrationStatus", iRegStatus);
+                    }
                 }
             }
 
