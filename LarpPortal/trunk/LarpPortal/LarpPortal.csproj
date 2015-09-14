@@ -217,6 +217,7 @@
     <Content Include="Character\CharUserDefined.aspx" />
     <Content Include="Character\EventCharCards.aspx" />
     <Content Include="ContactUs.aspx" />
+    <Content Include="Events\RegistrationApproval.aspx" />
     <Content Include="img\Checked-Checkbox-icon.png" />
     <Content Include="img\download.png" />
     <Content Include="img\uncheckbox.png" />
@@ -758,6 +759,13 @@
     </Compile>
     <Compile Include="ContactUs.aspx.designer.cs">
       <DependentUpon>ContactUs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\RegistrationApproval.aspx.cs">
+      <DependentUpon>RegistrationApproval.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\RegistrationApproval.aspx.designer.cs">
+      <DependentUpon>RegistrationApproval.aspx</DependentUpon>
     </Compile>
     <Compile Include="WrathbornRegistration.aspx.cs">
       <DependentUpon>WrathbornRegistration.aspx</DependentUpon>
