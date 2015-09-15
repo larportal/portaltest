@@ -26,7 +26,7 @@ namespace LarpPortal.Points
         {
             if (!IsPostBack)
             {
-                //string strUserName = "NoUserName";
+                Session["EditMode"] = "Assign";
                 int iTemp = 0;
                 int intCampaignID = 0;
                 if (Session["UserName"] != null)
@@ -41,6 +41,7 @@ namespace LarpPortal.Points
                 ddlEarnReasonLoad(hidUserName.Value, intCampaignID);
                 ddlEarnTypeLoad(hidUserName.Value, intCampaignID);
                 ddlPlayerLoad(hidUserName.Value, intCampaignID);
+                ddlCampaignPlayerLoad(hidUserName.Value, intCampaignID);
                 FillGrid(hidUserName.Value, hidCampaignID.Value);
             }
         }
@@ -75,7 +76,7 @@ namespace LarpPortal.Points
             SortedList sParams = new SortedList();
             sParams.Add("@CampaignID", intCampaignID);
             sParams.Add("@StatusID", 51); // 51 = Completed
-            sParams.Add("@EventLength", 28); // How many characters of Event Name/date to return with ellipsis
+            sParams.Add("@EventLength", 35); // How many characters of Event Name/date to return with ellipsis
             dtAttendance = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
             ddlAttendance.DataTextField = "EventNameDate";
             ddlAttendance.DataValueField = "EventID";
@@ -191,26 +192,13 @@ namespace LarpPortal.Points
                 if ((e.Row.RowState & DataControlRowState.Edit) > 0)
                 {
                     DataRowView dRow = e.Row.DataItem as DataRowView;
-
-                    //string t = dRow["CardDisplayIncant"].ToString();
-                    //if (dRow["DisplayDesc"].ToString().ToUpper().StartsWith("D"))
-                    //{
-                    //    CheckBox cbDisplayDesc = (CheckBox)e.Row.FindControl("cbDisplayDesc");
-                    //    if (cbDisplayDesc != null)
-                    //        cbDisplayDesc.Checked = true;
-                    //}
-                    //if (dRow["DisplayIncant"].ToString().ToUpper().StartsWith("D"))
-                    //{
-                    //    CheckBox cbDisplayIncant = (CheckBox)e.Row.FindControl("cbDisplayIncant");
-                    //    if (cbDisplayIncant != null)
-                    //        cbDisplayIncant.Checked = true;
-                    //}
                 }
             }
         }
 
         protected void gvPoints_RowEditing(object sender, GridViewEditEventArgs e)
         {
+            Session["EditMode"] = "Edit";
             gvPoints.EditIndex = e.NewEditIndex;
             FillGrid(hidUserName.Value, hidCampaignID.Value);
         }
@@ -224,60 +212,70 @@ namespace LarpPortal.Points
                     int UserID = 0;
                     double dblTemp = 0;
                     double CP = 0;
-                    DateTime dTemp;
-                    DateTime RecDate = DateTime.Now;
                     if (int.TryParse(Session["UserID"].ToString(), out iTemp))
                         UserID = iTemp;
                     HiddenField hidCPOpp = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidPointID");
                     HiddenField hidCmpPlyrID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidCampaignPlayer");
                     HiddenField hidCharID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidCharacterID");
                     HiddenField hidEvntID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidEventID");
+                    HiddenField hidOppDefID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidCPOpportunityDefaultID");
+                    HiddenField hidRsnID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidReasonID");
+                    HiddenField hidAddID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidAddedByID");
+                    HiddenField hidOppNotes = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidOpportunityNotes");
+                    HiddenField hidExURL = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidExampleURL");
+                    Label lblEarnDesc = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblEarnDescription");
                     int intCmpPlyrID = 0;
                     int intCharID = 0;
                     int intEvntID = 0;
+                    int intCPOpp = 0;
+                    int intOppDefID = 0;
+                    int intRsnID = 0;
+                    int intAddID = 0;
+                    string strOppNotes = hidOppNotes.Value.ToString();
+                    string strExURL = hidExURL.Value.ToString();
+                    string strDesc = lblEarnDesc.Text;
                     if (int.TryParse(hidCmpPlyrID.Value.ToString(), out iTemp))
                         intCmpPlyrID = iTemp;
                     if (int.TryParse(hidCharID.Value.ToString(), out iTemp))
                         intCharID = iTemp;
                     if (int.TryParse(hidEvntID.Value.ToString(), out iTemp))
                         intEvntID = iTemp;
-                    GridViewRow row = gvPoints.Rows[index];
-                    // Rick - RIGHT HERE - vvvvvvvvv THESE VALUES ARE WHAT'S ON THE PAGE vvvvvvvvv
-                    TextBox txtComments =       row.FindControl("tbStaffComments") as TextBox;
-                    TextBox txtCP =             row.FindControl("txtCPValue") as TextBox;
-                    if (double.TryParse(txtCP.Text.ToString(), out dblTemp))
-                        CP = dblTemp;
-                    TextBox txtRcptDate =       row.FindControl("txtReceiptDate") as TextBox;
-                    if (DateTime.TryParse(txtRcptDate.Text.ToString(), out dTemp))
-                        RecDate = dTemp;
-                    Classes.cPoints Point = new Classes.cPoints();
-                    Point.AssignPELPoints(UserID, intCmpPlyrID, intCharID, 10, intEvntID, "Madrigal May 2015", 14, 33, CP, RecDate );  
-                    //e.NewValues[""]  Finish this out with field names and pass to update routine
-            //        CheckBox cbDisplayDesc = (CheckBox)gvSkills.Rows[e.RowIndex].FindControl("cbDisplayDesc");
-            //        CheckBox cbDisplayIncant = (CheckBox)gvSkills.Rows[e.RowIndex].FindControl("cbDisplayIncant");
-            //        TextBox tbPlayDesc = (TextBox)gvSkills.Rows[e.RowIndex].FindControl("tbPlayDesc");
-            //        TextBox tbPlayIncant = (TextBox)gvSkills.Rows[e.RowIndex].FindControl("tbPlayIncant");
-            //        HiddenField hidSkillID = (HiddenField)gvSkills.Rows[e.RowIndex].FindControl("hidSkillID");
+                    if (int.TryParse(hidCPOpp.Value.ToString(), out iTemp))
+                        intCPOpp = iTemp;
+                    if (int.TryParse(hidOppDefID.Value.ToString(), out iTemp))
+                        intOppDefID = iTemp;
+                    if (int.TryParse(hidRsnID.Value.ToString(), out iTemp))
+                        intRsnID = iTemp;
+                    if (int.TryParse(hidAddID.Value.ToString(), out iTemp))
+                        intAddID = iTemp;
+                    string strComments = "";
+                    if (Session["EditMode"].ToString() == "Edit")
+                    {
+                        GridViewRow row = gvPoints.Rows[index];
+                        TextBox txtComments =       row.FindControl("tbStaffComments") as TextBox;
+                        strComments = txtComments.Text;
+                        TextBox txtCP =             row.FindControl("txtCPValue") as TextBox;     
+                        if (double.TryParse(txtCP.Text.ToString(), out dblTemp))
+                            CP = dblTemp;
+                        Session["EditMode"] = "Assign";
+                    }
+                    else
+                    {
+                        Label lblCPValue = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblCPValue");
+                        Label lblStaffComents = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblStaffComments");
+                        if (double.TryParse(lblCPValue.Text, out dblTemp))
+                            CP = dblTemp;
+                        strComments = lblStaffComents.Text;
 
-            //        if (Session["SkillList"] != null)
-            //        {
-            //            DataTable dtSkills = Session["SkillList"] as DataTable;
-            //            DataView dvRow = new DataView(dtSkills, "CharacterSkillsStandardID = " + hidSkillID.Value, "", DataViewRowState.CurrentRows);
-            //            foreach (DataRowView dRow in dvRow)
-            //            {
-            //                if (cbDisplayDesc.Checked)
-            //                    dRow["CardDisplayDescription"] = true;
-            //                else
-            //                    dRow["CardDisplayDescription"] = false;
-            //                if (cbDisplayIncant.Checked)
-            //                    dRow["CardDisplayIncant"] = true;
-            //                else
-            //                    dRow["CardDisplayIncant"] = false;
-            //                dRow["PlayerDescription"] = tbPlayDesc.Text;
-            //                dRow["PlayerIncant"] = tbPlayIncant.Text;
-            //            }
-            //            Session["SkillList"] = dtSkills;
-            //        }
+                    }
+                    //TextBox txtRcptDate =       row.FindControl("txtReceiptDate") as TextBox;
+                    //if (DateTime.TryParse(txtRcptDate.Text.ToString(), out dTemp))
+                    //    RecDate = dTemp;
+                    Classes.cPoints Point = new Classes.cPoints();
+                    Point.UpdateCPOpportunity(UserID, intCPOpp, intCmpPlyrID, intCharID, intOppDefID, intEvntID,
+                        strDesc, strOppNotes, strExURL, intRsnID, intAddID, CP, UserID, 
+                        DateTime.Now, UserID, strComments);
+                    //Point.AssignPELPoints(UserID, intCmpPlyrID, intCharID, 10, intEvntID, "Madrigal May 2015", 14, 33, CP, RecDate );
                 }
                 catch (Exception ex)
                 {
@@ -289,16 +287,10 @@ namespace LarpPortal.Points
 
         protected void gvPoints_RowUpdated(object sender, GridViewUpdatedEventArgs e)
         {
-            double dblCPValue = 0;
-            double dblTemp = 0;
-            string strStaffComments = "";
-
             foreach (DictionaryEntry entry in e.NewValues)
             {
                 e.NewValues[entry.Key] = Server.HtmlEncode(entry.Value.ToString());
             }
-            //HiddenField hidCPValue = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("CPValue");
-            strStaffComments = "stop";
         }
 
         protected void btnAssignAll_Click(object sender, EventArgs e)
@@ -309,8 +301,40 @@ namespace LarpPortal.Points
 
         protected void gvPoints_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
+            HiddenField hidCPOpp = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidPointID");
+            int iTemp = 0;
+            int intCPOpp = 0;
+            int UserID = 0;
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(hidCPOpp.Value.ToString(), out iTemp))
+                intCPOpp = iTemp;
+            Classes.cPoints Points = new Classes.cPoints();
+            Points.DeleteCPOpportunity(UserID, intCPOpp);
             gvPoints.EditIndex = -1;
             FillGrid(hidUserName.Value, hidCampaignID.Value);
+        }
+
+        protected void ddlCampaignPlayerLoad(string strUserName, int intCampaignID)
+        {
+            ddlCampaignPlayer.Items.Clear();
+            string stStoredProc = "uspGetCampaignPlayers";
+            string stCallingMethod = "PointsAssign.aspx.ddlCampaignPlayerLoad";
+            DataTable dtPlayers = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@CampaignID", intCampaignID);
+            dtPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+            ddlPlayer.DataTextField = "PlayerName";
+            ddlPlayer.DataValueField = "CampaignPlayerID";
+            ddlPlayer.DataSource = dtPlayers;
+            ddlPlayer.DataBind();
+            ddlPlayer.Items.Insert(0, new ListItem("Select Player", "0"));
+            ddlPlayer.SelectedIndex = 0;
+        }
+
+        protected void ddlCampaignPlayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
 

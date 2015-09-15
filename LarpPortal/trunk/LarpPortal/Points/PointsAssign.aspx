@@ -1,7 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="PointsAssign.aspx.cs" Inherits="LarpPortal.Points.PointsAssign" %>
 
-
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
     <div role="form" class="form-horizontal form-condensed">
         <div class="col-sm-12">
@@ -11,7 +9,7 @@
             <div class="col-sm-1">
                 <h4>Assign By:</h4>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-6">
                 <div class="col-sm-12 form-group">
                     <label for="ddlAttenance" class="col-sm-5 control-label">Attendance</label>
                     <asp:DropDownList ID="ddlAttendance" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlAttendance_SelectedIndexChanged">
@@ -48,7 +46,7 @@
                 </div>
             </div>
 
-            <div class="panel-container">
+            <div class="col-sm-1">
                 <div class="row">
                     <div align="right" style="padding-right: 20px;">
                         <asp:Button ID="btnAssignAll" runat="server" CssClass="StandardButton" Width="75px" Text="Assign All" OnClick="btnAssignAll_Click" />
@@ -85,6 +83,11 @@
                                                 HeaderStyle-Wrap="false"
                                                 CssClass="table table-striped table-hover table-condensed">
                                                 <Columns>
+                                                    <asp:TemplateField HeaderText="Date">
+                                                        <ItemTemplate>
+                                                            <asp:Label runat="server" Text='<%# Eval("EventDate") %>' />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
 
                                                     <asp:TemplateField HeaderText="Event">
                                                         <ItemTemplate>
@@ -120,21 +123,6 @@
                                                         </EditItemTemplate>
                                                     </asp:TemplateField>
 
-                                                    <asp:TemplateField HeaderText="Receipt Date" ItemStyle-Wrap="true">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblReceiptDate" runat="server" Text='<%# Eval("ReceiptDate") %>' />
-                                                        </ItemTemplate>
-                                                        <EditItemTemplate>
-                                                            <asp:TextBox ID="txtReceiptDate" runat="server"></asp:TextBox>
-                                                        </EditItemTemplate>
-                                                    </asp:TemplateField>
-
-                                                    <asp:TemplateField HeaderText="Received By" ItemStyle-Wrap="true">
-                                                        <ItemTemplate>
-                                                            <asp:Label ID="lblReceivedBy" runat="server" Text='<%# Eval("ReceiversName") %>' />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-
                                                     <asp:TemplateField HeaderText="Staff Comments">
                                                         <ItemTemplate>
                                                             <asp:Label ID="lblStaffComments" runat="server" Text='<%# Eval("StaffComments") %>' />
@@ -142,6 +130,18 @@
                                                         <EditItemTemplate>
                                                             <asp:TextBox ID="tbStaffComments" runat="server" Text='<%# Eval("StaffComments") %>' BorderColor="Black" BorderStyle="Solid" BorderWidth="1" />
                                                         </EditItemTemplate>
+                                                    </asp:TemplateField>
+
+                                                    <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
+                                                        <ItemTemplate>
+                                                            <asp:HiddenFIeld ID="hidReceiptDate" runat="server" Value='<%# Eval("ReceiptDate") %>' />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+
+                                                    <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
+                                                        <ItemTemplate>
+                                                            <asp:HiddenField ID="hidReceivedBy" runat="server" Value='<%# Eval("ReceiversName") %>' />
+                                                        </ItemTemplate>
                                                     </asp:TemplateField>
 
                                                     <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
@@ -182,6 +182,24 @@
 
                                                     <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                         <ItemTemplate>
+                                                            <asp:HiddenField ID="hidCPOpportunityDefaultID" runat="server" Value='<%# Eval("CampaignCPOpportunityDefaultID") %>' />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+
+                                                    <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
+                                                        <ItemTemplate>
+                                                            <asp:HiddenField ID="hidReasonID" runat="server" Value='<%# Eval("ReasonID") %>' />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+
+                                                    <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
+                                                        <ItemTemplate>
+                                                            <asp:HiddenField ID="hidAddedByID" runat="server" Value='<%# Eval("AddedByID") %>' />
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+
+                                                    <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
+                                                        <ItemTemplate>
                                                             <asp:HiddenField ID="hidCPAssignmentDate" runat="server" Value='<%# Eval("CPAssignmentDate") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
@@ -200,6 +218,26 @@
 
                                                 </Columns>
                                             </asp:GridView>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section role="form">
+                <div class="form-horizontal col-sm-12">
+                    <div class="row">
+                        <div id="Div2" class="panel-wrapper" runat="server">
+                            <div class="panel">
+                                <div class="panelheader">
+                                    <h2>Add Points Here</h2>
+                                    <div class="panel-body">
+                                        <div class="panel-container" style="height: 500px; overflow: auto;">
+                                            <asp:Label ID="lblPoints" runat="server" Text="Player: "></asp:Label>
+                                            <asp:DropDownList ID="ddlCampaignPlayer" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCampaignPlayer_SelectedIndexChanged">
+                                            </asp:DropDownList>
                                         </div>
                                     </div>
                                 </div>
