@@ -94,8 +94,21 @@ namespace LarpPortal.Classes
                 if (ldt.Rows.Count > 0)
                 {
                     _EMailID = ldt.Rows[0]["EMailID"].ToString().ToInt32();
-                    if (ldt.Rows[0]["PrimaryEmail"] != null) { IsPrimary = (bool)ldt.Rows[0]["PrimaryEmail"]; }//Table MDBEmails
-                    if (ldt.Rows[0]["EmailTypeID"] != null) { EmailTypeID = (int)ldt.Rows[0]["EmailTypeID"]; }//Table MDBEmails
+
+                    // Now checking for both DBNull and null. Added the bool.TryParse because I'm OCD.      JBradshaw 9/14/2015
+                    bool bTemp;
+                    if (ldt.Rows[0]["PrimaryEmail"] != DBNull.Value)
+                        if (ldt.Rows[0]["PrimaryEmail"] != null)
+                            if (bool.TryParse(ldt.Rows[0]["PrimaryEmail"].ToString(), out bTemp))
+                                IsPrimary = bTemp;
+
+                    // Now checking for both DBNull and null. Added the int.TryParse because I'm OCD.      JBradshaw 9/14/2015
+                    int iTemp;
+                    if (ldt.Rows[0]["EmailTypeID"] != DBNull.Value)
+                        if (ldt.Rows[0]["EmailTypeID"] != null)
+                            if (int.TryParse(ldt.Rows[0]["EmailTypeID"].ToString(), out iTemp))
+                                EmailTypeID = iTemp;
+
                     _EMailAddress = ldt.Rows[0]["EMailAddress"].ToString().Trim();
                     _Comments = ldt.Rows[0]["Comments"].ToString().Trim();
                     _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
