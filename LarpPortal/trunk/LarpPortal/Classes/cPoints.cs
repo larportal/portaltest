@@ -264,7 +264,7 @@ namespace LarpPortal.Classes
             string EventDescription, int Reason, int Campaign, double CPVal, DateTime RecptDate)
         {
             string stStoredProc = "uspGetCampaignCPOpportunityByID";
-            string stCallingMethod = "cPoints.AssignPELPoints";
+            string stCallingMethod = "cPoints.AssignPELPoints.GetCPOpportunity";
             DataTable dtOppDefault = new DataTable();
             SortedList slParameters = new SortedList();
             slParameters.Add("@CampaignCPOpportunityDefaultID", CampaignCPOpportunityDefault);
@@ -275,6 +275,27 @@ namespace LarpPortal.Classes
                 strDescription = drow["Description"].ToString();
             }
 
+            // Check to see if the PEL was submitted on time to get CP
+            // Take the eventID and go get its PEL deadline date
+            stStoredProc = "uspGetEventInfoByID";
+            stCallingMethod = "cPoints.AssignPELPoints.GetPELDeadline";
+            DataTable dtEvent = new DataTable();
+            slParameters.Clear();
+            slParameters.Add("@EventID", Event);
+            dtEvent = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            DateTime dtTemp;
+            DateTime PELDeadline = DateTime.Today;
+            foreach (DataRow drow2 in dtEvent.Rows)
+            {
+                if (DateTime.TryParse(drow2["PELDeadlineDate"].ToString(), out dtTemp))
+                    PELDeadline = dtTemp;
+            }
+
+            if(RecptDate > PELDeadline)
+            {
+                CPVal = 0;
+                strDescription = strDescription + " - Late";
+            }
             // Call the routine to add the opportunity.  Create it already assigned (last two parameters both = 1)
             InsUpdCPOpportunity(UserID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1,1);
 
