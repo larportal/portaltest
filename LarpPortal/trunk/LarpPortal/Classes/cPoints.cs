@@ -347,16 +347,29 @@ namespace LarpPortal.Classes
         public void CreatePlayerCPLog(int UserID, int OpportunityID, DateTime RecptDate, double CPVal, int Reason, 
             int CampaignPlayer, int CharacterID)
         {
+            int iTemp = 0;
+            int PlayerID = 0; // This is the MDBUserID of the player getting the points
+            DataTable dtPlayer = new DataTable();
+            string stStoredProc = "uspGetCampaignPlayerByID";
+            string stCallingMethod = "cPoints.CreatePlayerCPLog";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@CampaignPlayerID", CampaignPlayer);
+            dtPlayer = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            foreach (DataRow drow in dtPlayer.Rows)
+            {
+                if (int.TryParse(drow["UserID"].ToString(), out iTemp))
+                    PlayerID = iTemp;
+            }
             if (_PLAuditStatus == 60)
                 CharacterID = 0;
-            string stStoredProc = "uspInsUpdPLPlayerCPAudit";
+            stStoredProc = "uspInsUpdPLPlayerCPAudit";
             DateTime datevar = DateTime.Today;
             int ThisYear = datevar.Year;
             //string stCallingMethod = "cPoints.DeleteCPOpportunity";
-            SortedList slParameters = new SortedList();
+            slParameters.Clear();
             slParameters.Add("@UserID", UserID);
             slParameters.Add("@PlayerCPAuditID", -1);
-            slParameters.Add("@PlayerID", UserID);
+            slParameters.Add("@PlayerID", PlayerID);
             slParameters.Add("@TransactionDate", RecptDate);
             slParameters.Add("@CPApprovedDate", DateTime.Today);
             slParameters.Add("@CPApprovedBy", UserID);
