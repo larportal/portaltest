@@ -112,13 +112,13 @@ namespace LarpPortal.Points {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div2;
         
         /// <summary>
-        /// lblPoints control.
+        /// ddlAddOpportunityDefaultID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPoints;
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddOpportunityDefaultID;
         
         /// <summary>
         /// ddlCampaignPlayer control.
@@ -128,5 +128,23 @@ namespace LarpPortal.Points {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCampaignPlayer;
+        
+        /// <summary>
+        /// ddlAddCharacter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddCharacter;
+        
+        /// <summary>
+        /// ddlAddEvent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddEvent;
     }
 }
