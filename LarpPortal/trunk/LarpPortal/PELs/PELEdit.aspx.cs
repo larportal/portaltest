@@ -43,7 +43,14 @@ namespace LarpPortal.PELs
 
                     DateTime dtEventDate;
                     if (DateTime.TryParse(dtQuestions.Rows[0]["EventStartDate"].ToString(), out dtEventDate))
+                    {
                         sEventInfo += "&nbsp;&nbsp;<b>Event Date: </b> " + dtEventDate.ToShortDateString();
+                        ViewState["EventDate"] = dtEventDate.ToShortDateString();
+                    }
+
+                    ViewState["EventDescription"] = dtQuestions.Rows[0]["EventDescription"].ToString();
+                    ViewState["PELNotificationEMail"] = dtQuestions.Rows[0]["PELNotificationEMail"].ToString();
+                    ViewState["PlayerName"] = dtQuestions.Rows[0]["NickName"].ToString();
 
                     int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     int.TryParse(dtQuestions.Rows[0]["UserID"].ToString(), out iUserID);
@@ -52,12 +59,15 @@ namespace LarpPortal.PELs
                     {
                         // A character.
                         sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
+                        ViewState["CharacterAKA"] = dtQuestions.Rows[0]["CharacterAKA"].ToString();
                     }
                     else
                     {
                         // Non character.
                         sEventInfo += "&nbsp;&nbsp;<b>Player: </b> " + dtQuestions.Rows[0]["NickName"].ToString();
+                        ViewState["CharacterAKA"] = "a non-player.";
                     }
+
 
                     int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     if (iCharacterID != 0)
@@ -96,6 +106,7 @@ namespace LarpPortal.PELs
                     if (dtQuestions.Rows[0]["PELDateApproved"] != DBNull.Value)
                     {
                         btnSubmit.Visible = false;
+                        pnlSaveReminder.Visible = false;
                         btnSave.Text = "Done";
                         btnSave.CommandName = "Done";
                         DateTime dtTemp;
@@ -115,6 +126,7 @@ namespace LarpPortal.PELs
                     else if (dtQuestions.Rows[0]["PELDateSubmitted"] != DBNull.Value)
                     {
                         btnSubmit.Visible = false;
+                        pnlSaveReminder.Visible = false;
                         btnSave.Text = "Done";
                         btnSave.CommandName = "Done";
                         DateTime dtTemp;
@@ -205,6 +217,7 @@ namespace LarpPortal.PELs
 
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());
                 Session["UpdatePELMessage"] = "alert('The PEL has been saved and submitted.');";
+
             }
 
             Response.Redirect("PELList.aspx", true);
@@ -213,6 +226,36 @@ namespace LarpPortal.PELs
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             Response.Redirect("PELList.aspx", true);
+        }
+
+        private void SendEmailPELSubmitted()
+        {
+            if (ViewState["PELNotificationEMail"].ToString().Length > 0)
+            {
+                string sPlayerName = ViewState["PlayerName"].ToString();
+                string sCharacterName = "";
+                if (ViewState["CharacterAKA"] != null)
+                    sCharacterName = ViewState["CharacterAKA"].ToString();
+
+                string sEventDate = "";
+                if (ViewState["EventDate"] != null)
+                    sEventDate = ViewState["EventDate"].ToString();
+
+                string sEventDesc = ViewState["EventDescription"].ToString();
+                string sPELNotificationEMail = ViewState["PELNotificationEMail"].ToString();
+
+                string sSubject = "PEL Submitted: The " + sPlayerName + " has submitted a PEL.";
+                string sBody = "The " + sPlayerName + " has submitted a PEL for " + sCharacterName + " for the event " + sEventDesc + " that took place on " + sEventDesc;
+
+                Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+                /// Todo Verify email.
+//                cEMS.SendMail(sSubject, sBody, sPELNotificationEMail, "", "support@larportal.com");
+
+
+
+                sBody += "   This email would have gone to " + sPELNotificationEMail;
+                cEMS.SendMail(sSubject, sBody, "support@larportal.com", "", "support@larportal.com");
+            }
         }
     }
 }
