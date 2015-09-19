@@ -21,7 +21,7 @@ namespace LarpPortal.Events
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
 
             }
@@ -87,9 +87,53 @@ namespace LarpPortal.Events
             SortedList sParams = new SortedList();
             sParams.Add("@EventID", ddlEvent.SelectedValue);
             DataSet dsRegistrations = Classes.cUtilities.LoadDataSet("uspGetEventRegistrations", sParams, "LARPortal", Session["UserName"].ToString(), "RegistrationApproval.ddlEvent_SelectedIndexChanged");
+
+            foreach (DataRow dEventInfo in dsRegistrations.Tables[0].Rows)
+            {
+                string sEventInfo = "";
+
+                DateTime dtEventDate;
+                if (DateTime.TryParse(dEventInfo["StartDate"].ToString(), out dtEventDate))
+                    sEventInfo = "<b>Event Date: </b> " + dtEventDate.ToShortDateString();
+
+                if (DateTime.TryParse(dEventInfo["EndDate"].ToString(), out dtEventDate))
+                    sEventInfo += " - " + dtEventDate.ToShortDateString();
+
+                sEventInfo += "&nbsp&nbsp&nbsp<b>Site: </b> " + dEventInfo["SiteName"].ToString() + "<br>";
+
+                int iNumReg = dsRegistrations.Tables[1].Select("RegistrationStatus = 'Approved'").Length;
+                int iNumNotReg = dsRegistrations.Tables[1].Select("RegistrationStatus <> 'Approved'").Length;
+
+                sEventInfo += "<b>Number Registered: </b>" + dsRegistrations.Tables[1].Rows.Count.ToString() +
+                    "&nbsp;&nbsp;<b>Number Approved: </b>" + iNumReg.ToString() +
+                    "&nbsp;&nbsp;<b>Number Not Approved: </b>" + iNumNotReg.ToString();
+
+                lblEventInfo.Text = sEventInfo;
+            }
+
             _dtRegStatus = dsRegistrations.Tables[2];
             _dtCampaignHousing = dsRegistrations.Tables[3];
             _dtCampaignPaymentTypes = dsRegistrations.Tables[4];
+
+            if (dsRegistrations.Tables[1].Columns["DisplayPayment"] == null)
+                dsRegistrations.Tables[1].Columns.Add("DisplayPayment", typeof(string));
+
+            foreach (DataRow dRow in dsRegistrations.Tables[1].Rows)
+            {
+                if ((dRow["EventPaymentDescription"] == DBNull.Value) ||
+                    (dRow["EventPaymentDescription"] == null))
+                    dRow["DisplayPayment"] = "Not Paid";
+                else
+                {
+                    double dPayment;
+                    if (double.TryParse(dRow["EventPaymentAmount"].ToString(), out dPayment))
+                        dRow["DisplayPayment"] = dRow["EventPaymentDescription"].ToString() + " / " + string.Format("{0:c}", dPayment);
+                    else
+                        dRow["DisplayPayment"] = "Not Paid";
+                }
+                if (dRow["RoleAlignmentDescription"].ToString() != "PC")
+                    dRow["CharacterName"] = dRow["RoleAlignmentDescription"].ToString();
+            }
 
             gvRegistrations.DataSource = dsRegistrations.Tables[1];
             gvRegistrations.DataBind();
@@ -112,31 +156,26 @@ namespace LarpPortal.Events
         {
             try
             {
-                //CheckBox cbDisplayDesc = (CheckBox)gvSkills.Rows[e.RowIndex].FindControl("cbDisplayDesc");
-                //CheckBox cbDisplayIncant = (CheckBox)gvSkills.Rows[e.RowIndex].FindControl("cbDisplayIncant");
-                //TextBox tbPlayDesc = (TextBox)gvSkills.Rows[e.RowIndex].FindControl("tbPlayDesc");
-                //TextBox tbPlayIncant = (TextBox)gvSkills.Rows[e.RowIndex].FindControl("tbPlayIncant");
-                //HiddenField hidSkillID = (HiddenField)gvSkills.Rows[e.RowIndex].FindControl("hidSkillID");
+                HiddenField hidRegistrationID = (HiddenField)gvRegistrations.Rows[e.RowIndex].FindControl("hidRegistrationID");
+                TextBox tbPayment = (TextBox)gvRegistrations.Rows[e.RowIndex].FindControl("tbPayment");
+                DropDownList ddlPaymentType = (DropDownList)gvRegistrations.Rows[e.RowIndex].FindControl("ddlPaymentType");
+                Calendar calPaymentDate = (Calendar)gvRegistrations.Rows[e.RowIndex].FindControl("calPaymentDate");
+                DropDownList ddlRegStatus = (DropDownList)gvRegistrations.Rows[e.RowIndex].FindControl("ddlRegStatus");
 
-                //if (Session["SkillList"] != null)
-                //{
-                //    DataTable dtSkills = Session["SkillList"] as DataTable;
-                //    DataView dvRow = new DataView(dtSkills, "CharacterSkillsStandardID = " + hidSkillID.Value, "", DataViewRowState.CurrentRows);
-                //    foreach (DataRowView dRow in dvRow)
-                //    {
-                //        if (cbDisplayDesc.Checked)
-                //            dRow["CardDisplayDescription"] = true;
-                //        else
-                //            dRow["CardDisplayDescription"] = false;
-                //        if (cbDisplayIncant.Checked)
-                //            dRow["CardDisplayIncant"] = true;
-                //        else
-                //            dRow["CardDisplayIncant"] = false;
-                //        dRow["PlayerDescription"] = tbPlayDesc.Text;
-                //        dRow["PlayerIncant"] = tbPlayIncant.Text;
-                //    }
-                //    Session["SkillList"] = dtSkills;
-                //}
+                if ((hidRegistrationID != null) &&
+                    (tbPayment != null) &&
+                    (ddlPaymentType != null) &&
+                    (calPaymentDate != null) &&
+                    (ddlRegStatus != null))
+                {
+                    SortedList sParam = new SortedList();
+                    sParam.Add("@RegistrationID", hidRegistrationID.Value);
+                    sParam.Add("@RegistrationStatus", ddlRegStatus.SelectedValue);
+                    sParam.Add("@EventPaymentDate", calPaymentDate.SelectedDate);
+                    sParam.Add("@EventPaymentTypeID", ddlPaymentType.SelectedValue);
+                    sParam.Add("@EventPaymentAmount", tbPayment.Text);
+                    Classes.cUtilities.PerformNonQuery("uspInsUpdCMRegistrations", sParam, "LARPortal", Session["UserName"].ToString());
+                }
             }
             catch (Exception ex)
             {
@@ -155,6 +194,21 @@ namespace LarpPortal.Events
                 {
                     DataRowView dRow = e.Row.DataItem as DataRowView;
 
+                    Calendar calPaymentDate = (Calendar)e.Row.FindControl("calPaymentDate");
+                    if (calPaymentDate != null)
+                    {
+                        calPaymentDate.SelectedDate = DateTime.Today;
+                        HiddenField hidPaymentDate = (HiddenField)e.Row.FindControl("hidPaymentDate");
+                        if (hidPaymentDate != null)
+                        {
+                            DateTime dtPaymentDate;
+                            if (DateTime.TryParse(hidPaymentDate.Value, out dtPaymentDate))
+                            {
+                                calPaymentDate.SelectedDate = dtPaymentDate;
+                            }
+                        }
+                    }
+
                     DropDownList ddlPaymentType = (DropDownList)e.Row.FindControl("ddlPaymentType");
                     if (ddlPaymentType != null)
                     {
@@ -166,20 +220,6 @@ namespace LarpPortal.Events
                         if (hidPaymentTypeID != null)
                             foreach (ListItem li in ddlPaymentType.Items)
                                 if (li.Value == hidPaymentTypeID.Value)
-                                    li.Selected = true;
-                    }
-
-                    DropDownList ddlHousing = (DropDownList)e.Row.FindControl("ddlHousing");
-                    if (ddlHousing != null)
-                    {
-                        ddlHousing.DataSource = _dtCampaignHousing;
-                        ddlHousing.DataTextField = "Description";
-                        ddlHousing.DataValueField = "HousingTypeID";
-                        ddlHousing.DataBind();
-                        HiddenField hidCampaignHousingTypeID = (HiddenField)e.Row.FindControl("hidCampaignHousingTypeID");
-                        if (hidCampaignHousingTypeID != null)
-                            foreach (ListItem li in ddlHousing.Items)
-                                if (li.Value == hidCampaignHousingTypeID.Value)
                                     li.Selected = true;
                     }
 
@@ -198,12 +238,19 @@ namespace LarpPortal.Events
                     }
                 }
             }
- 
+
         }
 
         protected void gvRegistrations_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string t = e.CommandName;
+        }
+
+        protected void btnApproveAll_Click(object sender, EventArgs e)
+        {
+            SortedList sParams = new SortedList();
+            sParams.Add("@EventID", ddlEvent.SelectedValue);
+            Classes.cUtilities.PerformNonQuery("uspEventApproveAllReg", sParams, "LARPortal", Session["UserName"].ToString());
         }
     }
 }

@@ -31,6 +31,24 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.DropDownList ddlEvent;
         
         /// <summary>
+        /// lblEventInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEventInfo;
+        
+        /// <summary>
+        /// btnApproveAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnApproveAll;
+        
+        /// <summary>
         /// Div1 control.
         /// </summary>
         /// <remarks>
