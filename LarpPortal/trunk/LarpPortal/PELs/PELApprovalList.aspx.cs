@@ -39,6 +39,12 @@ namespace LarpPortal.PELs
             string sSelectedEventName = "";
             string sSelectedPELStatus = "";
 
+            foreach (DataRow dRow in dtPELs.Rows)
+            {
+                if (dRow["RoleAlignment"].ToString() != "PC")
+                    dRow["CharacterAKA"] = dRow["RoleAlignment"].ToString();
+            }
+
             // While creating the filter am also saving the selected values so we can go back and have the drop down list use them.
             string sRowFilter = "(1 = 1)";      // This is so it's easier to build the filter string. Now can always say 'and ....'
 
