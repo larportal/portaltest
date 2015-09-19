@@ -18,36 +18,38 @@ Make sure this is the last CSS in the include list. If not some of these items m
 
 .StandardButton
 {
-  background: #3498db;
-  background-image: -webkit-linear-gradient(top, #3498db, #093760);
-  background-image: -moz-linear-gradient(top, #3498db, #093760);
-  background-image: -ms-linear-gradient(top, #3498db, #093760);
-  background-image: -o-linear-gradient(top, #3498db, #093760);
-  background-image: linear-gradient(to bottom, #3498db, #093760);
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #093760);
+    background-image: -moz-linear-gradient(top, #3498db, #093760);
+    background-image: -ms-linear-gradient(top, #3498db, #093760);
+    background-image: -o-linear-gradient(top, #3498db, #093760);
+    background-image: linear-gradient(to bottom, #3498db, #093760);
 }
+
     .StandardButton:hover
     {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+        background: #3cb0fd;
+        background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+        background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
     }
 
 
 .CancelButton
 {
-  background-repeat: repeat-x;
+    background-repeat: repeat-x;
     border-color: #b92c28;
     background-image: linear-gradient(to bottom, #d9534f 0%, #c12e2a 100%);
 }
 
-.CancelButton:hover,
-.CancelButton:focus {
-  background-color: #c12e2a;
-  background-position: 0 -15px;
-}
+    .CancelButton:hover,
+    .CancelButton:focus
+    {
+        background-color: #c12e2a;
+        background-position: 0 -15px;
+    }
 
 .PrePostPadding
 {
@@ -106,18 +108,19 @@ div
     padding-right: 10px;
 }
 
-        .ReadOnly
-        {
-            border-width: 0px 0px 0px 0px;
-            border-color: transparent;
-            border-style: none;
-            background-color: lightgray;
-            color: darkgray;
-        }
+.ReadOnly
+{
+    border-width: 0px 0px 0px 0px;
+    border-color: transparent;
+    border-style: none;
+    background-color: lightgray;
+    color: darkgray;
+}
 
 
 input[type="checkbox"],
-input[type="radio"] {
+input[type="radio"]
+{
     padding: 0px;
     height: 12px;
     width: 12px;
@@ -126,8 +129,8 @@ input[type="radio"] {
 
 .CheckBoxList
 {
-    display:inline-block; 
-    vertical-align:middle;
+    display: inline-block;
+    vertical-align: middle;
 }
 
     .CheckBoxList label
@@ -137,43 +140,37 @@ input[type="radio"] {
         font-weight: 400 !important;
     }
 
+.TextBox
+{
+    border: 1px solid black;
+}
 
+.modal-header
+{
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+    background-color: darkblue;
+    color: white;
+    min-height: 16.42857px;
+}
 
+    .modal-header .close
+    {
+        margin-top: -2px;
+    }
 
+.modal-title
+{
+    margin: 0;
+    line-height: 1.42857;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.modal-header {
-  padding: 15px;
-  border-bottom: 1px solid #e5e5e5;
-  background-color: darkblue;
-  color: white;
-  min-height: 16.42857px; }
-
-.modal-header .close {
-  margin-top: -2px; }
-
-.modal-title {
-  margin: 0;
-  line-height: 1.42857; }
-
-.modal-body {
-  position: relative;
-  background: white;
-  padding: 15px; }
+.modal-body
+{
+    position: relative;
+    background: white;
+    padding: 15px;
+}
 
 /*.modal-footer {
   padding: 15px;
