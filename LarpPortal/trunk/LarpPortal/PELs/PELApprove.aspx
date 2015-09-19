@@ -65,12 +65,16 @@
                                                     <asp:Panel ID="pnlCommentSection" runat="server" Visible="false" Style="vertical-align: top;">
                                                         <table>
                                                             <tr style="vertical-align: top;">
-                                                                <td><asp:Image ID="imgProfilePicture" runat="server" Width="75" Height="75" /></td>
-                                                                <td><asp:TextBox ID="tbNewComment" runat="server" TextMode="MultiLine" Rows="4" Columns="80" /></td>
-                                                                <td><asp:Button ID="btnSaveNewComment" runat="server" Text="Save" CssClass="StandardButton" Width="100" Height="20px" 
-                                                                    CommandName="AddComment" CommandArgument='<%# Eval("PELAnswerID") %>' /></td>
-                                                                <td><asp:Button ID="btnCancelComment" runat="server" Text="Cancel" CssClass="StandardButton" Width="100" Height="20px" 
-                                                                    CommandName="CancelComment" /></td>
+                                                                <td>
+                                                                    <asp:Image ID="imgProfilePicture" runat="server" Width="75" Height="75" /></td>
+                                                                <td>
+                                                                    <asp:TextBox ID="tbNewComment" runat="server" TextMode="MultiLine" Rows="4" Columns="80" /></td>
+                                                                <td>
+                                                                    <asp:Button ID="btnSaveNewComment" runat="server" Text="Save" CssClass="StandardButton" Width="100" Height="20px"
+                                                                        CommandName="AddComment" CommandArgument='<%# Eval("PELAnswerID") %>' /></td>
+                                                                <td>
+                                                                    <asp:Button ID="btnCancelComment" runat="server" Text="Cancel" CssClass="StandardButton" Width="100" Height="20px"
+                                                                        CommandName="CancelComment" /></td>
                                                             </tr>
                                                         </table>
                                                     </asp:Panel>
@@ -79,11 +83,15 @@
                                                             <table>
                                                         </HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <tr style="vertical-align: top;" class="panel-body panel-container search-criteria" >
-                                                                <td class="LeftRightPadding" style="padding-bottom: 5px;"><asp:Image runat="server" Width="50" Height="50" ImageUrl='<%# Eval("UserPhoto") %>' /></td>
-                                                                <td class="LeftRightPadding" style="padding-bottom: 5px;"><asp:Label runat="server" Text='<%# Eval("UserName") %>' Font-Bold="true" /></td>
-                                                                <td class="LeftRightPadding" style="padding-bottom: 5px;"><asp:Label runat="server" Text='<%# Eval("DateAdded") %>' /></td>
-                                                                <td class="LeftRightPadding" style="padding-bottom: 5px;"><asp:Label runat="server" Text='<%# Eval("StaffComments") %>' /></td>
+                                                            <tr style="vertical-align: top;" class="panel-body panel-container search-criteria">
+                                                                <td class="LeftRightPadding" style="padding-bottom: 5px;">
+                                                                    <asp:Image runat="server" Width="50" Height="50" ImageUrl='<%# Eval("UserPhoto") %>' /></td>
+                                                                <td class="LeftRightPadding" style="padding-bottom: 5px;">
+                                                                    <asp:Label runat="server" Text='<%# Eval("UserName") %>' Font-Bold="true" /></td>
+                                                                <td class="LeftRightPadding" style="padding-bottom: 5px;">
+                                                                    <asp:Label runat="server" Text='<%# Eval("DateAdded") %>' /></td>
+                                                                <td class="LeftRightPadding" style="padding-bottom: 5px;">
+                                                                    <asp:Label runat="server" Text='<%# Eval("StaffComments") %>' /></td>
                                                             </tr>
                                                         </ItemTemplate>
                                                         <FooterTemplate>
@@ -105,20 +113,6 @@
             <br />
 
             <asp:Panel ID="pnlStaffComments" runat="server" Visible="true">
-                <%--                <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
-                    <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
-                        <div class="panelheader">
-                            <h2>Staff Comments</h2>
-                            <div class="panel-body">
-                                <div class="panel-container search-criteria" style="padding-bottom: 10px;">
-                                    <asp:TextBox ID="tbStaffComment" runat="server" Columns="100" Style="width: 100%"
-                                        BorderColor="black" BorderStyle="Solid" BorderWidth="1" TextMode="MultiLine" Rows="4" />
-                                    <asp:Label ID="lblStaffComment" runat="server" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>--%>
                 <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
                     <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
                         <div class="panelheader">
@@ -159,4 +153,12 @@
             <br />
         </div>
     </div>
+
+    <asp:HiddenField ID="hidCampaignCPOpportunityDefaultID" runat="server" />
+    <asp:HiddenField ID="hidReasonID" runat="server" />
+    <asp:HiddenField ID="hidCampaignPlayerID" runat="server" />
+    <asp:HiddenField ID="hidCharacterID" runat="server" />
+    <asp:HiddenField ID="hidCampaignID" runat="server" />
+    <asp:HiddenField ID="hidEventID" runat="server" />
+    <asp:HiddenField ID="hidEventDesc" runat="server" />
 </asp:Content>
