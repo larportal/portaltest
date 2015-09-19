@@ -217,7 +217,7 @@ namespace LarpPortal.PELs
 
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());
                 Session["UpdatePELMessage"] = "alert('The PEL has been saved and submitted.');";
-
+                SendEmailPELSubmitted();
             }
 
             Response.Redirect("PELList.aspx", true);
