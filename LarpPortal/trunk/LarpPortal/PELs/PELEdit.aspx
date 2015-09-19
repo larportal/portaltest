@@ -29,7 +29,7 @@
                             <asp:Label ID="lblEditMessage" runat="server" Font-Size="18px" Style="font-weight: 500" Visible="false" />
                         </td>
                         <td style="width: 30%; text-align: center;" rowspan="2">
-                            <asp:Panel ID="pnlSaveReminder" runat="server">
+                            <asp:Panel ID="pnlSaveReminder" runat="server" Visible="true">
                                 <strong>Note: </strong>Remember to click save at least once per hour.
                                 <asp:Button ID="btnTopSave" runat="server" Text="Save" OnCommand="ProcessButton" CommandName="Save" CssClass="StandardButton" Width="150px" />
                             </asp:Panel>
