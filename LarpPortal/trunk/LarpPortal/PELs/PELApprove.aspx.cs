@@ -40,6 +40,8 @@ namespace LarpPortal.PELs
                 if (dtQuestions.Rows.Count > 0)
                 {
                     sEventInfo = "<b>Event: </b> " + dtQuestions.Rows[0]["EventDescription"].ToString();
+                    hidEventDesc.Value = dtQuestions.Rows[0]["EventDescription"].ToString();
+                    hidEventID.Value = dtQuestions.Rows[0]["EventID"].ToString();
 
                     DateTime dtEventDate;
                     if (DateTime.TryParse(dtQuestions.Rows[0]["EventStartDate"].ToString(), out dtEventDate))
@@ -48,28 +50,29 @@ namespace LarpPortal.PELs
                     int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     int.TryParse(dtQuestions.Rows[0]["UserID"].ToString(), out iUserID);
 
-                    if (iCharacterID != 0)
-                    {
-                        // A character.
-                        sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
-                    }
-
                     sEventInfo += "&nbsp;&nbsp;<b>Player: </b> ";
                     if (dtQuestions.Rows[0]["NickName"].ToString() != "")
                         sEventInfo += dtQuestions.Rows[0]["NickName"].ToString();
                     else
                         sEventInfo += dtQuestions.Rows[0]["FirstName"].ToString() + " " + dtQuestions.Rows[0]["LastName"].ToString();
 
+                    int iCampaignPlayerID = 0;
+                    if (int.TryParse(dtQuestions.Rows[0]["CampaignPlayerID"].ToString(), out iCampaignPlayerID))
+                        hidCampaignPlayerID.Value = iCampaignPlayerID.ToString();
+
                     int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     if (iCharacterID != 0)
                     {
                         Classes.cCharacter cChar = new Classes.cCharacter();
                         cChar.LoadCharacter(iCharacterID);
+                        sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
                         imgPicture.ImageUrl = "/img/BlankProfile.png";    // Default it to this so if it is not set it will display the blank profile picture.
                         if (cChar.ProfilePicture != null)
                             if (!string.IsNullOrEmpty(cChar.ProfilePicture.PictureURL))
                                 imgPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
                         imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
+                        hidCharacterID.Value = iCharacterID.ToString();
+                        hidCampaignID.Value = cChar.CampaignID.ToString();
                     }
                     else
                     {
@@ -111,21 +114,15 @@ namespace LarpPortal.PELs
                         btnSave.Text = "Approve";
                         btnSave.CommandName = "Approve";
                         DateTime dtTemp;
-                        //                        pnlStaffComments.Visible = true;
                         divQuestions.Attributes.Add("style", "max-height: 400px; overflow-y: auto; margin-right: 10px;");
-                        //if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateApproved"].ToString(), out dtTemp))
-                        //{
-                        //    lblEditMessage.Visible = true;
-                        //    lblEditMessage.Text = "<br>This PEL was approved on " + dtTemp.ToShortDateString();
-                        //    TextBoxEnabled = false;
-                        //    //                          pnlStaffComments.Visible = true;
-                        //    double dCPAwarded = 0;
-                        //    double.TryParse(dtQuestions.Rows[0]["CPAwarded"].ToString(), out dCPAwarded);
-                        //    lblCPAwarded.Text = "For completing this PEL, this person was awarded " + String.Format("{0:0.##}", dCPAwarded) + " CP.";
-                        //    mvCPAwarded.SetActiveView(vwCPAwardedDisplay);
-                        //}
-                        //else 
                         double.TryParse(dtQuestions.Rows[0]["CPEarn"].ToString(), out dCPEarned);
+                        int iCampaignCPOpportunityDefaultID = 0;
+                        if (int.TryParse(dtQuestions.Rows[0]["CampaignCPOpportunityDefaultID"].ToString(), out iCampaignCPOpportunityDefaultID))
+                            hidCampaignCPOpportunityDefaultID.Value = iCampaignCPOpportunityDefaultID.ToString();
+                        int iReasonID = 0;
+                        if (int.TryParse(dtQuestions.Rows[0]["ReasonID"].ToString(), out iReasonID))
+                            hidReasonID.Value = iReasonID.ToString();
+
                         if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
                         {
                             lblEditMessage.Visible = true;
@@ -227,11 +224,31 @@ namespace LarpPortal.PELs
                 double dCPAwarded;
                 if (double.TryParse(tbCPAwarded.Text, out dCPAwarded))
                     sParams.Add("@CPAwarded", dCPAwarded);
-                //            sParams.Add("@Comments", tbStaffComment.Text);
                 sParams.Add("@DateApproved", DateTime.Now);
 
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());
                 Session["UpdatePELMessage"] = "alert('The PEL has been approved.');";
+
+                Classes.cPoints Points = new Classes.cPoints();
+                int UserID = 0;
+                int CampaignPlayerID = 0;
+                int CharacterID = 0;
+                int CampaignCPOpportunityDefaultID = 0;
+                int EventID = 0;
+                int ReasonID = 0;
+                int CampaignID = 0;
+                double CPAwarded = 0.0;
+
+                int.TryParse(Session["UserID"].ToString(), out UserID);
+                int.TryParse(hidCampaignPlayerID.Value, out CampaignPlayerID);
+                int.TryParse(hidCharacterID.Value, out CharacterID);
+                int.TryParse(hidCampaignCPOpportunityDefaultID.Value, out CampaignCPOpportunityDefaultID);
+                int.TryParse(hidReasonID.Value, out ReasonID);
+                int.TryParse(hidCampaignID.Value, out CampaignID);
+                int.TryParse(hidEventID.Value, out EventID);
+                double.TryParse(tbCPAwarded.Text, out CPAwarded);
+
+                Points.AssignPELPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, EventID, hidEventDesc.Value, ReasonID, CampaignID, CPAwarded, DateTime.Now);
             }
 
             Response.Redirect("PELApprovalList.aspx", true);
@@ -265,15 +282,7 @@ namespace LarpPortal.PELs
                         Classes.cPlayer PLDemography = new Classes.cPlayer(uID, uName);
                         string pict = PLDemography.UserPhoto;
                         imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
-
-                        //if (pict == "")
-                        //{
-                        //    imgPlayerImage.ImageUrl = "http://placehold.it/150x150";
-                        //}
-                        //else
-                        //{
-                            imgPlayerImage.ImageUrl = pict;
-                        //}
+                        imgPlayerImage.ImageUrl = pict;
                     }
 
                     Button btnAddComment = (Button)e.Item.FindControl("btnAddComment");
@@ -360,24 +369,12 @@ namespace LarpPortal.PELs
             {
                 string sProfileFileName = HttpContext.Current.Request.PhysicalApplicationPath + dRow["UserPhoto"].ToString();
                 sProfileFileName = sProfileFileName.Replace("~/img/Player/", "img\\Player\\");
-//                sProfileFileName = sProfileFileName.Replace("~/img/Player/", @"\\");
-
-                //if ((dRow["UserPhoto"].ToString().ToUpper().Contains("/IMG/P")) && (dRow["UserPhoto"].ToString().Length > 0))
-                //    dRow["UserPhoto"] = dRow["UserPhoto"].ToString() + "/IMG/PLAYER/";
                 if (!File.Exists(sProfileFileName))
                     dRow["UserPhoto"] = "/img/BlankProfile.png";
             }
-                //if ((!dRow["UserPhoto"].ToString().ToUpper().Contains("/IMG/P")) && (dRow["UserPhoto"].ToString().Length > 0))
-                //    dRow["UserPhoto"] = dRow["UserPhoto"].ToString() + "/IMG/PLAYER/";
-
             DataView dvComments = new DataView(_dtPELComments, "PELAnswerID = '" + sAnswerID + "'", "DateAdded desc", DataViewRowState.CurrentRows);
             dlComments.DataSource = dvComments;
             dlComments.DataBind();
         }
     }
 }
-
-
-
-
-// OnItemDataBound="rptQuestions_ItemDataBound">
