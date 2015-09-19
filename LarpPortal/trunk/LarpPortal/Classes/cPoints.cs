@@ -279,18 +279,26 @@ namespace LarpPortal.Classes
             // Take the eventID and go get its PEL deadline date
             stStoredProc = "uspGetEventInfoByID";
             stCallingMethod = "cPoints.AssignPELPoints.GetPELDeadline";
+            string strEventName = "";
             DataTable dtEvent = new DataTable();
             slParameters.Clear();
             slParameters.Add("@EventID", Event);
             dtEvent = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
             DateTime dtTemp;
             DateTime PELDeadline = DateTime.Today;
+            DateTime dtEventDate = DateTime.Today;
             foreach (DataRow drow2 in dtEvent.Rows)
             {
                 if (DateTime.TryParse(drow2["PELDeadlineDate"].ToString(), out dtTemp))
                     PELDeadline = dtTemp;
+                if (DateTime.TryParse(drow2["StartDate"].ToString(), out dtTemp))
+                    dtEventDate = dtTemp;
+                strEventName = String.Format("{0:MM/dd/yyyy}", dtTemp);
+                strEventName = strEventName + " - " + drow2["EventName"].ToString();
+                EventDescription = strEventName;
             }
 
+            PELDeadline = PELDeadline.AddDays(2);   // For now, give a 2 day grace period.  Eventually, put the grace period as a field in CMCampaigns
             if(RecptDate > PELDeadline)
             {
                 CPVal = 0;

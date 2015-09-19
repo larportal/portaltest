@@ -1,5 +1,70 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="PointsAssign.aspx.cs" Inherits="LarpPortal.Points.PointsAssign" %>
 
+<asp:Content ID="EventStyles" runat="server" ContentPlaceHolderID="MemberStyles">
+    <style type="text/css">
+        .TableTextBox {
+            border: 1px solid black;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        th, tr:nth-child(even) > td {
+            background-color: transparent;
+        }
+
+        .CharInfoTable {
+            border-collapse: collapse;
+        }
+
+            .CharInfoTable td {
+                padding: 4px;
+            }
+
+        div {
+            border: 0px solid black;
+        }
+
+        .NoPadding {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        .TextEntry {
+            border: 1px solid black;
+            padding: 0px;
+        }
+
+        .PnlDesign {
+            border: solid 1px #000000;
+            height: 150px;
+            width: 330px;
+            overflow-y: scroll;
+            background-color: white;
+            font-size: 15px;
+            font-family: Arial;
+        }
+
+        .txtbox {
+            background-image: url(../img/download.png);
+            background-position: right top;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            border: 1px solid #A9A9A9;
+        }
+
+        .container {
+            display: table;
+            vertical-align: middle;
+        }
+
+        .vertical-center-row {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://localhost:49282/code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+</asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
     <div role="form" class="form-horizontal form-condensed">
         <div class="col-sm-12">
@@ -134,7 +199,7 @@
 
                                                     <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                         <ItemTemplate>
-                                                            <asp:HiddenFIeld ID="hidReceiptDate" runat="server" Value='<%# Eval("ReceiptDate") %>' />
+                                                            <asp:HiddenField ID="hidReceiptDate" runat="server" Value='<%# Eval("ReceiptDate") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
 
@@ -207,7 +272,7 @@
                                                     <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                         <ItemTemplate>
                                                             <asp:Button ID="btnEdit" runat="server" CommandName="Edit" Text="Edit" Width="75px" CssClass="StandardButton" />
-                                                             <asp:Button ID="btnAssign" runat="server" CommandName="Update" Text="Assign" Width="75px" CssClass="StandardButton" />
+                                                            <asp:Button ID="btnAssign" runat="server" CommandName="Update" Text="Assign" Width="75px" CssClass="StandardButton" />
                                                             <asp:Button ID="btnDelete" runat="server" CommandName="Delete" Text="Delete" Width="75px" CssClass="StandardButton" />
                                                         </ItemTemplate>
                                                         <EditItemTemplate>
@@ -227,18 +292,41 @@
                 </div>
             </section>
             <section role="form">
-                <div class="form-horizontal col-sm-12">
+                <div class="form-horizontal col-lg-4">
                     <div class="row">
                         <div id="Div2" class="panel-wrapper" runat="server">
                             <div class="panel">
-                                <div class="panelheader">
+                                <div class="panelheader NoPadding">
                                     <h2>Add Points Here</h2>
-                                    <div class="panel-body">
-                                        <div class="panel-container" style="height: 500px; overflow: auto;">
-                                            <asp:Label ID="lblPoints" runat="server" Text="Player: "></asp:Label>
-                                            <asp:DropDownList ID="ddlCampaignPlayer" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCampaignPlayer_SelectedIndexChanged">
-                                            </asp:DropDownList>
-                                        </div>
+                                    <div class="panel-body NoPadding">
+                                        <div class="panel-container">
+                                            <div class="row PrePostPadding">
+
+                                                <div class="TableLabel col-sm-3">Description: </div>
+                                                <div class="col-sm-4 NoPadding">
+                                                    <asp:DropDownList ID="ddlAddOpportunityDefaultID" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlAddOpportunityDefaultID_SelectedIndexChanged">
+                                                    </asp:DropDownList>
+                                                </div>
+
+                                                <div class="TableLabel col-sm-3">Player: </div>
+                                                <div class="col-sm-4 NoPadding">
+                                                    <asp:DropDownList ID="ddlCampaignPlayer" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlCampaignPlayer_SelectedIndexChanged">
+                                                    </asp:DropDownList>
+                                                </div>
+
+                                                <div class="TableLabel col-sm-3">Character: </div>
+                                                <div class="col-sm-4 NoPadding">
+                                                    <asp:DropDownList ID="ddlAddCharacter" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlAddCharacter_SelectedIndexChanged">
+                                                    </asp:DropDownList>
+                                                </div>
+
+                                                <div>
+                                                    <div class="TableLabel col-sm-3">Event: </div>
+                                                    <asp:DropDownList ID="ddlAddEvent" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlAddEvent_SelectedIndexChanged">
+                                                    </asp:DropDownList>
+                                                </div>
+
+                                            </div>
                                     </div>
                                 </div>
                             </div>

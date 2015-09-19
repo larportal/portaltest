@@ -41,8 +41,10 @@ namespace LarpPortal.Points
                 ddlEarnReasonLoad(hidUserName.Value, intCampaignID);
                 ddlEarnTypeLoad(hidUserName.Value, intCampaignID);
                 ddlPlayerLoad(hidUserName.Value, intCampaignID);
-                ddlCampaignPlayerLoad(hidUserName.Value, intCampaignID);
                 FillGrid(hidUserName.Value, hidCampaignID.Value);
+                ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID);
+                ddlCampaignPlayerLoad(hidUserName.Value, intCampaignID);
+                ddlAddCharacterLoad(hidUserName.Value, intCampaignID);
             }
         }
 
@@ -152,6 +154,33 @@ namespace LarpPortal.Points
             ddlPlayer.DataBind();
             ddlPlayer.Items.Insert(0, new ListItem("Select Player", "0"));
             ddlPlayer.SelectedIndex = 0;
+        }
+
+        private void ddlAddOpportunityDefaultIDLoad(string strUserName, int intCampaignID)
+        {
+            ddlAddOpportunityDefaultID.Items.Clear();
+            string stStoredProc = "uspGetCampaignCPOpportunities";
+            string stCallingMethod = "PointsAssign.aspx.ddlAddOpportunityDefaultIDLoad";
+            DataTable dtAddOpps = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@CampaignID", intCampaignID);
+            dtAddOpps = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+            ddlAddOpportunityDefaultID.DataTextField = "Description";
+            ddlAddOpportunityDefaultID.DataValueField = "CampaignCPOpportunityDefaultID";
+            ddlAddOpportunityDefaultID.DataSource = dtAddOpps;
+            ddlAddOpportunityDefaultID.DataBind();
+            ddlAddOpportunityDefaultID.Items.Insert(0, new ListItem("Select Description", "0"));
+            ddlAddOpportunityDefaultID.SelectedIndex = 0;
+        }
+
+        //private void ddlCampaignPlayerLoad(string strUserName, int intCampaignID)
+        //{
+
+        //}
+
+        private void ddlAddCharacterLoad(string strUserName, int intCampaignID)
+        {
+
         }
 
         protected void ddlAttendance_SelectedIndexChanged(object sender, EventArgs e)
@@ -324,12 +353,12 @@ namespace LarpPortal.Points
             SortedList sParams = new SortedList();
             sParams.Add("@CampaignID", intCampaignID);
             dtPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
-            ddlPlayer.DataTextField = "PlayerName";
-            ddlPlayer.DataValueField = "CampaignPlayerID";
-            ddlPlayer.DataSource = dtPlayers;
-            ddlPlayer.DataBind();
-            ddlPlayer.Items.Insert(0, new ListItem("Select Player", "0"));
-            ddlPlayer.SelectedIndex = 0;
+            ddlCampaignPlayer.DataTextField = "PlayerName";
+            ddlCampaignPlayer.DataValueField = "CampaignPlayerID";
+            ddlCampaignPlayer.DataSource = dtPlayers;
+            ddlCampaignPlayer.DataBind();
+            ddlCampaignPlayer.Items.Insert(0, new ListItem("Select Player", "0"));
+            ddlCampaignPlayer.SelectedIndex = 0;
         }
 
         protected void ddlCampaignPlayer_SelectedIndexChanged(object sender, EventArgs e)
@@ -337,6 +366,20 @@ namespace LarpPortal.Points
 
         }
 
+        protected void ddlAddOpportunityDefaultID_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ddlAddCharacter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ddlAddEvent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
 
     }
 }
