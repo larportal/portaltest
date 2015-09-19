@@ -9,16 +9,29 @@
     </style>
 </asp:Content>
 
+<asp:Content ID="Scripts" ContentPlaceHolderID="MemberScripts" runat="server">
+</asp:Content>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
 
     <div class="row col-sm-12" style="padding-top: 10px; padding-bottom: 10px;">
-        <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Event Registrations" />
+        <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Font-Bold="true" Text="Event Registrations" />
     </div>
     <div class="row col-sm-12" style="">
-        <strong>Event: </strong>
-        <asp:DropDownList ID="ddlEvent" runat="server" OnSelectedIndexChanged="ddlEvent_SelectedIndexChanged" AutoPostBack="true">
-            <asp:ListItem Value="0" Text="Select Event/Date"></asp:ListItem>
-        </asp:DropDownList>
+        <div class="col-sm-10">
+            <div class="col-sm-4">
+                <strong>Event: </strong>
+                <asp:DropDownList ID="ddlEvent" runat="server" OnSelectedIndexChanged="ddlEvent_SelectedIndexChanged" AutoPostBack="true">
+                    <asp:ListItem Value="0" Text="Select Event/Date"></asp:ListItem>
+                </asp:DropDownList>
+            </div>
+            <div class="col-sm-8">
+                <asp:Label ID="lblEventInfo" runat="server" Text="Event Info" />
+            </div>
+        </div>
+        <div class="text-right">
+            <asp:Button ID="btnApproveAll" runat="server" CssClass="StandardButton" Width="125" Text="Approve All" OnClick="btnApproveAll_Click" />
+        </div>
     </div>
 
     <div id="character-info" class="character-info tab-pane active">
@@ -44,7 +57,15 @@
                                                         <asp:HiddenField ID="hidRegStatusID" runat="server" Value='<%# Eval("RegistrationStatusID") %>' />
                                                         <asp:HiddenField ID="hidCampaignHousingID" runat="server" Value='<%# Eval("CampaignHousingTypeID") %>' />
                                                         <asp:HiddenField ID="hidPaymentTypeID" runat="server" Value='<%# Eval("EventPaymentTypeID") %>' />
+                                                        <asp:HiddenField ID="hidPaymentDate" runat="server" Value='<%# Eval("EventPaymentDate") %>' />
                                                     </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
+                                                    <ItemTemplate>
+                                                        <asp:Button ID="btnApprove" runat="server" CommandName="Approve" Text="Approve" Width="100px" CssClass="StandardButton" />
+                                                    </ItemTemplate>
+                                                    <EditItemTemplate>
+                                                    </EditItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Player Name" ItemStyle-Wrap="true">
                                                     <ItemTemplate>
@@ -70,16 +91,22 @@
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblHousing" runat="server" Text='<%# Eval("CampaignHousing") %>' />
                                                     </ItemTemplate>
-                                                    <EditItemTemplate>
-                                                        <asp:DropDownList ID="ddlHousing" runat="server" />
-                                                    </EditItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Payment Type">
                                                     <ItemTemplate>
-                                                        <asp:Label ID="lblPaymentType" runat="server" Text='<%# Eval("EventPaymentDescription") %>' />
+                                                        <asp:Label ID="lblPaymentType" runat="server" Text='<%# Eval("DisplayPayment") %>' />
                                                     </ItemTemplate>
                                                     <EditItemTemplate>
-                                                        <asp:DropDownList ID="ddlPaymentType" runat="server" />
+                                                        <asp:DropDownList ID="ddlPaymentType" runat="server" /><br />
+                                                        <asp:TextBox ID="tbPayment" runat="server" Text='<%# Eval("EventPaymentAmount", "{0:0.00}") %>' CssClass="TextBox" />
+                                                    </EditItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField HeaderText="Payment Date">
+                                                    <ItemTemplate>
+                                                        <asp:Label ID="lblEventPaymentDate" runat="server" Text='<%# Eval("EventPaymentDate", "{0:d}") %>' />
+                                                    </ItemTemplate>
+                                                    <EditItemTemplate>
+                                                        <asp:Calendar ID="calPaymentDate" runat="server" />
                                                     </EditItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Comments" ItemStyle-CssClass="max-width-300">
@@ -97,7 +124,6 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                     <ItemTemplate>
-                                                        <asp:Button ID="btnApprove" runat="server" CommandName="Approve" Text="Approve" Width="100px" CssClass="StandardButton" />
                                                         <asp:Button ID="btnEdit" runat="server" CommandName="Edit" Text="Edit" Width="100px" CssClass="StandardButton" />
                                                     </ItemTemplate>
                                                     <EditItemTemplate>
@@ -116,5 +142,4 @@
             </div>
         </section>
     </div>
-    <%--    </div>--%>
 </asp:Content>
