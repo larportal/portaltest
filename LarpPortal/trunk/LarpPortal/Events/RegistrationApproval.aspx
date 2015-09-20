@@ -60,13 +60,6 @@
                                                         <asp:HiddenField ID="hidPaymentDate" runat="server" Value='<%# Eval("EventPaymentDate") %>' />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
-                                                <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
-                                                    <ItemTemplate>
-                                                        <asp:Button ID="btnApprove" runat="server" CommandName="Approve" Text="Approve" Width="100px" CssClass="StandardButton" />
-                                                    </ItemTemplate>
-                                                    <EditItemTemplate>
-                                                    </EditItemTemplate>
-                                                </asp:TemplateField>
                                                 <asp:TemplateField HeaderText="Player Name" ItemStyle-Wrap="true">
                                                     <ItemTemplate>
                                                         <asp:Label ID="lblPlayerName" runat="server" Text='<%# Eval("PlayerName") %>' />
@@ -124,6 +117,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                     <ItemTemplate>
+                                                        <asp:Button ID="btnApprove" runat="server" CommandName="Approve" Text="Approve" Width="100px" CssClass="StandardButton" />
                                                         <asp:Button ID="btnEdit" runat="server" CommandName="Edit" Text="Edit" Width="100px" CssClass="StandardButton" />
                                                     </ItemTemplate>
                                                     <EditItemTemplate>
