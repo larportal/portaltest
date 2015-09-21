@@ -7,15 +7,12 @@
             padding-left: 10px;
             padding-right: 10px;
         }
-    </style>
-    <asp:ContentPlaceHolder ID="MemberStyles" runat="server" />
-
-    <style type="text/css">
         div
         {
             border: 0px black solid;
         }
     </style>
+    <asp:ContentPlaceHolder ID="MemberStyles" runat="server" />
 </asp:Content>
 
 <asp:Content ID="HeaderScripts" ContentPlaceHolderID="HeaderScripts" runat="server">
