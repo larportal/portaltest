@@ -70,6 +70,9 @@ namespace LarpPortal.Classes
         public int CharacterSkillSetID { get; set; }
         public int TeamID { get; set; }
         public string TeamName { get; set; }
+        public string PlayerName { get; set; }
+        public int PlayerID { get; set; }
+        public string PlayerEMail { get; set; }
 
         public List<cPlace> Places = new List<cPlace>();
         public List<cCharacterDeath> Deaths = new List<cCharacterDeath>();
@@ -221,6 +224,13 @@ namespace LarpPortal.Classes
                 }
                 else
                     TeamName = "";
+
+                if (int.TryParse(dRow["PlayerID"].ToString(), out iTemp))
+                {
+                    PlayerID = iTemp;
+                    PlayerName = dRow["PlayerName"].ToString();
+                    PlayerEMail = dRow["PlayerEMail"].ToString();
+                }
             }
 
             foreach (DataRow dItems in dsCharacterInfo.Tables["CharacterItems"].Rows)

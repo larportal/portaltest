@@ -222,9 +222,10 @@
     <Content Include="img\download.png" />
     <Content Include="img\uncheckbox.png" />
     <Content Include="img\Unchecked-Checkbox-icon.png" />
+    <Content Include="StaffFunctions\CharHistoryApproval.aspx" />
+    <Content Include="StaffFunctions\CharHistoryApprovalList.aspx" />
     <Content Include="WrathbornRegistration.aspx" />
     <Content Include="Events\EventRegistration.aspx" />
-    <Content Include="Events\EventRegistration2.aspx" />
     <Content Include="SilverfireRegistration.aspx" />
     <Content Include="css\LarpPortal.css" />
     <Content Include="Events\Events.aspx" />
@@ -767,6 +768,20 @@
     <Compile Include="Events\RegistrationApproval.aspx.designer.cs">
       <DependentUpon>RegistrationApproval.aspx</DependentUpon>
     </Compile>
+    <Compile Include="StaffFunctions\CharHistoryApproval.aspx.cs">
+      <DependentUpon>CharHistoryApproval.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StaffFunctions\CharHistoryApproval.aspx.designer.cs">
+      <DependentUpon>CharHistoryApproval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="StaffFunctions\CharHistoryApprovalList.aspx.cs">
+      <DependentUpon>CharHistoryApprovalList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="StaffFunctions\CharHistoryApprovalList.aspx.designer.cs">
+      <DependentUpon>CharHistoryApprovalList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WrathbornRegistration.aspx.cs">
       <DependentUpon>WrathbornRegistration.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -780,13 +795,6 @@
     </Compile>
     <Compile Include="Events\EventRegistration.aspx.designer.cs">
       <DependentUpon>EventRegistration.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Events\EventRegistration2.aspx.cs">
-      <DependentUpon>EventRegistration2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Events\EventRegistration2.aspx.designer.cs">
-      <DependentUpon>EventRegistration2.aspx</DependentUpon>
     </Compile>
     <Compile Include="SilverfireRegistration.aspx.cs">
       <DependentUpon>SilverfireRegistration.aspx</DependentUpon>
