@@ -352,6 +352,12 @@ namespace LarpPortal.Events
                     btnRegister.Text = "Change Registration";
                     btnRegister.Width = Unit.Pixel(200);
 
+                    DateTime dtTemp;
+                    if (DateTime.TryParse(dReg["EventPaymentDate"].ToString(), out dtTemp))
+                        lblPaymentStatus.Text = "Paid";
+                    else
+                        lblPaymentStatus.Text = "Unpaid";
+
                     if (dReg["ExpectedArrivalDate"] != DBNull.Value)
                     {
                         try
