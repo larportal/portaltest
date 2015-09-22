@@ -315,8 +315,14 @@
                                                         <div class="TableLabel col-lg-3">
                                                             My Current Status:
                                                         </div>
-                                                        <div class="col-lg-5 NoPadding">
+                                                        <div class="col-lg-3 NoPadding">
                                                             <asp:Label ID="lblRegistrationStatus" runat="server" />
+                                                        </div>
+                                                        <div class="TableLabel col-lg-3">
+                                                            Payment Status:
+                                                        </div>
+                                                        <div class="col-lg-3 NoPadding">
+                                                            <asp:Label ID="lblPaymentStatus" runat="server" />
                                                         </div>
                                                     </div>
                                                     <div class="row PrePostPadding">
