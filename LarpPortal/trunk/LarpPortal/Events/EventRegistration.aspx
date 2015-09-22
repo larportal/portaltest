@@ -73,8 +73,6 @@
             vertical-align: middle;
         }
     </style>
-
-    <link rel="stylesheet" href="http://localhost:49282/code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 </asp:Content>
 
 <asp:Content ID="EventScripts" ContentPlaceHolderID="MemberScripts" runat="server">
@@ -112,8 +110,8 @@
         }
     </script>
 
-    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="../Scripts/jquery-1.11.3.js"></script>
+    <script src="../Scripts/jquery-ui.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <script src="../Scripts/bootstrap.js"></script>
 </asp:Content>
