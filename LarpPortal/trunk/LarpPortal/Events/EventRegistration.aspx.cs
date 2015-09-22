@@ -180,7 +180,7 @@ namespace LarpPortal.Events
                 if (DateTime.TryParse(dRow["PreregistrationDeadline"].ToString(), out dtTemp))
                     lblPreRegDate.Text = string.Format("{0: MM/dd/yy}", dtTemp);
                 if (double.TryParse(dRow["LateRegistrationPrice"].ToString(), out dTemp))
-                    lblRegPrice.Text = string.Format("{0: MM/dd/yy}", dtTemp);
+                    lblRegPrice.Text = string.Format("{0:C}", dTemp);
                 if (DateTime.TryParse(dRow["StartDateTime"].ToString(), out dtTemp))
                 {
                     lblEventStartDate.Text = string.Format("{0: MM/dd/yy hh:mm tt}", dtTemp);

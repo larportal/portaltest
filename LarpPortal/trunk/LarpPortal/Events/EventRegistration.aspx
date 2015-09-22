@@ -194,7 +194,7 @@
                                                     </div>
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-lg-3">
-                                                            Open Date:
+                                                            Reg Open Date:
                                                         </div>
                                                         <div class="col-lg-3 NoPadding">
                                                             <asp:Label ID="lblEventOpenDate" runat="server" />
