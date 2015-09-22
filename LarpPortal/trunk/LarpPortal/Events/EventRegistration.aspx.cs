@@ -151,6 +151,8 @@ namespace LarpPortal.Events
                 lblEventStatus.Text = dRow["StatusName"].ToString();
                 lblEventDescription.Text = dRow["EventDescription"].ToString();
                 lblInGameLocation.Text = dRow["IGEventLocation"].ToString();
+                lblPaymentInstructions1.Text = dRow["PaymentInstructions"].ToString().Replace(Environment.NewLine, "<br>");
+                lblPaymentInstructions2.Text = dRow["PaymentInstructions"].ToString().Replace(Environment.NewLine, "<br>");
 
                 lblSiteLocation.Text = dRow["SiteName"].ToString() + " " + dRow["SiteAddress1"].ToString() + " " + dRow["SiteCity"].ToString() + " " +
                     dRow["SiteStateID"].ToString() + ", " + dRow["SitePostalCode"].ToString();
@@ -431,6 +433,7 @@ namespace LarpPortal.Events
                                 li.Selected = true;
                                 bSelectionFound = true;
                             }
+                        ddlRoles_SelectedIndexChanged(null, null);
                         if (bSelectionFound)
                         {
                             if (ddlRoles.SelectedItem.Text != "PC")
@@ -445,7 +448,6 @@ namespace LarpPortal.Events
                                     }
                             }
                         }
-                        ddlRoles_SelectedIndexChanged(null, null);
                     }
                     if (dReg["CharacterID"].ToString() != "")
                     {
