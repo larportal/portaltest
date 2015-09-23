@@ -257,10 +257,15 @@ namespace LarpPortal.Events
             }
             else
             {
-                lblRole.Visible = false;
-                ddlRoles.Visible = true;
-                ddlRoles.Items[0].Selected = true;
+                if (dsEventInfo.Tables["RolesForEvent"].Rows.Count > 1)
+                {
+                    lblRole.Visible = false;
+                    ddlRoles.Visible = true;
+                    ddlRoles.Items[0].Selected = true;
+                }
             }
+
+            ddlRoles_SelectedIndexChanged(null, null);
 
             ddlSendToCampaign.ClearSelection();
 
@@ -461,7 +466,7 @@ namespace LarpPortal.Events
                         foreach (ListItem li in ddlCharacterList.Items)
                             if (li.Value == dReg["CharacterID"].ToString())
                                 li.Selected = true;
-                        if (ddlCharacterList.SelectedIndex < 0)
+                        if ((ddlCharacterList.SelectedIndex < 0) && (ddlCharacterList.Items.Count > 0))
                             ddlCharacterList.SelectedIndex = 0;
                     }
                 }
@@ -616,8 +621,9 @@ namespace LarpPortal.Events
                 //        true);
                 NotifyOfNewRegistration();
             }
-            catch
+            catch (Exception ex)
             {
+                string t = ex.Message;
                 mvPlayerInfo.SetActiveView(vwError);
             }
         }
