@@ -15,43 +15,30 @@ namespace LarpPortal.Character
         protected void Page_Load(object sender, EventArgs e)
         {
             List<int> lCharIDs = new List<int>();
-            int iEventID = 0;
+            string sProcedureName = "";
 
             SortedList sParams = new SortedList();
             if (Request.QueryString["EventID"] != null)
             {
-                int.TryParse(Request.QueryString["EventID"], out iEventID);
+                int iEventID = 0;
+                if (int.TryParse(Request.QueryString["EventID"], out iEventID))
+                    sParams.Add("@EventID", iEventID);
+                sProcedureName = "prGetCharactersForEvent";
+            }
+            else if (Request.QueryString["CampaignID"] != null)
+            {
+                int iCampaignID = 0;
+                if (int.TryParse(Request.QueryString["CampaignID"], out iCampaignID))
+                    sParams.Add("@CampaignID", iCampaignID);
+                sProcedureName = "prGetCharactersForCampaign";
             }
 
-            sParams.Add("@EventID", iEventID);
+            if (sParams.Count == 0)
+                return;
 
             DataTable dtChars = new DataTable();
 
-            dtChars = Classes.cUtilities.LoadDataTable("prGetCharactersForEvent", sParams, "LARPortal", Session["UserID"].ToString(), "CharCard.Page_Load.GetChar");
-
-                //Classes.cCharacter cChar = new Classes.cCharacter();
-                //cChar.LoadCharacter(iCharID);
-                //DataRow dCharInfo = dtCharList.NewRow();
-                //dCharInfo["ID"] = iCharID;
-                //dCharInfo["Name"] = "";
-                //if (cChar.AKA != null)
-                //    dCharInfo["Name"] = cChar.AKA;
-                //dCharInfo["Name"] += " - " + cChar.CampaignName;
-                //dCharInfo["AKA"] = cChar.AKA;
-                //string sFullName = "";
-                //if (cChar.FirstName != null)
-                //    sFullName = cChar.FirstName;
-                //if (cChar.MiddleName != null)
-                //    sFullName += " " + cChar.MiddleName;
-                //if (cChar.LastName != null)
-                //    sFullName += " " + cChar.LastName;
-                //dCharInfo["FullName"] = sFullName;
-                //if (cChar.Race != null)
-                //    if (cChar.Race.FullRaceName != null)
-                //        dCharInfo["Race"] = cChar.Race.FullRaceName;
-                //dCharInfo["Origin"] = (cChar.WhereFrom == null ? "" : cChar.WhereFrom);
-                //dtCharList.Rows.Add(dCharInfo);
-            //}
+            dtChars = Classes.cUtilities.LoadDataTable(sProcedureName, sParams, "LARPortal", Session["UserID"].ToString(), "CharCard.Page_Load.GetChar");
 
             rptrCharacter.DataSource = dtChars;
             rptrCharacter.DataBind();
@@ -187,66 +174,66 @@ namespace LarpPortal.Character
 
 
 
-            //<asp:Repeater ID="rptrCharacter" runat="server">
-            //    <ItemTemplate>
-            //        <table border="0">
-            //            <tr style="vertical-align: top;">
-            //                <td colspan="6">
-            //                    <asp:Label ID="lblCharName" runat="server" CssClass="HeaderLabel" /></td>
-            //                <td style="text-align: right; width: 300px;" class="hiddenOnPrint" rowspan="4">
-            //                    <asp:Button ID="printButton" runat="server" CssClass="PrintButton" Text="Print" OnClientClick="javascript:window.print();" /></td>
-            //            </tr>
-            //            <tr>
-            //                <td class="TableLabel">Common Name: </td>
-            //                <td>
-            //                    <asp:Label ID="lblAKA" runat="server" /></td>
-            //                <td class="TableLabel">Full Name: </td>
-            //                <td colspan="3">
-            //                    <asp:Label ID="lblFullName" runat="server" /></td>
-            //            </tr>
-            //            <tr>
-            //                <td class="TableLabel">Race: </td>
-            //                <td>
-            //                    <asp:Label ID="lblRace" runat="server" /></td>
-            //                <td class="TableLabel">World: </td>
-            //                <td>
-            //                    <asp:Label ID="lblOrigin" runat="server" /></td>
-            //                <td class="TableLabel">Player Name: </td>
-            //                <td>
-            //                    <asp:Label ID="lblPlayerName" runat="server" /></td>
-            //            </tr>
-            //            <tr>
-            //                <td class="TableLabel">Total CP: </td>
-            //                <td>
-            //                    <asp:Label ID="lblTotalCP" runat="server" /></td>
-            //                <td class="TableLabel">Total Spent: </td>
-            //                <td>
-            //                    <asp:Label ID="lblCPSpent" runat="server" /></td>
-            //                <td class="TableLabel">Total Avail: </td>
-            //                <td>
-            //                    <asp:Label ID="lblCPAvail" runat="server" /></td>
-            //            </tr>
-            //        </table>
-            //        <br />
-            //        <br />
-            //        <asp:GridView ID="gvNonCost" runat="server" AutoGenerateColumns="false" HeaderStyle-BackColor="LightGray" AlternatingRowStyle-BackColor="Linen">
-            //            <Columns>
-            //                <asp:BoundField DataField="Key" HeaderText="Descriptor" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding" />
-            //                <asp:BoundField DataField="Value" HeaderText="Descriptor Value" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding" />
-            //            </Columns>
-            //        </asp:GridView>
-            //        <br />
-            //        <br />
-            //        <asp:GridView ID="gvSkills" runat="server" AutoGenerateColumns="false" RowStyle-VerticalAlign="top" HeaderStyle-BackColor="LightGray" AlternatingRowStyle-BackColor="Linen">
-            //            <Columns>
-            //                <asp:BoundField DataField="SkillName" HeaderText="Skill" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding" ItemStyle-Wrap="false" />
-            //                <asp:BoundField DataField="CPCostPaid" ItemStyle-HorizontalAlign="Right" HeaderText="Cost" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding"
-            //                    DataFormatString="{0:0.00}" />
-            //                <asp:BoundField DataField="FullDescription" ItemStyle-HorizontalAlign="Left" HeaderText="Complete Card Description" HtmlEncode="false" ItemStyle-CssClass="LeftRightPadding"
-            //                    HeaderStyle-CssClass="LeftRightPadding" />
-            //                <asp:BoundField DataField="DisplaySkill" Visible="false" />
-            //                <asp:BoundField DataField="DisplayOrder" Visible="false" />
-            //            </Columns>
-            //        </asp:GridView>
-            //    </ItemTemplate>
-            //</asp:Repeater>
+//<asp:Repeater ID="rptrCharacter" runat="server">
+//    <ItemTemplate>
+//        <table border="0">
+//            <tr style="vertical-align: top;">
+//                <td colspan="6">
+//                    <asp:Label ID="lblCharName" runat="server" CssClass="HeaderLabel" /></td>
+//                <td style="text-align: right; width: 300px;" class="hiddenOnPrint" rowspan="4">
+//                    <asp:Button ID="printButton" runat="server" CssClass="PrintButton" Text="Print" OnClientClick="javascript:window.print();" /></td>
+//            </tr>
+//            <tr>
+//                <td class="TableLabel">Common Name: </td>
+//                <td>
+//                    <asp:Label ID="lblAKA" runat="server" /></td>
+//                <td class="TableLabel">Full Name: </td>
+//                <td colspan="3">
+//                    <asp:Label ID="lblFullName" runat="server" /></td>
+//            </tr>
+//            <tr>
+//                <td class="TableLabel">Race: </td>
+//                <td>
+//                    <asp:Label ID="lblRace" runat="server" /></td>
+//                <td class="TableLabel">World: </td>
+//                <td>
+//                    <asp:Label ID="lblOrigin" runat="server" /></td>
+//                <td class="TableLabel">Player Name: </td>
+//                <td>
+//                    <asp:Label ID="lblPlayerName" runat="server" /></td>
+//            </tr>
+//            <tr>
+//                <td class="TableLabel">Total CP: </td>
+//                <td>
+//                    <asp:Label ID="lblTotalCP" runat="server" /></td>
+//                <td class="TableLabel">Total Spent: </td>
+//                <td>
+//                    <asp:Label ID="lblCPSpent" runat="server" /></td>
+//                <td class="TableLabel">Total Avail: </td>
+//                <td>
+//                    <asp:Label ID="lblCPAvail" runat="server" /></td>
+//            </tr>
+//        </table>
+//        <br />
+//        <br />
+//        <asp:GridView ID="gvNonCost" runat="server" AutoGenerateColumns="false" HeaderStyle-BackColor="LightGray" AlternatingRowStyle-BackColor="Linen">
+//            <Columns>
+//                <asp:BoundField DataField="Key" HeaderText="Descriptor" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding" />
+//                <asp:BoundField DataField="Value" HeaderText="Descriptor Value" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding" />
+//            </Columns>
+//        </asp:GridView>
+//        <br />
+//        <br />
+//        <asp:GridView ID="gvSkills" runat="server" AutoGenerateColumns="false" RowStyle-VerticalAlign="top" HeaderStyle-BackColor="LightGray" AlternatingRowStyle-BackColor="Linen">
+//            <Columns>
+//                <asp:BoundField DataField="SkillName" HeaderText="Skill" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding" ItemStyle-Wrap="false" />
+//                <asp:BoundField DataField="CPCostPaid" ItemStyle-HorizontalAlign="Right" HeaderText="Cost" HeaderStyle-CssClass="LeftRightPadding" ItemStyle-CssClass="LeftRightPadding"
+//                    DataFormatString="{0:0.00}" />
+//                <asp:BoundField DataField="FullDescription" ItemStyle-HorizontalAlign="Left" HeaderText="Complete Card Description" HtmlEncode="false" ItemStyle-CssClass="LeftRightPadding"
+//                    HeaderStyle-CssClass="LeftRightPadding" />
+//                <asp:BoundField DataField="DisplaySkill" Visible="false" />
+//                <asp:BoundField DataField="DisplayOrder" Visible="false" />
+//            </Columns>
+//        </asp:GridView>
+//    </ItemTemplate>
+//</asp:Repeater>
