@@ -114,7 +114,7 @@
                                 <%# Eval("PlayerName") %>
                             </td>
                         </tr>
-                        <tr>
+                        <tr style="display: none;">
                             <td class="TableLabel">Total CP: </td>
                             <td>
                                 <asp:Label ID="lblTotalCP" runat="server" /></td>
