@@ -59,8 +59,10 @@ namespace LarpPortal
             // Load My Campaigns selection
             string hrefline;
             string hreflinecumulative = "";
+
             // Constant values
             string DoubleQuote = "\"";
+            hreflinecumulative = "<ul class=" + DoubleQuote + "nav nav-pills nav-stacked" + DoubleQuote + ">";
             string Text1 = "<li";
             string Text2 = "<a href=" + DoubleQuote;
             string Text3 = DoubleQuote + " data-toggle=" + DoubleQuote + "pill" + DoubleQuote + ">";
@@ -1023,13 +1025,14 @@ namespace LarpPortal
                     LeftNavRow["href_li"] = hrefline;
                     LeftNavTable.Rows.Add(LeftNavRow);
                     hreflinecumulative = hreflinecumulative + hrefline;
-                    lblLeftNav.Text = hreflinecumulative;
+                 lblLeftNav.Text = hreflinecumulative;
                 }
                 SkipLine = false;
                 //TODO-Rick-2 Uncomment the next two lines when running live when defining the nav by code
                 //menu_ul_membercampaignsadmin.DataSource = LeftNavTable;
                 //menu_ul_membercampaignsadmin.DataBind();
             }
+            lblLeftNav.Text += "</ul>";
         }
 
     }

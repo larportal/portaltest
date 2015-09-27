@@ -7,6 +7,7 @@
             padding-left: 10px;
             padding-right: 10px;
         }
+
         div
         {
             border: 0px black solid;
@@ -16,6 +17,9 @@
 </asp:Content>
 
 <asp:Content ID="HeaderScripts" ContentPlaceHolderID="HeaderScripts" runat="server">
+    <script src="/Scripts/bootstrap.js"></script>
+    <script src="/Scripts/jquery-1.11.3.js"></script>
+    <script src="/Scripts/respond.js"></script>
     <asp:ContentPlaceHolder ID="MemberScripts" runat="server" />
 </asp:Content>
 
@@ -29,10 +33,7 @@
                     <nav class="userSubNav">
                         <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
                         <br />
-                        <ul class="nav nav-pills">
-                            <%-- panel-wrapper list-unstyled scroll-500">--%>
-                            <asp:Label ID="lblLeftNav" runat="server"></asp:Label>
-                        </ul>
+                        <asp:Label ID="lblLeftNav" runat="server"></asp:Label>
                     </nav>
                 </div>
             </div>
