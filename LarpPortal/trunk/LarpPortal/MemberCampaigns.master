@@ -1,5 +1,7 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="MemberCampaigns.master.cs" Inherits="LarpPortal.MemberCampaigns" %>
 
+<%@ Register TagPrefix="UC1" TagName="UserCampaignDDL" Src="~/ucUserCampaignsDropDownList.ascx" %>
+
 <asp:Content ContentPlaceHolderID="HeaderStyles" ID="MemberCampaignsStyles" runat="server">
     <style type="text/css">
         .LeftRightPadding
@@ -23,7 +25,6 @@
     <asp:ContentPlaceHolder ID="MemberScripts" runat="server" />
 </asp:Content>
 
-<%@ Register TagPrefix="UC1" TagName="UserCampaignDDL" Src="~/ucUserCampaignsDropDownList.ascx" %>
 <asp:Content ID="LeftNavMemberCampaigns" ContentPlaceHolderID="MainPage" runat="server">
 
     <div class="col-lg-12">
