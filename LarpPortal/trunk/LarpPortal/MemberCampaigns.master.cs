@@ -66,6 +66,10 @@ namespace LarpPortal
             string Text1 = "<li";
             string Text2 = "<a href=" + DoubleQuote;
             string Text3 = DoubleQuote + " data-toggle=" + DoubleQuote + "pill" + DoubleQuote + ">";
+
+
+            Text3 = DoubleQuote + ">";
+
             string Text4 = "/a>";
             // Must be defined in each case
             string ActiveState;
