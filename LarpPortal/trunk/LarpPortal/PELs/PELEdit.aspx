@@ -54,7 +54,7 @@
                         <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
                             <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
                                 <div class="panelheader">
-                                    <h2>Question: <%# Eval("Question") %></h2>
+                                    <h2>Question: <asp:Label ID="lblQuestion" runat="server" Text='<%# Eval("Question") %>' /></h2>
                                     <div class="panel-body">
                                         <div class="panel-container search-criteria" style="padding-bottom: 10px;">
                                             <asp:TextBox ID="tbAnswer" runat="server" Text='<%# Eval("Answer") %>' Columns="100" Style="width: 100%"

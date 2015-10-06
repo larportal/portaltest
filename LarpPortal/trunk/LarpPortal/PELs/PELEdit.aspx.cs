@@ -50,11 +50,15 @@ namespace LarpPortal.PELs
 
                     ViewState["EventDescription"] = dtQuestions.Rows[0]["EventDescription"].ToString();
                     ViewState["PELNotificationEMail"] = dtQuestions.Rows[0]["PELNotificationEMail"].ToString();
-                    ViewState["PlayerName"] = dtQuestions.Rows[0]["NickName"].ToString();
+                    string sPlayerName = dtQuestions.Rows[0]["NickName"].ToString();
+                    if (sPlayerName.Length == 0)
+                        sPlayerName = dtQuestions.Rows[0]["FirstName"].ToString();
+                    sPlayerName += " " + dtQuestions.Rows[0]["LastName"].ToString();
+                    ViewState["PlayerName"] = sPlayerName;
 
                     int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     int.TryParse(dtQuestions.Rows[0]["UserID"].ToString(), out iUserID);
-                    
+
                     if (iCharacterID != 0)
                     {
                         // A character.
@@ -68,7 +72,6 @@ namespace LarpPortal.PELs
                         ViewState["CharacterAKA"] = "a non-player.";
                     }
 
-
                     int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     if (iCharacterID != 0)
                     {
@@ -79,6 +82,7 @@ namespace LarpPortal.PELs
                             if (!string.IsNullOrEmpty(cChar.ProfilePicture.PictureURL))
                                 imgPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
                         imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
+
                     }
                     else
                     {
@@ -86,7 +90,7 @@ namespace LarpPortal.PELs
 
                         string uName = "";
                         int uID = 0;
-                        if ( !string.IsNullOrEmpty(Session["Username"].ToString()))
+                        if (!string.IsNullOrEmpty(Session["Username"].ToString()))
                             uName = Session["Username"].ToString();
                         int.TryParse(Session["UserID"].ToString(), out uID);
 
@@ -158,6 +162,13 @@ namespace LarpPortal.PELs
             if (int.TryParse(hidPELID.Value, out iTemp))
                 iPELID = iTemp;
 
+            // Need to build the body for the e-mail we are going to send.
+            //Characters
+            //    Event
+            //    Player
+
+            string sEMailBody = "";
+
             if ((e.CommandName.ToUpper() == "SAVE") || (e.CommandName.ToUpper() == "SUBMIT"))
             {
                 foreach (RepeaterItem item in rptQuestions.Items)
@@ -166,6 +177,7 @@ namespace LarpPortal.PELs
                     {
                         SortedList sParams = new SortedList();
 
+                        Label lblQuestion = (Label)item.FindControl("lblQuestion");
                         TextBox tbAnswer = (TextBox)item.FindControl("tbAnswer");
                         HiddenField hidQuestionID = (HiddenField)item.FindControl("hidQuestionID");
                         HiddenField hidAnswerID = (HiddenField)item.FindControl("hidAnswerID");
@@ -192,6 +204,9 @@ namespace LarpPortal.PELs
                         sParams.Add("@Answer", tbAnswer.Text);
                         sParams.Add("@RegistrationID", hidRegistrationID.Value);
 
+                        sEMailBody += lblQuestion.Text + "<br>" +
+                            tbAnswer.Text + "<br><br>";
+
                         DataSet dsPELS = new DataSet();
                         dsPELS = Classes.cUtilities.LoadDataSet("uspPELsAnswerInsUpd", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.btnSave_Click");
 
@@ -217,7 +232,7 @@ namespace LarpPortal.PELs
 
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());
                 Session["UpdatePELMessage"] = "alert('The PEL has been saved and submitted.');";
-                SendEmailPELSubmitted();
+                SendEmailPELSubmitted(sEMailBody);
             }
 
             Response.Redirect("PELList.aspx", true);
@@ -228,7 +243,7 @@ namespace LarpPortal.PELs
             Response.Redirect("PELList.aspx", true);
         }
 
-        private void SendEmailPELSubmitted()
+        private void SendEmailPELSubmitted(string sEmailBody)
         {
             if (ViewState["PELNotificationEMail"].ToString().Length > 0)
             {
@@ -239,22 +254,28 @@ namespace LarpPortal.PELs
 
                 string sEventDate = "";
                 if (ViewState["EventDate"] != null)
-                    sEventDate = ViewState["EventDate"].ToString();
+                {
+                    DateTime dtTemp;
+                    if (DateTime.TryParse(ViewState["EventDate"].ToString(), out dtTemp))
+                        sEventDate = " that took place on " + ViewState["EventDate"].ToString();
+                }
 
                 string sEventDesc = ViewState["EventDescription"].ToString();
                 string sPELNotificationEMail = ViewState["PELNotificationEMail"].ToString();
 
-                string sSubject = "PEL Submitted: The " + sPlayerName + " has submitted a PEL.";
-                string sBody = "The " + sPlayerName + " has submitted a PEL for " + sCharacterName + " for the event " + sEventDesc + " that took place on " + sEventDesc;
+                string sSubject = "PEL Submitted: " + sPlayerName + " has submitted a PEL.";
+                string sBody = sPlayerName + " has submitted a PEL for " + sCharacterName + " for the event " + sEventDesc + sEventDate + "<br><br>" +
+                    sEmailBody;
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                /// Todo Verify email.
-//                cEMS.SendMail(sSubject, sBody, sPELNotificationEMail, "", "support@larportal.com");
 
 
+
+                // Once done with testing, uncomment out the next line and delete the 2 lines below it.
+                //cEMS.SendMail(sSubject, sBody, sPELNotificationEMail, "", "support@larportal.com;jbradshaw@pobox.com");
 
                 sBody += "   This email would have gone to " + sPELNotificationEMail;
-                cEMS.SendMail(sSubject, sBody, "support@larportal.com", "", "support@larportal.com");
+                cEMS.SendMail(sSubject, sBody, "support@larportal.com,jbradshaw@pobox.com", "", "support@larportal.com");
             }
         }
     }
