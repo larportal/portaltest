@@ -49,12 +49,12 @@
         {
             Label
             {
-                font-size: 10pt;
+                font-size: 8pt;
             }
 
             body
             {
-                font-size: 10pt;
+                font-size: 8pt;
             }
 
             .hiddenOnPrint
@@ -68,7 +68,7 @@
                 text-align: right;
                 padding-left: 10px;
                 padding-right: 5px;
-                font-size: 10pt;
+                font-size: 8pt;
             }
         }
 
