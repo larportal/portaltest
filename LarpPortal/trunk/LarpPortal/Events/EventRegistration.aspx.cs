@@ -41,6 +41,14 @@ namespace LarpPortal.Events
                     DataView dvEventInfo = new DataView(dtEventInfo.Tables["EventInfo"], "StatusName = 'Scheduled'",    // and RegistrationOpenDateTime > '" + System.DateTime.Today + "'",
                         "", DataViewRowState.CurrentRows);
 
+                    if (dtEventInfo.Tables["EventInfo"].Rows.Count == 0)
+                    {
+                        mvPlayerInfo.SetActiveView(vwNoEvents);
+                        return;
+                    }
+
+                    mvPlayerInfo.SetActiveView(vwPlayerInfo);
+
                     DataTable dtEventDates = dvEventInfo.ToTable(true, "StartDate", "EventID", "EventName");
 
                     // Could do this as a computed column - but I want to specify the format.
@@ -244,6 +252,18 @@ namespace LarpPortal.Events
             ddlHousing.DataValueField = "HousingTypeID";
             ddlHousing.DataBind();
 
+            ddlHousing.ClearSelection();
+            foreach (ListItem dHousing in ddlHousing.Items)
+            {
+                if (dHousing.Text.ToUpper().Contains("TEAM ONLY"))
+                {
+                    ddlHousing.ClearSelection();
+                    dHousing.Selected = true;
+                }
+            }
+
+            btnRegister.Text = "Register";
+
             ddlRoles.DataSource = dsEventInfo.Tables["RolesForEvent"];
             ddlRoles.DataTextField = "Description";
             ddlRoles.DataValueField = "RoleAlignmentID";
@@ -312,6 +332,7 @@ namespace LarpPortal.Events
                     ddlTeams.DataTextField = "TeamName";
                     ddlTeams.DataValueField = "TeamID";
                     ddlTeams.DataBind();
+                    ddlTeams.Items[0].Selected = true;
                     ddlTeams.Items.Insert(0, new ListItem("No Team", "-1"));
                     lblNoTeams.Visible = false;
                 }
@@ -354,14 +375,22 @@ namespace LarpPortal.Events
                     if (ddlPaymentChoice.SelectedIndex < 0)
                         ddlPaymentChoice.Items[0].Selected = true;
 
-                    btnRegister.Text = "Change Registration";
-                    btnRegister.Width = Unit.Pixel(200);
+                    string sRegistration = dReg["RegistrationStatus"].ToString().ToUpper();
+                    if ((sRegistration == "APPROVED") ||
+                        (sRegistration == "WAIT LIST") ||
+                        (sRegistration == "WAITING TEAM APPROVAL") ||
+                        (sRegistration == "REGISTERED BY OTHER"))
+                    {
+                        btnRegister.Text = "Change Registration";
+                        btnRegister.Width = Unit.Pixel(200);
+                    }
 
                     DateTime dtTemp;
                     if (DateTime.TryParse(dReg["EventPaymentDate"].ToString(), out dtTemp))
                         lblPaymentStatus.Text = "Paid";
                     else
                         lblPaymentStatus.Text = "Unpaid";
+
 
                     if (dReg["ExpectedArrivalDate"] != DBNull.Value)
                     {
@@ -505,15 +534,15 @@ namespace LarpPortal.Events
             sParam.Add("@DateRegistered", DateTime.Now);
             sParam.Add("@EventPaymentTypeID", ddlPaymentChoice.SelectedValue);
             sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
-            sParam.Add("@CampaignHousingTypeID", ddlHousing.SelectedIndex);
+            sParam.Add("@CampaignHousingTypeID", ddlHousing.SelectedValue);
             if (ddlRoles.SelectedItem.Text != "PC")
                 sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
-//            sParam.Add("@TeamID", ddlTeams.SelectedValue);
+            //            sParam.Add("@TeamID", ddlTeams.SelectedValue);
 
             //if (hidTeamMember.Value == "1")
             if (ddlTeams.Visible)
-//                if (ddlTeams.SelectedIndex != 0)
-                    sParam.Add("@TeamID", ddlTeams.SelectedValue);
+                //                if (ddlTeams.SelectedIndex != 0)
+                sParam.Add("@TeamID", ddlTeams.SelectedValue);
 
             string sStatusToSearchFor = "";
             string sRegistrationMessage = "";
@@ -536,7 +565,8 @@ namespace LarpPortal.Events
                     break;
 
                 case "REGISTER":
-                    sStatusToSearchFor = "Wait List";
+                    // TryToRegister is only valid if they aren't already registered. If that's true it ignores it.
+                    sStatusToSearchFor = "TryToRegister";
                     sRegistrationMessage = "Thank you for registering for the event.";
                     break;
             }
@@ -563,6 +593,7 @@ namespace LarpPortal.Events
 
             if (ddlFullEvent.SelectedValue == "N")
             {
+                sParam.Add("@PartialEvent", true);
                 DateTime dtTemp;
                 if (DateTime.TryParse(tbArriveDate.Text, out dtTemp))
                 {
@@ -581,6 +612,8 @@ namespace LarpPortal.Events
                     }
                 }
             }
+            else
+                sParam.Add("@PartialEvent", false);
 
             try
             {
