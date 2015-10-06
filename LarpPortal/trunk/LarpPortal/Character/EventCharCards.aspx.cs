@@ -30,7 +30,14 @@ namespace LarpPortal.Character
                 int iCampaignID = 0;
                 if (int.TryParse(Request.QueryString["CampaignID"], out iCampaignID))
                     sParams.Add("@CampaignID", iCampaignID);
-                sProcedureName = "prGetCharactersForCampaign";
+                sProcedureName = "uspGetCharactersForCampaign";
+            }
+            else if (Request.QueryString["CharacterID"] != null)
+            {
+                int iCharacterID = 0;
+                if (int.TryParse(Request.QueryString["CharacterID"], out iCharacterID))
+                    sParams.Add("@CharacterID", iCharacterID);
+                sProcedureName = "uspGetCharactersForCampaign";
             }
 
             if (sParams.Count == 0)
