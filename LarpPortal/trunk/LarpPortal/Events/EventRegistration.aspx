@@ -541,7 +541,12 @@
                             <h2 style="text-align: center; color: red; font-size: 24pt;">There was an issue registering for the event.<br />
                                 Information has been sent to the LARPortal staff.</h2>
                         </asp:View>
-
+                        <asp:View ID="vwNoEvents" runat="server">
+                            <br />
+                            <br />
+                            <br />
+                            <h2 style="text-align: center; color: black; font-size: 24pt;">There are no events for this campaign.</h2>
+                        </asp:View>
                     </asp:MultiView>
                 </div>
             </div>
