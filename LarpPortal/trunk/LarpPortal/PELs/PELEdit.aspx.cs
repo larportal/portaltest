@@ -39,7 +39,7 @@ namespace LarpPortal.PELs
                 if (dtQuestions.Rows.Count > 0)
                 {
                     hidPELTemplateID.Value = dtQuestions.Rows[0]["PELTemplateID"].ToString();
-                    sEventInfo = "<b>Event: </b> " + dtQuestions.Rows[0]["EventDescription"].ToString();
+                    sEventInfo = "<b>Event: </b> " + dtQuestions.Rows[0]["EventName"].ToString();
 
                     DateTime dtEventDate;
                     if (DateTime.TryParse(dtQuestions.Rows[0]["EventStartDate"].ToString(), out dtEventDate))
@@ -48,7 +48,7 @@ namespace LarpPortal.PELs
                         ViewState["EventDate"] = dtEventDate.ToShortDateString();
                     }
 
-                    ViewState["EventDescription"] = dtQuestions.Rows[0]["EventDescription"].ToString();
+                    ViewState["EventName"] = dtQuestions.Rows[0]["EventName"].ToString();
                     ViewState["PELNotificationEMail"] = dtQuestions.Rows[0]["PELNotificationEMail"].ToString();
                     string sPlayerName = dtQuestions.Rows[0]["NickName"].ToString();
                     if (sPlayerName.Length == 0)
@@ -245,37 +245,39 @@ namespace LarpPortal.PELs
 
         private void SendEmailPELSubmitted(string sEmailBody)
         {
-            if (ViewState["PELNotificationEMail"].ToString().Length > 0)
+            try
             {
-                string sPlayerName = ViewState["PlayerName"].ToString();
-                string sCharacterName = "";
-                if (ViewState["CharacterAKA"] != null)
-                    sCharacterName = ViewState["CharacterAKA"].ToString();
-
-                string sEventDate = "";
-                if (ViewState["EventDate"] != null)
+                if (ViewState["PELNotificationEMail"].ToString().Length > 0)
                 {
-                    DateTime dtTemp;
-                    if (DateTime.TryParse(ViewState["EventDate"].ToString(), out dtTemp))
-                        sEventDate = " that took place on " + ViewState["EventDate"].ToString();
+                    string sPlayerName = ViewState["PlayerName"].ToString();
+                    string sCharacterName = "";
+                    if (ViewState["CharacterAKA"] != null)
+                        sCharacterName = ViewState["CharacterAKA"].ToString();
+
+                    string sEventDate = "";
+                    if (ViewState["EventDate"] != null)
+                    {
+                        DateTime dtTemp;
+                        if (DateTime.TryParse(ViewState["EventDate"].ToString(), out dtTemp))
+                            sEventDate = " that took place on " + ViewState["EventDate"].ToString();
+                    }
+
+                    string sEventName = ViewState["EventName"].ToString();
+                    string sPELNotificationEMail = ViewState["PELNotificationEMail"].ToString();
+
+                    string sSubject = "PEL Submitted: " + sPlayerName + " has submitted a PEL.";
+                    string sBody = sPlayerName + " has submitted a PEL for " + sCharacterName + " for the event " + sEventName + sEventDate + "<br><br>" +
+                        sEmailBody;
+
+                    Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+                    cEMS.SendMail(sSubject, sBody, sPELNotificationEMail, "", "support@larportal.com,jbradshaw@pobox.com");
                 }
-
-                string sEventDesc = ViewState["EventDescription"].ToString();
-                string sPELNotificationEMail = ViewState["PELNotificationEMail"].ToString();
-
-                string sSubject = "PEL Submitted: " + sPlayerName + " has submitted a PEL.";
-                string sBody = sPlayerName + " has submitted a PEL for " + sCharacterName + " for the event " + sEventDesc + sEventDate + "<br><br>" +
-                    sEmailBody;
-
-                Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-
-
-
-                // Once done with testing, uncomment out the next line and delete the 2 lines below it.
-                //cEMS.SendMail(sSubject, sBody, sPELNotificationEMail, "", "support@larportal.com;jbradshaw@pobox.com");
-
-                sBody += "   This email would have gone to " + sPELNotificationEMail;
-                cEMS.SendMail(sSubject, sBody, "support@larportal.com,jbradshaw@pobox.com", "", "support@larportal.com");
+            }
+            catch (Exception ex)
+            {
+                // Write the exception to error log and then throw it again...
+                Classes.ErrorAtServer lobjError = new Classes.ErrorAtServer();
+                lobjError.ProcessError(ex, "PELEdit.aspx.SendEmailPELSubmitted", "", Session.SessionID);
             }
         }
     }
