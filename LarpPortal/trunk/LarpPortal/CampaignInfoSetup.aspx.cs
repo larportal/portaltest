@@ -19,10 +19,17 @@ namespace LarpPortal
         {
             if (!IsPostBack)
             {
-                Session["ActiveLeftNav"] = "CampaignInfoSetup";
-                lblTopCampaignName.Text = Session["CampaignName"].ToString();
-                lblWIP.BackColor = System.Drawing.Color.Yellow;
-                lblWIP.Text = " (WIP)";
+                try
+                {
+                    Session["ActiveLeftNav"] = "CampaignInfoSetup";
+                    lblTopCampaignName.Text = Session["CampaignName"].ToString();
+                    lblWIP.BackColor = System.Drawing.Color.Yellow;
+                    lblWIP.Text = " (WIP)";
+                }
+                catch
+                {
+                    Response.Redirect("ContactUs.aspx", true);
+                }
             }
             int CampaignID;
             string UserName;
