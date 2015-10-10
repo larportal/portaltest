@@ -219,9 +219,13 @@ namespace LarpPortal.Classes
                     if (ldt.Rows[0]["PostalCode"] != null) { _StrPostalCode = ldt.Rows[0]["PostalCode"].ToString(); } //Table MDBAddresses
                     if (ldt.Rows[0]["Country"] != null) { _StrCountry = ldt.Rows[0]["Country"].ToString(); } //Table MDBAddresses
                     //if (ldt.Rows[0]["MDBStatesStateName"] != null) { _StateName = ldt.Rows[0]["MDBStatesStateName"].ToString(); } //Table Table MDBStates
-                    _DateAdded = (DateTime)ldt.Rows[0]["DateAdded"];
-                    _DateChanged = (DateTime)ldt.Rows[0]["DateChanged"];
-                    _DateDeleted = (DateTime)ldt.Rows[0]["DateDeleted"];
+                    DateTime dtTemp;
+                    if (DateTime.TryParse(ldt.Rows[0]["DateAdded"].ToString(), out dtTemp))
+                        _DateAdded = dtTemp;
+                    if (DateTime.TryParse(ldt.Rows[0]["DateChanged"].ToString(), out dtTemp))
+                        _DateChanged = dtTemp;
+                    if (DateTime.TryParse(ldt.Rows[0]["DateDeleted"].ToString(), out dtTemp))
+                        _DateDeleted = dtTemp;
                     _StrGoogleString = _StrAddress1 + "+" + _StrAddress2 + "+" + _StrCity + "+" + _StrStateID + "+" + _StrPostalCode;
                 }
 
