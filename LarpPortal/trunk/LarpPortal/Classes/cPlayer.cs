@@ -37,12 +37,11 @@ namespace LarpPortal.Classes
         private string _Comments = "";
         private DateTime  _DateAdded;
         private DateTime  _DateChanged;
-        private List<cPlayerInventory> _PlayerInventoryItems;
-        private List<cPlayerLARPResume> _PlayerLARPResumes;
-        private List<cPlayerOccasionExceptions> _PlayerOccasionExceptions;
-        private List<cPlayerSkill> _PlayerSkills;
-        private List<cPlayerWaiver> _PlayerWaivers;
-
+        private List<cPlayerInventory> _PlayerInventoryItems = new List<cPlayerInventory>();
+        private List<cPlayerLARPResume> _PlayerLARPResumes = new List<cPlayerLARPResume>();
+        private List<cPlayerOccasionExceptions> _PlayerOccasionExceptions = new List<cPlayerOccasionExceptions>();
+        private List<cPlayerSkill> _PlayerSkills = new List<cPlayerSkill>();
+        private List<cPlayerWaiver> _PlayerWaivers = new List<cPlayerWaiver>();
 
         public Int32 UserID
         {   get { return _UserID; }
@@ -218,7 +217,6 @@ namespace LarpPortal.Classes
 
         private cPlayer()
         {
-
         }
 
         public cPlayer(Int32 intUserId, string strUserName)
@@ -436,11 +434,5 @@ namespace LarpPortal.Classes
                 lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
             }
         }
-
-
-
-
     }
-
-
 }
