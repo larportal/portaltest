@@ -205,7 +205,7 @@ namespace LarpPortal.PELs
                         sParams.Add("@RegistrationID", hidRegistrationID.Value);
 
                         sEMailBody += lblQuestion.Text + "<br>" +
-                            tbAnswer.Text + "<br><br>";
+                            tbAnswer.Text.Replace(Environment.NewLine, "<br>") + "<br><br>";
 
                         DataSet dsPELS = new DataSet();
                         dsPELS = Classes.cUtilities.LoadDataSet("uspPELsAnswerInsUpd", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.btnSave_Click");
