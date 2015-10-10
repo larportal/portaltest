@@ -44,7 +44,10 @@ namespace LarpPortal.Classes
             ErrorRoutines lobjRoutines = new ErrorRoutines();
             lsErrorText = lobjRoutines.FormatError(lsErrorType, pvException, pvsLocation);
 
-            HandleError(lsErrorType, lsErrorText, pvsLocation, pvsAddInfo, pvsSessionID);
+            if (pvsAddInfo.Length == 0)
+                pvsAddInfo = pvException.StackTrace;
+
+            HandleError(lsErrorType, lsErrorText, pvsLocation, pvException.StackTrace, pvsAddInfo, pvsSessionID);
         }
 
         #endregion
@@ -88,7 +91,7 @@ namespace LarpPortal.Classes
             {
                 lsSQLCmd += "<br>" + pvsAddInfo.Replace(Environment.NewLine, "<BR>");
             }
-            HandleError(lsErrorType, lsErrorText, pvsLocation, lsSQLCmd, sSessionID);
+            HandleError(lsErrorType, lsErrorText, pvsLocation, pvSQLException.StackTrace, lsSQLCmd, sSessionID);
         }
 
         #endregion
@@ -99,9 +102,10 @@ namespace LarpPortal.Classes
         /// <param name="pvsErrorType">The type of error (usually the type.GetType of the exception.</param>
         /// <param name="pvsErrorText">The actual error text.</param>
         /// <param name="pvsLocation">The location in the program where the error happened.</param>
+        /// <param name="pvsStackTrace">Stack trace to see where we are    JBradshaw 10/10/2015</param>
         /// <param name="pvsAddInfo">Any additional info needed.</param>
         /// <param name="pvsSessionID">Session ID to group records together.</param>
-        public void HandleError ( string pvsErrorType, string pvsErrorText, string pvsLocation, string pvsAddInfo, string pvsSessionID )
+        public void HandleError ( string pvsErrorType, string pvsErrorText, string pvsLocation, string pvsStackTrace, string pvsAddInfo, string pvsSessionID )
         {
             using (SqlConnection ConnErrors = new SqlConnection(ConfigurationManager.ConnectionStrings["Audit"].ConnectionString))
             {
@@ -115,6 +119,7 @@ namespace LarpPortal.Classes
                         lcmdAddErrorMessage.Parameters.AddWithValue("@ErrorLocation", pvsLocation);
                         lcmdAddErrorMessage.Parameters.AddWithValue("@ErrorMessage", pvsErrorText);
                         lcmdAddErrorMessage.Parameters.AddWithValue("@ErrorType", pvsErrorType);
+                        lcmdAddErrorMessage.Parameters.AddWithValue("@StackTrace", pvsStackTrace);
                         lcmdAddErrorMessage.Parameters.AddWithValue("@AddInfo", pvsAddInfo);
                         lcmdAddErrorMessage.Parameters.AddWithValue("@SessionID", pvsSessionID);
 
