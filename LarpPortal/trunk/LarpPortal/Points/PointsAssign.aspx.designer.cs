@@ -13,6 +13,15 @@ namespace LarpPortal.Points {
     public partial class PointsAssign {
         
         /// <summary>
+        /// pnlAssignHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAssignHeader;
+        
+        /// <summary>
         /// ddlAttendance control.
         /// </summary>
         /// <remarks>
@@ -58,6 +67,15 @@ namespace LarpPortal.Points {
         protected global::System.Web.UI.WebControls.DropDownList ddlCharacters;
         
         /// <summary>
+        /// btnAddNewOpportunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddNewOpportunity;
+        
+        /// <summary>
         /// btnAssignAll control.
         /// </summary>
         /// <remarks>
@@ -65,6 +83,33 @@ namespace LarpPortal.Points {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAssignAll;
+        
+        /// <summary>
+        /// pnlAddHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAddHeader;
+        
+        /// <summary>
+        /// btnAssignExisting control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAssignExisting;
+        
+        /// <summary>
+        /// pnlAssignExisting control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAssignExisting;
         
         /// <summary>
         /// Div1 control.
@@ -103,6 +148,15 @@ namespace LarpPortal.Points {
         protected global::System.Web.UI.WebControls.GridView gvPoints;
         
         /// <summary>
+        /// pnlAddNewCP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAddNewCP;
+        
+        /// <summary>
         /// Div2 control.
         /// </summary>
         /// <remarks>
@@ -110,15 +164,6 @@ namespace LarpPortal.Points {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div2;
-        
-        /// <summary>
-        /// ddlAddOpportunityDefaultID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAddOpportunityDefaultID;
         
         /// <summary>
         /// ddlCampaignPlayer control.
@@ -130,13 +175,31 @@ namespace LarpPortal.Points {
         protected global::System.Web.UI.WebControls.DropDownList ddlCampaignPlayer;
         
         /// <summary>
-        /// ddlAddCharacter control.
+        /// btnSaveNewOpportunity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAddCharacter;
+        protected global::System.Web.UI.WebControls.Button btnSaveNewOpportunity;
+        
+        /// <summary>
+        /// ddlAddOpportunityType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddOpportunityType;
+        
+        /// <summary>
+        /// pnlddlAddEvent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlddlAddEvent;
         
         /// <summary>
         /// ddlAddEvent control.
@@ -146,5 +209,86 @@ namespace LarpPortal.Points {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlAddEvent;
+        
+        /// <summary>
+        /// pnlddlPCorNPC control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlddlPCorNPC;
+        
+        /// <summary>
+        /// ddlPCorNPC control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPCorNPC;
+        
+        /// <summary>
+        /// ddlAddOpportunityDefaultID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddOpportunityDefaultID;
+        
+        /// <summary>
+        /// pnlddlSendPoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlddlSendPoints;
+        
+        /// <summary>
+        /// lblPlaceholder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPlaceholder;
+        
+        /// <summary>
+        /// pnlddlAddCharacter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlddlAddCharacter;
+        
+        /// <summary>
+        /// ddlAddCharacter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddCharacter;
+        
+        /// <summary>
+        /// pnlFinalChoices control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlFinalChoices;
+        
+        /// <summary>
+        /// pnlHiddenStuff control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlHiddenStuff;
     }
 }

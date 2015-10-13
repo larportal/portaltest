@@ -20,6 +20,16 @@ namespace LarpPortal
         {
             if(!IsPostBack)
             {
+                if (Session["CurrentPagePermission"].ToString() == "False")
+                {
+                    if (Session["AlternatePageURL"] != null)
+                    {
+                        string AltURL = Session["AlternatePageURL"].ToString();
+                        Session["CurrentPagePermission"] = "True";
+                        Session["LastLoggedInLocation"] = AltURL;
+                        //Response.Redirect(AltURL);    Rick - 10/11/2015 - Remove comment when security works
+                    } 
+                }
                 string PageName = Request.Url.AbsolutePath + ".aspx";
                 Session["LastLoggedInLocation"] = PageName;
                 if (Session["LastWrittenLoggedInLocation"] != null && Session["LastWrittenLoggedInLocation"] == Session["LastLoggedInLocation"])

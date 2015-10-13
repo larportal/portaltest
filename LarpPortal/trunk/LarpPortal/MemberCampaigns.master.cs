@@ -18,6 +18,7 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session["AlternatePageURL"] = "/CampaignInfo.aspx";     // This is where users will go if they don't have permission to be on a page they're on
             Session["ActiveTopNav"] = "Campaigns";
             string PageName = Path.GetFileName(Request.PhysicalPath).ToUpper();
             if (PageName.Contains("CAMPAIGNINFO"))
@@ -26,7 +27,7 @@ namespace LarpPortal
                 Session["ActiveLeftNav"] = "Rules";
             else if (PageName.Contains("CALENDAR"))
                 Session["ActiveLeftNav"] = "Calendar";
-            else if (PageName.Contains("EVENTS"))
+            else if (PageName.Contains("EVENT"))
                 Session["ActiveLeftNav"] = "Events";
             else if (PageName.Contains("CAMPAIGNCHARACTER"))
                 Session["ActiveLeftNav"] = "CampaignCharacter";
@@ -48,6 +49,7 @@ namespace LarpPortal
             // Campaign and roles can be extracted as substrings
             // For example 33:/7/8/ would be Campaign 33 (Fifth Gate) with Roles 7 (Event NPC) and 8 (PC)
 
+            string ReqPage = "";
             string ActiveNav;
             if (Session["ActiveLeftNav"] != null)
                 ActiveNav = Session["ActiveLeftNav"].ToString();
@@ -56,6 +58,9 @@ namespace LarpPortal
             string PlayerRoles = "";
             if (Session["PlayerRoleString"] != null)
                 PlayerRoles = Session["PlayerRoleString"].ToString();
+            string LastLoggedInLocation = "";
+            if (Session["LastLoggedInLocation"] != null)
+                LastLoggedInLocation = Session["LastLoggedInLocation"].ToString();
             // Load My Campaigns selection
             string hrefline;
             string hreflinecumulative = "";
@@ -66,7 +71,6 @@ namespace LarpPortal
             string Text1 = "<li";
             string Text2 = "<a href=" + DoubleQuote;
             string Text3 = DoubleQuote + " data-toggle=" + DoubleQuote + "pill" + DoubleQuote + ">";
-
 
             Text3 = DoubleQuote + ">";
 
@@ -113,6 +117,7 @@ namespace LarpPortal
                 switch (i)
                 {
                     case 0:
+                        ReqPage = "/CampaignInfo.aspx";
                         if (PageName == "CAMPAIGNINFO")
                         {
                             ActiveState = " class=\"active\">";
@@ -131,11 +136,12 @@ namespace LarpPortal
                             SpanClass = SC2;
                         }
                         LineEnd = LineEnd1;
-                        //PageName = "CampaignSetupInfo.aspx";
-                        PageName = "/CampaignInfo.aspx";
+                        PageName = ReqPage;
                         LineText = "Campaign Info";
                         break;
+
                     case 1:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
                         {
                             if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
@@ -149,13 +155,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Info";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 2:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
                         {
                             if (PageName == "CAMPIAGNINFOSUPEOPLE")
@@ -169,14 +181,20 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign People";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
+
                         break;
 
                     case 3:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
                         {
                             if (PageName == "CAMPAIGNINFOSUPLACES")
@@ -190,13 +208,20 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Places";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
+
                         break;
+
                     case 4:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
                         {
                             if (PageName == "CAMPAIGNINFOSURULES")
@@ -210,13 +235,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Rules";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 5:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
                         {
                             if (PageName == "CAMPAIGNINFOSURULESINDEX")
@@ -230,13 +261,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Rules Index";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 6:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (PageName == "CAMPAIGNMESSAGES" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
                         {
                             ActiveState = " class=\"active\">";
@@ -255,10 +292,12 @@ namespace LarpPortal
                             SpanClass = SC2;
                         }
                         LineEnd = LineEnd1;
-                        PageName = "/PageUnderConstruction.aspx";
+                        PageName = ReqPage;
                         LineText = "Campaign Messages";
                         break;
+
                     case 7:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/4/"))
                         {
                             if (PageName == "CAMPAIGNMESSAGESVIEWPREV")
@@ -272,13 +311,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;View Previous";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 8:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
                         {
                             if (PageName == "CAMPAIGNMESSAGESSENDNEW")
@@ -292,14 +337,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Send New";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     case 9:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
                         {
                             if (PageName == "CAMPAIGNMESSAGESPREVSCHEDULED")
@@ -313,17 +363,22 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Preview Scheduled";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     //Missing 10 - Rules
                     //Missing 11 - Rules Section - iterative per section
 
                     case 12:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         //This one is just a link?
                         if (PageName == "CALENDARVIEW")
                         {
@@ -336,7 +391,7 @@ namespace LarpPortal
                         TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
                         SpanClass = SC2;
                         LineEnd = LineEnd4;
-                        PageName = "/PageUnderConstruction.aspx";
+                        PageName = ReqPage;
                         LineText = "Calendar";
                         break;
 
@@ -345,6 +400,7 @@ namespace LarpPortal
                     //Missing 15 - Event scheduling
 
                     case 16:
+                        ReqPage = "/Events/EventRegistration.aspx";
                         if (PageName == "EVENTS")
                         {
                             ActiveState = " class=\"active\">";
@@ -356,45 +412,41 @@ namespace LarpPortal
                         TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
-                        PageName = "/PageUnderConstruction.aspx";
-                        //PageName = "/Events/Events.aspx";
-                        PageName = "/Events/EventRegistration.aspx";
+                        PageName = ReqPage;
                         LineText = "RSVP/Register";
-                        //if(PlayerRoles.Contains("33:/"))
-                        //{
-                        //    PageName = "/WrathbornRegistration.aspx";
-                        //    LineText = "Wrathborn Registration";
-                        //}
                         break;
 
-                    //case 17:
-                    //    if (PageName == "EVENTS")
-                    //    {
-                    //        ActiveState = " class=\"active\">";
-                    //    }
-                    //    else
-                    //    {
-                    //        ActiveState = ">";
-                    //    }
-                    //    TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
-                    //    SpanClass = SC1;
-                    //    LineEnd = LineEnd1;
-                    //    PageName = "/PageUnderConstruction.aspx";
-                    //    //PageName = "/Events/Events.aspx";
-                    //    LineText = "RSVP / Register";
-                    //    if (PlayerRoles.Contains("33:/"))
-                    //    {
-                    //        PageName = "/SilverfireRegistration.aspx";
-                    //        LineText = "Silverfire Registration";
-                    //    }
-                        
-                        
-                        //break;
+                    case 17:
+                        ReqPage = "/Events/RegistrationApproval.aspx";
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
+                        {
+                            if (PageName == "EVENTS")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
+                            SpanClass = SC1;
+                            LineEnd = LineEnd1;
+                            PageName = ReqPage;
+                            LineText = "&nbsp;&nbsp;&nbsp;Registration Approval";
+                        }
+                        else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
+                        }
+                        break;
 
                     //Missing 18 - Shopping cart / payment
 
                     case 19:
-                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/2/") || PlayerRoles.Contains("/28/")))
+                        ReqPage = "/PageUnderConstruction.aspx";
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "EVENTSSUPLANNING")
                             {
@@ -407,14 +459,20 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Planning";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 20:
-                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/2/") || PlayerRoles.Contains("/28/")))
+                        ReqPage = "/PageUnderConstruction.aspx";
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "EVENTSSUDEFAULTS")
                             {
@@ -427,17 +485,22 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Defaults";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     //Missing 21 - Setup scheduling
 
                     case 22:
-                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/2/") || PlayerRoles.Contains("/28/")))
+                        ReqPage = "/PageUnderConstruction.aspx";
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "EVENTSSUMARKETING")
                             {
@@ -450,13 +513,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Marketing";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 23:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/33/"))
                         {
                             if (PageName == "EVENTSSUFOODOPTIONS")
@@ -470,13 +539,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Food Options";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 24:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/11/"))
                         {
                             if (PageName == "EVENTSASSIGNHOUSING")
@@ -490,13 +565,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Assign Housing";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 25:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/22/"))
                         {
                             if (PageName == "EVENTSRECORDPAYMENTS")
@@ -510,13 +591,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Record Payments";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 26:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/16/"))
                         {
                             if (PageName == "EVENTSCHECKIN")
@@ -530,13 +617,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Check-In";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 27:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/34/"))
                         {
                             if (PageName == "EVENTSACCEPTDONATIONS")
@@ -550,13 +643,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Accept Donations";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 28:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/35/"))
                         {
                             if (PageName == "EVENTSCHECKOUT")
@@ -570,14 +669,20 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Approve Check-Out";
                             LineEnd = LineEnd3;
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 29:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (PageName == "CAMPAIGNCHARACTERS" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/5/") || PlayerRoles.Contains("/20/")))
                         {
                             ActiveState = " class=\"active\">";
@@ -596,13 +701,15 @@ namespace LarpPortal
                             SpanClass = SC2;
                         }
                         LineEnd = LineEnd1;
-                        PageName = "/PageUnderConstruction.aspx";
+                        PageName = ReqPage;
                         LineText = "Characters";
                         break;
+
                     case 30:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
                         {
-                            if (PageName == "CAMPAIGNCHARACTERINFO")
+                            if (LastLoggedInLocation == "CAMPIAGNINFOSUPEOPLE")
                             {
                                 ActiveState = " class=\"active\">";
                             }
@@ -613,13 +720,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;NPC Info";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 31:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
                         {
                             if (PageName == "CAMPAIGNCHARACTERITEMS")
@@ -633,13 +746,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;NPC Items";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 32:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
                         {
                             if (PageName == "CAMPAIGNCHARACTERHISTORY")
@@ -653,16 +772,21 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;&nbsp;NPC History";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     //Missing 33 - NPC Skills
 
                     case 34:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
                             if (PageName == "CAMPAIGNCHARACTERSUTRAITS")
@@ -676,13 +800,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Traits & Attributes";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 35:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
                             if (PageName == "CAMPAIGNCHARACTERSUSKILLTYPES")
@@ -696,13 +826,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Skill Headers & Types";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 36:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
                             if (PageName == "CAMPAIGNCHARACTERSUSKILLS")
@@ -716,14 +852,20 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Skills";
                             LineEnd = LineEnd3;
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 37:
+                        ReqPage = "/PageUnderConstruction.aspx"; // = "/Roles/Roles.aspx";
                         if (PageName == "ROLES")
                         {
                             ActiveState = " class=\"active\">";
@@ -735,14 +877,14 @@ namespace LarpPortal
                         TreeToggle = Toggle2; // Toggle1a + "lblCampaignRoles" + Toggle1b;
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
-                        PageName = "/PageUnderConstruction.aspx";
-                        //PageName = "/Roles/Roles.aspx";
+                        PageName = ReqPage;
                         LineText = "Roles";
                         break;
 
                     //Missing 38 - My roles
 
                     case 39:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Roles" && PlayerRoles.Contains("/21/"))
                         {
                             if (PageName == "ROLESASSIGNROLES")
@@ -756,14 +898,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Assign Roles";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     case 40:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Roles" && PlayerRoles.Contains("/1/"))
                         {
                             if (PageName == "ROLESSUROLES")
@@ -777,32 +924,51 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Roles";
                             LineEnd = LineEnd3;
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     case 41:
-                        if (PageName == "POINTS" && (PlayerRoles.Contains("/34/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/35/")))
+                        ReqPage = "/Points/PointsAssign.aspx";
+                        if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
                         {
-                            ActiveState = " class=\"active\">";
+                            if (PageName == "POINTS") // && (PlayerRoles.Contains("/34/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/35/")))
+                            {
+                                if ((PlayerRoles.Contains("/34/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/35/")))
+                                {
+                                    ActiveState = " class=\"active\">";
+                                    PageName = ReqPage;
+                                }
+                                else
+                                {
+                                    ActiveState = ">";
+                                    PageName = "/CampaignInfo.aspx";
+                                }
+
+                                TreeToggle = Toggle2; // Toggle1a + "lblCampaignCharacterBuildPoints" + Toggle1b;
+                                SpanClass = SC1;
+                                LineEnd = LineEnd1;
+                                LineText = "Character Build Points";
+                            }
                         }
                         else
                         {
-                            ActiveState = ">";
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
                         }
-                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignCharacterBuildPoints" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd1;
-                        PageName = "/PageUnderConstruction.aspx";
-                        //PageName = "/Points/PointsAssign.aspx";
-                        LineText = "Character Build Points";
                         break;
 
                     case 42:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
                         {
                             if (PageName == "POINTSSUSTANDARDS")
@@ -816,16 +982,21 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Standard Points";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     //Missing 43 - Modify game system points
 
                     case 44:
+                        ReqPage = "/PageUnderConstruction.aspx";    // = "/Points/PointsSetupNonStandard.aspx";
                         if (ActiveNav == "Points" && PlayerRoles.Contains("/34/"))
                         {
                             if (PageName == "POINTSSUOTHER")
@@ -839,15 +1010,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
-                            //PageName = "/Points/PointsSetupNonStandard.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Other Points";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     case 45:
+                        ReqPage = "/PageUnderConstruction.aspx";   // = "/Points/PointsAssign.aspx";
                         if (ActiveNav == "Points" && (PlayerRoles.Contains("/35/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "POINTSASSIGN")
@@ -861,14 +1036,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
-                            PageName = "/PageUnderConstruction.aspx";
-                            PageName = "/Points/PointsAssign.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Assign Points";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
+
                     case 46:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
                         {
                             if (PageName == "POINTSACCEPT")
@@ -882,14 +1062,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2;
                             SpanClass = SC2;
                             LineEnd = LineEnd3;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Accept Points";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     case 47:
+                        ReqPage = "/PELs/PELList.aspx";
                         if (PageName == "PEL")
                         {
                             ActiveState = " class=\"active\">";
@@ -901,12 +1086,12 @@ namespace LarpPortal
                         TreeToggle = Toggle2; // Toggle1a + "lblCampaignRoles" + Toggle1b;
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
-                        PageName = "/PageUnderConstruction.aspx";
-                        PageName = "/PELs/PELList.aspx";
+                        PageName = ReqPage;
                         LineText = "PELs";
                         break;
 
                     case 48:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "PEL" && PlayerRoles.Contains("/28/"))
                         {
                             if (PageName == "PELSU" && PlayerRoles.Contains("/28/"))
@@ -920,14 +1105,19 @@ namespace LarpPortal
                             TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
                             SpanClass = SC1;
                             LineEnd = LineEnd4;
-                            PageName = "/PageUnderConstruction.aspx";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;PEL Setup";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
+                        }
                         break;
 
                     case 49:
+                        ReqPage = "/PELs/PELApprovalList";
                         if (ActiveNav == "PEL" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/4/")))
                         {
                             if (PageName == "PELApprovalList" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/4/")))
@@ -941,13 +1131,15 @@ namespace LarpPortal
                             TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
                             SpanClass = SC1;
                             LineEnd = LineEnd4;
-                            PageName = "/PageUnderConstruction.aspx";
-                            PageName = "/PELs/PELApprovalList";
+                            PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;PEL Approval List";
                         }
                         else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
                             SkipLine = true;
-
+                        }
                         break;
 
                     //case 50:
@@ -985,6 +1177,7 @@ namespace LarpPortal
                         //break;
 
                     case 52:
+                        ReqPage = "/PageUnderConstruction.aspx";
                         //Just a link?
                         if (PageName == "INVENTORY" && PlayerRoles.Contains("/36/"))
                         {
@@ -997,7 +1190,7 @@ namespace LarpPortal
                         TreeToggle = Toggle2; // Toggle1a + "lblInventoryProps" + Toggle1b;
                         SpanClass = SC1;
                         LineEnd = LineEnd4;
-                        PageName = "/PageUnderConstruction.aspx";
+                        PageName = ReqPage;
                         LineText = "Inventory/Props";
                         break;
 

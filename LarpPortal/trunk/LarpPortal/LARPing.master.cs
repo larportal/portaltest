@@ -81,7 +81,7 @@ namespace LarpPortal
             }
             catch (Exception ex)
             {
-                
+                string l = ex.Message;
             }
         }
 
