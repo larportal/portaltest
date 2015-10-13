@@ -50,6 +50,7 @@ namespace LarpPortal
                 Session["UserID"] = 0;                            // Until login changes it
                 Session["SecurityRole"] = 0;                      // Until login changes it
                 Session["WebPage"] = "~/MemberDemographics.aspx"; // Until login changes it
+                Session["CurrentPagePermission"] = "True";        // We'll assume that wherever you were last you can still be there when the system takes you there on login
                 lblInvalidLogin.Visible = false;
                 lblInvalidActivationKey.Visible = false;
                 lblInvalidLogin2.Visible = false;
@@ -232,6 +233,7 @@ namespace LarpPortal
                 txtOSVersion = Session["OSVersion"].ToString();
             Login.LoginAudit(Login.MemberID, txtUserName.Text,txtPassword.Text, txtIPAddress, txtBrowser, txtBrowserVersion, txtPlatform, txtOSVersion);
             Session["WebPage"] = Login.LastLoggedInLocation;
+            Session["LastLoggedInLocation"] = Login.LastLoggedInLocation;
             // Go to the default or last page visited
             if(Session["WebPage"] == null)
             {

@@ -24,6 +24,7 @@ namespace LarpPortal.Points
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            Session["ActiveLeftNav"] = "Points";
             if (!IsPostBack)
             {
                 Session["EditMode"] = "Assign";
@@ -42,11 +43,13 @@ namespace LarpPortal.Points
                 ddlEarnTypeLoad(hidUserName.Value, intCampaignID);
                 ddlPlayerLoad(hidUserName.Value, intCampaignID);
                 FillGrid(hidUserName.Value, hidCampaignID.Value);
-                ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID);
+                ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, "PC"); // Default load assumes PC opportunities
                 ddlCampaignPlayerLoad(hidUserName.Value, intCampaignID);
                 ddlAddCharacterLoad(hidUserName.Value, intCampaignID);
+                ddlAddEventLoad(hidUserName.Value, intCampaignID);
             }
         }
+
 
         private void FillGrid(string strUserName, string strCampaignID)
         {
@@ -154,33 +157,6 @@ namespace LarpPortal.Points
             ddlPlayer.DataBind();
             ddlPlayer.Items.Insert(0, new ListItem("Select Player", "0"));
             ddlPlayer.SelectedIndex = 0;
-        }
-
-        private void ddlAddOpportunityDefaultIDLoad(string strUserName, int intCampaignID)
-        {
-            ddlAddOpportunityDefaultID.Items.Clear();
-            string stStoredProc = "uspGetCampaignCPOpportunities";
-            string stCallingMethod = "PointsAssign.aspx.ddlAddOpportunityDefaultIDLoad";
-            DataTable dtAddOpps = new DataTable();
-            SortedList sParams = new SortedList();
-            sParams.Add("@CampaignID", intCampaignID);
-            dtAddOpps = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
-            ddlAddOpportunityDefaultID.DataTextField = "Description";
-            ddlAddOpportunityDefaultID.DataValueField = "CampaignCPOpportunityDefaultID";
-            ddlAddOpportunityDefaultID.DataSource = dtAddOpps;
-            ddlAddOpportunityDefaultID.DataBind();
-            ddlAddOpportunityDefaultID.Items.Insert(0, new ListItem("Select Description", "0"));
-            ddlAddOpportunityDefaultID.SelectedIndex = 0;
-        }
-
-        //private void ddlCampaignPlayerLoad(string strUserName, int intCampaignID)
-        //{
-
-        //}
-
-        private void ddlAddCharacterLoad(string strUserName, int intCampaignID)
-        {
-
         }
 
         protected void ddlAttendance_SelectedIndexChanged(object sender, EventArgs e)
@@ -297,14 +273,10 @@ namespace LarpPortal.Points
                         strComments = lblStaffComents.Text;
 
                     }
-                    //TextBox txtRcptDate =       row.FindControl("txtReceiptDate") as TextBox;
-                    //if (DateTime.TryParse(txtRcptDate.Text.ToString(), out dTemp))
-                    //    RecDate = dTemp;
                     Classes.cPoints Point = new Classes.cPoints();
                     Point.UpdateCPOpportunity(UserID, intCPOpp, intCmpPlyrID, intCharID, intOppDefID, intEvntID,
                         strDesc, strOppNotes, strExURL, intRsnID, intAddID, CP, UserID, 
                         DateTime.Now, UserID, strComments);
-                    //Point.AssignPELPoints(UserID, intCmpPlyrID, intCharID, 10, intEvntID, "Madrigal May 2015", 14, 33, CP, RecDate );
                 }
                 catch (Exception ex)
                 {
@@ -344,6 +316,33 @@ namespace LarpPortal.Points
             FillGrid(hidUserName.Value, hidCampaignID.Value);
         }
 
+//===========================================
+
+        protected void btnAddNewOpportunity_Click(object sender, EventArgs e)
+        {
+            pnlAddNewCP.Visible = true;
+            pnlAssignExisting.Visible = false;
+            pnlAddHeader.Visible = true;
+            pnlAssignHeader.Visible = false;
+
+        }
+
+        protected void btnAssignExisting_Click(object sender, EventArgs e)
+        {
+            pnlAddNewCP.Visible = false;
+            pnlAssignExisting.Visible = true;
+            pnlAddHeader.Visible = false;
+            pnlAssignHeader.Visible = true;
+        }
+
+        protected void btnSaveNewOpportunity_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+// ======================= Put all the add routines here for ease of reference ======================
+
         protected void ddlCampaignPlayerLoad(string strUserName, int intCampaignID)
         {
             ddlCampaignPlayer.Items.Clear();
@@ -363,12 +362,185 @@ namespace LarpPortal.Points
 
         protected void ddlCampaignPlayer_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int intCampaignID = 0;
+            int iTemp = 0;
+            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
+            {
+                intCampaignID = iTemp;
+            }
+            ddlAddCharacterLoad(hidUserName.Value, intCampaignID);
+        }
 
+        // Event vs Non-Event selection - ddlAddOpportunityType
+
+        protected void ddlAddOpportunityType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // E - Event type and N - Non-Event type
+            int intCampaignID = 0;
+            int iTemp = 0;
+            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
+            {
+                intCampaignID = iTemp;
+            }
+            if (ddlAddOpportunityType.SelectedValue == "E")
+            {
+                ddlAddEvent.SelectedIndex = 0;
+                pnlddlAddEvent.Visible = true;
+                pnlddlPCorNPC.Visible = false;
+                pnlddlAddCharacter.Visible = false;
+                pnlddlSendPoints.Visible = false;
+            }
+            else
+                pnlddlAddEvent.Visible = false;
+            ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, ddlPCorNPC.SelectedValue);
+        }
+
+        private void ddlAddEventLoad(string strUserName, int intCampaignID)
+        {
+            ddlAddEvent.Items.Clear();
+            string stStoredProc = "uspGetCampaignEvents";
+            string stCallingMethod = "PointsAssign.aspx.ddlAddEventLoad";
+            DataTable dtEvents = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@CampaignID", intCampaignID);
+            dtEvents = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+            ddlAddEvent.DataTextField = "EventNameDate";
+            ddlAddEvent.DataValueField = "EventID";
+            ddlAddEvent.DataSource = dtEvents;
+            ddlAddEvent.DataBind();
+            ddlAddEvent.Items.Insert(0, new ListItem("Select Event", "0"));
+            ddlAddEvent.SelectedIndex = 0;
+        }
+
+        protected void ddlAddEvent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ddlPCorNPC.SelectedValue = "PC";
+            pnlddlPCorNPC.Visible = true;
+            ddlAddCharacter.Visible = true;
+            int intCampaignID = 0;
+            int iTemp = 0;
+            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
+            {
+                intCampaignID = iTemp;
+            }
+            ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, "PC");
+        }
+
+        // PC vs NPC/Staff selection
+
+        protected void ddlPCorNPC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            pnlddlPCorNPC.Visible = true;
+            if (ddlPCorNPC.SelectedValue == "PC")
+            {
+                pnlddlAddCharacter.Visible = true;
+                pnlddlSendPoints.Visible = false;
+                // Campaign to send CP to panel .Visible = false;
+            }
+            else
+            {
+                pnlddlAddCharacter.Visible = false;
+                pnlddlSendPoints.Visible = true;
+                // Campaign to send CP to panel .Visible = true;
+            }
+            int intCampaignID = 0;
+            int iTemp = 0;
+            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
+            {
+                intCampaignID = iTemp;
+            }
+            ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, ddlPCorNPC.SelectedValue);
+
+        }
+
+        private void ddlAddOpportunityDefaultIDLoad(string strUserName, int intCampaignID, string PCorNPC)
+        {
+            ddlAddOpportunityDefaultID.Items.Clear();
+            string stStoredProc = "uspGetCampaignCPOpportunities";
+            string stCallingMethod = "PointsAssign.aspx.ddlAddOpportunityDefaultIDLoad";
+            bool EventRelated = false;
+            if (ddlAddOpportunityType.SelectedValue == "E")
+                EventRelated = true;
+            else
+                EventRelated = false;
+            DataTable dtAddOpps = new DataTable();
+            SortedList sParams = new SortedList();
+
+            // Need to write logic that will exclude anything with description like %NPC% or %Staff% if ddlPCorNPC = "PC"
+            //      and exclude PC% if ddlPCorNPC = "NPC"
+            // Add new parameter and pass in stored proc
+
+            sParams.Add("@CampaignID", intCampaignID);
+            sParams.Add("@EventRelated", EventRelated);
+            sParams.Add("@PCorNPC", PCorNPC);
+            dtAddOpps = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+            ddlAddOpportunityDefaultID.DataTextField = "Description";
+            ddlAddOpportunityDefaultID.DataValueField = "CampaignCPOpportunityDefaultID";
+            ddlAddOpportunityDefaultID.DataSource = dtAddOpps;
+            ddlAddOpportunityDefaultID.DataBind();
+            if (EventRelated == false)
+                ddlAddOpportunityDefaultID.Items.Insert(0, new ListItem("Donation", "99"));
+            ddlAddOpportunityDefaultID.Items.Insert(0, new ListItem("Select Description", "0"));
+            ddlAddOpportunityDefaultID.SelectedIndex = 0;
         }
 
         protected void ddlAddOpportunityDefaultID_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int intCampaignID = 0;
+            int iTemp = 0;
+            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
+            {
+                intCampaignID = iTemp;
+            }
+            if(ddlAddOpportunityType.SelectedValue == "N")
+            {
+                pnlddlAddCharacter.Visible = true;
+            }
+            else
+            {
+                if(ddlPCorNPC.SelectedValue == "PC")
+                {
+                    pnlddlAddCharacter.Visible = true;
+                }
+                else
+                {
+                    pnlddlSendPoints.Visible = true;
+                }
+            }
+            pnlFinalChoices.Visible = true;
+        }
 
+        // This is where the 'Send To Campaign' drop down list load will go
+
+
+        private void ddlAddCharacterLoad(string strUserName, int intCampaignID)
+        {
+            ddlAddCharacter.Items.Clear();
+            string stStoredProc = "uspGetCampaignCharacters";
+            string stCallingMethod = "PointsAssign.aspx.ddlAddCharacterLoad";
+            int iTemp = 0;
+            int CampaignPlayerID = 0;
+            if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
+                CampaignPlayerID = iTemp;
+            DataTable dtCharacters = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@CampaignID", intCampaignID);
+            sParams.Add("@CampaignPlayerID", CampaignPlayerID);
+            dtCharacters = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+            ddlAddCharacter.DataTextField = "CharacterName";
+            ddlAddCharacter.DataValueField = "CharacterID";
+            ddlAddCharacter.DataSource = dtCharacters;
+            ddlAddCharacter.DataBind();
+            if (dtCharacters.Rows.Count > 1)
+            {
+                ddlAddCharacter.Items.Insert(0, new ListItem("Select Character", "0"));
+                ddlAddCharacter.SelectedIndex = 0;
+            }
+            if (dtCharacters.Rows.Count == 0)
+            {
+                ddlAddCharacter.Items.Insert(0, new ListItem("No characters", "0"));
+                ddlAddCharacter.SelectedIndex = 0;
+            }
         }
 
         protected void ddlAddCharacter_SelectedIndexChanged(object sender, EventArgs e)
@@ -376,10 +548,6 @@ namespace LarpPortal.Points
 
         }
 
-        protected void ddlAddEvent_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
     }
 }

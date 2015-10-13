@@ -302,8 +302,48 @@ namespace LarpPortal.Classes
             if(RecptDate > PELDeadline)
             {
                 CPVal = 0;
-                strDescription = strDescription + " - Late";
+                strDescription = strDescription.Trim() + " - Late";
             }
+            int iTemp = 0;
+            // If Campaign = 0, go out and get campaign, assuming there's an EventID
+            if (Campaign == 0  && Event != 0)
+            {
+                stStoredProc = "uspGetCampaignFromEvent";
+                stCallingMethod = "cPoints.AssignPELPoints.GetCampaignFromEvent";
+                DataTable dtCampaign = new DataTable();
+                slParameters.Clear();
+                slParameters.Add("@EventID", Event);
+                dtCampaign = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+                if (dtCampaign.Rows.Count > 0)
+                {
+                    foreach (DataRow drow4 in dtCampaign.Rows)
+                    {
+                        if (int.TryParse(drow4["CampaignID"].ToString(), out iTemp))
+                            Campaign = iTemp;
+                    }
+                }         
+            }
+
+            // If Character = 0, go out and get character for campaign.  If only one, set Character = that one.  If <> one character, leave at 0 and bank.
+            if (Character == 0 && Campaign !=0)
+            {
+                stStoredProc = "uspGetCharacters";
+                stCallingMethod = "cPoints.AssignPELPoints.GetCharacters";
+                DataTable dtChars = new DataTable();
+                slParameters.Clear();
+                slParameters.Add("@CampaignID", Campaign);
+                slParameters.Add("@CampaignPlayerID", CampaignPlayer);
+                dtChars = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+                if (dtChars.Rows.Count == 1)
+                {
+                    foreach (DataRow drow3 in dtChars.Rows)
+                    {
+                        if (int.TryParse(drow3["CharacterID"].ToString(), out iTemp))
+                            Character = iTemp;
+                    }
+                }
+            }
+
             // Call the routine to add the opportunity.  Create it already assigned (last two parameters both = 1)
             InsUpdCPOpportunity(UserID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1,1);
 
