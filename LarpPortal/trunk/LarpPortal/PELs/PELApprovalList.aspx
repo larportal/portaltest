@@ -27,6 +27,8 @@
                     <asp:Image ID="imgBlank4" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />
                     PEL Status:
                     <asp:DropDownList ID="ddlStatus" runat="server" AutoPostBack="true" />
+                    <asp:Image ID="imgBlank5" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />
+                    <asp:Button ID="btnApproveAll" runat="server" Text="Approve All" CssClass="StandardButton" OnClick="btnApproveAll_Click" Width="125" />
                 </div>
 
                 <div class="row" style="padding-left: 15px; padding-right: 15px; padding-top: 10px;">
@@ -43,6 +45,11 @@
                                                 There are no PELs that meet your criteria.
                                             </EmptyDataTemplate>
                                             <Columns>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:HiddenField ID="hidPELId" runat="server" Value='<%# Eval("PELID") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
                                                 <asp:BoundField DataField="CampaignName" HeaderText="Campaign" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
                                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                                 <asp:BoundField DataField="EventStartDate" HeaderText="Event Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="false"
