@@ -619,7 +619,7 @@ namespace LarpPortal.Events
             {
                 MethodBase lmth = MethodBase.GetCurrentMethod();
                 string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-                DataTable dtUser = Classes.cUtilities.LoadDataTable("uspInsUpdCMRegistrations", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
+                DataTable dtUser = Classes.cUtilities.LoadDataTable("uspRegisterForEvent", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
 
                 foreach (DataRow dRegRecord in dtUser.Rows)
                 {
