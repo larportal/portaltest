@@ -571,7 +571,9 @@ namespace LarpPortal.Events
                     break;
             }
 
-            if ((hidRegistrationID.Value == "-1") || (sStatusToSearchFor == "Canceled"))
+
+// Always get the registration status regardless. The SP actually checks for if they are already approved.
+//            if ((hidRegistrationID.Value == "-1") || (sStatusToSearchFor == "Canceled"))
             {
                 if (sStatusToSearchFor != "")
                 {
