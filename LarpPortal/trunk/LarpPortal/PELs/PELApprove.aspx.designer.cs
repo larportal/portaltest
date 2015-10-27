@@ -202,6 +202,15 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.HiddenField hidCampaignID;
         
         /// <summary>
+        /// hidCharacterAKA control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidCharacterAKA;
+        
+        /// <summary>
         /// hidEventID control.
         /// </summary>
         /// <remarks>
@@ -218,5 +227,32 @@ namespace LarpPortal.PELs {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidEventDesc;
+        
+        /// <summary>
+        /// hidPELNotificationEMail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidPELNotificationEMail;
+        
+        /// <summary>
+        /// hidEventDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidEventDate;
+        
+        /// <summary>
+        /// hidPlayerName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidPlayerName;
     }
 }

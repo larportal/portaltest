@@ -159,6 +159,10 @@
     <asp:HiddenField ID="hidCampaignPlayerID" runat="server" />
     <asp:HiddenField ID="hidCharacterID" runat="server" />
     <asp:HiddenField ID="hidCampaignID" runat="server" />
+    <asp:HiddenField ID="hidCharacterAKA" runat="server" />
     <asp:HiddenField ID="hidEventID" runat="server" />
     <asp:HiddenField ID="hidEventDesc" runat="server" />
+    <asp:HiddenField ID="hidPELNotificationEMail" runat="server" />
+    <asp:HiddenField ID="hidEventDate" runat="server" />
+    <asp:HiddenField ID="hidPlayerName" runat="server" />
 </asp:Content>
