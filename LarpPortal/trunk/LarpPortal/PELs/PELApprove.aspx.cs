@@ -40,21 +40,35 @@ namespace LarpPortal.PELs
                 if (dtQuestions.Rows.Count > 0)
                 {
                     sEventInfo = "<b>Event: </b> " + dtQuestions.Rows[0]["EventDescription"].ToString();
+
                     hidEventDesc.Value = dtQuestions.Rows[0]["EventDescription"].ToString();
                     hidEventID.Value = dtQuestions.Rows[0]["EventID"].ToString();
 
                     DateTime dtEventDate;
                     if (DateTime.TryParse(dtQuestions.Rows[0]["EventStartDate"].ToString(), out dtEventDate))
+                    {
                         sEventInfo += "&nbsp;&nbsp;<b>Event Date: </b> " + dtEventDate.ToShortDateString();
+                        hidEventDate.Value = dtEventDate.ToShortDateString();
+                    }
 
                     int.TryParse(dtQuestions.Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     int.TryParse(dtQuestions.Rows[0]["UserID"].ToString(), out iUserID);
 
                     sEventInfo += "&nbsp;&nbsp;<b>Player: </b> ";
                     if (dtQuestions.Rows[0]["NickName"].ToString() != "")
+                    {
                         sEventInfo += dtQuestions.Rows[0]["NickName"].ToString();
+                        hidPlayerName.Value = dtQuestions.Rows[0]["NickName"].ToString();
+                    }
                     else
+                    {
                         sEventInfo += dtQuestions.Rows[0]["FirstName"].ToString() + " " + dtQuestions.Rows[0]["LastName"].ToString();
+                        hidPlayerName.Value = dtQuestions.Rows[0]["FirstName"].ToString() + " " + dtQuestions.Rows[0]["LastName"].ToString();
+                    }
+
+                    hidPELNotificationEMail.Value = dtQuestions.Rows[0]["PELNotificationEMail"].ToString();
+                    if (hidPELNotificationEMail.Value.Length == 0)
+                        hidPELNotificationEMail.Value = "support@larportal.com,jbradshaw@pobox.com";
 
                     int iCampaignPlayerID = 0;
                     if (int.TryParse(dtQuestions.Rows[0]["CampaignPlayerID"].ToString(), out iCampaignPlayerID))
@@ -66,6 +80,7 @@ namespace LarpPortal.PELs
                         Classes.cCharacter cChar = new Classes.cCharacter();
                         cChar.LoadCharacter(iCharacterID);
                         sEventInfo += "&nbsp;&nbsp;<b>Character: </b> " + dtQuestions.Rows[0]["CharacterAKA"].ToString();
+                        hidCharacterAKA.Value = dtQuestions.Rows[0]["CharacterAKA"].ToString();
                         imgPicture.ImageUrl = "/img/BlankProfile.png";    // Default it to this so if it is not set it will display the blank profile picture.
                         if (cChar.ProfilePicture != null)
                             if (!string.IsNullOrEmpty(cChar.ProfilePicture.PictureURL))
@@ -319,6 +334,7 @@ namespace LarpPortal.PELs
 
                             DataList dlComments = e.Item.FindControl("dlComments") as DataList;
                             GetComments(iAnswerID.ToString(), dlComments);
+                            SendStaffCommentEMail(_dtPELComments);
                         }
                     }
                     Panel pnlCommentSection = (Panel)e.Item.FindControl("pnlCommentSection");
@@ -376,5 +392,41 @@ namespace LarpPortal.PELs
             dlComments.DataSource = dvComments;
             dlComments.DataBind();
         }
+
+
+        protected void SendStaffCommentEMail(DataTable dtComments)
+        {
+            if (hidPELNotificationEMail.Value.Length > 0)
+            {
+                string sEventDate = "";
+                DateTime dtTemp;
+                if (DateTime.TryParse(hidEventDate.Value, out dtTemp))
+                    sEventDate = " that took place on " + dtTemp.ToShortDateString();
+
+                string sSubject = Session["UserName"].ToString() + " has added a comment to a PEL.";
+                string sBody = Session["UserName"].ToString() + " has added a comment to a PEL for " + hidPlayerName.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
+
+                string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
+
+                DataView dvComments = new DataView(dtComments, "", "DateAdded desc", DataViewRowState.CurrentRows);
+                foreach ( DataRowView dRow in dvComments )
+                {
+                    sCommentTable += "<tr><td>";
+
+                    if (DateTime.TryParse(dRow["DateAdded"].ToString(), out dtTemp))
+                        sCommentTable += dtTemp.ToShortDateString();
+
+                    sCommentTable += "</td><td>" + dRow["UserName"].ToString() + "</td><td>" + dRow["StaffComments"].ToString() + "</td></tr>";
+                }
+
+                sCommentTable += "</table>";
+                sBody += sCommentTable;
+
+                Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+//                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
+                cEMS.SendMail(sSubject, sBody, "support@larportal.com,jbradshaw@pobox.com", "", "");
+            }
+        }
+
     }
 }
