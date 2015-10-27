@@ -112,6 +112,10 @@ namespace LarpPortal.Events
             }
 
             _dtRegStatus = dsRegistrations.Tables[2];
+            foreach (DataRow dRow in _dtRegStatus.Rows)
+                if (dRow["StatusName"].ToString().ToUpper() == "APPROVED")
+                    hidApprovedStatus.Value = dRow["StatusID"].ToString();
+
             _dtCampaignHousing = dsRegistrations.Tables[3];
             _dtCampaignPaymentTypes = dsRegistrations.Tables[4];
 
@@ -243,14 +247,28 @@ namespace LarpPortal.Events
 
         protected void gvRegistrations_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            string t = e.CommandName;
+            if (e.CommandName.ToUpper() == "APPROVE")
+            {
+                string sRegApproved = hidApprovedStatus.Value;
+                SortedList sParams = new SortedList();
+                sParams.Add("@RegistrationID", e.CommandArgument);
+                sParams.Add("@RegistrationStatus", sRegApproved);
+                Classes.cUtilities.PerformNonQuery("uspInsUpdCMRegistrations", sParams, "LARPortal", Session["UserName"].ToString());
+                _Reload = true;
+            }
         }
 
         protected void btnApproveAll_Click(object sender, EventArgs e)
         {
-            SortedList sParams = new SortedList();
-            sParams.Add("@EventID", ddlEvent.SelectedValue);
-            Classes.cUtilities.PerformNonQuery("uspEventApproveAllReg", sParams, "LARPortal", Session["UserName"].ToString());
+            try
+            {
+                SortedList sParams = new SortedList();
+                sParams.Add("@EventID", ddlEvent.SelectedValue);
+                Classes.cUtilities.PerformNonQuery("uspEventApproveAllReg", sParams, "LARPortal", Session["UserName"].ToString());
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }
