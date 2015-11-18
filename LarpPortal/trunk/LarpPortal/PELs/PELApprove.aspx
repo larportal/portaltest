@@ -165,4 +165,5 @@
     <asp:HiddenField ID="hidPELNotificationEMail" runat="server" />
     <asp:HiddenField ID="hidEventDate" runat="server" />
     <asp:HiddenField ID="hidPlayerName" runat="server" />
+    <asp:HiddenField ID="hidSubmitDate" runat="server" />
 </asp:Content>
