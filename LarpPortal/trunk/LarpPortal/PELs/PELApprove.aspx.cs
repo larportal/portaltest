@@ -137,12 +137,13 @@ namespace LarpPortal.PELs
                         int iReasonID = 0;
                         if (int.TryParse(dtQuestions.Rows[0]["ReasonID"].ToString(), out iReasonID))
                             hidReasonID.Value = iReasonID.ToString();
-
+                        
                         if (DateTime.TryParse(dtQuestions.Rows[0]["PELDateSubmitted"].ToString(), out dtTemp))
                         {
                             lblEditMessage.Visible = true;
                             lblEditMessage.Text = "<br>This PEL was submitted on " + dtTemp.ToShortDateString();
                             TextBoxEnabled = false;
+                            hidSubmitDate.Value = dtTemp.ToShortDateString();
                         }
                     }
                     if (hidPELID.Value.Length != 0)
@@ -263,7 +264,11 @@ namespace LarpPortal.PELs
                 int.TryParse(hidEventID.Value, out EventID);
                 double.TryParse(tbCPAwarded.Text, out CPAwarded);
 
-                Points.AssignPELPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, EventID, hidEventDesc.Value, ReasonID, CampaignID, CPAwarded, DateTime.Now);
+                DateTime dtDateSubmitted;
+                if (!DateTime.TryParse(hidSubmitDate.Value, out dtDateSubmitted))
+                    dtDateSubmitted = DateTime.Now;
+
+                Points.AssignPELPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, EventID, hidEventDesc.Value, ReasonID, CampaignID, CPAwarded, dtDateSubmitted);
             }
 
             Response.Redirect("PELApprovalList.aspx", true);
