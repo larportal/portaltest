@@ -10,7 +10,7 @@
                 <asp:CheckBox ID="cbDisplayOnlyOpenEvents" Text="Display Only Open Events" AutoPostBack="true" runat="server" />
             </div>
             <div class="col-lg-4 text-right">
-                <asp:Button ID="btnCreate" Width="200px" runat="server" Style="" Text='Create New Event' CssClass="StandardButton" />
+                <asp:Button ID="btnCreate" Width="200px" runat="server" Style="" Text='Create New Event' CssClass="StandardButton" OnClick="btnCreate_Click"  />
             </div>
         </div>
         <div class="row col-lg-12" style="padding-left: 0px;">

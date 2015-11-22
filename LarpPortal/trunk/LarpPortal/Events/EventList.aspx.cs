@@ -50,5 +50,10 @@ namespace LarpPortal.Events
             string sEventID = e.CommandArgument.ToString();
             Response.Redirect("EventEdit.aspx?EventID=" + sEventID, true);
         }
+
+        protected void btnCreate_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("EventEdit.aspx?EventID=-1", true);
+        }
     }
 }
