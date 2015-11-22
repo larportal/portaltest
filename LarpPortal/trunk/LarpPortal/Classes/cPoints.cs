@@ -355,6 +355,20 @@ namespace LarpPortal.Classes
             CreatePlayerCPLog(UserID, _CampaignCPOpportunityID, RecptDate, CPVal, Reason, CampaignPlayer, Character);
         }
 
+        public void AddManualCPEntry(int UserID, int CampaignPlayerID, int CharacterID, int CampaignCPOpportunityDefaultID, int EventID, int CampaignID, string Description,
+                string OpportunityNotes, string ExampleURL, int ReasonID, int StatusID, int AddedByID, double CPValue, int ApprovedByID, DateTime ReceiptDate,
+                int ReceivedByID, DateTime CPAssignmentDate, string StaffComments)
+        {
+            // Call the routine to add the opportunity.  Create it already assigned (last two parameters both = 1)
+            InsUpdCPOpportunity(UserID, -1, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, EventID, Description, OpportunityNotes, ExampleURL, ReasonID,
+                StatusID, AddedByID, CPValue, ApprovedByID, ReceiptDate, ReceivedByID, CPAssignmentDate, StaffComments, 1, 1);
+            // Call the routine to check if CP can be assigned to character and if appropriate assign the CP
+            AddPointsToCharacter(CharacterID, CPValue);
+            // Call the routine to add the CP to the player CP audit log.  If assigned to character, create it spent otherwise
+            //      create it banked (_PLPlayerAuditStatus)
+            CreatePlayerCPLog(UserID, _CampaignCPOpportunityID, ReceiptDate, CPValue, ReasonID, CampaignPlayerID, CharacterID);
+        }
+
         /// <summary>
         /// This will post points for a PEL
         /// Must pass a CPOpportunityID and UserID

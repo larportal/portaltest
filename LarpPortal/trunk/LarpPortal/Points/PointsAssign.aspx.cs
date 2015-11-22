@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using LarpPortal.Classes;
 
 namespace LarpPortal.Points
 {
@@ -43,10 +44,9 @@ namespace LarpPortal.Points
                 ddlEarnTypeLoad(hidUserName.Value, intCampaignID);
                 ddlPlayerLoad(hidUserName.Value, intCampaignID);
                 FillGrid(hidUserName.Value, hidCampaignID.Value);
-                ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, "PC"); // Default load assumes PC opportunities
+                //ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, "PC"); // Default load assumes PC opportunities
                 ddlCampaignPlayerLoad(hidUserName.Value, intCampaignID);
                 ddlAddCharacterLoad(hidUserName.Value, intCampaignID);
-                ddlAddEventLoad(hidUserName.Value, intCampaignID);
             }
         }
 
@@ -321,6 +321,7 @@ namespace LarpPortal.Points
         protected void btnAddNewOpportunity_Click(object sender, EventArgs e)
         {
             pnlAddNewCP.Visible = true;
+            pnlCharacterPointDisplay.Visible = true;
             pnlAssignExisting.Visible = false;
             pnlAddHeader.Visible = true;
             pnlAssignHeader.Visible = false;
@@ -330,18 +331,138 @@ namespace LarpPortal.Points
         protected void btnAssignExisting_Click(object sender, EventArgs e)
         {
             pnlAddNewCP.Visible = false;
+            pnlCharacterPointDisplay.Visible = false;
             pnlAssignExisting.Visible = true;
             pnlAddHeader.Visible = false;
             pnlAssignHeader.Visible = true;
         }
 
+// ======================= Put all the add routines here for ease of reference ======================
+
         protected void btnSaveNewOpportunity_Click(object sender, EventArgs e)
         {
+            // OnClientClick="alert('Nothing saved; button under construction.')"
+            Classes.cPoints PointAdd = new Classes.cPoints();
+            //int UserID, int CampaignPlayerID, int CharacterID, int CampaignCPOpportunityDefaultID, int EventID, int CampaignID, string Description,
+                //string OpportunityNotes, string ExampleURL, int ReasonID, int StatusID, int AddedByID, double CPValue, int ApprovedByID, DateTime ReceiptDate,
+                //int ReceivedByID, DateTime CPAssignmentDate, string StaffComments
+            int addUserID = 0;
+            int.TryParse(Session["UserID"].ToString(), out addUserID);
+            int addCampaignPlayerID = 0;
+            int.TryParse(hidInsertCampaignPlayerID.Value.ToString(), out addCampaignPlayerID);
+            int addCharacterID = 0;
+            int.TryParse(hidInsertCharacterID.Value.ToString(), out addCharacterID);
+            int addCampaignCPOpportunityDefaultID = 0;
+            int.TryParse(hidInsertCampaignCPOpportunityDefaultID.Value.ToString(), out addCampaignCPOpportunityDefaultID);
+            int addEventID = 0;
+            int.TryParse(hidInsertEventID.Value.ToString(), out addEventID);
+            int addCampaignID = 0;
+            int.TryParse(ddlAddSourceCampaign.SelectedValue.ToString(), out addCampaignID);
+            string addDescription;
+            addDescription =  hidInsertDescription.Value.Trim();
+            string addOpportunityNotes;
+            addOpportunityNotes = hidInsertOpportunityNotes.Value.Trim();
+            string addExampleURL;
+            addExampleURL = hidInsertExampleURL.Value.Trim();
+            int addReasonID = 0;
+            int.TryParse(hidInsertReasonID.Value.ToString(), out addReasonID);
+            int addStatusID = 19;
+            int addAddedByID = 0;
+            int.TryParse(hidInsertAddedByID.Value.ToString(), out addAddedByID);
+            double addCPValue = 0;
+            double.TryParse(hidInsertCPValue.Value.ToString(), out addCPValue);
+            int addApprovedByID = 0;
+            int.TryParse(hidInsertApprovedByID.Value.ToString(), out addApprovedByID);
+            DateTime addReceiptDate = DateTime.Now;
+            DateTime.TryParse(hidInsertReceiptDate.Value.ToString(), out addReceiptDate);
+            int addReceivedByID = 0;
+            int.TryParse(hidInsertReceivedByID.Value.ToString(), out addReceivedByID);
+            DateTime addCPAssignmentDate = DateTime.Now;
+            DateTime.TryParse(hidInsertCPAssignmentDate.Value.ToString(), out addCPAssignmentDate);
+            string addStaffComments;
+            addStaffComments = txtStaffComments.Text.Trim();
+            switch (hidLastAddCPStep.Value)
+            {
+                case "F3":
+                    // NPC Processing local to LARP Portal campaign
 
+                    break;
+
+                case "F4":
+                    // NPC Processing local to non-LARP Portal campaign
+
+                    break;
+
+                case "F5":
+                    // NPC processing local via email
+
+                    break;
+
+                case "E6":
+                    // NPC processing from other campaign
+                    for (int i = 1; i < 4; i++)
+                    {
+                        // Set values for each of the NPC options and call PointAdd
+                        switch (i)
+                        {
+                            case 1:
+                                // NPC event
+                                if (chkNPCEvent.Checked == true)
+                                {
+                                    double.TryParse(txtNPCEvent.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCEvent.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCEvent.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCEvent.Value.ToString(), out addReasonID);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID, 
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate, 
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            case 2:
+                                // NPC setup/cleanup
+                                if (chkSetupCleanup.Checked == true)
+                                {
+                                    double.TryParse(txtSetupCleanup.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCSetup.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCSetup.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCSetup.Value.ToString(), out addReasonID);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            case 3:
+                                // NPC PEL
+                                if (chkPEL.Checked == true)
+                                {
+                                    double.TryParse(txtPEL.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCPEL.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCPEL.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCPEL.Value.ToString(), out addReasonID);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                        break;
+
+                default:
+                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID, addDescription,
+                        addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate, addReceivedByID, addCPAssignmentDate,
+                        addStaffComments);
+
+                    break;
+            }
+            lblAddMessage.Text = "Points added";
+            hidLastAddCPStep.Value = "A";            
         }
-
-
-// ======================= Put all the add routines here for ease of reference ======================
 
         protected void ddlCampaignPlayerLoad(string strUserName, int intCampaignID)
         {
@@ -362,192 +483,1196 @@ namespace LarpPortal.Points
 
         protected void ddlCampaignPlayer_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int UserID = 0;
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out UserID);
+            hidInsertCharacterID.Value = "0";
+            hidInsertCampaignCPOpportunityDefaultID.Value = "0";
+            hidInsertEventID.Value = "0";
+            hidInsertCampaignID.Value = "0";
+            hidInsertDescription.Value = "";
+            hidInsertOpportunityNotes.Value = "";
+            hidInsertExampleURL.Value = "";
+            hidInsertReasonID.Value = "0";
+            hidInsertStatusID.Value = "21";
+            hidInsertAddedByID.Value = UserID.ToString();
+            hidInsertCPValue.Value = "0";
+            hidInsertApprovedByID.Value = UserID.ToString();
+            hidInsertReceiptDate.Value = DateTime.Now.ToString();
+            hidInsertReceivedByID.Value = UserID.ToString();
+            hidInsertCPAssignmentDate.Value = DateTime.Now.ToString();
+            hidInsertStaffComments.Value = "";
+            Session["AddCPStep"] = "A";
+            hidLastAddCPStep.Value = "A";
             int intCampaignID = 0;
-            int iTemp = 0;
-            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
-            {
-                intCampaignID = iTemp;
-            }
-            ddlAddCharacterLoad(hidUserName.Value, intCampaignID);
+            int.TryParse(hidCampaignID.Value.ToString(), out intCampaignID);
+            ddlAddSourceCampaignLoad(hidUserName.Value,intCampaignID,ddlCampaignPlayer.SelectedValue);
+            Session["AddCPStep"] = "B";
+            hidLastAddCPStep.Value = "B";
+            AddPanelVisibility();
+            FillHiddenCampaignPlayerUserID(intCampaignID, ddlCampaignPlayer.SelectedValue);
+            hidInsertCampaignPlayerID.Value = ddlCampaignPlayer.SelectedValue;
         }
 
-        // Event vs Non-Event selection - ddlAddOpportunityType
-
-        protected void ddlAddOpportunityType_SelectedIndexChanged(object sender, EventArgs e)
+        protected void FillHiddenCampaignPlayerUserID(int CampaignID, string strCampaignPlayerID)
         {
-            // E - Event type and N - Non-Event type
-            int intCampaignID = 0;
-            int iTemp = 0;
-            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
-            {
-                intCampaignID = iTemp;
-            }
-            if (ddlAddOpportunityType.SelectedValue == "E")
-            {
-                ddlAddEvent.SelectedIndex = 0;
-                pnlddlAddEvent.Visible = true;
-                pnlddlPCorNPC.Visible = false;
-                pnlddlAddCharacter.Visible = false;
-                pnlddlSendPoints.Visible = false;
-            }
-            else
-                pnlddlAddEvent.Visible = false;
-            ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, ddlPCorNPC.SelectedValue);
-        }
-
-        private void ddlAddEventLoad(string strUserName, int intCampaignID)
-        {
-            ddlAddEvent.Items.Clear();
-            string stStoredProc = "uspGetCampaignEvents";
-            string stCallingMethod = "PointsAssign.aspx.ddlAddEventLoad";
-            DataTable dtEvents = new DataTable();
+            string stStoredProc = "uspGetCampaignPlayers";
+            string stCallingMethod = "PointsAssign.aspx.FillHiddenCampaignPlayerUserID";
+            int CampaignPlayerID = 0;
+            int UserID = 0;
+            int.TryParse(strCampaignPlayerID.ToString(), out CampaignPlayerID);
+            DataTable dtUsers = new DataTable();
             SortedList sParams = new SortedList();
-            sParams.Add("@CampaignID", intCampaignID);
-            dtEvents = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
-            ddlAddEvent.DataTextField = "EventNameDate";
-            ddlAddEvent.DataValueField = "EventID";
-            ddlAddEvent.DataSource = dtEvents;
-            ddlAddEvent.DataBind();
-            ddlAddEvent.Items.Insert(0, new ListItem("Select Event", "0"));
-            ddlAddEvent.SelectedIndex = 0;
-        }
-
-        protected void ddlAddEvent_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ddlPCorNPC.SelectedValue = "PC";
-            pnlddlPCorNPC.Visible = true;
-            ddlAddCharacter.Visible = true;
-            int intCampaignID = 0;
-            int iTemp = 0;
-            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
+            sParams.Add("@CampaignID", CampaignID);
+            sParams.Add("@CampaignPlayerID", CampaignPlayerID);
+            dtUsers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            foreach (DataRow dRow in dtUsers.Rows)
             {
-                intCampaignID = iTemp;
+                int.TryParse(dRow["UserID"].ToString(), out UserID);
+                hidCampaignPlayerUserID.Value = UserID.ToString();
+                BuildCPAuditTable(UserID);
             }
-            ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, "PC");
+            
         }
 
-        // PC vs NPC/Staff selection
-
-        protected void ddlPCorNPC_SelectedIndexChanged(object sender, EventArgs e)
+        protected void ddlAddSourceCampaignLoad(string strUserName, int CurrentCampaignID, string strCampaignPlayerID)
         {
-            pnlddlPCorNPC.Visible = true;
-            if (ddlPCorNPC.SelectedValue == "PC")
+            ddlAddSourceCampaign.Items.Clear();
+            string stStoredProc = "uspGetSourceCampaigns";
+            string stCallingMethod = "PointsAssign.aspx.ddlAddSourceCampaignLoad";
+            int CampaignPlayerID = 0;
+            int iTemp;
+            if (int.TryParse(strCampaignPlayerID.ToString(), out iTemp))
             {
-                pnlddlAddCharacter.Visible = true;
-                pnlddlSendPoints.Visible = false;
-                // Campaign to send CP to panel .Visible = false;
+                CampaignPlayerID = iTemp;
+            }
+            DataTable dtSourceCampaigns = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@CampaignID", CurrentCampaignID);
+            sParams.Add("@CampaignPlayerID", CampaignPlayerID);
+            dtSourceCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+            ddlAddSourceCampaign.DataTextField = "CampaignName";
+            ddlAddSourceCampaign.DataValueField = "CampaignID";
+            ddlAddSourceCampaign.DataSource = dtSourceCampaigns;
+            ddlAddSourceCampaign.DataBind();
+            ddlAddSourceCampaign.Items.Insert(0, new ListItem("Select Campaign", "0"));
+            ddlAddSourceCampaign.SelectedIndex = 0;
+        }
+
+        protected void ddlAddSourceCampaign_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Session["AddCPStep"] = "B";
+            hidLastAddCPStep.Value = "B";
+            AddPanelVisibility();
+            // If pick current campaign follow step c1, else step E6 - For now assume incoming CP is from NPCing another campaign
+            int FromCampaignID = 0;
+            int CurrentCampaignID = 0;
+            int.TryParse(hidCampaignID.Value.ToString(), out CurrentCampaignID);
+            int Reason = 0;
+            double CPValue = 0;
+            double EventCP = 0;
+            double PELCP = 0;
+            double SetupCleanupCP = 0;
+            double ExchangeMultiplier = 1;
+            hidInsertCampaignID.Value = ddlAddSourceCampaign.SelectedValue;
+            // Determine current campaign's point values for NPCing tasks
+            string stStoredProc = "uspGetCampaignCPOpportunityDefaults";
+            string stCallingMethod = "PointsAssign.aspx.ddlAddSourceCampaign_SelectedIndexChanged";
+            DataTable dtLocalNPCPoints = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@NPCOnly", 1);
+            sParams.Add("@CampaignID", CurrentCampaignID);
+            dtLocalNPCPoints = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            foreach (DataRow dRow in dtLocalNPCPoints.Rows)
+            {
+                int.TryParse(dRow["ReasonID"].ToString(), out Reason);
+                double.TryParse(dRow["CPValue"].ToString(), out CPValue);
+                if (Reason == 1)
+                {
+                    txtNPCEvent.Text = CPValue.ToString();
+                    EventCP = CPValue;
+                    hidInsertDescriptionNPCEvent.Value = dRow["Description"].ToString();
+                    hidInsertReasonIDNPCEvent.Value = Reason.ToString();
+                    hidInsertCampaignCPOpportunityDefaultIDNPCEvent.Value = dRow["CampaignCPOpportunityDefaultID"].ToString();
+                }
+                if (Reason == 13)
+                {
+                    txtPEL.Text = CPValue.ToString();
+                    PELCP = CPValue;
+                    hidInsertDescriptionNPCPEL.Value = dRow["Description"].ToString();
+                    hidInsertReasonIDNPCPEL.Value = Reason.ToString();
+                    hidInsertCampaignCPOpportunityDefaultIDNPCPEL.Value = dRow["CampaignCPOpportunityDefaultID"].ToString();
+                }
+                if (Reason == 17)
+                {
+                    txtSetupCleanup.Text = CPValue.ToString();
+                    SetupCleanupCP = CPValue;
+                    hidInsertDescriptionNPCSetup.Value = dRow["Description"].ToString();
+                    hidInsertReasonIDNPCSetup.Value = Reason.ToString();
+                    hidInsertCampaignCPOpportunityDefaultIDNPCSetup.Value = dRow["CampaignCPOpportunityDefaultID"].ToString();
+                }
+
+            }
+            FromCampaignID = Convert.ToInt32(ddlAddSourceCampaign.SelectedValue);
+            if ( FromCampaignID == CurrentCampaignID )
+            {
+                Session["AddCPStep"] = "C1";
+                hidLastAddCPStep.Value = "C1";
+                ddlAddOpportunityDefaultIDLoad(CurrentCampaignID);
             }
             else
             {
-                pnlddlAddCharacter.Visible = false;
-                pnlddlSendPoints.Visible = true;
-                // Campaign to send CP to panel .Visible = true;
+                Session["AddCPStep"] = "E6";
+                hidLastAddCPStep.Value = "E6";
+                // Determine NPC check box values - Lookup values in campaign exchange table
+                stStoredProc = "uspGetCampaignExchangeValues";
+                DataTable dtPointsExchange = new DataTable();
+                sParams.Clear();
+                sParams.Add("@NPCOnly", 1);
+                sParams.Add("@ToCampaign", CurrentCampaignID);
+                sParams.Add("@FromCampaign", FromCampaignID);
+                dtPointsExchange = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+                // Now go through the returned values and modify the check box values
+                foreach (DataRow dRow2 in dtPointsExchange.Rows)
+                {
+                    int.TryParse(dRow2["ReasonID"].ToString(), out Reason);
+                    double.TryParse(dRow2["ExchangeMultiplier"].ToString(), out ExchangeMultiplier);
+                    if (Reason == 1)
+                    {
+                        txtNPCEvent.Text = (EventCP * ExchangeMultiplier).ToString();
+                        hidInsertReasonIDNPCEvent.Value = Reason.ToString();
+                    }
+                    if (Reason == 13)
+                    {
+                        txtPEL.Text = (PELCP * ExchangeMultiplier).ToString();
+                        hidInsertReasonIDNPCPEL.Value = Reason.ToString();
+                    }
+                    if (Reason == 17)
+                    {
+                        txtSetupCleanup.Text = (SetupCleanupCP * ExchangeMultiplier).ToString();
+                        hidInsertReasonIDNPCSetup.Value = Reason.ToString();
+                    }
+                }
+                ddlSourceEventLoad();
             }
-            int intCampaignID = 0;
-            int iTemp = 0;
-            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
-            {
-                intCampaignID = iTemp;
-            }
-            ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, ddlPCorNPC.SelectedValue);
-
+            ddlSelectCharacterOrBankF6Load();
+            AddPanelVisibility();
         }
 
-        private void ddlAddOpportunityDefaultIDLoad(string strUserName, int intCampaignID, string PCorNPC)
+        protected void ddlAddOpportunityDefaultIDLoad(int CampaignID)
         {
-            ddlAddOpportunityDefaultID.Items.Clear();
-            string stStoredProc = "uspGetCampaignCPOpportunities";
+            string stStoredProc = "uspGetCampaignCPOpportunityDefaults";
             string stCallingMethod = "PointsAssign.aspx.ddlAddOpportunityDefaultIDLoad";
-            bool EventRelated = false;
-            if (ddlAddOpportunityType.SelectedValue == "E")
-                EventRelated = true;
-            else
-                EventRelated = false;
-            DataTable dtAddOpps = new DataTable();
+            DataTable dtCPOpportunityDefaults = new DataTable();
             SortedList sParams = new SortedList();
-
-            // Need to write logic that will exclude anything with description like %NPC% or %Staff% if ddlPCorNPC = "PC"
-            //      and exclude PC% if ddlPCorNPC = "NPC"
-            // Add new parameter and pass in stored proc
-
-            sParams.Add("@CampaignID", intCampaignID);
-            sParams.Add("@EventRelated", EventRelated);
-            sParams.Add("@PCorNPC", PCorNPC);
-            dtAddOpps = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+            sParams.Add("@CampaignID", CampaignID);
+            dtCPOpportunityDefaults = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
             ddlAddOpportunityDefaultID.DataTextField = "Description";
             ddlAddOpportunityDefaultID.DataValueField = "CampaignCPOpportunityDefaultID";
-            ddlAddOpportunityDefaultID.DataSource = dtAddOpps;
+            ddlAddOpportunityDefaultID.DataSource = dtCPOpportunityDefaults;
             ddlAddOpportunityDefaultID.DataBind();
-            if (EventRelated == false)
-                ddlAddOpportunityDefaultID.Items.Insert(0, new ListItem("Donation", "99"));
             ddlAddOpportunityDefaultID.Items.Insert(0, new ListItem("Select Description", "0"));
-            ddlAddOpportunityDefaultID.SelectedIndex = 0;
+            ddlAddOpportunityDefaultID.SelectedIndex = 0; 
         }
 
         protected void ddlAddOpportunityDefaultID_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int intCampaignID = 0;
-            int iTemp = 0;
-            if (int.TryParse(hidCampaignID.Value.ToString(), out iTemp))
+            Session["AddCPStep"] = "C1";
+            hidLastAddCPStep.Value = "C1";
+            // If Donation --> F0 / Non-Event --> F1 / If PC --> F2 / If NPC/Staff --> D3
+            AddPanelVisibility();
+            string stStoredProc = "uspGetCampaignCPOpportunityDefaults";
+            string stCallingMethod = "PointsAssign.aspx.ddlAddOpportunityDefaultID_SelectedIndexChanged"; 
+            int CurrentCampaignID = 0;
+            int DefaultOpportunityID = 0;
+            int OpportunityType = 0;
+            //int CampaignID = 0;
+            int CampaignCPOpportunityDefaultID = 0;
+            string EarnType = "";
+            int.TryParse(hidCampaignID.Value.ToString(), out CurrentCampaignID);
+            int.TryParse(ddlAddOpportunityDefaultID.SelectedValue, out DefaultOpportunityID);
+            DataTable dtEarnType = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@CampaignCPOpportunityID", DefaultOpportunityID);
+            sParams.Add("@CampaignID", CurrentCampaignID);
+            dtEarnType = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            if (EarnType == "")
+                EarnType = "NPC";
+            foreach (DataRow dRow in dtEarnType.Rows)
             {
-                intCampaignID = iTemp;
-            }
-            if(ddlAddOpportunityType.SelectedValue == "N")
-            {
-                pnlddlAddCharacter.Visible = true;
-            }
-            else
-            {
-                if(ddlPCorNPC.SelectedValue == "PC")
+                hidInsertDescription.Value = dRow["Description"].ToString();
+                int.TryParse(dRow["OpportunityTypeID"].ToString(), out OpportunityType);
+                if(OpportunityType == 1 || OpportunityType == 2 || OpportunityType == 4)
                 {
-                    pnlddlAddCharacter.Visible = true;
+                    int.TryParse(dRow["CampaignCPOpportunityDefaultID"].ToString(), out CampaignCPOpportunityDefaultID);
+                    if(CampaignCPOpportunityDefaultID == 1)
+                    {
+                        EarnType = "Donation";  // F0
+                        Session["AddCPStep"] = "F0";
+                        hidLastAddCPStep.Value = "F0";
+                        txtCPF0.Text = dRow["CPValue"].ToString();
+                        ddlSelectCharacterOrBankF0Load();
+                    }
+                    else
+                    {
+                        EarnType = "NonEvent";  // F1
+                        Session["AddCPStep"] = "F1";
+                        hidLastAddCPStep.Value = "F1";
+                        txtCPF1.Text = dRow["CPValue"].ToString();
+                        hidInsertCPValue.Value = txtCPF1.Text;
+                        ddlSelectCharacterOrBankF1Load();
+                    }
                 }
                 else
                 {
-                    pnlddlSendPoints.Visible = true;
+                    if(OpportunityType == 3 && ( dRow["Description"].ToString().Contains("NPC") || dRow["Description"].ToString().Contains("Staff")) )    // NPC or staff
+                    {
+                        EarnType = "NPC";   // D3
+                        Session["AddCPStep"] = "D3";
+                        hidLastAddCPStep.Value = "D3";
+                        ddlDestinationCampaignLoad();
+                    }
+                    else
+                    {
+                        // PC (we hope)     // F2
+                        EarnType = "PC";
+                        Session["AddCPStep"] = "F2";
+                        hidLastAddCPStep.Value = "F2";
+                        ddlSourceEventPCLoad();
+                        txtCPF2.Text = dRow["CPValue"].ToString();
+                        hidInsertCPValue.Value = txtCPF2.Text;
+                        ddlSelectCharacterOrBankF2Load();
+                    }
                 }
+                hidInsertCampaignCPOpportunityDefaultID.Value = ddlAddOpportunityDefaultID.SelectedValue;
+                int OppID = 0;
+                int.TryParse(ddlAddOpportunityDefaultID.SelectedValue, out OppID);
+                LookupReasonID(OppID);
+                AddPanelVisibility();
             }
-            pnlFinalChoices.Visible = true;
         }
 
-        // This is where the 'Send To Campaign' drop down list load will go
+        protected void LookupReasonID(int OpportunityDefaultID)
+        {
+            string stStoredProc = "uspGetCampaignCPOpportunityDefaults";
+            string stCallingMethod = "PointsAssign.aspx.LookupReasonID";
+            int CurrentCampaignID = 0;
+            int.TryParse(hidCampaignID.Value.ToString(), out CurrentCampaignID);
+            int ReasonID = 0;
+            DataTable dtOpportunityDefault = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@CampaignCPOpportunityID", OpportunityDefaultID);
+            sParams.Add("@CampaignID", CurrentCampaignID);
+            dtOpportunityDefault = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            foreach (DataRow dRow in dtOpportunityDefault.Rows)
+            {
+                int.TryParse(dRow["ReasonID"].ToString(), out ReasonID);
+                hidInsertReasonID.Value = ReasonID.ToString();
+            }
+        }
 
+        protected void ddlDonationTypes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            hidInsertDescription.Value = ddlDonationTypes.SelectedValue;
+        }
+
+        protected void ddlAddOpportunityDefaultIDC6_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ddlSourceEventLoad()
+        {
+            string stStoredProc = "uspGetCampaignEvents";
+            string stCallingMethod = "PointsAssign.aspx.ddlSourceEventPCLoad";
+            DataTable dtAttendance = new DataTable();
+            SortedList sParams = new SortedList();
+            int CampaignID = 0;
+            int.TryParse(ddlAddSourceCampaign.SelectedValue, out CampaignID);
+            sParams.Add("@CampaignID", CampaignID);
+            sParams.Add("@StatusID", 51); // 51 = Completed
+            sParams.Add("@EventLength", 35); // How many characters of Event Name/date to return with ellipsis
+            dtAttendance = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            ddlSourceEvent.DataTextField = "EventNameDate";
+            ddlSourceEvent.DataValueField = "EventID";
+            ddlSourceEvent.DataSource = dtAttendance;
+            ddlSourceEvent.DataBind();
+            ddlSourceEvent.Items.Insert(0, new ListItem("Select Event - Date", "0"));
+            ddlSourceEvent.SelectedIndex = 0;
+        }
+
+        protected void ddlSourceEvent_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            hidInsertEventID.Value = ddlSourceEvent.SelectedValue;
+            hidInsertOpportunityNotes.Value = ddlSourceEvent.SelectedItem.Text;
+        }
+
+        protected void ddlSourceEventPCLoad()
+        {
+            string stStoredProc = "uspGetCampaignEvents";
+            string stCallingMethod = "PointsAssign.aspx.ddlSourceEventPCLoad";
+            DataTable dtAttendance = new DataTable();
+            SortedList sParams = new SortedList();
+            int CampaignID = 0;
+            int.TryParse(hidCampaignID.Value, out CampaignID);
+            sParams.Add("@CampaignID", CampaignID);
+            sParams.Add("@StatusID", 51); // 51 = Completed
+            sParams.Add("@EventLength", 35); // How many characters of Event Name/date to return with ellipsis
+            dtAttendance = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            ddlSourceEventPC.DataTextField = "EventNameDate";
+            ddlSourceEventPC.DataValueField = "EventID";
+            ddlSourceEventPC.DataSource = dtAttendance;
+            ddlSourceEventPC.DataBind();
+            ddlSourceEventPC.Items.Insert(0, new ListItem("Select Event - Date", "0"));
+            ddlSourceEventPC.SelectedIndex = 0;
+        }
+
+        protected void ddlDestinationCampaignLoad()
+        {
+            // Should this only include PCs campaigns working on the assumption they'll assign to their own campaigns when registering?
+            // Yes, I think we should because it puts the onus on them to register correctly
+            string stStoredProc = "uspGetMyCampaigns";
+            string stCallingMethod = "PointsAssign.aspx.ddlDestinationCampaignLoad";
+            DataTable dtDestinationCampaigns = new DataTable();
+            SortedList sParams = new SortedList();
+            int UserID = 0;
+            int.TryParse(hidCampaignID.Value, out UserID);
+            sParams.Add("@UserID", UserID);
+            dtDestinationCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            ddlDestinationCampaign.DataTextField = "EventNameDate";
+            ddlDestinationCampaign.DataValueField = "EventID";
+            ddlDestinationCampaign.DataSource = dtDestinationCampaigns;
+            ddlDestinationCampaign.DataBind();
+            ddlDestinationCampaign.Items.Insert(0, new ListItem("Select Destination Campaign", "0"));
+            ddlDestinationCampaign.SelectedIndex = 0;
+        }
+
+        protected void ddlDestinationCampaign_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ddlSourceEventPC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            hidInsertEventID.Value = ddlSourceEventPC.SelectedValue;
+            hidInsertOpportunityNotes.Value = ddlSourceEventPC.SelectedItem.Text;
+        }
+
+        protected void chkNPCEvent_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void chkSetupCleanup_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void chkPEL_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ddlPickCharacter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Old? Can be deleted?
+        }
+
+        protected void ddlSelectCharacterOrBankF0Load()
+        {
+            //Convert CampaignPlayerID using uspConvertCampaignPlayerID
+            string stStoredProc = "uspConvertCampaignPlayerID";
+            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF1Load";
+            int iTemp = 0;
+            int CampaignPlayerID = 0;
+            int CampaignID = 0;
+            if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
+                CampaignPlayerID = iTemp;
+            int.TryParse(hidCampaignID.Value.ToString(), out CampaignID);
+            DataTable dtCampaignPlayers = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
+            sParams.Add("@NewCampaignID", CampaignID);
+            dtCampaignPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            foreach (DataRow dRow in dtCampaignPlayers.Rows)
+            {
+                if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
+                    CampaignPlayerID = iTemp;
+            }
+            ddlSelectCharacterOrBankF0.Items.Clear();
+            stStoredProc = "uspGetCampaignCharacters";
+            DataTable dtCharacters = new DataTable();
+            SortedList sParams1 = new SortedList();
+            sParams1.Add("@CampaignID", CampaignID);
+            sParams1.Add("@CampaignPlayerID", CampaignPlayerID);
+            dtCharacters = Classes.cUtilities.LoadDataTable(stStoredProc, sParams1, "LARPortal", hidUserName.Value, stCallingMethod);
+            ddlSelectCharacterOrBankF0.DataTextField = "CharacterName";
+            ddlSelectCharacterOrBankF0.DataValueField = "CharacterID";
+            ddlSelectCharacterOrBankF0.DataSource = dtCharacters;
+            ddlSelectCharacterOrBankF0.DataBind();
+            if (dtCharacters.Rows.Count > 0)
+            {
+                ddlSelectCharacterOrBankF0.Items.Insert(0, new ListItem("Select Character", "0"));
+                ddlSelectCharacterOrBankF0.Items.Insert(1, new ListItem("Bank Points", "1"));  // There is no CharacterID 1
+                ddlSelectCharacterOrBankF0.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlSelectCharacterOrBankF0.Items.Insert(0, new ListItem("No characters, banking", "0"));
+                ddlSelectCharacterOrBankF0.SelectedIndex = 0;
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF0_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(ddlSelectCharacterOrBankF0.SelectedValue) > 1)
+            {
+                hidInsertCharacterID.Value = ddlSelectCharacterOrBankF0.SelectedValue;
+            }
+            else
+            {
+                hidInsertCharacterID.Value = "0";
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF1Load()
+        {
+            //Convert CampaignPlayerID using uspConvertCampaignPlayerID
+            string stStoredProc = "uspConvertCampaignPlayerID";
+            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF1Load";
+            int iTemp = 0;
+            int CampaignPlayerID = 0;
+            int CampaignID = 0;
+            if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
+                CampaignPlayerID = iTemp;
+            int.TryParse(hidCampaignID.Value.ToString(), out CampaignID);
+            DataTable dtCampaignPlayers = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
+            sParams.Add("@NewCampaignID", CampaignID);
+            dtCampaignPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            foreach (DataRow dRow in dtCampaignPlayers.Rows)
+            {
+                if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
+                    CampaignPlayerID = iTemp;
+            }
+            ddlSelectCharacterOrBankF1.Items.Clear();
+            stStoredProc = "uspGetCampaignCharacters";
+            DataTable dtCharacters = new DataTable();
+            SortedList sParams1 = new SortedList();
+            sParams1.Add("@CampaignID", CampaignID);
+            sParams1.Add("@CampaignPlayerID", CampaignPlayerID);
+            dtCharacters = Classes.cUtilities.LoadDataTable(stStoredProc, sParams1, "LARPortal", hidUserName.Value, stCallingMethod);
+            ddlSelectCharacterOrBankF1.DataTextField = "CharacterName";
+            ddlSelectCharacterOrBankF1.DataValueField = "CharacterID";
+            ddlSelectCharacterOrBankF1.DataSource = dtCharacters;
+            ddlSelectCharacterOrBankF1.DataBind();
+            if (dtCharacters.Rows.Count > 0)
+            {
+                ddlSelectCharacterOrBankF1.Items.Insert(0, new ListItem("Select Character", "0"));
+                ddlSelectCharacterOrBankF1.Items.Insert(1, new ListItem("Bank Points", "1"));  // There is no CharacterID 1
+                ddlSelectCharacterOrBankF1.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlSelectCharacterOrBankF1.Items.Insert(0, new ListItem("No characters, banking", "0"));
+                ddlSelectCharacterOrBankF1.SelectedIndex = 0;
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(ddlSelectCharacterOrBankF1.SelectedValue) > 1)
+            {
+                hidInsertCharacterID.Value = ddlSelectCharacterOrBankF1.SelectedValue;
+            }
+            else
+            {
+                hidInsertCharacterID.Value = "0";
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF2Load()
+        {
+            //Convert CampaignPlayerID using uspConvertCampaignPlayerID
+            string stStoredProc = "uspConvertCampaignPlayerID";
+            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF2Load";
+            int iTemp = 0;
+            int CampaignPlayerID = 0;
+            int CampaignID = 0;
+            if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
+                CampaignPlayerID = iTemp;
+            int.TryParse(hidCampaignID.Value.ToString(), out CampaignID);
+            DataTable dtCampaignPlayers = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
+            sParams.Add("@NewCampaignID", CampaignID);
+            dtCampaignPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            foreach (DataRow dRow in dtCampaignPlayers.Rows)
+            {
+                if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
+                    CampaignPlayerID = iTemp;
+            }
+            ddlSelectCharacterOrBankF2.Items.Clear();
+            stStoredProc = "uspGetCampaignCharacters";
+            DataTable dtCharacters = new DataTable();
+            SortedList sParams1 = new SortedList();
+            sParams1.Add("@CampaignID", CampaignID);
+            sParams1.Add("@CampaignPlayerID", CampaignPlayerID);
+            dtCharacters = Classes.cUtilities.LoadDataTable(stStoredProc, sParams1, "LARPortal", hidUserName.Value, stCallingMethod);
+            ddlSelectCharacterOrBankF2.DataTextField = "CharacterName";
+            ddlSelectCharacterOrBankF2.DataValueField = "CharacterID";
+            ddlSelectCharacterOrBankF2.DataSource = dtCharacters;
+            ddlSelectCharacterOrBankF2.DataBind();
+            if (dtCharacters.Rows.Count > 0)
+            {
+                ddlSelectCharacterOrBankF2.Items.Insert(0, new ListItem("Select Character", "0"));
+                ddlSelectCharacterOrBankF2.Items.Insert(1, new ListItem("Bank Points", "1"));  // There is no CharacterID 1
+                ddlSelectCharacterOrBankF2.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlSelectCharacterOrBankF2.Items.Insert(0, new ListItem("No characters, banking", "0"));
+                ddlSelectCharacterOrBankF2.SelectedIndex = 0;
+            }
+        }
+        
+        protected void ddlSelectCharacterOrBankF2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(ddlSelectCharacterOrBankF2.SelectedValue) > 1)
+            {
+                hidInsertCharacterID.Value = ddlSelectCharacterOrBankF2.SelectedValue;
+            }
+            else
+            {
+                hidInsertCharacterID.Value = "0";
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF3Load()
+        {
+            //Convert CampaignPlayerID using uspConvertCampaignPlayerID
+            string stStoredProc = "uspConvertCampaignPlayerID";
+            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF3Load";
+            int iTemp = 0;
+            int CampaignPlayerID = 0;
+            int CampaignID = 0;
+            if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
+                CampaignPlayerID = iTemp;
+            int.TryParse(hidCampaignID.Value.ToString(), out CampaignID);
+            DataTable dtCampaignPlayers = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
+            sParams.Add("@NewCampaignID", CampaignID);
+            dtCampaignPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            foreach (DataRow dRow in dtCampaignPlayers.Rows)
+            {
+                if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
+                    CampaignPlayerID = iTemp;
+            }
+            ddlSelectCharacterOrBankF3.Items.Clear();
+            stStoredProc = "uspGetCampaignCharacters";
+            DataTable dtCharacters = new DataTable();
+            SortedList sParams1 = new SortedList();
+            sParams1.Add("@CampaignID", CampaignID);
+            sParams1.Add("@CampaignPlayerID", CampaignPlayerID);
+            dtCharacters = Classes.cUtilities.LoadDataTable(stStoredProc, sParams1, "LARPortal", hidUserName.Value, stCallingMethod);
+            ddlSelectCharacterOrBankF3.DataTextField = "CharacterName";
+            ddlSelectCharacterOrBankF3.DataValueField = "CharacterID";
+            ddlSelectCharacterOrBankF3.DataSource = dtCharacters;
+            ddlSelectCharacterOrBankF3.DataBind();
+            if (dtCharacters.Rows.Count > 0)
+            {
+                ddlSelectCharacterOrBankF3.Items.Insert(0, new ListItem("Select Character", "0"));
+                ddlSelectCharacterOrBankF3.Items.Insert(1, new ListItem("Bank Points", "1"));  // There is no CharacterID 1
+                ddlSelectCharacterOrBankF3.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlSelectCharacterOrBankF3.Items.Insert(0, new ListItem("No characters, banking", "0"));
+                ddlSelectCharacterOrBankF3.SelectedIndex = 0;
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(ddlSelectCharacterOrBankF3.SelectedValue) > 1)
+            {
+                hidInsertCharacterID.Value = ddlSelectCharacterOrBankF3.SelectedValue;
+            }
+            else
+            {
+                hidInsertCharacterID.Value = "0";
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF4Load()
+        {
+            //Convert CampaignPlayerID using uspConvertCampaignPlayerID
+            string stStoredProc = "uspConvertCampaignPlayerID";
+            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF2Load";
+            int iTemp = 0;
+            int CampaignPlayerID = 0;
+            int CampaignID = 0;
+            if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
+                CampaignPlayerID = iTemp;
+            int.TryParse(hidCampaignID.Value.ToString(), out CampaignID);
+            DataTable dtCampaignPlayers = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
+            sParams.Add("@NewCampaignID", CampaignID);
+            dtCampaignPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            foreach (DataRow dRow in dtCampaignPlayers.Rows)
+            {
+                if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
+                    CampaignPlayerID = iTemp;
+            }
+            ddlSelectCharacterOrBankF4.Items.Clear();
+            stStoredProc = "uspGetCampaignCharacters";
+            DataTable dtCharacters = new DataTable();
+            SortedList sParams1 = new SortedList();
+            sParams1.Add("@CampaignID", CampaignID);
+            sParams1.Add("@CampaignPlayerID", CampaignPlayerID);
+            dtCharacters = Classes.cUtilities.LoadDataTable(stStoredProc, sParams1, "LARPortal", hidUserName.Value, stCallingMethod);
+            ddlSelectCharacterOrBankF4.DataTextField = "CharacterName";
+            ddlSelectCharacterOrBankF4.DataValueField = "CharacterID";
+            ddlSelectCharacterOrBankF4.DataSource = dtCharacters;
+            ddlSelectCharacterOrBankF4.DataBind();
+            if (dtCharacters.Rows.Count > 0)
+            {
+                ddlSelectCharacterOrBankF4.Items.Insert(0, new ListItem("Select Character", "0"));
+                ddlSelectCharacterOrBankF4.Items.Insert(1, new ListItem("Bank Points", "1"));  // There is no CharacterID 1
+                ddlSelectCharacterOrBankF4.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlSelectCharacterOrBankF4.Items.Insert(0, new ListItem("No characters, banking", "0"));
+                ddlSelectCharacterOrBankF4.SelectedIndex = 0;
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(ddlSelectCharacterOrBankF4.SelectedValue) > 1)
+            {
+                hidInsertCharacterID.Value = ddlSelectCharacterOrBankF4.SelectedValue;
+            }
+            else
+            {
+                hidInsertCharacterID.Value = "0";
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF6Load()
+        {
+            //Convert CampaignPlayerID using uspConvertCampaignPlayerID
+            string stStoredProc = "uspConvertCampaignPlayerID";
+            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF6Load";
+            int iTemp = 0;
+            int CampaignPlayerID = 0;
+            int CampaignID = 0;
+            if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
+                CampaignPlayerID = iTemp;
+            int.TryParse(hidCampaignID.Value.ToString(), out CampaignID);
+            DataTable dtCampaignPlayers = new DataTable();
+            SortedList sParams = new SortedList();
+            sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
+            sParams.Add("@NewCampaignID", CampaignID);
+            dtCampaignPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            foreach (DataRow dRow in dtCampaignPlayers.Rows)
+            {
+                if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
+                    CampaignPlayerID = iTemp;
+            }
+            ddlSelectCharacterOrBankF6.Items.Clear();
+            stStoredProc = "uspGetCampaignCharacters";
+            DataTable dtCharacters = new DataTable();
+            SortedList sParams1 = new SortedList();
+            sParams1.Add("@CampaignID", CampaignID);
+            sParams1.Add("@CampaignPlayerID", CampaignPlayerID);
+            dtCharacters = Classes.cUtilities.LoadDataTable(stStoredProc, sParams1, "LARPortal", hidUserName.Value, stCallingMethod);
+            ddlSelectCharacterOrBankF6.DataTextField = "CharacterName";
+            ddlSelectCharacterOrBankF6.DataValueField = "CharacterID";
+            ddlSelectCharacterOrBankF6.DataSource = dtCharacters;
+            ddlSelectCharacterOrBankF6.DataBind();
+            if (dtCharacters.Rows.Count > 0)
+            {
+                ddlSelectCharacterOrBankF6.Items.Insert(0, new ListItem("Select Character", "0"));
+                ddlSelectCharacterOrBankF6.Items.Insert(1, new ListItem("Bank Points", "1"));  // There is no CharacterID 1
+                ddlSelectCharacterOrBankF6.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlSelectCharacterOrBankF6.Items.Insert(0, new ListItem("No characters, banking", "0"));
+                ddlSelectCharacterOrBankF6.SelectedIndex = 0;
+            }
+        }
+
+        protected void ddlSelectCharacterOrBankF6_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Convert.ToInt32(ddlSelectCharacterOrBankF6.SelectedValue) > 1)
+            {
+                hidInsertCharacterID.Value = ddlSelectCharacterOrBankF6.SelectedValue;
+            }
+            else
+            {
+                hidInsertCharacterID.Value = "0";
+            }
+        }
+
+        protected void AddPanelVisibility()
+        {
+            lblAddMessage.Text = "";
+            string FlowStep = "A";
+            if (Session["AddCPStep"] != null)
+            {
+                FlowStep = Session["AddCPStep"].ToString();
+            }
+            switch (FlowStep)
+            {
+                case "A":
+                    pnlAddSourceCampaign.Visible = false;
+                    pnlAddOpportunityDefault.Visible = false;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "B":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = false;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "C1":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "C6":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = false;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "D3":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = true;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "D6":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "E1":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = true;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = true;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "E2":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = true;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = true;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "E3":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = true;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = true;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "E4":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = true;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = true;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "E6":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = false;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = true;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = true;
+                    break;
+
+                case "F0":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = true;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "F1":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = true;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "F2":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = true;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "F3":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = true;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = true;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = true;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "F4":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = true;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = true;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = true;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "F5":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = true;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = true;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = true;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = true;
+                    pnlAddNPCIncoming.Visible = false;
+                    break;
+
+                case "F6":
+                    pnlAddSourceCampaign.Visible = true;
+                    pnlAddOpportunityDefault.Visible = false;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = true;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = true;
+                    break;
+
+                default:
+                    pnlAddSourceCampaign.Visible = false;
+                    pnlAddOpportunityDefault.Visible = false;
+                    pnlAddOpportunityDefaultC6.Visible = false;
+                    pnlCPDestinationD3.Visible = false;
+                    pnlCPDestinationD6.Visible = false;
+                    pnlNPCCheckboxes.Visible = false;
+                    pnlAddDonationCP.Visible = false;
+                    pnlAddNonEventCP.Visible = false;
+                    pnlAddPCLocalCP.Visible = false;
+                    pnlAddNPCLocalCPStaying.Visible = false;
+                    pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+                    pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+                    pnlAddNPCIncoming.Visible = false;
+                    hidInsertCharacterID.Value = "0";
+                    hidInsertCampaignCPOpportunityDefaultID.Value = "0";
+                    hidInsertEventID.Value = "0";
+                    hidInsertCampaignID.Value = "0";
+                    hidInsertDescription.Value = "";
+                    hidInsertOpportunityNotes.Value = "";
+                    hidInsertExampleURL.Value = "";
+                    hidInsertReasonID.Value = "0";
+                    hidInsertStatusID.Value = "19";
+                    hidInsertAddedByID.Value = "0";
+                    hidInsertCPValue.Value = "0";
+                    hidInsertApprovedByID.Value = "0";
+                    hidInsertReceiptDate.Value = "";
+                    hidInsertReceivedByID.Value = "0";
+                    hidInsertCPAssignmentDate.Value = "Today";
+                    hidInsertStaffComments.Value = "";
+                    break;
+            }
+        }
+
+        private void BuildCPAuditTable(int UserID)
+        {
+            // Stolen blatantly from MemberPointsView.aspx
+            int CampaignID = 0;
+            int CharacterID = 0;
+            if (Session["CampaignID"] != null)
+                CampaignID = (Session["CampaignID"].ToString().ToInt32());
+            string CampaignDDL = "";
+            if (Session["CampaignName"] != null)
+                CampaignDDL = Session["CampaignName"].ToString();
+            Classes.cTransactions CPAudit = new Classes.cTransactions();
+            DataTable dtCPAudit = new DataTable();
+            dtCPAudit = CPAudit.GetCPAuditList(UserID, CampaignID, CharacterID);
+            DataView dvPoints = new DataView(dtCPAudit, "", "", DataViewRowState.CurrentRows);
+            gvPointsList.DataSource = dvPoints;
+            gvPointsList.DataBind();
+        }
+
+        //protected void ddlSendToCampaignLoad(string strUserName, int intCampaignID)
+        //{
+            //string stStoredProc = "uspGetCampaignPlayerByID";
+            //string stCallingMethod = "PointsAssign.aspx.ddlSendToCampaign";
+            //int iTemp = 0;
+            //int CampaignPlayerID = 0;
+            //int PlayerUserID = 0;
+            //DataTable dtUsers = new DataTable();
+            //SortedList sParams = new SortedList();
+            //if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
+            //    CampaignPlayerID = iTemp;
+            //sParams.Add("@CampaignPlayerID", CampaignPlayerID);
+            //dtUsers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+            //foreach (DataRow dRow in dtUsers.Rows)
+            //{
+            //    if (int.TryParse(dRow["UserID"].ToString(), out iTemp))
+            //        PlayerUserID = iTemp;
+            //}
+            //stStoredProc = "uspGetMyCampaigns";
+            //stCallingMethod = "PointsAssign.aspx.ddlSendToCampaign";
+            //ddlSendToCampaign.Items.Clear();
+            //DataTable dtCampaigns = new DataTable();
+            //sParams.Clear();
+            //sParams.Add("@UserID", PlayerUserID);
+            //dtCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+            //ddlSendToCampaign.DataTextField = "CampaignName";
+            //ddlSendToCampaign.DataValueField = "CampaignID";
+            //ddlSendToCampaign.DataSource = dtCampaigns;
+            //ddlSendToCampaign.DataBind();
+            //if (dtCampaigns.Rows.Count > 1)
+            //{
+            //    ddlSendToCampaign.Items.Insert(0, new ListItem("Select Campaign", "0"));
+            //    ddlSendToCampaign.SelectedIndex = 0;
+            //}
+            //if (dtCampaigns.Rows.Count == 0)
+            //{
+            //    ddlSendToCampaign.Items.Insert(0, new ListItem("No campaigns", "0"));
+            //    ddlSendToCampaign.SelectedIndex = 0;
+            //}
+        //}
+
+        //protected void ddlSendToCampaign_SelectedIndexChanged(object sender, EventArgs e)
+        //{
+            // If campaign selected is a LARP Portal campaign send points to it otherwise set it up for emailing
+            // Start by looking up the campaign participation level
+            //string stStoredProc = "uspGetCampaignByCampaignID";
+            //string stCallingMethod = "PointsAssign.aspx.ddlSendToCampaignIndexChange";
+            //int iTemp = 0;
+            //int CampaignID = 0;
+            //string PortalAccessType = "B";
+            //DataTable dtCampaigns = new DataTable();
+            //SortedList sParams = new SortedList();
+            //if (int.TryParse(ddlSendToCampaign.SelectedValue.ToString(), out iTemp))
+            //    CampaignID = iTemp;
+            //sParams.Add("@CampaignID", CampaignID);
+            //dtCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+            //foreach (DataRow dRow in dtCampaigns.Rows)
+            //{
+            //    PortalAccessType = dRow["PortalAccessType"].ToString();
+            //    Session["PortalAccessType"] = dRow["PortalAccessType"].ToString();
+            //}
+            ////  For types B and X add the CPOpportunity with Status 68 (Ready to send)
+            ////  Will be updated to Status 69 (Sent to campaign)
+            //if (PortalAccessType == "B" || PortalAccessType == "X")
+            //{
+
+            //}
+            //if (PortalAccessType == "S" || PortalAccessType == "A" || PortalAccessType == "D")
+            //// For types S, A and D add the CP processed in the right places    
+            //// Add the CPOpportunity and process to current campaign / character handling banking if necessary
+            //{
+            //    // Go look up the active characters that player has at that campaign and fill in the drop down list to choose from
+            //    // Include a bank option if no characters available or player just wants it banked there regardless
+            //    ddlAddCharacterLoad(hidUserName.Value, CampaignID);
+            //    pnlddlAddCharacter.Visible = true;
+            //}
+            //txtCPValue.Focus();
+        //}
 
         private void ddlAddCharacterLoad(string strUserName, int intCampaignID)
         {
-            ddlAddCharacter.Items.Clear();
-            string stStoredProc = "uspGetCampaignCharacters";
-            string stCallingMethod = "PointsAssign.aspx.ddlAddCharacterLoad";
-            int iTemp = 0;
-            int CampaignPlayerID = 0;
-            if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
-                CampaignPlayerID = iTemp;
-            DataTable dtCharacters = new DataTable();
-            SortedList sParams = new SortedList();
-            sParams.Add("@CampaignID", intCampaignID);
-            sParams.Add("@CampaignPlayerID", CampaignPlayerID);
-            dtCharacters = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
-            ddlAddCharacter.DataTextField = "CharacterName";
-            ddlAddCharacter.DataValueField = "CharacterID";
-            ddlAddCharacter.DataSource = dtCharacters;
-            ddlAddCharacter.DataBind();
-            if (dtCharacters.Rows.Count > 1)
-            {
-                ddlAddCharacter.Items.Insert(0, new ListItem("Select Character", "0"));
-                ddlAddCharacter.SelectedIndex = 0;
-            }
-            if (dtCharacters.Rows.Count == 0)
-            {
-                ddlAddCharacter.Items.Insert(0, new ListItem("No characters", "0"));
-                ddlAddCharacter.SelectedIndex = 0;
-            }
+            // Old - Can be deleted?
         }
 
-        protected void ddlAddCharacter_SelectedIndexChanged(object sender, EventArgs e)
+        protected void txtOpportunityNotes_TextChanged(object sender, EventArgs e)
         {
-
+            hidInsertOpportunityNotes.Value = txtOpportunityNotes.Text;
         }
 
+        protected void txtCPF0_TextChanged(object sender, EventArgs e)
+        {
+            hidInsertCPValue.Value = txtCPF0.Text;
+        }
+
+        protected void txtCPF1_TextChanged(object sender, EventArgs e)
+        {
+            hidInsertCPValue.Value = txtCPF1.Text;
+        }
+
+        protected void txtCPF2_TextChanged(object sender, EventArgs e)
+        {
+            hidInsertCPValue.Value = txtCPF2.Text;
+        }
 
     }
 }
