@@ -428,8 +428,8 @@ namespace LarpPortal.PELs
                 sBody += sCommentTable;
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-//                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
-                cEMS.SendMail(sSubject, sBody, "support@larportal.com,jbradshaw@pobox.com", "", "");
+                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
+//                cEMS.SendMail(sSubject, sBody, "support@larportal.com,jbradshaw@pobox.com", "", "");
             }
         }
 

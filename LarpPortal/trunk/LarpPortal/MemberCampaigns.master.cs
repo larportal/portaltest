@@ -967,6 +967,33 @@ namespace LarpPortal
                         }
                         break;
 
+                        //
+                        //ReqPage = "/PELs/PELApprovalList";
+                        //if (ActiveNav == "PEL" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/4/")))
+                        //{
+                        //    if (PageName == "PELApprovalList" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/4/")))
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
+                        //    SpanClass = SC1;
+                        //    LineEnd = LineEnd4;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;PEL Approval List";
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
+                        //break;
+                        //
+
                     case 42:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
