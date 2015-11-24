@@ -464,7 +464,7 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Receipt Date: <%--F0--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:TextBox ID="txtReceiptDate" runat="server" Width="100px"></asp:TextBox>
+                                                            <asp:TextBox ID="txtReceiptDate" runat="server" Width="100px" OnTextChanged="txtReceiptDate_TextChanged"></asp:TextBox>
                                                             <ajaxToolkit:CalendarExtender runat="server" TargetControlID="txtReceiptDate" Format="MM/dd/yyyy" />
                                                         </div>
                                                     </div>
@@ -578,9 +578,9 @@
                                     CssClass="table table-striped table-hover table-condensed" BorderColor="Black" BorderStyle="Solid" BorderWidth="1">
                                     <RowStyle BackColor="White" />
                                     <Columns>
-                                        <asp:BoundField DataField="TransactionDate" HeaderText=" Earn Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
+                                        <asp:BoundField DataField="ReceiptDate" HeaderText=" Earn Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
                                             ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
-                                        <asp:BoundField DataField="ReasonDescription" HeaderText="Type" ItemStyle-Wrap="false"
+                                        <asp:BoundField DataField="FullDescription" HeaderText="Type" ItemStyle-Wrap="false"
                                             HeaderStyle-Wrap="false" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                         <asp:BoundField DataField="AdditionalNotes" HeaderText="Description" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
                                             ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />

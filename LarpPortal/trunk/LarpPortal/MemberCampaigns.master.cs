@@ -938,7 +938,9 @@ namespace LarpPortal
 
                     case 41:
                         ReqPage = "/Points/PointsAssign.aspx";
-                        if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
+                        PageName = "POINTS";
+                        //if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
+                        if (PlayerRoles.Contains("/28/"))
                         {
                             if (PageName == "POINTS") // && (PlayerRoles.Contains("/34/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/35/")))
                             {

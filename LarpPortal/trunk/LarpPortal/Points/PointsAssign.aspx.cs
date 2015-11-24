@@ -366,7 +366,7 @@ namespace LarpPortal.Points
             addExampleURL = hidInsertExampleURL.Value.Trim();
             int addReasonID = 0;
             int.TryParse(hidInsertReasonID.Value.ToString(), out addReasonID);
-            int addStatusID = 19;
+            int addStatusID = 21;
             int addAddedByID = 0;
             int.TryParse(hidInsertAddedByID.Value.ToString(), out addAddedByID);
             double addCPValue = 0;
@@ -461,6 +461,9 @@ namespace LarpPortal.Points
                     break;
             }
             lblAddMessage.Text = "Points added";
+            int UserID = 0;
+            int.TryParse(hidCampaignPlayerUserID.Value, out UserID);
+            BuildCPAuditTable(UserID);
             hidLastAddCPStep.Value = "A";            
         }
 
@@ -773,7 +776,7 @@ namespace LarpPortal.Points
 
         protected void ddlDonationTypes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            hidInsertDescription.Value = ddlDonationTypes.SelectedValue;
+            hidInsertDescription.Value = ddlDonationTypes.SelectedItem.Text;
         }
 
         protected void ddlAddOpportunityDefaultIDC6_SelectedIndexChanged(object sender, EventArgs e)
@@ -1672,6 +1675,11 @@ namespace LarpPortal.Points
         protected void txtCPF2_TextChanged(object sender, EventArgs e)
         {
             hidInsertCPValue.Value = txtCPF2.Text;
+        }
+
+        protected void txtReceiptDate_TextChanged(object sender, EventArgs e)
+        {
+            hidInsertReceiptDate.Value = txtReceiptDate.Text;
         }
 
     }
