@@ -15,9 +15,9 @@
                         <asp:GridView ID="gvPointsList" runat="server" AutoGenerateColumns="false" GridLines="None"
                             CssClass="table table-striped table-hover table-condensed" BorderColor="Black" BorderStyle="Solid" BorderWidth="1">
                             <Columns>
-                                <asp:BoundField DataField="TransactionDate" HeaderText=" Earn Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
+                                <asp:BoundField DataField="ReceiptDate" HeaderText=" Earn Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
-                                <asp:BoundField DataField="ReasonDescription" HeaderText="Type" ItemStyle-Wrap="false"
+                                <asp:BoundField DataField="FullDescription" HeaderText="Type" ItemStyle-Wrap="false"
                                     HeaderStyle-Wrap="false" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                 <asp:BoundField DataField="AdditionalNotes" HeaderText="Description" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />

@@ -34,6 +34,7 @@ namespace LarpPortal.Classes
         public decimal CPAmount { get; set; }
         public DateTime TransactionDate { get; set; }
         public DateTime CPApprovedDate { get; set; }
+        public DateTime ReceiptDate { get; set; }
         public string OwningPlayer { get; set; }
         public string ApprovingStaffer { get; set; }
         public string ReasonDescription { get; set; }
@@ -98,6 +99,8 @@ namespace LarpPortal.Classes
                     TransactionDate = dtTemp;
                 if (DateTime.TryParse(dRow["CPApprovedDate"].ToString(), out dtTemp))
                     CPApprovedDate = dtTemp;
+                if (DateTime.TryParse(dRow["ReceiptDate"].ToString(), out dtTemp))
+                    ReceiptDate = dtTemp;
                 OwningPlayer = dRow["OwningPlayer"].ToString();
                 ApprovingStaffer = dRow["ApprovingStaffer"].ToString();
                 ReasonDescription = dRow["ReasonDescription"].ToString();
