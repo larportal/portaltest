@@ -121,235 +121,263 @@
                 <div class="col-lg-12 NoPadding">
                     <h1 class="col-lg-12">Event Setup Campaign Defaults</h1>
                 </div>
-                <div class="row col-lg-12 NoPadding">
-                    <div class="TableLabel col-sm-2">Start/End Time</div>
-                    <div class="col-sm-2 NoPadding">
-                        <asp:TextBox ID="tbStartTime" runat="server" CssClass="col-sm-5 NoPadding" TextMode="Time" />
-                        <asp:TextBox ID="tbEndTime" runat="server" CssClass="col-sm-5 NoPadding" Style="margin-left: 10px;" TextMode="Time" />
+                <div class="col-lg-12 NoPadding row">
+                    <div class="col-lg-8 NoPadding">
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-sm-3">Start/End Time</div>
+                            <div class="col-sm-3 NoPadding">
+                                <asp:TextBox ID="tbStartTime" runat="server" CssClass="col-sm-5 NoPadding" TextMode="Time" />
+                                <asp:TextBox ID="tbEndTime" runat="server" CssClass="col-sm-5 NoPadding" Style="margin-left: 10px;" TextMode="Time" />
+                            </div>
+                            <div class="TableLabel col-lg-3">
+                                Maximum PC Count
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbMaxPCCount" runat="server" Columns="4" MaxLength="4" /><asp:RangeValidator ID="rvMaxPCCount" runat="server"
+                                    ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
+                                    ControlToValidate="tbMaxPCCount" Style="margin-left: 10px;" Display="Dynamic" />
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Primary Site
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:DropDownList ID="ddlSiteList" runat="server" />
+                            </div>
+                            <div class="TableLabel col-lg-3">
+                                BaseNPC Count
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbBaseNPCCount" runat="server" Columns="4" MaxLength="4" /><asp:RangeValidator ID="rvBaseNPCCount" runat="server"
+                                    ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
+                                    ControlToValidate="tbBaseNPCCount" Style="margin-left: 10px;" Display="Dynamic" />
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Default Reg Status
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:DropDownList ID="ddlDefaultRegStatus" runat="server" />
+                            </div>
+                            <div class="TableLabel col-lg-3">
+                                NPC Override Ratio
+                            </div>
+                            <div class="col-lg3 NoPadding">
+                                <asp:TextBox ID="tbOverrideRatio" runat="server" Columns="4" MaxLength="4" /><asp:RangeValidator ID="rvOverrideRatio" runat="server"
+                                    ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
+                                    ControlToValidate="tbOverrideRatio" Style="margin-left: 10px;" Display="Dynamic" />
+                            </div>
+                        </div>
+
+                        <div class="row col-sm-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Open Reg Date
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbOpenRegDate" runat="server" CssClass="TableTextBox" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvOpenRegDate" runat="server"
+                                    ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
+                                    ControlToValidate="tbOpenRegDate" Style="margin-left: 10px;" Display="Dynamic" />
+                            </div>
+                            <div class="TableLabel col-lg-3">
+                                Cap New Notification
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:DropDownList ID="ddlCapNearNotification" runat="server" Style="vertical-align: middle;">
+                                    <asp:ListItem Text="No default" Value="" Selected="true" />
+                                    <asp:ListItem Text="Yes" Value="Yes" />
+                                    <asp:ListItem Text="No" Value="No" />
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
+                        <div class="row col-sm-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Open Reg Time
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbOpenRegTime" runat="server" TextMode="Time" />
+                            </div>
+                            <div class="TableLabel col-lg-3">
+                                Cap Near Notification
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbCapThresholdNotification" runat="server" Columns="4" MaxLength="4" /><asp:RangeValidator ID="rvCapThresholdNotification" runat="server"
+                                    ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
+                                    ControlToValidate="tbCapThresholdNotification" Style="margin-left: 10px;" Display="Dynamic" />
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Pre Reg Deadline
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbPreRegDeadline" runat="server" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvPreRegDeadline" runat="server"
+                                    ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
+                                    ControlToValidate="tbPreRegDeadline" Style="margin-left: 10px;" Display="Dynamic" />
+                            </div>
+                            <div class="TableLabel col-lg-3">
+                                Auto Approve Waitlist
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:DropDownList ID="ddlAutoApproveWaitlist" runat="server" Style="vertical-align: middle;">
+                                    <asp:ListItem Text="No default" Value="" Selected="true" />
+                                    <asp:ListItem Text="Yes" Value="Yes" />
+                                    <asp:ListItem Text="No" Value="No" />
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
+                        <div class="row col-sm-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Payment Date
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbPaymentDate" runat="server" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvPaymentDate" runat="server"
+                                    ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
+                                    ControlToValidate="tbPaymentDate" Style="margin-left: 10px;" Display="Dynamic" />
+                            </div>
+                            <div class="TableLabel col-lg-3">
+                                PC Food Service
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:DropDownList ID="ddlPCFoodService" runat="server">
+                                    <asp:ListItem Text="No default" Value="" Selected="true" />
+                                    <asp:ListItem Text="Yes" Value="Yes" />
+                                    <asp:ListItem Text="No" Value="No" />
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Pre Registration Price
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbPreRegistrationPrice" runat="server" Columns="8" MaxLength="8" /><asp:RegularExpressionValidator ID="rePreRegistrationPrice" runat="server"
+                                    ControlToValidate="tbPreRegistrationPrice" ErrorMessage="* Enter Currency" ValidationExpression="^\d+(\.\d\d)?$" Font-Bold="true" Font-Italic="true"
+                                    ForeColor="red" Display="Dynamic" />
+                            </div>
+                            <div class="TableLabel col-lg-3">
+                                NPC Food Service
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:DropDownList ID="ddlNPCFoodService" runat="server">
+                                    <asp:ListItem Text="No default" Value="" Selected="true" />
+                                    <asp:ListItem Text="Yes" Value="Yes" />
+                                    <asp:ListItem Text="No" Value="No" />
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Reg Price
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbRegPrice" runat="server" Columns="8" MaxLength="8" /><asp:RegularExpressionValidator ID="reRegPrice" runat="server" ControlToValidate="tbRegPrice"
+                                    ErrorMessage="* Enter Currency" ValidationExpression="^\d+(\.\d\d)?$" Font-Bold="true" Font-Italic="true" ForeColor="red" Display="Dynamic" />
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                At Door Price
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbAtDoorPrice" runat="server" Columns="8" MaxLength="8" /><asp:RegularExpressionValidator ID="reAtDoorPrice" runat="server" ControlToValidate="tbAtDoorPrice"
+                                    ErrorMessage="* Enter Currency" ValidationExpression="^\d+(\.\d\d)?$" Font-Bold="true" Font-Italic="true" ForeColor="red" Display="Dynamic" />
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Payment Instructions
+                            </div>
+                            <div class="col-lg-9 NoPadding">
+                                <asp:TextBox ID="tbPaymentInstructions" runat="server" TextMode="MultiLine" Rows="3" CssClass="col-sm-11 NoLeftPadding" />
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Auto Cancel Reg
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:DropDownList ID="ddlAutoCancelReg" runat="server" Style="vertical-align: middle;">
+                                    <asp:ListItem Text="No default" Value="" Selected="true" />
+                                    <asp:ListItem Text="Yes" Value="Yes" />
+                                    <asp:ListItem Text="No" Value="No" />
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                Info Skill Due
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbInfoSkillDue" runat="server" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvInfoSkillDue" runat="server"
+                                    ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
+                                    ControlToValidate="tbInfoSkillDue" Style="margin-left: 10px;" Display="Dynamic" />
+                            </div>
+                        </div>
+
+                        <div class="row col-lg-12 NoPadding">
+                            <div class="TableLabel col-lg-3">
+                                PEL Due
+                            </div>
+                            <div class="col-lg-3 NoPadding">
+                                <asp:TextBox ID="tbPELDue" runat="server" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvPELDue" runat="server"
+                                    ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
+                                    ControlToValidate="tbPELDue" Style="margin-left: 10px;" Display="Dynamic" />
+                            </div>
+                        </div>
                     </div>
-                    <div class="TableLabel col-lg-2">
-                        Maximum PC Count
+
+                    <div class="TableLabel col-lg-4 text-left">
+                        <div class="row">
+                            <div class="col-lg-12 NoPadding text-left" style="font-size: 16px; padding-bottom: 20px;">
+                                <b>Default PEL Selection</b>
+                            </div>
+                        </div>
+                        <asp:Repeater ID="rptPELTypes" runat="server" OnItemDataBound="rptPELTypes_ItemDataBound">
+                            <ItemTemplate>
+                                <div class="text-left">
+                                    <span style="font: bold;"><%#Eval("TemplateTypeDescription") %></span><br />
+                                    <asp:RadioButtonList ID="rblPELs" runat="server" RepeatLayout="flow" />
+                                    <br />
+                                    <br />
+                                </div>
+                                <asp:HiddenField ID="hidTemplateTypeID" runat="server" Value='<%#Eval("PELTemplateTypeID") %>' />
+                            </ItemTemplate>
+
+
+                            <%--                            <ItemTemplate>
+                                <div class="row" style="margin-bottom: 20px">
+                                    <div class="panel text-left" style="padding-top: 0px; padding-bottom: 0px;">
+                                        <div class="panelheader">
+                                    <h2><%#Eval("TemplateTypeDescription") %></h2>
+                                            <div class="panel-body">
+                                                <div class="panel-container search-criteria" style="padding-bottom: 10px;">
+                                                    <asp:RadioButtonList ID="rblPELs" runat="server" RepeatLayout="flow" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ItemTemplate>--%>
+                        </asp:Repeater>
                     </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbMaxPCCount" runat="server" Columns="4" MaxLength="4" /><asp:RangeValidator ID="rvMaxPCCount" runat="server"
-                            ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                            ControlToValidate="tbMaxPCCount" Style="margin-left: 10px;" Display="Dynamic" />
-                    </div>
-                    <div class="TableLabel col-lg-2">
-                        Use PEL Templates
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                    </div>
+
                 </div>
 
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-sm-2">
-                        Primary Site
-                    </div>
-                    <div class="col-sm-2 NoPadding">
-                        <asp:DropDownList ID="ddlSiteList" runat="server" />
-                    </div>
-                    <div class="TableLabel col-sm-2">
-                        BaseNPC Count
-                    </div>
-                    <div class="col-sm-4 NoPadding">
-                        <asp:TextBox ID="tbBaseNPCCount" runat="server" Columns="4" MaxLength="4" /><asp:RangeValidator ID="rvBaseNPCCount" runat="server"
-                            ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                            ControlToValidate="tbBaseNPCCount" Style="margin-left: 10px;" Display="Dynamic" />
-                    </div>
-                    <div class="col-sm-2 NoPadding">
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-sm-2">
-                        Default Reg Status
-                    </div>
-                    <div class="col-sm-2 NoPadding">
-                        <asp:DropDownList ID="ddlDefaultRegStatus" runat="server" />
-                    </div>
-                    <div class="TableLabel col-sm-2">
-                        NPC Override Ratio
-                    </div>
-                    <div class="col-sm-4 NoPadding">
-                        <asp:TextBox ID="tbOverrideRatio" runat="server" Columns="4" MaxLength="4" /><asp:RangeValidator ID="rvOverrideRatio" runat="server"
-                            ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                            ControlToValidate="tbOverrideRatio" Style="margin-left: 10px;" Display="Dynamic" />
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        Open Reg Date
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbOpenRegDate" runat="server" CssClass="TableTextBox" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvOpenRegDate" runat="server"
-                            ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                            ControlToValidate="tbOpenRegDate" Style="margin-left: 10px;" Display="Dynamic" />
-                    </div>
-                    <div class="TableLabel col-lg-2">
-                        Cap New Notification
-                    </div>
-                    <div class="col-lg-4 NoPadding">
-                        <asp:DropDownList ID="ddlCapNearNotification" runat="server" Style="vertical-align: middle;">
-                            <asp:ListItem Text="No default" Value="" Selected="true" />
-                            <asp:ListItem Text="Yes" Value="Yes" />
-                            <asp:ListItem Text="No" Value="No" />
-                        </asp:DropDownList>
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        Open Reg Time
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbOpenRegTime" runat="server" TextMode="Time" />
-                    </div>
-                    <div class="TableLabel col-lg-2">
-                        Cap Near Notification
-                    </div>
-                    <div class="col-lg-4 NoPadding">
-                        <asp:TextBox ID="tbCapThresholdNotification" runat="server" Columns="4" MaxLength="4" /><asp:RangeValidator ID="rvCapThresholdNotification" runat="server"
-                            ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                            ControlToValidate="tbCapThresholdNotification" Style="margin-left: 10px;" Display="Dynamic" />
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        Pre Reg Deadline
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbPreRegDeadline" runat="server" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvPreRegDeadline" runat="server"
-                            ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                            ControlToValidate="tbPreRegDeadline" Style="margin-left: 10px;" Display="Dynamic" />
-                    </div>
-                    <div class="TableLabel col-lg-2">
-                        Auto Approve Waitlist
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:DropDownList ID="ddlAutoApproveWaitlist" runat="server" Style="vertical-align: middle;">
-                            <asp:ListItem Text="No default" Value="" Selected="true" />
-                            <asp:ListItem Text="Yes" Value="Yes" />
-                            <asp:ListItem Text="No" Value="No" />
-                        </asp:DropDownList>
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        Payment Date
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbPaymentDate" runat="server" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvPaymentDate" runat="server"
-                            ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                            ControlToValidate="tbPaymentDate" Style="margin-left: 10px;" Display="Dynamic" />
-                    </div>
-                    <div class="TableLabel col-lg-2">
-                        PC Food Service
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:DropDownList ID="ddlPCFoodService" runat="server">
-                            <asp:ListItem Text="No default" Value="" Selected="true" />
-                            <asp:ListItem Text="Yes" Value="Yes" />
-                            <asp:ListItem Text="No" Value="No" />
-                        </asp:DropDownList>
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        Pre Registration Price
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbPreRegistrationPrice" runat="server" Columns="8" MaxLength="8" /><asp:RegularExpressionValidator ID="rePreRegistrationPrice" runat="server"
-                            ControlToValidate="tbPreRegistrationPrice" ErrorMessage="* Enter Currency" ValidationExpression="^\d+(\.\d\d)?$" Font-Bold="true" Font-Italic="true" 
-                            ForeColor="red" Display="Dynamic" />
-                    </div>
-                    <div class="TableLabel col-lg-2">
-                        NPC Food Service
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:DropDownList ID="ddlNPCFoodService" runat="server">
-                            <asp:ListItem Text="No default" Value="" Selected="true" />
-                            <asp:ListItem Text="Yes" Value="Yes" />
-                            <asp:ListItem Text="No" Value="No" />
-                        </asp:DropDownList>
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        Reg Price
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbRegPrice" runat="server" Columns="8" MaxLength="8" /><asp:RegularExpressionValidator ID="reRegPrice" runat="server" ControlToValidate="tbRegPrice"
-                            ErrorMessage="* Enter Currency" ValidationExpression="^\d+(\.\d\d)?$" Font-Bold="true" Font-Italic="true" ForeColor="red" Display="Dynamic" />
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        At Door Price
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbAtDoorPrice" runat="server" Columns="8" MaxLength="8" /><asp:RegularExpressionValidator ID="reAtDoorPrice" runat="server" ControlToValidate="tbAtDoorPrice"
-                            ErrorMessage="* Enter Currency" ValidationExpression="^\d+(\.\d\d)?$" Font-Bold="true" Font-Italic="true" ForeColor="red" Display="Dynamic" />
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        Payment Instructions
-                    </div>
-                    <div class="col-lg-6 NoPadding">
-                        <asp:TextBox ID="tbPaymentInstructions" runat="server" TextMode="MultiLine" Rows="3" CssClass="col-sm-11 NoLeftPadding" />
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        Auto Cancel Reg
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:DropDownList ID="ddlAutoCancelReg" runat="server" Style="vertical-align: middle;">
-                            <asp:ListItem Text="No default" Value="" Selected="true" />
-                            <asp:ListItem Text="Yes" Value="Yes" />
-                            <asp:ListItem Text="No" Value="No" />
-                        </asp:DropDownList>
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        Info Skill Due
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbInfoSkillDue" runat="server" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvInfoSkillDue" runat="server"
-                            ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                            ControlToValidate="tbInfoSkillDue" Style="margin-left: 10px;" Display="Dynamic" />
-                    </div>
-                </div>
-
-                <div class="row col-sm-12 NoPadding">
-                    <div class="TableLabel col-lg-2">
-                        PEL Due
-                    </div>
-                    <div class="col-lg-2 NoPadding">
-                        <asp:TextBox ID="tbPELDue" runat="server" Columns="16" MaxLength="16" /><asp:RangeValidator ID="rvPELDue" runat="server"
-                            ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                            ControlToValidate="tbPELDue" Style="margin-left: 10px;" Display="Dynamic" />
-                    </div>
-                    <div class="col-sm-7 text-right">
-                        <asp:Button ID="btnSave" runat="server" CssClass="StandardButton" Text="Save" Width="125px" OnClick="btnSave_Click" />
-                    </div>
+                <div class="col-lg-11 text-right">
+                    <asp:Button ID="btnSave" runat="server" CssClass="StandardButton" Text="Save" Width="125px" OnClick="btnSave_Click" />
                 </div>
             </div>
         </section>

@@ -12,6 +12,10 @@ namespace LarpPortal.Events
 {
     public partial class EventEdit : System.Web.UI.Page
     {
+        private DataTable _dtCampaignPELs = new DataTable();
+        private DataTable _dtCurrentSelectedPELs = new DataTable();
+        //private bool _ExistingEvent = false;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             tbStartTime.Attributes.Add("Placeholder", "Time");
@@ -68,6 +72,7 @@ namespace LarpPortal.Events
 
                         foreach (DataRow dEventInfo in dsEventInfo.Tables[0].Rows)
                         {
+                            hidEventID.Value = iEventID.ToString();
                             sParams = new SortedList();
                             bRecordLoaded = true;
                             sParams.Add("@EventID", iEventID);
@@ -179,6 +184,11 @@ namespace LarpPortal.Events
                                         }
                             }
                         }
+                        if (dsEventInfo.Tables.Count >= 4)
+                        {
+                            _dtCurrentSelectedPELs = dsEventInfo.Tables[4];
+                            _dtCampaignPELs = dsEventInfo.Tables[3];
+                        }
                     }
                 }
 
@@ -193,9 +203,12 @@ namespace LarpPortal.Events
                             sParams = new SortedList();
                             sParams.Add("@CampaignID", iCampaignID);
 
-                            DataTable dtDefaults = Classes.cUtilities.LoadDataTable("uspGetCampaignEventDefaults", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_PreRender");
+                            DataSet dsDefaults = Classes.cUtilities.LoadDataSet("uspGetCampaignEventDefaults", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_PreRender");
 
-                            foreach (DataRow dRow in dtDefaults.Rows)
+                            _dtCampaignPELs = dsDefaults.Tables[1];
+                            _dtCurrentSelectedPELs = new DataTable();
+
+                            foreach (DataRow dRow in dsDefaults.Tables[0].Rows)
                             {
                                 hidEventID.Value = "-1";
 
@@ -285,6 +298,11 @@ namespace LarpPortal.Events
                         }
                     }
                 }
+
+                DataTable dtPELTypeList = new DataView(_dtCampaignPELs, "", "", DataViewRowState.CurrentRows).ToTable(true, "TemplateTypeDescription", "PELTemplateTypeID");
+
+                rptPELTypes.DataSource = dtPELTypeList;
+                rptPELTypes.DataBind();
             }
         }
 
@@ -389,7 +407,7 @@ namespace LarpPortal.Events
 
             sParams.Add("@UserID", Session["UserID"].ToString());
             sParams.Add("@EventID", hidEventID.Value);
-            sParams.Add("@CampaignID", hidCampaignID.Value);
+            sParams.Add("@CampaignID", Session["CampaignID"].ToString());
             sParams.Add("@EventName", tbEventName.Text.Trim());
             sParams.Add("@EventDescription", tbEventDescription.Text.Trim());
             sParams.Add("@IGEventLocation", tbGameLocation.Text.Trim());
@@ -414,7 +432,7 @@ namespace LarpPortal.Events
                 sParams.Add("@NPCOverrideRatio", iTemp);
             if (int.TryParse(tbCapThresholdNotification.Text, out iTemp))
                 sParams.Add("@CapThresholdNotification", iTemp);
-                sParams.Add("@CapMetNotification", ddlCapNearNotification.SelectedValue);
+            sParams.Add("@CapMetNotification", ddlCapNearNotification.SelectedValue);
             if (DateTime.TryParse(tbOpenRegDate.Text, out dtTemp))
                 sParams.Add("@RegistrationOpenDate", dtTemp.ToShortDateString());
             if (DateTime.TryParse(tbOpenRegTime.Text, out dtTemp))
@@ -450,7 +468,42 @@ namespace LarpPortal.Events
 
             try
             {
-                Classes.cUtilities.PerformNonQuery("uspInsUpdCMEvents", sParams, "LARPortal", Session["UserName"].ToString());
+                DataTable dtEventInfo = Classes.cUtilities.LoadDataTable("uspInsUpdCMEvents", sParams, "LARPortal", Session["UserName"].ToString(), "EventEdit.btnSave");
+
+                string sEventID = "";
+                if (dtEventInfo.Rows.Count > 0)
+                {
+                    sEventID = dtEventInfo.Rows[0]["EventID"].ToString();
+
+                    foreach (RepeaterItem rpItem in rptPELTypes.Items)
+                    {
+                        RadioButtonList rbl = (RadioButtonList)rpItem.FindControl("rblPELs");
+                        string sValue = rbl.SelectedValue;
+
+                        HiddenField hidEventPELID = (HiddenField)rpItem.FindControl("hidEventPELID");
+                        if (sValue != "")
+                        {
+                            // A value was selected so we need to set it.
+                            SortedList sDefaultParams = new SortedList();
+                            sDefaultParams.Add("@UserID", Session["UserID"].ToString());
+                            sDefaultParams.Add("@PELTemplateID", sValue);
+                            sDefaultParams.Add("@EventID", hidEventID.Value);
+                            sDefaultParams.Add("@EventPELID", hidEventPELID.Value);
+                            Classes.cUtilities.PerformNonQuery("uspInsUpdCMEventPELTemplates", sDefaultParams, "LARPortal", Session["UserName"].ToString());
+                        }
+                        else
+                        {
+                            if ((hidEventPELID.Value.Length > 0) && (hidEventPELID.Value != "-1"))
+                            {
+                                SortedList sDeleteParams = new SortedList();
+                                sDeleteParams.Add("@UserID", Session["UserID"].ToString());
+                                sDeleteParams.Add("@EventPELID", hidEventPELID.Value);
+                                Classes.cUtilities.PerformNonQuery("uspDelCMEventPELTemplates", sDeleteParams, "LARPortal", Session["UserName"].ToString());
+                            }
+                            // If the EventPELID is -1 and nothing is selected, it means there was nothing there for it so don't need to do anything.
+                        }
+                    }
+                }
 
                 lblRegistrationMessage.Text = "The event defaults have been changed for the campaign.";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
@@ -458,6 +511,49 @@ namespace LarpPortal.Events
             catch (Exception ex)
             {
                 string t = ex.Message;
+            }
+        }
+
+        protected void rptPELTypes_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item | e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                DataRowView dRow = (DataRowView)e.Item.DataItem;
+                DataView dvPELS = new DataView(_dtCampaignPELs, "TemplateTypeDescription = '" + dRow["TemplateTypeDescription"].ToString() + "'", "", DataViewRowState.CurrentRows);
+                RadioButtonList rblList = (RadioButtonList)e.Item.FindControl("rblPELs");
+                rblList.BorderStyle = BorderStyle.Solid;
+                rblList.BorderWidth = Unit.Pixel(1);
+                rblList.DataTextField = "TemplateDescription";
+                rblList.DataValueField = "PELTemplateID";
+                rblList.DataSource = dvPELS;
+                rblList.DataBind();
+                rblList.Items.Add(new ListItem("No PEL", ""));
+                if (dvPELS.Count == 1)
+                    rblList.Items[0].Selected = true;
+
+                HiddenField hidEventPELID = (HiddenField)e.Item.FindControl("hidEventPELID");
+                string sDefaultValue = "";
+                hidEventPELID.Value = "-1";
+
+                if (_dtCurrentSelectedPELs.Rows.Count > 0)
+                {
+                    DataView dvDefault = new DataView(_dtCurrentSelectedPELs, "TemplateTypeDescription = '" + dRow["TemplateTypeDescription"].ToString() + "'", "", DataViewRowState.CurrentRows);
+
+                    if (dvDefault.Count > 0)
+                    {
+                        sDefaultValue = dvDefault[0]["PELTemplateID"].ToString();
+                        hidEventPELID.Value = dvDefault[0]["EventPELID"].ToString();
+                    }
+                }
+
+                foreach (ListItem dItem in rblList.Items)
+                {
+                    if (dItem.Value == sDefaultValue)
+                    {
+                        rblList.ClearSelection();
+                        dItem.Selected = true;
+                    }
+                }
             }
         }
     }
