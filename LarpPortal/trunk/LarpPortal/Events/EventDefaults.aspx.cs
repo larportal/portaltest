@@ -12,6 +12,8 @@ namespace LarpPortal.Events
 {
     public partial class EventDefaults : System.Web.UI.Page
     {
+        private DataTable _dtCampaignPELs = new DataTable();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             tbStartTime.Attributes.Add("Placeholder", "Time");
@@ -31,11 +33,24 @@ namespace LarpPortal.Events
 
             SortedList sParams = new SortedList();
             sParams.Add("@StatusType", "Registration");
-            Classes.cUtilities.LoadDropDownList(ddlDefaultRegStatus, "uspGetStatus", sParams, "StatusName", "StatusID", "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_Load");
+            DataTable dtRegStatuses = Classes.cUtilities.LoadDataTable("uspGetStatus", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_Load.GetStatuses");
+
+            DataView dvRegStatuses = new DataView(dtRegStatuses, "(StatusName = 'Approved') or (StatusName = 'Wait List')", "StatusName", DataViewRowState.CurrentRows);
+            ddlDefaultRegStatus.DataSource = dvRegStatuses;
+            ddlDefaultRegStatus.DataTextField = "StatusName";
+            ddlDefaultRegStatus.DataValueField = "StatusID";
+            ddlDefaultRegStatus.DataBind();
             ddlDefaultRegStatus.Items.Insert(0, new ListItem("No default", "0"));
 
             sParams = new SortedList();
-            Classes.cUtilities.LoadDropDownList(ddlSiteList, "uspGetSites", sParams, "SiteName", "SiteID", "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_Load");
+
+            DataTable dtSites = Classes.cUtilities.LoadDataTable("uspGetSites", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_Load.GetSites");
+
+            DataView dvRegSites = new DataView(dtSites, "", "SiteNameAddress", DataViewRowState.CurrentRows);
+            ddlSiteList.DataSource = dvRegSites;
+            ddlSiteList.DataTextField = "SiteNameAddress";
+            ddlSiteList.DataValueField = "SiteID";
+            ddlSiteList.DataBind();
             ddlSiteList.Items.Insert(0, new ListItem("No default", "0"));
         }
 
@@ -49,11 +64,18 @@ namespace LarpPortal.Events
                     SortedList sParams = new SortedList();
                     sParams.Add("@CampaignID", iCampaignID);
 
-                    DataTable dtDefaults = Classes.cUtilities.LoadDataTable("uspGetCampaignEventDefaults", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_PreRender");
+                    DataSet dsDefaults = Classes.cUtilities.LoadDataSet("uspGetCampaignEventDefaults", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_PreRender");
 
                     DateTime dtTemp;
 
-                    foreach (DataRow dRow in dtDefaults.Rows)
+                    DataView vwAllPELTypes = new DataView(dsDefaults.Tables[1]);
+                    DataTable dtPELType = vwAllPELTypes.ToTable(true, "TemplateTypeDescription", "PELTemplateTypeID");
+
+                    _dtCampaignPELs = dsDefaults.Tables[1];
+                    rptPELTypes.DataSource = dtPELType;
+                    rptPELTypes.DataBind();
+
+                    foreach (DataRow dRow in dsDefaults.Tables[0].Rows)
                     {
                         hidDefaultID.Value = dRow["CMCampaignEventDefaultID"].ToString();
 
@@ -316,8 +338,63 @@ namespace LarpPortal.Events
 
             Classes.cUtilities.PerformNonQuery("uspInsUpdCMCampaignEventDefaults", sParams, "LARPortal", Session["UserName"].ToString());
 
+            foreach (RepeaterItem rpItem in rptPELTypes.Items)
+            {
+                RadioButtonList rbl = (RadioButtonList)rpItem.FindControl("rblPELs");
+                string sValue = rbl.SelectedValue;
+
+                if (sValue != "")
+                {
+                    SortedList sDefaultParams = new SortedList();
+                    sDefaultParams.Add("@UserID", Session["UserID"].ToString());
+                    sDefaultParams.Add("@PELTemplateID", sValue);
+                    sDefaultParams.Add("@IsCampaignDefault", true);
+
+                    Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELTemplate", sDefaultParams, "LARPortal", Session["UserName"].ToString());
+                }
+                else
+                {
+                    HiddenField hidTemplateTypeID = (HiddenField)rpItem.FindControl("hidTemplateTypeID");
+                    SortedList sDefaultParams = new SortedList();
+                    sDefaultParams.Add("@UserID", Session["UserID"].ToString());
+                    sDefaultParams.Add("@CampaignID", Session["CampaignID"].ToString());
+                    sDefaultParams.Add("@PELTemplateTypeID", hidTemplateTypeID.Value);
+
+                    Classes.cUtilities.PerformNonQuery("uspClearCMPELTemplateCampaignDefault", sDefaultParams, "LARPortal", Session["UserName"].ToString());
+                }
+            }
+
             lblRegistrationMessage.Text = "The event defaults have been changed for the campaign.";
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+        }
+
+        protected void rptPELTypes_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item | e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                DataRowView dRow = (DataRowView)e.Item.DataItem;
+                DataView dvPELS = new DataView(_dtCampaignPELs, "TemplateTypeDescription = '" + dRow["TemplateTypeDescription"].ToString() + "'", "", DataViewRowState.CurrentRows);
+                RadioButtonList rblList = (RadioButtonList)e.Item.FindControl("rblPELs");
+                rblList.BorderStyle = BorderStyle.Solid;
+                rblList.BorderWidth = Unit.Pixel(1);
+                rblList.DataTextField = "TemplateDescription";
+                rblList.DataValueField = "PELTemplateID";
+                rblList.DataSource = dvPELS;
+                rblList.DataBind();
+                rblList.Items.Add(new ListItem("No Default", ""));
+                DataView dvDefault = new DataView(_dtCampaignPELs, "TemplateTypeDescription = '" + dRow["TemplateTypeDescription"].ToString() + "' and IsCampaignDefault = 1", "", DataViewRowState.CurrentRows);
+                string sDefaultValue = "";
+                if (dvDefault.Count > 0)
+                    sDefaultValue = dvDefault[0]["PELTemplateID"].ToString();
+                foreach (ListItem dItem in rblList.Items)
+                {
+                    if (dItem.Value == sDefaultValue)
+                    {
+                        rblList.ClearSelection();
+                        dItem.Selected = true;
+                    }
+                }
+            }
         }
     }
 }
