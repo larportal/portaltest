@@ -447,7 +447,7 @@
                             </div>
                         </div>
 
-                        <div class="row col-sm-12 NoPadding">
+<%--                        <div class="row col-sm-12 NoPadding">
                             <div class="TableLabel col-lg-3">
                                 Auto Cancel Reg
                             </div>
@@ -460,7 +460,7 @@
                                 <asp:RequiredFieldValidator ID="rfvAutoCancelReg" runat="server" ControlToValidate="ddlAutoCancelReg" InitialValue=""
                                     CssClass="ErrorDisplay" Text="* Required" Display="Dynamic" />
                             </div>
-                        </div>
+                        </div>--%>
 
                         <div class="row col-sm-12 NoPadding">
                             <div class="TableLabel col-lg-3">
