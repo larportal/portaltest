@@ -562,24 +562,6 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.TextBox tbPaymentInstructions;
         
         /// <summary>
-        /// ddlAutoCancelReg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAutoCancelReg;
-        
-        /// <summary>
-        /// rfvAutoCancelReg control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvAutoCancelReg;
-        
-        /// <summary>
         /// tbInfoSkillDue control.
         /// </summary>
         /// <remarks>

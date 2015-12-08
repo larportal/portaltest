@@ -163,6 +163,9 @@ namespace LarpPortal.Events
                                 tbInfoSkillDue.Text = dtTemp.ToShortDateString();
                             if (DateTime.TryParse(dEventInfo["PELDeadlineDate"].ToString(), out dtTemp))
                                 tbPELDue.Text = dtTemp.ToShortDateString();
+                            if (DateTime.TryParse(dEventInfo["PaymentDueDate"].ToString(), out dtTemp))
+                                tbPaymentDate.Text = dtTemp.ToShortDateString();
+
                             if (dEventInfo["PCFoodService"] != DBNull.Value)
                             {
                                 if (bool.TryParse(dEventInfo["PCFoodService"].ToString(), out bTemp))
@@ -243,6 +246,14 @@ namespace LarpPortal.Events
                                         tbCloseRegTime.Text = sTime;
                                     }
                                 }
+
+                                if (dRow["DaysToPaymentDue"] != DBNull.Value)
+                                    if (int.TryParse(dRow["PaymentDueDate"].ToString(), out iTemp))
+                                        hidDaysToPaymentDue.Value = iTemp.ToString();
+
+                                if (dRow["DaysToInfoSkillDeadlineDate"] != DBNull.Value)
+                                    if (int.TryParse(dRow["DaysToInfoSkillDeadlineDate"].ToString(), out iTemp))
+                                        hidDaysToInfoSkillDeadlineDate.Value = iTemp.ToString();
 
                                 if (dRow["RegistrationStatus"] != DBNull.Value)
                                     foreach (ListItem liStatus in ddlDefaultRegStatus.Items)

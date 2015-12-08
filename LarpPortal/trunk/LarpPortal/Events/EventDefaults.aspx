@@ -303,7 +303,7 @@
                             </div>
                         </div>
 
-                        <div class="row col-lg-12 NoPadding">
+<%--                        <div class="row col-lg-12 NoPadding">
                             <div class="TableLabel col-lg-3">
                                 Auto Cancel Reg
                             </div>
@@ -315,7 +315,7 @@
                                 </asp:DropDownList>
                             </div>
                         </div>
-
+--%>
                         <div class="row col-lg-12 NoPadding">
                             <div class="TableLabel col-lg-3">
                                 Info Skill Due
