@@ -264,12 +264,15 @@ namespace LarpPortal.Events
 
             btnRegister.Text = "Register";
 
-            ddlRoles.DataSource = dsEventInfo.Tables["RolesForEvent"];
+            DataView dvJustRoleNames = new DataView (dsEventInfo.Tables["RolesForEvent"], "", "", DataViewRowState.CurrentRows);
+            DataTable dtJustRoleNames = dvJustRoleNames.ToTable(true, "RoleAlignmentID", "Description");
+
+            ddlRoles.DataSource = dtJustRoleNames;
             ddlRoles.DataTextField = "Description";
             ddlRoles.DataValueField = "RoleAlignmentID";
             ddlRoles.DataBind();
 
-            if (dsEventInfo.Tables["RolesForEvent"].Rows.Count == 1)
+            if (dtJustRoleNames.Rows.Count == 1)
             {
                 ddlRoles.Visible = false;
                 lblRole.Text = ddlRoles.Items[0].Text;
@@ -277,7 +280,7 @@ namespace LarpPortal.Events
             }
             else
             {
-                if (dsEventInfo.Tables["RolesForEvent"].Rows.Count > 1)
+                if (dtJustRoleNames.Rows.Count > 1)
                 {
                     lblRole.Visible = false;
                     ddlRoles.Visible = true;
@@ -470,6 +473,7 @@ namespace LarpPortal.Events
                         foreach (ListItem li in ddlRoles.Items)
                             if (li.Value == dReg["RoleAlignmentID"].ToString())
                             {
+                                ddlRoles.ClearSelection();
                                 li.Selected = true;
                                 bSelectionFound = true;
                             }
