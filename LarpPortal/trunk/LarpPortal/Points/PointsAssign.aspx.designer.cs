@@ -283,6 +283,24 @@ namespace LarpPortal.Points {
         protected global::System.Web.UI.WebControls.HiddenField hidInsertDescriptionNPCPEL;
         
         /// <summary>
+        /// hidInsertDestinationCampaign control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidInsertDestinationCampaign;
+        
+        /// <summary>
+        /// hidInsertDestinationCampaignLPType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidInsertDestinationCampaignLPType;
+        
+        /// <summary>
         /// hidInsertOpportunityNotes control.
         /// </summary>
         /// <remarks>
@@ -499,24 +517,6 @@ namespace LarpPortal.Points {
         protected global::System.Web.UI.WebControls.DropDownList ddlAddOpportunityDefaultIDC6;
         
         /// <summary>
-        /// pnlCPDestinationD3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlCPDestinationD3;
-        
-        /// <summary>
-        /// ddlDestinationCampaign control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDestinationCampaign;
-        
-        /// <summary>
         /// pnlCPDestinationD6 control.
         /// </summary>
         /// <remarks>
@@ -596,6 +596,24 @@ namespace LarpPortal.Points {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPEL;
+        
+        /// <summary>
+        /// pnlCPDestinationD3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCPDestinationD3;
+        
+        /// <summary>
+        /// ddlDestinationCampaign control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlDestinationCampaign;
         
         /// <summary>
         /// pnlAddDonationCP control.

@@ -335,6 +335,8 @@
                                             <asp:HiddenField ID="hidInsertDescriptionNPCEvent" runat="server" />
                                             <asp:HiddenField ID="hidInsertDescriptionNPCSetup" runat="server" />
                                             <asp:HiddenField ID="hidInsertDescriptionNPCPEL" runat="server" />
+                                            <asp:HiddenField ID="hidInsertDestinationCampaign" runat="server" />
+                                            <asp:HiddenField ID="hidInsertDestinationCampaignLPType" runat="server" />
                                             <asp:HiddenField ID="hidInsertOpportunityNotes" runat="server" />
                                             <asp:HiddenField ID="hidInsertExampleURL" runat="server" />
                                             <asp:HiddenField ID="hidInsertReasonID" runat="server" />
@@ -354,18 +356,21 @@
                                                 <div class="row PrePostPadding">
                                                     <div class="TableLabel col-sm-3">Player: <%--A--%></div>
                                                     <div class="col-sm-7 NoPadding">
-                                                        <asp:DropDownList ID="ddlCampaignPlayer" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlCampaignPlayer_SelectedIndexChanged">
+                                                        <asp:DropDownList ID="ddlCampaignPlayer" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                            OnSelectedIndexChanged="ddlCampaignPlayer_SelectedIndexChanged">
                                                         </asp:DropDownList>
                                                     </div>
                                                     <div class="col-sm-1 NoPadding">
-                                                        <asp:Button ID="btnSaveNewOpportunity" runat="server" CssClass="StandardButton" Width="77px" Text="Save" OnClick="btnSaveNewOpportunity_Click" />
+                                                        <asp:Button ID="btnSaveNewOpportunity" runat="server" CssClass="StandardButton" Width="77px" Text="Save" 
+                                                            OnClick="btnSaveNewOpportunity_Click" />
                                                     </div>
                                                 </div>
                                                 <asp:Panel ID="pnlAddSourceCampaign" runat="server" Visible="false">
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Source Campaign: <%--B--%></div>
                                                         <div class="col-sm-5 NoPadding">
-                                                            <asp:DropDownList ID="ddlAddSourceCampaign" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlAddSourceCampaign_SelectedIndexChanged"></asp:DropDownList>
+                                                            <asp:DropDownList ID="ddlAddSourceCampaign" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlAddSourceCampaign_SelectedIndexChanged"></asp:DropDownList>
                                                         </div>
                                                         <div class="col-sm-3 NoPadding">
                                                             <asp:Label ID="lblAddMessage" runat="server"></asp:Label>
@@ -376,7 +381,8 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Earn Description: <%--C1--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlAddOpportunityDefaultID" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlAddOpportunityDefaultID_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlAddOpportunityDefaultID" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlAddOpportunityDefaultID_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </div>
                                                     </div>
@@ -385,23 +391,13 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Earn Description: <%--C6--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlAddOpportunityDefaultIDC6" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlAddOpportunityDefaultIDC6_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlAddOpportunityDefaultIDC6" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlAddOpportunityDefaultIDC6_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </div>
                                                     </div>
                                                 </asp:Panel>
-                                                <asp:Panel ID="pnlCPDestinationD3" runat="server" Visible="false">
-                                                    <%--D3
-                                                        Choose event
-                                                        Choose destination for CP--%>
-                                                    <div class="row PrePostPadding">
-                                                        <div class="TableLabel col-sm-3">Send Points To: <%--D3--%></div>
-                                                        <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlDestinationCampaign" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlDestinationCampaign_SelectedIndexChanged">
-                                                            </asp:DropDownList>
-                                                        </div>
-                                                    </div>
-                                                </asp:Panel>
+
                                                 <asp:Panel ID="pnlCPDestinationD6" runat="server" Visible="false">
                                                     <%--D6
                                                         Choose destination for CP--%>
@@ -412,7 +408,8 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Event: </div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlSourceEvent" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlSourceEvent_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlSourceEvent" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlSourceEvent_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </div>
                                                     </div>
@@ -420,27 +417,43 @@
                                                         <div class="TableLabel col-sm-3">
                                                         </div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:CheckBox ID="chkNPCEvent" Text="NPC Event" runat="server" Checked="true" OnCheckedChanged="chkNPCEvent_CheckedChanged" />
+                                                            <asp:CheckBox ID="chkNPCEvent" Text="NPC Event" runat="server" Checked="true" 
+                                                                OnCheckedChanged="chkNPCEvent_CheckedChanged" />
                                                             <%--Conditional Value--%>
                                                             <asp:TextBox ID="txtNPCEvent" runat="server" Width="35px" Text="1"></asp:TextBox> Points
                                                             <br />
-                                                            <asp:CheckBox ID="chkSetupCleanup" Text="Setup/Cleanup" runat="server" Checked="true" OnCheckedChanged="chkSetupCleanup_CheckedChanged"  />
+                                                            <asp:CheckBox ID="chkSetupCleanup" Text="Setup/Cleanup" runat="server" Checked="true" 
+                                                                OnCheckedChanged="chkSetupCleanup_CheckedChanged"  />
                                                             <%--Conditional Value--%>
                                                             <asp:TextBox ID="txtSetupCleanup" runat="server" Width="35px" Text="0.5"></asp:TextBox> Points
                                                             <br />
-                                                            <asp:CheckBox ID="chkPEL" Text="PEL" runat="server" Checked="true" OnCheckedChanged="chkPEL_CheckedChanged"  />
+                                                            <asp:CheckBox ID="chkPEL" Text="PEL" runat="server" Checked="true" 
+                                                                OnCheckedChanged="chkPEL_CheckedChanged"  />
                                                             <%--Conditional Value--%>
                                                             <asp:TextBox ID="txtPEL" runat="server" Width="55px" Text="0.5"></asp:TextBox> Points
                                                             <br />
                                                         </div>
                                                     </div>
                                                 </asp:Panel>
-
+                                                <asp:Panel ID="pnlCPDestinationD3" runat="server" Visible="false">
+                                                    <%--D3
+                                                        Choose event
+                                                        Choose destination for CP--%>
+                                                    <div class="row PrePostPadding">
+                                                        <div class="TableLabel col-sm-3">Send Points To: <%--D3--%></div>
+                                                        <div class="col-sm-6 NoPadding">
+                                                            <asp:DropDownList ID="ddlDestinationCampaign" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlDestinationCampaign_SelectedIndexChanged">
+                                                            </asp:DropDownList>
+                                                        </div>
+                                                    </div>
+                                                </asp:Panel>
                                                 <asp:Panel ID="pnlAddDonationCP" runat="server" Visible="false">
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Donation Type: <%--F0--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlDonationTypes" runat="server" AutoPostBack="true" Enabled="true" OnSelectedIndexChanged="ddlDonationTypes_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlDonationTypes" runat="server" AutoPostBack="true" Enabled="true" 
+                                                                OnSelectedIndexChanged="ddlDonationTypes_SelectedIndexChanged">
                                                                 <asp:ListItem Selected="True" Text="Donation"></asp:ListItem>
                                                                 <asp:ListItem Text="Donation, Art"></asp:ListItem>
                                                                 <asp:ListItem Text="Donation, Costume"></asp:ListItem>
@@ -458,13 +471,15 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Donation Notes: <%--F0--%></div>
                                                         <div class="col-sm-9 NoPadding">
-                                                            <asp:TextBox ID="txtOpportunityNotes" runat="server" Width="95%" OnTextChanged="txtOpportunityNotes_TextChanged"></asp:TextBox>
+                                                            <asp:TextBox ID="txtOpportunityNotes" runat="server" Width="95%" 
+                                                                OnTextChanged="txtOpportunityNotes_TextChanged"></asp:TextBox>
                                                         </div>
                                                     </div>
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Receipt Date: <%--F0--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:TextBox ID="txtReceiptDate" runat="server" Width="100px" OnTextChanged="txtReceiptDate_TextChanged"></asp:TextBox>
+                                                            <asp:TextBox ID="txtReceiptDate" runat="server" Width="100px" 
+                                                                OnTextChanged="txtReceiptDate_TextChanged"></asp:TextBox>
                                                             <ajaxToolkit:CalendarExtender runat="server" TargetControlID="txtReceiptDate" Format="MM/dd/yyyy" />
                                                         </div>
                                                     </div>
@@ -477,7 +492,8 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Character: <%--F0--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF0" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlSelectCharacterOrBankF0_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF0" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlSelectCharacterOrBankF0_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </div>
                                                     </div>
@@ -493,7 +509,8 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Character: <%--F1--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF1" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlSelectCharacterOrBankF1_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF1" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlSelectCharacterOrBankF1_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </div>
                                                     </div>
@@ -503,7 +520,8 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Event: </div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlSourceEventPC" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlSourceEventPC_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlSourceEventPC" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlSourceEventPC_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </div>
                                                     </div>
@@ -515,34 +533,45 @@
                                                     </div>
                                                     <div class="TableLabel col-sm-3">Character: <%--F2--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF2" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlSelectCharacterOrBankF2_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF2" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlSelectCharacterOrBankF2_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </div>
                                                 </asp:Panel> 
                                                 <asp:Panel ID="pnlAddNPCLocalCPStaying" runat="server" Visible="false">
+                                                    <div class="row PrePostPadding">
                                                     <div class="TableLabel col-sm-3">Character: <%--F3--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF3" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlSelectCharacterOrBankF3_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF3" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlSelectCharacterOrBankF3_SelectedIndexChanged">
                                                             </asp:DropDownList>
-                                                        </div>                                                
+                                                        </div>
+                                                    </div>                                               
                                                 </asp:Panel>
                                                 <asp:Panel ID="pnlAddNPCLocalCPGoingToLARPPortalCampaign" runat="server" Visible="false">
                                                     <%--F4--%>
+                                                    <div class="row PrePostPadding">
                                                     <div class="TableLabel col-sm-3">Character: <%--F4--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF4" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlSelectCharacterOrBankF4_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF4" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlSelectCharacterOrBankF4_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </div>
+                                                    </div>
                                                 </asp:Panel>
                                                 <asp:Panel ID="pnlAddNPCLocalCPGoingToNonLARPPortalCampaign" runat="server" Visible="false">
                                                     <%--F5 Different from others. Set up email--%>
+                                                    <div class="row PrePostPadding">
+
+                                                    </div>
 
                                                 </asp:Panel>
                                                 <asp:Panel ID="pnlAddNPCIncoming" runat="server" Visible="false">
                                                     <%--F6--%>
                                                     <div class="TableLabel col-sm-3">Character: <%--F6--%></div>
                                                         <div class="col-sm-6 NoPadding">
-                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF6" runat="server" CssClass="NoPadding" AutoPostBack="true" OnSelectedIndexChanged="ddlSelectCharacterOrBankF6_SelectedIndexChanged">
+                                                            <asp:DropDownList ID="ddlSelectCharacterOrBankF6" runat="server" CssClass="NoPadding" AutoPostBack="true" 
+                                                                OnSelectedIndexChanged="ddlSelectCharacterOrBankF6_SelectedIndexChanged">
                                                             </asp:DropDownList>
                                                         </div>
                                                 </asp:Panel>
@@ -578,8 +607,8 @@
                                     CssClass="table table-striped table-hover table-condensed" BorderColor="Black" BorderStyle="Solid" BorderWidth="1">
                                     <RowStyle BackColor="White" />
                                     <Columns>
-                                        <asp:BoundField DataField="ReceiptDate" HeaderText=" Earn Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
-                                            ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
+                                        <asp:BoundField DataField="ReceiptDate" HeaderText=" Earn Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="false" 
+                                            HeaderStyle-Wrap="false" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                         <asp:BoundField DataField="FullDescription" HeaderText="Type" ItemStyle-Wrap="false"
                                             HeaderStyle-Wrap="false" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                         <asp:BoundField DataField="AdditionalNotes" HeaderText="Description" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
@@ -588,8 +617,8 @@
                                             ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                         <asp:BoundField DataField="StatusName" HeaderText="Status" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
                                             ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
-                                        <asp:BoundField DataField="CPApprovedDate" HeaderText="Spend Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
-                                            ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
+                                        <asp:BoundField DataField="CPApprovedDate" HeaderText="Spend Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="true" 
+                                            HeaderStyle-Wrap="false" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                         <asp:BoundField DataField="RecvFromCampaign" HeaderText="Earned At" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
                                             ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                         <asp:BoundField DataField="OwningPlayer" HeaderText="Earned By" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
