@@ -366,6 +366,7 @@ namespace LarpPortal.Classes
             AddPointsToCharacter(CharacterID, CPValue);
             // Call the routine to add the CP to the player CP audit log.  If assigned to character, create it spent otherwise
             //      create it banked (_PLPlayerAuditStatus)
+            _CampaignID = CampaignID;
             CreatePlayerCPLog(UserID, _CampaignCPOpportunityID, ReceiptDate, CPValue, ReasonID, CampaignPlayerID, CharacterID);
         }
 

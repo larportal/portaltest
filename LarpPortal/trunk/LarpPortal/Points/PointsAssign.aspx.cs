@@ -17,7 +17,7 @@ namespace LarpPortal.Points
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
 
             }
@@ -34,7 +34,7 @@ namespace LarpPortal.Points
                 if (Session["UserName"] != null)
                     hidUserName.Value = Session["UserName"].ToString();
                 if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
-                { 
+                {
                     hidCampaignID.Value = iTemp.ToString();
                     intCampaignID = iTemp;
                 }
@@ -47,9 +47,9 @@ namespace LarpPortal.Points
                 //ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, "PC"); // Default load assumes PC opportunities
                 ddlCampaignPlayerLoad(hidUserName.Value, intCampaignID);
                 ddlAddCharacterLoad(hidUserName.Value, intCampaignID);
+                DropdownListDefaultColors();
             }
         }
-
 
         private void FillGrid(string strUserName, string strCampaignID)
         {
@@ -87,12 +87,12 @@ namespace LarpPortal.Points
             ddlAttendance.DataValueField = "EventID";
             ddlAttendance.DataSource = dtAttendance;
             ddlAttendance.DataBind();
-            ddlAttendance.Items.Insert(0,new ListItem("Select Event - Date", "0"));
+            ddlAttendance.Items.Insert(0, new ListItem("Select Event - Date", "0"));
             ddlAttendance.SelectedIndex = 0;
         }
 
         private void ddlCharacterLoad(string strUserName, int intCampaignID)
-        {        
+        {
             ddlCharacters.Items.Clear();
             string stStoredProc = "uspGetCampaignCharacters";
             string stCallingMethod = "PointsAssign.aspx.ddlCharacterLoad";
@@ -210,80 +210,80 @@ namespace LarpPortal.Points
 
         protected void gvPoints_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-                try
+            try
+            {
+                int index = gvPoints.EditIndex;
+                int iTemp;
+                int UserID = 0;
+                double dblTemp = 0;
+                double CP = 0;
+                if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                    UserID = iTemp;
+                HiddenField hidCPOpp = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidPointID");
+                HiddenField hidCmpPlyrID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidCampaignPlayer");
+                HiddenField hidCharID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidCharacterID");
+                HiddenField hidEvntID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidEventID");
+                HiddenField hidOppDefID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidCPOpportunityDefaultID");
+                HiddenField hidRsnID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidReasonID");
+                HiddenField hidAddID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidAddedByID");
+                HiddenField hidOppNotes = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidOpportunityNotes");
+                HiddenField hidExURL = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidExampleURL");
+                Label lblEarnDesc = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblEarnDescription");
+                int intCmpPlyrID = 0;
+                int intCharID = 0;
+                int intEvntID = 0;
+                int intCPOpp = 0;
+                int intOppDefID = 0;
+                int intRsnID = 0;
+                int intAddID = 0;
+                string strOppNotes = hidOppNotes.Value.ToString();
+                string strExURL = hidExURL.Value.ToString();
+                string strDesc = lblEarnDesc.Text;
+                if (int.TryParse(hidCmpPlyrID.Value.ToString(), out iTemp))
+                    intCmpPlyrID = iTemp;
+                if (int.TryParse(hidCharID.Value.ToString(), out iTemp))
+                    intCharID = iTemp;
+                if (int.TryParse(hidEvntID.Value.ToString(), out iTemp))
+                    intEvntID = iTemp;
+                if (int.TryParse(hidCPOpp.Value.ToString(), out iTemp))
+                    intCPOpp = iTemp;
+                if (int.TryParse(hidOppDefID.Value.ToString(), out iTemp))
+                    intOppDefID = iTemp;
+                if (int.TryParse(hidRsnID.Value.ToString(), out iTemp))
+                    intRsnID = iTemp;
+                if (int.TryParse(hidAddID.Value.ToString(), out iTemp))
+                    intAddID = iTemp;
+                string strComments = "";
+                if (Session["EditMode"].ToString() == "Edit")
                 {
-                    int index = gvPoints.EditIndex;
-                    int iTemp;
-                    int UserID = 0;
-                    double dblTemp = 0;
-                    double CP = 0;
-                    if (int.TryParse(Session["UserID"].ToString(), out iTemp))
-                        UserID = iTemp;
-                    HiddenField hidCPOpp = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidPointID");
-                    HiddenField hidCmpPlyrID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidCampaignPlayer");
-                    HiddenField hidCharID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidCharacterID");
-                    HiddenField hidEvntID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidEventID");
-                    HiddenField hidOppDefID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidCPOpportunityDefaultID");
-                    HiddenField hidRsnID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidReasonID");
-                    HiddenField hidAddID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidAddedByID");
-                    HiddenField hidOppNotes = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidOpportunityNotes");
-                    HiddenField hidExURL = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidExampleURL");
-                    Label lblEarnDesc = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblEarnDescription");
-                    int intCmpPlyrID = 0;
-                    int intCharID = 0;
-                    int intEvntID = 0;
-                    int intCPOpp = 0;
-                    int intOppDefID = 0;
-                    int intRsnID = 0;
-                    int intAddID = 0;
-                    string strOppNotes = hidOppNotes.Value.ToString();
-                    string strExURL = hidExURL.Value.ToString();
-                    string strDesc = lblEarnDesc.Text;
-                    if (int.TryParse(hidCmpPlyrID.Value.ToString(), out iTemp))
-                        intCmpPlyrID = iTemp;
-                    if (int.TryParse(hidCharID.Value.ToString(), out iTemp))
-                        intCharID = iTemp;
-                    if (int.TryParse(hidEvntID.Value.ToString(), out iTemp))
-                        intEvntID = iTemp;
-                    if (int.TryParse(hidCPOpp.Value.ToString(), out iTemp))
-                        intCPOpp = iTemp;
-                    if (int.TryParse(hidOppDefID.Value.ToString(), out iTemp))
-                        intOppDefID = iTemp;
-                    if (int.TryParse(hidRsnID.Value.ToString(), out iTemp))
-                        intRsnID = iTemp;
-                    if (int.TryParse(hidAddID.Value.ToString(), out iTemp))
-                        intAddID = iTemp;
-                    string strComments = "";
-                    if (Session["EditMode"].ToString() == "Edit")
-                    {
-                        GridViewRow row = gvPoints.Rows[index];
-                        TextBox txtComments =       row.FindControl("tbStaffComments") as TextBox;
-                        strComments = txtComments.Text;
-                        TextBox txtCP =             row.FindControl("txtCPValue") as TextBox;     
-                        if (double.TryParse(txtCP.Text.ToString(), out dblTemp))
-                            CP = dblTemp;
-                        Session["EditMode"] = "Assign";
-                    }
-                    else
-                    {
-                        Label lblCPValue = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblCPValue");
-                        Label lblStaffComents = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblStaffComments");
-                        if (double.TryParse(lblCPValue.Text, out dblTemp))
-                            CP = dblTemp;
-                        strComments = lblStaffComents.Text;
+                    GridViewRow row = gvPoints.Rows[index];
+                    TextBox txtComments = row.FindControl("tbStaffComments") as TextBox;
+                    strComments = txtComments.Text;
+                    TextBox txtCP = row.FindControl("txtCPValue") as TextBox;
+                    if (double.TryParse(txtCP.Text.ToString(), out dblTemp))
+                        CP = dblTemp;
+                    Session["EditMode"] = "Assign";
+                }
+                else
+                {
+                    Label lblCPValue = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblCPValue");
+                    Label lblStaffComents = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblStaffComments");
+                    if (double.TryParse(lblCPValue.Text, out dblTemp))
+                        CP = dblTemp;
+                    strComments = lblStaffComents.Text;
 
-                    }
-                    Classes.cPoints Point = new Classes.cPoints();
-                    Point.UpdateCPOpportunity(UserID, intCPOpp, intCmpPlyrID, intCharID, intOppDefID, intEvntID,
-                        strDesc, strOppNotes, strExURL, intRsnID, intAddID, CP, UserID, 
-                        DateTime.Now, UserID, strComments);
                 }
-                catch (Exception ex)
-                {
-                    string l = ex.Message;
-                }
-                gvPoints.EditIndex = -1;
-                FillGrid(hidUserName.Value, hidCampaignID.Value);
+                Classes.cPoints Point = new Classes.cPoints();
+                Point.UpdateCPOpportunity(UserID, intCPOpp, intCmpPlyrID, intCharID, intOppDefID, intEvntID,
+                    strDesc, strOppNotes, strExURL, intRsnID, intAddID, CP, UserID,
+                    DateTime.Now, UserID, strComments);
+            }
+            catch (Exception ex)
+            {
+                string l = ex.Message;
+            }
+            gvPoints.EditIndex = -1;
+            FillGrid(hidUserName.Value, hidCampaignID.Value);
         }
 
         protected void gvPoints_RowUpdated(object sender, GridViewUpdatedEventArgs e)
@@ -316,7 +316,7 @@ namespace LarpPortal.Points
             FillGrid(hidUserName.Value, hidCampaignID.Value);
         }
 
-//===========================================
+        //===========================================
 
         protected void btnAddNewOpportunity_Click(object sender, EventArgs e)
         {
@@ -337,15 +337,15 @@ namespace LarpPortal.Points
             pnlAssignHeader.Visible = true;
         }
 
-// ======================= Put all the add routines here for ease of reference ======================
+        // ======================= Put all the add routines here for ease of reference ======================
 
         protected void btnSaveNewOpportunity_Click(object sender, EventArgs e)
         {
             // OnClientClick="alert('Nothing saved; button under construction.')"
             Classes.cPoints PointAdd = new Classes.cPoints();
             //int UserID, int CampaignPlayerID, int CharacterID, int CampaignCPOpportunityDefaultID, int EventID, int CampaignID, string Description,
-                //string OpportunityNotes, string ExampleURL, int ReasonID, int StatusID, int AddedByID, double CPValue, int ApprovedByID, DateTime ReceiptDate,
-                //int ReceivedByID, DateTime CPAssignmentDate, string StaffComments
+            //string OpportunityNotes, string ExampleURL, int ReasonID, int StatusID, int AddedByID, double CPValue, int ApprovedByID, DateTime ReceiptDate,
+            //int ReceivedByID, DateTime CPAssignmentDate, string StaffComments
             int addUserID = 0;
             int.TryParse(Session["UserID"].ToString(), out addUserID);
             int addCampaignPlayerID = 0;
@@ -359,7 +359,7 @@ namespace LarpPortal.Points
             int addCampaignID = 0;
             int.TryParse(ddlAddSourceCampaign.SelectedValue.ToString(), out addCampaignID);
             string addDescription;
-            addDescription =  hidInsertDescription.Value.Trim();
+            addDescription = hidInsertDescription.Value.Trim();
             string addOpportunityNotes;
             addOpportunityNotes = hidInsertOpportunityNotes.Value.Trim();
             string addExampleURL;
@@ -385,21 +385,6 @@ namespace LarpPortal.Points
             {
                 case "F3":
                     // NPC Processing local to LARP Portal campaign
-
-                    break;
-
-                case "F4":
-                    // NPC Processing local to non-LARP Portal campaign
-
-                    break;
-
-                case "F5":
-                    // NPC processing local via email
-
-                    break;
-
-                case "E6":
-                    // NPC processing from other campaign
                     for (int i = 1; i < 4; i++)
                     {
                         // Set values for each of the NPC options and call PointAdd
@@ -413,8 +398,8 @@ namespace LarpPortal.Points
                                     int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCEvent.Value, out addCampaignCPOpportunityDefaultID);
                                     addDescription = hidInsertDescriptionNPCEvent.Value.Trim();
                                     int.TryParse(hidInsertReasonIDNPCEvent.Value.ToString(), out addReasonID);
-                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID, 
-                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate, 
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
                                         addReceivedByID, addCPAssignmentDate, addStaffComments);
                                 }
                                 break;
@@ -451,7 +436,196 @@ namespace LarpPortal.Points
                                 break;
                         }
                     }
-                        break;
+                    break;
+
+                case "F4":
+                    // NPC Processing non-local to LARP Portal campaign
+                    // Convert local CampaignPlayerID to CampaignPlayerID of transfer campaign
+                    // Convert CampaignPlayerID using uspConvertCampaignPlayerID
+                    string stStoredProc = "uspConvertCampaignPlayerID";
+                    string stCallingMethod = "PointsAssign.aspx.btnSaveNewOpportunityClick";
+                    int iTemp = 0;
+                    int CampaignPlayerID = 0;
+                    int NewCampaignID = 0;
+                    if (int.TryParse(addCampaignPlayerID.ToString(), out iTemp))
+                        CampaignPlayerID = iTemp;
+                    int.TryParse(ddlDestinationCampaign.SelectedValue.ToString(), out NewCampaignID);
+                    DataTable dtCampaignPlayers = new DataTable();
+                    SortedList sParams = new SortedList();
+                    sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
+                    sParams.Add("@NewCampaignID", NewCampaignID);
+                    dtCampaignPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+                    foreach (DataRow dRow in dtCampaignPlayers.Rows)
+                    {
+                        if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
+                            addCampaignPlayerID = iTemp;
+                    }
+                    //
+                    addOpportunityNotes = ddlAddSourceCampaign.SelectedItem + "-" + addOpportunityNotes;
+                    for (int i = 1; i < 4; i++)
+                    {
+                        // Set values for each of the NPC options and call PointAdd
+                        switch (i)
+                        {
+                            case 1:
+                                // NPC event
+                                if (chkNPCEvent.Checked == true)
+                                {
+                                    double.TryParse(txtNPCEvent.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCEvent.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCEvent.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCEvent.Value.ToString(), out addReasonID);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            case 2:
+                                // NPC setup/cleanup
+                                if (chkSetupCleanup.Checked == true)
+                                {
+                                    double.TryParse(txtSetupCleanup.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCSetup.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCSetup.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCSetup.Value.ToString(), out addReasonID);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            case 3:
+                                // NPC PEL
+                                if (chkPEL.Checked == true)
+                                {
+                                    double.TryParse(txtPEL.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCPEL.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCPEL.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCPEL.Value.ToString(), out addReasonID);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+
+                case "F5":
+                    // TODO - Rick - NPC processing non-local to non-LARP Portal campaign via email
+                    addOpportunityNotes = ddlAddSourceCampaign.SelectedItem + "-" + addOpportunityNotes;
+                    for (int i = 1; i < 4; i++)
+                    {
+                        // Set values for each of the NPC options and call PointAdd
+                        switch (i)
+                        {
+                            case 1:
+                                // NPC event
+                                if (chkNPCEvent.Checked == true)
+                                {
+                                    double.TryParse(txtNPCEvent.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCEvent.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCEvent.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCEvent.Value.ToString(), out addReasonID);
+                                    //PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                    //    addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                    //    addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            case 2:
+                                // NPC setup/cleanup
+                                if (chkSetupCleanup.Checked == true)
+                                {
+                                    double.TryParse(txtSetupCleanup.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCSetup.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCSetup.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCSetup.Value.ToString(), out addReasonID);
+                                    //PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                    //    addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                    //    addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            case 3:
+                                // NPC PEL
+                                if (chkPEL.Checked == true)
+                                {
+                                    double.TryParse(txtPEL.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCPEL.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCPEL.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCPEL.Value.ToString(), out addReasonID);
+                                    //PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                    //    addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                    //    addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                    break;
+
+                case "E6":
+                    // NPC processing from other campaign
+                    addOpportunityNotes = ddlAddSourceCampaign.SelectedItem + "-" + addOpportunityNotes;
+                    for (int i = 1; i < 4; i++)
+                    {
+                        // Set values for each of the NPC options and call PointAdd
+                        switch (i)
+                        {
+                            case 1:
+                                // NPC event
+                                if (chkNPCEvent.Checked == true)
+                                {
+                                    double.TryParse(txtNPCEvent.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCEvent.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCEvent.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCEvent.Value.ToString(), out addReasonID);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            case 2:
+                                // NPC setup/cleanup
+                                if (chkSetupCleanup.Checked == true)
+                                {
+                                    double.TryParse(txtSetupCleanup.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCSetup.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCSetup.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCSetup.Value.ToString(), out addReasonID);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            case 3:
+                                // NPC PEL
+                                if (chkPEL.Checked == true)
+                                {
+                                    double.TryParse(txtPEL.Text.ToString(), out addCPValue);
+                                    int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCPEL.Value, out addCampaignCPOpportunityDefaultID);
+                                    addDescription = hidInsertDescriptionNPCPEL.Value.Trim();
+                                    int.TryParse(hidInsertReasonIDNPCPEL.Value.ToString(), out addReasonID);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                    break;
 
                 default:
                     PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID, addDescription,
@@ -464,7 +638,8 @@ namespace LarpPortal.Points
             int UserID = 0;
             int.TryParse(hidCampaignPlayerUserID.Value, out UserID);
             BuildCPAuditTable(UserID);
-            hidLastAddCPStep.Value = "A";            
+            Session["AddCPStep"] = "A";
+            ResetHiddenValues();
         }
 
         protected void ddlCampaignPlayerLoad(string strUserName, int intCampaignID)
@@ -481,10 +656,9 @@ namespace LarpPortal.Points
             ddlCampaignPlayer.DataSource = dtPlayers;
             ddlCampaignPlayer.DataBind();
             ddlCampaignPlayer.Items.Insert(0, new ListItem("Select Player", "0"));
-            ddlCampaignPlayer.SelectedIndex = 0;
         }
 
-        protected void ddlCampaignPlayer_SelectedIndexChanged(object sender, EventArgs e)
+        protected void ResetHiddenValues()
         {
             int UserID = 0;
             if (Session["UserID"] != null)
@@ -505,11 +679,21 @@ namespace LarpPortal.Points
             hidInsertReceivedByID.Value = UserID.ToString();
             hidInsertCPAssignmentDate.Value = DateTime.Now.ToString();
             hidInsertStaffComments.Value = "";
+            txtStaffComments.Text = "";
+        }
+
+        protected void ddlCampaignPlayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropdownListDefaultColors();
+            int UserID = 0;
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out UserID);
+            ResetHiddenValues();
             Session["AddCPStep"] = "A";
             hidLastAddCPStep.Value = "A";
             int intCampaignID = 0;
             int.TryParse(hidCampaignID.Value.ToString(), out intCampaignID);
-            ddlAddSourceCampaignLoad(hidUserName.Value,intCampaignID,ddlCampaignPlayer.SelectedValue);
+            ddlAddSourceCampaignLoad(hidUserName.Value, intCampaignID, ddlCampaignPlayer.SelectedValue);
             Session["AddCPStep"] = "B";
             hidLastAddCPStep.Value = "B";
             AddPanelVisibility();
@@ -535,7 +719,7 @@ namespace LarpPortal.Points
                 hidCampaignPlayerUserID.Value = UserID.ToString();
                 BuildCPAuditTable(UserID);
             }
-            
+
         }
 
         protected void ddlAddSourceCampaignLoad(string strUserName, int CurrentCampaignID, string strCampaignPlayerID)
@@ -564,6 +748,7 @@ namespace LarpPortal.Points
 
         protected void ddlAddSourceCampaign_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             Session["AddCPStep"] = "B";
             hidLastAddCPStep.Value = "B";
             AddPanelVisibility();
@@ -617,7 +802,7 @@ namespace LarpPortal.Points
 
             }
             FromCampaignID = Convert.ToInt32(ddlAddSourceCampaign.SelectedValue);
-            if ( FromCampaignID == CurrentCampaignID )
+            if (FromCampaignID == CurrentCampaignID)
             {
                 Session["AddCPStep"] = "C1";
                 hidLastAddCPStep.Value = "C1";
@@ -657,8 +842,9 @@ namespace LarpPortal.Points
                     }
                 }
                 ddlSourceEventLoad();
+                ddlSelectCharacterOrBankF6Load();
             }
-            ddlSelectCharacterOrBankF6Load();
+            //ddlSelectCharacterOrBankF6Load();
             AddPanelVisibility();
         }
 
@@ -675,17 +861,18 @@ namespace LarpPortal.Points
             ddlAddOpportunityDefaultID.DataSource = dtCPOpportunityDefaults;
             ddlAddOpportunityDefaultID.DataBind();
             ddlAddOpportunityDefaultID.Items.Insert(0, new ListItem("Select Description", "0"));
-            ddlAddOpportunityDefaultID.SelectedIndex = 0; 
+            ddlAddOpportunityDefaultID.SelectedIndex = 0;
         }
 
         protected void ddlAddOpportunityDefaultID_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             Session["AddCPStep"] = "C1";
             hidLastAddCPStep.Value = "C1";
             // If Donation --> F0 / Non-Event --> F1 / If PC --> F2 / If NPC/Staff --> D3
             AddPanelVisibility();
             string stStoredProc = "uspGetCampaignCPOpportunityDefaults";
-            string stCallingMethod = "PointsAssign.aspx.ddlAddOpportunityDefaultID_SelectedIndexChanged"; 
+            string stCallingMethod = "PointsAssign.aspx.ddlAddOpportunityDefaultID_SelectedIndexChanged";
             int CurrentCampaignID = 0;
             int DefaultOpportunityID = 0;
             int OpportunityType = 0;
@@ -705,10 +892,10 @@ namespace LarpPortal.Points
             {
                 hidInsertDescription.Value = dRow["Description"].ToString();
                 int.TryParse(dRow["OpportunityTypeID"].ToString(), out OpportunityType);
-                if(OpportunityType == 1 || OpportunityType == 2 || OpportunityType == 4)
+                if (OpportunityType == 1 || OpportunityType == 2 || OpportunityType == 4)
                 {
                     int.TryParse(dRow["CampaignCPOpportunityDefaultID"].ToString(), out CampaignCPOpportunityDefaultID);
-                    if(CampaignCPOpportunityDefaultID == 1)
+                    if (CampaignCPOpportunityDefaultID == 1)
                     {
                         EarnType = "Donation";  // F0
                         Session["AddCPStep"] = "F0";
@@ -728,12 +915,12 @@ namespace LarpPortal.Points
                 }
                 else
                 {
-                    if(OpportunityType == 3 && ( dRow["Description"].ToString().Contains("NPC") || dRow["Description"].ToString().Contains("Staff")) )    // NPC or staff
+                    if (OpportunityType == 3 && (dRow["Description"].ToString().Contains("NPC") || dRow["Description"].ToString().Contains("Staff")))    // NPC or staff
                     {
                         EarnType = "NPC";   // D3
                         Session["AddCPStep"] = "D3";
                         hidLastAddCPStep.Value = "D3";
-                        ddlDestinationCampaignLoad();
+                        ddlDestinationCampaignLoad(CurrentCampaignID);
                     }
                     else
                     {
@@ -781,7 +968,7 @@ namespace LarpPortal.Points
 
         protected void ddlAddOpportunityDefaultIDC6_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            DropdownListDefaultColors();
         }
 
         protected void ddlSourceEventLoad()
@@ -806,6 +993,7 @@ namespace LarpPortal.Points
 
         protected void ddlSourceEvent_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             hidInsertEventID.Value = ddlSourceEvent.SelectedValue;
             hidInsertOpportunityNotes.Value = ddlSourceEvent.SelectedItem.Text;
         }
@@ -830,33 +1018,84 @@ namespace LarpPortal.Points
             ddlSourceEventPC.SelectedIndex = 0;
         }
 
-        protected void ddlDestinationCampaignLoad()
+        protected void ddlDestinationCampaignLoad(int CurrentCampaignID)
         {
             // Should this only include PCs campaigns working on the assumption they'll assign to their own campaigns when registering?
             // Yes, I think we should because it puts the onus on them to register correctly
-            string stStoredProc = "uspGetMyCampaigns";
+            // No, you're wrong.  Show the list of ALL campaigns that are on the exchange list.  Send it there if the NPC is already a campaign player there.
+            // TODO - RP - Add them as a campaign player to that campaign if they're not with a warning to that effect.
+         
+            string stStoredProc = "uspGetSourceCampaigns";
             string stCallingMethod = "PointsAssign.aspx.ddlDestinationCampaignLoad";
             DataTable dtDestinationCampaigns = new DataTable();
             SortedList sParams = new SortedList();
-            int UserID = 0;
-            int.TryParse(hidCampaignID.Value, out UserID);
-            sParams.Add("@UserID", UserID);
+            sParams.Add("@CampaignID", CurrentCampaignID);
             dtDestinationCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
-            ddlDestinationCampaign.DataTextField = "EventNameDate";
-            ddlDestinationCampaign.DataValueField = "EventID";
+            ddlDestinationCampaign.DataTextField = "CampaignName";
+            ddlDestinationCampaign.DataValueField = "CampaignID";
             ddlDestinationCampaign.DataSource = dtDestinationCampaigns;
             ddlDestinationCampaign.DataBind();
-            ddlDestinationCampaign.Items.Insert(0, new ListItem("Select Destination Campaign", "0"));
+            ddlDestinationCampaign.Items.Insert(0, new ListItem("Select Campaign", "0"));
             ddlDestinationCampaign.SelectedIndex = 0;
         }
 
         protected void ddlDestinationCampaign_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            DropdownListDefaultColors();
+            string CampaignLPType;
+            // If current campaign is picked then E3 otherwise E4
+            if (ddlDestinationCampaign.SelectedValue == hidCampaignID.Value)
+            {
+                CampaignLPType = "S";
+                Session["AddCPStep"] = "E3";
+                hidLastAddCPStep.Value = "E3";
+                //Load Event ddl
+                ddlSourceEventLoad();
+                AddPanelVisibility();
+                Session["AddCPStep"] = "F3";
+                hidLastAddCPStep.Value = "F3";
+                ddlSelectCharacterOrBankF3Load();
+            }
+            else
+            {
+                Session["AddCPStep"] = "E4";
+                hidLastAddCPStep.Value = "E4";
+                hidInsertDestinationCampaign.Value = ddlDestinationCampaign.SelectedValue;
+                //Load Event ddl
+                ddlSourceEventLoad();
+                AddPanelVisibility();
+                //Need to check whether it's a LARP Portal campaign or not before deciding between F4 and F5
+                int iTemp = 0;
+                Int32.TryParse(hidInsertDestinationCampaign.Value.ToString(), out iTemp);
+                if(iTemp != 0)
+                {
+                    Classes.cCampaignBase cCampaign = new Classes.cCampaignBase( iTemp , hidUserName.Value, 0);
+                    CampaignLPType = cCampaign.PortalAccessType;
+                }
+                else
+                {
+                    CampaignLPType = "B";
+                }
+                if(CampaignLPType == "S")
+                {
+                    Session["AddCPStep"] = "F4";
+                    hidLastAddCPStep.Value = "F4";
+                }
+                else
+                {
+                    Session["AddCPStep"] = "F5";
+                    hidLastAddCPStep.Value = "F5";
+                }
+                ddlSelectCharacterOrBankF4Load();                
+            }
+            hidInsertDestinationCampaign.Value = ddlDestinationCampaign.SelectedValue;
+            hidInsertDestinationCampaignLPType.Value = CampaignLPType;
+            AddPanelVisibility();
         }
 
         protected void ddlSourceEventPC_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             hidInsertEventID.Value = ddlSourceEventPC.SelectedValue;
             hidInsertOpportunityNotes.Value = ddlSourceEventPC.SelectedItem.Text;
         }
@@ -885,7 +1124,7 @@ namespace LarpPortal.Points
         {
             //Convert CampaignPlayerID using uspConvertCampaignPlayerID
             string stStoredProc = "uspConvertCampaignPlayerID";
-            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF1Load";
+            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF0Load";
             int iTemp = 0;
             int CampaignPlayerID = 0;
             int CampaignID = 0;
@@ -928,6 +1167,7 @@ namespace LarpPortal.Points
 
         protected void ddlSelectCharacterOrBankF0_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             if (Convert.ToInt32(ddlSelectCharacterOrBankF0.SelectedValue) > 1)
             {
                 hidInsertCharacterID.Value = ddlSelectCharacterOrBankF0.SelectedValue;
@@ -936,6 +1176,7 @@ namespace LarpPortal.Points
             {
                 hidInsertCharacterID.Value = "0";
             }
+            txtStaffComments.Focus();
         }
 
         protected void ddlSelectCharacterOrBankF1Load()
@@ -985,6 +1226,7 @@ namespace LarpPortal.Points
 
         protected void ddlSelectCharacterOrBankF1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             if (Convert.ToInt32(ddlSelectCharacterOrBankF1.SelectedValue) > 1)
             {
                 hidInsertCharacterID.Value = ddlSelectCharacterOrBankF1.SelectedValue;
@@ -993,6 +1235,7 @@ namespace LarpPortal.Points
             {
                 hidInsertCharacterID.Value = "0";
             }
+            txtStaffComments.Focus();
         }
 
         protected void ddlSelectCharacterOrBankF2Load()
@@ -1039,9 +1282,10 @@ namespace LarpPortal.Points
                 ddlSelectCharacterOrBankF2.SelectedIndex = 0;
             }
         }
-        
+
         protected void ddlSelectCharacterOrBankF2_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             if (Convert.ToInt32(ddlSelectCharacterOrBankF2.SelectedValue) > 1)
             {
                 hidInsertCharacterID.Value = ddlSelectCharacterOrBankF2.SelectedValue;
@@ -1050,6 +1294,7 @@ namespace LarpPortal.Points
             {
                 hidInsertCharacterID.Value = "0";
             }
+            txtStaffComments.Focus();
         }
 
         protected void ddlSelectCharacterOrBankF3Load()
@@ -1099,6 +1344,7 @@ namespace LarpPortal.Points
 
         protected void ddlSelectCharacterOrBankF3_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             if (Convert.ToInt32(ddlSelectCharacterOrBankF3.SelectedValue) > 1)
             {
                 hidInsertCharacterID.Value = ddlSelectCharacterOrBankF3.SelectedValue;
@@ -1107,19 +1353,25 @@ namespace LarpPortal.Points
             {
                 hidInsertCharacterID.Value = "0";
             }
+            txtStaffComments.Focus();
         }
 
         protected void ddlSelectCharacterOrBankF4Load()
         {
             //Convert CampaignPlayerID using uspConvertCampaignPlayerID
             string stStoredProc = "uspConvertCampaignPlayerID";
-            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF2Load";
+            string stCallingMethod = "PointsAssign.aspx.ddlSelectCharacterOrBankF4Load";
             int iTemp = 0;
             int CampaignPlayerID = 0;
             int CampaignID = 0;
             if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
                 CampaignPlayerID = iTemp;
-            int.TryParse(hidCampaignID.Value.ToString(), out CampaignID);
+            int.TryParse(hidInsertDestinationCampaign.Value.ToString(), out CampaignID);
+            if (CampaignID == 0)
+            {
+                if (int.TryParse(ddlSelectCharacterOrBankF4.SelectedValue.ToString(), out iTemp))
+                    CampaignID = iTemp;
+            }
             DataTable dtCampaignPlayers = new DataTable();
             SortedList sParams = new SortedList();
             sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
@@ -1156,6 +1408,7 @@ namespace LarpPortal.Points
 
         protected void ddlSelectCharacterOrBankF4_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             if (Convert.ToInt32(ddlSelectCharacterOrBankF4.SelectedValue) > 1)
             {
                 hidInsertCharacterID.Value = ddlSelectCharacterOrBankF4.SelectedValue;
@@ -1164,6 +1417,7 @@ namespace LarpPortal.Points
             {
                 hidInsertCharacterID.Value = "0";
             }
+            txtStaffComments.Focus();
         }
 
         protected void ddlSelectCharacterOrBankF6Load()
@@ -1213,6 +1467,7 @@ namespace LarpPortal.Points
 
         protected void ddlSelectCharacterOrBankF6_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DropdownListDefaultColors();
             if (Convert.ToInt32(ddlSelectCharacterOrBankF6.SelectedValue) > 1)
             {
                 hidInsertCharacterID.Value = ddlSelectCharacterOrBankF6.SelectedValue;
@@ -1221,6 +1476,7 @@ namespace LarpPortal.Points
             {
                 hidInsertCharacterID.Value = "0";
             }
+            txtStaffComments.Focus();
         }
 
         protected void AddPanelVisibility()
@@ -1553,6 +1809,75 @@ namespace LarpPortal.Points
                     hidInsertStaffComments.Value = "";
                     break;
             }
+            DropdownListDefaultColors();
+        }
+
+        private void DropdownListDefaultColors()
+        {
+            if (ddlCampaignPlayer.SelectedIndex == 0)
+                ddlCampaignPlayer.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlCampaignPlayer.BackColor = System.Drawing.Color.White;
+
+            if (ddlAddSourceCampaign.SelectedIndex == 0)
+                ddlAddSourceCampaign.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlAddSourceCampaign.BackColor = System.Drawing.Color.White;
+
+            if (ddlAddOpportunityDefaultID.SelectedIndex == 0)
+                ddlAddOpportunityDefaultID.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlAddOpportunityDefaultID.BackColor = System.Drawing.Color.White;
+
+            if (ddlAddOpportunityDefaultIDC6.SelectedIndex == 0)
+                ddlAddOpportunityDefaultIDC6.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlAddOpportunityDefaultIDC6.BackColor = System.Drawing.Color.White;
+
+            if (ddlSourceEvent.SelectedIndex == 0)
+                ddlSourceEvent.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlSourceEvent.BackColor = System.Drawing.Color.White;
+
+            if (ddlDestinationCampaign.SelectedIndex == 0)
+                ddlDestinationCampaign.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlDestinationCampaign.BackColor = System.Drawing.Color.White;
+
+            if (ddlSelectCharacterOrBankF0.SelectedIndex == 0)
+                ddlSelectCharacterOrBankF0.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlSelectCharacterOrBankF0.BackColor = System.Drawing.Color.White;
+
+            if (ddlSelectCharacterOrBankF1.SelectedIndex == 0)
+                ddlSelectCharacterOrBankF1.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlSelectCharacterOrBankF1.BackColor = System.Drawing.Color.White;
+
+            if (ddlSelectCharacterOrBankF2.SelectedIndex == 0)
+                ddlSelectCharacterOrBankF2.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlSelectCharacterOrBankF2.BackColor = System.Drawing.Color.White;
+
+            if (ddlSelectCharacterOrBankF3.SelectedIndex == 0)
+                ddlSelectCharacterOrBankF3.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlSelectCharacterOrBankF3.BackColor = System.Drawing.Color.White;
+
+            if (ddlSelectCharacterOrBankF4.SelectedIndex == 0)
+                ddlSelectCharacterOrBankF4.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlSelectCharacterOrBankF4.BackColor = System.Drawing.Color.White;
+
+            if (ddlSelectCharacterOrBankF6.SelectedIndex == 0)
+                ddlSelectCharacterOrBankF6.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlSelectCharacterOrBankF6.BackColor = System.Drawing.Color.White;
+
+            if (ddlSourceEventPC.SelectedIndex == 0)
+                ddlSourceEventPC.BackColor = System.Drawing.Color.Yellow;
+            else
+                ddlSourceEventPC.BackColor = System.Drawing.Color.White;
         }
 
         private void BuildCPAuditTable(int UserID)
@@ -1575,81 +1900,81 @@ namespace LarpPortal.Points
 
         //protected void ddlSendToCampaignLoad(string strUserName, int intCampaignID)
         //{
-            //string stStoredProc = "uspGetCampaignPlayerByID";
-            //string stCallingMethod = "PointsAssign.aspx.ddlSendToCampaign";
-            //int iTemp = 0;
-            //int CampaignPlayerID = 0;
-            //int PlayerUserID = 0;
-            //DataTable dtUsers = new DataTable();
-            //SortedList sParams = new SortedList();
-            //if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
-            //    CampaignPlayerID = iTemp;
-            //sParams.Add("@CampaignPlayerID", CampaignPlayerID);
-            //dtUsers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
-            //foreach (DataRow dRow in dtUsers.Rows)
-            //{
-            //    if (int.TryParse(dRow["UserID"].ToString(), out iTemp))
-            //        PlayerUserID = iTemp;
-            //}
-            //stStoredProc = "uspGetMyCampaigns";
-            //stCallingMethod = "PointsAssign.aspx.ddlSendToCampaign";
-            //ddlSendToCampaign.Items.Clear();
-            //DataTable dtCampaigns = new DataTable();
-            //sParams.Clear();
-            //sParams.Add("@UserID", PlayerUserID);
-            //dtCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
-            //ddlSendToCampaign.DataTextField = "CampaignName";
-            //ddlSendToCampaign.DataValueField = "CampaignID";
-            //ddlSendToCampaign.DataSource = dtCampaigns;
-            //ddlSendToCampaign.DataBind();
-            //if (dtCampaigns.Rows.Count > 1)
-            //{
-            //    ddlSendToCampaign.Items.Insert(0, new ListItem("Select Campaign", "0"));
-            //    ddlSendToCampaign.SelectedIndex = 0;
-            //}
-            //if (dtCampaigns.Rows.Count == 0)
-            //{
-            //    ddlSendToCampaign.Items.Insert(0, new ListItem("No campaigns", "0"));
-            //    ddlSendToCampaign.SelectedIndex = 0;
-            //}
+        //string stStoredProc = "uspGetCampaignPlayerByID";
+        //string stCallingMethod = "PointsAssign.aspx.ddlSendToCampaign";
+        //int iTemp = 0;
+        //int CampaignPlayerID = 0;
+        //int PlayerUserID = 0;
+        //DataTable dtUsers = new DataTable();
+        //SortedList sParams = new SortedList();
+        //if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
+        //    CampaignPlayerID = iTemp;
+        //sParams.Add("@CampaignPlayerID", CampaignPlayerID);
+        //dtUsers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+        //foreach (DataRow dRow in dtUsers.Rows)
+        //{
+        //    if (int.TryParse(dRow["UserID"].ToString(), out iTemp))
+        //        PlayerUserID = iTemp;
+        //}
+        //stStoredProc = "uspGetMyCampaigns";
+        //stCallingMethod = "PointsAssign.aspx.ddlSendToCampaign";
+        //ddlSendToCampaign.Items.Clear();
+        //DataTable dtCampaigns = new DataTable();
+        //sParams.Clear();
+        //sParams.Add("@UserID", PlayerUserID);
+        //dtCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
+        //ddlSendToCampaign.DataTextField = "CampaignName";
+        //ddlSendToCampaign.DataValueField = "CampaignID";
+        //ddlSendToCampaign.DataSource = dtCampaigns;
+        //ddlSendToCampaign.DataBind();
+        //if (dtCampaigns.Rows.Count > 1)
+        //{
+        //    ddlSendToCampaign.Items.Insert(0, new ListItem("Select Campaign", "0"));
+        //    ddlSendToCampaign.SelectedIndex = 0;
+        //}
+        //if (dtCampaigns.Rows.Count == 0)
+        //{
+        //    ddlSendToCampaign.Items.Insert(0, new ListItem("No campaigns", "0"));
+        //    ddlSendToCampaign.SelectedIndex = 0;
+        //}
         //}
 
         //protected void ddlSendToCampaign_SelectedIndexChanged(object sender, EventArgs e)
         //{
-            // If campaign selected is a LARP Portal campaign send points to it otherwise set it up for emailing
-            // Start by looking up the campaign participation level
-            //string stStoredProc = "uspGetCampaignByCampaignID";
-            //string stCallingMethod = "PointsAssign.aspx.ddlSendToCampaignIndexChange";
-            //int iTemp = 0;
-            //int CampaignID = 0;
-            //string PortalAccessType = "B";
-            //DataTable dtCampaigns = new DataTable();
-            //SortedList sParams = new SortedList();
-            //if (int.TryParse(ddlSendToCampaign.SelectedValue.ToString(), out iTemp))
-            //    CampaignID = iTemp;
-            //sParams.Add("@CampaignID", CampaignID);
-            //dtCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
-            //foreach (DataRow dRow in dtCampaigns.Rows)
-            //{
-            //    PortalAccessType = dRow["PortalAccessType"].ToString();
-            //    Session["PortalAccessType"] = dRow["PortalAccessType"].ToString();
-            //}
-            ////  For types B and X add the CPOpportunity with Status 68 (Ready to send)
-            ////  Will be updated to Status 69 (Sent to campaign)
-            //if (PortalAccessType == "B" || PortalAccessType == "X")
-            //{
+        // If campaign selected is a LARP Portal campaign send points to it otherwise set it up for emailing
+        // Start by looking up the campaign participation level
+        //string stStoredProc = "uspGetCampaignByCampaignID";
+        //string stCallingMethod = "PointsAssign.aspx.ddlSendToCampaignIndexChange";
+        //int iTemp = 0;
+        //int CampaignID = 0;
+        //string PortalAccessType = "B";
+        //DataTable dtCampaigns = new DataTable();
+        //SortedList sParams = new SortedList();
+        //if (int.TryParse(ddlSendToCampaign.SelectedValue.ToString(), out iTemp))
+        //    CampaignID = iTemp;
+        //sParams.Add("@CampaignID", CampaignID);
+        //dtCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
+        //foreach (DataRow dRow in dtCampaigns.Rows)
+        //{
+        //    PortalAccessType = dRow["PortalAccessType"].ToString();
+        //    Session["PortalAccessType"] = dRow["PortalAccessType"].ToString();
+        //}
+        ////  For types B and X add the CPOpportunity with Status 68 (Ready to send)
+        ////  Will be updated to Status 69 (Sent to campaign)
+        //if (PortalAccessType == "B" || PortalAccessType == "X")
+        //{
 
-            //}
-            //if (PortalAccessType == "S" || PortalAccessType == "A" || PortalAccessType == "D")
-            //// For types S, A and D add the CP processed in the right places    
-            //// Add the CPOpportunity and process to current campaign / character handling banking if necessary
-            //{
-            //    // Go look up the active characters that player has at that campaign and fill in the drop down list to choose from
-            //    // Include a bank option if no characters available or player just wants it banked there regardless
-            //    ddlAddCharacterLoad(hidUserName.Value, CampaignID);
-            //    pnlddlAddCharacter.Visible = true;
-            //}
-            //txtCPValue.Focus();
+        //}
+        //if (PortalAccessType == "S" || PortalAccessType == "A" || PortalAccessType == "D")
+        //// For types S, A and D add the CP processed in the right places    
+        //// Add the CPOpportunity and process to current campaign / character handling banking if necessary
+        //{
+        //    // Go look up the active characters that player has at that campaign and fill in the drop down list to choose from
+        //    // Include a bank option if no characters available or player just wants it banked there regardless
+        //    ddlAddCharacterLoad(hidUserName.Value, CampaignID);
+        //    pnlddlAddCharacter.Visible = true;
+        //}
+        //txtCPValue.Focus();
         //}
 
         private void ddlAddCharacterLoad(string strUserName, int intCampaignID)
@@ -1660,21 +1985,25 @@ namespace LarpPortal.Points
         protected void txtOpportunityNotes_TextChanged(object sender, EventArgs e)
         {
             hidInsertOpportunityNotes.Value = txtOpportunityNotes.Text;
+            txtReceiptDate.Focus();
         }
 
         protected void txtCPF0_TextChanged(object sender, EventArgs e)
         {
             hidInsertCPValue.Value = txtCPF0.Text;
+            txtStaffComments.Focus();
         }
 
         protected void txtCPF1_TextChanged(object sender, EventArgs e)
         {
             hidInsertCPValue.Value = txtCPF1.Text;
+            txtStaffComments.Focus();
         }
 
         protected void txtCPF2_TextChanged(object sender, EventArgs e)
         {
             hidInsertCPValue.Value = txtCPF2.Text;
+            txtStaffComments.Focus();
         }
 
         protected void txtReceiptDate_TextChanged(object sender, EventArgs e)

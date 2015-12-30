@@ -474,7 +474,7 @@ namespace LarpPortal
                             else
                             {
                                 SendApprovalEmail(intCampaignID, UserID, 8, RequestEmail);
-                                SignUpForSelectedRole(10, UserID, intCampaignID, 56);
+                                SignUpForSelectedRole(8, UserID, intCampaignID, 56);
                             }
                             break;
                         case "8False":

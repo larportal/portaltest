@@ -87,7 +87,7 @@ namespace LarpPortal
 
         public void LoadMainLinks()
         {
-            // Load the main links at the top right of the master page.  These are the same for everyone.
+            // Load the main links at the top right of the master page.  These are the same for everyone, except for home which will be member only
             int intTabsNeeded;
             int SecurityRole = 1;
             string hrefline;
@@ -95,6 +95,9 @@ namespace LarpPortal
             string PageName;
             string TabClass;
             string TabIcon;
+            int UserID = 0;
+            //UserID = int.TryParse(Session["UserID"].ToString(), out iTemp);
+            UserID = ((int?)Session["UserID"] ?? 0);
             Classes.cLogin RoleTabs = new Classes.cLogin();
             RoleTabs.LoadTabsBySecurityRole(SecurityRole);
             intTabsNeeded = RoleTabs.TabCount;
@@ -108,7 +111,22 @@ namespace LarpPortal
                     TabClass = RoleTabs.lsPageTabs[i].TabClass.ToString();
                     TabIcon = RoleTabs.lsPageTabs[i].TabIcon.ToString();
                     TabName = RoleTabs.lsPageTabs[i].TabName.ToString();
-                    hrefline = "<li><a href=" + "\"" + PageName + "\"" + ">" + TabName + "</a></li>";
+                    switch (TabName)
+                    {
+                        case "Home":
+                            if(UserID == 0)
+                            {
+                                hrefline = "skip";
+                            }
+                            else
+                            {
+                                hrefline = "<li><a href=" + "\"" + PageName + "\"" + ">" + TabName + "</a></li>";
+                            }
+                            break;
+                        default:
+                            hrefline = "<li><a href=" + "\"" + PageName + "\"" + ">" + TabName + "</a></li>";
+                            break;
+                    }
                 }
                 else
                 {
@@ -116,7 +134,11 @@ namespace LarpPortal
                 }  
                 DataRow TopTabRow = TopTabTable.NewRow();
                 TopTabRow["href_main"] = hrefline;
-                TopTabTable.Rows.Add(TopTabRow);
+                if(hrefline != "skip")
+                {
+                    TopTabTable.Rows.Add(TopTabRow);
+                }
+                    
             }
             menu_ul_main.DataSource = TopTabTable;
             menu_ul_main.DataBind();

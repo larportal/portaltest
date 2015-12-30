@@ -49,7 +49,7 @@ namespace LarpPortal
                 Session["LoginName"] = "Guest";                   // Until login changes it
                 Session["UserID"] = 0;                            // Until login changes it
                 Session["SecurityRole"] = 0;                      // Until login changes it
-                Session["WebPage"] = "~/MemberDemographics.aspx"; // Until login changes it
+                Session["WebPage"] = "~/General/MemberHome.aspx"; // Until login changes it
                 Session["CurrentPagePermission"] = "True";        // We'll assume that wherever you were last you can still be there when the system takes you there on login
                 lblInvalidLogin.Visible = false;
                 lblInvalidActivationKey.Visible = false;
@@ -69,7 +69,8 @@ namespace LarpPortal
                 Session["Platform"] = bc.Platform;
                 Session["OSVersion"] = Request.UserAgent;
                 // Check for browser.  If not Chrome pop message
-                if (bc.Browser != "Chrome")
+                // Chrome for iOS systems shows a browser Sarari but contains "CriOS" in the version in place of the word "Version"
+                if (bc.Browser != "Chrome" || (bc.Browser == "Safari" && bc.Version.Contains("CriOS") ) )
                 {
                     string jsString = "alert('LARP Portal is optimized for Chrome.  You may experience issues with other browsers.');";
                     ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
@@ -237,7 +238,7 @@ namespace LarpPortal
             // Go to the default or last page visited
             if(Session["WebPage"] == null)
             {
-                Session["WebPage"] = "~/MemberDemographics.aspx";
+                Session["WebPage"] = "~/General/MemberHome.aspx";
             }
             else
             {

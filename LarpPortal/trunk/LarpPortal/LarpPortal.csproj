@@ -217,9 +217,14 @@
     <Content Include="Character\CharUserDefined.aspx" />
     <Content Include="Character\EventCharCards.aspx" />
     <Content Include="ContactUs.aspx" />
+    <Content Include="Events\EventDefaults.aspx" />
+    <Content Include="Events\EventEdit.aspx" />
+    <Content Include="Events\EventList.aspx" />
     <Content Include="Events\RegistrationApproval.aspx" />
+    <Content Include="General\MemberHome.aspx" />
     <Content Include="img\Checked-Checkbox-icon.png" />
     <Content Include="img\download.png" />
+    <Content Include="img\logo\Logo_81_Ink.png" />
     <Content Include="img\uncheckbox.png" />
     <Content Include="img\Unchecked-Checkbox-icon.png" />
     <Content Include="StaffFunctions\CharHistoryApproval.aspx" />
@@ -761,12 +766,40 @@
     <Compile Include="ContactUs.aspx.designer.cs">
       <DependentUpon>ContactUs.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Events\EventDefaults.aspx.cs">
+      <DependentUpon>EventDefaults.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\EventDefaults.aspx.designer.cs">
+      <DependentUpon>EventDefaults.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\EventEdit.aspx.cs">
+      <DependentUpon>EventEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\EventEdit.aspx.designer.cs">
+      <DependentUpon>EventEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Events\EventList.aspx.cs">
+      <DependentUpon>EventList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\EventList.aspx.designer.cs">
+      <DependentUpon>EventList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Events\RegistrationApproval.aspx.cs">
       <DependentUpon>RegistrationApproval.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Events\RegistrationApproval.aspx.designer.cs">
       <DependentUpon>RegistrationApproval.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="General\MemberHome.aspx.cs">
+      <DependentUpon>MemberHome.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="General\MemberHome.aspx.designer.cs">
+      <DependentUpon>MemberHome.aspx</DependentUpon>
     </Compile>
     <Compile Include="StaffFunctions\CharHistoryApproval.aspx.cs">
       <DependentUpon>CharHistoryApproval.aspx</DependentUpon>
