@@ -38,7 +38,7 @@ namespace LarpPortal
                 }
                 else
                 {
-                    if(PageName.Contains("Error") || PageName.Contains("WhatsNewDetail"))
+                    if(PageName.Contains("Error") || PageName.Contains("WhatsNewDetail") || PageName.Contains("Reports/") )
                     {
                         // Do nothing
                     }

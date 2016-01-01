@@ -1,0 +1,25 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="Reporting.master.cs" Inherits="LarpPortal.Reports.Reporting" %>
+<%@ Register TagPrefix="UC1" TagName="UserCampaignDDL" Src="~/ucUserCampaignsDropDownList.ascx" %>
+
+
+<asp:Content ID="LeftNavReports" ContentPlaceHolderID="MainPage" runat="server">
+    <asp:Table runat="server">
+        
+        <asp:TableRow>
+            <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
+              <div class="contentArea">
+				<nav class="userSubNav">
+					<div class="col-sm-12">
+                        <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
+					</div>
+				</nav>
+              </div>
+            </asp:TableCell>
+            <asp:TableCell verticalalign="Top">
+                <div class="col-sm-12">
+                    <asp:ContentPlaceHolder ID="ReportsContent" runat="server"></asp:ContentPlaceHolder>
+                </div>
+            </asp:TableCell>
+        </asp:TableRow>
+    </asp:Table>
+</asp:Content>
