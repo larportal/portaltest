@@ -17,7 +17,7 @@
                             <Columns>
                                 <asp:BoundField DataField="Category" HeaderText="Category" HeaderStyle-Font-Underline="true" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
                                                 ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
-                                <asp:HyperLinkField DataTextField="ReportName" HeaderText=" Report Name" HeaderStyle-Font-Underline="true" DataNavigateUrlFields="PageNameURL" Target="_blank"  ControlStyle-ForeColor="DarkBlue" ControlStyle-Font-Underline="true"
+                                <asp:HyperLinkField DataTextField="ReportName" HeaderText=" Report Name" HeaderStyle-Font-Underline="true" DataNavigateUrlFields="PageNameURL"  ControlStyle-ForeColor="DarkBlue" ControlStyle-Font-Underline="true"
                                     
                                    ControlStyle-Font-Size="Small" ItemStyle-Font-Underline="true" />
                                 <asp:BoundField DataField="ReportDescription" HeaderText="Description" HeaderStyle-Font-Underline="true" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"

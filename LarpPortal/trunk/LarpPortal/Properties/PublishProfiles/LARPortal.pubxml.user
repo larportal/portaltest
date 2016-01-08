@@ -188,10 +188,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 21:15:46</publishTime>
     </File>
     <File Include="bin/LarpPortal.dll">
-      <publishTime>12/29/2015 21:59:23</publishTime>
+      <publishTime>01/07/2016 21:10:21</publishTime>
     </File>
     <File Include="bin/LarpPortal.pdb">
-      <publishTime>12/29/2015 21:59:23</publishTime>
+      <publishTime>01/07/2016 21:10:21</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>05/19/2014 20:54:36</publishTime>
@@ -917,7 +917,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LARPortal.pubxml.user">
-      <publishTime>12/29/2015 14:28:55</publishTime>
+      <publishTime>01/01/2016 10:25:30</publishTime>
     </File>
     <File Include="PublicCalendar.aspx">
       <publishTime>12/10/2014 21:37:31</publishTime>
@@ -931,11 +931,14 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="PublicCampaigns.master">
       <publishTime>04/18/2015 20:47:14</publishTime>
     </File>
+    <File Include="Reports/CalendarReport.aspx">
+      <publishTime>01/07/2016 20:47:51</publishTime>
+    </File>
     <File Include="Reports/CPAudit.aspx">
       <publishTime>06/01/2015 21:36:58</publishTime>
     </File>
     <File Include="Reports/FifthGate/FifthGateCharacters.aspx">
-      <publishTime>08/03/2015 20:49:35</publishTime>
+      <publishTime>01/01/2016 11:04:50</publishTime>
     </File>
     <File Include="Reports/FifthGate/FifthGateCharacterSkills.aspx">
       <publishTime>08/03/2015 20:51:48</publishTime>
@@ -948,6 +951,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Reports/FifthGateReports.aspx">
       <publishTime>08/20/2015 20:15:39</publishTime>
+    </File>
+    <File Include="Reports/Reporting.master">
+      <publishTime>12/31/2015 21:29:00</publishTime>
+    </File>
+    <File Include="Reports/ReportsList.aspx">
+      <publishTime>01/01/2016 13:46:03</publishTime>
     </File>
     <File Include="rick.jpg">
       <publishTime>11/24/2014 13:15:36</publishTime>
@@ -1088,7 +1097,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/29/2015 21:59:40</publishTime>
+      <publishTime>01/07/2016 21:10:34</publishTime>
     </File>
     <File Include="WebForm1.aspx">
       <publishTime>12/02/2014 20:09:36</publishTime>

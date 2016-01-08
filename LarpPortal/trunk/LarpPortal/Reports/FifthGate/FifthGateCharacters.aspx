@@ -14,7 +14,13 @@
 									</div>
 									<div class="panel-body">
 										<div class="panel-container-table">
-                                            <asp:Label ID="lblCharacters" runat="server" >Build the table here programatically.  If you see this code the build failed.</asp:Label>
+                                            <div class="row">
+                                                <asp:Button ID="Button1" runat="server" Text=" Export to Excel " OnClick="btnExportExcel_Click" />
+                                                <asp:Button ID="Button2" runat="server" Text=" Export to csv " OnClick="btnExportcsv_Click" />
+                                            </div>
+                                            <div class="row">
+                                                <asp:Label ID="lblCharacters" runat="server" >Build the table here programatically.  If you see this code the build failed.</asp:Label>
+                                            </div>
 										</div>
 									</div>
 								</div>

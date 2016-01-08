@@ -112,5 +112,15 @@ namespace LarpPortal.Reports.FifthGate
                 lblCharacters.Text = TableCode + "</table>";
             }
         }
+
+        protected void btnExportcsv_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnExportExcel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

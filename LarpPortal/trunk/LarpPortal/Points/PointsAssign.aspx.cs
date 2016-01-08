@@ -44,7 +44,6 @@ namespace LarpPortal.Points
                 ddlEarnTypeLoad(hidUserName.Value, intCampaignID);
                 ddlPlayerLoad(hidUserName.Value, intCampaignID);
                 FillGrid(hidUserName.Value, hidCampaignID.Value);
-                //ddlAddOpportunityDefaultIDLoad(hidUserName.Value, intCampaignID, "PC"); // Default load assumes PC opportunities
                 ddlCampaignPlayerLoad(hidUserName.Value, intCampaignID);
                 ddlAddCharacterLoad(hidUserName.Value, intCampaignID);
                 DropdownListDefaultColors();
