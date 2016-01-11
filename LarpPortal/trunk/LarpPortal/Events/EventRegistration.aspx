@@ -136,12 +136,12 @@
                                                 <div class="panel-container">
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Select Event Date: </div>
-                                                        <div class="col-sm-4 NoPadding">
-                                                            <asp:DropDownList ID="ddlEventDate" CssClass="NoPadding" runat="server" OnSelectedIndexChanged="ddlEventDate_SelectedIndexChanged" AutoPostBack="true">
+                                                        <div class="col-sm-4 NoPadding" style="background-color: transparent;">
+                                                            <asp:DropDownList ID="ddlEventDate" CssClass="NoPadding" runat="server"  style="z-index: 500; position:relative;" OnSelectedIndexChanged="ddlEventDate_SelectedIndexChanged" AutoPostBack="true">
                                                                 <asp:ListItem Text="9/4/2015" Value="9/4/2015" />
                                                             </asp:DropDownList>
                                                         </div>
-                                                        <div class="TableLabel col-lg-2">Event Status: </div>
+                                                        <div class="TableLabel col-lg-2" style="position:relative;">Event Status: </div>
                                                         <div class="col-lg-3 NoPadding">
                                                             <asp:Label ID="lblEventStatus" runat="server" />
                                                         </div>

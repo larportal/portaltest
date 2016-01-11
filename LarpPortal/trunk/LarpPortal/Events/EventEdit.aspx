@@ -486,9 +486,6 @@
                                 <asp:CompareValidator ID="cvPELDue" runat="server" ControlToValidate="tbPELDue" Display="Dynamic"
                                     CssClass="ErrorDisplay" Text="* Enter A Valid Date" Type="Date" Operator="DataTypeCheck" />
                             </div>
-                            <%--                    <div class="col-sm-7 text-right">
-                        <asp:Button ID="btnSave" runat="server" CssClass="StandardButton" Text="Save" Width="125px" OnClick="btnSave_Click" />
-                    </div>--%>
                         </div>
                     </div>
                     <div class="TableLabel col-lg-4 text-left">
