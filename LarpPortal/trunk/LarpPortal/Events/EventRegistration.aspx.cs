@@ -652,12 +652,8 @@ namespace LarpPortal.Events
 
                 lblRegistrationMessage.Text = sRegistrationMessage;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+
                 ddlEventDate_SelectedIndexChanged(null, null);
-                //string jsString = "alert('Character " + lblCharacter.Text + " has been registered.');";
-                //ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                //        "MyApplication",
-                //        jsString,
-                //        true);
                 NotifyOfNewRegistration();
             }
             catch (Exception ex)

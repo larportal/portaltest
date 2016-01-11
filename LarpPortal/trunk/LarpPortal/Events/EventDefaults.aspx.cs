@@ -16,42 +16,45 @@ namespace LarpPortal.Events
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            tbStartTime.Attributes.Add("Placeholder", "Time");
-            tbEndTime.Attributes.Add("Placeholder", "Time");
-            tbMaxPCCount.Attributes.Add("Placeholder", "#");
-            tbBaseNPCCount.Attributes.Add("Placeholder", "#");
-            tbOpenRegDate.Attributes.Add("Placeholder", "# days b4 event");
-            tbCapThresholdNotification.Attributes.Add("Placeholder", "#");
-            tbOpenRegTime.Attributes.Add("Placeholder", "Time");
-            tbPreRegDeadline.Attributes.Add("Placeholder", "# days b4 event");
-            tbPaymentDate.Attributes.Add("Placeholder", "# days b4 event");
-            tbPreRegistrationPrice.Attributes.Add("Placeholder", "Price");
-            tbRegPrice.Attributes.Add("Placeholder", "Price");
-            tbAtDoorPrice.Attributes.Add("Placeholder", "Price");
-            tbInfoSkillDue.Attributes.Add("Placeholder", "# days b4 event");
-            tbPELDue.Attributes.Add("Placeholder", "# days post event");
+            if (!IsPostBack)
+            {
+                tbStartTime.Attributes.Add("Placeholder", "Time");
+                tbEndTime.Attributes.Add("Placeholder", "Time");
+                tbMaxPCCount.Attributes.Add("Placeholder", "#");
+                tbBaseNPCCount.Attributes.Add("Placeholder", "#");
+                tbOpenRegDate.Attributes.Add("Placeholder", "# days b4 event");
+                tbCapThresholdNotification.Attributes.Add("Placeholder", "#");
+                tbOpenRegTime.Attributes.Add("Placeholder", "Time");
+                tbPreRegDeadline.Attributes.Add("Placeholder", "# days b4 event");
+                tbPaymentDate.Attributes.Add("Placeholder", "# days b4 event");
+                tbPreRegistrationPrice.Attributes.Add("Placeholder", "Price");
+                tbRegPrice.Attributes.Add("Placeholder", "Price");
+                tbAtDoorPrice.Attributes.Add("Placeholder", "Price");
+                tbInfoSkillDue.Attributes.Add("Placeholder", "# days b4 event");
+                tbPELDue.Attributes.Add("Placeholder", "# days post event");
 
-            SortedList sParams = new SortedList();
-            sParams.Add("@StatusType", "Registration");
-            DataTable dtRegStatuses = Classes.cUtilities.LoadDataTable("uspGetStatus", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_Load.GetStatuses");
+                SortedList sParams = new SortedList();
+                sParams.Add("@StatusType", "Registration");
+                DataTable dtRegStatuses = Classes.cUtilities.LoadDataTable("uspGetStatus", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_Load.GetStatuses");
 
-            DataView dvRegStatuses = new DataView(dtRegStatuses, "(StatusName = 'Approved') or (StatusName = 'Wait List')", "StatusName", DataViewRowState.CurrentRows);
-            ddlDefaultRegStatus.DataSource = dvRegStatuses;
-            ddlDefaultRegStatus.DataTextField = "StatusName";
-            ddlDefaultRegStatus.DataValueField = "StatusID";
-            ddlDefaultRegStatus.DataBind();
-            ddlDefaultRegStatus.Items.Insert(0, new ListItem("No default", "0"));
+                DataView dvRegStatuses = new DataView(dtRegStatuses, "(StatusName = 'Approved') or (StatusName = 'Wait List')", "StatusName", DataViewRowState.CurrentRows);
+                ddlDefaultRegStatus.DataSource = dvRegStatuses;
+                ddlDefaultRegStatus.DataTextField = "StatusName";
+                ddlDefaultRegStatus.DataValueField = "StatusID";
+                ddlDefaultRegStatus.DataBind();
+                ddlDefaultRegStatus.Items.Insert(0, new ListItem("No default", "0"));
 
-            sParams = new SortedList();
+                sParams = new SortedList();
 
-            DataTable dtSites = Classes.cUtilities.LoadDataTable("uspGetSites", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_Load.GetSites");
+                DataTable dtSites = Classes.cUtilities.LoadDataTable("uspGetSites", sParams, "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_Load.GetSites");
 
-            DataView dvRegSites = new DataView(dtSites, "", "SiteNameAddress", DataViewRowState.CurrentRows);
-            ddlSiteList.DataSource = dvRegSites;
-            ddlSiteList.DataTextField = "SiteNameAddress";
-            ddlSiteList.DataValueField = "SiteID";
-            ddlSiteList.DataBind();
-            ddlSiteList.Items.Insert(0, new ListItem("No default", "0"));
+                DataView dvRegSites = new DataView(dtSites, "", "SiteNameAddress", DataViewRowState.CurrentRows);
+                ddlSiteList.DataSource = dvRegSites;
+                ddlSiteList.DataTextField = "SiteNameAddress";
+                ddlSiteList.DataValueField = "SiteID";
+                ddlSiteList.DataBind();
+                ddlSiteList.Items.Insert(0, new ListItem("No default", "0"));
+            }
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -109,15 +112,14 @@ namespace LarpPortal.Events
                             }
                         }
 
+                        tbPaymentInstructions.Text = dRow["PaymentInstructions"].ToString();
+
                         GetDBInt(dRow["MaximumPCCount"], tbMaxPCCount);
                         GetDBInt(dRow["BaseNPCCount"], tbBaseNPCCount);
                         GetDBInt(dRow["DaysToRegistrationOpenDate"], tbOpenRegDate);
 
                         GetDBInt(dRow["DaysToPreregistrationDeadline"], tbPreRegDeadline);
                         GetDBInt(dRow["DaysToPaymentDue"], tbPaymentDate);
-                        GetDBMoney(dRow["PreregistrationPrice"], tbPreRegistrationPrice);
-                        GetDBMoney(dRow["LateRegistrationPrice"], tbRegPrice);
-                        GetDBMoney(dRow["CheckinPrice"], tbAtDoorPrice);
                         GetDBInt(dRow["DaysToInfoSkillDeadlineDate"], tbInfoSkillDue);
                         GetDBInt(dRow["DaysToPELDeadlineDate"], tbPELDue);
                         GetDBInt(dRow["MaximumPCCount"], tbMaxPCCount);
@@ -125,33 +127,21 @@ namespace LarpPortal.Events
                         GetDBInt(dRow["NPCOverrideRatio"], tbOverrideRatio);
                         GetDBInt(dRow["CapThresholdNotification"], tbCapThresholdNotification);
 
-                        bool bTemp;
+                        GetDBMoney(dRow["PreregistrationPrice"], tbPreRegistrationPrice);
+                        GetDBMoney(dRow["LateRegistrationPrice"], tbRegPrice);
+                        GetDBMoney(dRow["CheckinPrice"], tbAtDoorPrice);
 
-                        if (bool.TryParse(dRow["CapMetNotification"].ToString(), out bTemp))
-                        {
-                            string sSearchValue = "No";
-                            if (bTemp)
-                                sSearchValue = "Yes";
-                            ListItem SelectItem = ddlCapNearNotification.Items.FindByValue(sSearchValue);
-                            if (SelectItem != null)
-                            {
-                                ddlCapNearNotification.ClearSelection();
-                                SelectItem.Selected = true;
-                            }
-                        }
+                        GetDBBool(dRow["CapMetNotification"], ddlCapNearNotification);
+                        GetDBBool(dRow["AutoApproveWaitListOpenings"], ddlAutoApproveWaitlist);
+                        GetDBBool(dRow["PCFoodService"], ddlPCFoodService);
+                        GetDBBool(dRow["NPCFoodService"], ddlNPCFoodService);
 
-                        if (bool.TryParse(dRow["AutoApproveWaitListOpenings"].ToString(), out bTemp))
-                        {
-                            string sSearchValue = "No";
-                            if (bTemp)
-                                sSearchValue = "Yes";
-                            ListItem SelectItem = ddlAutoApproveWaitlist.Items.FindByValue(sSearchValue);
-                            if (SelectItem != null)
+                        foreach (ListItem liStatus in ddlDefaultRegStatus.Items)
+                            if (liStatus.Value == dRow["DefaultRegistrationStatusID"].ToString())
                             {
-                                ddlAutoApproveWaitlist.ClearSelection();
-                                SelectItem.Selected = true;
+                                ddlDefaultRegStatus.ClearSelection();
+                                liStatus.Selected = true;
                             }
-                        }
                     }
                 }
             }
@@ -219,6 +209,28 @@ namespace LarpPortal.Events
             return dValue;
         }
 
+        private void GetDBBool(object oValue, DropDownList ddlListToSet)
+        {
+            bool bTemp;
+
+            string sSearchValue = "";
+            if (oValue != DBNull.Value)
+            {
+                if (bool.TryParse(oValue.ToString(), out bTemp))
+                {
+                    sSearchValue = "No";
+                    if (bTemp)
+                        sSearchValue = "Yes";
+                }
+            }
+            ListItem SelectItem = ddlListToSet.Items.FindByText(sSearchValue);
+            if (SelectItem != null)
+            {
+                ddlListToSet.ClearSelection();
+                SelectItem.Selected = true;
+            }
+        }
+
         protected void btnSave_Click(object sender, EventArgs e)
         {
             DateTime dtTemp;
@@ -280,7 +292,7 @@ namespace LarpPortal.Events
             else
                 sParams.Add("@DaysToPreregistrationDeadlineReset", 1);
 
-            if (int.TryParse(tbPaymentDate.ToString(), out iTemp))
+            if (int.TryParse(tbPaymentDate.Text, out iTemp))
                 sParams.Add("@DaysToPaymentDue", iTemp);
             else
                 sParams.Add("@DaysToPaymentDueReset", 1);
@@ -328,6 +340,25 @@ namespace LarpPortal.Events
                 sParams.Add("@AutoApproveWaitListOpenings", 0);
             else
                 sParams.Add("@AutoApproveWaitListOpeningsReset", 1);
+
+            if (ddlPCFoodService.SelectedValue.ToUpper() == "YES")
+                sParams.Add("@PCFoodService", 1);
+            else if (ddlPCFoodService.SelectedValue.ToUpper() == "NO")
+                sParams.Add("@PCFoodService", 0);
+            else
+                sParams.Add("@PCFoodServiceReset", 1);
+
+            if (ddlNPCFoodService.SelectedValue.ToUpper() == "YES")
+                sParams.Add("@NPCFoodService", 1);
+            else if (ddlNPCFoodService.SelectedValue.ToUpper() == "NO")
+                sParams.Add("@NPCFoodService", 0);
+            else
+                sParams.Add("@NPCFoodServiceReset", 1);
+
+            if (ddlDefaultRegStatus.SelectedValue != "")
+                sParams.Add("@DefaultRegistrationStatusID", ddlDefaultRegStatus.SelectedValue);
+            else
+                sParams.Add("@DefaultRegistrationStatusIDReset", 1);
 
             sParams.Add("@PaymentInstructions", tbPaymentInstructions.Text);
 

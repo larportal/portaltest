@@ -41,8 +41,6 @@ namespace LarpPortal.Events
         {
             DateTime dtTemp;
             int iTemp;
-            double dTemp;
-            bool bTemp;
 
             if (!IsPostBack)
             {
@@ -55,7 +53,7 @@ namespace LarpPortal.Events
                 ddlDefaultRegStatus.DataValueField = "StatusID";
                 ddlDefaultRegStatus.DataBind();
 
-                ddlDefaultRegStatus.Items.Insert(0, new ListItem("Choose Value", ""));
+                ddlDefaultRegStatus.SelectedIndex = 0;
 
                 sParams = new SortedList();
                 Classes.cUtilities.LoadDropDownList(ddlSiteList, "uspGetSites", sParams, "SiteName", "SiteID", "LARPortal", Session["UserName"].ToString(), "EventDefaults.Page_Load");
@@ -80,8 +78,19 @@ namespace LarpPortal.Events
                             tbGameLocation.Text = dEventInfo["IGEventLocation"].ToString();
                             tbEventDescription.Text = dEventInfo["EventDescription"].ToString();
                             ddlDefaultRegStatus.ClearSelection();
+
+                            tbPaymentInstructions.Text = dEventInfo["PaymentInstructions"].ToString();
+
+                            if (dEventInfo["SiteID"] != DBNull.Value)
+                                foreach (ListItem liSite in ddlSiteList.Items)
+                                    if (liSite.Value == dEventInfo["SiteID"].ToString())
+                                    {
+                                        ddlSiteList.ClearSelection();
+                                        liSite.Selected = true;
+                                    }
+
                             foreach (ListItem liStatus in ddlDefaultRegStatus.Items)
-                                if (liStatus.Value == dEventInfo["StatusID"].ToString())
+                                if (liStatus.Value == dEventInfo["DefaultRegistrationStatusID"].ToString())
                                 {
                                     ddlDefaultRegStatus.ClearSelection();
                                     liStatus.Selected = true;
@@ -111,81 +120,27 @@ namespace LarpPortal.Events
                             GetDBInt(dEventInfo["NPCOverrideRatio"], tbOverrideRatio, true);
                             GetDBInt(dEventInfo["CapThresholdNotification"], tbCapThresholdNotification, true);
 
-                            if (DateTime.TryParse(dEventInfo["RegistrationOpenDate"].ToString(), out dtTemp))
-                                tbOpenRegDate.Text = dtTemp.ToShortDateString();
-                            if (DateTime.TryParse(dEventInfo["RegistrationOpenTime"].ToString(), out dtTemp))
-                            {
-                                tbOpenRegTime.Text = dtTemp.ToString("HH:mm"); ;
-                                tbCloseRegTime.Text = dtTemp.ToString("HH:mm"); ;
-                            }
+                            GetDBDate(dEventInfo["RegistrationOpenDate"], tbOpenRegDate);
+                            GetDBDate(dEventInfo["RegistrationCloseDate"], tbCloseRegDate);
+                            GetDBDate(dEventInfo["PreregistrationDeadline"], tbPreRegDeadline);
+                            GetDBDate(dEventInfo["InfoSkillDeadlineDate"], tbInfoSkillDue);
+                            GetDBDate(dEventInfo["PELDeadlineDate"], tbPELDue);
+                            GetDBDate(dEventInfo["PaymentDueDate"], tbPaymentDate);
 
-                            GetDBMoney(dEventInfo["LateRegistrationPrice"], tbAtDoorPrice, true);
+                            GetDBMoney(dEventInfo["PreregistrationPrice"], tbPreRegistrationPrice, true);
+                            GetDBMoney(dEventInfo["LateRegistrationPrice"], tbRegPrice, true);
+                            GetDBMoney(dEventInfo["CheckinPrice"], tbAtDoorPrice, true);
 
-                            //if (DateTime.TryParse(dEventInfo["Payment
-                            //    sParams.Add("@PaymentDueDate", dtTemp.ToShortDateString());
-                            if (int.TryParse(dEventInfo["MaximumPCCount"].ToString(), out iTemp))
-                                tbMaxPCCount.Text = iTemp.ToString();
-                            if (int.TryParse(dEventInfo["BaseNPCCount"].ToString(), out iTemp))
-                                tbBaseNPCCount.Text = iTemp.ToString();
-                            if (int.TryParse(dEventInfo["NPCOverrideRatio"].ToString(), out iTemp))
-                                tbOverrideRatio.Text = iTemp.ToString();
+                            GetDBBool(dEventInfo["CapMetNotification"], ddlCapNearNotification);
+                            GetDBBool(dEventInfo["AutoApproveWaitListOpenings"], ddlAutoApproveWaitlist);
+                            GetDBBool(dEventInfo["PCFoodService"], ddlPCFoodService);
+                            GetDBBool(dEventInfo["NPCFoodService"], ddlNPCFoodService);
 
-                            if (int.TryParse(dEventInfo["CapThresholdNotification"].ToString(), out iTemp))
-                                tbCapThresholdNotification.Text = iTemp.ToString();
-                            if (dEventInfo["CapMetNotification"] != DBNull.Value)
-                            {
-                                if (bool.TryParse(dEventInfo["CapMetNotification"].ToString(), out bTemp))
-                                    foreach (ListItem litem in ddlCapNearNotification.Items)
-                                        if (bTemp.ToString().ToUpper() == litem.Value.ToUpper())
-                                        {
-                                            ddlCapNearNotification.ClearSelection();
-                                            litem.Selected = true;
-                                        }
-                            }
-
-                            if (DateTime.TryParse(dEventInfo["RegistrationOpenDate"].ToString(), out dtTemp))
-                                tbOpenRegDate.Text = dtTemp.ToShortDateString();
                             if (DateTime.TryParse(dEventInfo["RegistrationOpenTime"].ToString(), out dtTemp))
                                 tbOpenRegTime.Text = dtTemp.ToString("HH:mm");
-                            if (DateTime.TryParse(dEventInfo["RegistrationCloseDate"].ToString(), out dtTemp))
-                                tbCloseRegDate.Text = dtTemp.ToShortDateString();
+
                             if (DateTime.TryParse(dEventInfo["RegistrationCloseTime"].ToString(), out dtTemp))
                                 tbCloseRegTime.Text = dtTemp.ToString("HH:mm");
-                            if (DateTime.TryParse(dEventInfo["PreregistrationDeadline"].ToString(), out dtTemp))
-                                tbPreRegDeadline.Text = dtTemp.ToShortDateString();
-                            if (Double.TryParse(dEventInfo["PreregistrationPrice"].ToString(), out dTemp))
-                                tbPreRegistrationPrice.Text = string.Format("{0:0.00}", dTemp);
-                            if (Double.TryParse(dEventInfo["LateRegistrationPrice"].ToString(), out dTemp))
-                                tbRegPrice.Text = string.Format("{0:0.00}", dTemp);
-                            if (Double.TryParse(dEventInfo["CheckinPrice"].ToString(), out dTemp))
-                                tbAtDoorPrice.Text = string.Format("{0:0.00}", dTemp);
-                            if (DateTime.TryParse(dEventInfo["InfoSkillDeadlineDate"].ToString(), out dtTemp))
-                                tbInfoSkillDue.Text = dtTemp.ToShortDateString();
-                            if (DateTime.TryParse(dEventInfo["PELDeadlineDate"].ToString(), out dtTemp))
-                                tbPELDue.Text = dtTemp.ToShortDateString();
-                            if (DateTime.TryParse(dEventInfo["PaymentDueDate"].ToString(), out dtTemp))
-                                tbPaymentDate.Text = dtTemp.ToShortDateString();
-
-                            if (dEventInfo["PCFoodService"] != DBNull.Value)
-                            {
-                                if (bool.TryParse(dEventInfo["PCFoodService"].ToString(), out bTemp))
-                                    foreach (ListItem litem in ddlPCFoodService.Items)
-                                        if (litem.Value.ToUpper() == bTemp.ToString().ToUpper())
-                                        {
-                                            ddlPCFoodService.ClearSelection();
-                                            litem.Selected = true;
-                                        }
-                            }
-                            if (dEventInfo["NPCFoodService"] != DBNull.Value)
-                            {
-                                if (bool.TryParse(dEventInfo["NPCFoodService"].ToString(), out bTemp))
-                                    foreach (ListItem litem in ddlNPCFoodService.Items)
-                                        if (litem.Value.ToUpper() == bTemp.ToString().ToUpper())
-                                        {
-                                            ddlNPCFoodService.ClearSelection();
-                                            litem.Selected = true;
-                                        }
-                            }
                         }
                         if (dsEventInfo.Tables.Count >= 4)
                         {
@@ -248,16 +203,16 @@ namespace LarpPortal.Events
                                 }
 
                                 if (dRow["DaysToPaymentDue"] != DBNull.Value)
-                                    if (int.TryParse(dRow["PaymentDueDate"].ToString(), out iTemp))
+                                    if (int.TryParse(dRow["DaysToPaymentDue"].ToString(), out iTemp))
                                         hidDaysToPaymentDue.Value = iTemp.ToString();
 
                                 if (dRow["DaysToInfoSkillDeadlineDate"] != DBNull.Value)
                                     if (int.TryParse(dRow["DaysToInfoSkillDeadlineDate"].ToString(), out iTemp))
                                         hidDaysToInfoSkillDeadlineDate.Value = iTemp.ToString();
 
-                                if (dRow["RegistrationStatus"] != DBNull.Value)
+                                if (dRow["DefaultRegistrationStatusID"] != DBNull.Value)
                                     foreach (ListItem liStatus in ddlDefaultRegStatus.Items)
-                                        if (liStatus.Value == dRow["RegistrationStatus"].ToString())
+                                        if (liStatus.Value == dRow["DefaultRegistrationStatusID"].ToString())
                                         {
                                             ddlDefaultRegStatus.ClearSelection();
                                             liStatus.Selected = true;
@@ -270,6 +225,9 @@ namespace LarpPortal.Events
                                             ddlSiteList.ClearSelection();
                                             liSite.Selected = true;
                                         }
+
+                                tbPaymentInstructions.Text = dRow["PaymentInstructions"].ToString();
+
 
                                 GetDBInt(dRow["MaximumPCCount"], tbMaxPCCount, true);
                                 GetDBInt(dRow["BaseNPCCount"], tbBaseNPCCount, true);
@@ -286,25 +244,10 @@ namespace LarpPortal.Events
                                 GetDBInt(dRow["NPCOverrideRatio"], tbOverrideRatio, true);
                                 GetDBInt(dRow["CapThresholdNotification"], tbCapThresholdNotification, true);
 
-                                if (bool.TryParse(dRow["CapMetNotification"].ToString(), out bTemp))
-                                {
-                                    ListItem SelectItem = ddlCapNearNotification.Items.FindByValue(bTemp.ToString());
-                                    if (SelectItem != null)
-                                    {
-                                        ddlCapNearNotification.ClearSelection();
-                                        SelectItem.Selected = true;
-                                    }
-                                }
-
-                                if (bool.TryParse(dRow["AutoApproveWaitListOpenings"].ToString(), out bTemp))
-                                {
-                                    ListItem SelectItem = ddlAutoApproveWaitlist.Items.FindByValue(bTemp.ToString());
-                                    if (SelectItem != null)
-                                    {
-                                        ddlAutoApproveWaitlist.ClearSelection();
-                                        SelectItem.Selected = true;
-                                    }
-                                }
+                                GetDBBool(dRow["CapMetNotification"], ddlCapNearNotification);
+                                GetDBBool(dRow["AutoApproveWaitListOpenings"], ddlAutoApproveWaitlist);
+                                GetDBBool(dRow["PCFoodService"], ddlPCFoodService);
+                                GetDBBool(dRow["NPCFoodService"], ddlNPCFoodService);
                             }
                         }
                     }
@@ -408,6 +351,41 @@ namespace LarpPortal.Events
             return dValue;
         }
 
+        private string GetDBDate(object oValue, TextBox sValue)
+        {
+            sValue.Text = "";
+            DateTime dtValue;
+
+            if (oValue != DBNull.Value)
+            {
+                if (DateTime.TryParse(oValue.ToString(), out dtValue))
+                    sValue.Text = dtValue.ToShortDateString();
+            }
+            return sValue.Text;
+        }
+
+        private void GetDBBool(object oValue, DropDownList ddlListToSet)
+        {
+            bool bTemp;
+
+            string sSearchValue = "";
+            if (oValue != DBNull.Value)
+            {
+                if (bool.TryParse(oValue.ToString(), out bTemp))
+                {
+                    sSearchValue = "No";
+                    if (bTemp)
+                        sSearchValue = "Yes";
+                }
+            }
+            ListItem SelectItem = ddlListToSet.Items.FindByText(sSearchValue);
+            if (SelectItem != null)
+            {
+                ddlListToSet.ClearSelection();
+                SelectItem.Selected = true;
+            }
+        }
+
         protected void btnSave_Click(object sender, EventArgs e)
         {
             DateTime dtTemp;
@@ -466,16 +444,15 @@ namespace LarpPortal.Events
                 sParams.Add("@PELDeadlineDate", dtTemp.ToShortDateString());
             sParams.Add("@PCFoodService", ddlPCFoodService.SelectedValue);
             sParams.Add("@NPCFoodService", ddlNPCFoodService.SelectedValue);
+            sParams.Add("@AutoApproveWaitListOpenings", ddlAutoApproveWaitlist.SelectedValue);
 
             // These do appear on the screen. - Left them as a reminder and can set where they should go.
             // @DaysToAutoCancelOtherPlayerRegistration INT = NULL,
-            // @AutoApproveWaitListOpenings             INT = NULL,
             // @DecisionByDate                          DATE = NULL,
             // @NotificationDate                        DATE = NULL,
             // @SharePlanningInfo                       BIT = NULL,
-            // @StatusID                                INT = NULL,
 
-            sParams.Add("@StatusID", 50);
+            sParams.Add("@DefaultRegistrationStatusID", ddlDefaultRegStatus.SelectedValue);
 
             try
             {
@@ -516,7 +493,7 @@ namespace LarpPortal.Events
                     }
                 }
 
-                lblRegistrationMessage.Text = "The event defaults have been changed for the campaign.";
+                lblRegistrationMessage.Text = "The event has been updated for the campaign.";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
             }
             catch (Exception ex)
