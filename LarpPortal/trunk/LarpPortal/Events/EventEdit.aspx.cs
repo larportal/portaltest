@@ -64,88 +64,91 @@ namespace LarpPortal.Events
                     int iEventID = 0;
                     if (int.TryParse(Request.QueryString["EventID"], out iEventID))
                     {
-                        sParams = new SortedList();
-                        sParams.Add("@EventID", iEventID);
-                        DataSet dsEventInfo = Classes.cUtilities.LoadDataSet("uspGetEventInfo", sParams, "LARPortal", Session["UserName"].ToString(), "EventEdit.Page_PreRender");
-
-                        foreach (DataRow dEventInfo in dsEventInfo.Tables[0].Rows)
+                        if (iEventID != -1)
                         {
-                            hidEventID.Value = iEventID.ToString();
                             sParams = new SortedList();
-                            bRecordLoaded = true;
                             sParams.Add("@EventID", iEventID);
-                            tbEventName.Text = dEventInfo["EventName"].ToString();
-                            tbGameLocation.Text = dEventInfo["IGEventLocation"].ToString();
-                            tbEventDescription.Text = dEventInfo["EventDescription"].ToString();
-                            ddlDefaultRegStatus.ClearSelection();
+                            DataSet dsEventInfo = Classes.cUtilities.LoadDataSet("uspGetEventInfo", sParams, "LARPortal", Session["UserName"].ToString(), "EventEdit.Page_PreRender");
 
-                            tbPaymentInstructions.Text = dEventInfo["PaymentInstructions"].ToString();
+                            foreach (DataRow dEventInfo in dsEventInfo.Tables[0].Rows)
+                            {
+                                hidEventID.Value = iEventID.ToString();
+                                sParams = new SortedList();
+                                bRecordLoaded = true;
+                                sParams.Add("@EventID", iEventID);
+                                tbEventName.Text = dEventInfo["EventName"].ToString();
+                                tbGameLocation.Text = dEventInfo["IGEventLocation"].ToString();
+                                tbEventDescription.Text = dEventInfo["EventDescription"].ToString();
+                                ddlDefaultRegStatus.ClearSelection();
 
-                            if (dEventInfo["SiteID"] != DBNull.Value)
+                                tbPaymentInstructions.Text = dEventInfo["PaymentInstructions"].ToString();
+
+                                if (dEventInfo["SiteID"] != DBNull.Value)
+                                    foreach (ListItem liSite in ddlSiteList.Items)
+                                        if (liSite.Value == dEventInfo["SiteID"].ToString())
+                                        {
+                                            ddlSiteList.ClearSelection();
+                                            liSite.Selected = true;
+                                        }
+
+                                foreach (ListItem liStatus in ddlDefaultRegStatus.Items)
+                                    if (liStatus.Value == dEventInfo["DefaultRegistrationStatusID"].ToString())
+                                    {
+                                        ddlDefaultRegStatus.ClearSelection();
+                                        liStatus.Selected = true;
+                                    }
+
+                                if (DateTime.TryParse(dEventInfo["StartDate"].ToString(), out dtTemp))
+                                    tbStartDate.Text = dtTemp.ToShortDateString();
+                                if (DateTime.TryParse(dEventInfo["StartTime"].ToString(), out dtTemp))
+                                    tbStartTime.Text = dtTemp.ToString("HH:mm");
+
+                                if (DateTime.TryParse(dEventInfo["EndDate"].ToString(), out dtTemp))
+                                    tbEndDate.Text = dtTemp.ToShortDateString();
+                                if (DateTime.TryParse(dEventInfo["EndTime"].ToString(), out dtTemp))
+                                    tbEndTime.Text = dtTemp.ToString("HH:mm");
+
                                 foreach (ListItem liSite in ddlSiteList.Items)
+                                {
                                     if (liSite.Value == dEventInfo["SiteID"].ToString())
                                     {
                                         ddlSiteList.ClearSelection();
                                         liSite.Selected = true;
                                     }
-
-                            foreach (ListItem liStatus in ddlDefaultRegStatus.Items)
-                                if (liStatus.Value == dEventInfo["DefaultRegistrationStatusID"].ToString())
-                                {
-                                    ddlDefaultRegStatus.ClearSelection();
-                                    liStatus.Selected = true;
                                 }
 
-                            if (DateTime.TryParse(dEventInfo["StartDate"].ToString(), out dtTemp))
-                                tbStartDate.Text = dtTemp.ToShortDateString();
-                            if (DateTime.TryParse(dEventInfo["StartTime"].ToString(), out dtTemp))
-                                tbStartTime.Text = dtTemp.ToString("HH:mm");
+                                GetDBInt(dEventInfo["MaximumPCCount"], tbMaxPCCount, true);
+                                GetDBInt(dEventInfo["BaseNPCCount"], tbBaseNPCCount, true);
+                                GetDBInt(dEventInfo["NPCOverrideRatio"], tbOverrideRatio, true);
+                                GetDBInt(dEventInfo["CapThresholdNotification"], tbCapThresholdNotification, true);
 
-                            if (DateTime.TryParse(dEventInfo["EndDate"].ToString(), out dtTemp))
-                                tbEndDate.Text = dtTemp.ToShortDateString();
-                            if (DateTime.TryParse(dEventInfo["EndTime"].ToString(), out dtTemp))
-                                tbEndTime.Text = dtTemp.ToString("HH:mm");
+                                GetDBDate(dEventInfo["RegistrationOpenDate"], tbOpenRegDate);
+                                GetDBDate(dEventInfo["RegistrationCloseDate"], tbCloseRegDate);
+                                GetDBDate(dEventInfo["PreregistrationDeadline"], tbPreRegDeadline);
+                                GetDBDate(dEventInfo["InfoSkillDeadlineDate"], tbInfoSkillDue);
+                                GetDBDate(dEventInfo["PELDeadlineDate"], tbPELDue);
+                                GetDBDate(dEventInfo["PaymentDueDate"], tbPaymentDate);
 
-                            foreach (ListItem liSite in ddlSiteList.Items)
-                            {
-                                if (liSite.Value == dEventInfo["SiteID"].ToString())
-                                {
-                                    ddlSiteList.ClearSelection();
-                                    liSite.Selected = true;
-                                }
+                                GetDBMoney(dEventInfo["PreregistrationPrice"], tbPreRegistrationPrice, true);
+                                GetDBMoney(dEventInfo["LateRegistrationPrice"], tbRegPrice, true);
+                                GetDBMoney(dEventInfo["CheckinPrice"], tbAtDoorPrice, true);
+
+                                GetDBBool(dEventInfo["CapMetNotification"], ddlCapNearNotification);
+                                GetDBBool(dEventInfo["AutoApproveWaitListOpenings"], ddlAutoApproveWaitlist);
+                                GetDBBool(dEventInfo["PCFoodService"], ddlPCFoodService);
+                                GetDBBool(dEventInfo["NPCFoodService"], ddlNPCFoodService);
+
+                                if (DateTime.TryParse(dEventInfo["RegistrationOpenTime"].ToString(), out dtTemp))
+                                    tbOpenRegTime.Text = dtTemp.ToString("HH:mm");
+
+                                if (DateTime.TryParse(dEventInfo["RegistrationCloseTime"].ToString(), out dtTemp))
+                                    tbCloseRegTime.Text = dtTemp.ToString("HH:mm");
                             }
-
-                            GetDBInt(dEventInfo["MaximumPCCount"], tbMaxPCCount, true);
-                            GetDBInt(dEventInfo["BaseNPCCount"], tbBaseNPCCount, true);
-                            GetDBInt(dEventInfo["NPCOverrideRatio"], tbOverrideRatio, true);
-                            GetDBInt(dEventInfo["CapThresholdNotification"], tbCapThresholdNotification, true);
-
-                            GetDBDate(dEventInfo["RegistrationOpenDate"], tbOpenRegDate);
-                            GetDBDate(dEventInfo["RegistrationCloseDate"], tbCloseRegDate);
-                            GetDBDate(dEventInfo["PreregistrationDeadline"], tbPreRegDeadline);
-                            GetDBDate(dEventInfo["InfoSkillDeadlineDate"], tbInfoSkillDue);
-                            GetDBDate(dEventInfo["PELDeadlineDate"], tbPELDue);
-                            GetDBDate(dEventInfo["PaymentDueDate"], tbPaymentDate);
-
-                            GetDBMoney(dEventInfo["PreregistrationPrice"], tbPreRegistrationPrice, true);
-                            GetDBMoney(dEventInfo["LateRegistrationPrice"], tbRegPrice, true);
-                            GetDBMoney(dEventInfo["CheckinPrice"], tbAtDoorPrice, true);
-
-                            GetDBBool(dEventInfo["CapMetNotification"], ddlCapNearNotification);
-                            GetDBBool(dEventInfo["AutoApproveWaitListOpenings"], ddlAutoApproveWaitlist);
-                            GetDBBool(dEventInfo["PCFoodService"], ddlPCFoodService);
-                            GetDBBool(dEventInfo["NPCFoodService"], ddlNPCFoodService);
-
-                            if (DateTime.TryParse(dEventInfo["RegistrationOpenTime"].ToString(), out dtTemp))
-                                tbOpenRegTime.Text = dtTemp.ToString("HH:mm");
-
-                            if (DateTime.TryParse(dEventInfo["RegistrationCloseTime"].ToString(), out dtTemp))
-                                tbCloseRegTime.Text = dtTemp.ToString("HH:mm");
-                        }
-                        if (dsEventInfo.Tables.Count >= 4)
-                        {
-                            _dtCurrentSelectedPELs = dsEventInfo.Tables[4];
-                            _dtCampaignPELs = dsEventInfo.Tables[3];
+                            if (dsEventInfo.Tables.Count >= 4)
+                            {
+                                _dtCurrentSelectedPELs = dsEventInfo.Tables[4];
+                                _dtCampaignPELs = dsEventInfo.Tables[3];
+                            }
                         }
                     }
                 }
