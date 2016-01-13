@@ -112,6 +112,22 @@ namespace LarpPortal.Events
                             }
                         }
 
+                        if (dRow["PrimarySiteID"] != DBNull.Value)
+                        {
+                            int iSiteID;
+                            if (int.TryParse(dRow["PrimarySiteID"].ToString(), out iSiteID))
+                            {
+                                foreach (ListItem lItem in ddlSiteList.Items)
+                                {
+                                    if (lItem.Value == iSiteID.ToString())
+                                    {
+                                        ddlSiteList.ClearSelection();
+                                        lItem.Selected = true;
+                                    }
+                                }
+                            }
+                        }
+
                         tbPaymentInstructions.Text = dRow["PaymentInstructions"].ToString();
 
                         GetDBInt(dRow["MaximumPCCount"], tbMaxPCCount);

@@ -144,7 +144,7 @@
                                 Primary Site
                             </div>
                             <div class="col-lg-3 NoPadding">
-                                <asp:DropDownList ID="ddlSiteList" runat="server" />
+                                <asp:DropDownList ID="ddlSiteList" runat="server" style="z-index: 500; position:relative;" />
                             </div>
                             <div class="TableLabel col-lg-3">
                                 BaseNPC Count
@@ -152,7 +152,7 @@
                             <div class="col-lg-3 NoPadding">
                                 <asp:TextBox ID="tbBaseNPCCount" runat="server" Columns="4" MaxLength="4" /><asp:RangeValidator ID="rvBaseNPCCount" runat="server"
                                     ForeColor="Red" MaximumValue="999" MinimumValue="-999" Font-Bold="true" Font-Italic="true" Text="* Numbers Only" Type="Integer"
-                                    ControlToValidate="tbBaseNPCCount" Style="margin-left: 10px;" Display="Dynamic" />
+                                    ControlToValidate="tbBaseNPCCount" Style="margin-left: 10px;" Display="Dynamic" ToolTip="Here is the base count which would be nice." />
                             </div>
                         </div>
 
