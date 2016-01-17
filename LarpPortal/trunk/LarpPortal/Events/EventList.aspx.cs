@@ -48,12 +48,68 @@ namespace LarpPortal.Events
         protected void gvPELList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string sEventID = e.CommandArgument.ToString();
-            Response.Redirect("EventEdit.aspx?EventID=" + sEventID, true);
+            string sCommandName = e.CommandName.ToUpper();
+
+            switch ( sCommandName )
+            {
+                case "EDIT":
+                    Response.Redirect("EventEdit.aspx?EventID=" + sEventID, true);
+                    break;
+
+                case "CANCELLED":
+                case "COMPLETED":
+                    SortedList sGetStatusParams = new SortedList();
+                    sGetStatusParams.Add("@StatusType", "Event");
+
+                    DataTable dtStatus = Classes.cUtilities.LoadDataTable("[uspGetStatus]", sGetStatusParams, "LARPortal", Session["UserName"].ToString(), "EventList.gvPELList_RowCommand");
+                    dtStatus.CaseSensitive = false;
+                    //foreach (DataRow dStatus in dtStatus.Rows)
+                    //    dStatus["StatusName"] = dStatus["StatusName"].ToString().ToUpper();
+                    DataView dvStatus = new DataView(dtStatus, "StatusName = '" + sCommandName + "'", "", DataViewRowState.CurrentRows);
+                    if ( dvStatus.Count > 0 )
+                    {
+                        SortedList sUpdateEvent = new SortedList();
+                        sUpdateEvent.Add("@UserID", Session["UserID"].ToString());
+                        sUpdateEvent.Add("@StatusID", dvStatus[0]["StatusID"].ToString());
+                        Classes.cUtilities.PerformNonQuery("uspInsUpdCMEvents", sUpdateEvent, "LARPortal", Session["UserName"].ToString());
+                    }
+                    break;
+
+                case "DELETE":
+                    SortedList sDeleteParms = new SortedList();
+                    sDeleteParms.Add("@RecordID", sEventID);
+                    sDeleteParms.Add("@UserID", Session["UserID"].ToString());
+                    Classes.cUtilities.PerformNonQuery("uspDelCMEvents", sDeleteParms, "LARPortal", Session["UserName"].ToString());
+                    break;
+            }
         }
 
         protected void btnCreate_Click(object sender, EventArgs e)
         {
             Response.Redirect("EventEdit.aspx?EventID=-1", true);
+        }
+
+        protected void gvPELList_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                DataRowView dRow = (DataRowView)e.Row.DataItem;
+                string sEventStatus = dRow["EventStatus"].ToString().ToUpper();
+
+                if ((sEventStatus == "COMPLETED") ||
+                     (sEventStatus == "CANCELLED"))
+                {
+                    Button btnEdit = (Button)e.Row.FindControl("btnEdit");
+                    if (btnEdit != null)
+                        btnEdit.Visible = false;
+                    Button btnCancel = (Button)e.Row.FindControl("btnCancel");
+                    if (btnCancel != null)
+                        btnCancel.Visible = false;
+                    Button btnComplete = (Button)e.Row.FindControl("btnComplete");
+                    if (btnComplete != null)
+                        btnComplete.Visible = false;
+                }
+            }
         }
     }
 }
