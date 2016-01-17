@@ -497,6 +497,14 @@ namespace LarpPortal.Events
                 }
 
                 lblRegistrationMessage.Text = "The event has been updated for the campaign.";
+                if (Request.QueryString["EventID"] != null)
+                {
+                    int iEventID;
+                    if (int.TryParse(Request.QueryString["EventID"], out iEventID))
+                        if (iEventID == -1)
+                            lblRegistrationMessage.Text = "The event has been created for the campaign.";
+                }
+
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
             }
             catch (Exception ex)

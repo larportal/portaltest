@@ -23,13 +23,14 @@
                                 <div class="panel-container search-criteria" style="padding-bottom: 10px;">
                                     <div style="max-height: 500px; overflow-y: auto; margin-right: 10px;">
                                         <asp:GridView ID="gvPELList" runat="server" AutoGenerateColumns="false" OnRowCommand="gvPELList_RowCommand" GridLines="None"
-                                            CssClass="table table-striped table-hover table-condensed" BorderColor="Black" BorderStyle="Solid" BorderWidth="1">
+                                            CssClass="table table-striped table-hover table-condensed" BorderColor="Black" BorderStyle="Solid" 
+                                            OnRowDataBound="gvPELList_RowDataBound" BorderWidth="1">
                                             <Columns>
                                                 <asp:BoundField DataField="CampaignName" HeaderText="Campaign" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
                                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                                 <asp:BoundField DataField="EventName" HeaderText="Event Name" HeaderStyle-Wrap="false"
                                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
-                                                <asp:BoundField DataField="EventDescription" HeaderText="Event Description" HeaderStyle-Wrap="false"
+                                                <asp:BoundField DataField="EventDescription" HeaderText="Event Description" HeaderStyle-Wrap="false" ItemStyle-Wrap="true"
                                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                                 <asp:BoundField DataField="StartDateTime" HeaderText="Event Start Date" DataFormatString="{0: MM/dd/yyyy hh:mm tt}" ItemStyle-Wrap="false"
                                                     HeaderStyle-Wrap="false" ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
@@ -39,14 +40,26 @@
                                                     HeaderStyle-Wrap="false" ItemStyle-CssClass="LeftRightPassing" HeaderStyle-CssClass="LeftRightPadding" />
                                                 <asp:TemplateField ItemStyle-CssClass="LeftRightPadding">
                                                     <ItemTemplate>
-                                                        <asp:Button ID="btnCommand" Width="100px" runat="server" CommandArgument='<%# Eval("EventID") %>' CommandName='EDIT'
+                                                        <asp:Button ID="btnEdit" Width="100px" runat="server" CommandArgument='<%# Eval("EventID") %>' CommandName='EDIT'
                                                             Style="" Text='Edit' CssClass="StandardButton" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                                 <asp:TemplateField ItemStyle-CssClass="LeftRightPadding">
                                                     <ItemTemplate>
-                                                        <asp:Button ID="btnRemove" Width="100px" runat="server" CommandArgument='<%# Eval("EventID") %>' CommandName='REMOVE'
-                                                            Style="" Text='Remove' CssClass="StandardButton" />
+                                                        <asp:Button ID="btnCancel" Width="100px" runat="server" CommandArgument='<%# Eval("EventID") %>' CommandName='CANCELLED'
+                                                            Style="" Text='Cancel' CssClass="StandardButton" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField ItemStyle-CssClass="LeftRightPadding">
+                                                    <ItemTemplate>
+                                                        <asp:Button ID="btnComplete" Width="100px" runat="server" CommandArgument='<%# Eval("EventID") %>' CommandName='COMPLETED'
+                                                            Style="" Text='Complete' CssClass="StandardButton" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField ItemStyle-CssClass="LeftRightPadding">
+                                                    <ItemTemplate>
+                                                        <asp:Button ID="btnDelete" Width="100px" runat="server" CommandArgument='<%# Eval("EventID") %>' CommandName='DELETE'
+                                                            Style="" Text='Delete' CssClass="StandardButton" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>
