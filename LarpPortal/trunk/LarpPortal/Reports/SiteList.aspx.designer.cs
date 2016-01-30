@@ -10,7 +10,7 @@
 namespace LarpPortal.Reports {
     
     
-    public partial class CalendarReport {
+    public partial class SiteList1 {
         
         /// <summary>
         /// pnlParameters control.
@@ -22,31 +22,22 @@ namespace LarpPortal.Reports {
         protected global::System.Web.UI.WebControls.Panel pnlParameters;
         
         /// <summary>
-        /// ddlEventDateRange control.
+        /// ddlCountry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEventDateRange;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCountry;
         
         /// <summary>
-        /// ddlOrderBy control.
+        /// ddlState control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlOrderBy;
-        
-        /// <summary>
-        /// ddlCampaignChoice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCampaignChoice;
+        protected global::System.Web.UI.WebControls.DropDownList ddlState;
         
         /// <summary>
         /// btnRunReport control.
@@ -85,12 +76,12 @@ namespace LarpPortal.Reports {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
         
         /// <summary>
-        /// gvCalendar control.
+        /// gvSites control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvCalendar;
+        protected global::System.Web.UI.WebControls.GridView gvSites;
     }
 }

@@ -625,10 +625,14 @@ namespace LarpPortal.Events
             {
                 MethodBase lmth = MethodBase.GetCurrentMethod();
                 string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+                InsertCPOpportunity();
                 DataTable dtUser = Classes.cUtilities.LoadDataTable("uspRegisterForEvent", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
 
                 foreach (DataRow dRegRecord in dtUser.Rows)
                 {
+                    // Insert CP Opportunity
+                    InsertCPOpportunity();
+                    // End CP Opportunity
                     SortedList sParamsClearMeals = new SortedList();
                     sParamsClearMeals.Add("@RegistrationID", dRegRecord["RegistrationID"].ToString());
                     Classes.cUtilities.PerformNonQuery("uspClearRegistrationMeals", sParamsClearMeals, "LARPortal", Session["UserName"].ToString());
@@ -720,5 +724,44 @@ namespace LarpPortal.Events
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeModal();", true);
         }
+
+        protected void InsertCPOpportunity()
+        {
+            int RoleAlignment = 1;
+            int iCampaignID = 0;
+            int uID = 0;
+            int iCharacterID = 0;
+            int iEventID = 0;
+            string sEventName;
+            DateTime dEventDate;
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out uID);
+            if (Session["CampaignID"] != null)
+                int.TryParse(Session["CampaignID"].ToString(), out iCampaignID);
+            int.TryParse(ddlCharacterList.SelectedValue.ToString(), out iCharacterID);
+            int.TryParse(ddlEventDate.SelectedValue.ToString(), out iEventID);
+            sEventName = lblEventName.Text;
+            DateTime.TryParse(lblEventStartDate.Text.ToString(), out dEventDate);
+            switch (ddlRoles.SelectedValue)
+            {
+                case "NPC":
+                    RoleAlignment = 2;
+                    break;
+                case "Staff":
+                    RoleAlignment = 3;
+                    break;
+                default:
+                    RoleAlignment = 1;
+                    break;
+            }
+ 
+            Classes.cPointOpportunities opp = new Classes.cPointOpportunities();
+            //Create Attendance opportunity - uncomment next line
+            //opp.CreateAttendanceOpportunity(RoleAlignment, uID, iCharacterID, iEventID, iCampaignID, sEventName, lblEventDescription.Text, dEventDate);
+            //Create Setup/Cleanup opportunity - uncomment next line and finish parameters
+            //opp.CreateCleanupOpportunity();
+
+        }
+
     }
 }

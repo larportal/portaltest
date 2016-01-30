@@ -10,7 +10,7 @@
 namespace LarpPortal.Reports {
     
     
-    public partial class CalendarReport {
+    public partial class PELAnswerSummary {
         
         /// <summary>
         /// pnlParameters control.
@@ -22,31 +22,58 @@ namespace LarpPortal.Reports {
         protected global::System.Web.UI.WebControls.Panel pnlParameters;
         
         /// <summary>
-        /// ddlEventDateRange control.
+        /// lblEvent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEventDateRange;
+        protected global::System.Web.UI.WebControls.Label lblEvent;
         
         /// <summary>
-        /// ddlOrderBy control.
+        /// ddlEvent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlOrderBy;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEvent;
         
         /// <summary>
-        /// ddlCampaignChoice control.
+        /// lblQuestion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCampaignChoice;
+        protected global::System.Web.UI.WebControls.Label lblQuestion;
+        
+        /// <summary>
+        /// ddlQuestion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlQuestion;
+        
+        /// <summary>
+        /// lblRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRole;
+        
+        /// <summary>
+        /// ddlRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlRole;
         
         /// <summary>
         /// btnRunReport control.
@@ -85,12 +112,12 @@ namespace LarpPortal.Reports {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
         
         /// <summary>
-        /// gvCalendar control.
+        /// gvAnswers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvCalendar;
+        protected global::System.Web.UI.WebControls.GridView gvAnswers;
     }
 }

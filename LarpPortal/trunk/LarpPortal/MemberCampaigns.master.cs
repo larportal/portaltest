@@ -413,7 +413,7 @@ namespace LarpPortal
                         SpanClass = SC1;
                         LineEnd = LineEnd1;
                         PageName = ReqPage;
-                        LineText = "RSVP/Register";
+                        LineText = "Event Registrations/RSVP";
                         break;
 
                     case 17:
@@ -682,27 +682,28 @@ namespace LarpPortal
                         break;
 
                     case 29:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (PageName == "CAMPAIGNCHARACTERS" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/5/") || PlayerRoles.Contains("/20/")))
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignCharacters" + Toggle1b;
-                        if (PlayerRoles.Contains("/5/") || PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/"))
-                        {
-                            SpanClass = SC1;
-                        }
-                        else
-                        {
-                            SpanClass = SC2;
-                        }
-                        LineEnd = LineEnd1;
-                        PageName = ReqPage;
-                        LineText = "Characters";
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        //if (PageName == "CAMPAIGNCHARACTERS" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/5/") || PlayerRoles.Contains("/20/")))
+                        //{
+                        //    ActiveState = " class=\"active\">";
+                        //}
+                        //else
+                        //{
+                        //    ActiveState = ">";
+                        //}
+                        //TreeToggle = Toggle2; // Toggle1a + "lblCampaignCharacters" + Toggle1b;
+                        //if (PlayerRoles.Contains("/5/") || PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/"))
+                        //{
+                        //    SpanClass = SC1;
+                        //}
+                        //else
+                        //{
+                        //    SpanClass = SC2;
+                        //}
+                        //LineEnd = LineEnd1;
+                        //PageName = ReqPage;
+                        //LineText = "Characters";
                         break;
 
                     case 30:

@@ -10,7 +10,7 @@
 namespace LarpPortal.Reports {
     
     
-    public partial class CalendarReport {
+    public partial class GameSystemOwnerCampaignList {
         
         /// <summary>
         /// pnlParameters control.
@@ -20,33 +20,6 @@ namespace LarpPortal.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlParameters;
-        
-        /// <summary>
-        /// ddlEventDateRange control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEventDateRange;
-        
-        /// <summary>
-        /// ddlOrderBy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlOrderBy;
-        
-        /// <summary>
-        /// ddlCampaignChoice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCampaignChoice;
         
         /// <summary>
         /// btnRunReport control.
