@@ -1,5 +1,24 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Madrigal.aspx.cs" Inherits="LarpPortal.Madrigal" %>
 
+
+
+<%--.welcome {
+  background: url(../img/portal.png) no-repeat center center;
+  background-size: cover;
+  min-height: 780px;
+  position: relative; }
+  .welcome .logo {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff; }
+  .welcome h1 {
+    font-size: 4.5em; }
+  .welcome p {
+    font-size: 1.25em;
+    text-align: right; }--%>
+
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -24,10 +43,11 @@
 		<![endif]-->
     <div class="pageWrap">
         <div class="content">
-            <section class="welcome">
+            <%--.background: url(../img/portal.png) no-repeat center center;.--%>
+            <section class="welcome" style="background:url(../img/aerune.jpg) no-repeat center center">
                 <div class="logo">
-                    <h1>Madrigal 3</h1>
-                    <p>Catchy slogan forthcoming</p>
+                    <h1><br /><br /><br />Madrigal 3</h1>
+                    <p>A Whole New World</p>
                 </div>
             </section>
             <section class="signIn">

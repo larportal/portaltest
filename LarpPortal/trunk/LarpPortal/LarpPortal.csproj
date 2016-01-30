@@ -222,6 +222,7 @@
     <Content Include="Events\EventList.aspx" />
     <Content Include="Events\RegistrationApproval.aspx" />
     <Content Include="General\MemberHome.aspx" />
+    <Content Include="img\aerune.jpg" />
     <Content Include="img\Checked-Checkbox-icon.png" />
     <Content Include="img\download.png" />
     <Content Include="img\logo\Logo_81_Ink.png" />
@@ -232,6 +233,7 @@
     <Content Include="Reports\CharacterCardPrint.aspx" />
     <Content Include="Reports\GameSystemOwnerCampaignList.aspx" />
     <Content Include="Reports\PELAnswerSummary.aspx" />
+    <Content Include="Reports\PELSearch.aspx" />
     <Content Include="Reports\ReportsList.aspx" />
     <Content Include="Reports\ReportTemplate.aspx" />
     <Content Include="Reports\SiteList.aspx" />
@@ -845,6 +847,13 @@
     </Compile>
     <Compile Include="Reports\PELAnswerSummary.aspx.designer.cs">
       <DependentUpon>PELAnswerSummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PELSearch.aspx.cs">
+      <DependentUpon>PELSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PELSearch.aspx.designer.cs">
+      <DependentUpon>PELSearch.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\Reporting.master.cs">
       <DependentUpon>Reporting.master</DependentUpon>
