@@ -10,6 +10,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using LarpPortal.Classes;
+using System.Web.UI.HtmlControls;
+using System.IO;
+using System.Text;
 
 namespace LarpPortal.Reports
 {
@@ -156,11 +159,11 @@ namespace LarpPortal.Reports
             int.TryParse((ddlOrderBy.SelectedValue.ToString()), out CampaignSorter);
             sParams.Add("@UserID", UserID);
             sParams.Add("@OrderBy", ddlOrderBy.SelectedValue);
-            sParams.Add("@CampaignID", CampaignID);
-            sParams.Add("@CampaignChoice", ddlCampaignChoice.SelectedValue);
+            sParams.Add("@CampaignID", CampaignID); // Which campaign is picked in the drop down list
+            sParams.Add("@CampaignChoice", ddlCampaignChoice.SelectedValue);    // 1 All my campaigns / 2 Selected campaign / 3 Selected game system / 4 All
             sParams.Add("@StartDate", StartDate);
             sParams.Add("@EndDate", EndDate);
-            sParams.Add("CampaignSorter", CampaignSorter);
+            sParams.Add("@CampaignSorter", CampaignSorter);
             dtCalendar = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName, stCallingMethod);
             gvCalendar.DataSource = dtCalendar;
             gvCalendar.DataBind();
@@ -178,7 +181,7 @@ namespace LarpPortal.Reports
 
         protected void btnRunReport_Click(object sender, EventArgs e)
         {
-            btnExportCSV.Visible = true;
+            //btnExportCSV.Visible = true;
             btnExportExcel.Visible = true;
             FillGrid();
             pnlReportOutput.Visible = true;
@@ -191,12 +194,58 @@ namespace LarpPortal.Reports
 
         protected void btnExportExcel_Click(object sender, EventArgs e)
         {
-
+            HtmlForm form = new HtmlForm();
+            Response.Clear();
+            Response.Buffer = true;
+            Response.Charset = "";
+            Response.AddHeader("content-disposition", string.Format("attachment;filename={0}", "LARPCalendar.xls"));
+            Response.ContentType = "application/ms-excel";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter hw = new HtmlTextWriter(sw);
+            gvCalendar.AllowPaging = false;
+            //BindGridDetails(gvCalendar);
+            form.Attributes["runat"] = "server";
+            form.Controls.Add(gvCalendar);
+            this.Controls.Add(form);
+            form.RenderControl(hw);
+            string style = @"<!--mce:2-->";
+            Response.Write(style);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End(); 
         }
 
         protected void btnExportCSV_Click(object sender, EventArgs e)
         {
-
+            //BindGridDetails(gvCalendar);
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment;filename=LARPCalendar.csv");
+            Response.Charset = "";
+            Response.ContentType = "application/text";
+            gvCalendar.AllowPaging = false;
+            gvCalendar.DataBind();
+            StringBuilder sb = new StringBuilder();
+            for (int k = 0; k < gvCalendar.Columns.Count; k++)
+            {
+                //add separator 
+                sb.Append(gvCalendar.Columns[k].HeaderText + ',');
+            }
+            //append new line 
+            sb.Append("\r\n");
+            for (int i = 0; i < gvCalendar.Rows.Count; i++)
+            {
+                for (int k = 0; k < gvCalendar.Columns.Count; k++)
+                {
+                    //add separator 
+                    sb.Append(gvCalendar.Rows[i].Cells[k].Text + ',');
+                }
+                //append new line 
+                sb.Append("\r\n");
+            }
+            Response.Output.Write(sb.ToString());
+            Response.Flush();
+            Response.End(); 
         }
     }
 }

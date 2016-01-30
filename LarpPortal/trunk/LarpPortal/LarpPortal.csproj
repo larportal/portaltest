@@ -227,8 +227,14 @@
     <Content Include="img\logo\Logo_81_Ink.png" />
     <Content Include="img\uncheckbox.png" />
     <Content Include="img\Unchecked-Checkbox-icon.png" />
+    <Content Include="Madrigal.aspx" />
     <Content Include="Reports\CalendarReport.aspx" />
+    <Content Include="Reports\CharacterCardPrint.aspx" />
+    <Content Include="Reports\GameSystemOwnerCampaignList.aspx" />
+    <Content Include="Reports\PELAnswerSummary.aspx" />
     <Content Include="Reports\ReportsList.aspx" />
+    <Content Include="Reports\ReportTemplate.aspx" />
+    <Content Include="Reports\SiteList.aspx" />
     <Content Include="StaffFunctions\CharHistoryApproval.aspx" />
     <Content Include="StaffFunctions\CharHistoryApprovalList.aspx" />
     <Content Include="WrathbornRegistration.aspx" />
@@ -740,6 +746,7 @@
     <Compile Include="Classes\cPlayerRoles.cs" />
     <Compile Include="Classes\cPlayerSkill.cs" />
     <Compile Include="Classes\cPlayerWaiver.cs" />
+    <Compile Include="Classes\cPointOpportunities.cs" />
     <Compile Include="Classes\cPoints.cs" />
     <Compile Include="Classes\cRace.cs" />
     <Compile Include="Classes\cRole.cs" />
@@ -804,12 +811,40 @@
     <Compile Include="General\MemberHome.aspx.designer.cs">
       <DependentUpon>MemberHome.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Madrigal.aspx.cs">
+      <DependentUpon>Madrigal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Madrigal.aspx.designer.cs">
+      <DependentUpon>Madrigal.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Reports\CalendarReport.aspx.cs">
       <DependentUpon>CalendarReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Reports\CalendarReport.aspx.designer.cs">
       <DependentUpon>CalendarReport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CharacterCardPrint.aspx.cs">
+      <DependentUpon>CharacterCardPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CharacterCardPrint.aspx.designer.cs">
+      <DependentUpon>CharacterCardPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\GameSystemOwnerCampaignList.aspx.cs">
+      <DependentUpon>GameSystemOwnerCampaignList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\GameSystemOwnerCampaignList.aspx.designer.cs">
+      <DependentUpon>GameSystemOwnerCampaignList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PELAnswerSummary.aspx.cs">
+      <DependentUpon>PELAnswerSummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PELAnswerSummary.aspx.designer.cs">
+      <DependentUpon>PELAnswerSummary.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\Reporting.master.cs">
       <DependentUpon>Reporting.master</DependentUpon>
@@ -824,6 +859,20 @@
     </Compile>
     <Compile Include="Reports\ReportsList.aspx.designer.cs">
       <DependentUpon>ReportsList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ReportTemplate.aspx.cs">
+      <DependentUpon>ReportTemplate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\ReportTemplate.aspx.designer.cs">
+      <DependentUpon>ReportTemplate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\SiteList.aspx.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\SiteList.aspx.designer.cs">
+      <DependentUpon>SiteList.aspx</DependentUpon>
     </Compile>
     <Compile Include="StaffFunctions\CharHistoryApproval.aspx.cs">
       <DependentUpon>CharHistoryApproval.aspx</DependentUpon>

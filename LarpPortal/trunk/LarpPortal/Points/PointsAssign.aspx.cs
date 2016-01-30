@@ -295,7 +295,83 @@ namespace LarpPortal.Points
 
         protected void btnAssignAll_Click(object sender, EventArgs e)
         {
-            gvPoints.EditIndex = -1;
+            foreach (GridViewRow gvrow in gvPoints.Rows)
+            {
+                try
+                {
+                    
+                    int index = gvPoints.EditIndex;
+                    int iTemp;
+                    int UserID = 0;
+                    double dblTemp = 0;
+                    double CP = 0;
+                    if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                        UserID = iTemp;
+                    HiddenField hidCPOpp = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidPointID");
+                    HiddenField hidCmpPlyrID = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidCampaignPlayer");
+                    HiddenField hidCharID = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidCharacterID");
+                    HiddenField hidEvntID = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidEventID");
+                    HiddenField hidOppDefID = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidCPOpportunityDefaultID");
+                    HiddenField hidRsnID = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidReasonID");
+                    HiddenField hidAddID = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidAddedByID");
+                    HiddenField hidOppNotes = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidOpportunityNotes");
+                    HiddenField hidExURL = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidExampleURL");
+                    Label lblEarnDesc = (Label)gvPoints.Rows[gvrow.RowIndex].FindControl("lblEarnDescription");
+                    int intCmpPlyrID = 0;
+                    int intCharID = 0;
+                    int intEvntID = 0;
+                    int intCPOpp = 0;
+                    int intOppDefID = 0;
+                    int intRsnID = 0;
+                    int intAddID = 0;
+                    string strOppNotes = hidOppNotes.Value.ToString();
+                    string strExURL = hidExURL.Value.ToString();
+                    string strDesc = lblEarnDesc.Text;
+                    if (int.TryParse(hidCmpPlyrID.Value.ToString(), out iTemp))
+                        intCmpPlyrID = iTemp;
+                    if (int.TryParse(hidCharID.Value.ToString(), out iTemp))
+                        intCharID = iTemp;
+                    if (int.TryParse(hidEvntID.Value.ToString(), out iTemp))
+                        intEvntID = iTemp;
+                    if (int.TryParse(hidCPOpp.Value.ToString(), out iTemp))
+                        intCPOpp = iTemp;
+                    if (int.TryParse(hidOppDefID.Value.ToString(), out iTemp))
+                        intOppDefID = iTemp;
+                    if (int.TryParse(hidRsnID.Value.ToString(), out iTemp))
+                        intRsnID = iTemp;
+                    if (int.TryParse(hidAddID.Value.ToString(), out iTemp))
+                        intAddID = iTemp;
+                    string strComments = "";
+                    if (Session["EditMode"].ToString() == "Edit")
+                    {
+                        GridViewRow row = gvPoints.Rows[index];
+                        TextBox txtComments = row.FindControl("tbStaffComments") as TextBox;
+                        strComments = txtComments.Text;
+                        TextBox txtCP = row.FindControl("txtCPValue") as TextBox;
+                        if (double.TryParse(txtCP.Text.ToString(), out dblTemp))
+                            CP = dblTemp;
+                        Session["EditMode"] = "Assign";
+                    }
+                    else
+                    {
+                        Label lblCPValue = (Label)gvPoints.Rows[gvrow.RowIndex].FindControl("lblCPValue");
+                        Label lblStaffComents = (Label)gvPoints.Rows[gvrow.RowIndex].FindControl("lblStaffComments");
+                        if (double.TryParse(lblCPValue.Text, out dblTemp))
+                            CP = dblTemp;
+                        strComments = lblStaffComents.Text;
+
+                    }
+                    Classes.cPoints Point = new Classes.cPoints();
+                    Point.UpdateCPOpportunity(UserID, intCPOpp, intCmpPlyrID, intCharID, intOppDefID, intEvntID,
+                        strDesc, strOppNotes, strExURL, intRsnID, intAddID, CP, UserID,
+                        DateTime.Now, UserID, strComments);
+                }
+                catch (Exception ex)
+                {
+                    string l = ex.Message;
+                }
+            }
+                gvPoints.EditIndex = -1;
             FillGrid(hidUserName.Value, hidCampaignID.Value);
         }
 
@@ -340,11 +416,7 @@ namespace LarpPortal.Points
 
         protected void btnSaveNewOpportunity_Click(object sender, EventArgs e)
         {
-            // OnClientClick="alert('Nothing saved; button under construction.')"
             Classes.cPoints PointAdd = new Classes.cPoints();
-            //int UserID, int CampaignPlayerID, int CharacterID, int CampaignCPOpportunityDefaultID, int EventID, int CampaignID, string Description,
-            //string OpportunityNotes, string ExampleURL, int ReasonID, int StatusID, int AddedByID, double CPValue, int ApprovedByID, DateTime ReceiptDate,
-            //int ReceivedByID, DateTime CPAssignmentDate, string StaffComments
             int addUserID = 0;
             int.TryParse(Session["UserID"].ToString(), out addUserID);
             int addCampaignPlayerID = 0;
@@ -1896,85 +1968,6 @@ namespace LarpPortal.Points
             gvPointsList.DataSource = dvPoints;
             gvPointsList.DataBind();
         }
-
-        //protected void ddlSendToCampaignLoad(string strUserName, int intCampaignID)
-        //{
-        //string stStoredProc = "uspGetCampaignPlayerByID";
-        //string stCallingMethod = "PointsAssign.aspx.ddlSendToCampaign";
-        //int iTemp = 0;
-        //int CampaignPlayerID = 0;
-        //int PlayerUserID = 0;
-        //DataTable dtUsers = new DataTable();
-        //SortedList sParams = new SortedList();
-        //if (int.TryParse(ddlCampaignPlayer.SelectedValue.ToString(), out iTemp))
-        //    CampaignPlayerID = iTemp;
-        //sParams.Add("@CampaignPlayerID", CampaignPlayerID);
-        //dtUsers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
-        //foreach (DataRow dRow in dtUsers.Rows)
-        //{
-        //    if (int.TryParse(dRow["UserID"].ToString(), out iTemp))
-        //        PlayerUserID = iTemp;
-        //}
-        //stStoredProc = "uspGetMyCampaigns";
-        //stCallingMethod = "PointsAssign.aspx.ddlSendToCampaign";
-        //ddlSendToCampaign.Items.Clear();
-        //DataTable dtCampaigns = new DataTable();
-        //sParams.Clear();
-        //sParams.Add("@UserID", PlayerUserID);
-        //dtCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", strUserName, stCallingMethod);
-        //ddlSendToCampaign.DataTextField = "CampaignName";
-        //ddlSendToCampaign.DataValueField = "CampaignID";
-        //ddlSendToCampaign.DataSource = dtCampaigns;
-        //ddlSendToCampaign.DataBind();
-        //if (dtCampaigns.Rows.Count > 1)
-        //{
-        //    ddlSendToCampaign.Items.Insert(0, new ListItem("Select Campaign", "0"));
-        //    ddlSendToCampaign.SelectedIndex = 0;
-        //}
-        //if (dtCampaigns.Rows.Count == 0)
-        //{
-        //    ddlSendToCampaign.Items.Insert(0, new ListItem("No campaigns", "0"));
-        //    ddlSendToCampaign.SelectedIndex = 0;
-        //}
-        //}
-
-        //protected void ddlSendToCampaign_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        // If campaign selected is a LARP Portal campaign send points to it otherwise set it up for emailing
-        // Start by looking up the campaign participation level
-        //string stStoredProc = "uspGetCampaignByCampaignID";
-        //string stCallingMethod = "PointsAssign.aspx.ddlSendToCampaignIndexChange";
-        //int iTemp = 0;
-        //int CampaignID = 0;
-        //string PortalAccessType = "B";
-        //DataTable dtCampaigns = new DataTable();
-        //SortedList sParams = new SortedList();
-        //if (int.TryParse(ddlSendToCampaign.SelectedValue.ToString(), out iTemp))
-        //    CampaignID = iTemp;
-        //sParams.Add("@CampaignID", CampaignID);
-        //dtCampaigns = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", hidUserName.Value, stCallingMethod);
-        //foreach (DataRow dRow in dtCampaigns.Rows)
-        //{
-        //    PortalAccessType = dRow["PortalAccessType"].ToString();
-        //    Session["PortalAccessType"] = dRow["PortalAccessType"].ToString();
-        //}
-        ////  For types B and X add the CPOpportunity with Status 68 (Ready to send)
-        ////  Will be updated to Status 69 (Sent to campaign)
-        //if (PortalAccessType == "B" || PortalAccessType == "X")
-        //{
-
-        //}
-        //if (PortalAccessType == "S" || PortalAccessType == "A" || PortalAccessType == "D")
-        //// For types S, A and D add the CP processed in the right places    
-        //// Add the CPOpportunity and process to current campaign / character handling banking if necessary
-        //{
-        //    // Go look up the active characters that player has at that campaign and fill in the drop down list to choose from
-        //    // Include a bank option if no characters available or player just wants it banked there regardless
-        //    ddlAddCharacterLoad(hidUserName.Value, CampaignID);
-        //    pnlddlAddCharacter.Visible = true;
-        //}
-        //txtCPValue.Focus();
-        //}
 
         private void ddlAddCharacterLoad(string strUserName, int intCampaignID)
         {

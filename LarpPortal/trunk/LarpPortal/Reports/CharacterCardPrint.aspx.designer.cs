@@ -10,7 +10,7 @@
 namespace LarpPortal.Reports {
     
     
-    public partial class CalendarReport {
+    public partial class CharacterCardPrint {
         
         /// <summary>
         /// pnlParameters control.
@@ -22,31 +22,31 @@ namespace LarpPortal.Reports {
         protected global::System.Web.UI.WebControls.Panel pnlParameters;
         
         /// <summary>
-        /// ddlEventDateRange control.
+        /// rdoButtonCampaign control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEventDateRange;
+        protected global::System.Web.UI.WebControls.RadioButton rdoButtonCampaign;
         
         /// <summary>
-        /// ddlOrderBy control.
+        /// rdoButtonEvent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlOrderBy;
+        protected global::System.Web.UI.WebControls.RadioButton rdoButtonEvent;
         
         /// <summary>
-        /// ddlCampaignChoice control.
+        /// ddlEvent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCampaignChoice;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEvent;
         
         /// <summary>
         /// btnRunReport control.
@@ -65,32 +65,5 @@ namespace LarpPortal.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnExportExcel;
-        
-        /// <summary>
-        /// pnlReportOutput control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlReportOutput;
-        
-        /// <summary>
-        /// Div1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
-        
-        /// <summary>
-        /// gvCalendar control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvCalendar;
     }
 }
