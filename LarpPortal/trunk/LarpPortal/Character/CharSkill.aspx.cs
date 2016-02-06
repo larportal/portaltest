@@ -107,12 +107,12 @@ namespace LarpPortal.Character
                                     NewNode.Value = iNodeID.ToString();
                                     if (dtCharSkills != null)
                                     {
+                                        NewNode.Expanded = false;
                                         if (dtCharSkills.Select("CampaignSkillsStandardID = " + iNodeID.ToString()).Length > 0)
                                             NewNode.Checked = true;
                                         NewNode.SelectAction = TreeNodeSelectAction.None;
-                                        PopulateTreeView(iNodeID, NewNode);
+                                        PopulateTreeView(iNodeID, NewNode, true);
                                     }
-                                    NewNode.Expanded = false;
                                     tvSkills.Nodes.Add(NewNode);
                                 }
                             }
@@ -135,7 +135,8 @@ namespace LarpPortal.Character
             }
         }
 
-        private void PopulateTreeView(int parentId, TreeNode parentNode)
+        // JBradshaw 2/6/2016  Added ExpandSelected so it will not expand nodes by default but if it's true then the node will be expanded if it is checked.
+        private void PopulateTreeView(int parentId, TreeNode parentNode, bool ExpandSelected = false)
         {
             DataView dvChild = new DataView(_dtSkills, "PreRequisiteSkillID = " + parentId.ToString(), "DisplayOrder", DataViewRowState.CurrentRows);
             foreach (DataRowView dr in dvChild)
@@ -151,12 +152,14 @@ namespace LarpPortal.Character
                     childNode.Value = iNodeID.ToString();
                     if (dtCharSkills != null)
                         if (dtCharSkills.Select("CampaignSkillsStandardID = " + iNodeID.ToString()).Length > 0)
+                        {
                             childNode.Checked = true;
+                            parentNode.Expanded = true;
+                        }
                     childNode.SelectAction = TreeNodeSelectAction.None;
                     childNode.NavigateUrl = "javascript:void(0);";
                     parentNode.ChildNodes.Add(childNode);
-                    //                    if ( childNode.Depth < 3 )
-                    PopulateTreeView(iNodeID, childNode);
+                    PopulateTreeView(iNodeID, childNode, ExpandSelected);
                 }
             }
         }
