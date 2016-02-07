@@ -280,5 +280,62 @@ namespace LarpPortal.PELs
                 lobjError.ProcessError(ex, "PELEdit.aspx.SendEmailPELSubmitted", "", Session.SessionID);
             }
         }
+
+        protected void Timer1_Tick(object sender, EventArgs e)
+        {
+            AutosaveAnswers();
+        }
+
+        protected void AutosaveAnswers()
+        {
+            int iPELID = 0;
+            int iTemp = 0;
+            foreach (RepeaterItem item in rptQuestions.Items)
+            {
+                if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
+                {
+                    SortedList sParams = new SortedList();
+
+                    Label lblQuestion = (Label)item.FindControl("lblQuestion");
+                    TextBox tbAnswer = (TextBox)item.FindControl("tbAnswer");
+                    HiddenField hidQuestionID = (HiddenField)item.FindControl("hidQuestionID");
+                    HiddenField hidAnswerID = (HiddenField)item.FindControl("hidAnswerID");
+                    int iQuestionID = 0;
+                    int iAnswerID = 0;
+                    int iPELTemplateID = 0;
+
+                    if (hidQuestionID != null)
+                        int.TryParse(hidQuestionID.Value, out iQuestionID);
+                    if (hidAnswerID != null)
+                        int.TryParse(hidAnswerID.Value, out iAnswerID);
+                    if (hidPELTemplateID != null)
+                        int.TryParse(hidPELTemplateID.Value, out iPELTemplateID);
+
+                    if (iPELID == 0)
+                        iPELID = -1;
+                    if (iAnswerID == 0)
+                        iAnswerID = -1;
+
+                    sParams.Add("@PELAnswerID", iAnswerID);
+                    sParams.Add("@PELQuestionsID", iQuestionID);
+                    sParams.Add("@PELID", iPELID);
+                    sParams.Add("@PELTemplateID", iPELTemplateID);
+                    sParams.Add("@Answer", tbAnswer.Text);
+                    sParams.Add("@RegistrationID", hidRegistrationID.Value);
+
+                    DataSet dsPELS = new DataSet();
+                    dsPELS = Classes.cUtilities.LoadDataSet("uspPELsAnswerInsUpd", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.btnSave_Click");
+
+                    if ((dsPELS.Tables.Count > 1) && (iPELID == -1))
+                    {
+                        if (int.TryParse(dsPELS.Tables[1].Rows[0]["PELID"].ToString(), out iTemp))
+                        {
+                            iPELID = iTemp;
+                            hidPELID.Value = iTemp.ToString();
+                        }
+                    }
+                }
+            }
+        }
     }
 }

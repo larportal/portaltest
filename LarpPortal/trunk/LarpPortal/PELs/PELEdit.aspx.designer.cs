@@ -13,6 +13,15 @@ namespace LarpPortal.PELs {
     public partial class PELEdit {
         
         /// <summary>
+        /// Timer1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.Timer Timer1;
+        
+        /// <summary>
         /// lblHeader control.
         /// </summary>
         /// <remarks>
@@ -67,6 +76,15 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.Label lblEventInfo;
         
         /// <summary>
+        /// upAutoSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upAutoSave;
+        
+        /// <summary>
         /// hidRegistrationID control.
         /// </summary>
         /// <remarks>
@@ -101,6 +119,15 @@ namespace LarpPortal.PELs {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidTextBoxEnabled;
+        
+        /// <summary>
+        /// hidAutoSaveText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidAutoSaveText;
         
         /// <summary>
         /// divQuestions control.

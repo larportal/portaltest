@@ -2,17 +2,16 @@
 
 <asp:Content ContentPlaceHolderID="MemberCampaignsContent" ID="PELList" runat="server">
     <style type="text/css">
-        .div1
-        {
+        .div1 {
             border: 1px solid black;
         }
 
-        th, tr:nth-child(even) > td
-        {
+        th, tr:nth-child(even) > td {
             background-color: transparent;
         }
     </style>
     <div class="mainContent tab-content col-sm-12">
+        <asp:Timer ID="Timer1" runat="server" Interval="300000" OnTick="Timer1_Tick"></asp:Timer>
         <div id="character-info" class="character-info tab-pane active col-sm-12">
             <div class="row col-lg-12" style="padding-left: 15px; padding-top: 10px;">
                 <table class="col-lg-12">
@@ -30,7 +29,7 @@
                         </td>
                         <td style="width: 30%; text-align: center;" rowspan="2">
                             <asp:Panel ID="pnlSaveReminder" runat="server" Visible="true">
-                                <strong>Note: </strong>Remember to click save at least once per hour.
+                                <strong>Note: </strong>Remember to click save to save your PEL and submit when it's complete to submit it to staff.
                                 <asp:Button ID="btnTopSave" runat="server" Text="Save" OnCommand="ProcessButton" CommandName="Save" CssClass="StandardButton" Width="150px" />
                             </asp:Panel>
                         </td>
@@ -44,17 +43,26 @@
             </div>
             <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
             </div>
-            <asp:HiddenField ID="hidRegistrationID" runat="server" />
-            <asp:HiddenField ID="hidPELID" runat="server" />
-            <asp:HiddenField ID="hidPELTemplateID" runat="server" />
-            <asp:HiddenField ID="hidTextBoxEnabled" runat="server" Value="1" />
+            <asp:UpdatePanel ID="upAutoSave" runat="server">
+                <ContentTemplate>
+                    <asp:HiddenField ID="hidRegistrationID" runat="server" />
+                    <asp:HiddenField ID="hidPELID" runat="server" />
+                    <asp:HiddenField ID="hidPELTemplateID" runat="server" />
+                    <asp:HiddenField ID="hidTextBoxEnabled" runat="server" Value="1" />
+                    <asp:HiddenField ID="hidAutoSaveText" runat="server" />
+                </ContentTemplate>
+                <Triggers>
+                    <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
+                </Triggers>
+            </asp:UpdatePanel>
             <div id="divQuestions" runat="server" style="max-height: 500px; overflow-y: auto; margin-right: 10px;">
                 <asp:Repeater ID="rptQuestions" runat="server">
                     <ItemTemplate>
                         <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
                             <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
                                 <div class="panelheader">
-                                    <h2>Question: <asp:Label ID="lblQuestion" runat="server" Text='<%# Eval("Question") %>' /></h2>
+                                    <h2>Question:
+                                        <asp:Label ID="lblQuestion" runat="server" Text='<%# Eval("Question") %>' /></h2>
                                     <div class="panel-body">
                                         <div class="panel-container search-criteria" style="padding-bottom: 10px;">
                                             <asp:TextBox ID="tbAnswer" runat="server" Text='<%# Eval("Answer") %>' Columns="100" Style="width: 100%"

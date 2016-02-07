@@ -201,6 +201,7 @@
     <Content Include="CampaignInfo.asmx" />
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
+    <Content Include="Campaigns\CampaignSetup.aspx" />
     <Content Include="Character\CharAdd.aspx" />
     <Content Include="Character\CharCard.aspx" />
     <Content Include="Character\CharCardCustomization.aspx" />
@@ -230,6 +231,7 @@
     <Content Include="img\uncheckbox.png" />
     <Content Include="img\Unchecked-Checkbox-icon.png" />
     <Content Include="Madrigal.aspx" />
+    <Content Include="Reports\PELDisplay.aspx" />
     <Content Include="Reports\CalendarReport.aspx" />
     <Content Include="Reports\CharacterCardPrint.aspx" />
     <Content Include="Reports\GameSystemOwnerCampaignList.aspx" />
@@ -588,6 +590,13 @@
     <Compile Include="CampaignInfoSetup.aspx.designer.cs">
       <DependentUpon>CampaignInfoSetup.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Campaigns\CampaignSetup.aspx.cs">
+      <DependentUpon>CampaignSetup.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Campaigns\CampaignSetup.aspx.designer.cs">
+      <DependentUpon>CampaignSetup.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Characters.master.cs">
       <DependentUpon>Characters.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -820,6 +829,13 @@
     </Compile>
     <Compile Include="Madrigal.aspx.designer.cs">
       <DependentUpon>Madrigal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\PELDisplay.aspx.cs">
+      <DependentUpon>PELDisplay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\PELDisplay.aspx.designer.cs">
+      <DependentUpon>PELDisplay.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\CalendarReport.aspx.cs">
       <DependentUpon>CalendarReport.aspx</DependentUpon>
