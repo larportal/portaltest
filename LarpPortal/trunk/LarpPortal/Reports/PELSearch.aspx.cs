@@ -27,7 +27,7 @@ namespace LarpPortal.Reports
         {
             if (!IsPostBack)
             {
-                //FillGrid();
+               
             }
         }
 
@@ -82,6 +82,7 @@ namespace LarpPortal.Reports
             btnExportExcel.Visible = true;
             FillGrid();
             pnlReportOutput.Visible = true;
+            Session["Keyword"] = txtKeyword.Text;
         }
 
         protected void btnExportExcel_Click(object sender, EventArgs e)

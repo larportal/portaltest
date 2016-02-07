@@ -7,16 +7,16 @@
         </div>
         <asp:Panel ID="pnlParameters" runat="server" Visible="true">
             <div class="col-sm-12">
-                <div class="col-sm-5">
+                <div class="col-sm-7">
+                    <%--<div class="col-sm-12 form-group">
+
+                    </div>--%>
+
+
                     <div class="col-sm-12 form-group">
-
-                    </div>
-
-
-                    <div class="col-sm-12 form-group">
-                        <div class="TableLabel col-sm-3">Keyword: </div>
-                        <div class="col-sm-9 NoPadding" style="background-color:white">
-                            <asp:TextBox ID="txtKeyword" runat="server" Width="75%"></asp:TextBox>
+                        <div class="TableLabel col-sm-2">Search: </div>
+                        <div class="col-sm-10 NoPadding" style="background-color:white">
+                            <asp:TextBox ID="txtKeyword" runat="server"></asp:TextBox>
                         </div>                        
                     </div>
                     <div class="col-sm-12 form-group">
@@ -28,7 +28,7 @@
                         </asp:DropDownList>--%>
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <div class="col-sm-12 form-group">
 <%--                        <label for="ddlCampaignChoice" class="col-sm-5 control-label">Campaigns</label>
                         <asp:DropDownList ID="ddlCampaignChoice" runat="server" AutoPostBack="true">
@@ -88,6 +88,9 @@
                                                         <asp:BoundField DataField="EventDate" HeaderText="Event Date" />
                                                         <asp:BoundField DataField="eventname" HeaderText="Event Description" />
                                                         <asp:BoundField DataField="PELString" HeaderText="PEL String" />
+                                                        <asp:HyperLinkField DataNavigateUrlFields="Redirecter" Text="View complete PEL" Target="_blank" 
+                                                            ControlStyle-Font-Size="X-Small" ItemStyle-Wrap="false" 
+                                                            ControlStyle-ForeColor="DarkBlue" ControlStyle-Font-Underline="true" />
                                                     </Columns>
                                                 </asp:GridView>
                                             </div>
