@@ -21,7 +21,7 @@ namespace LarpPortal.Character
             if (!IsPostBack)
             {
                 tvSkills.Attributes.Add("onclick", "postBackByObject()");
-                btnSave.Attributes.Add("onclick", "DisableButton()");
+                //btnSave.Attributes.Add("onclick", "DisableButton()");
             }
         }
 

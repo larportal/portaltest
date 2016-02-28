@@ -329,18 +329,7 @@ namespace LarpPortal
                         //btnSignUp.Items.Add(new ListItem("Permanent NPC", "6"));
                         chkSignUp.Items.Add(new ListItem("Permanent NPC", "6" + AutoApprove6.ToString()));
                         RoleCounter++;
-                    }
-                    //TODO-Rick-9-Clean-up crap code
-                    //if (RoleCounter == 2)
-                    //{
-                    //    //btnSignUp.Items.Add(new ListItem("Both", "2"));
-                    //    chkSignUp.Items.Add(new ListItem("Both", "2"));
-                    //}
-                    //if (RoleCounter > 2)
-                    //{
-                    //    //btnSignUp.Items.Add(new ListItem("All", "2"));
-                    //    chkSignUp.Items.Add(new ListItem("All", "2"));
-                    //}                   
+                    }                  
                 }
                 // PC Only - Show NPC
                 if (IsPC == "true" && IsNPC == "false")
@@ -362,18 +351,7 @@ namespace LarpPortal
                         //btnSignUp.Items.Add(new ListItem("Permanent NPC", "6"));
                         chkSignUp.Items.Add(new ListItem("Permanent NPC", "6" + AutoApprove6.ToString()));
                         RoleCounter++;
-                    }
-                    //TODO-Rick-9-Clean-up crap code
-                    //if (RoleCounter == 2)
-                    //{
-                    //    //btnSignUp.Items.Add(new ListItem("Both", "2"));
-                    //    chkSignUp.Items.Add(new ListItem("Both", "2"));
-                    //}
-                    //if (RoleCounter > 2)
-                    //{
-                    //    //btnSignUp.Items.Add(new ListItem("All", "2"));
-                    //    chkSignUp.Items.Add(new ListItem("All", "2"));
-                    //} 
+                    } 
                 }
                 // NPC Only - Show PC
                 if (IsPC == "false" && IsNPC == "true")
@@ -537,6 +515,7 @@ namespace LarpPortal
                 {
                     LastLogged.LastLoggedInCampaign = CampaignID;
                     LastLogged.Save();
+                    Session["CampaignID"] = CampaignID;
                 }
 
             }
