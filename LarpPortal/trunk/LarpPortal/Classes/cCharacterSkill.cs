@@ -14,44 +14,42 @@ namespace LarpPortal.Classes
     {
         public cCharacterSkill()
         {
-            CharacterSkillSetID = -1;
+            CharacterSkillID = -1;
             RecordStatus = RecordStatuses.Active;
         }
 
         public override string ToString()
         {
-            return "ID: " + CharacterSkillsStandardID.ToString() +
-                "   UserID: " + SkillName.ToString();
+            return "ID: " + CharacterSkillID.ToString() + "   UserID: " + SkillName.ToString();
         }
 
-        public int CharacterSkillsStandardID { get; set; }
+        public int CharacterSkillID { get; set; }
         public int CharacterSkillSetID { get; set; }
         public int CharacterID { get; set; }
         public string SkillSetName { get; set; }
         public int CharacterSkillSetStatusID { get; set; }
         public int StatusType { get; set; }
         public string StatusName { get; set; }
-        public int CharacterSkillSetTypeID { get; set; }
         public string SkillSetTypeDescription { get; set; }
-        public int CampaignSkillsStandardID { get; set; }
         public double CPCostPaid { get; set; }
         public string SkillName { get; set; }
+        public int CampaignSkillNodeID { get; set; }
         public int SkillTypeID { get; set; }
-        public int SkillHeaderTypeID { get; set; }
+        //public int SkillHeaderTypeID { get; set; }
+        //public string SkillTypeDescription { get; set; }
         public bool CanBeUsedPassively { get; set; }
-        public int HeaderAssociation { get; set; }
-        public int SkillCostFixed { get; set; }
         public double SkillCPCost { get; set; }
         public string SkillShortDescription { get; set; }
         public string SkillLongDescription { get; set; }
         public string PlayerDescription { get; set; }
         public string PlayerIncant { get; set; }
         public string SkillCardDescription { get; set; }
-        public string SkillIncant { get; set; }
+        public string SkillCardIncant { get; set; }
+        public bool SuppressCampaignDescription { get; set; }
+        public bool SuppressCampaignIncant { get; set; }
         public bool CardDisplayDescription { get; set; }
         public bool CardDisplayIncant { get; set; }
         public string CampaignSkillsStandardComments { get; set; }
-        public string SkillTypeDescription { get; set; }
         public bool AllowPassiveUse { get; set; }
         public bool OpenToAll { get; set; }
         public string SkillTypeComments { get; set; }
@@ -62,28 +60,40 @@ namespace LarpPortal.Classes
         ///// Delete the picture. Set the ID before doing this.
         ///// </summary>
         ///// <param name="sUserID">User ID of person deleting it.</param>
-        public void Delete(string sUserID)
+        public void Delete(string sUserName, int iUserID)
         {
             SortedList sParam = new SortedList();
 
-            sParam.Add("@RecordID", CharacterSkillsStandardID);
-            sParam.Add("@UserID", 1);
+            sParam.Add("@CharacterSkillID", CharacterSkillID);
+            sParam.Add("@UserID", iUserID);
             DataTable dtDelChar = new DataTable();
-            dtDelChar = cUtilities.LoadDataTable("uspDelCHCharacterSkillsStandard", sParam, "LARPortal", sUserID, "cCharacterSkills.Delete");
+            dtDelChar = cUtilities.LoadDataTable("uspDelCHCharacterSkills", sParam, "LARPortal", sUserName, "cCharacterSkills.Delete");
         }
 
-        public void Save(string sUserID)
+        public void Save(string sUserName, int iUserID)
         {
             SortedList sParam = new SortedList();
 
-            sParam.Add("@CharacterSkillsStandardID", CharacterSkillsStandardID);
+            sParam.Add("@CharacterSkillID", CharacterSkillID);
             sParam.Add("@CharacterSkillSetID", CharacterSkillSetID);
-            sParam.Add("@CampaignSkillsStandardID", CampaignSkillsStandardID);
+            sParam.Add("@CampaignSkillNodeID", CampaignSkillNodeID);
             sParam.Add("@DisplayOnCard", 1);
             sParam.Add("@CPCostPaid", CPCostPaid);
-            sParam.Add("@UserID", -1);
+            sParam.Add("@CardDisplayDescription", CardDisplayDescription);
+            sParam.Add("@CardDisplayIncant", CardDisplayIncant);
+            if (PlayerDescription != null)
+                sParam.Add("@PlayerDescription", PlayerDescription);
+            if (PlayerIncant != null)
+                sParam.Add("@PlayerIncant", PlayerIncant);
+            if (SkillCardDescription != null)
+                sParam.Add("@CardDescription", SkillCardDescription);
+            if (SkillCardIncant != null)
+                sParam.Add("@CardIncant", SkillCardIncant);
+            sParam.Add("@SuppressCampaignDescription", SuppressCampaignDescription);
+            sParam.Add("@SuppressCampaignIncant", SuppressCampaignIncant);
+            sParam.Add("@UserID", iUserID);
 
-            cUtilities.PerformNonQuery("uspInsUpdCHCharacterSkillsStandard", sParam, "LARPortal", sUserID);
+            cUtilities.PerformNonQuery("uspInsUpdCHCharacterSkills", sParam, "LARPortal", sUserName);
         }
     }
 }

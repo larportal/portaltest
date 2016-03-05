@@ -86,6 +86,7 @@ namespace LarpPortal.Classes
         public cRace Race = new cRace();
         public cCharacterType CharType = new cCharacterType();
         public cCharacterStatus Status = new cCharacterStatus();
+        public List<cSkillPool> SkillPools = new List<cSkillPool>();
 
         public int LoadCharacter(int CharacterIDToLoad)
         {
@@ -135,6 +136,8 @@ namespace LarpPortal.Classes
             dsCharacterInfo.Tables[14].TableName = "Descriptors";
             dsCharacterInfo.Tables[15].TableName = "CharacterItems";
             dsCharacterInfo.Tables[16].TableName = "ProfilePicture";
+            dsCharacterInfo.Tables[17].TableName = "CampaignInfo";
+            dsCharacterInfo.Tables[18].TableName = "CHCharacterSkillsPoints";
 
             iNumCharacterRecords = dsCharacterInfo.Tables["CHCharacters"].Rows.Count;
 
@@ -454,16 +457,20 @@ namespace LarpPortal.Classes
                     SkillShortDescription = dSkill["SkillShortDescription"].ToString(),
                     SkillLongDescription = dSkill["SkillLongDescription"].ToString(),
                     CampaignSkillsStandardComments = dSkill["CampaignSkillsStandardComments"].ToString(),
-                    SkillTypeDescription = dSkill["SkillTypeDescription"].ToString(),
+//                    SkillTypeDescription = dSkill["SkillTypeDescription"].ToString(),
                     SkillTypeComments = dSkill["SkillTypeComments"].ToString(),
                     PlayerDescription = dSkill["PlayerDescription"].ToString(),
                     PlayerIncant = dSkill["PlayerIncant"].ToString(),
                     SkillCardDescription = dSkill["SkillCardDescription"].ToString(),
-                    SkillIncant = dSkill["SkillIncant"].ToString()
+                    SkillCardIncant = dSkill["SkillIncant"].ToString()
+            //if (SuppressCampaignDescription != null)
+            //if (SuppressCampaignIncant != null)
+            // DisplayOnCard
                 };
 
-                if (int.TryParse(dSkill["CharacterSkillsStandardID"].ToString(), out iTemp))
-                    NewSkill.CharacterSkillsStandardID = iTemp;
+
+                //if (int.TryParse(dSkill["CharacterSkillsStandardID"].ToString(), out iTemp))
+                //    NewSkill.CharacterSkillsStandardID = iTemp;
 
                 if (int.TryParse(dSkill["CharacterID"].ToString(), out iTemp))
                     NewSkill.CharacterID = iTemp;
@@ -474,26 +481,32 @@ namespace LarpPortal.Classes
                 if (int.TryParse(dSkill["StatusType"].ToString(), out iTemp))
                     NewSkill.StatusType = iTemp;
 
-                if (int.TryParse(dSkill["CharacterSkillSetTypeID"].ToString(), out iTemp))
-                    NewSkill.CharacterSkillSetTypeID = iTemp;
+                //if (int.TryParse(dSkill["CharacterSkillSetTypeID"].ToString(), out iTemp))
+                //    NewSkill.CharacterSkillSetTypeID = iTemp;
 
-                if (int.TryParse(dSkill["CampaignSkillsStandardID"].ToString(), out iTemp))
-                    NewSkill.CampaignSkillsStandardID = iTemp;
+                if (int.TryParse(dSkill["CharacterSkillID"].ToString(), out iTemp))
+                    NewSkill.CharacterSkillID = iTemp;
+
+                if (int.TryParse(dSkill["CampaignSkillNodeID"].ToString(), out iTemp))
+                    NewSkill.CampaignSkillNodeID = iTemp;
+
+                //if (int.TryParse(dSkill["CampaignSkillsStandardID"].ToString(), out iTemp))
+                //    NewSkill.CampaignSkillsStandardID = iTemp;
 
                 if (int.TryParse(dSkill["SkillTypeID"].ToString(), out iTemp))
                     NewSkill.SkillTypeID = iTemp;
 
-                if (int.TryParse(dSkill["SkillHeaderTypeID"].ToString(), out iTemp))
-                    NewSkill.SkillHeaderTypeID = iTemp;
+//                if (int.TryParse(dSkill["SkillHeaderTypeID"].ToString(), out iTemp))
+//                    NewSkill.SkillHeaderTypeID = iTemp;
 
                 if (int.TryParse(dSkill["CharacterSkillSetID"].ToString(), out iTemp))
                     NewSkill.CharacterSkillSetID = iTemp;
 
-                if (int.TryParse(dSkill["HeaderAssociation"].ToString(), out iTemp))
-                    NewSkill.HeaderAssociation = iTemp;
+                //if (int.TryParse(dSkill["HeaderAssociation"].ToString(), out iTemp))
+                //    NewSkill.HeaderAssociation = iTemp;
 
-                if (int.TryParse(dSkill["SkillCostFixed"].ToString(), out iTemp))
-                    NewSkill.SkillCostFixed = iTemp;
+                //if (int.TryParse(dSkill["SkillCostFixed"].ToString(), out iTemp))
+                //    NewSkill.SkillCostFixed = iTemp;
 
                 if (int.TryParse(dSkill["DisplayOrder"].ToString(), out iTemp))
                     NewSkill.DisplayOrder = iTemp;
@@ -518,6 +531,13 @@ namespace LarpPortal.Classes
 
                 if (bool.TryParse(dSkill["CardDisplayIncant"].ToString(), out bTemp))
                     NewSkill.CardDisplayIncant = bTemp;
+
+                if (bool.TryParse(dSkill["CardDisplayDescription"].ToString(), out bTemp))
+                    NewSkill.CardDisplayDescription = bTemp;
+
+                if (bool.TryParse(dSkill["CardDisplayIncant"].ToString(), out bTemp))
+                    NewSkill.CardDisplayIncant = bTemp;
+
 
                 NewSkill.RecordStatus = RecordStatuses.Active;
 
@@ -572,6 +592,28 @@ namespace LarpPortal.Classes
                 }
             }
 
+            foreach (DataRow dRow in dsCharacterInfo.Tables["CHCharacterSkillsPoints"].Rows)
+            {
+                Classes.cSkillPool NewPool = new cSkillPool();
+                NewPool.PoolDescription = dRow["PoolDescription"].ToString();
+                NewPool.PoolDisplayColor = dRow["DisplayColor"].ToString();
+
+                if (int.TryParse(dRow["PoolID"].ToString(), out iTemp))
+                    NewPool.PoolID = iTemp;
+
+                if (bool.TryParse(dRow["DefaultPool"].ToString(), out bTemp))
+                    NewPool.DefaultPool = bTemp;
+                else
+                    NewPool.DefaultPool = false;
+
+                if (double.TryParse(dRow["TotalPoints"].ToString(), out dTemp))
+                    NewPool.TotalPoints = dTemp;
+                else
+                    NewPool.TotalPoints = 0.0;
+
+                SkillPools.Add(NewPool);
+            }
+
             return iNumCharacterRecords;
         }
 
@@ -588,7 +630,7 @@ namespace LarpPortal.Classes
                 using (SqlCommand CmdCHCharacterInsUpd = new SqlCommand("uspInsUpdCHCharacters", connPortal))
                 {
                     CmdCHCharacterInsUpd.CommandType = CommandType.StoredProcedure;
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@UserID", "");
+                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@UserID", iUserID);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterID", CharacterID);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@CurrentUserID", CurrentUserID);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterStatus", CharacterStatusID);
@@ -642,13 +684,13 @@ namespace LarpPortal.Classes
                     else
                         ProfilePicture.Save(sUserUpdating);
 
-
                 foreach (cCharacterSkill Skill in CharacterSkills)
                 {
+                    Skill.CharacterSkillSetID = CharacterSkillSetID;
                     if (Skill.RecordStatus == RecordStatuses.Delete)
-                        Skill.Delete(sUserUpdating);
+                        Skill.Delete(sUserUpdating, iUserID);
                     else
-                        Skill.Save(sUserUpdating);
+                        Skill.Save(sUserUpdating, iUserID);
                 }
 
                 Timing += ", skills update done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
@@ -695,5 +737,3 @@ namespace LarpPortal.Classes
         }
     }
 }
-
-
