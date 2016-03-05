@@ -101,10 +101,10 @@ namespace LarpPortal.Character
                         {
                             string s = Session["UserID"].ToString();
 
-                            using (SqlCommand CmdUpdate = new SqlCommand("uspInsUpdCHCharacterSkillsStandard", conn))
+                            using (SqlCommand CmdUpdate = new SqlCommand("uspInsUpdCHCharacterSkills", conn))
                             {
                                 CmdUpdate.CommandType = CommandType.StoredProcedure;
-                                CmdUpdate.Parameters.AddWithValue("@CharacterSkillsStandardID", dRow["CharacterSkillsStandardID"].ToString());
+                                CmdUpdate.Parameters.AddWithValue("@CharacterSkillID", dRow["CharacterSkillID"].ToString());
 
                                 bool bTemp;
                                 if (bool.TryParse(dRow["CardDisplayDescription"].ToString(), out bTemp))
@@ -180,7 +180,7 @@ namespace LarpPortal.Character
                 if (Session["SkillList"] != null)
                 {
                     DataTable dtSkills = Session["SkillList"] as DataTable;
-                    DataView dvRow = new DataView(dtSkills, "CharacterSkillsStandardID = " + hidSkillID.Value, "", DataViewRowState.CurrentRows);
+                    DataView dvRow = new DataView(dtSkills, "CharacterSkillID = " + hidSkillID.Value, "", DataViewRowState.CurrentRows);
                     foreach (DataRowView dRow in dvRow)
                     {
                         if (cbDisplayDesc.Checked)

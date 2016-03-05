@@ -34,7 +34,7 @@ namespace LarpPortal.Character
                     lblOrigin.Text = cChar.WhereFrom;
                     lblPlayerName.Text = "";
 
-                    lblTotalCP.Text = cChar.TotalCP.ToString("0.00");
+                    //lblTotalCP.Text = cChar.TotalCP.ToString("0.00");
 
                     DataTable dtCharacterSkills = new DataTable();
                     SortedList sParams = new SortedList();
@@ -56,6 +56,85 @@ namespace LarpPortal.Character
                     //    dcDisplaySkill.DefaultValue = true;
                     //    dtSkills.Columns.Add(dcDisplaySkill);
                     //}
+
+                    Classes.cSkillPool skDefault = cChar.SkillPools.Find(x => x.DefaultPool == true);
+                    object oCPSpent;
+                    double dCPSpent;
+                    oCPSpent = dtCharacterSkills.Compute("sum(cpcostpaid)", "CampaignSkillPoolID = " + skDefault.PoolID.ToString());
+                    double.TryParse(oCPSpent.ToString(), out dCPSpent);
+
+                    TableRow dTotalRow = new TableRow();
+                    TableCell dcCell = new TableCell();
+                    dcCell.CssClass = "TableLabel";
+                    dcCell.Text = "Total CP:";
+                    dTotalRow.Cells.Add(dcCell);
+
+                    dcCell = new TableCell();
+                    dcCell.Text = cChar.TotalCP.ToString("0.00");
+                    dTotalRow.Cells.Add(dcCell);
+
+                    dcCell = new TableCell();
+                    dcCell.CssClass = "TableLabel";
+                    dcCell.Text = "Total Spent:";
+                    dTotalRow.Cells.Add(dcCell);
+
+                    dcCell = new TableCell();
+                    dcCell.Text = dCPSpent.ToString("0.00");
+                    dTotalRow.Cells.Add(dcCell);
+
+                    dcCell = new TableCell();
+                    dcCell.CssClass = "TableLabel";
+                    dcCell.Text = "Total Avail:";
+                    dTotalRow.Cells.Add(dcCell);
+
+                    dcCell = new TableCell();
+                    dcCell.Text = (cChar.TotalCP - dCPSpent).ToString("0.00");
+                    dTotalRow.Cells.Add(dcCell);
+                    tblCharInfo.Rows.Add(dTotalRow);
+
+
+                    List<Classes.cSkillPool> skNotDefault = cChar.SkillPools.FindAll(x => x.DefaultPool == false).OrderBy(x => x.PoolDescription).ToList();
+
+                    foreach (Classes.cSkillPool PoolNotDefault in skNotDefault)
+                    {
+                        oCPSpent = dtCharacterSkills.Compute("sum(cpcostpaid)", "CampaignSkillPoolID = " + PoolNotDefault.PoolID.ToString());
+                        double.TryParse(oCPSpent.ToString(), out dCPSpent);
+                        double TotalPoints = cChar.SkillPools.Find(x => x.PoolID == PoolNotDefault.PoolID).TotalPoints;
+
+                        dTotalRow = new TableRow();
+                        dTotalRow.ForeColor = System.Drawing.Color.FromName(PoolNotDefault.PoolDisplayColor);
+
+                        dcCell = new TableCell();
+                        dcCell.CssClass = "TableLabel";
+                        dcCell.Text = "Total CP:";
+                        dTotalRow.Cells.Add(dcCell);
+
+                        dcCell = new TableCell();
+                        dcCell.Text = TotalPoints.ToString("0.00");
+                        dTotalRow.Cells.Add(dcCell);
+
+                        dcCell = new TableCell();
+                        dcCell.CssClass = "TableLabel";
+                        dcCell.Text = "Total Spent:";
+                        dTotalRow.Cells.Add(dcCell);
+
+                        dcCell = new TableCell();
+                        dcCell.Text = dCPSpent.ToString("0.00");
+                        dTotalRow.Cells.Add(dcCell);
+
+                        dcCell = new TableCell();
+                        dcCell.CssClass = "TableLabel";
+                        dcCell.Text = "Total Avail:";
+                        dTotalRow.Cells.Add(dcCell);
+
+                        dcCell = new TableCell();
+                        dcCell.Text = (TotalPoints - dCPSpent).ToString("0.00");
+                        dTotalRow.Cells.Add(dcCell);
+                        tblCharInfo.Rows.Add(dTotalRow);
+                    }
+
+
+
 
                     double CPCost;
                     double CPSpent = 0.0;
@@ -107,8 +186,8 @@ namespace LarpPortal.Character
                         dSkillRow["FullDescription"] = FullDesc;
                     }
 
-                    lblCPSpent.Text = CPSpent.ToString("0.00");
-                    lblCPAvail.Text = (cChar.TotalCP - CPSpent).ToString("0.00");
+                    //lblCPSpent.Text = CPSpent.ToString("0.00");
+                    //lblCPAvail.Text = (cChar.TotalCP - CPSpent).ToString("0.00");
 
                     Dictionary<string, string> NonCost = new Dictionary<string, string>();
 

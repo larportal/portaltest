@@ -77,7 +77,7 @@
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <asp:HiddenField ID="hidSkillID" runat="server" Value='<%# Eval("CharacterSkillsStandardID") %>' />
+                                                            <asp:HiddenField ID="hidSkillID" runat="server" Value='<%# Eval("CharacterSkillID") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
 
