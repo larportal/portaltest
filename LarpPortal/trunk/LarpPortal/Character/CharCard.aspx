@@ -81,7 +81,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <table border="0">
+            <%--            <table border="0">
                 <tr style="vertical-align: top;">
                     <td colspan="6">
                         <asp:Label ID="lblCharName" runat="server" CssClass="HeaderLabel" /></td>
@@ -118,7 +118,57 @@
                     <td>
                         <asp:Label ID="lblCPAvail" runat="server" /></td>
                 </tr>
-            </table>
+            </table>--%>
+
+
+
+
+
+            <asp:Table runat="server" ID="tblCharInfo">
+                <asp:TableRow runat="server" VerticalAlign="top">
+                    <asp:TableCell runat="server" ColumnSpan="6">
+                        <asp:Label ID="lblCharName" runat="server" CssClass="HeaderLabel" />
+                    </asp:TableCell>
+                    <asp:TableCell runat="server" HorizontalAlign="Right" Width="300px" CssClass="hiddenOnPrint" RowSpan="4">
+                        <asp:Button ID="printButton" runat="server" CssClass="PrintButton" Text="Print" OnClientClick="javascript:window.print();" />
+                    </asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server">
+                    <asp:TableCell runat="server" CssClass="TableLabel">Common Name: </asp:TableCell>
+                    <asp:TableCell runat="server">
+                        <asp:Label ID="lblAKA" runat="server" /></asp:TableCell>
+                    <asp:TableCell CssClass="TableLabel">Full Name: </asp:TableCell>
+                    <asp:TableCell ColumnSpan="3">
+                        <asp:Label ID="lblFullName" runat="server" /></asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server">
+                    <asp:TableCell runat="server" CssClass="TableLabel">Race: </asp:TableCell>
+                    <asp:TableCell runat="server">
+                        <asp:Label ID="lblRace" runat="server" /></asp:TableCell>
+                    <asp:TableCell runat="server" CssClass="TableLabel">World: </asp:TableCell>
+                    <asp:TableCell runat="server">
+                        <asp:Label ID="lblOrigin" runat="server" /></asp:TableCell>
+                    <asp:TableCell runat="server" CssClass="TableLabel">Player Name: </asp:TableCell>
+                    <asp:TableCell runat="server">
+                        <asp:Label ID="lblPlayerName" runat="server" /></asp:TableCell>
+                </asp:TableRow>
+            </asp:Table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <br />
             <br />
             <asp:GridView ID="gvNonCost" runat="server" AutoGenerateColumns="false" HeaderStyle-BackColor="LightGray" AlternatingRowStyle-BackColor="Linen">
