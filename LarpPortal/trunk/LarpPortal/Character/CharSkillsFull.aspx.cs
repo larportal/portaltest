@@ -176,15 +176,13 @@ namespace LarpPortal.Character
                                 if (int.TryParse(dvRow["CampaignSkillNodeID"].ToString(), out iNodeID))
                                 {
                                     NewNode.Value = iNodeID.ToString();
-                                    //                                    if (dtCharSkills != null)
-                                    //                                    {
                                     if (dvRow["CharacterHasSkill"].ToString() == "1")
-                                        //                                        if (dtCharSkills.Select("ParentSkillNodeID = " + iNodeID.ToString()).Length > 0)
+                                    {
                                         NewNode.Checked = true;
+//                                        NewNode.Expand();
+                                    }
                                     NewNode.SelectAction = TreeNodeSelectAction.None;
                                     PopulateTreeView(iNodeID, NewNode);
-                                    //                                    }
-                                    NewNode.Expanded = false;
                                     tvSkills.Nodes.Add(NewNode);
                                 }
                             }
@@ -245,9 +243,12 @@ namespace LarpPortal.Character
                     childNode.Expanded = false;
                     childNode.Value = iNodeID.ToString();
                     if (dr["CharacterHasSkill"].ToString() == "1")
+                    {
                         //if (dtCharSkills != null)
                         //    if (dtCharSkills.Select("CampaignSkillsStandardID = " + iNodeID.ToString()).Length > 0)
                         childNode.Checked = true;
+                        parentNode.Expand();
+                    }
                     childNode.SelectAction = TreeNodeSelectAction.None;
                     parentNode.ChildNodes.Add(childNode);
                     PopulateTreeView(iNodeID, childNode);
