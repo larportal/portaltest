@@ -64,7 +64,7 @@ namespace LarpPortal.Character
                                 List<int> SkillList = new List<int>();
                                 foreach (Classes.cCharacterSkill dSkill in cChar.CharacterSkills)
                                 {
-                                    SkillList.Add(dSkill.CampaignSkillsStandardID);
+//                                    SkillList.Add(dSkill.CampaignSkillsStandardID);
                                 }
                                 ViewState["SkillList"] = SkillList;
                             }
@@ -90,11 +90,11 @@ namespace LarpPortal.Character
                             sParam.Add("@CharacterID", Session["CurrentCharacter"].ToString());
                             dsSkillSets = Classes.cUtilities.LoadDataSet("uspGetCampaignSkills", sParam, "LARPortal", Session["LoginName"].ToString(), "");
 
-                            _dtSkills = dsSkillSets.Tables[1];
+                            _dtSkills = dsSkillSets.Tables[0];
                             Session["Skills"] = _dtSkills;
                             Session["ExcludeSkills"] = dsSkillSets.Tables[2];
 
-                            DataView dvTopNodes = new DataView(_dtSkills, "PreRequisiteSkillID is null", "DisplayOrder", DataViewRowState.CurrentRows);
+                            DataView dvTopNodes = new DataView(_dtSkills, "ParentSkillNodeID is null", "DisplayOrder", DataViewRowState.CurrentRows);
                             foreach (DataRowView dvRow in dvTopNodes)
                             {
                                 TreeNode NewNode = new TreeNode();
@@ -460,26 +460,26 @@ namespace LarpPortal.Character
                         int iSkillID;
                         if (int.TryParse(SkillNode.Value, out iSkillID))
                         {
-                            var FoundRecord = Char.CharacterSkills.Find(x => x.CampaignSkillsStandardID == iSkillID);
-                            if (FoundRecord != null)
-                                FoundRecord.RecordStatus = Classes.RecordStatuses.Active;
-                            else
-                            {
-                                Classes.cCharacterSkill Newskill = new Classes.cCharacterSkill();
-                                Newskill.CharacterSkillsStandardID = -1;
-                                Newskill.CharacterID = iCharID;
-                                Newskill.CampaignSkillsStandardID = iSkillID;
-                                Newskill.CharacterSkillSetID = CharacterSkillsSetID;
-                                Newskill.CPCostPaid = 0;
-                                DataView dvCampaignSkill = new DataView(dtCampaignSkills, "CampaignSkillsStandardID = " + iSkillID.ToString(), "", DataViewRowState.CurrentRows);
-                                if (dvCampaignSkill.Count > 0)
-                                {
-                                    double dSkillCPCost = 0;
-                                    if (double.TryParse(dvCampaignSkill[0]["SkillCPCost"].ToString(), out dSkillCPCost))
-                                        Newskill.CPCostPaid = dSkillCPCost;
-                                }
-                                Char.CharacterSkills.Add(Newskill);
-                            }
+                            //var FoundRecord = Char.CharacterSkills.Find(x => x.CampaignSkillsStandardID == iSkillID);
+                            //if (FoundRecord != null)
+                            //    FoundRecord.RecordStatus = Classes.RecordStatuses.Active;
+                            //else
+                            //{
+                            //    Classes.cCharacterSkill Newskill = new Classes.cCharacterSkill();
+                            //    Newskill.CharacterSkillsStandardID = -1;
+                            //    Newskill.CharacterID = iCharID;
+                            //    Newskill.CampaignSkillsStandardID = iSkillID;
+                            //    Newskill.CharacterSkillSetID = CharacterSkillsSetID;
+                            //    Newskill.CPCostPaid = 0;
+                            //    DataView dvCampaignSkill = new DataView(dtCampaignSkills, "CampaignSkillsStandardID = " + iSkillID.ToString(), "", DataViewRowState.CurrentRows);
+                            //    if (dvCampaignSkill.Count > 0)
+                            //    {
+                            //        double dSkillCPCost = 0;
+                            //        if (double.TryParse(dvCampaignSkill[0]["SkillCPCost"].ToString(), out dSkillCPCost))
+                            //            Newskill.CPCostPaid = dSkillCPCost;
+                            //    }
+                            //    Char.CharacterSkills.Add(Newskill);
+                            //}
                         }
                     }
 
