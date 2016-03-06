@@ -179,7 +179,7 @@ namespace LarpPortal.Character
                                     if (dvRow["CharacterHasSkill"].ToString() == "1")
                                     {
                                         NewNode.Checked = true;
-//                                        NewNode.Expand();
+                                        //                                        NewNode.Expand();
                                     }
                                     NewNode.SelectAction = TreeNodeSelectAction.None;
                                     PopulateTreeView(iNodeID, NewNode);
@@ -525,7 +525,7 @@ namespace LarpPortal.Character
             //NewRow["Color"] = DefaultPool.PoolDisplayColor;
             //dtDisplay.Rows.Add(NewRow);
 
-//            double dTemp = 0;
+            //            double dTemp = 0;
 
             foreach (DataRowView dItem in new DataView(dtSkillCosts, "PoolID = " + DefaultPool.PoolID.ToString(), "SortOrder", DataViewRowState.CurrentRows))
             {
@@ -547,22 +547,19 @@ namespace LarpPortal.Character
                 if (PoolItem.DefaultPool)       // We've already taken care of this before.
                     continue;
 
-                bool bThereWereRecords = false;
-
-                foreach (DataRowView dItem in new DataView(dtSkillCosts, "PoolID = " + PoolItem.PoolID.ToString(), "SortOrder", DataViewRowState.CurrentRows))
+                if (PoolItem.TotalPoints > 0)
                 {
-                    NewRow = dtDisplay.NewRow();
-                    NewRow["Skill"] = dItem["Skill"].ToString();
-                    NewRow["MainSort"] = PoolOrderOffset;
-                    NewRow["SortOrder"] = 10;
-                    NewRow["Cost"] = dItem["Cost"];
-                    NewRow["Color"] = PoolItem.PoolDisplayColor;
-                    dtDisplay.Rows.Add(NewRow);
-                    bThereWereRecords = true;
-                }
+                    foreach (DataRowView dItem in new DataView(dtSkillCosts, "PoolID = " + PoolItem.PoolID.ToString(), "SortOrder", DataViewRowState.CurrentRows))
+                    {
+                        NewRow = dtDisplay.NewRow();
+                        NewRow["Skill"] = dItem["Skill"].ToString();
+                        NewRow["MainSort"] = PoolOrderOffset;
+                        NewRow["SortOrder"] = 10;
+                        NewRow["Cost"] = dItem["Cost"];
+                        NewRow["Color"] = PoolItem.PoolDisplayColor;
+                        dtDisplay.Rows.Add(NewRow);
+                    }
 
-                if (bThereWereRecords)
-                {
                     string sFilter = "PoolID = " + PoolItem.PoolID.ToString();
                     oResult = dtSkillCosts.Compute("sum(Cost)", sFilter);
                     double.TryParse(oResult.ToString(), out TotalSpent);
@@ -614,7 +611,6 @@ namespace LarpPortal.Character
                     dtDisplay.Rows.Add(NewRow);
                 }
             }
-
             DataView dvSkillCost = new DataView(dtDisplay, "", "MainSort, SortOrder", DataViewRowState.CurrentRows);
             gvCostList.DataSource = dvSkillCost;
             gvCostList.DataBind();
