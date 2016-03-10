@@ -31,6 +31,11 @@ namespace LarpPortal
                     TreeNode NewNode = new TreeNode();
                     NewNode.ShowCheckBox = true;
                     NewNode.Text = dvRow["SkillName"].ToString();
+
+                    NewNode.Text = @"<a onmouseover=""GetContent(" + dvRow["CampaignSkillNodeID"].ToString() + @"); """ +
+                        @"style=""text-decoration: none; color: black; margin-left: 0px; padding-left: 0px;"" > " + dvRow["SkillName"].ToString() + " - " +
+                        dvRow["CampaignSkillNodeID"].ToString() + @"</a>";
+
                     NewNode.SelectAction = TreeNodeSelectAction.None;
 
                     int iNodeID;
@@ -58,7 +63,9 @@ namespace LarpPortal
                 {
                     TreeNode childNode = new TreeNode();
                     childNode.ShowCheckBox = true;
-                    childNode.Text = dr["SkillName"].ToString();
+                    childNode.Text = @"<a onmouseover=""GetContent(" + dr["CampaignSkillNodeID"].ToString() + @"); """ +
+                        @"style=""text-decoration: none; color: black; margin-left: 0px; padding-left: 0px;"" > " + dr["SkillName"].ToString() + " - " +
+                        dr["CampaignSkillNodeID"].ToString() + @"</a>";
 
                     childNode.Expanded = false;
                     childNode.Value = iNodeID.ToString();
