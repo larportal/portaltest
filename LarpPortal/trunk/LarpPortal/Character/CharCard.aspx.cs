@@ -106,7 +106,7 @@ namespace LarpPortal.Character
 
                         dcCell = new TableCell();
                         dcCell.CssClass = "TableLabel";
-                        dcCell.Text = "Total CP:";
+                        dcCell.Text = PoolNotDefault.PoolDescription + " Points:";
                         dTotalRow.Cells.Add(dcCell);
 
                         dcCell = new TableCell();
