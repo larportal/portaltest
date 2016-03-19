@@ -31,10 +31,10 @@ namespace LarpPortal
 
             using (SqlConnection Conn = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
             {
-                using (SqlCommand Cmd = new SqlCommand("uspGetCampaignSkillByID", Conn))
+                using (SqlCommand Cmd = new SqlCommand("uspGetCampaignSkillByNodeID", Conn))
                 {
                     Cmd.CommandType = CommandType.StoredProcedure;
-                    Cmd.Parameters.AddWithValue("@SkillID", CampaignID);
+                    Cmd.Parameters.AddWithValue("@SkillNodeID", CampaignID);
                     SqlDataAdapter SDAGetData = new SqlDataAdapter(Cmd);
                     DataTable dtResults = new DataTable();
 
