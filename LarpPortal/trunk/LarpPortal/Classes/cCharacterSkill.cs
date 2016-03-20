@@ -16,6 +16,10 @@ namespace LarpPortal.Classes
         {
             CharacterSkillID = -1;
             RecordStatus = RecordStatuses.Active;
+            SuppressCampaignDescription = false;
+            SuppressCampaignIncant = false;
+            CardDisplayDescription = true;
+            CardDisplayIncant = true;
         }
 
         public override string ToString()
