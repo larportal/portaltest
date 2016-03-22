@@ -9,23 +9,29 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using LarpPortal.Classes;
+
 namespace LarpPortal.Character
 {
     public partial class CharSkills : System.Web.UI.Page
     {
-        public string PictureDirectory = "../Pictures";
-        protected DataTable _dtSkills = new DataTable();
+        //public string PictureDirectory = "../Pictures";
+        //protected DataTable _dtSkills = new DataTable();
+        LogWriter oLog = new LogWriter();
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            oLog.AddLogMessage("Starting page load for CharSkills", "CharSkills.Page_Load", "", Session.SessionID);
             if (!IsPostBack)
             {
                 ViewState["CurrentCharacter"] = "";
 
                 SortedList slParameters = new SortedList();
                 slParameters.Add("@intUserID", Session["UserID"].ToString());
+                oLog.AddLogMessage("Getting Character IDs By UserID", "CharSkills.Page_Load", "", Session.SessionID);
                 DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
                     "LARPortal", "Character", "CharacterMaster.Page_Load");
+                oLog.AddLogMessage("Done Getting Character IDs By UserID", "CharSkills.Page_Load", "", Session.SessionID);
                 ddlCharacterSelector.DataTextField = "CharacterAKA";
                 ddlCharacterSelector.DataValueField = "CharacterID";
                 ddlCharacterSelector.DataSource = dtCharacters;
@@ -72,26 +78,17 @@ namespace LarpPortal.Character
                 else
                     Response.Redirect("CharAdd.aspx");
             }
+            oLog.AddLogMessage("Ending page load for CharSkills", "CharSkills.Page_Load", "", Session.SessionID);
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            //if (Session["SelectedCharacter"] != null)
-            //{
-            //    string sCurrent = ViewState["CurrentCharacter"].ToString();
-            //    string sSelected = Session["SelectedCharacter"].ToString();
-            //    if ((!IsPostBack) || (ViewState["CurrentCharacter"].ToString() != Session["SelectedCharacter"].ToString()))
-            //    {
-            //        int iCharID;
-            //        if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-            //        {
-            //            Classes.cCharacter cChar = new Classes.cCharacter();
-            //            cChar.LoadCharacter(iCharID);
+            oLog.AddLogMessage("Done with PreRender", "CharSkills.Page_PreRender", "", Session.SessionID);
+        }
 
-            //            lblHeader.Text = "Character Skills - " + cChar.AKA + " - " + cChar.CampaignName;
-            //        }
-            //    }
-            //}
+        protected void Page_Unload(object sender, EventArgs e)
+        {
+            oLog.AddLogMessage("Closing the page", "CharSkills.Page_Unload", "", Session.SessionID);
         }
 
         protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)

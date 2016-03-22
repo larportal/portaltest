@@ -14,7 +14,6 @@ namespace LarpPortal.Classes
     /// </summary>
     public class LogWriter
     {
-
         /// <summary>
         /// Write the message to the log table.
         /// </summary>
@@ -24,29 +23,33 @@ namespace LarpPortal.Classes
         /// <param name="pvsSessionID">Unique Identifier to be able to group records.</param>
         public void AddLogMessage(string pvsMessage, string pvsLocation, string pvsAddInfo, string pvsSessionID)
         {
-            using (SqlConnection ConnErrors = new SqlConnection(ConfigurationManager.ConnectionStrings["Audit"].ConnectionString))
-            {
-                using (SqlCommand lcmdAddLogMessage = new SqlCommand("uspSystemLogIns", ConnErrors))
+            if ( ConfigurationManager.AppSettings["WriteLogMessages"] != null )
+                if (ConfigurationManager.AppSettings["WriteLogMessages"].ToUpper().StartsWith("Y"))
                 {
-                    try
+                    using (SqlConnection ConnErrors = new SqlConnection(ConfigurationManager.ConnectionStrings["Audit"].ConnectionString))
                     {
-                        ConnErrors.Open();
+                        using (SqlCommand lcmdAddLogMessage = new SqlCommand("uspSystemLogIns", ConnErrors))
+                        {
+                            try
+                            {
+                                ConnErrors.Open();
 
-                        SqlCommand lcmdAddErrorMessage = new SqlCommand("uspSystemLogIns", ConnErrors);
-                        lcmdAddErrorMessage.CommandType = CommandType.StoredProcedure;
-                        lcmdAddErrorMessage.Parameters.AddWithValue("@Location", pvsLocation);
-                        lcmdAddErrorMessage.Parameters.AddWithValue("@Message", pvsMessage);
-                        lcmdAddErrorMessage.Parameters.AddWithValue("@AddInfo", pvsAddInfo);
-                        lcmdAddErrorMessage.Parameters.AddWithValue("@SessionID", pvsSessionID);
+                                SqlCommand lcmdAddErrorMessage = new SqlCommand("uspSystemLogIns", ConnErrors);
+                                lcmdAddErrorMessage.CommandType = CommandType.StoredProcedure;
+                                lcmdAddErrorMessage.Parameters.AddWithValue("@Location", pvsLocation);
+                                lcmdAddErrorMessage.Parameters.AddWithValue("@Message", pvsMessage);
+                                lcmdAddErrorMessage.Parameters.AddWithValue("@AddInfo", pvsAddInfo);
+                                lcmdAddErrorMessage.Parameters.AddWithValue("@SessionID", pvsSessionID);
 
-                        lcmdAddErrorMessage.ExecuteNonQuery();
-                    }
-                    catch //(Exception ex)
-                    {
-                        // Not much we can do so just leave it.....
+                                lcmdAddErrorMessage.ExecuteNonQuery();
+                            }
+                            catch //(Exception ex)
+                            {
+                                // Not much we can do so just leave it.....
+                            }
+                        }
                     }
                 }
-            }
         }
     }
 }

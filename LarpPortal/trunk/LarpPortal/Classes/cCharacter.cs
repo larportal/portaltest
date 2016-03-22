@@ -455,7 +455,7 @@ namespace LarpPortal.Classes
                     SkillSetTypeDescription = dSkill["SkillSetTypeDescription"].ToString(),
                     SkillName = dSkill["SkillName"].ToString(),
                     SkillShortDescription = dSkill["SkillShortDescription"].ToString(),
-                    SkillLongDescription = dSkill["SkillLongDescription"].ToString(),
+//                    SkillLongDescription = dSkill["SkillLongDescription"].ToString(),
                     CampaignSkillsStandardComments = dSkill["CampaignSkillsStandardComments"].ToString(),
 //                    SkillTypeDescription = dSkill["SkillTypeDescription"].ToString(),
                     SkillTypeComments = dSkill["SkillTypeComments"].ToString(),
