@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CharSkill.aspx.cs" Inherits="LarpPortal.Character.CharSkill" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CharSkill.aspx.cs" Inherits="LarpPortal.Character.CharSkill" MaintainScrollPositionOnPostback="true" EnableViewState="true" %>
 
 <!DOCTYPE html>
 
@@ -8,17 +8,10 @@
 
     <script src="../Scripts/jquery-1.11.3.js"></script>
     <script src="../Scripts/jquery-ui.js"></script>
-    <script src="../Scripts/bootstrap.min.js"></script>
-    <script src="../Scripts/bootstrap.js"></script>
+<%--    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>--%>
 
     <script type="text/javascript">
-
-        function openModal() {
-            $('#myModal').modal('show');
-        }
-        function closeModal() {
-            $('#myModal').hide();
-        }
 
         function postBackByObject() {
             var o = window.event.srcElement;
@@ -59,18 +52,6 @@
 
         function OnErrorCall(response) {
             alert(response.status + " " + response.statusText);
-        }
-
-
-        function DisableButton() {
-            document.forms[0].submit();
-            window.setTimeout("disableButton('" +
-               window.event.srcElement.id + "')", 0);
-        }
-
-        function disableButton(buttonID) {
-            document.getElementById(buttonID).disabled = true;
-            document.getElementById(buttonID).value = "...Saving";
         }
 
     </script>
@@ -161,184 +142,6 @@
             font-weight: bold;
         }
 
-        .modal-open
-        {
-            overflow: hidden;
-        }
-
-        .modal
-        {
-            display: none;
-            overflow: auto;
-            overflow-y: scroll;
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 1050;
-            -webkit-overflow-scrolling: touch;
-            outline: 0;
-        }
-
-            .modal.fade .modal-dialog
-            {
-                -webkit-transform: translate(0, -25%);
-                -ms-transform: translate(0, -25%);
-                -o-transform: translate(0, -25%);
-                transform: translate(0, -25%);
-                -webkit-transition: -webkit-transform 0.3s ease-out;
-                -moz-transition: -moz-transform 0.3s ease-out;
-                -o-transition: -o-transform 0.3s ease-out;
-                transition: transform 0.3s ease-out;
-            }
-
-            .modal.in .modal-dialog
-            {
-                -webkit-transform: translate(0, 0);
-                -ms-transform: translate(0, 0);
-                -o-transform: translate(0, 0);
-                transform: translate(0, 0);
-            }
-
-        .modal-dialog
-        {
-            position: relative;
-            width: auto;
-            margin: 10px;
-        }
-
-        .modal-content
-        {
-            position: relative;
-            background-color: white;
-            border: 1px solid #999999;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
-            background-clip: padding-box;
-            outline: 0;
-        }
-
-        .modal-backdrop
-        {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            z-index: 1040;
-            background-color: black;
-        }
-
-            .modal-backdrop.fade
-            {
-                opacity: 0;
-                filter: alpha(opacity=0);
-            }
-
-            .modal-backdrop.in
-            {
-                opacity: 0.5;
-                filter: alpha(opacity=50);
-            }
-
-        .modal-header
-        {
-            padding: 15px;
-            border-bottom: 1px solid #e5e5e5;
-            min-height: 16.42857px;
-        }
-
-            .modal-header .close
-            {
-                margin-top: -2px;
-            }
-
-        .modal-title
-        {
-            margin: 0;
-            line-height: 1.42857;
-        }
-
-        .modal-body
-        {
-            position: relative;
-            padding: 15px;
-        }
-
-        .modal-footer
-        {
-            padding: 15px;
-            text-align: right;
-            border-top: 1px solid #e5e5e5;
-        }
-
-            .modal-footer:before, .modal-footer:after
-            {
-                content: " ";
-                display: table;
-            }
-
-            .modal-footer:after
-            {
-                clear: both;
-            }
-
-            .modal-footer .btn + .btn
-            {
-                margin-left: 5px;
-                margin-bottom: 0;
-            }
-
-            .modal-footer .btn-group .btn + .btn
-            {
-                margin-left: -1px;
-            }
-
-            .modal-footer .btn-block + .btn-block
-            {
-                margin-left: 0;
-            }
-
-        .modal-scrollbar-measure
-        {
-            position: absolute;
-            top: -9999px;
-            width: 50px;
-            height: 50px;
-            overflow: scroll;
-        }
-
-        @media (min-width: 768px)
-        {
-            .modal-dialog
-            {
-                width: 600px;
-                margin: 30px auto;
-            }
-
-            .modal-content
-            {
-                -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            }
-
-            .modal-sm
-            {
-                width: 300px;
-            }
-        }
-
-        @media (min-width: 992px)
-        {
-            .modal-lg
-            {
-                width: 900px;
-            }
-        }
-
         .tooltip
         {
             position: absolute;
@@ -409,8 +212,8 @@
                 }
             }
 
-            prm.add_beginRequest(BeginRequestHandler);
-            prm.add_endRequest(EndRequestHandler);
+            //prm.add_beginRequest(BeginRequestHandler);
+            //prm.add_endRequest(EndRequestHandler);
         </script>
 
         <asp:UpdatePanel ID="upSkill" runat="server">
@@ -419,6 +222,7 @@
                     <table style="width: 100%;" border="0">
                         <tr class="TableItems" style="vertical-align: top;">
                             <td style="width: 40%;" class="TableItems">
+
                                 <asp:Panel ID="pnlTreeView" runat="server" ScrollBars="Vertical" Height="500px">
                                     <asp:TreeView ID="tvSkills" runat="server" SkipLinkText="" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" ShowCheckBoxes="All"
                                         ShowLines="false" OnTreeNodeCheckChanged="tvSkills_TreeNodeCheckChanged" Font-Underline="false" CssClass="TreeItems" EnableClientScript="false"
@@ -467,35 +271,6 @@
                     Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(BeginRequestHandler);
                     Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
                 </script>
-
-<%--                <div class="modal" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <a class="close" data-dismiss="modal" style="color: white;">×</a>
-                                Character Save
-                            </div>
-                            <div class="modal-body" style="background-color: white;">
-                                <p>
-                                    <asp:UpdatePanel ID="upMessage" runat="server">
-                                        <ContentTemplate>
-                                            <asp:Label ID="lblPopMessage" runat="server" Text="There is no text for this object." />
-                                        </ContentTemplate>
-                                    </asp:UpdatePanel>
-                                    <p>
-                                    </p>
-                                    <p>
-                                    </p>
-                                    <p>
-                                    </p>
-                                </p>
-                            </div>
-                            <div class="modal-footer">
-                                <asp:Button ID="btnClose" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnClose_Click" />
-                            </div>
-                        </div>
-                    </div>
-                </div>--%>
 
             </ContentTemplate>
         </asp:UpdatePanel>

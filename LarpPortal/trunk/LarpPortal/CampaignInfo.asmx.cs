@@ -47,8 +47,20 @@ namespace LarpPortal
                         // If you want to display different information about the skill, this is where you would change it.
                         sCampaignInfo = "<b>" + dRow["SkillName"].ToString() + "</b><br>" +
                             dRow["SkillShortDescription"].ToString() + "<br><br>" +
-                            "Cost: " + dRow["SkillCPCost"].ToString() + "<br><br>" +
-                            dRow["SkillLongDescription"].ToString();
+                            "Cost: ";
+
+                        sCampaignInfo += @"<span style=""color: " + dRow["DisplayColor"].ToString() + @""">";
+                        
+                        if ( dRow["SkillCPCost"] != DBNull.Value)
+                            sCampaignInfo += dRow["SkillCPCost"].ToString();
+
+                        bool bDefault = false;
+                        if (bool.TryParse(dRow["DefaultPool"].ToString(), out bDefault))
+                            if (!bDefault)
+                                sCampaignInfo += " " + dRow["PoolDescription"].ToString();
+
+                        sCampaignInfo += "</span>";
+                        sCampaignInfo += "<br><br>" + dRow["SkillLongDescription"].ToString();
                     }
                 }
             }

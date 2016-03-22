@@ -44,7 +44,7 @@ namespace LarpPortal.Classes
         public bool CanBeUsedPassively { get; set; }
         public double SkillCPCost { get; set; }
         public string SkillShortDescription { get; set; }
-        public string SkillLongDescription { get; set; }
+//        public string SkillLongDescription { get; set; }
         public string PlayerDescription { get; set; }
         public string PlayerIncant { get; set; }
         public string SkillCardDescription { get; set; }

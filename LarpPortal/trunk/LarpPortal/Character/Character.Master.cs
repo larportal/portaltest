@@ -9,13 +9,19 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using LarpPortal.Classes;
+
 namespace LarpPortal.Character
 {
     public partial class CharacterMaster : System.Web.UI.MasterPage
     {
+        LogWriter oLog = new LogWriter();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Session["ActiveTopNav"] = "Characters";
+
+            oLog.AddLogMessage("Starting Character Master", "Character.Master.Page_Load", "", Session.SessionID);
 
             if (!IsPostBack)
             {
@@ -49,6 +55,7 @@ namespace LarpPortal.Character
                 {
                     SortedList slParameters = new SortedList();
                     slParameters.Add("@intUserID", Session["UserID"].ToString());
+                    oLog.AddLogMessage("About to load the character IDs", "Characters.Master.Page_Load", "", Session.SessionID);
                     DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
                         "LARPortal", "Character", "CharacterMaster.Page_Load");
 
@@ -56,8 +63,10 @@ namespace LarpPortal.Character
                         Session["SelectedCharacter"] = dtCharacters.Rows[0]["CharacterID"].ToString();
                     else if (!PageName.Contains("CHARADD"))
                         Response.Redirect("CharAdd.aspx");
+                    oLog.AddLogMessage("Done loading the character IDs", "Characters.Master.Page_Load", "", Session.SessionID);
                 }
             }
+            oLog.AddLogMessage("Done Character Master", "Characters.Master.Page_Load", "", Session.SessionID);
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
