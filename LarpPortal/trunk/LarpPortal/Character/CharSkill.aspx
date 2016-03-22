@@ -279,8 +279,10 @@
                 <script type="text/javascript">
                     var hiddenStatusFlag = document.getElementById('<%= hidScrollPos.ClientID%>');
                     if (hiddenStatusFlag != null) {
-                        $get('<%=pnlTreeView.ClientID%>').scrollTop = hiddenStatusFlag.value
-                        hiddenStatusFlag.value = "";
+                        if (!isNaN(hiddenStatusFlag.value)) {
+                            $get('<%=pnlTreeView.ClientID%>').scrollTop = hiddenStatusFlag.value
+                            hiddenStatusFlag.value = "";
+                        }
                     }
                 </script>
             </ContentTemplate>
