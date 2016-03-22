@@ -274,7 +274,7 @@ namespace LarpPortal.Character
                     TreeView OrigTree = Session["CurrentSkillTree"] as TreeView;
                     CopyTreeNodes(OrigTree, tvSkills);
 
-                    DisplayAlertMessage("You do not have enough CP to buy that.");
+                    DisplayAlertMessage("You do not have enough points to buy that.");
                 }
                 else
                 {
