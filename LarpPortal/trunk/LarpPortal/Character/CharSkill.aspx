@@ -8,14 +8,16 @@
 
     <script src="../Scripts/jquery-1.11.3.js"></script>
     <script src="../Scripts/jquery-ui.js"></script>
-<%--    <script src="../Scripts/bootstrap.min.js"></script>
-    <script src="../Scripts/bootstrap.js"></script>--%>
 
     <script type="text/javascript">
 
         function postBackByObject() {
             var o = window.event.srcElement;
             if (o.tagName == "INPUT" && o.type == "checkbox") {
+                var hiddenStatusFlag = document.getElementById('<%= hidScrollPos.ClientID%>');
+                if (hiddenStatusFlag != null) {
+                    hiddenStatusFlag.value = $get('<%=pnlTreeView.ClientID%>').scrollTop;
+                }
                 __doPostBack("", "");
             }
         }
@@ -212,8 +214,8 @@
                 }
             }
 
-            //prm.add_beginRequest(BeginRequestHandler);
-            //prm.add_endRequest(EndRequestHandler);
+            prm.add_beginRequest(BeginRequestHandler);
+            prm.add_endRequest(EndRequestHandler);
         </script>
 
         <asp:UpdatePanel ID="upSkill" runat="server">
@@ -267,11 +269,20 @@
                     </table>
                     <asp:HiddenField ID="hidAllowCharacterRebuild" runat="server" Value="0" />
                 </div>
-                <script>
+                <%--                <script>
                     Sys.WebForms.PageRequestManager.getInstance().add_beginRequest(BeginRequestHandler);
                     Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
-                </script>
+                </script>--%>
 
+                <asp:HiddenField ID="hidScrollPos" runat="server" />
+
+                <script type="text/javascript">
+                    var hiddenStatusFlag = document.getElementById('<%= hidScrollPos.ClientID%>');
+                    if (hiddenStatusFlag != null) {
+                        $get('<%=pnlTreeView.ClientID%>').scrollTop = hiddenStatusFlag.value
+                        hiddenStatusFlag.value = "";
+                    }
+                </script>
             </ContentTemplate>
         </asp:UpdatePanel>
     </form>
