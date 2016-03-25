@@ -332,7 +332,7 @@ namespace LarpPortal.Character
                     EnableChildren(t);
                 }
             }
-            CheckExclusions();
+            //            CheckExclusions();
             ListSkills();
             Session["CurrentSkillTree"] = tvSkills;
 
@@ -697,10 +697,63 @@ namespace LarpPortal.Character
 
         private void CheckForRequirements(string sValueToCheckFor)
         {
+            SortedList sParams = new SortedList();
+            sParams.Add("@SkillNodeID", sValueToCheckFor);
+            DataSet dsRequire = cUtilities.LoadDataSet("uspGetNodeRequirements", sParams, "LARPortal", Session["UserName"].ToString(), "CharSkill.aspx_CheckForRequirements");
+
+            DataView dvExcludeRows = new DataView(dsRequire.Tables[0], "ExcludeFromPurchase = true", "SkillNodeID", DataViewRowState.CurrentRows);
+
+            foreach (DataRowView dRow in dvExcludeRows)
+            {
+                if (dRow["PrerequisiteSkillNodeID"] != DBNull.Value)
+                {
+                    int iPreReq;
+                    if (int.TryParse(dRow["PrerequisiteSkillNodeID"].ToString(), out iPreReq))
+                    {
+                        List<TreeNode> FoundNodes = FindNodesByValue(iPreReq.ToString());
+                        foreach (TreeNode tNode in FoundNodes)
+                            DisableNodeAndChildren(tNode);
+                    }
+                }
+            }
+
             bMeetAllRequirements = true;
 
-            foreach (TreeNode trMainNodes in tvSkills.Nodes)
-                CheckChildNodes(trMainNodes, sValueToCheckFor);
+            DataView dvRequiredRows = new DataView(dsRequire.Tables[0], "ExcludeFromPurchase = false", "SkillNodeID", DataViewRowState.CurrentRows);
+
+            foreach (DataRowView dRow in dvRequiredRows)
+            {
+                if (dRow["PrerequisiteSkillNodeID"] != DBNull.Value)
+                {
+                    int iPreReq;
+                    if (int.TryParse(dRow["PrerequisiteSkillNodeID"].ToString(), out iPreReq))
+                    {
+                        List<TreeNode> FoundNodes = FindNodesByValue(iPreReq.ToString());
+                        if (FoundNodes.Count == 0)
+                            bMeetAllRequirements = false;
+                    }
+                }
+            }
+
+            dvRequiredRows = new DataView(dsRequire.Tables[0], "PrerequisiteGroupID is not null", "", DataViewRowState.CurrentRows);
+
+            foreach (DataRowView dRow in dvRequiredRows)
+            {
+                int iPreReqGroup;
+                int iNumReq;
+                if ((int.TryParse(dRow["PrerequisiteGroupID"].ToString(), out iPreReqGroup)) &&
+                    (int.TryParse(dRow["NumGroupSkillsRequired"].ToString(), out iNumReq)))
+                {
+                    DataView dReqGroup = new DataView(dsRequire.Tables[1], "PrerequisiteGroupID = " + iPreReqGroup.ToString(), "", DataViewRowState.CurrentRows);
+                    if (dReqGroup.Count > 0)
+                    {
+                        List<string> ReqSkillNodes = dReqGroup.ToTable().AsEnumerable().Select(x => x[1].ToString()).ToList();
+                        List<TreeNode> FoundNode = FindNodesByValueList(ReqSkillNodes);
+                        if (FoundNode.Count(x => x.Checked) < iNumReq)
+                            bMeetAllRequirements = false;
+                    }
+                }
+            }
         }
 
         private void CheckChildNodes(TreeNode NodeToCheck, string sValueToCheckFor)
@@ -731,6 +784,9 @@ namespace LarpPortal.Character
 
         private void DisableNodeAndChildren(TreeNode tNode)
         {
+            //            tNode.ShowCheckBox = false;
+            tNode.Text = tNode.Text.Replace("black", "grey");
+            tNode.ImageUrl = "/img/delete.png";
             tNode.ShowCheckBox = false;
             foreach (TreeNode ChildNode in tNode.ChildNodes)
                 DisableNodeAndChildren(ChildNode);
@@ -755,6 +811,28 @@ namespace LarpPortal.Character
 
             foreach (TreeNode ChildNode in tNode.ChildNodes)
                 SearchChildren(ChildNode, FoundNodes, ValueToSearchFor);
+        }
+
+        private List<TreeNode> FindNodesByValueList(List<string> lValueList)
+        {
+            List<TreeNode> FoundNodes = new List<TreeNode>();
+
+            foreach (TreeNode tNode in tvSkills.Nodes)
+            {
+                SearchChildrenList(tNode, FoundNodes, lValueList);
+            }
+
+            return FoundNodes;
+        }
+
+        private void SearchChildrenList(TreeNode tNode, List<TreeNode> FoundNodes, List<string> lValueList)
+        {
+            // See if the tree value is in the list we are search for. If so, add it to the nodes.
+            if (lValueList.Exists(x => x == tNode.Value))
+                FoundNodes.Add(tNode);
+
+            foreach (TreeNode ChildNode in tNode.ChildNodes)
+                SearchChildrenList(ChildNode, FoundNodes, lValueList);
         }
 
         private void DisableChildren(TreeNode tNode)
