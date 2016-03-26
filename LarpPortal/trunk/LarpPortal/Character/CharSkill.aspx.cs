@@ -828,8 +828,9 @@ namespace LarpPortal.Character
         private void SearchChildrenList(TreeNode tNode, List<TreeNode> FoundNodes, List<string> lValueList)
         {
             // See if the tree value is in the list we are search for. If so, add it to the nodes.
-            if (lValueList.Exists(x => x == tNode.Value))
-                FoundNodes.Add(tNode);
+            if ( tNode.Checked )
+                if (lValueList.Exists(x => x == tNode.Value))
+                    FoundNodes.Add(tNode);
 
             foreach (TreeNode ChildNode in tNode.ChildNodes)
                 SearchChildrenList(ChildNode, FoundNodes, lValueList);

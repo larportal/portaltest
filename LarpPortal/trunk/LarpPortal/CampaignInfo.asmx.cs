@@ -24,7 +24,7 @@ namespace LarpPortal
         /// </summary>
         /// <param name="CampaignID">The campaign ID to get the information about.</param>
         /// <returns>HTML formatted string about the skill that can be put in a div to display to the user.</returns>
-        [WebMethod(Description="Get the corresponding description for a skill by ID.")]
+        [WebMethod(Description = "Get the corresponding description for a skill by ID.")]
         public string GetCampaignInfo(int CampaignID)
         {
             string sCampaignInfo = "";
@@ -36,13 +36,13 @@ namespace LarpPortal
                     Cmd.CommandType = CommandType.StoredProcedure;
                     Cmd.Parameters.AddWithValue("@SkillNodeID", CampaignID);
                     SqlDataAdapter SDAGetData = new SqlDataAdapter(Cmd);
-                    DataTable dtResults = new DataTable();
+                    DataSet dsResults = new DataSet();
 
                     Conn.Open();
-                    SDAGetData.Fill(dtResults);
+                    SDAGetData.Fill(dsResults);
                     Conn.Close();
 
-                    foreach (DataRow dRow in dtResults.Rows)
+                    foreach (DataRow dRow in dsResults.Tables[0].Rows)
                     {
                         // If you want to display different information about the skill, this is where you would change it.
                         sCampaignInfo = "<b>" + dRow["SkillName"].ToString() + "</b><br>" +
@@ -50,8 +50,8 @@ namespace LarpPortal
                             "Cost: ";
 
                         sCampaignInfo += @"<span style=""color: " + dRow["DisplayColor"].ToString() + @""">";
-                        
-                        if ( dRow["SkillCPCost"] != DBNull.Value)
+
+                        if (dRow["SkillCPCost"] != DBNull.Value)
                             sCampaignInfo += dRow["SkillCPCost"].ToString();
 
                         bool bDefault = false;
@@ -61,6 +61,57 @@ namespace LarpPortal
 
                         sCampaignInfo += "</span>";
                         sCampaignInfo += "<br><br>" + dRow["SkillLongDescription"].ToString();
+                    }
+
+                    DataView dvSkills = new DataView(dsResults.Tables[1], "PrerequisiteSkillNodeID is not null and ExcludeFromPurchase = false", "", DataViewRowState.CurrentRows);
+                    if (dvSkills.Count > 0)
+                    {
+                        sCampaignInfo += "<br><br>";
+                        for (int i = 0; i < dvSkills.Count; i++)
+                        {
+                            if (i == 0)
+                                sCampaignInfo += "This skill requires you already have " + dvSkills[i]["SkillName"].ToString();
+                            else
+                                sCampaignInfo += ", " + dvSkills[i]["SkillName"].ToString();
+                        }
+                    }
+
+                    dvSkills = new DataView(dsResults.Tables[1], "PrerequisiteSkillNodeID is not null and ExcludeFromPurchase = true", "", DataViewRowState.CurrentRows);
+                    if (dvSkills.Count > 0)
+                    {
+                        sCampaignInfo += "<br><br>";
+                        for (int i = 0; i < dvSkills.Count; i++)
+                        {
+                            if (i == 0)
+                                sCampaignInfo += "You cannot buy this skill if you already have " + dvSkills[i]["SkillName"].ToString();
+                            else
+                                sCampaignInfo += ", " + dvSkills[i]["SkillName"].ToString();
+                        }
+                    }
+
+                    dvSkills = new DataView(dsResults.Tables[1], "PrerequisiteGroupID is not null", "", DataViewRowState.CurrentRows);
+                    if (dvSkills.Count > 0)
+                    {
+                        foreach (DataRowView dGroupRow in dvSkills)
+                        {
+                            int iGroupID;
+                            int iNumItems;
+                            int.TryParse(dGroupRow["PrerequisiteGroupID"].ToString(), out iGroupID);
+                            int.TryParse(dGroupRow["NumGroupSkillsRequired"].ToString(), out iNumItems);
+
+                            DataView dvGroupSkills = new DataView(dsResults.Tables[2], "PrerequisiteGroupID = " + iGroupID.ToString(), "DisplayOrder", DataViewRowState.CurrentRows);
+                            if (dvGroupSkills.Count > 0)
+                            {
+                                sCampaignInfo += "<br><br>";
+                                for (int i = 0; i < dvGroupSkills.Count; i++)
+                                {
+                                    if (i == 0)
+                                        sCampaignInfo += "You have to have " + iNumItems.ToString() + " of the following skills to purchase this: " + dvGroupSkills[i]["SkillName"].ToString();
+                                    else
+                                        sCampaignInfo += ", " + dvGroupSkills[i]["SkillName"].ToString();
+                                }
+                            }
+                        }
                     }
                 }
             }
