@@ -701,6 +701,7 @@ namespace LarpPortal.Character
             sParams.Add("@SkillNodeID", sValueToCheckFor);
             DataSet dsRequire = cUtilities.LoadDataSet("uspGetNodeRequirements", sParams, "LARPortal", Session["UserName"].ToString(), "CharSkill.aspx_CheckForRequirements");
 
+            // Get the list of items we can't have if we purchased the item.
             DataView dvExcludeRows = new DataView(dsRequire.Tables[0], "ExcludeFromPurchase = true", "SkillNodeID", DataViewRowState.CurrentRows);
 
             foreach (DataRowView dRow in dvExcludeRows)
@@ -739,17 +740,22 @@ namespace LarpPortal.Character
 
             foreach (DataRowView dRow in dvRequiredRows)
             {
+                // Since there is at least one group process it.
                 int iPreReqGroup;
                 int iNumReq;
                 if ((int.TryParse(dRow["PrerequisiteGroupID"].ToString(), out iPreReqGroup)) &&
                     (int.TryParse(dRow["NumGroupSkillsRequired"].ToString(), out iNumReq)))
                 {
+                    // Get the items for the specific group.
                     DataView dReqGroup = new DataView(dsRequire.Tables[1], "PrerequisiteGroupID = " + iPreReqGroup.ToString(), "", DataViewRowState.CurrentRows);
                     if (dReqGroup.Count > 0)
                     {
+                        // There were records. Convert the dataview of reuired nodes convert to a list of string - easier to process.
                         List<string> ReqSkillNodes = dReqGroup.ToTable().AsEnumerable().Select(x => x[1].ToString()).ToList();
+                        // If we find the value we are looking for - remove it.
+                        ReqSkillNodes.Remove(sValueToCheckFor);
                         List<TreeNode> FoundNode = FindNodesByValueList(ReqSkillNodes);
-                        if (FoundNode.Count(x => x.Checked) < iNumReq)
+                        if (FoundNode.Count < iNumReq)
                             bMeetAllRequirements = false;
                     }
                 }
