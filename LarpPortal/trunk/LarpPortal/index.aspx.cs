@@ -70,14 +70,14 @@ namespace LarpPortal
                 Session["OSVersion"] = Request.UserAgent;
                 // Check for browser.  If not Chrome pop message
                 // Chrome for iOS systems shows a browser Sarari but contains "CriOS" in the version in place of the word "Version"
-                if (bc.Browser != "Chrome" || (bc.Browser == "Safari" && bc.Version.Contains("CriOS") ) )
-                {
-                    string jsString = "alert('LARP Portal is optimized for Chrome.  You may experience issues with other browsers.');";
-                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                            "MyApplication",
-                            jsString,
-                            true);
-                }
+                //if (bc.Browser != "Chrome" || (bc.Browser == "Safari" && bc.Version.Contains("CriOS") ) )
+                //{
+                //    string jsString = "alert('LARP Portal is optimized for Chrome.  You may experience issues with other browsers.');";
+                //    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                //            "MyApplication",
+                //            jsString,
+                //            true);
+                //}
 
                 //
             }

@@ -188,10 +188,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 21:15:46</publishTime>
     </File>
     <File Include="bin/LarpPortal.dll">
-      <publishTime>02/17/2016 20:55:46</publishTime>
+      <publishTime>04/02/2016 21:58:36</publishTime>
     </File>
     <File Include="bin/LarpPortal.pdb">
-      <publishTime>02/17/2016 20:55:46</publishTime>
+      <publishTime>04/02/2016 21:58:36</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>05/19/2014 20:54:36</publishTime>
@@ -335,22 +335,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/04/2015 19:20:01</publishTime>
     </File>
     <File Include="Campaigns/CampaignSetup.aspx">
-      <publishTime>02/09/2016 20:55:36</publishTime>
+      <publishTime>03/05/2016 11:59:43</publishTime>
     </File>
     <File Include="Character/Character.Master">
-      <publishTime>01/23/2016 10:14:07</publishTime>
+      <publishTime>03/19/2016 15:54:18</publishTime>
     </File>
     <File Include="Character/CharAdd.aspx">
       <publishTime>06/28/2015 17:11:50</publishTime>
     </File>
     <File Include="Character/CharCard.aspx">
-      <publishTime>06/16/2015 20:33:24</publishTime>
+      <publishTime>03/05/2016 16:21:37</publishTime>
     </File>
     <File Include="Character/CharCardCustomization.aspx">
-      <publishTime>06/28/2015 17:11:50</publishTime>
+      <publishTime>03/05/2016 16:21:37</publishTime>
     </File>
     <File Include="Character/CharHistory.aspx">
-      <publishTime>09/13/2015 12:11:10</publishTime>
+      <publishTime>03/05/2016 16:21:37</publishTime>
     </File>
     <File Include="Character/CharInfo.aspx">
       <publishTime>06/28/2015 17:11:50</publishTime>
@@ -377,16 +377,28 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/03/2015 07:18:48</publishTime>
     </File>
     <File Include="Character/CharSkill.aspx">
-      <publishTime>07/28/2015 21:35:49</publishTime>
+      <publishTime>03/22/2016 18:34:34</publishTime>
     </File>
     <File Include="Character/CharSkills.aspx">
       <publishTime>06/28/2015 17:11:50</publishTime>
+    </File>
+    <File Include="Character/CharSkillsFull.aspx">
+      <publishTime>03/05/2016 16:21:37</publishTime>
     </File>
     <File Include="Character/CharUserDefined.aspx">
       <publishTime>06/03/2015 07:18:48</publishTime>
     </File>
     <File Include="Character/EventCharCards.aspx">
       <publishTime>10/08/2015 20:06:27</publishTime>
+    </File>
+    <File Include="Character/MultipleCharCards.aspx">
+      <publishTime>10/08/2015 20:06:27</publishTime>
+    </File>
+    <File Include="Character/SkillTable.aspx">
+      <publishTime>03/10/2016 07:10:07</publishTime>
+    </File>
+    <File Include="Character/WhichCharCardsToPrint.aspx">
+      <publishTime>10/22/2015 20:42:44</publishTime>
     </File>
     <File Include="Characters.master">
       <publishTime>12/10/2014 21:20:34</publishTime>
@@ -412,8 +424,11 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="css/bootstrap.css">
       <publishTime>09/13/2015 12:11:09</publishTime>
     </File>
+    <File Include="css/Images/ui-bg_flat_75_ffffff_40x100.png">
+      <publishTime>09/28/2015 20:13:20</publishTime>
+    </File>
     <File Include="css/LarpPortal.css">
-      <publishTime>09/20/2015 20:14:58</publishTime>
+      <publishTime>03/06/2016 11:53:57</publishTime>
     </File>
     <File Include="css/main.css">
       <publishTime>09/07/2015 12:12:42</publishTime>
@@ -440,7 +455,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/06/2016 16:41:11</publishTime>
     </File>
     <File Include="Events/EventRegistration.aspx">
-      <publishTime>01/13/2016 18:42:37</publishTime>
+      <publishTime>03/03/2016 20:46:59</publishTime>
     </File>
     <File Include="Events/EventRegistration2.aspx">
       <publishTime>09/07/2015 12:12:43</publishTime>
@@ -479,7 +494,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2015 09:09:22</publishTime>
     </File>
     <File Include="General/MemberHome.aspx">
-      <publishTime>12/29/2015 14:25:19</publishTime>
+      <publishTime>03/06/2016 10:44:59</publishTime>
     </File>
     <File Include="Global.asax">
       <publishTime>05/19/2014 10:18:41</publishTime>
@@ -769,6 +784,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="img/logo/Logo_8_MirrorMirror.jpg">
       <publishTime>02/28/2015 14:49:00</publishTime>
     </File>
+    <File Include="img/logo/Logo_96_Temet-Nosce.jpg">
+      <publishTime>02/28/2016 11:20:00</publishTime>
+    </File>
     <File Include="img/logo/Logo_9_Numina.jpg">
       <publishTime>02/28/2015 14:57:28</publishTime>
     </File>
@@ -932,7 +950,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LARPortal.pubxml.user">
-      <publishTime>02/06/2016 16:57:27</publishTime>
+      <publishTime>03/27/2016 06:54:32</publishTime>
     </File>
     <File Include="PublicCalendar.aspx">
       <publishTime>12/10/2014 21:37:31</publishTime>
@@ -1018,6 +1036,18 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/jquery-1.10.2.min.map">
       <publishTime>08/03/2014 10:50:10</publishTime>
     </File>
+    <File Include="Scripts/jquery-1.11.3.js">
+      <publishTime>09/28/2015 20:13:22</publishTime>
+    </File>
+    <File Include="Scripts/jquery-ui.js">
+      <publishTime>09/28/2015 20:13:22</publishTime>
+    </File>
+    <File Include="Scripts/jquery.maskedinput.js">
+      <publishTime>04/17/2015 18:04:30</publishTime>
+    </File>
+    <File Include="Scripts/jquery.maskedinput.min.js">
+      <publishTime>04/17/2015 18:04:30</publishTime>
+    </File>
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>08/03/2014 10:50:10</publishTime>
     </File>
@@ -1091,7 +1121,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2014 10:50:12</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>01/23/2016 12:00:37</publishTime>
+      <publishTime>03/05/2016 16:26:51</publishTime>
     </File>
     <File Include="MemberSecurity.aspx">
       <publishTime>04/26/2015 15:37:38</publishTime>
@@ -1104,6 +1134,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Site.Mobile.Master">
       <publishTime>05/22/2014 11:25:57</publishTime>
+    </File>
+    <File Include="SkillNodeInfo.asmx">
+      <publishTime>03/05/2016 16:21:38</publishTime>
     </File>
     <File Include="StaffFunctions/CharHistoryApproval.aspx">
       <publishTime>09/20/2015 20:14:58</publishTime>
@@ -1133,7 +1166,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/17/2016 20:56:02</publishTime>
+      <publishTime>04/02/2016 21:58:53</publishTime>
     </File>
     <File Include="WebForm1.aspx">
       <publishTime>12/02/2014 20:09:36</publishTime>

@@ -92,14 +92,13 @@
                             </div>
                             <div class="panel-body">
                                 <div class="panel-container">
-
                                     <div class="row PrePostPadding">
                                         <div class="button_class col-sm-3">
                                             <asp:Button ID="btnAddCampaign" runat="server" CssClass="StandardButton" Text=" SIGN UP for a Campaign " OnClick="btnAddCampaign_Click" Width="100%" Height="50px" Font-Size="Medium" />
                                         </div>
                                         <div style="text-align: left" class="text-justify vertical-center-row col-sm-9">
                                             <asp:Label ID="lblAddCampaign" runat="server" Text="Search for campaigns to PC, NPC or Staff. To sign up, select a PC and/or NPC role. Use this same screen to add a secondary role in order to register and play both sides of a campaign." Font-Size="Medium"></asp:Label>
-                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="row PrePostPadding">
@@ -108,6 +107,14 @@
                                         <div class="TableLabel col-sm-9">
                                         </div>
                                     </div>
+
+<%--                                    <div class="row PrePostPadding">
+                                        <div class="TableLabel col-sm-3">Select character:</div>
+                                        <div class="TableLabel col-sm-3">
+                                            <asp:DropDownList ID="ddlCharacter" runat="server" CssClass="left" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacter_SelectedIndexChanged"></asp:DropDownList>
+                                        </div>
+                                        <div class="TableLabel col-sm-6"></div>
+                                    </div>--%>
 
                                     <div class="row PrePostPadding">
                                         <div class="button_class col-sm-3">

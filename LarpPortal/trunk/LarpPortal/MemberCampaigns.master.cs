@@ -445,7 +445,7 @@ namespace LarpPortal
                     //Missing 18 - Shopping cart / payment
 
                     case 19:
-                        ReqPage = "/PageUnderConstruction.aspx";
+                        ReqPage = "/events/eventlist";
                         if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "EVENTSSUPLANNING")
@@ -460,7 +460,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Setup Planning";
+                            LineText = "&nbsp;&nbsp;&nbsp;Setup Events";
                         }
                         else
                         {

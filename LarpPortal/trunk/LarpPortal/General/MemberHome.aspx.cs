@@ -20,24 +20,27 @@ namespace LarpPortal.General
             if(!Page.IsPostBack)
             {
                 Session["ActiveTopNav"] = "Home";
-            //SortedList slParameters = new SortedList();
-            //slParameters.Add("@intUserID", Session["UserID"].ToString());
-            //DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-            //    "LARPortal", "Character", "MemberHome.Page_Load");
-            //ddlCharacter.DataTextField = "CharacterAKA";
-            //ddlCharacter.DataValueField = "CharacterID";
-            //ddlCharacter.DataSource = dtCharacters;
-            //ddlCharacter.DataBind();
+                // Comment to remove - Needed for character drop down list on page
+                //SortedList slParameters = new SortedList();
+                //slParameters.Add("@intUserID", Session["UserID"].ToString());
+                //DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
+                //    "LARPortal", "Character", "MemberHome.Page_Load");
+                //ddlCharacter.DataTextField = "CharacterAKA";
+                //ddlCharacter.DataValueField = "CharacterID";
+                //ddlCharacter.DataSource = dtCharacters;
+                //ddlCharacter.DataBind();
+                //End comment
             }
         }
 
         protected void ddlCharacter_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Commment to remove  - Needed for character drop down list on page
             //if (ddlCharacter.SelectedValue == "-1")
             //    Response.Redirect("CharAdd.aspx");
 
-            ////if (Session["SelectedCharacter"].ToString() != ddlCharacter.SelectedValue)
-            ////{
+            //if (Session["SelectedCharacter"].ToString() != ddlCharacter.SelectedValue)
+            //{
             //    Session["SelectedCharacter"] = ddlCharacter.SelectedValue;
 
             //    // Save the character so it will be the last logged in character.
@@ -49,8 +52,9 @@ namespace LarpPortal.General
             //        UserInfo.Save();
             //    }
 
-            //    Response.Redirect("~/Character/CharSkills.aspx");
+            //    Response.Redirect("~/Character/CharSkillsFull.aspx");
             //}
+        // End comment
         }
 
         protected void btnGoToCampaign_Click(object sender, EventArgs e)
