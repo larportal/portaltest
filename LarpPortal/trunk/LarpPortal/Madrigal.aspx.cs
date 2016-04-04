@@ -20,7 +20,7 @@ namespace LarpPortal
             //
             //
             // Set session variable CustomCampaignID to CampaignID of target campaign
-            Session["CustomCampaignID"] = "1";  (e.g. 1 for Madrigal, 33 for Fifth Gate, 80 for Crossover)
+            Session["CustomCampaignID"] = "1"; // (e.g. 1 for Madrigal, 33 for Fifth Gate, 80 for Crossover)
 
             // Added to redirect http to https
             setSecureProtocol(true);
