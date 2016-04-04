@@ -217,7 +217,11 @@
     <Content Include="Character\CharSkills.aspx" />
     <Content Include="Character\CharUserDefined.aspx" />
     <Content Include="Character\EventCharCards.aspx" />
+    <Content Include="Character\MultipleCharCards.aspx" />
+    <Content Include="Character\SkillTable.aspx" />
+    <Content Include="Character\WhichCharCardsToPrint.aspx" />
     <Content Include="ContactUs.aspx" />
+    <Content Include="css\Images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Events\EventDefaults.aspx" />
     <Content Include="Events\EventEdit.aspx" />
     <Content Include="Events\EventList.aspx" />
@@ -241,6 +245,12 @@
     <Content Include="Reports\ReportsList.aspx" />
     <Content Include="Reports\ReportTemplate.aspx" />
     <Content Include="Reports\SiteList.aspx" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Scripts\jquery-1.11.3.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.maskedinput.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
+    <Content Include="SkillNodeInfo.asmx" />
     <Content Include="StaffFunctions\CharHistoryApproval.aspx" />
     <Content Include="StaffFunctions\CharHistoryApprovalList.aspx" />
     <Content Include="WrathbornRegistration.aspx" />
@@ -462,7 +472,6 @@
     </Content>
     <Content Include="Bundle.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Site.Mobile.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -717,6 +726,27 @@
     <Compile Include="Character\EventCharCards.aspx.designer.cs">
       <DependentUpon>EventCharCards.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Character\MultipleCharCards.aspx.cs">
+      <DependentUpon>MultipleCharCards.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\MultipleCharCards.aspx.designer.cs">
+      <DependentUpon>MultipleCharCards.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\SkillTable.aspx.cs">
+      <DependentUpon>SkillTable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\SkillTable.aspx.designer.cs">
+      <DependentUpon>SkillTable.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\WhichCharCardsToPrint.aspx.cs">
+      <DependentUpon>WhichCharCardsToPrint.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\WhichCharCardsToPrint.aspx.designer.cs">
+      <DependentUpon>WhichCharCardsToPrint.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Classes\cActor.cs" />
     <Compile Include="Classes\cAddress.cs" />
     <Compile Include="Classes\cAdminViews.cs" />
@@ -771,6 +801,7 @@
     <Compile Include="Classes\cSiteContact.cs" />
     <Compile Include="Classes\cSiteImage.cs" />
     <Compile Include="Classes\cSitePolicy.cs" />
+    <Compile Include="Classes\cSkillPool.cs" />
     <Compile Include="Classes\cTransaction.cs" />
     <Compile Include="Classes\cTransactions.cs" />
     <Compile Include="Classes\cUser.cs" />
@@ -900,6 +931,10 @@
     </Compile>
     <Compile Include="Reports\SiteList.aspx.designer.cs">
       <DependentUpon>SiteList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SkillNodeInfo.asmx.cs">
+      <DependentUpon>SkillNodeInfo.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="StaffFunctions\CharHistoryApproval.aspx.cs">
       <DependentUpon>CharHistoryApproval.aspx</DependentUpon>

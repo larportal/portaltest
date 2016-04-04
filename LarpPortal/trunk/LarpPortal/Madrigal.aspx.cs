@@ -14,6 +14,14 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Notes for custom campaign login page setup
+            //
+            //
+            //
+            //
+            // Set session variable CustomCampaignID to CampaignID of target campaign
+            Session["CustomCampaignID"] = "1";  (e.g. 1 for Madrigal, 33 for Fifth Gate, 80 for Crossover)
+
             // Added to redirect http to https
             setSecureProtocol(true);
             //
@@ -70,14 +78,14 @@ namespace LarpPortal
                 Session["OSVersion"] = Request.UserAgent;
                 // Check for browser.  If not Chrome pop message
                 // Chrome for iOS systems shows a browser Sarari but contains "CriOS" in the version in place of the word "Version"
-                if (bc.Browser != "Chrome" || (bc.Browser == "Safari" && bc.Version.Contains("CriOS")))
-                {
-                    string jsString = "alert('LARP Portal is optimized for Chrome.  You may experience issues with other browsers.');";
-                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                            "MyApplication",
-                            jsString,
-                            true);
-                }
+                //if (bc.Browser != "Chrome" || (bc.Browser == "Safari" && bc.Version.Contains("CriOS")))
+                //{
+                //    string jsString = "alert('LARP Portal is optimized for Chrome.  You may experience issues with other browsers.');";
+                //    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                //            "MyApplication",
+                //            jsString,
+                //            true);
+                //}
 
                 //
             }
@@ -205,7 +213,8 @@ namespace LarpPortal
             txtName.Text = Login.FirstName + " " + Login.LastName;
             txtLastLocation.Text = Login.LastLoggedInLocation;
             txtLastCharacter.Text = Login.LastLoggedInCharacter.ToString();
-            txtLastCampaign.Text = Login.LastLoggedInCampaign.ToString();
+            //txtLastCampaign.Text = Login.LastLoggedInCampaign.ToString();
+            txtLastCampaign.Text = Session["CustomCampaignID"].ToString();
             txtUserID.Text = Login.MemberID.ToString();
             intUserID = Login.MemberID;
             Session["LoginName"] = Login.FirstName;
@@ -216,6 +225,7 @@ namespace LarpPortal
                 Session["SelectedCharacter"] = txtLastCharacter.Text;
             if (txtLastCampaign.Text != "0")
                 Session["CampaignID"] = txtLastCampaign.Text;
+            Session["CampaignID"] = "1";    // Madrigal landing page.  Set last campaign to Madrigal so user goes into Madrigal
             // Write login entry to UserLoginAudit table
             string txtIPAddress = "";
             string txtBrowser = "";
