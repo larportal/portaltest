@@ -10,7 +10,7 @@ using System.Net.Mail;
 
 namespace LarpPortal
 {
-    public partial class Madrigal : System.Web.UI.Page
+    public partial class Crossover : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -18,7 +18,7 @@ namespace LarpPortal
             // Changes unique to the campaign will happen here.  Changes to code that differ from the main login.asp are noted below with
             //      CUSTOM LANDING PAGE CHANGES
             // Set session variable CustomCampaignID to CampaignID of target campaign
-            Session["CustomCampaignID"] = "1"; // (e.g. 1 for Madrigal, 33 for Fifth Gate, 80 for Crossover)
+            Session["CustomCampaignID"] = "80"; // (e.g. 1 for Madrigal, 33 for Fifth Gate, 80 for Crossover)
 
             // Added to redirect http to https
             setSecureProtocol(true);

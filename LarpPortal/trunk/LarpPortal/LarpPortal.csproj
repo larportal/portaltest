@@ -221,6 +221,7 @@
     <Content Include="Character\SkillTable.aspx" />
     <Content Include="Character\WhichCharCardsToPrint.aspx" />
     <Content Include="ContactUs.aspx" />
+    <Content Include="Crossover.aspx" />
     <Content Include="css\Images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Events\EventDefaults.aspx" />
     <Content Include="Events\EventEdit.aspx" />
@@ -228,6 +229,7 @@
     <Content Include="Events\RegistrationApproval.aspx" />
     <Content Include="General\MemberHome.aspx" />
     <Content Include="img\aerune.jpg" />
+    <Content Include="img\Ariath.JPG" />
     <Content Include="img\Checked-Checkbox-icon.png" />
     <Content Include="img\download.png" />
     <Content Include="img\logo\Logo_80_CrossoverTemp.jpg" />
@@ -819,6 +821,13 @@
     </Compile>
     <Compile Include="ContactUs.aspx.designer.cs">
       <DependentUpon>ContactUs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Crossover.aspx.cs">
+      <DependentUpon>Crossover.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Crossover.aspx.designer.cs">
+      <DependentUpon>Crossover.aspx</DependentUpon>
     </Compile>
     <Compile Include="Events\EventDefaults.aspx.cs">
       <DependentUpon>EventDefaults.aspx</DependentUpon>
