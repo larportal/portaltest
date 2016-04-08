@@ -66,6 +66,7 @@ namespace LarpPortal.Classes
         public string SecurityAnswer1 { get; set; }
         public string SecurityAnswer2 { get; set; }
         public string SecurityAnswer3 { get; set; }
+        public string CharacterID { get; set; }
 
         /// <summary>
         /// This will check the parameters table of the site to see if the site is in test mode or production mode
@@ -457,6 +458,30 @@ namespace LarpPortal.Classes
             slParameters.Add("@LastPage", LastPage);  //
             cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
         }
+
+        /// <summary>
+        /// Return a player's characters for a given campaign
+        /// May specify number to return (0 = all)
+        /// May include NPC characters (0 = PC characters only)
+        /// </summary>
+        public void LoadCharacterForCampaignLandingPage (int UserID, int CampaignID, int NumberToReturn, bool IncludeNPCCharacters)
+        {
+            string stStoredProc = "uspGetPlayerCharactersCampaign";
+            string stCallingMethod = "cLogin.LoadCharacterForCampaignLandingPage";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@UserID", UserID);
+            slParameters.Add("@CampaignID", CampaignID);
+            slParameters.Add("@NumberToReturn", NumberToReturn);
+            slParameters.Add("@IncludeNPCCharacters", IncludeNPCCharacters);
+            DataSet dsCharacters = new DataSet();
+            dsCharacters = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsCharacters.Tables[0].TableName = "CHCharacters";
+            foreach (DataRow dRow in dsCharacters.Tables["CHCharacters"].Rows)
+            {
+                CharacterID = dRow["CharacterID"].ToString();
+            }
+        }
+
 
         /// <summary>
         /// This will validate that a new password meets required standards
