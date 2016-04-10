@@ -15,8 +15,6 @@ namespace LarpPortal.Character
 {
     public partial class CharSkills : System.Web.UI.Page
     {
-        //public string PictureDirectory = "../Pictures";
-        //protected DataTable _dtSkills = new DataTable();
         LogWriter oLog = new LogWriter();
 
         protected void Page_Load(object sender, EventArgs e)
