@@ -37,10 +37,10 @@
                 dataType: 'json',
                 success: function (result) {
                     divDesc.innerHTML = result.d;
-                },
-                error: function (xhr, msg) {
-                    alert("error: " + xhr.responseText + "   " + msg.toString());
                 }
+                //error: function (xhr, msg) {
+                //    alert("error: " + xhr.responseText + "   " + msg.toString());
+                //}
             });
         }
 

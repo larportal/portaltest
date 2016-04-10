@@ -320,6 +320,10 @@ namespace LarpPortal.Character
                         }
                     }
                 }
+
+                CheckSkillRequirementExclusions();
+
+
                 DeselectChildNodes(e.Node);
                 CheckAllNodesWithValue(e.Node.Value, false);
 
@@ -834,7 +838,7 @@ namespace LarpPortal.Character
         private void SearchChildrenList(TreeNode tNode, List<TreeNode> FoundNodes, List<string> lValueList)
         {
             // See if the tree value is in the list we are search for. If so, add it to the nodes.
-            if ( tNode.Checked )
+            if (tNode.Checked)
                 if (lValueList.Exists(x => x == tNode.Value))
                     FoundNodes.Add(tNode);
 
@@ -894,6 +898,131 @@ namespace LarpPortal.Character
                                      "MyApplication",
                                     AlertMessage,
                                     true);
+        }
+
+
+        private void CheckSkillRequirementExclusions()
+        {
+            SortedList sParams = new SortedList();
+            if (Session["CampaignID"] == null)
+                Response.Redirect("/default.aspx", true);
+
+            sParams.Add("@CampaignID", Session["CampaignID"].ToString());
+            DataSet dsRequire = cUtilities.LoadDataSet("uspGetCampaignNodeRequirements", sParams, "LARPortal", Session["UserName"].ToString(), "CharSkill.aspx_CheckSkillRequirementExclusions");
+
+            bool bChangesMade = false;
+
+            // Enable everything. Then we will go through and disable nodes as needed.
+            foreach (TreeNode tBaseNode in tvSkills.Nodes)
+                EnableChildren(tBaseNode);
+
+            do
+            {
+                bChangesMade = false;
+                foreach (TreeNode tNode in tvSkills.CheckedNodes)
+                {
+                    if (!CheckNodeRequirement(tNode, dsRequire))
+                    {
+                        bChangesMade = true;
+                        break;
+                    }
+                }
+            } while (bChangesMade);
+        }
+
+
+        private bool CheckNodeRequirement(TreeNode tNode, DataSet dsRequire)
+        {
+            bool bMetRequirements = true;
+
+            if (tNode.Text.Contains("Heroic D"))
+                Console.WriteLine("Stop.");
+
+            try
+            {
+                DataView dvRequiredRows = new DataView(dsRequire.Tables[0], "ExcludeFromPurchase = false and PrerequisiteGroupID is null and SkillNodeID = " + tNode.Value,
+                    "SkillNodeID", DataViewRowState.CurrentRows);
+
+                foreach (DataRowView dRow in dvRequiredRows)
+                {
+                    if (dRow["PrerequisiteSkillNodeID"] != DBNull.Value)
+                    {
+                        int iPreReq;
+                        if (int.TryParse(dRow["PrerequisiteSkillNodeID"].ToString(), out iPreReq))
+                        {
+                            List<TreeNode> tnFoundNode = tvSkills.Nodes.Cast<TreeNode>().Where(x => x.Value == iPreReq.ToString() && x.Checked).ToList<TreeNode>();
+                            if (tnFoundNode.Count == 0)
+                            {
+                                bMetRequirements = false;
+                            }
+                        }
+                    }
+                }
+
+
+                // Check to make sure the node has all the required skills for purchase.
+                dvRequiredRows = new DataView(dsRequire.Tables[0], "PrerequisiteGroupID is not null and SkillNodeID = " + tNode.Value, "", DataViewRowState.CurrentRows);
+
+                foreach (DataRowView dRow in dvRequiredRows)
+                {
+                    // Since there is at least one group process it.
+                    int iPreReqGroup;
+                    int iNumReq;
+                    if ((int.TryParse(dRow["PrerequisiteGroupID"].ToString(), out iPreReqGroup)) &&
+                        (int.TryParse(dRow["NumGroupSkillsRequired"].ToString(), out iNumReq)))
+                    {
+                        // Get the items for the specific group.
+                        DataView dReqGroup = new DataView(dsRequire.Tables[1], "PrerequisiteGroupID = " + iPreReqGroup.ToString(), "", DataViewRowState.CurrentRows);
+                        if (dReqGroup.Count > 0)
+                        {
+                            // There were records. Convert the dataview of reuired nodes convert to a list of string - easier to process.
+                            List<string> ReqSkillNodes = dReqGroup.ToTable().AsEnumerable().Select(x => x[1].ToString()).ToList();
+                            // If we find the value we are looking for - remove it.
+                            ReqSkillNodes.Remove(tNode.Value);
+                            List<TreeNode> FoundNode = FindNodesByValueList(ReqSkillNodes);
+                            if (FoundNode.Count < iNumReq)
+                                bMetRequirements = false;
+                        }
+                    }
+                }
+
+                if (bMetRequirements)
+                {
+                    // Check exclusions. Disable all nodes sthat are excluded because of this.
+                    dvRequiredRows = new DataView(dsRequire.Tables[0], "ExcludeFromPurchase = true and SkillNodeID = " + tNode.Value, "SkillNodeID", DataViewRowState.CurrentRows);
+
+                    foreach (DataRowView dRow in dvRequiredRows)
+                    {
+                        if (dRow["PrerequisiteSkillNodeID"] != DBNull.Value)
+                        {
+                            int iPreReq;
+                            if (int.TryParse(dRow["PrerequisiteSkillNodeID"].ToString(), out iPreReq))
+                            {
+                                if (iPreReq.ToString() != tNode.Value)
+                                {
+                                    List<TreeNode> tnFoundNode = FindNodesByValue(iPreReq.ToString());
+                                    foreach (TreeNode tnNodesToExclude in tnFoundNode)
+                                    {
+                                        DisableChildren(tnNodesToExclude);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!bMetRequirements)
+                {
+                    tNode.Checked = false;
+                    //DisableChildren(tNode);
+                }
+            }
+            catch (Exception ex)
+            {
+                string l = ex.Message;
+            }
+
+            return bMetRequirements;
         }
     }
 }
