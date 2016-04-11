@@ -733,9 +733,12 @@ namespace LarpPortal.Character
                     int iPreReq;
                     if (int.TryParse(dRow["PrerequisiteSkillNodeID"].ToString(), out iPreReq))
                     {
-                        List<TreeNode> FoundNodes = FindNodesByValue(iPreReq.ToString());
-                        if (FoundNodes.Count == 0)
-                            bMeetAllRequirements = false;
+                        if (iPreReq != 0)
+                        {
+                            List<TreeNode> FoundNodes = FindNodesByValue(iPreReq.ToString());
+                            if (FoundNodes.Count == 0)
+                                bMeetAllRequirements = false;
+                        }
                     }
                 }
             }
