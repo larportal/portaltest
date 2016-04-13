@@ -57,6 +57,7 @@ namespace LarpPortal.Character
                             cChar.LoadCharacter(iCharID);
                             oLog.AddLogMessage("Done loading character", "CharSkill.Page_PreRender", "", Session.SessionID);
 
+                            Session["CampaignID"] = cChar.CampaignID;
                             TotalCP = cChar.TotalCP;
                             Session["TotalCP"] = TotalCP;
 
@@ -151,10 +152,13 @@ namespace LarpPortal.Character
             }
         }
 
+
         protected void Page_Unload(object sender, EventArgs e)
         {
+            // This is only here to have a message when the page is closing. Used for figuring out where the time is being spent.
             oLog.AddLogMessage("Closing the page", "CharSkill.Page_Unload", "", Session.SessionID);
         }
+
 
         private void PopulateTreeView(int parentId, TreeNode parentNode)
         {
@@ -182,10 +186,17 @@ namespace LarpPortal.Character
             }
         }
 
+
+        /// <summary>
+        /// Tree node changed event. Skill being selected/deselected. Note - this happens AFTER the person clicks. Which means the node is already checked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void tvSkills_TreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
         {
             if (e.Node.Checked)
             {
+                // Save tree nodes so if they don't have enough points to buy the skill, we have the old one.
                 TreeView OrigTreeView = new TreeView();
                 CopyTreeNodes(tvSkills, OrigTreeView);
 
@@ -198,6 +209,7 @@ namespace LarpPortal.Character
                 dtPointsSpent.Columns.Add(new DataColumn("CPSpent", typeof(double)));
                 dtPointsSpent.Columns.Add(new DataColumn("TotalCP", typeof(double)));
 
+                // Go through all of the pools so we have the list on the screen.
                 foreach (cSkillPool cSkill in oSkillList)
                 {
                     DataRow dNewRow = dtPointsSpent.NewRow();
@@ -211,6 +223,7 @@ namespace LarpPortal.Character
                 DataTable dtAllSkills = Session["SkillNodes"] as DataTable;
                 double TotalSpent = 0.0;
 
+                // Start adding the skills in display order.
                 DataTable dtSkillCosts = new DataTable();
                 dtSkillCosts.Columns.Add(new DataColumn("Skill", typeof(string)));
                 dtSkillCosts.Columns.Add(new DataColumn("Cost", typeof(double)));
@@ -221,11 +234,13 @@ namespace LarpPortal.Character
                 double.TryParse(Session["TotalCP"].ToString(), out TotalCP);
 
                 string sSkills = "";
+                // Go through all of the checked nodes.
                 foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
                 {
                     int iSkillID;
                     if (int.TryParse(SkillNode.Value, out iSkillID))
                     {
+                        // Figure out what the cost of the skill is.
                         DataRow[] dSkillRow = dtAllSkills.Select("CampaignSkillNodeID = " + iSkillID.ToString());
                         if (dSkillRow.Length > 0)
                         {
@@ -278,9 +293,7 @@ namespace LarpPortal.Character
                 }
                 else
                 {
-                    bMeetAllRequirements = true;
-                    CheckForRequirements(e.Node.Value);
-                    if (!bMeetAllRequirements)
+                    if (!CheckForRequirements(e.Node.Value))
                     {
                         tvSkills.Nodes.Clear();
                         TreeView OrigTree = Session["CurrentSkillTree"] as TreeView;
@@ -297,7 +310,7 @@ namespace LarpPortal.Character
                 foreach (TreeNode t in FoundNodes)
                 {
                     t.ShowCheckBox = false;
-                    EnableChildren(t);
+                    EnableNodeAndChildren(t);
                 }
             }
             else
@@ -323,7 +336,6 @@ namespace LarpPortal.Character
 
                 CheckSkillRequirementExclusions();
 
-
                 DeselectChildNodes(e.Node);
                 CheckAllNodesWithValue(e.Node.Value, false);
 
@@ -333,16 +345,17 @@ namespace LarpPortal.Character
                     t.Text = t.Text.Replace("grey", "black");
                     t.ImageUrl = "";
                     t.ShowCheckBox = true;
-                    EnableChildren(t);
+                    EnableNodeAndChildren(t);
                 }
             }
-            //            CheckExclusions();
+
             ListSkills();
             Session["CurrentSkillTree"] = tvSkills;
 
             lblMessage.Text = "Skills Changed";
             lblMessage.ForeColor = Color.Red;
         }
+
 
         protected void ListSkills()
         {
@@ -540,6 +553,12 @@ namespace LarpPortal.Character
             }
         }
 
+
+        /// <summary>
+        /// Format the text of the nide so it calls the Javascript that will run the web service and get the skill info.
+        /// </summary>
+        /// <param name="dTreeNode"></param>
+        /// <returns></returns>
         protected string FormatDescString(DataRowView dTreeNode)
         {
             string sTreeNode = @"<a onmouseover=""GetContent(" + dTreeNode["CampaignSkillNodeID"].ToString() + @"); """ +
@@ -697,10 +716,10 @@ namespace LarpPortal.Character
             }
         }
 
-        private bool bMeetAllRequirements = true;
-
-        private void CheckForRequirements(string sValueToCheckFor)
+        private bool CheckForRequirements(string sValueToCheckFor)
         {
+            bool bMeetAllRequirements = true;
+
             SortedList sParams = new SortedList();
             sParams.Add("@SkillNodeID", sValueToCheckFor);
             DataSet dsRequire = cUtilities.LoadDataSet("uspGetNodeRequirements", sParams, "LARPortal", Session["UserName"].ToString(), "CharSkill.aspx_CheckForRequirements");
@@ -767,17 +786,7 @@ namespace LarpPortal.Character
                     }
                 }
             }
-        }
-
-        private void CheckChildNodes(TreeNode NodeToCheck, string sValueToCheckFor)
-        {
-            if (NodeToCheck.Value == sValueToCheckFor)
-                if (NodeToCheck.Parent != null)
-                    if (!NodeToCheck.Parent.Checked)
-                        bMeetAllRequirements = false;
-
-            foreach (TreeNode trChildNode in NodeToCheck.ChildNodes)
-                CheckChildNodes(trChildNode, sValueToCheckFor);
+            return bMeetAllRequirements;
         }
 
         private void CheckAllNodesWithValue(string sValueToCheckFor, bool bValueToSet)
@@ -795,9 +804,13 @@ namespace LarpPortal.Character
                 SetChildNodes(trChildNode, sValueToCheckFor, bValueToSet);
         }
 
+
+        /// <summary>
+        /// Go through a node and it's children and 'disable' them. Disabling really means add an image and remove the check box.
+        /// </summary>
+        /// <param name="tNode"></param>
         private void DisableNodeAndChildren(TreeNode tNode)
         {
-            //            tNode.ShowCheckBox = false;
             tNode.Text = tNode.Text.Replace("black", "grey");
             tNode.ImageUrl = "/img/delete.png";
             tNode.ShowCheckBox = false;
@@ -805,6 +818,27 @@ namespace LarpPortal.Character
                 DisableNodeAndChildren(ChildNode);
         }
 
+
+        /// <summary>
+        /// Go through a node and it's children and 'enable' them. Enabling it removing the image and turning the check box on.
+        /// </summary>
+        /// <param name="tNode"></param>
+        private void EnableNodeAndChildren(TreeNode tNode)
+        {
+            tNode.Text = tNode.Text.Replace("grey", "black");
+            tNode.ImageUrl = "";
+            tNode.ShowCheckBox = true;
+
+            foreach (TreeNode tnChild in tNode.ChildNodes)
+                EnableNodeAndChildren(tnChild);
+        }
+
+        
+        /// <summary>
+        /// Given a tree node, see if it's value is in the value we are searching for. For each node, go through the child nodes.
+        /// </summary>
+        /// <param name="ValueToSearchFor">Single string value to look for. Value is stored in nodes .Value</param>
+        /// <returns>List of tree nodes with the value searching. It should only return a single node but use a list just in case.</returns>
         private List<TreeNode> FindNodesByValue(string ValueToSearchFor)
         {
             List<TreeNode> FoundNodes = new List<TreeNode>();
@@ -817,6 +851,13 @@ namespace LarpPortal.Character
             return FoundNodes;
         }
 
+
+        /// <summary>
+        /// Given a tree node, see if it is the value we are looking for. Have to go through all of the children's node.
+        /// </summary>
+        /// <param name="tNode">The node to check the value and to search the children off.</param>
+        /// <param name="FoundNodes">List of nodes to be returned.</param>
+        /// <param name="ValueToSearchFor">The value that we are going to search for.</param>
         private void SearchChildren(TreeNode tNode, List<TreeNode> FoundNodes, string ValueToSearchFor)
         {
             if (tNode.Value == ValueToSearchFor)
@@ -826,6 +867,12 @@ namespace LarpPortal.Character
                 SearchChildren(ChildNode, FoundNodes, ValueToSearchFor);
         }
 
+
+        /// <summary>
+        /// Given a tree node, see if it's value is in the list we are searching for. For each node, go through the child nodes.
+        /// </summary>
+        /// <param name="lValueList">List of string values we are searching for.</param>
+        /// <returns>List of tree nodes with the value values we have found.</returns>
         private List<TreeNode> FindNodesByValueList(List<string> lValueList)
         {
             List<TreeNode> FoundNodes = new List<TreeNode>();
@@ -838,6 +885,13 @@ namespace LarpPortal.Character
             return FoundNodes;
         }
 
+
+        /// <summary>
+        /// Given a tree node, see if it is one of the values we are looking for. Have to go through all of the children's node.
+        /// </summary>
+        /// <param name="tNode">The node to check the value and to search the children off.</param>
+        /// <param name="FoundNodes">List of nodes to be returned.</param>
+        /// <param name="ValueToSearchFor">List of values we are searching for.</param>
         private void SearchChildrenList(TreeNode tNode, List<TreeNode> FoundNodes, List<string> lValueList)
         {
             // See if the tree value is in the list we are search for. If so, add it to the nodes.
@@ -849,33 +903,13 @@ namespace LarpPortal.Character
                 SearchChildrenList(ChildNode, FoundNodes, lValueList);
         }
 
-        private void DisableChildren(TreeNode tNode)
-        {
-            tNode.Text = tNode.Text.Replace("black", "grey");
-            tNode.ImageUrl = "/img/delete.png";
-            tNode.ShowCheckBox = false;
-
-            foreach (TreeNode tnChild in tNode.ChildNodes)
-                DisableChildren(tnChild);
-        }
-
-        private void EnableChildren(TreeNode tNode)
-        {
-            tNode.Text = tNode.Text.Replace("grey", "black");
-            tNode.ImageUrl = "";
-            tNode.ShowCheckBox = true;
-
-            foreach (TreeNode tnChild in tNode.ChildNodes)
-                EnableChildren(tnChild);
-        }
-
         protected void CheckExclusions()
         {
             if (Session["NodeExclusions"] == null)
                 return;
 
             foreach (TreeNode tNode in tvSkills.Nodes)
-                EnableChildren(tNode);
+                EnableNodeAndChildren(tNode);
 
             DataTable dtExclusions;
             dtExclusions = Session["NodeExclusions"] as DataTable;
@@ -889,27 +923,33 @@ namespace LarpPortal.Character
                     string sExc = dExclude["SkillNodeID"].ToString();
                     List<TreeNode> ExcludedNodes = FindNodesByValue(sExc);
                     foreach (TreeNode tnExc in ExcludedNodes)
-                        DisableChildren(tnExc);
+                        DisableNodeAndChildren(tnExc);
                 }
             }
         }
 
+        /// <summary>
+        /// Add the Javascript to display an allert.
+        /// </summary>
+        /// <param name="pvMessage"></param>
         private void DisplayAlertMessage(string pvMessage)
         {
             string AlertMessage = "alert('" + pvMessage + "');";
-            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                                     "MyApplication",
-                                    AlertMessage,
-                                    true);
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "MyApplication", AlertMessage, true);
         }
 
 
+        /// <summary>
+        /// Go through all of the checked nodes and make sure you have all the requirements. This is for when somebody unchecks something.
+        /// You then have to go through all of the nodes to make sure that you still have the requirements for everything else.
+        /// </summary>
         private void CheckSkillRequirementExclusions()
         {
             SortedList sParams = new SortedList();
             if (Session["CampaignID"] == null)
                 Response.Redirect("/default.aspx", true);
 
+            // Get all the prereqs/exclusions for the entire campaign so we don't have to keep reloading it.
             sParams.Add("@CampaignID", Session["CampaignID"].ToString());
             DataSet dsRequire = cUtilities.LoadDataSet("uspGetCampaignNodeRequirements", sParams, "LARPortal", Session["UserName"].ToString(), "CharSkill.aspx_CheckSkillRequirementExclusions");
 
@@ -917,15 +957,18 @@ namespace LarpPortal.Character
 
             // Enable everything. Then we will go through and disable nodes as needed.
             foreach (TreeNode tBaseNode in tvSkills.Nodes)
-                EnableChildren(tBaseNode);
+                EnableNodeAndChildren(tBaseNode);
 
+            // As long as we have made a change to the tree, keep rechecking.
             do
             {
                 bChangesMade = false;
                 foreach (TreeNode tNode in tvSkills.CheckedNodes)
                 {
+                    // Do we have all of the requirements for this node?
                     if (!CheckNodeRequirement(tNode, dsRequire))
                     {
+                        // Don't have the requirements so the node has already been unchecked. We need to start over and check all the requirements.
                         bChangesMade = true;
                         break;
                     }
@@ -934,18 +977,23 @@ namespace LarpPortal.Character
         }
 
 
+        /// <summary>
+        /// Give a node and the dataset for the campaign, see if the node has all the requirements it needs. If it doesn't uncheck it.
+        /// </summary>
+        /// <param name="tNode">Checked node that needs to be check if all the requirements are met.</param>
+        /// <param name="dsRequire">The dataset with the prereqs/exclusions for the campaign.</param>
+        /// <returns>True means it has everything it needs, False it doesn't have all the requirements.</returns>
         private bool CheckNodeRequirement(TreeNode tNode, DataSet dsRequire)
         {
             bool bMetRequirements = true;
 
-            if (tNode.Text.Contains("Heroic D"))
-                Console.WriteLine("Stop.");
-
             try
             {
+                // Table 0 is the prereq of a single node.
                 DataView dvRequiredRows = new DataView(dsRequire.Tables[0], "ExcludeFromPurchase = false and PrerequisiteGroupID is null and SkillNodeID = " + tNode.Value,
                     "SkillNodeID", DataViewRowState.CurrentRows);
 
+                // Go through all of the single requirements and make sure they are all there.
                 foreach (DataRowView dRow in dvRequiredRows)
                 {
                     if (dRow["PrerequisiteSkillNodeID"] != DBNull.Value)
@@ -953,32 +1001,35 @@ namespace LarpPortal.Character
                         int iPreReq;
                         if (int.TryParse(dRow["PrerequisiteSkillNodeID"].ToString(), out iPreReq))
                         {
-                            List<TreeNode> tnFoundNode = tvSkills.Nodes.Cast<TreeNode>().Where(x => x.Value == iPreReq.ToString() && x.Checked).ToList<TreeNode>();
-                            if (tnFoundNode.Count == 0)
+                            if (iPreReq != 0)       // May be set to 0 by accident.
                             {
-                                bMetRequirements = false;
+                                // Get the single pre/req skill from the nodes
+                                List<TreeNode> tnFoundNode = FindNodesByValue(iPreReq.ToString());
+                                if (tnFoundNode.Count == 0)
+                                {
+                                    bMetRequirements = false;
+                                }
                             }
                         }
                     }
                 }
 
-
-                // Check to make sure the node has all the required skills for purchase.
+                // Check to make sure the node has all the required skills for purchase based on a group of skills.
                 dvRequiredRows = new DataView(dsRequire.Tables[0], "PrerequisiteGroupID is not null and SkillNodeID = " + tNode.Value, "", DataViewRowState.CurrentRows);
 
                 foreach (DataRowView dRow in dvRequiredRows)
                 {
                     // Since there is at least one group process it.
-                    int iPreReqGroup;
-                    int iNumReq;
+                    int iPreReqGroup;       // What's the number of the group to process.
+                    int iNumReq;            // How many of the requirements do we have to have?
                     if ((int.TryParse(dRow["PrerequisiteGroupID"].ToString(), out iPreReqGroup)) &&
                         (int.TryParse(dRow["NumGroupSkillsRequired"].ToString(), out iNumReq)))
                     {
-                        // Get the items for the specific group.
+                        // Get the items for the specific group. Table1 is the group requirements.
                         DataView dReqGroup = new DataView(dsRequire.Tables[1], "PrerequisiteGroupID = " + iPreReqGroup.ToString(), "", DataViewRowState.CurrentRows);
                         if (dReqGroup.Count > 0)
                         {
-                            // There were records. Convert the dataview of reuired nodes convert to a list of string - easier to process.
+                            // There were records. Convert the dataview of required nodes to a list of strings - easier to process. The 2nd field is the skill nodes.
                             List<string> ReqSkillNodes = dReqGroup.ToTable().AsEnumerable().Select(x => x[1].ToString()).ToList();
                             // If we find the value we are looking for - remove it.
                             ReqSkillNodes.Remove(tNode.Value);
@@ -989,6 +1040,7 @@ namespace LarpPortal.Character
                     }
                 }
 
+                // Only need to check exclusions if the all of the requirements have been met.
                 if (bMetRequirements)
                 {
                     // Check exclusions. Disable all nodes sthat are excluded because of this.
@@ -1003,10 +1055,11 @@ namespace LarpPortal.Character
                             {
                                 if (iPreReq.ToString() != tNode.Value)
                                 {
+                                    // Get the node that has the value of the prereq and disable it and all of it's children.
                                     List<TreeNode> tnFoundNode = FindNodesByValue(iPreReq.ToString());
                                     foreach (TreeNode tnNodesToExclude in tnFoundNode)
                                     {
-                                        DisableChildren(tnNodesToExclude);
+                                        DisableNodeAndChildren(tnNodesToExclude);
                                     }
                                 }
                             }
@@ -1015,10 +1068,7 @@ namespace LarpPortal.Character
                 }
 
                 if (!bMetRequirements)
-                {
                     tNode.Checked = false;
-                    //DisableChildren(tNode);
-                }
             }
             catch (Exception ex)
             {
