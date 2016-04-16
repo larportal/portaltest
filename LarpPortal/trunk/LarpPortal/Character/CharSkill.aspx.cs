@@ -202,18 +202,20 @@ namespace LarpPortal.Character
 
                 MarkParentNodes(e.Node);
 
-                List<cSkillPool> oSkillList = Session["CharacterSkillPools"] as List<cSkillPool>;
+                List<cSkillPool> oSkillPools = Session["CharacterSkillPools"] as List<cSkillPool>;
 
                 DataTable dtPointsSpent = new DataTable();
                 dtPointsSpent.Columns.Add(new DataColumn("PoolID", typeof(int)));
+                dtPointsSpent.Columns.Add(new DataColumn("PoolName", typeof(string)));
                 dtPointsSpent.Columns.Add(new DataColumn("CPSpent", typeof(double)));
                 dtPointsSpent.Columns.Add(new DataColumn("TotalCP", typeof(double)));
 
                 // Go through all of the pools so we have the list on the screen.
-                foreach (cSkillPool cSkill in oSkillList)
+                foreach (cSkillPool cSkill in oSkillPools)
                 {
                     DataRow dNewRow = dtPointsSpent.NewRow();
                     dNewRow["PoolID"] = cSkill.PoolID;
+                    dNewRow["PoolName"] = cSkill.PoolDescription;
                     dNewRow["TotalCP"] = cSkill.TotalPoints;
                     dNewRow["CPSpent"] = 0.0;
 
@@ -221,49 +223,34 @@ namespace LarpPortal.Character
                 }
 
                 DataTable dtAllSkills = Session["SkillNodes"] as DataTable;
-                double TotalSpent = 0.0;
 
-                // Start adding the skills in display order.
-                DataTable dtSkillCosts = new DataTable();
-                dtSkillCosts.Columns.Add(new DataColumn("Skill", typeof(string)));
-                dtSkillCosts.Columns.Add(new DataColumn("Cost", typeof(double)));
-                dtSkillCosts.Columns.Add(new DataColumn("SortOrder", typeof(int)));
-                dtSkillCosts.Columns.Add(new DataColumn("SkillID", typeof(int)));
+                int iPool = 0;
 
-                double TotalCP = 0.0;
-                double.TryParse(Session["TotalCP"].ToString(), out TotalCP);
-
-                string sSkills = "";
-                // Go through all of the checked nodes.
                 foreach (TreeNode SkillNode in tvSkills.CheckedNodes)
                 {
                     int iSkillID;
                     if (int.TryParse(SkillNode.Value, out iSkillID))
                     {
-                        // Figure out what the cost of the skill is.
-                        DataRow[] dSkillRow = dtAllSkills.Select("CampaignSkillNodeID = " + iSkillID.ToString());
-                        if (dSkillRow.Length > 0)
+                        double SkillCost = 0.0;
+
+                        DataRow[] drSkillRow = dtAllSkills.Select("CampaignSkillNodeID = " + iSkillID.ToString());
+                        if (drSkillRow.Length > 0)
                         {
-                            double SkillCost;
-                            int PoolID;
-                            if ((double.TryParse(dSkillRow[0]["SkillCPCost"].ToString(), out SkillCost)) &&
-                                (int.TryParse(dSkillRow[0]["CampaignSkillPoolID"].ToString(), out PoolID)))
+                            int.TryParse(drSkillRow[0]["CampaignSkillPoolID"].ToString(), out iPool);
                             {
-                                if (dtSkillCosts.Select("SkillID = " + iSkillID.ToString()).Length == 0)
-                                {
-                                    DataRow[] dSkillCountRow = dtPointsSpent.Select("PoolID = " + PoolID.ToString());
-                                    if (dSkillCountRow.Length > 0)
-                                        dSkillCountRow[0]["CPSpent"] = (double)(dSkillCountRow[0]["CPSpent"]) + SkillCost;
-                                }
-                                TotalSpent += SkillCost;
-                                if (SkillCost > 0)
-                                    sSkills += dSkillRow[0]["SkillName"].ToString() + ":" + SkillCost.ToString() + ", ";
-                                DataRow dNewRow = dtSkillCosts.NewRow();
-                                dNewRow["Skill"] = dSkillRow[0]["SkillName"].ToString();
-                                dNewRow["Cost"] = SkillCost;
-                                dNewRow["SkillID"] = iSkillID;
-                                dNewRow["SortOrder"] = 10;
-                                dtSkillCosts.Rows.Add(dNewRow);
+                                if (drSkillRow[0]["CharacterHasSkill"].ToString() == "1")
+                                    double.TryParse(drSkillRow[0]["CPCostPaid"].ToString(), out SkillCost);
+                                else
+                                    double.TryParse(drSkillRow[0]["SkillCPCost"].ToString(), out SkillCost);
+                            }
+                        }
+
+                        if (iPool != 0)
+                        {
+                            DataRow[] dPool = dtPointsSpent.Select("PoolID = " + iPool.ToString());
+                            if (dPool.Length > 0)
+                            {
+                                dPool[0]["CPSpent"] = (double)(dPool[0]["CPSpent"]) + SkillCost;
                             }
                         }
                     }
@@ -833,7 +820,7 @@ namespace LarpPortal.Character
                 EnableNodeAndChildren(tnChild);
         }
 
-        
+
         /// <summary>
         /// Given a tree node, see if it's value is in the value we are searching for. For each node, go through the child nodes.
         /// </summary>
