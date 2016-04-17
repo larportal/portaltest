@@ -43,7 +43,8 @@
             <%--.background: url(../img/portal.png) no-repeat center center;.--%>
             <section class="welcome" style="background:url(../img/Ariath.jpg) no-repeat center center">
                 <div class="logo">
-                    <h1> Crossover</h1>
+                    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Architects+Daughter" />
+                    <h1 style="font-family: 'Architects Daughter'""> Crossover</h1>
                     <%--<p>Second line of text</p>--%>
                 </div>
             </section>

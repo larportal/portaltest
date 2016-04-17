@@ -168,6 +168,7 @@ namespace LarpPortal
                     }
                     else  // Valid member.  Login.
                     {
+                        Login.CheckForEmail(Login.MemberID);
                         MemberLogin(Session["AttemptedUsername"].ToString(), Session["AttemptedPassword"].ToString());
                     }
                 }
