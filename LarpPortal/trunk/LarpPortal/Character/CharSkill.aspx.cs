@@ -16,7 +16,7 @@ namespace LarpPortal.Character
     public partial class CharSkill : System.Web.UI.Page
     {
         protected DataTable _dtCampaignSkills = new DataTable();
-        DataTable dtCharSkills = null;
+//        DataTable dtCharSkills = null;
         LogWriter oLog = new LogWriter();
 
         protected void Page_Load(object sender, EventArgs e)
@@ -61,7 +61,7 @@ namespace LarpPortal.Character
                             TotalCP = cChar.TotalCP;
                             Session["TotalCP"] = TotalCP;
 
-                            dtCharSkills = Classes.cUtilities.CreateDataTable(cChar.CharacterSkills);
+                            DataTable dtCharSkills = Classes.cUtilities.CreateDataTable(cChar.CharacterSkills);
                             Session["CharSkills"] = dtCharSkills;
 
                             Session["CharacterSkillPools"] = cChar.SkillPools;
