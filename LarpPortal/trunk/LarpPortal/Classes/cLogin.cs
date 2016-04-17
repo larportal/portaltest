@@ -323,6 +323,15 @@ namespace LarpPortal.Classes
             }
         }
 
+        public void CheckForEmail(int UserID)
+        {
+            string stStoredProc = "uspCheckForEmail";
+            //string stCallingMethod = "cLogin.CheckForEmail";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@UserID", UserID);
+            cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
+        }
+
         /// <summary>
         /// This will check if a requested username already exists
         /// Must pass a username

@@ -166,8 +166,10 @@ namespace LarpPortal
                             // TODO-Rick-3 Define how to handle user account locks on attempted login
                         }
                     }
+
                     else  // Valid member.  Login.
                     {
+                        Login.CheckForEmail(Login.MemberID);
                         MemberLogin(Session["AttemptedUsername"].ToString(), Session["AttemptedPassword"].ToString());
                     }
                 }
