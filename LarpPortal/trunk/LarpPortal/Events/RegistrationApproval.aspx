@@ -43,7 +43,7 @@
                             <div class="panelheader">
                                 <h2>Event Registrations</h2>
                                 <div class="panel-body">
-                                    <div class="panel-container" style="height: 500px; overflow: auto;">
+                                    <div class="panel-container">       <!-- style="height: 500px; overflow: auto;">  -->
                                         <asp:GridView ID="gvRegistrations" runat="server" OnRowDataBound="gvRegistrations_RowDataBound" OnRowCommand="gvRegistrations_RowCommand"
                                             OnRowEditing="gvRegistrations_RowEditing" OnRowUpdating="gvRegistrations_RowUpdating" OnRowCancelingEdit="gvRegistrations_RowCancelingEdit"
                                             AutoGenerateColumns="false"
