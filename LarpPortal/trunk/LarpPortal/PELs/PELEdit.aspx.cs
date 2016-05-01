@@ -288,8 +288,12 @@ namespace LarpPortal.PELs
 
         protected void AutosaveAnswers()
         {
-            int iPELID = 0;
+            int iPELID = -1;
             int iTemp = 0;
+
+            if (int.TryParse(hidPELID.Value, out iTemp))
+                iPELID = iTemp;
+
             foreach (RepeaterItem item in rptQuestions.Items)
             {
                 if (item.ItemType == ListItemType.Item || item.ItemType == ListItemType.AlternatingItem)
