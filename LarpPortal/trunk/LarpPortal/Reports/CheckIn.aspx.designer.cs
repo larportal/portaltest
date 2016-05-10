@@ -10,7 +10,7 @@
 namespace LarpPortal.Reports {
     
     
-    public partial class CharacterCardPrint {
+    public partial class CheckIn {
         
         /// <summary>
         /// pnlParameters control.
@@ -22,22 +22,13 @@ namespace LarpPortal.Reports {
         protected global::System.Web.UI.WebControls.Panel pnlParameters;
         
         /// <summary>
-        /// rdoButtonCampaign control.
+        /// lblEvent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoButtonCampaign;
-        
-        /// <summary>
-        /// rdoButtonEvent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoButtonEvent;
+        protected global::System.Web.UI.WebControls.Label lblEvent;
         
         /// <summary>
         /// ddlEvent control.
@@ -49,24 +40,6 @@ namespace LarpPortal.Reports {
         protected global::System.Web.UI.WebControls.DropDownList ddlEvent;
         
         /// <summary>
-        /// rdoButtonCharacter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rdoButtonCharacter;
-        
-        /// <summary>
-        /// ddlCharacter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCharacter;
-        
-        /// <summary>
         /// btnRunReport control.
         /// </summary>
         /// <remarks>
@@ -74,5 +47,50 @@ namespace LarpPortal.Reports {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnRunReport;
+        
+        /// <summary>
+        /// btnExportExcel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnExportExcel;
+        
+        /// <summary>
+        /// pnlReportOutput control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlReportOutput;
+        
+        /// <summary>
+        /// Div1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
+        
+        /// <summary>
+        /// lblEventName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEventName;
+        
+        /// <summary>
+        /// gvCheckList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvCheckList;
     }
 }

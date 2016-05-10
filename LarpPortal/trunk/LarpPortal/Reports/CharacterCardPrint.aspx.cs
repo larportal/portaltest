@@ -28,6 +28,7 @@ namespace LarpPortal.Reports
             if (!IsPostBack)
             {
                 ddlEventLoad();
+                ddlCharacterLoad();
             }
         }
 
@@ -52,6 +53,25 @@ namespace LarpPortal.Reports
             ddlEvent.SelectedIndex = 0;
         }
 
+        protected void ddlCharacterLoad()
+        {
+            string stStoredProc = "uspGetCampaignCharacters";
+            string stCallingMethod = "CharacterCardPrint.aspx.ddlCharacterLoad";
+            DataTable dtCharacter = new DataTable();
+            SortedList sParams = new SortedList();
+            int CampaignID = 0;
+            int.TryParse(Session["CampaignID"].ToString(), out CampaignID);
+            sParams.Add("@CampaignID", CampaignID);
+            dtCharacter = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", Session["UserName"].ToString(), stCallingMethod);
+            ddlCharacter.ClearSelection();
+            ddlCharacter.DataTextField = "CharacterAKA";
+            ddlCharacter.DataValueField = "CharacterID";
+            ddlCharacter.DataSource = dtCharacter;
+            ddlCharacter.DataBind();
+            ddlCharacter.Items.Insert(0, new ListItem("Select Character", "0"));
+            ddlCharacter.SelectedIndex = 0;
+        }
+
         protected void FillGrid()
         {
 
@@ -62,8 +82,10 @@ namespace LarpPortal.Reports
             string URLPath = "../Character/eventcharcards?";
             int CampaignID = 0;
             int EventID = 0;
+            int CharacterID = 0;
             int.TryParse(Session["CampaignID"].ToString(), out CampaignID);
             int.TryParse(ddlEvent.SelectedValue.ToString(), out EventID);
+            int.TryParse(ddlCharacter.SelectedValue.ToString(), out CharacterID);
             if(rdoButtonCampaign.Checked)
             {
                 URLPath = URLPath + "CampaignID=" + CampaignID;
@@ -72,6 +94,11 @@ namespace LarpPortal.Reports
             if(rdoButtonEvent.Checked)
             {
                 URLPath = URLPath + "EventID=" + EventID;
+                Response.Write("<script type='text/javascript'>window.open('" + URLPath + "','_blank');</script>");
+            }
+            if (rdoButtonCharacter.Checked)
+            {
+                URLPath = URLPath + "CharacterID=" + CharacterID;
                 Response.Write("<script type='text/javascript'>window.open('" + URLPath + "','_blank');</script>");
             }
         }
@@ -91,6 +118,7 @@ namespace LarpPortal.Reports
             if(rdoButtonEvent.Checked)
             {
                 ddlEvent.Visible = true;
+                ddlCharacter.Visible = false;
                 if(ddlEvent.SelectedIndex > 0)
                 {
                     btnRunReport.Visible = true;
@@ -100,16 +128,43 @@ namespace LarpPortal.Reports
                     btnRunReport.Visible = false;
                 }
             }
-            else
+            if(rdoButtonCharacter.Checked)
+            {
+                ddlEvent.Visible = false;
+                ddlCharacter.Visible = true;
+                if (ddlCharacter.SelectedIndex > 0)
+                {
+                    btnRunReport.Visible = true;
+                }
+                else
+                {
+                    btnRunReport.Visible = false;
+                }
+            }
+            if(rdoButtonCampaign.Checked)
             {
                 btnRunReport.Visible = true;
                 ddlEvent.Visible = false;
+                ddlCharacter.Visible = false;
             }
         }
 
         protected void ddlEvent_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlEvent.SelectedIndex > 0)
+                btnRunReport.Visible = true;
+            else
+                btnRunReport.Visible = false;
+        }
+
+        protected void rdoButtonCharacter_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ddlCharacter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlCharacter.SelectedIndex > 0)
                 btnRunReport.Visible = true;
             else
                 btnRunReport.Visible = false;

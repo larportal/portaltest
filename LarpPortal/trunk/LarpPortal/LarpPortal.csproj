@@ -238,6 +238,8 @@
     <Content Include="img\uncheckbox.png" />
     <Content Include="img\Unchecked-Checkbox-icon.png" />
     <Content Include="Madrigal.aspx" />
+    <Content Include="Reports\CharacterSkillStats.aspx" />
+    <Content Include="Reports\CheckIn.aspx" />
     <Content Include="Reports\PELDisplay.aspx" />
     <Content Include="Reports\CalendarReport.aspx" />
     <Content Include="Reports\CharacterCardPrint.aspx" />
@@ -870,6 +872,20 @@
     </Compile>
     <Compile Include="Madrigal.aspx.designer.cs">
       <DependentUpon>Madrigal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CharacterSkillStats.aspx.cs">
+      <DependentUpon>CharacterSkillStats.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CharacterSkillStats.aspx.designer.cs">
+      <DependentUpon>CharacterSkillStats.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CheckIn.aspx.cs">
+      <DependentUpon>CheckIn.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CheckIn.aspx.designer.cs">
+      <DependentUpon>CheckIn.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\PELDisplay.aspx.cs">
       <DependentUpon>PELDisplay.aspx</DependentUpon>
