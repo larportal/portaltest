@@ -418,7 +418,7 @@ namespace LarpPortal
 
                     case 17:
                         ReqPage = "/Events/RegistrationApproval.aspx";
-                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/37/")))
                         {
                             if (PageName == "EVENTS")
                             {
@@ -941,11 +941,11 @@ namespace LarpPortal
                         ReqPage = "/Points/PointsAssign.aspx";
                         PageName = "POINTS";
                         //if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
-                        if (PlayerRoles.Contains("/28/"))
+                        if (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/15/"))
                         {
                             if (PageName == "POINTS") // && (PlayerRoles.Contains("/34/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/35/")))
                             {
-                                if ((PlayerRoles.Contains("/34/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/35/")))
+                                if ((PlayerRoles.Contains("/34/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/35/") || PlayerRoles.Contains("/15/")))
                                 {
                                     ActiveState = " class=\"active\">";
                                     PageName = ReqPage;
