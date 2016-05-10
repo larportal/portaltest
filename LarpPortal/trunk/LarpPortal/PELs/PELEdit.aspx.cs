@@ -329,6 +329,11 @@ namespace LarpPortal.PELs
 
                     DataSet dsPELS = new DataSet();
                     dsPELS = Classes.cUtilities.LoadDataSet("uspPELsAnswerInsUpd", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.btnSave_Click");
+                    if (iAnswerID == -1)
+                    {
+                        int.TryParse(dsPELS.Tables[0].Rows[0]["PELAnswerID"].ToString(), out iTemp);
+                        hidAnswerID.Value = iTemp.ToString();
+                    }
 
                     if ((dsPELS.Tables.Count > 1) && (iPELID == -1))
                     {
