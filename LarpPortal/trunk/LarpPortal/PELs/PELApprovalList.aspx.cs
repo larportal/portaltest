@@ -191,6 +191,7 @@ namespace LarpPortal.PELs
                     int ReasonID = 0;
                     int CampaignID = 0;
                     double CPAwarded = 0.0;
+                    DateTime dtDateSubmitted = DateTime.Now;
 
                     int.TryParse(Session["UserID"].ToString(), out UserID);
                     int.TryParse(dRow["CampaignPlayerID"].ToString(), out CampaignPlayerID);
@@ -200,8 +201,9 @@ namespace LarpPortal.PELs
                     int.TryParse(dRow["CampaignID"].ToString(), out CampaignID);
                     int.TryParse(dRow["EventID"].ToString(), out EventID);
                     double.TryParse(dRow["CPValue"].ToString(), out CPAwarded);
+                    DateTime.TryParse(dRow["DateSubmitted"].ToString(), out dtDateSubmitted);
 
-                    Points.AssignPELPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, EventID, dRow["EventName"].ToString(), ReasonID, CampaignID, CPAwarded, DateTime.Now);
+                    Points.AssignPELPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, EventID, dRow["EventName"].ToString(), ReasonID, CampaignID, CPAwarded, dtDateSubmitted);
                 }
             }
         }
