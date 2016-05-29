@@ -34,6 +34,12 @@
                                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                                 <asp:TemplateField ItemStyle-CssClass="LeftRightPadding">
                                                     <ItemTemplate>
+                                                        <asp:Button ID="btnAddendum" runat="server" CommandName="Addendum" Text="&nbsp;&nbsp;Add Addendum&nbsp;&nbsp;" Width="100px" CssClass="StandardButton" 
+                                                            Visible='<%# Eval("DisplayAddendum") %>' CommandArgument='<%# Eval("RegistrationID") %>' />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                                <asp:TemplateField ItemStyle-CssClass="LeftRightPadding">
+                                                    <ItemTemplate>
                                                         <asp:Button ID="btnCommand" Width="100px" runat="server" CommandArgument='<%# Eval("RegistrationID") %>' CommandName='<%# Eval("ButtonText") %>Item'
                                                             Style="" Text='<%# Eval("ButtonText") %>' CssClass="StandardButton" />
                                                     </ItemTemplate>

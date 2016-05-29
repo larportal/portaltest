@@ -33,28 +33,35 @@ namespace LarpPortal.PELs
                     dtPELs.Columns.Add(new DataColumn("PELStatus", typeof(string)));
                 if (dtPELs.Columns["ButtonText"] == null)
                     dtPELs.Columns.Add(new DataColumn("ButtonText", typeof(string)));
+                if (dtPELs.Columns["DisplayAddendum"] == null)
+                    dtPELs.Columns.Add(new DataColumn("DisplayAddendum", typeof(Boolean)));
 
                 foreach (DataRow dRow in dtPELs.Rows)
                 {
+                    dRow["DisplayAddendum"] = false;
                     if (dRow["DateApproved"] != System.DBNull.Value)
                     {
                         dRow["PELStatus"] = "Approved";
                         dRow["ButtonText"] = "View";
+                        dRow["DisplayAddendum"] = true;
                     }
                     else if (dRow["DateSubmitted"] != System.DBNull.Value)
                     {
                         dRow["PELStatus"] = "Submitted";
                         dRow["ButtonText"] = "View";
+                        dRow["DisplayAddendum"] = true;
                     }
                     else if (dRow["DateStarted"] != System.DBNull.Value)
                     {
                         dRow["PELStatus"] = "Started";
                         dRow["ButtonText"] = "Edit";
+                        dRow["DisplayAddendum"] = false;
                     }
                     else
                     {
                         dRow["PELStatus"] = "";
                         dRow["ButtonText"] = "Create";
+                        dRow["DisplayAddendum"] = false;
                         int iPELID;
                         if (int.TryParse(dRow["RegistrationID"].ToString(), out iPELID))
                             dRow["PELID"] = iPELID * -1;
@@ -82,7 +89,10 @@ namespace LarpPortal.PELs
         protected void gvPELList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string sRegistrationID = e.CommandArgument.ToString();
-            Response.Redirect("PELEdit.aspx?RegistrationID=" + sRegistrationID, true);
+            if (e.CommandName.ToUpper() == "ADDENDUM")
+                Response.Redirect("PELAddAddendum.aspx?RegistrationID=" + sRegistrationID, true);
+            else
+                Response.Redirect("PELEdit.aspx?RegistrationID=" + sRegistrationID, true);
         }
     }
 }
