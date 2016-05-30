@@ -204,6 +204,7 @@
     <Content Include="Campaigns\CampaignSetup.aspx" />
     <Content Include="Character\CharAdd.aspx" />
     <Content Include="Character\CharCard.aspx" />
+    <Content Include="Character\CharCardOrder.aspx" />
     <Content Include="Character\CharCardCustomization.aspx" />
     <Content Include="Character\CharHistory.aspx" />
     <Content Include="Character\CharInfo.aspx" />
@@ -238,6 +239,7 @@
     <Content Include="img\uncheckbox.png" />
     <Content Include="img\Unchecked-Checkbox-icon.png" />
     <Content Include="Madrigal.aspx" />
+    <Content Include="PELs\PELAddAddendum.aspx" />
     <Content Include="Reports\CharacterSkillStats.aspx" />
     <Content Include="Reports\CheckIn.aspx" />
     <Content Include="Reports\PELDisplay.aspx" />
@@ -639,6 +641,13 @@
     <Compile Include="Character\CharCard.aspx.designer.cs">
       <DependentUpon>CharCard.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Character\CharCardOrder.aspx.cs">
+      <DependentUpon>CharCardOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\CharCardOrder.aspx.designer.cs">
+      <DependentUpon>CharCardOrder.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Character\CharCardCustomization.aspx.cs">
       <DependentUpon>CharCardCustomization.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -872,6 +881,13 @@
     </Compile>
     <Compile Include="Madrigal.aspx.designer.cs">
       <DependentUpon>Madrigal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PELs\PELAddAddendum.aspx.cs">
+      <DependentUpon>PELAddAddendum.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PELs\PELAddAddendum.aspx.designer.cs">
+      <DependentUpon>PELAddAddendum.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\CharacterSkillStats.aspx.cs">
       <DependentUpon>CharacterSkillStats.aspx</DependentUpon>
