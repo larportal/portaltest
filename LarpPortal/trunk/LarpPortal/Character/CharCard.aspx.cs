@@ -205,8 +205,8 @@ namespace LarpPortal.Character
                             NonCost[KeyValue] = NonCost[KeyValue].Substring(0, NonCost[KeyValue].Length - 2);
                     }
 
-                    DataView dvSkills = new DataView(dtCharacterSkills, "", "DisplayOrder", DataViewRowState.CurrentRows);
-                    gvSkills.DataSource = dvSkills;
+//                    DataView dvSkills = new DataView(dtCharacterSkills, "", "DisplayOrder", DataViewRowState.CurrentRows);
+                    gvSkills.DataSource = dtCharacterSkills;
                     gvSkills.DataBind();
 
                     gvNonCost.DataSource = NonCost;

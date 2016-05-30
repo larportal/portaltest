@@ -27,6 +27,7 @@
                             <li runat="server" id="liRequests"><a>Character Requests</a></li>
                             <li runat="server" id="liGoals"><a href="CharUserDefined.aspx">Character Goals & Preferences</a></li>
                             <li runat="server" id="liCardCust"><a href="CharCardCustomization.aspx">Character Card Customization</a></li>
+                            <li runat="server" id="liCharCharOrder"><a href="CharCardOrder.aspx">Character Card Order</a></li>
                             <li runat="server" id="liCharacterCard"><a id="hlCharCard" href="CharCard.aspx" runat="server" target="_blank">Preview Character Card</a></li>
                             <li runat="server" id="liAddNewChar"><a href="CharAdd.aspx">Add New Character</a></li>
                             <li runat="server" id="liPELs"><a href="../PELs/PELList">View PELs</a></li>

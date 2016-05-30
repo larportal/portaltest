@@ -38,8 +38,6 @@ namespace LarpPortal.Character
                     liRequests.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARRELATIONSHI"))
                     liRelationShips.Attributes.Add("class", "active");
-                //else if (PageName.Contains("CHARPOINTS"))
-                //    liPoints.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARPLACES"))
                     liPlaces.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARREQUESTS"))
@@ -50,6 +48,8 @@ namespace LarpPortal.Character
                     liAddNewChar.Attributes.Add("class", "active");
                 else if (PageName.Contains("CARDCUSTOM"))
                     liCardCust.Attributes.Add("class", "active");
+                else if (PageName.Contains("CHARCARDORDER"))
+                    liCharCharOrder.Attributes.Add("class", "active");
 
                 if (Session["SelectedCharacter"] == null)
                 {

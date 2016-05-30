@@ -81,49 +81,6 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <%--            <table border="0">
-                <tr style="vertical-align: top;">
-                    <td colspan="6">
-                        <asp:Label ID="lblCharName" runat="server" CssClass="HeaderLabel" /></td>
-                    <td style="text-align: right; width: 300px;" class="hiddenOnPrint" rowspan="4">
-                        <asp:Button ID="printButton" runat="server" CssClass="PrintButton" Text="Print" OnClientClick="javascript:window.print();" /></td>
-                </tr>
-                <tr>
-                    <td class="TableLabel">Common Name: </td>
-                    <td>
-                        <asp:Label ID="lblAKA" runat="server" /></td>
-                    <td class="TableLabel">Full Name: </td>
-                    <td colspan="3">
-                        <asp:Label ID="lblFullName" runat="server" /></td>
-                </tr>
-                <tr>
-                    <td class="TableLabel">Race: </td>
-                    <td>
-                        <asp:Label ID="lblRace" runat="server" /></td>
-                    <td class="TableLabel">World: </td>
-                    <td>
-                        <asp:Label ID="lblOrigin" runat="server" /></td>
-                    <td class="TableLabel">Player Name: </td>
-                    <td>
-                        <asp:Label ID="lblPlayerName" runat="server" /></td>
-                </tr>
-                <tr>
-                    <td class="TableLabel">Total CP: </td>
-                    <td>
-                        <asp:Label ID="lblTotalCP" runat="server" /></td>
-                    <td class="TableLabel">Total Spent: </td>
-                    <td>
-                        <asp:Label ID="lblCPSpent" runat="server" /></td>
-                    <td class="TableLabel">Total Avail: </td>
-                    <td>
-                        <asp:Label ID="lblCPAvail" runat="server" /></td>
-                </tr>
-            </table>--%>
-
-
-
-
-
             <asp:Table runat="server" ID="tblCharInfo">
                 <asp:TableRow runat="server" VerticalAlign="top">
                     <asp:TableCell runat="server" ColumnSpan="6">
@@ -153,22 +110,6 @@
                         <asp:Label ID="lblPlayerName" runat="server" /></asp:TableCell>
                 </asp:TableRow>
             </asp:Table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <br />
             <br />
             <asp:GridView ID="gvNonCost" runat="server" AutoGenerateColumns="false" HeaderStyle-BackColor="LightGray" AlternatingRowStyle-BackColor="Linen">
