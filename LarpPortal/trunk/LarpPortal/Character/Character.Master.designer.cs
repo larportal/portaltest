@@ -139,6 +139,15 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liCardCust;
         
         /// <summary>
+        /// liCharCharOrder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liCharCharOrder;
+        
+        /// <summary>
         /// liCharacterCard control.
         /// </summary>
         /// <remarks>
