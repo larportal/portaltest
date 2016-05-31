@@ -20,7 +20,7 @@ namespace LarpPortal.PELs
 
             if (!IsPostBack)
             {
-                DataTable dtQuestions = new DataTable();
+                DataSet dsQuestions = new DataSet();
 
                 if (Request.QueryString["RegistrationID"] == null)
                     Response.Redirect("PELList.aspx", true);
@@ -30,10 +30,12 @@ namespace LarpPortal.PELs
                 SortedList sParams = new SortedList();
                 sParams.Add("@RegistrationID", hidRegistrationID.Value);
 
-                dtQuestions = Classes.cUtilities.LoadDataTable("uspGetPELQuestionsAndAnswers", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.Page_PreRender");
+                dsQuestions = Classes.cUtilities.LoadDataSet("uspGetPELQuestionsAndAnswers", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.Page_PreRender");
 
                 int iCharacterID = 0;
                 int iUserID = 0;
+
+                DataTable dtQuestions = dsQuestions.Tables[0];
 
                 string sEventInfo = "";
                 if (dtQuestions.Rows.Count > 0)
@@ -152,6 +154,28 @@ namespace LarpPortal.PELs
                 DataView dvQuestions = new DataView(dtQuestions, "", "SortOrder", DataViewRowState.CurrentRows);
                 rptQuestions.DataSource = dvQuestions;
                 rptQuestions.DataBind();
+
+                if (dsQuestions.Tables.Count > 1)
+                {
+                    DataTable dtNewAddendum = new DataTable();
+                    dtNewAddendum.Columns.Add("Title", typeof(string));
+                    dtNewAddendum.Columns.Add("Addendum", typeof(string));
+
+                    DataView dvAddendum = new DataView(dsQuestions.Tables[1], "", "DateAdded desc", DataViewRowState.CurrentRows);
+                    foreach (DataRowView dAdd in dvAddendum)
+                    {
+                        DataRow dNewRow = dtNewAddendum.NewRow();
+                        DateTime dtDate;
+                        dNewRow["Title"] = "Addendum ";
+                        if (DateTime.TryParse(dAdd["DateAdded"].ToString(), out dtDate))
+                            dNewRow["Title"] += dtDate.ToString("MM/dd/yyyy hh:mm:ss tt");
+                        dNewRow["Addendum"] = dAdd["Addendum"].ToString();
+                        dtNewAddendum.Rows.Add(dNewRow);
+                    }
+
+                    rptAddendum.DataSource = dtNewAddendum;
+                    rptAddendum.DataBind();
+                }
             }
         }
 
