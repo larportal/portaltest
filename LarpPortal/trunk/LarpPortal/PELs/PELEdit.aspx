@@ -55,7 +55,28 @@
                     <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
                 </Triggers>
             </asp:UpdatePanel>
+
+
+
             <div id="divQuestions" runat="server" style="max-height: 500px; overflow-y: auto; margin-right: 10px;">
+                <asp:Repeater ID="rptAddendum" runat="server">
+                    <ItemTemplate>
+                        <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
+                            <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
+                                <div class="panelheader">
+                                    <h2><%# Eval("Title") %></h2>
+                                    <div class="panel-body">
+                                        <div class="panel-container search-criteria" style="padding-bottom: 10px;">
+                                            <asp:Label ID="lblAddendum" runat="server" Text='<%# Eval("Addendum") %>' />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </ItemTemplate>
+                </asp:Repeater>
+
                 <asp:Repeater ID="rptQuestions" runat="server">
                     <ItemTemplate>
                         <div class="row" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">

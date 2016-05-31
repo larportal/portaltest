@@ -171,7 +171,7 @@ namespace LarpPortal.PELs
                         DateTime dtDate;
                         dNewRow["Title"] = "Addendum ";
                         if (DateTime.TryParse(dAdd["DateAdded"].ToString(), out dtDate))
-                            dNewRow["Title"] += dtDate.ToString("MM/dd/yyyyy hh:mm:ss tt");
+                            dNewRow["Title"] += dtDate.ToString("MM/dd/yyyy hh:mm:ss tt");
                         dNewRow["Addendum"] = dAdd["Addendum"].ToString();
                         dtNewAddendum.Rows.Add(dNewRow);
                     }
