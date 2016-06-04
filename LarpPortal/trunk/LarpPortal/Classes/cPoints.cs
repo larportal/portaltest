@@ -371,36 +371,53 @@ namespace LarpPortal.Classes
         }
 
         /// <summary>
-        /// This will post points for a PEL
-        /// Must pass a CPOpportunityID and UserID
+        /// This will post points for a history
+        /// Requires UserID, CampaignPlayer, Character and Campaign
+        /// Other fields are optional for history; can pass through anything.
         /// </summary>
         public void AssignHistoryPoints(int UserID, int CampaignPlayer, int Character, int CampaignCPOpportunityDefault,
             int Campaign, double CPVal, DateTime RecptDate)
         {
             int Event = 0;
             string EventDescription = "";
-            int Reason = 24;
+            int Reason = 24;  // Character History
             string stStoredProc = "uspGetCampaignCPOpportunityByID";
-            string stCallingMethod = "cPoints.AssignPELPoints";
+            string stCallingMethod = "cPoints.AssignHistoryPoints1";
             DataTable dtOppDefault = new DataTable();
             SortedList slParameters = new SortedList();
-            slParameters.Add("@CampaignCPOpportunityDefaultID", CampaignCPOpportunityDefault);
+            slParameters.Add("@ReasonID", Reason);
+            slParameters.Add("@CampaignID", Campaign);
             dtOppDefault = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
             string strDescription = "";
             foreach (DataRow drow in dtOppDefault.Rows)
             {
                 strDescription = drow["Description"].ToString();
+                Int32.TryParse(drow["CampaignCPOpportunityDefaultID"].ToString(), out CampaignCPOpportunityDefault);
+                double.TryParse(drow["CPValue"].ToString(), out CPVal);
+            }
+
+            // Go get the ID of the current actor of the character
+            stStoredProc = "uspGetCharacters";
+            DataTable dtCharacter = new DataTable();
+            slParameters.Clear();
+            slParameters.Add("@CharacterID", Character);
+            stCallingMethod = "cPoints.AssignHistoryPoints2";
+            dtCharacter = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            int PlayerID = 0;
+            foreach (DataRow drowchar in dtCharacter.Rows)
+            {
+                Int32.TryParse(drowchar["UserID"].ToString(), out PlayerID);
             }
 
             // Call the routine to add the opportunity.  Create it already assigned (last two parameters both = 1)
-            InsUpdCPOpportunity(UserID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1, 1);
+            InsUpdCPOpportunity(PlayerID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1, 1);
 
             // Call the routine to check if CP can be assigned to character and if appropriate assign the CP
             AddPointsToCharacter(Character, CPVal);
 
             // Call the routine to add the CP to the player CP audit log.  If assigned to character, create it spent otherwise
             //      create it banked (_PLPlayerAuditStatus)
-            CreatePlayerCPLog(UserID, _CampaignCPOpportunityID, RecptDate, CPVal, Reason, CampaignPlayer, Character);
+            CreatePlayerCPLog(PlayerID, _CampaignCPOpportunityID, RecptDate, CPVal, Reason, CampaignPlayer, Character);
         }
 
         /// <summary>
