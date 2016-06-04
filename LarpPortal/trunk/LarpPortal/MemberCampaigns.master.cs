@@ -471,7 +471,7 @@ namespace LarpPortal
                         break;
 
                     case 20:
-                        ReqPage = "/PageUnderConstruction.aspx";
+                        ReqPage = "/events/eventdefaults.aspx";
                         if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "EVENTSSUDEFAULTS")
