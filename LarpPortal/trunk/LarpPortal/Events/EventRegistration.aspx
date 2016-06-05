@@ -571,4 +571,8 @@
         </div>
     </div>
 
+    <asp:HiddenField ID="hidCampaignName" runat="server" />
+    <asp:HiddenField ID="hidCampaignEMail" runat="server" />
+    <asp:HiddenField ID="hidCharAKA" runat="server" />
+    <asp:HiddenField ID="hidPlayerEMail" runat="server" />
 </asp:Content>
