@@ -78,41 +78,43 @@ namespace LarpPortal.Events
 
         protected void NotifyOfNewRegistration()
         {
-            //string strBody;
-            ////string strFromUser = "support";
-            ////string strFromDomain = "larportal.com";
-            ////string strFrom = strFromUser + "@" + strFromDomain;
-            ////string strSMTPPassword = "Piccolo1";
-            //string strSubject = "New Silverfire event registration - " + lblPlayerName.Text;
-            //string strTeam = "";
-            //if (ddlTeams.SelectedIndex >= 0)
-            //    strTeam = ddlTeams.SelectedItem.Text;
-            //strBody = lblPlayerName.Text + " has just registered for the upcoming Silverfire event.  <br>Email: " + lblPlayerEmail.Text + "<br>Character: " + lblCharacterAKA.Text + "<br>Team: ";
-            //strBody = strBody + strTeam + "<br>Payment Method: " + ddlPaymentType.SelectedItem.Text + "<br>Player Comments: " + tbComment.Text;
-            ////string EmailAddress = "fifthgategm@gmail.com";
-            ////MailMessage mail = new MailMessage(strFrom, EmailAddress);
-            ////mail.Bcc.Add("support@larportal.com");
-            ////SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
-            ////client.EnableSsl = false;
-            ////client.UseDefaultCredentials = false;
-            ////client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);
-            ////client.Timeout = 10000;
-            ////mail.Subject = strSubject;
-            ////mail.Body = strBody;
-            ////mail.IsBodyHtml = true;
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-            //Classes.cEmailMessageService RegistrationEmail = new Classes.cEmailMessageService();
+            if (Session["CampaignID"] == null)
+                return;
 
-            //try
-            //{
-            //    //client.Send(mail);
-            //    RegistrationEmail.SendMail(strSubject, strBody, "fifthgategm@gmail.com", lblPlayerEmail.Text, "support@larportal.com");
-            //}
-            //catch (Exception)
-            //{
-            //    //lblUsernameISEmail.Text = "There was an issue. Please contact us at support@larportal.com for assistance.";
-            //    //lblUsernameISEmail.Visible = true;
-            //}
+            SortedList sParams = new SortedList();
+            string strSubject = "";
+            sParams.Add("@CampaignID", Session["CampaignID"].ToString());
+
+            DataTable dtCampaignInfo = Classes.cUtilities.LoadDataTable("uspGetCampaignByCampaignID", sParams, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
+
+            if (dtCampaignInfo.Rows.Count > 0)
+            {
+                DataRow drCampInfo = dtCampaignInfo.Rows[0];
+
+                strSubject = "New " + drCampInfo["CampaignName"].ToString() + " event registration - " + lblPlayerName.Text;
+                string strBody;
+                strBody = lblPlayerName.Text + " has just registered for the upcoming " + drCampInfo["CampaignName"].ToString() + " event.  <br>" +
+                    "Email: " + hidPlayerEMail.Value + "<br>" +
+                    "Character: " + hidCharAKA.Value + "<br>" +
+                    "Payment Method: " + ddlPaymentChoice.SelectedItem.Text + "<br>" +
+                    "Player Comments: " + tbComments.Text;
+
+                string sCampaignEMail = drCampInfo["RegistrationNotificationEMail"].ToString();
+                Classes.cEmailMessageService RegistrationEmail = new Classes.cEmailMessageService();
+
+                try
+                {
+                    RegistrationEmail.SendMail(strSubject, strBody, sCampaignEMail, hidPlayerEMail.Value, "support@larportal.com");
+                }
+                catch (Exception)
+                {
+                    //lblUsernameISEmail.Text = "There was an issue. Please contact us at support@larportal.com for assistance.";
+                    //lblUsernameISEmail.Visible = true;
+                }
+            }
         }
 
         protected void ddlEventDate_SelectedIndexChanged(object sender, EventArgs e)
@@ -161,6 +163,9 @@ namespace LarpPortal.Events
                 lblInGameLocation.Text = dRow["IGEventLocation"].ToString();
                 lblPaymentInstructions1.Text = dRow["PaymentInstructions"].ToString().Replace(Environment.NewLine, "<br>");
                 lblPaymentInstructions2.Text = dRow["PaymentInstructions"].ToString().Replace(Environment.NewLine, "<br>");
+
+                hidCampaignName.Value = dRow["CampaignName"].ToString();
+                hidCampaignEMail.Value = dRow["RegistrationNotificationEMail"].ToString();
 
                 lblSiteLocation.Text = dRow["SiteName"].ToString() + " " + dRow["SiteAddress1"].ToString() + " " + dRow["SiteCity"].ToString() + " " +
                     dRow["SiteStateID"].ToString() + ", " + dRow["SitePostalCode"].ToString();
@@ -238,6 +243,9 @@ namespace LarpPortal.Events
                 ddlCharacterList.SelectedIndex = 0;
                 ddlCharacterList.Visible = true;
                 lblCharacter.Visible = false;
+
+                hidCharAKA.Value = dsEventInfo.Tables["Character"].Rows[0]["CharacterAKA"].ToString();
+                hidPlayerEMail.Value = dsEventInfo.Tables["Character"].Rows[0]["EMailAddress"].ToString();
             }
 
             if (dsEventInfo.Tables["Character"].Rows.Count == 1)
@@ -264,7 +272,7 @@ namespace LarpPortal.Events
 
             btnRegister.Text = "Register";
 
-            DataView dvJustRoleNames = new DataView (dsEventInfo.Tables["RolesForEvent"], "", "", DataViewRowState.CurrentRows);
+            DataView dvJustRoleNames = new DataView(dsEventInfo.Tables["RolesForEvent"], "", "", DataViewRowState.CurrentRows);
             DataTable dtJustRoleNames = dvJustRoleNames.ToTable(true, "RoleAlignmentID", "Description");
 
             ddlRoles.DataSource = dtJustRoleNames;
@@ -529,6 +537,10 @@ namespace LarpPortal.Events
 
         protected void btnRegister_Command(object sender, CommandEventArgs e)
         {
+            bool bNewRegistration = false;
+            if (hidRegistrationID.Value == "-1")
+                bNewRegistration = true;
+
             SortedList sParam = new SortedList();
             sParam.Add("@RegistrationID", hidRegistrationID.Value);
             sParam.Add("@UserID", Session["UserID"].ToString());
@@ -576,8 +588,8 @@ namespace LarpPortal.Events
             }
 
 
-// Always get the registration status regardless. The SP actually checks for if they are already approved.
-//            if ((hidRegistrationID.Value == "-1") || (sStatusToSearchFor == "Canceled"))
+            // Always get the registration status regardless. The SP actually checks for if they are already approved.
+            //            if ((hidRegistrationID.Value == "-1") || (sStatusToSearchFor == "Canceled"))
             {
                 if (sStatusToSearchFor != "")
                 {
@@ -654,11 +666,13 @@ namespace LarpPortal.Events
                     }
                 }
 
+                if (bNewRegistration)
+                    NotifyOfNewRegistration();
+
                 lblRegistrationMessage.Text = sRegistrationMessage;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
 
                 ddlEventDate_SelectedIndexChanged(null, null);
-                NotifyOfNewRegistration();
             }
             catch (Exception ex)
             {
@@ -754,7 +768,7 @@ namespace LarpPortal.Events
                     RoleAlignment = 1;
                     break;
             }
- 
+
             Classes.cPointOpportunities opp = new Classes.cPointOpportunities();
             //Create Attendance opportunity - uncomment next line
             //opp.CreateAttendanceOpportunity(RoleAlignment, uID, iCharacterID, iEventID, iCampaignID, sEventName, lblEventDescription.Text, dEventDate);
