@@ -76,7 +76,10 @@ namespace LarpPortal.Events
         {
         }
 
-        protected void NotifyOfNewRegistration()
+        /// <summary>
+        /// Send an email to both campaign owners and Larportal.
+        /// </summary>
+        protected void NotifyOfNewRegistration(bool bNewRegistrion)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
@@ -94,7 +97,12 @@ namespace LarpPortal.Events
             {
                 DataRow drCampInfo = dtCampaignInfo.Rows[0];
 
-                strSubject = "New " + drCampInfo["CampaignName"].ToString() + " event registration - " + lblPlayerName.Text;
+                strSubject = "";
+                if ( bNewRegistrion )
+                    strSubject = "New " + drCampInfo["CampaignName"].ToString() + " event registration - " + lblPlayerName.Text;
+                else
+                    strSubject = "Change to registration for " + lblPlayerName.Text + " for Campaign " + drCampInfo["CampaignName"].ToString();
+
                 string strBody;
                 strBody = lblPlayerName.Text + " has just registered for the upcoming " + drCampInfo["CampaignName"].ToString() + " event.  <br>" +
                     "Email: " + hidPlayerEMail.Value + "<br>" +
@@ -107,7 +115,11 @@ namespace LarpPortal.Events
 
                 try
                 {
-                    RegistrationEmail.SendMail(strSubject, strBody, sCampaignEMail, hidPlayerEMail.Value, "support@larportal.com");
+                    string sSendTo = "support@larportal.com";
+                    if (!string.IsNullOrEmpty(sCampaignEMail))
+                        sSendTo += ";" + sCampaignEMail;
+
+                    RegistrationEmail.SendMail(strSubject, strBody, hidPlayerEMail.Value, "", sCampaignEMail);
                 }
                 catch (Exception)
                 {
@@ -666,8 +678,7 @@ namespace LarpPortal.Events
                     }
                 }
 
-                if (bNewRegistration)
-                    NotifyOfNewRegistration();
+                NotifyOfNewRegistration(bNewRegistration);
 
                 lblRegistrationMessage.Text = sRegistrationMessage;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
