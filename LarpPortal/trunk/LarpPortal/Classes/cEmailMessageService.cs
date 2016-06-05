@@ -12,12 +12,22 @@ using System.Collections;
 using System.Configuration;
 using System.Data.SqlClient;
 
+
+
 namespace LarpPortal.Classes
 {
     public class cEmailMessageService   // This is far from working.
     {
         private MailMessage mail { get; set; }
 
+        /// <summary>
+        /// Send email and write message to email log.
+        /// </summary>
+        /// <param name="subject">Subject of email.</param>
+        /// <param name="body">Full HTML of the body of the email.</param>
+        /// <param name="Tos">Who to send email to. Use either , or ; between multiple emails.</param>
+        /// <param name="ccs">Who to cc email to. Use either , or ; between multiple emails.</param>
+        /// <param name="bccs">Who to bcc email to. Use either , or ; between multiple emails.</param>
         public void SendMail(string subject, string body, string Tos, string ccs, string bccs)
         {
             if (string.IsNullOrEmpty(Tos))
@@ -31,20 +41,23 @@ namespace LarpPortal.Classes
             mail.From = new MailAddress(strFrom);
             mail.Subject = subject;
             mail.Body = body;
-            string[] recipients = Tos.Split(",".ToArray());
+            string[] recipients = Tos.Split(",;".ToArray());
             foreach (string rec in recipients)
-                mail.To.Add(rec.Trim());
+                if (rec.Trim().Length > 0)     // JLB 6/5/2016 - Don't add if address is blank. Will cause errors.
+                    mail.To.Add(rec.Trim());
             if (!string.IsNullOrEmpty(ccs))
             {
-                string[] ccEmails = ccs.Split(",".ToArray());
+                string[] ccEmails = ccs.Split(",;".ToArray());
                 foreach (string cc in ccEmails)
-                    mail.CC.Add(cc.Trim());
+                    if (cc.Trim().Length > 0)     // JLB 6/5/2016 - Don't add if address is blank. Will cause errors.
+                        mail.CC.Add(cc.Trim());
             }
-            if(!string.IsNullOrEmpty(bccs))
+            if (!string.IsNullOrEmpty(bccs))
             {
-                string[] bccEmails = bccs.Split(",".ToArray());
+                string[] bccEmails = bccs.Split(",;".ToArray());
                 foreach (string bcc in bccEmails)
-                    mail.Bcc.Add(bcc.Trim());
+                    if (bcc.Trim().Length > 0)     // JLB 6/5/2016 - Don't add if address is blank. Will cause errors.
+                        mail.Bcc.Add(bcc.Trim());
             }
             string strSMTPPassword = "Piccolo1";
             SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
@@ -84,12 +97,10 @@ namespace LarpPortal.Classes
             {
                 Classes.cUtilities.PerformNonQuery(stStoredProc, sParams, "LARPortal", stCallingMethod);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 // Keep going.  Nothing to see here (at this time)
             }
-            
-
         }
     }
 }
