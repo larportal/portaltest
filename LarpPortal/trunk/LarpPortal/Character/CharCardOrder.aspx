@@ -80,7 +80,7 @@
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Skill Name">
                                                         <ItemTemplate>
-                                                            <asp:Label runat="server" Text='<%# Eval("SkillName") %>' />
+                                                            <asp:Label runat="server" Text='<%# Eval("SkillName") %>' ToolTip='<%# Eval("DisplayOrder") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                     <asp:TemplateField HeaderText="Skill Card Description" ItemStyle-Wrap="true">
