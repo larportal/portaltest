@@ -259,6 +259,7 @@
     <Content Include="SkillNodeInfo.asmx" />
     <Content Include="StaffFunctions\CharHistoryApproval.aspx" />
     <Content Include="StaffFunctions\CharHistoryApprovalList.aspx" />
+    <Content Include="Testing\TestCallToClass.aspx" />
     <Content Include="WrathbornRegistration.aspx" />
     <Content Include="Events\EventRegistration.aspx" />
     <Content Include="SilverfireRegistration.aspx" />
@@ -990,6 +991,13 @@
     </Compile>
     <Compile Include="StaffFunctions\CharHistoryApprovalList.aspx.designer.cs">
       <DependentUpon>CharHistoryApprovalList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Testing\TestCallToClass.aspx.cs">
+      <DependentUpon>TestCallToClass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Testing\TestCallToClass.aspx.designer.cs">
+      <DependentUpon>TestCallToClass.aspx</DependentUpon>
     </Compile>
     <Compile Include="WrathbornRegistration.aspx.cs">
       <DependentUpon>WrathbornRegistration.aspx</DependentUpon>

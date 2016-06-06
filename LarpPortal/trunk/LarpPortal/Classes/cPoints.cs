@@ -257,6 +257,67 @@ namespace LarpPortal.Classes
         }
 
         /// <summary>
+        /// This will create a CPOpportunity associated with a registration
+        /// </summary>
+        public void CreateRegistrationCPOpportunity (int UserID, int CampaignID, int RoleAlignment, int CharacterID, int ReasonID, int EventID, int RegistrationID)
+        {
+            string OpportunityNotes = "";
+            string ExampleURL = "";
+            int StatusID = 19;
+            int ApprovedByID = 0;
+            DateTime? NullDate = null;
+            DateTime ReceiptDate;
+            ReceiptDate = Convert.ToDateTime(NullDate);
+            int ReceivedByID = 0;
+            DateTime CPAssignmentDate;
+            CPAssignmentDate = Convert.ToDateTime(NullDate);
+            string StaffComments = "";
+
+            // Get the CampaignPlayerID
+            GetCampaignPlayerID(UserID, CampaignID, RoleAlignment);
+
+            // Determine >>> CampaignCPOpportunityDefaultID, Description, CPValue <<< from the reason
+            string stStoredProc = "uspGetCampaignCPOpportunityByID";
+            string stCallingMethod = "cPoints.CreateRegistrationCPOpportunity";
+            DataTable dtOppDefault = new DataTable();
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@ReasonID", ReasonID);
+            slParameters.Add("@CampaignID", CampaignID);
+            dtOppDefault = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            string strDescription = "";
+            int CampaignCPOpportunityDefault = 0;
+            double CPVal = 0;
+            foreach (DataRow drow in dtOppDefault.Rows)
+            {
+                strDescription = drow["Description"].ToString();
+                Int32.TryParse(drow["CampaignCPOpportunityDefaultID"].ToString(), out CampaignCPOpportunityDefault);
+                double.TryParse(drow["CPValue"].ToString(), out CPVal);
+            }
+
+            // Call the routine to add the opportunity.  Create it already assigned (last two parameters both = 1)
+            InsUpdCPOpportunity(UserID, -1, _CampaignPlayerID, CharacterID, CampaignCPOpportunityDefault, EventID, strDescription, OpportunityNotes, ExampleURL, ReasonID,
+                StatusID, UserID, CPVal, ApprovedByID, ReceiptDate, ReceivedByID, CPAssignmentDate, StaffComments, 1, 1, RegistrationID);
+        }
+
+        public void GetCampaignPlayerID(int UserID, int CampaignID, int RoleAlignmentID)
+        {
+            int iTemp = 0;
+            string stStoredProc = "uspGetPlayerRoles";
+            string stCallingMethod = "cPointOpportunities.GetCampaignPlayerID";
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@UserID", UserID);
+            slParameters.Add("@CampaignID", CampaignID);
+            slParameters.Add("@RoleAlignmentID", RoleAlignmentID);
+            DataTable dtCampaignPlayer = new DataTable();
+            dtCampaignPlayer = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            foreach (DataRow drowPl in dtCampaignPlayer.Rows)
+            {
+                if (int.TryParse(drowPl["CampaignPlayerID"].ToString(), out iTemp))
+                    _CampaignPlayerID = iTemp;
+            }
+        }
+
+        /// <summary>
         /// This will post points for a PEL
         /// Must pass a CPOpportunityID and UserID
         /// </summary>
@@ -344,8 +405,23 @@ namespace LarpPortal.Classes
                 }
             }
 
+            // Using the Event and Campaign Player, go get the RegistrationID
+            stStoredProc = "uspGetRegistrationByPlayer";
+            stCallingMethod = "cPoints.AssignPELPoints.GetRegistration";
+            int Reg = 0;
+            DataTable dtReg = new DataTable();
+            slParameters.Clear();
+            slParameters.Add("@EventID", Event);
+            slParameters.Add("@CampaignPlayerID", CampaignPlayer);
+            dtReg = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            foreach (DataRow drowreg in dtReg.Rows)
+            {
+                if (int.TryParse(drowreg["RegistrationID"].ToString(), out iTemp))
+                    Reg = iTemp;
+            }
+
             // Call the routine to add the opportunity.  Create it already assigned (last two parameters both = 1)
-            InsUpdCPOpportunity(UserID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1,1);
+            InsUpdCPOpportunity(UserID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1,1, Reg);
 
             // Call the routine to check if CP can be assigned to character and if appropriate assign the CP
             AddPointsToCharacter(Character, CPVal);
@@ -361,7 +437,7 @@ namespace LarpPortal.Classes
         {
             // Call the routine to add the opportunity.  Create it already assigned (last two parameters both = 1)
             InsUpdCPOpportunity(UserID, -1, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, EventID, Description, OpportunityNotes, ExampleURL, ReasonID,
-                StatusID, AddedByID, CPValue, ApprovedByID, ReceiptDate, ReceivedByID, CPAssignmentDate, StaffComments, 1, 1);
+                StatusID, AddedByID, CPValue, ApprovedByID, ReceiptDate, ReceivedByID, CPAssignmentDate, StaffComments, 1, 1, 0);
             // Call the routine to check if CP can be assigned to character and if appropriate assign the CP
             AddPointsToCharacter(CharacterID, CPValue);
             // Call the routine to add the CP to the player CP audit log.  If assigned to character, create it spent otherwise
@@ -410,7 +486,7 @@ namespace LarpPortal.Classes
             }
 
             // Call the routine to add the opportunity.  Create it already assigned (last two parameters both = 1)
-            InsUpdCPOpportunity(PlayerID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1, 1);
+            InsUpdCPOpportunity(PlayerID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1, 1,0);
 
             // Call the routine to check if CP can be assigned to character and if appropriate assign the CP
             AddPointsToCharacter(Character, CPVal);
@@ -486,7 +562,7 @@ namespace LarpPortal.Classes
             // Call the routine to update the opportunity.  Create it already assigned (last two parameters both = 1)
             InsUpdCPOpportunity(UserID, CampaignCPOpportunityID, CampaignPlayerID, CharacterID, CampaignOpportunityDefaultID, 
                 EventID, DescriptionText, OppNotes, URL, ReasonID, 21, UserID, CPVal, UserID, RecptDate, UserID, 
-                DateTime.Now, StaffComments, 1, 1);
+                DateTime.Now, StaffComments, 1, 1, 0);
 
             // Call the routine to check if CP can be assigned to character and if appropriate assign the CP
             AddPointsToCharacter(CharacterID, CPVal);
@@ -503,7 +579,7 @@ namespace LarpPortal.Classes
         public void InsUpdCPOpportunity(int UserID, int OpportunityID, 
             int CampaignPlayer, int Character, int CampaignOppDefault, int Event, string DescriptionText, string OpportunityNotesText,
             string URL, int Reason, int Status, int AddedBy, double CPVal, int ApprovedBy, DateTime RecptDate, int ReceivedBy, 
-            DateTime CPAssignment, string StaffCommentsText, int PLAudit, int CharacterUpdate)
+            DateTime CPAssignment, string StaffCommentsText, int PLAudit, int CharacterUpdate, int Registration)
         {
             string stStoredProc = "uspInsUpdCMCampaignCPOpportunities";
             string stCallingMethod = "cPoints.InsUpdCPOpportunity";
@@ -532,6 +608,7 @@ namespace LarpPortal.Classes
                 slParameters.Add("@StaffComments", StaffCommentsText);
                 slParameters.Add("@PLAudit", PLAudit);
                 slParameters.Add("@CharacterUpdate", CharacterUpdate);
+                slParameters.Add("@RegistrationID", Registration);
                 //cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
                 dtPoints = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
                 int iTemp = 0;
