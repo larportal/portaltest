@@ -71,6 +71,7 @@ namespace LarpPortal.Events
                         SortedList sUpdateEvent = new SortedList();
                         sUpdateEvent.Add("@UserID", Session["UserID"].ToString());
                         sUpdateEvent.Add("@StatusID", dvStatus[0]["StatusID"].ToString());
+                        sUpdateEvent.Add("@EventID", sEventID);         // Added JLB 6/7/2016
                         Classes.cUtilities.PerformNonQuery("uspInsUpdCMEvents", sUpdateEvent, "LARPortal", Session["UserName"].ToString());
                     }
                     break;
