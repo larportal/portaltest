@@ -15,6 +15,7 @@ namespace LarpPortal.PELs
     {
         public bool TextBoxEnabled = true;
         private DataTable _dtPELComments = new DataTable();
+        private DataTable _dtAddendumComments = null;
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
@@ -166,12 +167,15 @@ namespace LarpPortal.PELs
                 rptQuestions.DataSource = dvQuestions;
                 rptQuestions.DataBind();
 
+                if (dsQuestions.Tables[2] != null)
+                    _dtAddendumComments = dsQuestions.Tables[2];
 
                 if (dsQuestions.Tables[1] != null)
                 {
                     DataTable dtNewAddendum = new DataTable();
                     dtNewAddendum.Columns.Add("Title", typeof(string));
                     dtNewAddendum.Columns.Add("Addendum", typeof(string));
+                    dtNewAddendum.Columns.Add("PELsAddendumID", typeof(string));
 
                     DataView dvAddendum = new DataView(dsQuestions.Tables[1], "", "DateAdded desc", DataViewRowState.CurrentRows);
                     foreach (DataRowView dAdd in dvAddendum)
@@ -182,12 +186,14 @@ namespace LarpPortal.PELs
                         if (DateTime.TryParse(dAdd["DateAdded"].ToString(), out dtDate))
                             dNewRow["Title"] += dtDate.ToString("MM/dd/yyyyy hh:mm:ss tt");
                         dNewRow["Addendum"] = dAdd["Addendum"].ToString();
+                        dNewRow["PELsAddendumID"] = dAdd["PELsAddendumID"].ToString();
                         dtNewAddendum.Rows.Add(dNewRow);
                     }
 
                     rptAddendum.DataSource = dtNewAddendum;
                     rptAddendum.DataBind();
-                }
+               }
+
             }
         }
 
@@ -437,7 +443,7 @@ namespace LarpPortal.PELs
                 string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
 
                 DataView dvComments = new DataView(dtComments, "", "DateAdded desc", DataViewRowState.CurrentRows);
-                foreach ( DataRowView dRow in dvComments )
+                foreach (DataRowView dRow in dvComments)
                 {
                     sCommentTable += "<tr><td>";
 
@@ -451,10 +457,177 @@ namespace LarpPortal.PELs
                 sBody += sCommentTable;
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
-//                cEMS.SendMail(sSubject, sBody, "support@larportal.com,jbradshaw@pobox.com", "", "");
+                if ( System.Diagnostics.Debugger.IsAttached )
+                    cEMS.SendMail(sSubject, sBody, "jbradshaw@pobox.com", "", "");
+                else
+                    cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
             }
         }
 
+        protected void rptAddendum_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if ((e.Item.ItemType == ListItemType.Item) || (e.Item.ItemType == ListItemType.AlternatingItem))
+            {
+                DataRowView dr = (DataRowView)DataBinder.GetDataItem(e.Item);
+                string sAnswerID = dr["PELsAddendumID"].ToString();
+
+                //string sAnswerID = e.CommandArgument.ToString();
+                DataList dlComments = e.Item.FindControl("dlStaffComments") as DataList;
+                if (dlComments != null)
+                {
+                    GetAddendumComments(sAnswerID, dlComments);
+                }
+                TextBox tbNewComment = (TextBox)e.Item.FindControl("tbNewStaffCommentAddendum");
+                if (tbNewComment != null)
+                    tbNewComment.Attributes.Add("PlaceHolder", "Enter comment here.");
+            }
+        }
+
+        protected void rptAddendum_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            string i = e.CommandArgument.ToString();
+            if (e.CommandName.ToUpper() == "ENTERCOMMENT")
+            {
+                Panel pnlNewCommentPanel = (Panel)e.Item.FindControl("pnlStaffCommentSection");
+                if (pnlNewCommentPanel != null)
+                {
+                    pnlNewCommentPanel.Visible = true;
+                    Image imgPlayerImage = (Image)e.Item.FindControl("imgStaffCommentProfilePicture");
+                    if (imgPlayerImage != null)
+                    {
+                        string uName = "";
+                        int uID = 0;
+
+                        if (Session["Username"] != null)
+                            uName = Session["Username"].ToString();
+                        if (Session["UserID"] != null)
+                            int.TryParse(Session["UserID"].ToString(), out uID);
+
+                        Classes.cPlayer PLDemography = new Classes.cPlayer(uID, uName);
+                        string pict = PLDemography.UserPhoto;
+                        imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
+                        imgPlayerImage.ImageUrl = pict;
+                    }
+
+                    Button btnAddComment = (Button)e.Item.FindControl("btnAddStaffComment");
+                    if (btnAddComment != null)
+                        btnAddComment.Visible = false;
+                }
+            }
+            else if (e.CommandName.ToUpper() == "ADDCOMMENT")
+            {
+                int iAnswerID;
+                if (int.TryParse(e.CommandArgument.ToString(), out iAnswerID))
+                {
+                    TextBox tbNewComment = (TextBox)e.Item.FindControl("tbNewStaffCommentAddendum");
+                    if (tbNewComment != null)
+                    {
+                        if (tbNewComment.Text.Length > 0)
+                        {
+                            SortedList sParams = new SortedList();
+                            sParams.Add("@UserID", Session["UserID"]);
+                            sParams.Add("@PELsAddendumsStaffCommentID", "-1");
+                            sParams.Add("@PELsAddendumID", iAnswerID);
+                            sParams.Add("@CommenterID", Session["UserID"]);
+                            sParams.Add("@StaffComments", tbNewComment.Text.Trim());
+
+                            MethodBase lmth = MethodBase.GetCurrentMethod();
+                            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+                            DataTable dtAddResponse = Classes.cUtilities.LoadDataTable("uspInsUpdCMPELsAddendumsStaffComments", sParams, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
+
+                            SortedList sParamsForComments = new SortedList();
+                            sParamsForComments.Add("@PELID", hidPELID.Value);
+                            _dtAddendumComments = Classes.cUtilities.LoadDataTable("uspGetAddendumsStaffComments", sParamsForComments, "LARPortal", Session["UserName"].ToString(),
+                                "PELApprove.Page_PreRender");
+
+                            DataList dlComments = e.Item.FindControl("dlStaffComments") as DataList;
+                            GetAddendumComments(iAnswerID.ToString(), dlComments);
+                            SendStaffAddendumCommentEMail(_dtAddendumComments);
+                        }
+                    }
+                    Panel pnlCommentSection = (Panel)e.Item.FindControl("pnlStaffCommentSection");
+                    if (pnlCommentSection != null)
+                        pnlCommentSection.Visible = false;
+                    Button btnAddComment = (Button)e.Item.FindControl("btnAddStaffComment");
+                    if (btnAddComment != null)
+                        btnAddComment.Visible = true;
+                }
+            }
+            else if (e.CommandName.ToUpper() == "CANCELCOMMENT")
+            {
+                Panel pnlCommentSection = (Panel)e.Item.FindControl("pnlStaffCommentSection");
+                if (pnlCommentSection != null)
+                    pnlCommentSection.Visible = false;
+                Button btnAddComment = (Button)e.Item.FindControl("btnAddStaffComment");
+                if (btnAddComment != null)
+                    btnAddComment.Visible = true;
+            }
+        }
+
+        protected void GetAddendumComments(string sPELsAddendum, DataList dlComments)
+        {
+            if (_dtAddendumComments != null)
+            {
+                foreach (DataRow dRow in _dtAddendumComments.Rows)
+                {
+                    string sProfileFileName = HttpContext.Current.Request.PhysicalApplicationPath + dRow["UserPhoto"].ToString();
+                    sProfileFileName = sProfileFileName.Replace("~/img/Player/", "img\\Player\\");
+                    if (!File.Exists(sProfileFileName))
+                        dRow["UserPhoto"] = "/img/BlankProfile.png";
+                }
+
+                DataView dvComments = new DataView(_dtAddendumComments, "PELsAddendumID = '" + sPELsAddendum + "'", "DateAdded desc", DataViewRowState.CurrentRows);
+                dlComments.DataSource = dvComments;
+                dlComments.DataBind();
+            }
+        }
+
+
+
+
+
+        protected void SendStaffAddendumCommentEMail(DataTable dtComments)
+        {
+            if (hidPELNotificationEMail.Value.Length > 0)
+            {
+                string sEventDate = "";
+                DateTime dtTemp;
+                if (DateTime.TryParse(hidEventDate.Value, out dtTemp))
+                    sEventDate = " that took place on " + dtTemp.ToShortDateString();
+
+                string sSubject = Session["UserName"].ToString() + " has added a comment to a PEL Addendum.";
+                string sBody = Session["UserName"].ToString() + " has added a comment to a PEL Addendum for " + hidPlayerName.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
+
+                string AddendumText = "";
+                string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
+
+                DataView dvComments = new DataView(dtComments, "", "DateAdded desc", DataViewRowState.CurrentRows);
+                foreach (DataRowView dRow in dvComments)
+                {
+                    AddendumText = dRow["Addendum"].ToString();
+
+                    sCommentTable += "<tr><td>";
+
+                    if (DateTime.TryParse(dRow["DateAdded"].ToString(), out dtTemp))
+                        sCommentTable += dtTemp.ToShortDateString();
+
+                    sCommentTable += "</td><td>" + dRow["UserName"].ToString() + "</td><td>" + dRow["StaffComments"].ToString() + "</td></tr>";
+                }
+
+                sCommentTable += "</table>";
+
+                sBody += "The original addendum was:<br>" + AddendumText.Replace("\n", "<br>") + "<br><br>";
+                sBody += "The comments for the addendum are newest first:<br><br>";
+                
+                sBody += sCommentTable;
+
+                Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+                if ( System.Diagnostics.Debugger.IsAttached )
+                    cEMS.SendMail(sSubject, sBody, "jeffrey.bradshaw@quixeltech.com", "", "");
+                else
+                    cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
+            }
+        }
     }
 }
