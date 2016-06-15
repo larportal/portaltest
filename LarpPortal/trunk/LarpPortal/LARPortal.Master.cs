@@ -54,6 +54,23 @@ namespace LarpPortal
                         }
                     }  
                 }
+                // Check page security
+                // Check request.rawurl against cURLPermission
+                // Go get all roles for that campaign and load them into a session variable
+                int UserID = Convert.ToInt32(Session["UserID"]);
+                int CampaignID = Convert.ToInt32(Session["CampaignID"]);
+                Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
+                Roles.Load(UserID, 0, CampaignID, DateTime.Today);
+                Session["PlayerRoleString"] = Roles.PlayerRoleString;
+                Classes.cURLPermission permissions = new Classes.cURLPermission();
+                bool PagePermission = true;
+                string DefaultUnauthorizedURL = "";
+                permissions.GetURLPermissions(Request.RawUrl, UserID, Roles.PlayerRoleString);
+                PagePermission = permissions._PagePermission;
+                DefaultUnauthorizedURL = permissions._DefaultUnauthorizedURL;
+                if (PagePermission == false)
+                    Response.Redirect(DefaultUnauthorizedURL);
+                // End permission check
             }
             // Uncomment this if trying to run the page without going through the index.aspx page
             //Session["SecurityRole"] = 0;
@@ -83,6 +100,11 @@ namespace LarpPortal
                 Session["PageFooter"] = " ";
             }
             lblPageFooter.Text = Session["PageFooter"].ToString();
+        }
+
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+
         }
 
         public void LoadMainLinks()

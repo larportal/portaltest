@@ -818,6 +818,7 @@
     <Compile Include="Classes\cSkillPool.cs" />
     <Compile Include="Classes\cTransaction.cs" />
     <Compile Include="Classes\cTransactions.cs" />
+    <Compile Include="Classes\cURLPermission.cs" />
     <Compile Include="Classes\cUser.cs" />
     <Compile Include="Classes\cUserCampaign.cs" />
     <Compile Include="Classes\cUserCharacter.cs" />
