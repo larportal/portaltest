@@ -752,7 +752,7 @@ namespace LarpPortal.Events
 
         protected void InsertCPOpportunity()
         {
-            int RoleAlignment = 1;
+            int RoleAlignment;
             int iCampaignID = 0;
             int uID = 0;
             int iCharacterID = 0;
@@ -767,6 +767,7 @@ namespace LarpPortal.Events
             int.TryParse(ddlEventDate.SelectedValue.ToString(), out iEventID);
             sEventName = lblEventName.Text;
             DateTime.TryParse(lblEventStartDate.Text.ToString(), out dEventDate);
+            RoleAlignment = 1;
             switch (ddlRoles.SelectedValue)
             {
                 case "NPC":
@@ -776,7 +777,6 @@ namespace LarpPortal.Events
                     RoleAlignment = 3;
                     break;
                 default:
-                    RoleAlignment = 1;
                     break;
             }
 

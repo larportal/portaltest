@@ -89,7 +89,16 @@ namespace LarpPortal
             Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
             Roles.Load(intUserID, 0, ddlUserCampaigns.SelectedItem.Value.ToInt32(), DateTime.Today);
             Session["PlayerRoleString"] = Roles.PlayerRoleString;
-            Response.Redirect(Request.RawUrl);
+            Classes.cURLPermission permissions = new Classes.cURLPermission();
+            bool PagePermission = true;
+            string DefaultUnauthorizedURL = "";
+            permissions.GetURLPermissions(Request.RawUrl, intUserID, Roles.PlayerRoleString);
+            PagePermission = permissions._PagePermission;
+            DefaultUnauthorizedURL = permissions._DefaultUnauthorizedURL;
+            if (PagePermission == true)
+                Response.Redirect(Request.RawUrl);
+            else
+                Response.Redirect(DefaultUnauthorizedURL);
         }
     }
 }
