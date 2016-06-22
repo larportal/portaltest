@@ -266,7 +266,7 @@ namespace LarpPortal.Events
                 sParams.Add("@EventID", ddlEvent.SelectedValue);
                 Classes.cUtilities.PerformNonQuery("uspEventApproveAllReg", sParams, "LARPortal", Session["UserName"].ToString());
             }
-            catch (Exception ex)
+            catch
             {
             }
         }
