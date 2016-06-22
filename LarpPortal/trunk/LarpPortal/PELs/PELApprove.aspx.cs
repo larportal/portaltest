@@ -457,9 +457,9 @@ namespace LarpPortal.PELs
                 sBody += sCommentTable;
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                if ( System.Diagnostics.Debugger.IsAttached )
-                    cEMS.SendMail(sSubject, sBody, "jbradshaw@pobox.com", "", "");
-                else
+                //if ( System.Diagnostics.Debugger.IsAttached )
+                //    cEMS.SendMail(sSubject, sBody, "jbradshaw@pobox.com", "", "");
+                //else
                     cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
             }
         }
@@ -623,9 +623,9 @@ namespace LarpPortal.PELs
                 sBody += sCommentTable;
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                if ( System.Diagnostics.Debugger.IsAttached )
-                    cEMS.SendMail(sSubject, sBody, "jeffrey.bradshaw@quixeltech.com", "", "");
-                else
+                //if ( System.Diagnostics.Debugger.IsAttached )
+                //    cEMS.SendMail(sSubject, sBody, "jeffrey.bradshaw@quixeltech.com", "", "");
+                //else
                     cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
             }
         }
