@@ -256,6 +256,24 @@ namespace LarpPortal.Classes
             }
         }
 
+        public void DeleteRegistrationCPOpportunity (int UserID, int RegistrationID)
+        {
+            string stStoredProc = "uspDelCMCampaignCPOpportunitiesByRegistrationID";
+            //string stCallingMethod = "cPoints.DeleteRegistrationCPOpportunity";
+
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@RecordID", RegistrationID);
+            slParameters.Add("@UserID", UserID);
+            try
+            {
+                cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
+            }
+            catch
+            {
+
+            }
+        }
+
         /// <summary>
         /// This will create a CPOpportunity associated with a registration
         /// </summary>
