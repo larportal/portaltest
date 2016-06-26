@@ -239,12 +239,12 @@ namespace LarpPortal.Classes
         /// This will "delete" a CP Opportunity
         /// Must pass a CPOpportunityID and UserID
         /// </summary>
-        public void DeleteCPOpportunity(int UserID, int OpportunityID)
+        public void DeleteCPOpportunity(int UserID, int RegistrationID)
         {
             string stStoredProc = "uspDelCMCampaignCPOpportunities";
             //string stCallingMethod = "cPoints.DeleteCPOpportunity";
             SortedList slParameters = new SortedList();
-            slParameters.Add("@RecordID", OpportunityID);
+            slParameters.Add("@RecordID", RegistrationID);
             slParameters.Add("@UserID", UserID);
             try
             {
