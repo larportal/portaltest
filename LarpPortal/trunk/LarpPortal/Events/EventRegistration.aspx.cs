@@ -553,6 +553,15 @@ namespace LarpPortal.Events
             if (hidRegistrationID.Value == "-1")
                 bNewRegistration = true;
 
+            int iRegistrationID = 0;
+            int.TryParse(hidRegistrationID.Value, out iRegistrationID);
+            int iRoleAlignment = 0;
+            int.TryParse(ddlRoles.SelectedValue, out iRoleAlignment);
+            int iEventID = 0;
+            int.TryParse(ddlEventDate.SelectedValue, out iEventID);
+            int iCharacterID = 0;
+            int.TryParse(ddlCharacterList.SelectedValue, out iCharacterID);
+
             SortedList sParam = new SortedList();
             sParam.Add("@RegistrationID", hidRegistrationID.Value);
             sParam.Add("@UserID", Session["UserID"].ToString());
@@ -621,8 +630,10 @@ namespace LarpPortal.Events
                 }
             }
 
+            bool bFullEvent = true;
             if (ddlFullEvent.SelectedValue == "N")
             {
+                bFullEvent = false;
                 sParam.Add("@PartialEvent", true);
                 DateTime dtTemp;
                 if (DateTime.TryParse(tbArriveDate.Text, out dtTemp))
@@ -643,20 +654,23 @@ namespace LarpPortal.Events
                 }
             }
             else
+            {
                 sParam.Add("@PartialEvent", false);
+                bFullEvent = true;
+            }
 
             try
             {
                 MethodBase lmth = MethodBase.GetCurrentMethod();
                 string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-                InsertCPOpportunity();
                 DataTable dtUser = Classes.cUtilities.LoadDataTable("uspRegisterForEvent", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
 
                 foreach (DataRow dRegRecord in dtUser.Rows)
                 {
-                    // Insert CP Opportunity
-                    InsertCPOpportunity();
-                    // End CP Opportunity
+                    iRegistrationID = 0;
+                    int.TryParse(dRegRecord["RegistrationID"].ToString(), out iRegistrationID);
+                    InsertCPOpportunity(iRoleAlignment, iCharacterID, iEventID, iRegistrationID, bFullEvent);
+
                     SortedList sParamsClearMeals = new SortedList();
                     sParamsClearMeals.Add("@RegistrationID", dRegRecord["RegistrationID"].ToString());
                     Classes.cUtilities.PerformNonQuery("uspClearRegistrationMeals", sParamsClearMeals, "LARPortal", Session["UserName"].ToString());
@@ -750,43 +764,39 @@ namespace LarpPortal.Events
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeModal();", true);
         }
 
-        protected void InsertCPOpportunity()
+        protected void InsertCPOpportunity(int RoleAlignment, int iCharacterID, int iEventID, int iRegistrationID, bool bFullEvent)
         {
-            int RoleAlignment;
             int iCampaignID = 0;
-            int uID = 0;
-            int iCharacterID = 0;
-            int iEventID = 0;
-            string sEventName;
-            DateTime dEventDate;
+            int iUserID = 0;
             if (Session["UserID"] != null)
-                int.TryParse(Session["UserID"].ToString(), out uID);
+                int.TryParse(Session["UserID"].ToString(), out iUserID);
             if (Session["CampaignID"] != null)
                 int.TryParse(Session["CampaignID"].ToString(), out iCampaignID);
-            int.TryParse(ddlCharacterList.SelectedValue.ToString(), out iCharacterID);
-            int.TryParse(ddlEventDate.SelectedValue.ToString(), out iEventID);
-            sEventName = lblEventName.Text;
-            DateTime.TryParse(lblEventStartDate.Text.ToString(), out dEventDate);
-            RoleAlignment = 1;
-            switch (ddlRoles.SelectedValue)
+
+            int iReasonID = 0;
+            switch (ddlRoles.SelectedItem.Text)
             {
+                case "PC":
+                    if (bFullEvent)
+                        iReasonID = 3;
+                    else
+                        iReasonID = 8;
+                    break;
                 case "NPC":
-                    RoleAlignment = 2;
+                    if (bFullEvent)
+                        iReasonID = 1;
+                    else
+                        iReasonID = 7;
                     break;
                 case "Staff":
-                    RoleAlignment = 3;
+                    RoleAlignment = 12;
                     break;
                 default:
                     break;
             }
 
-            Classes.cPointOpportunities opp = new Classes.cPointOpportunities();
-            //Create Attendance opportunity - uncomment next line
-            opp.CreateAttendanceOpportunity(RoleAlignment, uID, iCharacterID, iEventID, iCampaignID, sEventName, lblEventDescription.Text, dEventDate);
-            //Create Setup/Cleanup opportunity - uncomment next line and finish parameters
-            //opp.CreateCleanupOpportunity();
-
+            Classes.cPoints cPoints = new Classes.cPoints();
+            cPoints.CreateRegistrationCPOpportunity(iUserID, iCampaignID, RoleAlignment, iCharacterID, iReasonID, iEventID, iRegistrationID);
         }
-
     }
 }
