@@ -182,21 +182,6 @@ namespace LarpPortal.PELs
             }
         }
 
-        //protected void ProcessButton(object sender, CommandEventArgs e)
-        //{
-        //    SortedList sParams = new SortedList();
-
-        //    sParams.Add("@PELsAddendumID", "-1");
-        //    sParams.Add("@PELID", hidPELID.Value);
-        //    sParams.Add("@Addendum", tbAddendum.Text.Replace("\n", "<br>"));
-
-        //    Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELsAddendums", sParams, "LARPortal", Session["UserName"].ToString());
-
-        //    Session["UpdatePELMessage"] = "Your addendum has been added to your PEL.";
- 
-        //    Response.Redirect("PELList.aspx", true);
-        //}
-
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             Response.Redirect("PELList.aspx", true);
@@ -207,7 +192,7 @@ namespace LarpPortal.PELs
 
         }
 
-        protected void SendStaffCommentEMail(DataTable dtComments)
+        protected void SendStaffCommentEMail(string AddendumText)
         {
             if (hidPELNotificationEMail.Value.Length > 0)
             {
@@ -216,27 +201,12 @@ namespace LarpPortal.PELs
                 if (DateTime.TryParse(hidEventDate.Value, out dtTemp))
                     sEventDate = " that took place on " + dtTemp.ToShortDateString();
 
-                string sSubject = Session["UserName"].ToString() + " has added a comment to a PEL.";
-                string sBody = Session["UserName"].ToString() + " has added a comment to a PEL for " + hidPlayerName.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
-
-                string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
-
-                DataView dvComments = new DataView(dtComments, "", "DateAdded desc", DataViewRowState.CurrentRows);
-                foreach (DataRowView dRow in dvComments)
-                {
-                    sCommentTable += "<tr><td>";
-
-                    if (DateTime.TryParse(dRow["DateAdded"].ToString(), out dtTemp))
-                        sCommentTable += dtTemp.ToShortDateString();
-
-                    sCommentTable += "</td><td>" + dRow["UserName"].ToString() + "</td><td>" + dRow["StaffComments"].ToString() + "</td></tr>";
-                }
-
-                sCommentTable += "</table>";
-                sBody += sCommentTable;
+                string sSubject = Session["UserName"].ToString() + " has added an addendum to a PEL.";
+                string sBody = Session["UserName"].ToString() + " has added an addendum to a PEL for the event " + hidEventDesc.Value + sEventDate + "<br><br>" +
+                    AddendumText.Replace(Environment.NewLine, "<br>");
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
+                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com");
             }
         }
 
@@ -252,6 +222,8 @@ namespace LarpPortal.PELs
             sParams.Add("@Addendum", tbAddendum.Text);
 
             Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELsAddendums", sParams, "LARPortal", Session["UserName"].ToString());
+
+            SendStaffCommentEMail(tbAddendum.Text);
 
             Session["UpdatePELMessage"] = "Your addendum has been added to your PEL.";
 
