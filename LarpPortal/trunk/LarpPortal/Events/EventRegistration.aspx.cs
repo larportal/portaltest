@@ -782,7 +782,7 @@ namespace LarpPortal.Events
 
             Classes.cPointOpportunities opp = new Classes.cPointOpportunities();
             //Create Attendance opportunity - uncomment next line
-            //opp.CreateAttendanceOpportunity(RoleAlignment, uID, iCharacterID, iEventID, iCampaignID, sEventName, lblEventDescription.Text, dEventDate);
+            opp.CreateAttendanceOpportunity(RoleAlignment, uID, iCharacterID, iEventID, iCampaignID, sEventName, lblEventDescription.Text, dEventDate);
             //Create Setup/Cleanup opportunity - uncomment next line and finish parameters
             //opp.CreateCleanupOpportunity();
 
