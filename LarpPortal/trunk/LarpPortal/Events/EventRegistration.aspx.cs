@@ -796,6 +796,7 @@ namespace LarpPortal.Events
             }
 
             Classes.cPoints cPoints = new Classes.cPoints();
+            cPoints.DeleteRegistrationCPOpportunity(iUserID, iRegistrationID);
             cPoints.CreateRegistrationCPOpportunity(iUserID, iCampaignID, RoleAlignment, iCharacterID, iReasonID, iEventID, iRegistrationID);
         }
     }
