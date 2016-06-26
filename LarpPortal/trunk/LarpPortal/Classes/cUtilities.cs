@@ -15,16 +15,10 @@ using Excel;
 
 // General comment: 7/19/2015 JBradshaw changed so if the routines that get a datatable/dataset get an error, it re-throws the error
 //                            so the calling routine knows that the call failed.
-
-
+//                  6/24/2016 JBradshaw Added WriteSQLAuditRecord.
 
 namespace LarpPortal.Classes
 {
-    //public enum RecordStatuses
-    //{
-    //    Active,
-    //    Delete
-    //};
     [Serializable()]
     public class cUtilities
     {
@@ -90,6 +84,7 @@ namespace LarpPortal.Classes
                 {
                     lconn.Open();
                     ldsa.Fill(ldt);
+                    WriteSQLAuditRecord(lconn, strStoredProc, slParameters, strUserName, strCallingMethod);
                 }
                 catch (SqlException exSQL)
                 {
@@ -127,8 +122,6 @@ namespace LarpPortal.Classes
                 dsUnUpdated = iExcelDataReader.AsDataSet();
 
                 iExcelDataReader.Close();
-
-
             }
             catch (Exception ex)
             {
@@ -175,6 +168,7 @@ namespace LarpPortal.Classes
             {
                 lconn.Open();
                 ldsa.Fill(ldt);
+                WriteSQLAuditRecord(lconn, strStoredProc, slParameters, strUserName, strCallingMethod);
                 if (ldt.Rows.Count > 0)
                 {
                     strReturn = ldt.Rows[0][strReturnValue].ToString().Trim();
@@ -222,6 +216,7 @@ namespace LarpPortal.Classes
             {
                 lconn.Open();
                 lcmd.ExecuteNonQuery();
+                WriteSQLAuditRecord(lconn, strStoredProc, slParameters, strUserName, "");
             }
             catch (SqlException exSQL)
             {
@@ -263,6 +258,7 @@ namespace LarpPortal.Classes
             {
                 lconn.Open();
                 lcmd.ExecuteNonQuery();
+                WriteSQLAuditRecord(lconn, strStoredProc, slParameters, strUserName, "");
                 blnReturn = true;
             }
             catch (SqlException exSQL)
@@ -341,7 +337,7 @@ namespace LarpPortal.Classes
                     ddlList.DataTextField = strTextValue;
                     ddlList.DataValueField = strDataValue;
                     ddlList.DataBind();
-                }
+               }
             }
             catch (Exception ex)
             {
@@ -407,6 +403,8 @@ namespace LarpPortal.Classes
                 Boolean blnCanConvert = false;
                 lconn.Open();
                 ldsa.Fill(ldt);
+                WriteSQLAuditRecord(lconn, strStoredProc, slParameters, strUserName, strCallingMethod);
+
                 if (ldt.Rows.Count > 0)
                 {
                     strReturn = ldt.Rows[0][strReturnValue].ToString().Trim();
@@ -532,84 +530,81 @@ namespace LarpPortal.Classes
         }
 
 
-        public static string replaceUNCPath(string strPath)
-        {
-            string strReturn = strPath.ToUpper();
-            string strSharesPath = ReturnDefaultValue("SharesPath", "");
-            if (strReturn.IndexOf("TMC-ERPDPLY-1", StringComparison.CurrentCulture) > -1)
-            {
-                strReturn = @"/ECSMT/HTMLUPload/";
-            }
-            else
-            {
-                strReturn = strReturn.ToUpper().Replace(@"\\TMC-OFFICE-6\SHARES\", "/");
-                strReturn = strReturn.ToUpper().Replace(@"\\\\TMC-OFFICE-6\\SHARES\\", "/");
-                strReturn = strReturn.Replace(@"\", @"/");
-            }
-            return strReturn;
-        }
+        //public static string replaceUNCPath(string strPath)
+        //{
+        //    string strReturn = strPath.ToUpper();
+        //    string strSharesPath = ReturnDefaultValue("SharesPath", "");
+        //    if (strReturn.IndexOf("TMC-ERPDPLY-1", StringComparison.CurrentCulture) > -1)
+        //    {
+        //        strReturn = @"/ECSMT/HTMLUPload/";
+        //    }
+        //    else
+        //    {
+        //        strReturn = strReturn.ToUpper().Replace(@"\\TMC-OFFICE-6\SHARES\", "/");
+        //        strReturn = strReturn.ToUpper().Replace(@"\\\\TMC-OFFICE-6\\SHARES\\", "/");
+        //        strReturn = strReturn.Replace(@"\", @"/");
+        //    }
+        //    return strReturn;
+        //}
 
-        public static string ReturnDefaultValue(string strValue, string strUserName)
-        {
-            MethodBase lmth = MethodBase.GetCurrentMethod();
-            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            SqlConnection lconn = new SqlConnection(ConfigurationManager.ConnectionStrings["MarlinCommon"].ConnectionString);
-            SqlCommand lcmd = new SqlCommand();
-            lcmd.CommandText = "uspGetDefaultValues";
-            lcmd.CommandType = CommandType.StoredProcedure;
-            lcmd.CommandTimeout = 0;
-            lcmd.Connection = lconn;
-            lcmd.Parameters.Add(new SqlParameter("@strDefaultCode", strValue));
-            SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
-            DataTable ldt = new DataTable();
-            String strReturn = "";
-            try
-            {
-                lconn.Open();
-                ldsa.Fill(ldt);
-                if (ldt.Rows.Count > 0)
-                {
-                    strReturn = ldt.Rows[0]["DefaultValue"].ToString().Trim();
-                }
-            }
-            catch (SqlException exSQL)
-            {
-                ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(exSQL, lsRoutineName, lcmd, strUserName + lsRoutineName);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, strUserName + lsRoutineName);
-                throw;
-            }
-            finally
-            {
-                lconn.Close();
-            }
+        //public static string ReturnDefaultValue(string strValue, string strUserName)
+        //{
+        //    MethodBase lmth = MethodBase.GetCurrentMethod();
+        //    string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+        //    SqlConnection lconn = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString);
+        //    SqlCommand lcmd = new SqlCommand();
+        //    lcmd.CommandText = "uspGetDefaultValues";
+        //    lcmd.CommandType = CommandType.StoredProcedure;
+        //    lcmd.CommandTimeout = 0;
+        //    lcmd.Connection = lconn;
+        //    lcmd.Parameters.Add(new SqlParameter("@strDefaultCode", strValue));
+        //    SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
+        //    DataTable ldt = new DataTable();
+        //    String strReturn = "";
+        //    try
+        //    {
+        //        lconn.Open();
+        //        ldsa.Fill(ldt);
+        //        if (ldt.Rows.Count > 0)
+        //        {
+        //            strReturn = ldt.Rows[0]["DefaultValue"].ToString().Trim();
+        //        }
+        //    }
+        //    catch (SqlException exSQL)
+        //    {
+        //        ErrorAtServer lobjError = new ErrorAtServer();
+        //        lobjError.ProcessError(exSQL, lsRoutineName, lcmd, strUserName + lsRoutineName);
+        //        throw;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ErrorAtServer lobjError = new ErrorAtServer();
+        //        lobjError.ProcessError(ex, lsRoutineName, strUserName + lsRoutineName);
+        //        throw;
+        //    }
+        //    finally
+        //    {
+        //        lconn.Close();
+        //    }
+        //    return strReturn;
+        //}
 
-            return strReturn;
-
-
-        }
-
-        public static string replaceUNCPathForOrderEntry(string strPath)
-        {
-            string strReturn = strPath.ToUpper();
-            string strSharesPath = ReturnDefaultValue("SharesPath", "");
-            if (strReturn.IndexOf("TMC-ERPDPLY-1", StringComparison.CurrentCulture) > -1)
-            {
-                strReturn = @"/ECSMT/HTMLUPload/";
-            }
-            else
-            {
-                strReturn = strReturn.ToUpper().Replace(@"\\TMC-OFFICE-6\SHARES\ORDERENTRY\", "/");
-                strReturn = strReturn.ToUpper().Replace(@"\\\\TMC-OFFICE-6\\SHARES\\ORDERENTRY\\", "/");
-                strReturn = strReturn.Replace(@"\", @"/");
-            }
-            return strReturn;
-        }
+        //public static string replaceUNCPathForOrderEntry(string strPath)
+        //{
+        //    string strReturn = strPath.ToUpper();
+        //    string strSharesPath = ReturnDefaultValue("SharesPath", "");
+        //    if (strReturn.IndexOf("TMC-ERPDPLY-1", StringComparison.CurrentCulture) > -1)
+        //    {
+        //        strReturn = @"/ECSMT/HTMLUPload/";
+        //    }
+        //    else
+        //    {
+        //        strReturn = strReturn.ToUpper().Replace(@"\\TMC-OFFICE-6\SHARES\ORDERENTRY\", "/");
+        //        strReturn = strReturn.ToUpper().Replace(@"\\\\TMC-OFFICE-6\\SHARES\\ORDERENTRY\\", "/");
+        //        strReturn = strReturn.Replace(@"\", @"/");
+        //    }
+        //    return strReturn;
+        //}
 
         public static Int16 ReplaceBooleanWithBit(Boolean blnValue)
         {
@@ -731,35 +726,44 @@ namespace LarpPortal.Classes
             return lds;
         }
 
-        //public static DataTable CreateDataTable<T>(IEnumerable<T> list)
-        //{
-        //    Type type = typeof(T);
-        //    var properties = type.GetProperties();
+        /// <summary>
+        /// Writes out an audit record of SQL that is performed.
+        /// </summary>
+        /// <param name="sConn">Open SQL connection.</param>
+        /// <param name="strStoredProc">SP or Text that was run.</param>
+        /// <param name="slParameters">Parameters that were passed in</param>
+        /// <param name="strUserName">User Name</param>
+        /// <param name="strCallingMethod">Where was this called from.</param>
+        public static void WriteSQLAuditRecord(SqlConnection sConn, string strStoredProc, SortedList slParameters, string strUserName, string strCallingMethod)
+        {
+            try
+            {
+                if (sConn.State != ConnectionState.Open)
+                    sConn.Open();
 
-        //    DataTable dataTable = new DataTable();
-        //    foreach (PropertyInfo info in properties)
-        //    {
-        //        if (info.PropertyType == typeof(Classes.RecordStatuses))
-        //            dataTable.Columns.Add(new DataColumn(info.Name, typeof(string)));
-        //        else
-        //            dataTable.Columns.Add(new DataColumn(info.Name, info.PropertyType));
-        //    }
+                using (SqlCommand CmduspInsSQLAudit = new SqlCommand("uspInsSQLAudit", sConn))
+                {
+                    CmduspInsSQLAudit.CommandType = CommandType.StoredProcedure;
+                    CmduspInsSQLAudit.Parameters.AddWithValue("@SQLStmt", strStoredProc);
+                    CmduspInsSQLAudit.Parameters.AddWithValue("@CallingUser", strUserName);
+                    CmduspInsSQLAudit.Parameters.AddWithValue("@CallingMethod", strCallingMethod);
 
-        //    foreach (T entity in list)
-        //    {
-        //        object[] values = new object[properties.Length];
-        //        for (int i = 0; i < properties.Length; i++)
-        //        {
-        //            if ( properties[i].PropertyType == typeof(Classes.RecordStatuses))
-        //                values[i] = properties[i].GetValue(entity).ToString();
-        //            else
-        //                values[i] = properties[i].GetValue(entity);
-        //        }
+                    CmduspInsSQLAudit.ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                // Not much to do so keep going.
+            }
+        }
 
-        //        dataTable.Rows.Add(values);
-        //    }
-
-        //    return dataTable;
-        //}
+        public static void WriteSQLAuditRecord(string strStoredProc, SortedList slParameters, string strLConn, string strUserName, string strCallingMethod)
+        {
+            using (SqlConnection conn = new SqlConnection(strLConn))
+            {
+                conn.Open();
+                WriteSQLAuditRecord(conn, strStoredProc, slParameters, strUserName, strCallingMethod);
+            }
+        }
     }
 }
