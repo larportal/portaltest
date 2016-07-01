@@ -206,7 +206,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@UserID", _UserID);
                 slParams.Add("@SiteID",_SiteID);
                 slParams.Add("@SiteName", _SiteName);
-                slParams.Add("@AddressID", _SiteAddress.IntAddressID);
+                slParams.Add("@AddressID", _SiteAddress.AddressID);
                 slParams.Add("@PhoneID", _SitePhone.PhoneNumberID);
                 slParams.Add("@URL", _URL);
                 slParams.Add("@SiteMapURL", _SiteMapURL);

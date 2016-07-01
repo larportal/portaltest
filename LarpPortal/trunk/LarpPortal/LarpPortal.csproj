@@ -240,6 +240,8 @@
     <Content Include="img\Unchecked-Checkbox-icon.png" />
     <Content Include="Madrigal.aspx" />
     <Content Include="PELs\PELAddAddendum.aspx" />
+    <Content Include="Profile\Demographics.aspx" />
+    <Content Include="Profile\Security.aspx" />
     <Content Include="Reports\CharacterSkillStats.aspx" />
     <Content Include="Reports\CheckIn.aspx" />
     <Content Include="Reports\PELDisplay.aspx" />
@@ -375,7 +377,6 @@
     <Content Include="LARPResume.aspx" />
     <Content Include="LearnMore.aspx" />
     <Content Include="Medical.aspx" />
-    <Content Include="MemberDemographics.aspx" />
     <Content Include="MemberPointsView.aspx" />
     <Content Include="NewUserLoginDirections.aspx" />
     <Content Include="NightlyUpdates.aspx" />
@@ -435,6 +436,7 @@
     <Content Include="Character\Character.Master" />
     <Content Include="WhatsNew.aspx" />
     <Content Include="WhatsNewDetail.aspx" />
+    <Content Include="Profile\Profile.Master" />
     <None Include="Properties\PublishProfiles\LARPortal.pubxml" />
     <Content Include="Reports\Reporting.master" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -891,6 +893,27 @@
     <Compile Include="PELs\PELAddAddendum.aspx.designer.cs">
       <DependentUpon>PELAddAddendum.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Profile\Demographics.aspx.cs">
+      <DependentUpon>Demographics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\Demographics.aspx.designer.cs">
+      <DependentUpon>Demographics.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\Security.aspx.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\Security.aspx.designer.cs">
+      <DependentUpon>Security.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\Profile.Master.cs">
+      <DependentUpon>Profile.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\Profile.Master.designer.cs">
+      <DependentUpon>Profile.Master</DependentUpon>
+    </Compile>
     <Compile Include="Reports\CharacterSkillStats.aspx.cs">
       <DependentUpon>CharacterSkillStats.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1149,13 +1172,6 @@
     </Compile>
     <Compile Include="MemberCampaignsAdmin.master.designer.cs">
       <DependentUpon>MemberCampaignsAdmin.master</DependentUpon>
-    </Compile>
-    <Compile Include="MemberDemographics.aspx.cs">
-      <DependentUpon>MemberDemographics.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="MemberDemographics.aspx.designer.cs">
-      <DependentUpon>MemberDemographics.aspx</DependentUpon>
     </Compile>
     <Compile Include="MemberMessages.master.cs">
       <DependentUpon>MemberMessages.master</DependentUpon>
