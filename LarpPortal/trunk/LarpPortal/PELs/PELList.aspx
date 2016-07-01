@@ -6,9 +6,9 @@
             <div class="col-sm-6">
                 <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="PEL (Post Event Letter)" />
             </div>
-            <div class="col-sm-6 text-right">
+<%--            <div class="col-sm-6 text-right">
                 <a href="#myModal" role="button" class="StandardButton col-sm-3" data-toggle="modal">Missing Event ?</a>
-            </div>
+            </div>--%>
         </div>
         <div class="row" style="padding-left: 15px;">
             <asp:Label ID="lblCharInfo" runat="server" />
