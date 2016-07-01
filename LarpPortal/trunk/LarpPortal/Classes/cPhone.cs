@@ -12,9 +12,16 @@ using System.Text.RegularExpressions;
 
 namespace LarpPortal.Classes
 {
+    [Serializable]
+    public class cPhoneType
+    {
+        public int PhoneTypeID { get; set; }
+        public string PhoneType { get; set; }
+    }
+
+    [Serializable()]
     public class cPhone
     {
-
         private Int32 _UserID = -1;
         private Int32 _PhoneNumberID = -1;
         private Int32 _PhoneTypeID = -1;
@@ -32,6 +39,7 @@ namespace LarpPortal.Classes
         public Int32 PhoneNumberID
         {
             get { return _PhoneNumberID; }
+            set { _PhoneNumberID = value; }
         }
         public Int32 PhoneTypeID
         {
@@ -39,10 +47,19 @@ namespace LarpPortal.Classes
             set
             {
                 _PhoneTypeID = value;
-                GetPhoneTypeDescription();
             }
-                 
         }
+
+        public List<cPhoneType> PhoneTypes = new List<cPhoneType>();
+
+        public string PhoneType
+        {
+            get
+            {
+                return PhoneTypes.Find(x => x.PhoneTypeID == PhoneTypeID).PhoneType;
+            }
+        }
+
         public string IDD
         {
             get { return _IDD; }
@@ -76,7 +93,30 @@ namespace LarpPortal.Classes
 
         public cPhone()
         {
+            PhoneNumberID = -1;
 
+            SortedList sParams = new SortedList();
+
+            DataTable dtPhoneTypes = cUtilities.LoadDataTable("uspGetPhoneTypes", sParams, "LARPortal", "", "cPhone.Creator");
+
+            PhoneTypes = new List<cPhoneType>();
+            if (new DataView(dtPhoneTypes, "PhoneTypeID = 0", "", DataViewRowState.CurrentRows).Count == 0)
+            {
+                cPhoneType NewPhoneNumber = new cPhoneType();
+                NewPhoneNumber.PhoneTypeID = 0;
+                NewPhoneNumber.PhoneType = "Choose...";
+                PhoneTypes.Add(NewPhoneNumber);
+            }
+
+            foreach (DataRow dRow in dtPhoneTypes.Rows)
+            {
+                cPhoneType NewPhoneNumber = new cPhoneType();
+                NewPhoneNumber.PhoneTypeID = dRow["PhoneTypeID"].ToString().ToInt32();
+                NewPhoneNumber.PhoneType = dRow["PhoneType"].ToString();
+                PhoneTypes.Add(NewPhoneNumber);
+            }
+
+            PhoneTypeID = 0;
         }
 
         public cPhone(Int32 intPhoneNumberID, Int32 intUserID, string strUserName)
@@ -90,20 +130,31 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@intPhoneNumberID", _PhoneNumberID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPhoneNumber", slParams, "LARPortal", _UserName, lsRoutineName);
-                if (ldt.Rows.Count > 0)
+                DataSet lds = cUtilities.LoadDataSet("uspGetPhoneNumber", slParams, "LARPortal", _UserName, lsRoutineName);
+                if (lds.Tables[0].Rows.Count > 0 )
                 {
-                    _PhoneTypeID = ldt.Rows[0]["PhoneTypeID"].ToString().Trim().ToInt32();
-                    if (ldt.Rows[0]["PrimaryPhone"] != null) { IsPrimary = (bool)ldt.Rows[0]["PrimaryPhone"]; }//Table MDBAddresses                    
+                    DataRow dRow = lds.Tables[0].Rows[0];
+                    _PhoneTypeID = dRow["PhoneTypeID"].ToString().Trim().ToInt32();
+                    if (dRow["PrimaryPhone"] != null) { IsPrimary = (bool)dRow["PrimaryPhone"]; }
                     
-                    //GetPhoneTypeDescription();
-                    _PhoneTypeDescription = ldt.Rows[0]["PhoneType"].ToString();
-                    _IDD = ldt.Rows[0]["IDD"].ToString();
-                    _CountryCode = ldt.Rows[0]["CountryCode"].ToString();
-                    _AreaCode = ldt.Rows[0]["AreaCode"].ToString();
-                    _PhoneNumber = ldt.Rows[0]["PhoneNumber"].ToString();
-                    _Extension = ldt.Rows[0]["Extension"].ToString();
-                    _Comments = ldt.Rows[0]["Comments"].ToString();
+                    _PhoneTypeDescription = dRow["PhoneType"].ToString();
+                    _IDD = dRow["IDD"].ToString();
+                    _CountryCode = dRow["CountryCode"].ToString();
+                    _AreaCode = dRow["AreaCode"].ToString();
+                    _PhoneNumber = dRow["PhoneNumber"].ToString();
+                    _Extension = dRow["Extension"].ToString();
+                    _Comments = dRow["Comments"].ToString();
+                }
+                if (lds.Tables.Count > 1)
+                {
+                    PhoneTypes = new List<cPhoneType>();
+                    foreach (DataRow dRow in lds.Tables[1].Rows)
+                    {
+                        cPhoneType NewPhoneNumber = new cPhoneType();
+                        NewPhoneNumber.PhoneTypeID = dRow["PhoneTypeID"].ToString().ToInt32();
+                        NewPhoneNumber.PhoneType = dRow["PhoneType"].ToString();
+                        PhoneTypes.Add(NewPhoneNumber);
+                    }
                 }
             }
             catch (Exception ex)
@@ -113,25 +164,25 @@ namespace LarpPortal.Classes
             }
         }
 
-        private void GetPhoneTypeDescription()
-        {
+        //private void GetPhoneTypeDescription()
+        //{
 
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
-            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+        //    MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+        //    string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
             
-            try
-            {
-                SortedList slParams = new SortedList();
-                slParams.Add("@PhoneTypeID", _PhoneTypeID);
-                _PhoneTypeDescription = cUtilities.ReturnStringFromSQL("somestoredprocedure", "PhoneType", slParams, "LarpPortal", _UserName, lsRoutineName);
-            }
-            catch (Exception ex)
-            {
-                ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+        //    try
+        //    {
+        //        SortedList slParams = new SortedList();
+        //        slParams.Add("@PhoneTypeID", _PhoneTypeID);
+        //        _PhoneTypeDescription = cUtilities.ReturnStringFromSQL("somestoredprocedure", "PhoneType", slParams, "LarpPortal", _UserName, lsRoutineName);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ErrorAtServer lobjError = new ErrorAtServer();
+        //        lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
                 
-            }            
-        }
+        //    }            
+        //}
 
         public static bool isValidPhoneNumber(string strPhone, int length)
         {

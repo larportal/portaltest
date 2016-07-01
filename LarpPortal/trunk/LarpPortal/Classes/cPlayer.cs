@@ -8,212 +8,98 @@ using System.Reflection;
 using System.Collections;
 
 
+//   Jbradshaw  6/19/2016  Changed over to new style of definitions for variables. No need for local variables anymore.
+//                         Made changes required for user profiles.
+
 namespace LarpPortal.Classes
 {
     public class cPlayer
     {
-        private Int32 _UserID = -1;
-        private string _UserName = "";
-        private Int32 _PlayerProfileID = -1;
-        private String _AuthorName = "";
-        private DateTime _DateOfBirth = DateTime.Now;
-        private string _GenderStandared = "";
-        private string _GenderOther = "";
-        private string _EmergencyContactName = "";
-        private Int32 _EmergencyContactPhoneID = -1;
-        private string _EmergencyContactPhone ;
-        private Int32 _MaxNumberOfEventsPerYear = 0;
-        private string _CPPreferenceDefault = "";
-        private Int32 _CPDestinationDefault = -1;
-        private Int32 _PhotoPreference = -1;
-        private string _PhotoPreferenceDescription = "";
-        private string _UserPhoto = "";       
-        private Boolean _SearchableProfile = false;
-        private Int32 _RolePlayPercentage = 0; // 0 to 100 max out at 100
-        private Int32 _CombatPercentage = 0; // 0 to 100 max out at 100 ..  
-        private Int32 _WriteUpLeadTimeNeeded = 0; // in days
-        private Int32 _WriteUpLengthPreference = 0; // in pages
-        private string _BackGroundKnowledge = "";
-        private string _Comments = "";
-        private DateTime  _DateAdded;
-        private DateTime  _DateChanged;
-        private List<cPlayerInventory> _PlayerInventoryItems = new List<cPlayerInventory>();
-        private List<cPlayerLARPResume> _PlayerLARPResumes = new List<cPlayerLARPResume>();
-        private List<cPlayerOccasionExceptions> _PlayerOccasionExceptions = new List<cPlayerOccasionExceptions>();
-        private List<cPlayerSkill> _PlayerSkills = new List<cPlayerSkill>();
-        private List<cPlayerWaiver> _PlayerWaivers = new List<cPlayerWaiver>();
-
-        public Int32 UserID
-        {   get { return _UserID; }
-            set { _UserID = value; }
-        }
-        public string UserName
-        {
-            get { return _UserName; }
-        }
-        public Int32 PlayerProfileID
-       {
-           get { return _PlayerProfileID; }
-           set { _PlayerProfileID = value; }
-       }
-        public string AuthorName
-        {
-            get { return _AuthorName; }
-            set { _AuthorName = value; }
-        }
-        public DateTime DateOfBirth
-        {
-            get { return _DateOfBirth; }
-            set { _DateOfBirth = value; }
-        }
-        public string GenderStandared
-        {
-            get { return _GenderStandared; }
-            set { _GenderStandared = value; }
-        }
-        public string GenderOther
-        {
-            get { return _GenderOther; }
-            set { _GenderOther = value; }
-        }
-        public string EmergencyContactName
-        {
-            get { return _EmergencyContactName; }
-            set { _EmergencyContactName = value; }
-        }
-
+        private Int32 _PictureID = -1;      // Only used internally to get the info.
+        public Int32 UserID { get; set; }
+        public string UserName { get; set; }
+        public Int32 PlayerProfileID { get; set; }
+        public String AuthorName { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public string GenderStandared { get; set; }
+        public string GenderOther { get; set; }
+        public string EmergencyContactName { get; set; }
+        public Int32 EmergencyContactPhoneID { get; set; }
+        public string EmergencyContactPhone { get; set; }
+        public Int32 MaxNumberOfEventsPerYear { get; set; }
+        public string CPPreferenceDefault { get; set; }
+        public Int32 CPDestinationDefault { get; set; }
+        public Int32 PhotoPreference { get; set; }
+        public string PhotoPreferenceDescription { get; set; }
+        public cPicture Picture { get; set; }
+        public string UserPhoto { get; set; }
+        public Boolean SearchableProfile { get; set; }
+        public string BackGroundKnowledge { get; set; }
+        public string Comments { get; set; }
         /// <summary>
-        /// This property is discontinued and shall not be used
+        /// 0 to 100 max out at 100.
         /// </summary>
-        public Int32 EmergencyContactPhoneID
-        {
-            get { return _EmergencyContactPhoneID; }
-            set { _EmergencyContactPhoneID = value; }
-        }
-        public string EmergencyContactPhone
-        {
-            get { return _EmergencyContactPhone; }
-            set { _EmergencyContactPhone = value; }
-        }
-        public string CPPreferenceDefault
-        {
-            get { return _CPPreferenceDefault; }
-            set { _CPPreferenceDefault = value; }
-        }
-        public Int32 CPDestinationDefault
-        {
-            get { return _CPDestinationDefault; }
-            set { _CPDestinationDefault = value; }
-        }
-        public Int32 PhotoPreference
-        {
-            get { return _PhotoPreference; }
-            set { _PhotoPreference = value; }
-        }
-        public string PhotoPreferenceDescription
-        {
-            get { return _PhotoPreferenceDescription; }
-            set { _PhotoPreferenceDescription = value; }
-        }
-        public string UserPhoto
-        {
-            get { return _UserPhoto; }
-            set { _UserPhoto = value; }
-        }
-        public Boolean SearchableProfile
-        {
-            get { return _SearchableProfile; }
-            set { _SearchableProfile = value; }
-        }
+        private Int32 _RolePlayPercentage { get; set; }  // = 0; // 
+        /// <summary>
+        /// 0 to 100 max out at 100.
+        /// </summary>
+        private Int32 _CombatPercentage { get; set; }
+        /// <summary>
+        /// In days.
+        /// </summary>
+        public Int32 WriteUpLeadTimeNeeded { get; set; }
+        /// <summary>
+        /// In pages.
+        /// </summary>
+        public Int32 WriteUpLengthPreference { get; set; }
+        public List<cPlayerInventory> PlayerInventoryItems = new List<cPlayerInventory>();
+        public List<cPlayerLARPResume> PlayerLARPResumes = new List<cPlayerLARPResume>();
+        public List<cPlayerOccasionExceptions> PlayerOccasionExceptions = new List<cPlayerOccasionExceptions>();
+        public List<cPlayerSkill> PlayerSkills = new List<cPlayerSkill>();
+        public List<cPlayerWaiver> PlayerWaivers = new List<cPlayerWaiver>();
+        public DateTime DateAdded;
+        public DateTime DateChanged;
+
         public Int32 RolePlayPercentage
         {
             get { return _RolePlayPercentage; }
-            set { 
-                    if (value >-1 && value <101)
-                    { 
-                        if (value + _CombatPercentage != 100)
-                        {   _RolePlayPercentage = value; 
-                            _CombatPercentage = 100 - _RolePlayPercentage; }
-                        else
-                        {   _RolePlayPercentage = value; }
+            set
+            {
+                if (value > -1 && value < 101)
+                {
+                    if (value + _CombatPercentage != 100)
+                    {
+                        _RolePlayPercentage = value;
+                        _CombatPercentage = 100 - _RolePlayPercentage;
                     }
                     else
-                    { _RolePlayPercentage = 0; }
+                    { _RolePlayPercentage = value; }
                 }
+                else
+                { _RolePlayPercentage = 0; }
+            }
         }
         public Int32 CombatPercentage
         {
             get { return _CombatPercentage; }
-            set {
-                    if (value > -1 && value < 101)
+            set
+            {
+                if (value > -1 && value < 101)
+                {
+                    if (value + _RolePlayPercentage != 100)
                     {
-                        if (value + _RolePlayPercentage != 100)
-                        { _CombatPercentage = value;
-                         _RolePlayPercentage = 100 - _CombatPercentage; }
-                        else
-                        { _CombatPercentage = value; }
+                        _CombatPercentage = value;
+                        _RolePlayPercentage = 100 - _CombatPercentage;
                     }
                     else
-                    {
-                        _CombatPercentage = 0;
-                    }
+                    { _CombatPercentage = value; }
                 }
+                else
+                {
+                    _CombatPercentage = 0;
+                }
+            }
         }
-        public Int32 WriteUpLeadTimeNeeded
-        {
-            get { return _WriteUpLeadTimeNeeded; }
-            set { _WriteUpLeadTimeNeeded = value; }
-        }
-        public Int32 WriteUpLengthPreference
-        {
-            get { return _WriteUpLengthPreference; }
-            set { _WriteUpLengthPreference = value; }
-        }
-        public string BackGroundKnowledge
-        {
-            get { return _BackGroundKnowledge; }
-            set { _BackGroundKnowledge = value; }
-        }
-        public string Comments
-        {
-            get { return _Comments; }
-            set { _Comments = value; }
-        }
-        public DateTime DateAdded
-        {
-            get { return _DateAdded; }
-        }
-        public DateTime DateChanged
-        {
-            get { return _DateChanged; }
-        }
-        public List<cPlayerInventory> PlayerInventoryItems
-        {
-            get { return _PlayerInventoryItems;}
-            set {_PlayerInventoryItems = value;}
-        }
-        public List<cPlayerLARPResume> PlayerLARPResumes
-        {
-            get { return _PlayerLARPResumes; }
-            set { _PlayerLARPResumes = value; }
-        }
-        public List<cPlayerOccasionExceptions> PlayerOccasionExceptions
-        {
-            get { return _PlayerOccasionExceptions; }
-            set { _PlayerOccasionExceptions = value; }
-        }
-        public List<cPlayerSkill> PlayerSkills
-        {
-            get { return _PlayerSkills; }
-            set { _PlayerSkills = value; }
-        }
-        public List<cPlayerWaiver> PlayerWaivers
-        {
-            get { return _PlayerWaivers; }
-            set { _PlayerWaivers = value; }
-        }
-
-
 
         private cPlayer()
         {
@@ -221,39 +107,67 @@ namespace LarpPortal.Classes
 
         public cPlayer(Int32 intUserId, string strUserName)
         {
+            Picture = new cPicture();
+            UserID = -1;
+            PlayerProfileID = -1;
+            AuthorName = "";
+            DateOfBirth = DateTime.Now;
+            GenderStandared = "";
+            GenderOther = "";
+            EmergencyContactName = "";
+            EmergencyContactPhoneID = -1;
+            EmergencyContactPhone = "";
+            MaxNumberOfEventsPerYear = 0;
+            CPPreferenceDefault = "";
+            CPDestinationDefault = -1;
+            PhotoPreference = -1;
+            PhotoPreferenceDescription = "";
+            UserPhoto = "";
+            SearchableProfile = false;
+            _RolePlayPercentage = 0;
+            _CombatPercentage = 0;
+            WriteUpLeadTimeNeeded = 0;
+            WriteUpLengthPreference = 0;
+            BackGroundKnowledge = "";
+            Comments = "";
+            DateAdded = DateTime.Now;
+            DateChanged = DateTime.Now;
+
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            _UserID = intUserId;
-            _UserName = strUserName;
+            UserID = intUserId;
+            UserName = strUserName;
             SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-            slParams.Add("@UserID", _UserID);
+            slParams.Add("@UserID", UserID);
             try
             {
                 DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerProfileByUserID", slParams, "LARPortal", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-                    _PlayerProfileID = ldt.Rows[0]["PlayerProfileID"].ToString().ToInt32();
-                    _AuthorName = ldt.Rows[0]["AuthorName"].ToString();
-                    _DateOfBirth = Convert.ToDateTime(ldt.Rows[0]["DateOfBirth"].ToString());
-                    _GenderStandared = ldt.Rows[0]["GenderStandard"].ToString();
-                    _GenderOther = ldt.Rows[0]["GenderOther"].ToString();
-                    _EmergencyContactName = ldt.Rows[0]["EmergencyContactName"].ToString();
-                    _EmergencyContactPhone = ldt.Rows[0]["EmergencyContactPhone"].ToString();
-                   // _EmergencyContactPhone = new cPhone(_EmergencyContactPhoneID,_UserID,strUserName);
-                    _MaxNumberOfEventsPerYear = ldt.Rows[0]["MaxNumberEventsPerYear"].ToString().ToInt32();
-                    _CPPreferenceDefault = ldt.Rows[0]["CPPreferenceDefault"].ToString();
-                    _CPDestinationDefault = ldt.Rows[0]["CPDestinationDefault"].ToString().ToInt32();
-                    _PhotoPreference = ldt.Rows[0]["PhotoPreference"].ToString().ToInt32();
-                    _UserPhoto = ldt.Rows[0]["UserPhoto"].ToString();
-                    _SearchableProfile = ldt.Rows[0]["SearchableProfile"].ToString().ToBoolean();
-                    _RolePlayPercentage = ldt.Rows[0]["RoleplayPercentage"].ToString().ToInt32();
-                    _CombatPercentage = ldt.Rows[0]["CombatPercentage"].ToString().ToInt32();
-                    _WriteUpLeadTimeNeeded = ldt.Rows[0]["WriteUpLeadTimeNeeded"].ToString().ToInt32();
-                    _WriteUpLengthPreference = ldt.Rows[0]["WriteUpLengthPreference"].ToString().ToInt32();
-                    _BackGroundKnowledge = ldt.Rows[0]["BackgroundKnowledge"].ToString();
-                    _Comments = ldt.Rows[0]["Comments"].ToString();
-                    _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
-                    _DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
+                    PlayerProfileID = ldt.Rows[0]["PlayerProfileID"].ToString().ToInt32();
+                    AuthorName = ldt.Rows[0]["AuthorName"].ToString();
+                    DateOfBirth = Convert.ToDateTime(ldt.Rows[0]["DateOfBirth"].ToString());
+                    GenderStandared = ldt.Rows[0]["GenderStandard"].ToString();
+                    GenderOther = ldt.Rows[0]["GenderOther"].ToString();
+                    EmergencyContactName = ldt.Rows[0]["EmergencyContactName"].ToString();
+                    EmergencyContactPhone = ldt.Rows[0]["EmergencyContactPhone"].ToString();
+                    MaxNumberOfEventsPerYear = ldt.Rows[0]["MaxNumberEventsPerYear"].ToString().ToInt32();
+                    CPPreferenceDefault = ldt.Rows[0]["CPPreferenceDefault"].ToString();
+                    CPDestinationDefault = ldt.Rows[0]["CPDestinationDefault"].ToString().ToInt32();
+                    PhotoPreference = ldt.Rows[0]["PhotoPreference"].ToString().ToInt32();
+                    UserPhoto = ldt.Rows[0]["UserPhoto"].ToString();
+                    SearchableProfile = ldt.Rows[0]["SearchableProfile"].ToString().ToBoolean();
+                    RolePlayPercentage = ldt.Rows[0]["RoleplayPercentage"].ToString().ToInt32();
+                    CombatPercentage = ldt.Rows[0]["CombatPercentage"].ToString().ToInt32();
+                    WriteUpLeadTimeNeeded = ldt.Rows[0]["WriteUpLeadTimeNeeded"].ToString().ToInt32();
+                    WriteUpLengthPreference = ldt.Rows[0]["WriteUpLengthPreference"].ToString().ToInt32();
+                    BackGroundKnowledge = ldt.Rows[0]["BackgroundKnowledge"].ToString();
+                    Comments = ldt.Rows[0]["Comments"].ToString();
+                    DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
+                    DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
+
+                    // Cleaning up the Phone Number.
+                    EmergencyContactPhone = EmergencyContactPhone.Replace("(", "").Replace(")", "").Replace("-", "").Replace(".", "");
                 }
                 LoadInventory();
                 LoadLARPResumes();
@@ -267,7 +181,7 @@ namespace LarpPortal.Classes
                 lobjError.ProcessError(ex, lsRoutineName, strUserName + lsRoutineName);
             }
         }
-       
+
         public Boolean Save()
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
@@ -276,33 +190,32 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList();
-                slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                slParams.Add("@UserID", _UserID);
-                slParams.Add("@AuthorName", _AuthorName);
-                slParams.Add("@DateOfBirth", _DateOfBirth);
-                slParams.Add("@GenderStandard", _GenderStandared);
-                slParams.Add("@GenderOther", _GenderOther);
-                slParams.Add("@EmergencyContactName", _EmergencyContactName);
-                //slParams.Add("@EmergencyContactPhone", _EmergencyContactPhoneID);  Replacing with next line to make text phone - Rick 4/15/2015
-                slParams.Add("@EmergencyContactPhone", _EmergencyContactPhone);
-                slParams.Add("@MaxNumberEventsPerYear", _MaxNumberOfEventsPerYear);
-                slParams.Add("@CPPreferenceDefault", _CPPreferenceDefault);
-                slParams.Add("@CPDestinationDefault", _CPDestinationDefault);
-                slParams.Add("@PhotoPreference", _PhotoPreference);
-                slParams.Add("@UserPhoto", _UserPhoto);
-                slParams.Add("@SearchableProfile", _SearchableProfile);
+                slParams.Add("@PlayerProfileID", PlayerProfileID);
+                slParams.Add("@UserID", UserID);
+                slParams.Add("@AuthorName", AuthorName);
+                slParams.Add("@DateOfBirth", DateOfBirth);
+                slParams.Add("@GenderStandard", GenderStandared);
+                slParams.Add("@GenderOther", GenderOther);
+                slParams.Add("@EmergencyContactName", EmergencyContactName);
+                slParams.Add("@EmergencyContactPhone", EmergencyContactPhone);
+                slParams.Add("@MaxNumberEventsPerYear", MaxNumberOfEventsPerYear);
+                slParams.Add("@CPPreferenceDefault", CPPreferenceDefault);
+                slParams.Add("@CPDestinationDefault", CPDestinationDefault);
+                slParams.Add("@PhotoPreference", PhotoPreference);
+                slParams.Add("@UserPhoto", UserPhoto);
+                slParams.Add("@SearchableProfile", SearchableProfile);
                 slParams.Add("@RoleplayPercentage", _RolePlayPercentage);
                 slParams.Add("@CombatPercentage", _CombatPercentage);
-                slParams.Add("@WriteUpLeadTimeNeeded", _WriteUpLeadTimeNeeded);
-                slParams.Add("@WriteUpLengthPreference", _WriteUpLengthPreference);
-                slParams.Add("@BackgroundKnowledge", _BackGroundKnowledge);
-                slParams.Add("@Comments", _Comments);
-                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerProfiles", slParams, "LARPortal", _UserName);
+                slParams.Add("@WriteUpLeadTimeNeeded", WriteUpLeadTimeNeeded);
+                slParams.Add("@WriteUpLengthPreference", WriteUpLengthPreference);
+                slParams.Add("@BackgroundKnowledge", BackGroundKnowledge);
+                slParams.Add("@Comments", Comments);
+                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerProfiles", slParams, "LARPortal", UserName);
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
                 blnReturn = false;
             }
             return blnReturn;
@@ -316,24 +229,24 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-                slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerInventoryByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
+                slParams.Add("@PlayerProfileID", PlayerProfileID);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerInventoryByPlayerProfileID", slParams, "LARPortal", UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
                     {
-                        cPlayerInventory cAdd = new cPlayerInventory(ldr["PlayerInventoryID"].ToString().Trim().ToInt32(), _PlayerProfileID, _UserName, _UserID);
-                        _PlayerInventoryItems.Add(cAdd);
+                        cPlayerInventory cAdd = new cPlayerInventory(ldr["PlayerInventoryID"].ToString().Trim().ToInt32(), PlayerProfileID, UserName, UserID);
+                        PlayerInventoryItems.Add(cAdd);
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
             }
         }
+
         private void LoadLARPResumes()
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
@@ -341,24 +254,24 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-                slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerLarpResumesByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
+                slParams.Add("@PlayerProfileID", PlayerProfileID);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerLarpResumesByPlayerProfileID", slParams, "LARPortal", UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
                     {
-                        cPlayerLARPResume cAdd = new cPlayerLARPResume(ldr["PlayerLARPResumeID"].ToString().Trim().ToInt32(), _PlayerProfileID, _UserName, _UserID);
-                        _PlayerLARPResumes.Add(cAdd);
+                        cPlayerLARPResume cAdd = new cPlayerLARPResume(ldr["PlayerLARPResumeID"].ToString().Trim().ToInt32(), PlayerProfileID, UserName, UserID);
+                        PlayerLARPResumes.Add(cAdd);
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
             }
         }
+
         private void LoadOccasionExceptions()
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
@@ -366,24 +279,24 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-                slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerOccasionExceptionsByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
+                slParams.Add("@PlayerProfileID", PlayerProfileID);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerOccasionExceptionsByPlayerProfileID", slParams, "LARPortal", UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
                     {
-                        cPlayerOccasionExceptions cAdd = new cPlayerOccasionExceptions(ldr["PlayerOccasionExceptionID"].ToString().Trim().ToInt32(), _PlayerProfileID, _UserName, _UserID);
-                        _PlayerOccasionExceptions.Add(cAdd);
+                        cPlayerOccasionExceptions cAdd = new cPlayerOccasionExceptions(ldr["PlayerOccasionExceptionID"].ToString().Trim().ToInt32(), PlayerProfileID, UserName, UserID);
+                        PlayerOccasionExceptions.Add(cAdd);
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
             }
         }
+
         private void LoadSkills()
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
@@ -391,24 +304,24 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-                slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerSkillsByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
+                slParams.Add("@PlayerProfileID", PlayerProfileID);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerSkillsByPlayerProfileID", slParams, "LARPortal", UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
                     {
-                        cPlayerSkill cAdd = new cPlayerSkill(ldr["PlayerSkillID"].ToString().Trim().ToInt32(), _PlayerProfileID, _UserName, _UserID);
-                        _PlayerSkills.Add(cAdd);
+                        cPlayerSkill cAdd = new cPlayerSkill(ldr["PlayerSkillID"].ToString().Trim().ToInt32(), PlayerProfileID, UserName, UserID);
+                        PlayerSkills.Add(cAdd);
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
             }
         }
+
         private void LoadWaivers()
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
@@ -416,22 +329,21 @@ namespace LarpPortal.Classes
             try
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-                slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerWaiversByPlayerProfileID", slParams, "LARPortal", _UserName, lsRoutineName);
+                slParams.Add("@PlayerProfileID", PlayerProfileID);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerWaiversByPlayerProfileID", slParams, "LARPortal", UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     foreach (DataRow ldr in ldt.Rows)
                     {
-                        cPlayerWaiver cAdd = new cPlayerWaiver(ldr["PlayerWaiverID"].ToString().Trim().ToInt32(), _PlayerProfileID, _UserName, _UserID);
-                        _PlayerWaivers.Add(cAdd);
+                        cPlayerWaiver cAdd = new cPlayerWaiver(ldr["PlayerWaiverID"].ToString().Trim().ToInt32(), PlayerProfileID, UserName, UserID);
+                        PlayerWaivers.Add(cAdd);
                     }
                 }
-
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
             }
         }
     }

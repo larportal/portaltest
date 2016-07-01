@@ -11,6 +11,14 @@ using System.Text.RegularExpressions;
 
 namespace LarpPortal.Classes
 {
+    [Serializable]
+    public class cEmailType
+    {
+        public int EmailTypeID { get; set; }
+        public string EmailType { get; set; }
+    }
+
+    [Serializable()]
     public class cEMail
     {
 
@@ -67,13 +75,55 @@ namespace LarpPortal.Classes
             //set { _DateDeleted = value; }
         }
 
+        public List<cEmailType> EmailTypes = new List<cEmailType>();
+
+        public string EmailType
+        {
+            get
+            {
+                if (EmailTypes.Count > 0)
+                {
+                    var Rec = EmailTypes.Find(x => x.EmailTypeID == EmailTypeID);
+                    if (Rec != null)
+                        return Rec.EmailType;
+                    else
+                        return "";
+                }
+                else
+                    return "";
+            }
+        }
+
         public static string ErrorMessage { get; private set; }
 
         public string strErrorMessage { get; set; }
 
         public cEMail()
         {
+            EMailID = -1;
 
+            SortedList sParams = new SortedList();
+
+            DataTable dtEmailTypes = cUtilities.LoadDataTable("uspGetEmailTypes", sParams, "LARPortal", "", "cEmail.Creator");
+
+            EmailTypes = new List<cEmailType>();
+            if (new DataView(dtEmailTypes, "EmailTypeID = 0", "", DataViewRowState.CurrentRows).Count == 0)
+            {
+                cEmailType NewEmailType = new cEmailType();
+                NewEmailType.EmailTypeID = 0;
+                NewEmailType.EmailType = "Choose...";
+                EmailTypes.Add(NewEmailType);
+            }
+
+            foreach (DataRow dRow in dtEmailTypes.Rows)
+            {
+                cEmailType NewEmailType = new cEmailType();
+                NewEmailType.EmailTypeID = dRow["EmailTypeID"].ToString().ToInt32();
+                NewEmailType.EmailType = dRow["EmailType"].ToString();
+                EmailTypes.Add(NewEmailType);
+            }
+
+            EmailTypeID = 0;
         }
 
         // Passing an ID of -1 should produce the devault values, and on update should generate a new record. 
@@ -90,36 +140,48 @@ namespace LarpPortal.Classes
                 slParams.Add("@intEMailID", intEMailID);
                 
                 // need to put the correct stored procedure in to the class
-                DataTable ldt = cUtilities.LoadDataTable("uspGetEmailData", slParams, "LARPortal", strUserName, lsRoutineName);
-                if (ldt.Rows.Count > 0)
+                DataSet lds = cUtilities.LoadDataSet("uspGetEmailData", slParams, "LARPortal", strUserName, lsRoutineName);
+                if (lds.Tables[0].Rows.Count > 0)
                 {
-                    _EMailID = ldt.Rows[0]["EMailID"].ToString().ToInt32();
+                    DataRow dRow = lds.Tables[0].Rows[0];
+                    _EMailID = dRow["EMailID"].ToString().ToInt32();
 
                     // Now checking for both DBNull and null. Added the bool.TryParse because I'm OCD.      JBradshaw 9/14/2015
                     bool bTemp;
-                    if (ldt.Rows[0]["PrimaryEmail"] != DBNull.Value)
-                        if (ldt.Rows[0]["PrimaryEmail"] != null)
-                            if (bool.TryParse(ldt.Rows[0]["PrimaryEmail"].ToString(), out bTemp))
+                    if (dRow["PrimaryEmail"] != DBNull.Value)
+                        if (dRow["PrimaryEmail"] != null)
+                            if (bool.TryParse(dRow["PrimaryEmail"].ToString(), out bTemp))
                                 IsPrimary = bTemp;
 
                     // Now checking for both DBNull and null. Added the int.TryParse because I'm OCD.      JBradshaw 9/14/2015
                     int iTemp;
-                    if (ldt.Rows[0]["EmailTypeID"] != DBNull.Value)
-                        if (ldt.Rows[0]["EmailTypeID"] != null)
-                            if (int.TryParse(ldt.Rows[0]["EmailTypeID"].ToString(), out iTemp))
+                    if (dRow["EmailTypeID"] != DBNull.Value)
+                        if (dRow["EmailTypeID"] != null)
+                            if (int.TryParse(dRow["EmailTypeID"].ToString(), out iTemp))
                                 EmailTypeID = iTemp;
 
-                    _EMailAddress = ldt.Rows[0]["EMailAddress"].ToString().Trim();
-                    _Comments = ldt.Rows[0]["Comments"].ToString().Trim();
-                    _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
-                    _DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
-                    if (ldt.Rows[0]["DateDeleted"] == DBNull.Value)
+                    _EMailAddress = dRow["EMailAddress"].ToString().Trim();
+                    _Comments = dRow["Comments"].ToString().Trim();
+                    _DateAdded = Convert.ToDateTime(dRow["DateAdded"].ToString());
+                    _DateChanged = Convert.ToDateTime(dRow["DateChanged"].ToString());
+                    if (dRow["DateDeleted"] == DBNull.Value)
                     {
                         _DateDeleted = null;
                     }
                     else
                     {
-                        _DateDeleted = Convert.ToDateTime(ldt.Rows[0]["DateDeleted"].ToString());
+                        _DateDeleted = Convert.ToDateTime(dRow["DateDeleted"].ToString());
+                    }
+                }
+                if (lds.Tables.Count > 1)
+                {
+                    EmailTypes = new List<cEmailType>();
+                    foreach (DataRow dRow in lds.Tables[1].Rows)
+                    {
+                        cEmailType NewEmailType = new cEmailType();
+                        NewEmailType.EmailTypeID = dRow["EmailTypeID"].ToString().ToInt32();
+                        NewEmailType.EmailType = dRow["EmailType"].ToString();
+                        EmailTypes.Add(NewEmailType);
                     }
                 }
             }

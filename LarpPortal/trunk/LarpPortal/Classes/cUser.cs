@@ -14,9 +14,9 @@ namespace LarpPortal.Classes
         private Int32 _UserID = -1;
         private string _LoginName = "";
         private Int32 _PrimaryEmailID = -1;
-        private cEMail _PrimaryEmailAddress ;
-        private List<cEMail> _UserEmails;
-        private string _LoginEmail;
+        private cEMail _PrimaryEmailAddress = new cEMail();
+        private List<cEMail> _UserEmails = new List<cEMail>();
+        private string _LoginEmail = "";
         private string _LoginPassword = "";
         private Int32 _SecurityRoleID = -1;
         private string _FirstName = "";
@@ -28,11 +28,11 @@ namespace LarpPortal.Classes
         private Int32 _NotificationPreference = -1;
         private string _NotificationPreferenceString = "";
         private Int32 _PrimaryAddressID = -1;
-        private cAddress _PrimaryAddress;
-        private List<cAddress> _UserAddresses;
+        private cAddress _PrimaryAddress = new cAddress();
+        private List<cAddress> _UserAddresses = new List<cAddress>();
         private Int32 _PrimaryPhoneNumberID = -1;
-        private cPhone _PrimaryPhone;
-        private List<cPhone> _UserPhones;
+        private cPhone _PrimaryPhone = new cPhone();
+        private List<cPhone> _UserPhones = new List<cPhone>();
         private Int32 _DeliveryPreferenceID = -1;
         private string _DeliveryPreferenceString = "";
         private string _LastLoggedInLocation = "";
@@ -46,7 +46,7 @@ namespace LarpPortal.Classes
         private DateTime _DateChanged;
         
         //private cSecurity _cUserSecurity;
-        private cBank _UserCPBank;
+        private cBank _UserCPBank = new cBank();
         //private List<cNoifications> _UserNotifications;
         //private cCalandar _UserCalandar;
         //private List<LarpPortal.Classes.cCharacter> _UserCharacters;
@@ -227,15 +227,15 @@ namespace LarpPortal.Classes
 
         public cUser(string strLoginName, string strLoginPassword)
         {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
             _LoginName = strLoginName;
             _LoginPassword = strLoginPassword;
-            SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
+            SortedList slParams = new SortedList();
             slParams.Add("@LoginUserName", _LoginName);
             try
             {
-
                 DataTable ldt = cUtilities.LoadDataTable("uspGetUserByLoginName", slParams, "LARPortal", _LoginName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
@@ -275,8 +275,9 @@ namespace LarpPortal.Classes
 
         private void LoadAddresses()
         {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
            _PrimaryAddress = new cAddress(_PrimaryAddressID,_LoginName,_UserID);
             try
             {
@@ -284,9 +285,9 @@ namespace LarpPortal.Classes
                 slParams.Add("@intKeyID", _UserID);
                 slParams.Add("@strKeyType", "cUser");
                 DataTable ldt = cUtilities.LoadDataTable("uspGetAddressByKey", slParams, "LARPortal", _LoginName, lsRoutineName);
+                _UserAddresses = new List<cAddress>();
                 if (ldt.Rows.Count > 0)
                 {
-                    _UserAddresses = new List<cAddress>();
                     foreach(DataRow ldr in ldt.Rows)
                     {
                         cAddress cAdd = new cAddress(ldr["AddressID"].ToString().Trim().ToInt32(), _LoginName, _UserID);
@@ -303,16 +304,15 @@ namespace LarpPortal.Classes
 
         private void LoadPhones()
         {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            //Not sure what the line below is supposed to do -ra
-            _PrimaryPhone = new cPhone(_PrimaryPhoneNumberID, _UserID, _LoginName);
-
-            _UserPhones = new List<cPhone>();
 
             try
             {
-                SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
+                _PrimaryPhone = new cPhone(_PrimaryPhoneNumberID, _UserID, _LoginName);
+                _UserPhones = new List<cPhone>();
+
+                SortedList slParams = new SortedList();
                 slParams.Add("@intKeyID", _UserID);
                 slParams.Add("@strKeyType", "cUser");
                 
@@ -335,13 +335,15 @@ namespace LarpPortal.Classes
 
         private void LoadEmails()
         {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            _PrimaryEmailAddress = new cEMail(_PrimaryEmailID, _LoginName, _UserID);
-            _UserEmails = new List<cEMail>();
+
             try
             {
-                SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
+                _PrimaryEmailAddress = new cEMail(_PrimaryEmailID, _LoginName, _UserID);
+                _UserEmails = new List<cEMail>();
+
+                SortedList slParams = new SortedList();
                 slParams.Add("@intKeyID", _UserID);
                 slParams.Add("@strKeyType", "MDBUsers");
 
@@ -364,8 +366,9 @@ namespace LarpPortal.Classes
        
         public Boolean Save()
         {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
             Boolean blnReturn = false;
             try
             {
@@ -398,7 +401,6 @@ namespace LarpPortal.Classes
                     _LoginEmail = "";
                 slParams.Add("@EmailAddress", _LoginEmail);
                 blnReturn = cUtilities.PerformNonQueryBoolean(stStoredProc, slParams, "LARPortal", _LoginName);
-                //cUtilities.PerformNonQuery(stStoredProc, slParams, "LARPortal", _LoginName);
                 blnReturn = true;
             }
             catch (Exception ex)

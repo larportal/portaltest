@@ -8,184 +8,81 @@ using System.Collections;
 using System.Data;
 namespace LarpPortal.Classes
 {
+    [Serializable]
+    public class cAddressType
+    {
+        public int AddressTypeID { get; set; }
+        public string AddressType { get; set; }
+    }
+
     [Serializable()]
     public class cAddress
     {
-
         public bool IsPrimary { get; set; }
 
-        public int IntAddressTypeID { get; set; }
+        public int AddressTypeID { get; set; }
+        public List<cAddressType> AddressTypes = new List<cAddressType>();
 
+        public string AddressType
+        {
+            get
+            {
+                return AddressTypes.Find(x => x.AddressTypeID == AddressTypeID).AddressType;
+            }
+        }
         /// <summary>
         /// When any validation is perform it tell what was wrong
         /// </summary>
         public string strErrorDescription { get; private set; }
-                        
-        string strUserName = "";
-        /// <summary>
-        /// Table: MDBAddresses Field: AddressID  Notes: This field identifies the address record
-        /// </summary>
-        private int _IntAddressID = -1;
-        public int IntAddressID
-        {
-            get { return _IntAddressID; }
-            set
-            {
-                if (value.GetType() == typeof(int))
-                {
-                    _IntAddressID = value;
-                }
-                else
-                {
-                    // TODO-Jack-Add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
-                }
 
-
-            }
-        }
-        /// <summary>
-        /// Table: MDBAddresses	Field: Address1 Notes: This field indicates address 1
-        /// </summary>
-        private string _StrAddress1 = ""; //Table MDBAddresses
-        public string StrAddress1
-        {
-            get { return _StrAddress1; }
-            set { _StrAddress1 = value; }
-        }
-        /// <summary>
-        /// Table: MDBAddresses	Field: Address2 Notes: This field indicates address 2
-        /// </summary>
-        private string _StrAddress2 = ""; //Table MDBAddresses
-        public string StrAddress2
-        {
-            get { return _StrAddress2; }
-            set { _StrAddress2 = value; }
-        }
-        /// <summary>
-        /// Table: MDBAddresses	Field: City Notes: This Field Indicates City
-        /// </summary>
-        private string _StrCity = ""; //Table MDBAddresses
-        public string StrCity
-        {
-            get { return _StrCity; }
-            set { _StrCity = value; }
-        }
-        /// <summary>
-        /// Table: MDBAddreses Field: StateID Notes: This Field Indicates State/Province
-        /// </summary>
-        private string _StrStateID = ""; //Table MDBAddresses
-        public string StrStateID
-        {
-            get { return _StrStateID; }
-            set { _StrStateID = value; }
-        }
-        /// <summary>
-        /// Table MDBAddresses Field: PostalCode Notes: This Field Incidactes Zip code / postal code for international
-        /// </summary>
-        private string _StrPostalCode = ""; //Table MDBAddresses
-        public string StrPostalCode
-        {
-            get { return _StrPostalCode; }
-            set { _StrPostalCode = value; }
-        }
-        /// <summary>
-        /// Table MDBAddresses Field: Country Notes: This field indicates country
-        /// </summary>
-        private string _StrCountry = ""; //Table MDBAddresses
-        public string StrCountry
-        {
-            get { return _StrCountry; }
-            set { _StrCountry = value; }
-        }
-        /// <summary>
-        /// Table: MDBAddresses Field: DateAdded Notes: Date Added
-        /// </summary>
-        private DateTime _DateAdded = DateTime.Now;
-        public DateTime DateAdded
-        {
-            get { return _DateAdded; }
-            set
-            {
-                if (value.GetType() == typeof(DateTime))
-                {
-                    _DateAdded = value;
-                }
-                else
-                {
-                    // TODO-Jack-Add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
-                }
-            }
-        }
-        /// <summary>
-        /// Table: MDBAddresses Field: DateChanged Notes: Date Changed
-        /// </summary>
-        private DateTime _DateChanged = DateTime.Now;
-        public DateTime DateChanged
-        {
-            get { return _DateChanged; }
-            set
-            {
-                if (value.GetType() == typeof(DateTime))
-                {
-                    _DateChanged = value;
-                }
-                else
-                {
-                    // TODO-Jack-Add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
-                }
-            }
-        }
-        /// <summary>
-        /// Table: MDBAddresses Field: DateDeleted Notes: Date Deleted
-        /// </summary>
-        private DateTime _DateDeleted = DateTime.Now;
-        public DateTime DateDeleted
-        {
-            get { return _DateDeleted; }
-            set
-            {
-                if (value.GetType() == typeof(DateTime))
-                {
-                    _DateDeleted = value;
-                }
-                else
-                {
-                    // TODO-Jack-Add error handling for invalid types passed to class and security issues IE injection attempts inserted into variables
-                }
-            }
-        }
-
-        /// <summary>
-        /// Table MDBStates Field StateName Notes: Name of the state translated from StateID field in MDBAddresses
-        /// </summary>
-        private string _StateName = ""; //Table MDBStates
-        public string StateName
-        {
-            get { return _StateName; }
-            set { _StateName = value; }
-        }
-
-        private string _StrGoogleString;
-        public string GoogleString
-        {
-            get { return _StrGoogleString; }
-
-        }
-        /// <summary>
-        ///  Auto Generated link to location in google maps.  Only generated if keytype is not player
-        /// </summary>
-        //private string _StrGoogleLink = "";
-        //public string StrGoogleLink
+        string UserName = "";
+        public int AddressID { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string City { get; set; }
+        public string StateID { get; set; }
+        public string PostalCode { get; set; }
+        public string Country { get; set; }
+        public DateTime DateAdded { get; set; }
+        public DateTime DateChanged { get; set; }
+        public DateTime DateDeleted { get; set; }
+        public string StateName { get; set; }
+        public string GoogleString { get; set; }
         //{
         //    get { return "http://maps.google.com/preview?q=" + _StrGoogleString; }
         //}
+
         /// <summary>
         /// Creates Empty caddress class object
         /// </summary>
         public cAddress()
         {
+            AddressID = -1;
 
+            SortedList sParams = new SortedList();
+
+            DataTable dtAddressTypes = cUtilities.LoadDataTable("uspGetAddressTypes", sParams, "LARPortal", "", "cAddress.Creator");
+
+            AddressTypes = new List<cAddressType>();
+            if (new DataView(dtAddressTypes, "AddressTypeID = 0", "", DataViewRowState.CurrentRows).Count == 0)
+            {
+                cAddressType NewAddress = new cAddressType();
+                NewAddress.AddressTypeID = 0;
+                NewAddress.AddressType = "Choose...";
+                AddressTypes.Add(NewAddress);
+            }
+
+            foreach (DataRow dRow in dtAddressTypes.Rows)
+            {
+                cAddressType NewAddress = new cAddressType();
+                NewAddress.AddressTypeID = dRow["AddressTypeID"].ToString().ToInt32();
+                NewAddress.AddressType = dRow["AddressType"].ToString();
+                AddressTypes.Add(NewAddress);
+            }
+
+            AddressTypeID = 0;
         }
+
         /// <summary>
         /// Creates a caddress class object from data stored in the database with the Address ID provided
         /// </summary>
@@ -194,7 +91,7 @@ namespace LarpPortal.Classes
         /// 
         public cAddress(Int32 intAddressID, string strUserNameParam, int intuserID)
         {
-            strUserName = strUserNameParam;
+            UserName = strUserNameParam;
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
@@ -205,35 +102,47 @@ namespace LarpPortal.Classes
 
             try
             {
-                // SELECT AddressID, KeyID, AddressTypeID, KeyType, Address1, Address2, City, StateID, PostalCode, Country, MDBStates.StateName FROM MDBAddresses LEFT JOIN MDBStates ON MDBStates.StateID = MDBAddresses.StateID AND AddressID = @param
-                DataTable ldt = cUtilities.LoadDataTable("uspGetAddress", slParams, "LARPortal", strUserName, lsRoutineName);
-                if (ldt.Rows.Count > 0)
+                DataSet lds = cUtilities.LoadDataSet("uspGetAddress", slParams, "LARPortal", UserName, lsRoutineName);
+
+                if (lds.Tables[0].Rows.Count > 0)
                 {
-                    _IntAddressID = intAddressID;//Table MDBAddresses
-                    if (ldt.Rows[0]["Address1"] != null) { _StrAddress1 = ldt.Rows[0]["Address1"].ToString(); } //Table MDBAddresses
-                    if (ldt.Rows[0]["Address2"] != null) { _StrAddress2 = ldt.Rows[0]["Address2"].ToString(); } //Table MDBAddresses
-                    if (ldt.Rows[0]["City"] != null) { _StrCity = ldt.Rows[0]["City"].ToString(); } //Table MDBAddresses
-                    if (ldt.Rows[0]["StateID"] != null) { _StrStateID = ldt.Rows[0]["StateID"].ToString(); }//Table MDBAddresses
-                    if (ldt.Rows[0]["AddressTypeID"] != null) { IntAddressTypeID = (Int32)ldt.Rows[0]["AddressTypeID"]; }//Table MDBAddresses
-                    if (ldt.Rows[0]["PrimaryAddress"] != null) { IsPrimary = (bool)ldt.Rows[0]["PrimaryAddress"]; }//Table MDBAddresses                    
-                    if (ldt.Rows[0]["PostalCode"] != null) { _StrPostalCode = ldt.Rows[0]["PostalCode"].ToString(); } //Table MDBAddresses
-                    if (ldt.Rows[0]["Country"] != null) { _StrCountry = ldt.Rows[0]["Country"].ToString(); } //Table MDBAddresses
+                    DataRow dRow = lds.Tables[0].Rows[0];
+                    AddressID = intAddressID;//Table MDBAddresses
+                    if (dRow["Address1"] != null) { Address1 = dRow["Address1"].ToString(); }
+                    if (dRow["Address2"] != null) { Address2 = dRow["Address2"].ToString(); }
+                    if (dRow["City"] != null) { City = dRow["City"].ToString(); }
+                    if (dRow["StateID"] != null) { StateID = dRow["StateID"].ToString(); }
+                    if (dRow["AddressTypeID"] != null) { AddressTypeID = (Int32)dRow["AddressTypeID"]; }
+                    if (dRow["PrimaryAddress"] != null) { IsPrimary = (bool)dRow["PrimaryAddress"]; }
+                    if (dRow["PostalCode"] != null) { PostalCode = dRow["PostalCode"].ToString(); }
+                    if (dRow["Country"] != null) { Country = dRow["Country"].ToString(); }
                     //if (ldt.Rows[0]["MDBStatesStateName"] != null) { _StateName = ldt.Rows[0]["MDBStatesStateName"].ToString(); } //Table Table MDBStates
                     DateTime dtTemp;
-                    if (DateTime.TryParse(ldt.Rows[0]["DateAdded"].ToString(), out dtTemp))
-                        _DateAdded = dtTemp;
-                    if (DateTime.TryParse(ldt.Rows[0]["DateChanged"].ToString(), out dtTemp))
-                        _DateChanged = dtTemp;
-                    if (DateTime.TryParse(ldt.Rows[0]["DateDeleted"].ToString(), out dtTemp))
-                        _DateDeleted = dtTemp;
-                    _StrGoogleString = _StrAddress1 + "+" + _StrAddress2 + "+" + _StrCity + "+" + _StrStateID + "+" + _StrPostalCode;
+                    if (DateTime.TryParse(dRow["DateAdded"].ToString(), out dtTemp))
+                        DateAdded = dtTemp;
+                    if (DateTime.TryParse(dRow["DateChanged"].ToString(), out dtTemp))
+                        DateChanged = dtTemp;
+                    if (DateTime.TryParse(dRow["DateDeleted"].ToString(), out dtTemp))
+                        DateDeleted = dtTemp;
+                    GoogleString = Address1 + "+" + Address2 + "+" + City + "+" + StateID + "+" + PostalCode;
                 }
 
+                if (lds.Tables.Count > 1)
+                {
+                    AddressTypes = new List<cAddressType>();
+                    foreach (DataRow dRow in lds.Tables[1].Rows)
+                    {
+                        cAddressType NewAddress = new cAddressType();
+                        NewAddress.AddressTypeID = dRow["AddressTypeID"].ToString().ToInt32();
+                        NewAddress.AddressType = dRow["AddressType"].ToString();
+                        AddressTypes.Add(NewAddress);
+                    }
+                }
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, strUserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
             }
 
         }
@@ -246,27 +155,27 @@ namespace LarpPortal.Classes
         {
             strErrorDescription = string.Empty;
 
-            if (string.IsNullOrWhiteSpace(StrAddress1))
+            if (string.IsNullOrWhiteSpace(Address1))
             {
                 strErrorDescription = "Address 1 must be entered";
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(StrCity))
+            if (string.IsNullOrWhiteSpace(City))
             {
                 strErrorDescription = "City must be entered";
                 return false;
             }
 
-            if (string.IsNullOrWhiteSpace(StrPostalCode))
+            if (string.IsNullOrWhiteSpace(PostalCode))
             {
                 strErrorDescription = "Postal/Zip Code must be entered";
                 return false;
             }
 
-            if (isValidZipCode(StrPostalCode) == false)
+            if (isValidZipCode(PostalCode) == false)
             {
-                strErrorDescription = (StrPostalCode ?? string.Empty) + "in not a valid Postal Code (please enter 5 numbers)";
+                strErrorDescription = (PostalCode ?? string.Empty) + " is not a valid Postal Code (please enter 5 numbers)";
                 return false;
             }
 
@@ -282,11 +191,11 @@ namespace LarpPortal.Classes
             //Make sure all values are digits
             if (zipCode.All(x => Char.IsDigit(x)) == false)
                 return false;
-                        
+
             // Get all the digits from the string and make sure we have 5 numeric value
             return (zipCode.Length == 5);
         }
-                       
+
         /// <summary>
         /// Deletes, Updates, or Creates Address in the database
         /// </summary>
@@ -300,35 +209,33 @@ namespace LarpPortal.Classes
             SortedList slParams = new SortedList();
             try
             {
-                if(delete)
+                if (delete)
                 {
-                    slParams.Add("@RecordID", _IntAddressID);
+                    slParams.Add("@RecordID", AddressID);
                     slParams.Add("@UserID", userID);
-                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("upsDelMDBAddresses", slParams, "LARPortal", strUserName);
+                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("upsDelMDBAddresses", slParams, "LARPortal", UserName);
                 }
                 else
                 {
                     slParams.Add("@UserID", userID);
-                    slParams.Add("@AddressID", _IntAddressID);
+                    slParams.Add("@AddressID", AddressID);
                     slParams.Add("@KeyID", userID);
                     slParams.Add("@KeyType", "cUser");
-                    slParams.Add("@AddressTypeID", IntAddressTypeID);
+                    slParams.Add("@AddressTypeID", AddressTypeID);
                     slParams.Add("@PrimaryAddress", IsPrimary);
-                    slParams.Add("@Address1", _StrAddress1);
-                    slParams.Add("@Address2", _StrAddress2);
-                    slParams.Add("@City", _StrCity);
-                    slParams.Add("@StateID", _StrStateID);
-                    slParams.Add("@PostalCode", _StrPostalCode);
-                    slParams.Add("@Country", _StrCountry);
-                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBAddresses", slParams, "LARPortal", strUserName);
-                    
+                    slParams.Add("@Address1", Address1);
+                    slParams.Add("@Address2", Address2);
+                    slParams.Add("@City", City);
+                    slParams.Add("@StateID", StateID);
+                    slParams.Add("@PostalCode", PostalCode);
+                    slParams.Add("@Country", Country);
+                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBAddresses", slParams, "LARPortal", UserName);
                 }
-
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, strUserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
             }
 
             return bUpdateComplete;
