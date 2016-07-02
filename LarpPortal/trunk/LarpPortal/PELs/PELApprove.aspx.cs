@@ -460,7 +460,7 @@ namespace LarpPortal.PELs
                 //if ( System.Diagnostics.Debugger.IsAttached )
                 //    cEMS.SendMail(sSubject, sBody, "jbradshaw@pobox.com", "", "");
                 //else
-                    cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
+                    cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "", "PELComments", Session["Username"].ToString());
             }
         }
 
@@ -626,7 +626,7 @@ namespace LarpPortal.PELs
                 //if ( System.Diagnostics.Debugger.IsAttached )
                 //    cEMS.SendMail(sSubject, sBody, "jeffrey.bradshaw@quixeltech.com", "", "");
                 //else
-                    cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com,jbradshaw@pobox.com");
+                    cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "","PELComments", Session["Username"].ToString());
             }
         }
     }

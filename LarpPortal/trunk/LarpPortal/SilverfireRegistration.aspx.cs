@@ -175,7 +175,7 @@ namespace LarpPortal
             try
             {
                 //client.Send(mail);
-                RegistrationEmail.SendMail(strSubject, strBody, "fifthgategm@gmail.com", lblPlayerEmail.Text, "support@larportal.com");
+                RegistrationEmail.SendMail(strSubject, strBody, "fifthgategm@gmail.com", lblPlayerEmail.Text, "", "Registration", Session["Username"].ToString());
             }
             catch (Exception)
             {

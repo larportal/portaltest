@@ -137,6 +137,7 @@ namespace LarpPortal.Character
 
         protected void CharacterHistoryEmailNotificaiton()
         {
+            string strUsername = Session["Username"].ToString();
             string strTo = "";
             string strCampaignName = lblCampaign.Text;
             string strPlayerName = "";
@@ -158,7 +159,7 @@ namespace LarpPortal.Character
             Classes.cEmailMessageService SubmitCharacterHistory = new Classes.cEmailMessageService();
             try
             {
-                SubmitCharacterHistory.SendMail(strSubject, strBody, strTo, strPlayerEmail, "");
+                SubmitCharacterHistory.SendMail(strSubject, strBody, strTo, strPlayerEmail, "", "CharacterHistory", Session["Username"].ToString());
             }
             catch (Exception)
             {

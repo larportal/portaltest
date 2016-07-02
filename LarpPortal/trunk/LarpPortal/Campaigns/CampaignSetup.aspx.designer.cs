@@ -13,22 +13,22 @@ namespace LarpPortal.Campaigns {
     public partial class CampaignSetup {
         
         /// <summary>
-        /// mvCampaignInfo control.
+        /// rdolSections control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.MultiView mvCampaignInfo;
+        protected global::System.Web.UI.WebControls.RadioButtonList rdolSections;
         
         /// <summary>
-        /// vwDemographics control.
+        /// pnlDemographics control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwDemographics;
+        protected global::System.Web.UI.WebControls.Panel pnlDemographics;
         
         /// <summary>
         /// lblCampaignName control.
@@ -202,6 +202,15 @@ namespace LarpPortal.Campaigns {
         protected global::System.Web.UI.WebControls.Button btnEditPeriods;
         
         /// <summary>
+        /// pnlWebPageDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlWebPageDescription;
+        
+        /// <summary>
         /// tbWebPageDescription control.
         /// </summary>
         /// <remarks>
@@ -209,6 +218,15 @@ namespace LarpPortal.Campaigns {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbWebPageDescription;
+        
+        /// <summary>
+        /// pnlRequirements control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlRequirements;
         
         /// <summary>
         /// tbMembershipFee control.
@@ -254,5 +272,59 @@ namespace LarpPortal.Campaigns {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlWaiver;
+        
+        /// <summary>
+        /// pnlContact control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlContact;
+        
+        /// <summary>
+        /// TextBox1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        
+        /// <summary>
+        /// pnlPolicy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlPolicy;
+        
+        /// <summary>
+        /// TextBox2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        
+        /// <summary>
+        /// pnlUserDefined control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlUserDefined;
+        
+        /// <summary>
+        /// TextBox3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox3;
     }
 }

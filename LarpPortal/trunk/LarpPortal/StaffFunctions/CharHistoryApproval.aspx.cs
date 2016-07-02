@@ -127,7 +127,7 @@ namespace LarpPortal.StaffFunctions
                         Classes.cEmailMessageService SubmitCharacterHistory = new Classes.cEmailMessageService();
                         try
                         {
-                            SubmitCharacterHistory.SendMail(strSubject, strBody, hidPlayerEMail.Value, "", "");
+                            SubmitCharacterHistory.SendMail(strSubject, strBody, hidPlayerEMail.Value, "", "", "CharacterHistory", Session["Username"].ToString());
                         }
                         catch (Exception)
                         {

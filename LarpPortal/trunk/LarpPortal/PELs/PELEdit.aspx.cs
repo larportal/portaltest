@@ -294,7 +294,7 @@ namespace LarpPortal.PELs
                         sEmailBody;
 
                     Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                    cEMS.SendMail(sSubject, sBody, sPELNotificationEMail, "", "support@larportal.com,jbradshaw@pobox.com");
+                    cEMS.SendMail(sSubject, sBody, sPELNotificationEMail, "", "", "PEL", Session["Username"].ToString());
                 }
             }
             catch (Exception ex)
