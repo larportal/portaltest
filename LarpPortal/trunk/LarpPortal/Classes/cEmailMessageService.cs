@@ -28,7 +28,7 @@ namespace LarpPortal.Classes
         /// <param name="Tos">Who to send email to. Use either , or ; between multiple emails.</param>
         /// <param name="ccs">Who to cc email to. Use either , or ; between multiple emails.</param>
         /// <param name="bccs">Who to bcc email to. Use either , or ; between multiple emails.</param>
-        public void SendMail(string subject, string body, string Tos, string ccs, string bccs)
+        public void SendMail(string subject, string body, string Tos, string ccs, string bccs, string CallingJob, string UserName)
         {
             if (string.IsNullOrEmpty(Tos))
                 throw new ArgumentException("There are no To email addresses");
@@ -36,7 +36,38 @@ namespace LarpPortal.Classes
                 throw new ArgumentException("The body is empty");
             if (subject == null)
                 throw new ArgumentException("The subject is empty");
+            // RP - 7/2/2016 - Added strFrom as a passed in parameter.  
+            //      Look it up and return all associated address information (SMTP client, password, port, etc) 
+            //      First hard code a default just in case all else fails.
+            //      Then oad defaults from table using CallingJob 'Default' first (uspGetSMTPParametersByCallingJob  @CallingJob = 'Default'
+            //      Load called job and if that's found overwrite defaults
+            string stStoredProc = "uspGetSMTPParametersByCallingJob";
+            string stCallingMethod = "cEmailMessageService.SendMail.GetDefault";
             string strFrom = "support@larportal.com";
+            string strSMTPPassword = "Piccolo1";
+            string strSMTPClient = "smtpout.secureserver.net";
+            int intPort = 80;
+            SortedList sParams = new SortedList();
+            sParams.Add("@CallingJob", "Default");
+            DataTable dtDefaultSMTP = cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName,stCallingMethod);
+            foreach (DataRow dRow in dtDefaultSMTP.Rows)
+            {
+                strFrom = dRow["FromAddress"].ToString();
+                strSMTPPassword = dRow["Password"].ToString();
+                strSMTPClient = dRow["SMTPClient"].ToString();
+                Int32.TryParse(dRow["Port"].ToString(), out intPort);
+            }
+            sParams.Clear();
+            sParams.Add("@CallingJob", CallingJob);
+            stCallingMethod = "cEmailMessageService.SendMail.GetCallingJob";
+            DataTable dtCallingJobSMTP = cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName, stCallingMethod);
+            foreach (DataRow dRowCJ in dtCallingJobSMTP.Rows)
+            {
+                strFrom = dRowCJ["FromAddress"].ToString();
+                strSMTPPassword = dRowCJ["Password"].ToString();
+                strSMTPClient = dRowCJ["SMTPClient"].ToString();
+                Int32.TryParse(dRowCJ["Port"].ToString(), out intPort);
+            }
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(strFrom);
             mail.Subject = subject;
@@ -59,8 +90,7 @@ namespace LarpPortal.Classes
                     if (bcc.Trim().Length > 0)     // JLB 6/5/2016 - Don't add if address is blank. Will cause errors.
                         mail.Bcc.Add(bcc.Trim());
             }
-            string strSMTPPassword = "Piccolo1";
-            SmtpClient client = new SmtpClient("smtpout.secureserver.net", 80);
+            SmtpClient client = new SmtpClient(strSMTPClient, intPort);
             client.EnableSsl = false;
             client.UseDefaultCredentials = false;
             client.Credentials = new System.Net.NetworkCredential(strFrom, strSMTPPassword);

@@ -206,7 +206,7 @@ namespace LarpPortal.PELs
                     AddendumText.Replace(Environment.NewLine, "<br>");
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "support@larportal.com");
+                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "" , "", "PELAddendum", Session["Username"].ToString());
             }
         }
 

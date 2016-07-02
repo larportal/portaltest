@@ -188,10 +188,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 21:15:46</publishTime>
     </File>
     <File Include="bin/LarpPortal.dll">
-      <publishTime>06/22/2016 06:40:48</publishTime>
+      <publishTime>06/28/2016 22:34:44</publishTime>
     </File>
     <File Include="bin/LarpPortal.pdb">
-      <publishTime>06/22/2016 06:40:48</publishTime>
+      <publishTime>06/28/2016 22:34:44</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>05/19/2014 20:54:36</publishTime>
@@ -335,7 +335,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/04/2015 19:20:01</publishTime>
     </File>
     <File Include="Campaigns/CampaignSetup.aspx">
-      <publishTime>03/05/2016 11:59:43</publishTime>
+      <publishTime>06/27/2016 07:20:49</publishTime>
     </File>
     <File Include="Character/Character.Master">
       <publishTime>05/30/2016 19:29:38</publishTime>
@@ -428,7 +428,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/08/2016 08:49:24</publishTime>
     </File>
     <File Include="css/bootstrap.css">
-      <publishTime>09/13/2015 12:11:09</publishTime>
+      <publishTime>06/26/2016 07:55:27</publishTime>
     </File>
     <File Include="css/Images/ui-bg_flat_75_ffffff_40x100.png">
       <publishTime>09/28/2015 20:13:20</publishTime>
@@ -437,7 +437,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2016 11:53:57</publishTime>
     </File>
     <File Include="css/main.css">
-      <publishTime>09/07/2015 12:12:42</publishTime>
+      <publishTime>06/26/2016 07:55:27</publishTime>
     </File>
     <File Include="css/normalize.css">
       <publishTime>11/24/2014 13:09:40</publishTime>
@@ -962,7 +962,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LARPortal.pubxml.user">
-      <publishTime>06/15/2016 20:18:05</publishTime>
+      <publishTime>06/22/2016 06:41:45</publishTime>
     </File>
     <File Include="PublicCalendar.aspx">
       <publishTime>12/10/2014 21:37:31</publishTime>
@@ -1187,7 +1187,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/22/2016 06:41:08</publishTime>
+      <publishTime>06/28/2016 22:34:58</publishTime>
     </File>
     <File Include="WebForm1.aspx">
       <publishTime>12/02/2014 20:09:36</publishTime>

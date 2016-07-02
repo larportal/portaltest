@@ -121,7 +121,7 @@ namespace LarpPortal.Events
                     if (!string.IsNullOrEmpty(sCampaignEMail))
                         sSendTo += ";" + sCampaignEMail;
 
-                    RegistrationEmail.SendMail(strSubject, strBody, hidPlayerEMail.Value, "", sCampaignEMail);
+                    RegistrationEmail.SendMail(strSubject, strBody, hidPlayerEMail.Value, "", sCampaignEMail, "Registration", Session["Username"].ToString());
                 }
                 catch (Exception)
                 {

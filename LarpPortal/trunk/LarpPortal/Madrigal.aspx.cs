@@ -382,7 +382,7 @@ namespace LarpPortal
             Classes.cEmailMessageService NotifyStaff = new Classes.cEmailMessageService();
             try
             {
-                NotifyStaff.SendMail(strSubject, strBody, strTo, "", "support@larportal.com");
+                NotifyStaff.SendMail(strSubject, strBody, strTo, "", "", "ActivationKey", Session["Username"].ToString());
             }
             catch (Exception)
             {

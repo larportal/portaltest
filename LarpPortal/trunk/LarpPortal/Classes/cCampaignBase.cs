@@ -6,6 +6,8 @@ using System.Data;
 using LarpPortal.Classes;
 using System.Reflection;
 using System.Collections;
+using System.Configuration;
+using System.Data.SqlClient;
 
 
 namespace LarpPortal.Classes
@@ -28,6 +30,7 @@ namespace LarpPortal.Classes
         private string _PortalAccessType = "";
         private string _PortalAccessDescription = "";
         private Int32 _PrimaryOwnerID = -1;
+        private string _PrimaryOwnerName = "";
         private string _WebPageDescription = "";
         private string _URL = "";
         private string _Logo = ""; // stored the file location for the logo image
@@ -181,6 +184,11 @@ namespace LarpPortal.Classes
         {
             get { return _PrimaryOwnerID; }
             set { _PrimaryOwnerID = value; }
+        }
+        public string PrimaryOwnerName
+        {
+            get { return _PrimaryOwnerName; }
+            set { _PrimaryOwnerName = value; }
         }
         public string WebPageDescription
         {
@@ -685,6 +693,7 @@ namespace LarpPortal.Classes
                     _PortalAccessType = ldt.Rows[0]["PortalAccessType"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["PrimaryOwnerID"].ToString(), out iTemp))
                         _PrimaryOwnerID = iTemp;
+                    _PrimaryOwnerName = ldt.Rows[0]["PrimaryOwnerName"].ToString().Trim();
                     _ProductionSkillEMail = ldt.Rows[0]["ProductionSkillEmail"].ToString().Trim();
                     _ProductionSkillURL = ldt.Rows[0]["ProductionSkillURL"].ToString().Trim();
                     if (DateTime.TryParse(ldt.Rows[0]["ProjectedEndDate"].ToString(), out dtTemp))
@@ -837,12 +846,13 @@ namespace LarpPortal.Classes
             return blnReturn;
         }
 
-        private void GetGenres(string strUserName)
+        public void GetGenres(string strUserName)
         {
             int i = 1;
             string lsRoutineName = "cCampaignBase.GetGenres";
             string stStoredProc = "uspGetCampaignGenresByCampaignID";
             _UserName = strUserName;
+            _GenreList = "";
             SortedList slParams = new SortedList();
             slParams.Add("@CampaignID", _CampaignID);
             DataTable dtGenres = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
