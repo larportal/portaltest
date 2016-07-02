@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+//    7/1/2016  JBradshaw  Now it will delete the opportunity when any button is pressed and add only when the person actually registers.
+
 namespace LarpPortal.Events
 {
     public partial class EventRegistration : System.Web.UI.Page
@@ -550,6 +552,8 @@ namespace LarpPortal.Events
         protected void btnRegister_Command(object sender, CommandEventArgs e)
         {
             bool bNewRegistration = false;
+            bool bActualRegistration = false;
+
             if (hidRegistrationID.Value == "-1")
                 bNewRegistration = true;
 
@@ -605,6 +609,7 @@ namespace LarpPortal.Events
                     // TryToRegister is only valid if they aren't already registered. If that's true it ignores it.
                     sStatusToSearchFor = "TryToRegister";
                     sRegistrationMessage = "Thank you for registering for the event.";
+                    bActualRegistration = true;
                     break;
             }
 
@@ -669,7 +674,7 @@ namespace LarpPortal.Events
                 {
                     iRegistrationID = 0;
                     int.TryParse(dRegRecord["RegistrationID"].ToString(), out iRegistrationID);
-                    InsertCPOpportunity(iRoleAlignment, iCharacterID, iEventID, iRegistrationID, bFullEvent);
+                    InsertCPOpportunity(iRoleAlignment, iCharacterID, iEventID, iRegistrationID, bFullEvent, bActualRegistration);
 
                     SortedList sParamsClearMeals = new SortedList();
                     sParamsClearMeals.Add("@RegistrationID", dRegRecord["RegistrationID"].ToString());
@@ -764,7 +769,7 @@ namespace LarpPortal.Events
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeModal();", true);
         }
 
-        protected void InsertCPOpportunity(int RoleAlignment, int iCharacterID, int iEventID, int iRegistrationID, bool bFullEvent)
+        protected void InsertCPOpportunity(int RoleAlignment, int iCharacterID, int iEventID, int iRegistrationID, bool bFullEvent, bool bActualRegistration)
         {
             int iCampaignID = 0;
             int iUserID = 0;
@@ -797,7 +802,9 @@ namespace LarpPortal.Events
 
             Classes.cPoints cPoints = new Classes.cPoints();
             cPoints.DeleteRegistrationCPOpportunity(iUserID, iRegistrationID);
-            cPoints.CreateRegistrationCPOpportunity(iUserID, iCampaignID, RoleAlignment, iCharacterID, iReasonID, iEventID, iRegistrationID);
+
+            if (bActualRegistration)
+                cPoints.CreateRegistrationCPOpportunity(iUserID, iCampaignID, RoleAlignment, iCharacterID, iReasonID, iEventID, iRegistrationID);
         }
     }
 }
