@@ -84,8 +84,8 @@
                                         <td rowspan="4" style="width: 35px;">&nbsp;</td>
                                         <td>To add a profile picture, use the browse button below.
                                         </td>
-                                        <td rowspan="4">
-                                            <asp:Image ID="imgPlayerImage" runat="server" Width="125" /></td>
+                                        <td rowspan="4" style="text-align: center;">
+                                            <asp:Image ID="imgPlayerImage" runat="server" Width="150" /></td>
                                     </tr>
 
                                     <tr>
@@ -124,7 +124,7 @@
                                         <td>
                                             <asp:TextBox ID="tbPenName" runat="server" CssClass="TableTextBox" />
                                         </td>
-                                        <td style="text-align: right;">
+                                        <td style="text-align: left;">
                                             <asp:Button ID="btnUpload" runat="server" Text="Upload" CssClass="StandardButton" OnClick="btnSavePicture_Click" Width="100" /></td>
                                     </tr>
 
@@ -155,7 +155,7 @@
                                             <ajaxToolkit:MaskedEditExtender ID="meeEmergencyPhone" runat="server" TargetControlID="tbEmergencyPhone" Mask="(999) 999-9999" />
                                             <asp:RequiredFieldValidator ID="rfvEmergencyPhone" runat="server" ControlToValidate="tbEmergencyPhone" Font-Italic="true"
                                                 ForeColor="Red" Font-Bold="true" Text="* Required" Display="Dynamic" />
-                                            <asp:RegularExpressionValidator ID="revEmergencyPhone" runat="server" ValidationExpression = "^[\s\S]{10}$" ControlToValidate="tbEmergencyPhone"
+                                            <asp:RegularExpressionValidator ID="revEmergencyPhone" runat="server" ValidationExpression="^[\s\S]{10}$" ControlToValidate="tbEmergencyPhone"
                                                 ErrorMessage="* Enter all 10 digits of the phone number." Font-Italic="true" ForeColor="Red" Font-Bold="true" Display="Dynamic" />
                                         </td>
                                     </tr>
