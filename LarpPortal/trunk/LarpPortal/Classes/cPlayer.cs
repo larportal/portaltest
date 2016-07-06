@@ -15,7 +15,7 @@ namespace LarpPortal.Classes
 {
     public class cPlayer
     {
-        private Int32 _PictureID = -1;      // Only used internally to get the info.
+        public Int32 PictureID { get; set; }
         public Int32 UserID { get; set; }
         public string UserName { get; set; }
         public Int32 PlayerProfileID { get; set; }
@@ -101,6 +101,14 @@ namespace LarpPortal.Classes
             }
         }
 
+        public bool HasPicture
+        {
+            get
+            {
+                return PictureID > 0;        // If PictureID != -1 then we have a picture.
+            }
+        }
+
         private cPlayer()
         {
         }
@@ -156,6 +164,15 @@ namespace LarpPortal.Classes
                     CPDestinationDefault = ldt.Rows[0]["CPDestinationDefault"].ToString().ToInt32();
                     PhotoPreference = ldt.Rows[0]["PhotoPreference"].ToString().ToInt32();
                     UserPhoto = ldt.Rows[0]["UserPhoto"].ToString();
+                    int iTemp = 0;
+                    if (int.TryParse(ldt.Rows[0]["PlayerPictureID"].ToString(), out iTemp))
+                        PictureID = iTemp;
+                    else
+                        Picture.PictureID = -1;
+
+                    if ( PictureID > 0 )
+                        Picture.Load(PictureID, intUserId.ToString());
+
                     SearchableProfile = ldt.Rows[0]["SearchableProfile"].ToString().ToBoolean();
                     RolePlayPercentage = ldt.Rows[0]["RoleplayPercentage"].ToString().ToInt32();
                     CombatPercentage = ldt.Rows[0]["CombatPercentage"].ToString().ToInt32();
@@ -203,6 +220,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@CPDestinationDefault", CPDestinationDefault);
                 slParams.Add("@PhotoPreference", PhotoPreference);
                 slParams.Add("@UserPhoto", UserPhoto);
+                slParams.Add("@PlayerPictureID", PictureID);
                 slParams.Add("@SearchableProfile", SearchableProfile);
                 slParams.Add("@RoleplayPercentage", _RolePlayPercentage);
                 slParams.Add("@CombatPercentage", _CombatPercentage);
