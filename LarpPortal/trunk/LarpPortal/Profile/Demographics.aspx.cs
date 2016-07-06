@@ -59,13 +59,24 @@ namespace LarpPortal.Profile
                 string othergen = PLDemography.GenderOther;
 
                 string pict = PLDemography.UserPhoto;
-                if (pict == "")
+
+                if (PLDemography.HasPicture)
                 {
-                    imgPlayerImage.ImageUrl = "http://placehold.it/150x150";
+                    imgPlayerImage.ImageUrl = PLDemography.Picture.PictureURL;
+                    ViewState["UserIDPicture"] = PLDemography.Picture.PictureID;
                 }
                 else
                 {
-                    imgPlayerImage.ImageUrl = PLDemography.Picture.PictureURL;
+                    if (PLDemography.UserPhoto.Length > 0)
+                    {
+                        imgPlayerImage.ImageUrl = PLDemography.UserPhoto;
+                        ViewState.Remove("UserIDPicture");
+                    }
+                    else
+                    {
+                        imgPlayerImage.ImageUrl = "http://placehold.it/150x150";
+                        ViewState.Remove("UserIDPicture");
+                    }
                 }
 
                 string emergencyContactPhone = string.Empty;
@@ -103,9 +114,6 @@ namespace LarpPortal.Profile
                 tbNickName.Text = Demography.NickName;
                 tbPenName.Text = PLDemography.AuthorName;
                 tbForumName.Text = Demography.ForumUserName;
-
-                if (Session["dem_Img_Url"] != null && !string.IsNullOrWhiteSpace(Session["dem_Img_Url"].ToString()))
-                    imgPlayerImage.ImageUrl = Session["dem_Img_Url"].ToString();
 
                 Session["dem_Addresses"] = Demography.UserAddresses;
                 Session["dem_Phones"] = Demography.UserPhones;
@@ -153,20 +161,6 @@ namespace LarpPortal.Profile
             lblErrorMessage2.Text = lblErrorMessage1.Text;
             btnSave2.Enabled = btnSave1.Enabled;
         }
-
-        //protected void ddlGender_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    if (ddlGender.SelectedValue == "O")
-        //    {
-        //        tbGenderOther.Visible = true;
-        //        tbGenderOther.Focus();
-        //    }
-        //    else
-        //    {
-        //        tbGenderOther.Text = string.Empty; //Clear value
-        //        tbGenderOther.Visible = false;
-        //    }
-        //}
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
@@ -259,12 +253,19 @@ namespace LarpPortal.Profile
             PhonesChangesUpdate(Demography);
             EmailsChangesUpdate(Demography);
 
-            if (Session["dem_Img_Url"] != null)
+            PLDemography.PictureID = -1;
+
+            if (ViewState["UserIDPicture"] != null)
             {
-                PLDemography.UserPhoto = Session["dem_Img_Url"].ToString();
-                imgPlayerImage.ImageUrl = Session["dem_Img_Url"].ToString();
-                Session["dem_Img_Url"] = "";
-                Session.Remove("dem_Img_Id");
+                int iTemp;
+                if (int.TryParse(ViewState["UserIDPicture"].ToString(), out iTemp))
+                    PLDemography.PictureID = iTemp;
+                else
+                    PLDemography.PictureID = -1;
+                //PLDemography.UserPhoto = Session["dem_Img_Url"].ToString();
+                //imgPlayerImage.ImageUrl = Session["dem_Img_Url"].ToString();
+                //Session["dem_Img_Url"] = "";
+                //Session.Remove("dem_Img_Id");
 
                 //Classes.cPicture NewPicture = new Classes.cPicture();
                 //int iPictureId =0;
@@ -279,8 +280,9 @@ namespace LarpPortal.Profile
                 //    //PLDemography.UserPhoto = NewPicture.PictureFileName;                    
                 //}
             }
+            else
+                PLDemography.PictureID = -1;
 
-            /* As I validate I will place the new values on the component prior to saving the values*/
             Demography.Save();
             PLDemography.Save();
             Session["Username"] = Demography.LoginName;
@@ -350,22 +352,6 @@ namespace LarpPortal.Profile
             List<cAddress> Addresses = Session["dem_Addresses"] as List<cAddress>;
             gvAddresses.DataSource = Addresses;
             gvAddresses.DataBind();
-
-            //if (Addresses.Count == 1)
-            //{
-            //    Button btnDelete = (Button)gvAddresses.Rows[0].FindControl("btnDelete");
-            //    if (btnDelete != null)
-            //        btnDelete.Visible = false;
-            //}
-            //else
-            //{
-            //    foreach (GridViewRow gvRow in gvAddresses.Rows)
-            //    {
-            //        Button btnDelete = (Button)gvRow.FindControl("btnDelete");
-            //        if (btnDelete != null)
-            //            btnDelete.Visible = true;
-            //    }
-            //}
         }
 
         protected void gvAddresses_RowEditing(object sender, GridViewEditEventArgs e)
@@ -590,22 +576,6 @@ namespace LarpPortal.Profile
             List<cPhone> PhoneNumbers = Session["dem_Phones"] as List<cPhone>;
             gvPhoneNumbers.DataSource = PhoneNumbers;
             gvPhoneNumbers.DataBind();
-
-            //if (PhoneNumbers.Count == 1)
-            //{
-            //    Button btnDelete = (Button)gvPhoneNumbers.Rows[0].FindControl("btnDelete");
-            //    if (btnDelete != null)
-            //        btnDelete.Visible = false;
-            //}
-            //else
-            //{
-            //    foreach (GridViewRow gvRow in gvPhoneNumbers.Rows)
-            //    {
-            //        Button btnDelete = (Button)gvRow.FindControl("btnDelete");
-            //        if (btnDelete != null)
-            //            btnDelete.Visible = true;
-            //    }
-            //}
         }
 
         protected void gvPhoneNumbers_RowEditing(object sender, GridViewEditEventArgs e)
@@ -949,77 +919,78 @@ namespace LarpPortal.Profile
 
         #endregion
 
-        protected void btnUpload_Click(object sender, EventArgs e)
-        {
-            if (ulFile.HasFile)
-            {
-                try
-                {
-                    //If file is not an image do not let it in the system
-                    System.Drawing.Imaging.ImageFormat imgFormat = System.Drawing.Imaging.ImageFormat.Jpeg;
-                    string fExt = ulFile.FileName.Substring(ulFile.FileName.IndexOf(".") + 1).ToUpper();
-                    string[] validImageExt = { "BMP", "GIF", "ICO", "JPG", "JPEG", "PNG" };
+        //protected void btnUpload_Click(object sender, EventArgs e)
+        //{
+        //    if (ulFile.HasFile)
+        //    {
+        //        try
+        //        {
+        //            //If file is not an image do not let it in the system
+        //            System.Drawing.Imaging.ImageFormat imgFormat = System.Drawing.Imaging.ImageFormat.Jpeg;
+        //            string fExt = ulFile.FileName.Substring(ulFile.FileName.IndexOf(".") + 1).ToUpper();
+        //            string[] validImageExt = { "BMP", "GIF", "ICO", "JPG", "JPEG", "PNG" };
 
-                    if (!validImageExt.Contains(fExt))
-                    {
-                        lblMessage.Text = "Invalid File time. Supported types are " + string.Join(", ", validImageExt);
-                        return;
-                    }
-                    else
-                    {
-                        if (fExt == "BMP")
-                            imgFormat = System.Drawing.Imaging.ImageFormat.Bmp;
-                        if (fExt == "GIF")
-                            imgFormat = System.Drawing.Imaging.ImageFormat.Gif;
-                        if (fExt == "ICO")
-                            imgFormat = System.Drawing.Imaging.ImageFormat.Icon;
-                        if (fExt == "PNG")
-                            imgFormat = System.Drawing.Imaging.ImageFormat.Png;
-                    }
+        //            if (!validImageExt.Contains(fExt))
+        //            {
+        //                lblMessage.Text = "Invalid File time. Supported types are " + string.Join(", ", validImageExt);
+        //                return;
+        //            }
+        //            else
+        //            {
+        //                if (fExt == "BMP")
+        //                    imgFormat = System.Drawing.Imaging.ImageFormat.Bmp;
+        //                if (fExt == "GIF")
+        //                    imgFormat = System.Drawing.Imaging.ImageFormat.Gif;
+        //                if (fExt == "ICO")
+        //                    imgFormat = System.Drawing.Imaging.ImageFormat.Icon;
+        //                if (fExt == "PNG")
+        //                    imgFormat = System.Drawing.Imaging.ImageFormat.Png;
+        //            }
 
-                    string sUser = Session["LoginName"].ToString();
-                    Classes.cPicture NewPicture = new Classes.cPicture();
-                    NewPicture.PictureType = Classes.cPicture.PictureTypes.Player;
-                    NewPicture.CreateNewPictureRecord(sUser);
-                    string sExtension = Path.GetExtension(ulFile.FileName);
-                    ////The new picture should always be userId + '_2' so when we save the information we finalize it as userId + '_1'
-                    //NewPicture.PictureFileName = Demography.UserID.ToString() + "_2" + sExtension;
-                    //While the stored procedure is created I will safe the picture with the users name
-                    //                    NewPicture.PictureFileName = Demography.UserID.ToString() + "_" + ulFile.FileName;
+        //            string sUser = Session["LoginName"].ToString();
+        //            Classes.cPicture NewPicture = new Classes.cPicture();
+        //            NewPicture.PictureType = Classes.cPicture.PictureTypes.Player;
+        //            NewPicture.CreateNewPictureRecord(sUser);
+        //            string sExtension = Path.GetExtension(ulFile.FileName);
+        //            ////The new picture should always be userId + '_2' so when we save the information we finalize it as userId + '_1'
+        //            //NewPicture.PictureFileName = Demography.UserID.ToString() + "_2" + sExtension;
+        //            //While the stored procedure is created I will safe the picture with the users name
+        //            //                    NewPicture.PictureFileName = Demography.UserID.ToString() + "_" + ulFile.FileName;
 
-                    //Not sure I understand what this means
-                    //int iCharacterID = 0;
-                    //int.TryParse(Session["dem_Img"].ToString(), out iCharacterID);
-                    //NewPicture.CharacterID = iCharacterID;
+        //            //Not sure I understand what this means
+        //            //int iCharacterID = 0;
+        //            //int.TryParse(Session["dem_Img"].ToString(), out iCharacterID);
+        //            //NewPicture.CharacterID = iCharacterID;
 
-                    string LocalName = NewPicture.PictureLocalName;
+        //            string LocalName = NewPicture.PictureLocalName;
 
-                    if (!Directory.Exists(Path.GetDirectoryName(NewPicture.PictureLocalName)))
-                        Directory.CreateDirectory(Path.GetDirectoryName(NewPicture.PictureLocalName));
+        //            if (!Directory.Exists(Path.GetDirectoryName(NewPicture.PictureLocalName)))
+        //                Directory.CreateDirectory(Path.GetDirectoryName(NewPicture.PictureLocalName));
 
-                    ulFile.SaveAs(NewPicture.PictureLocalName);
-                    NewPicture.Save(sUser);
+        //            ulFile.SaveAs(NewPicture.PictureLocalName);
+        //            NewPicture.Save(sUser);
 
-                    Session["dem_Img_Id"] = NewPicture.PictureID;
-                    Session["dem_Img_Url"] = NewPicture.PictureURL;
-                    imgPlayerImage.ImageUrl = NewPicture.PictureURL;
+        //            Session["UserIDPicture"] = NewPicture.PictureID;
+        //            //Session["dem_Img_Id"] = NewPicture.PictureID;
+        //            //Session["dem_Img_Url"] = NewPicture.PictureURL;
+        //            imgPlayerImage.ImageUrl = NewPicture.PictureURL;
 
-                    /* If picture size if greater than half a megabyte we need to resize the image to 150 x 150 pixels*/
-                    //FileInfo fInfo = new FileInfo(NewPicture.PictureLocalName);
-                    //if (fInfo.Length > 500000)
-                    //{
-                    //    System.Drawing.Image image = System.Drawing.Bitmap.FromFile(NewPicture.PictureLocalName);
-                    //    System.Drawing.Image newImage = ScaleImage(image, 150, 150);
-                    //    newImage.Save(NewPicture.PictureURL, imgFormat);
-                    //}
+        //            /* If picture size if greater than half a megabyte we need to resize the image to 150 x 150 pixels*/
+        //            //FileInfo fInfo = new FileInfo(NewPicture.PictureLocalName);
+        //            //if (fInfo.Length > 500000)
+        //            //{
+        //            //    System.Drawing.Image image = System.Drawing.Bitmap.FromFile(NewPicture.PictureLocalName);
+        //            //    System.Drawing.Image newImage = ScaleImage(image, 150, 150);
+        //            //    newImage.Save(NewPicture.PictureURL, imgFormat);
+        //            //}
 
-                }
-                catch (Exception ex)
-                {
-                    lblMessage.Text = ex.Message + "<br>" + ex.StackTrace;
-                }
-            }
-        }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            lblMessage.Text = ex.Message + "<br>" + ex.StackTrace;
+        //        }
+        //    }
+        //}
 
         private System.Drawing.Image ScaleImage(System.Drawing.Image image, int maxWidth, int maxHeight)
         {
@@ -1046,7 +1017,7 @@ namespace LarpPortal.Profile
                     NewPicture.PictureType = Classes.cPicture.PictureTypes.Profile;
                     NewPicture.CreateNewPictureRecord(sUser);
                     string sExtension = Path.GetExtension(ulFile.FileName);
-                    NewPicture.PictureFileName = "CP" + NewPicture.PictureID.ToString("D10") + sExtension;
+                    NewPicture.PictureFileName = "PL" + NewPicture.PictureID.ToString("D10") + sExtension;
 
                     int iCharacterID = 0;
                     int.TryParse(ViewState["CurrentCharacter"].ToString(), out iCharacterID);
@@ -1060,7 +1031,7 @@ namespace LarpPortal.Profile
                     ulFile.SaveAs(NewPicture.PictureLocalName);
                     NewPicture.Save(sUser);
 
-                    ViewState["UserIDPicture"] = NewPicture;
+                    ViewState["UserIDPicture"] = NewPicture.PictureID;
                     ViewState.Remove("PictureDeleted");
 
                     imgPlayerImage.ImageUrl = NewPicture.PictureURL;
@@ -1077,219 +1048,20 @@ namespace LarpPortal.Profile
         protected void btnClearPicture_Click(object sender, EventArgs e)
         {
             if (ViewState["UserIDPicture"] != null)
-                ViewState["PictureDeleted"] = "Y";
-            //                ViewState.Remove("UserIDPicture");
+                ViewState.Remove("UserIDPicture");
+
             imgPlayerImage.Visible = false;
             btnClearPicture.Visible = false;
 
-            SortedList sParam = new SortedList();
-            sParam.Add("@CharacterID", Session["SelectedCharacter"].ToString());
+            //SortedList sParam = new SortedList();
+            //sParam.Add("@CharacterID", Session["SelectedCharacter"].ToString());
 
-            Classes.cUtilities.LoadDataTable("uspClearCharacterProfilePicture", sParam, "LARPortal", Session["UserID"].ToString(), "CharInfo.btnClearPicture");
+            //Classes.cUtilities.LoadDataTable("uspClearCharacterProfilePicture", sParam, "LARPortal", Session["UserID"].ToString(), "CharInfo.btnClearPicture");
         }
-
-        //protected void btnSave_Click2(object sender, EventArgs e)
-        //{
-        //    //int iTemp;
-
-        //    //if (Session["SelectedCharacter"] != null)
-        //    //{
-        //    //    DataTable dtDesc = Session["CharDescriptors"] as DataTable;
-
-        //    //    int iCharID;
-        //    //    if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-        //    //    {
-        //    //        Classes.cCharacter cChar = new Classes.cCharacter();
-        //    //        cChar.LoadCharacter(iCharID);
-
-        //    //        cChar.FirstName = tbFirstName.Text;
-        //    //        cChar.MiddleName = tbMiddleName.Text;
-        //    //        cChar.LastName = tbLastName.Text;
-
-        //    //        cChar.CurrentHome = tbOrigin.Text;
-        //    //        // TODO JLB   cChar.Status.StatusName = tbStatus.Text;
-        //    //        //                  cChar.Status.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
-        //    //        cChar.CharacterStatusID = Convert.ToInt32(ddlStatus.SelectedValue);
-
-        //    //        cChar.AKA = tbAKA.Text;
-        //    //        cChar.CurrentHome = tbHome.Text;
-        //    //        cChar.WhereFrom = tbOrigin.Text;
-
-        //    //        //tbType.Text = cChar.CharType.Description;
-        //    //        //tbTeam.Text = "Team";
-
-        //    //        cChar.DateOfBirth = tbDOB.Text;
-        //    //        if (ViewState["UserIDPicture"] != null)
-        //    //        {
-        //    //            cChar.ProfilePicture = ViewState["UserIDPicture"] as Classes.cPicture;
-        //    //            if (ViewState["PictureDeleted"] != null)
-        //    //                cChar.ProfilePicture.RecordStatus = Classes.RecordStatuses.Delete;
-        //    //        }
-        //    //        else
-        //    //            cChar.ProfilePicture = null;
-
-        //    //        if (ddlRace.SelectedIndex > -1)
-        //    //        {
-        //    //            cChar.Race = new Classes.cRace();
-        //    //            int.TryParse(ddlRace.SelectedValue, out iTemp);
-        //    //            cChar.Race.CampaignRaceID = iTemp;
-        //    //        }
-
-        //    //        cChar.Descriptors = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-        //    //        foreach (Classes.cDescriptor Item in cChar.Descriptors)
-        //    //        {
-        //    //            Item.CharacterSkillSetID = cChar.CharacterSkillSetID;
-        //    //            // Put in check for negative values. Replace anything less than 0 with -1 so it will be updated/added. JBradshaw  4/20/15
-        //    //            if (Item.CharacterAttributesBasicID < 0)
-        //    //                Item.CharacterAttributesBasicID = -1;
-        //    //        }
-
-        //    //        cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
-
-        //    //        string jsString = "alert('Character " + cChar.AKA + " has been saved.');";
-        //    //        ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-        //    //                "MyApplication", jsString, true);
-        //    //    }
-        //    //}
-        //}
-
-        //protected void ddlDescriptor_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    int iCampaignAttributeStandardID;
-
-        //    List<Classes.cDescriptor> Desc = new List<Classes.cDescriptor>();
-        //    Desc = Session["CharDesc"] as List<Classes.cDescriptor>;
-
-        //    if (int.TryParse(ddlDescriptor.SelectedValue, out iCampaignAttributeStandardID))
-        //    {
-        //        SortedList sParams = new SortedList();
-        //        sParams.Add("@CampaignAttributeID", iCampaignAttributeStandardID);
-        //        Classes.cUtilities.LoadDropDownList(ddlName, "uspGetCampaignAttributeDescriptors", sParams, "DescriptorValue", "CampaignAttributeDescriptorID", "LARPortal", "JLB", "");
-        //        if (ddlName.Items.Count > 0)
-        //            ddlName.SelectedIndex = 0;
-        //        foreach (Classes.cDescriptor dDesc in Desc)
-        //        {
-        //            if (dDesc.CharacterDescriptor == ddlDescriptor.SelectedItem.Text)
-        //            {
-        //                ddlName.SelectedIndex = -1;
-        //                foreach (ListItem Trait in ddlName.Items)
-        //                    if (Trait.Text == dDesc.DescriptorValue)
-        //                        Trait.Selected = true;
-        //                    else
-        //                        Trait.Selected = false;
-        //            }
-        //        }
-        //    }
-        //}
-
-        //protected void gvDescriptors_RowEditing(object sender, GridViewEditEventArgs e)
-        //{
-
-        //}
-
-        //protected void gvDescriptors_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        //{
-        //    //    int index = Convert.ToInt32(e.RowIndex);
-        //    //    List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-        //    //    Desc[index].RecordStatus = Classes.RecordStatuses.Delete;
-        //    //    Session["CharDescriptors"] = Desc;
-        //    //    BindData();
-        //}
-
-
-        //protected void BindData()
-        //{
-        //    uint key = 0;
-        //    try
-        //    {
-        //        key = (uint)(Classes.RecordStatuses)Enum.Parse(typeof(Classes.RecordStatuses), Classes.RecordStatuses.Delete.ToString());
-        //    }
-        //    catch (ArgumentException)
-        //    {
-        //        //unknown string or s is null
-        //    }
-
-        //    List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-
-        //    DataTable dtCharDescriptors = new DataTable();
-        //    dtCharDescriptors = Classes.cUtilities.CreateDataTable(Desc);
-        //    DataView dvCharDescriptors = new DataView(dtCharDescriptors, "RecordStatus = 0 ", "", DataViewRowState.CurrentRows);
-
-        //    //gvDescriptors.DataSource = null;
-        //    //gvDescriptors.DataSource = dvCharDescriptors;
-        //    //gvDescriptors.DataBind();
-        //}
-
-        //protected void btnAddDesc_Click(object sender, EventArgs e)
-        //{
-            //List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-            //Classes.cDescriptor NewDesc = new Classes.cDescriptor();
-            //NewDesc.DescriptorValue = ddlName.SelectedItem.Text;
-            //int CampaignAttStandardID;
-            //int CampaignAttDescriptorID;
-            //NewDesc.CharacterDescriptor = ddlDescriptor.SelectedItem.Text;
-
-            //int NewRecCounter = Convert.ToInt32(ViewState["NewRecCounter"]);
-            //NewRecCounter--;
-            //ViewState["NewRecCounter"] = NewRecCounter;
-
-            //if (int.TryParse(ddlDescriptor.SelectedValue, out CampaignAttStandardID))
-            //    NewDesc.CampaignAttributeStandardID = CampaignAttStandardID;
-            //if (int.TryParse(ddlName.SelectedValue, out CampaignAttDescriptorID))
-            //    NewDesc.CampaignAttributeDescriptorID = CampaignAttDescriptorID;
-            //NewDesc.CharacterAttributesBasicID = NewRecCounter;
-            //NewDesc.RecordStatus = Classes.RecordStatuses.Active;
-
-            //Desc.Add(NewDesc);
-            //Session["CharDescriptors"] = Desc;
-            //BindData();
-        //}
-
-        //protected void gvDescriptors_RowCommand(object sender, GridViewCommandEventArgs e)
-        //{
-            //if (e.CommandName.ToUpper() == "DELETEDESC")
-            //{
-            //    int iValueToDelete;
-            //    if (int.TryParse(e.CommandArgument.ToString(), out iValueToDelete))
-            //    {
-            //        List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-            //        var FoundList = Desc.Find(x => x.CharacterAttributesBasicID == iValueToDelete);
-            //        if (FoundList != null)
-            //            FoundList.RecordStatus = Classes.RecordStatuses.Delete;
-            //        Session["CharDescriptors"] = Desc;
-            //        BindData();
-            //    }
-            //}
-        //}
-
-        //protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    //if (ddlCharacterSelector.SelectedValue == "-1")
-        //    //    Response.Redirect("CharAdd.aspx");
-
-        //    //if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
-        //    //{
-        //    //    Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-
-        //    //    // Save the character so it will be the last logged in character.
-        //    //    int iLoggedInChar = 0;
-        //    //    if (int.TryParse(ddlCharacterSelector.SelectedValue, out iLoggedInChar))
-        //    //    {
-        //    //        Classes.cUser UserInfo = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
-        //    //        UserInfo.LastLoggedInCharacter = iLoggedInChar;
-        //    //        UserInfo.Save();
-        //    //    }
-
-        //    //    Response.Redirect("CharInfo.aspx");
-        //    //}
-        //}
 
         protected void btnClose_Click(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeModal();", true);
         }
-
-
-
     }
 }
