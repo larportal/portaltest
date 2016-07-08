@@ -76,76 +76,13 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.Label lblCampaignName;
         
         /// <summary>
-        /// tblEventInfo control.
+        /// ddlMissedEvents control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table tblEventInfo;
-        
-        /// <summary>
-        /// trEventList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableRow trEventList;
-        
-        /// <summary>
-        /// tcEventLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcEventLabel;
-        
-        /// <summary>
-        /// tcEventList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcEventList;
-        
-        /// <summary>
-        /// ddlListToSelect control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlListToSelect;
-        
-        /// <summary>
-        /// trRole control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableRow trRole;
-        
-        /// <summary>
-        /// tcRoleLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcRoleLabel;
-        
-        /// <summary>
-        /// tcRoleList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcRoleList;
+        protected global::System.Web.UI.WebControls.DropDownList ddlMissedEvents;
         
         /// <summary>
         /// ddlRoles control.
@@ -166,31 +103,13 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.Label lblRole;
         
         /// <summary>
-        /// trPCStaff control.
+        /// divPCStaff control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableRow trPCStaff;
-        
-        /// <summary>
-        /// tcCharLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcCharLabel;
-        
-        /// <summary>
-        /// tcCharList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcCharList;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPCStaff;
         
         /// <summary>
         /// ddlCharacterList control.
@@ -211,31 +130,13 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.Label lblCharacter;
         
         /// <summary>
-        /// trNPC control.
+        /// divNPC control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableRow trNPC;
-        
-        /// <summary>
-        /// tcSendCPToLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcSendCPToLabel;
-        
-        /// <summary>
-        /// tcSendCPTo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcSendCPTo;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNPC;
         
         /// <summary>
         /// ddlSendToCampaign control.
@@ -247,31 +148,13 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.DropDownList ddlSendToCampaign;
         
         /// <summary>
-        /// trSendCPOther control.
+        /// divSendOther control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableRow trSendCPOther;
-        
-        /// <summary>
-        /// tcSendCPOtherLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcSendCPOtherLabel;
-        
-        /// <summary>
-        /// tcSendCPOther control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell tcSendCPOther;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSendOther;
         
         /// <summary>
         /// tbSendToCPOther control.
@@ -283,12 +166,30 @@ namespace LarpPortal.PELs {
         protected global::System.Web.UI.WebControls.TextBox tbSendToCPOther;
         
         /// <summary>
-        /// btnClose2 control.
+        /// btnCloseRegisterForEvent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClose2;
+        protected global::System.Web.UI.WebControls.Button btnCloseRegisterForEvent;
+        
+        /// <summary>
+        /// lblMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblMessage;
+        
+        /// <summary>
+        /// btnCloseMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCloseMessage;
     }
 }

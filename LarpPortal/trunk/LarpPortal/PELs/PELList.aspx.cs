@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -16,9 +17,11 @@ namespace LarpPortal.PELs
         {
             DataTable dtPELs = new DataTable();
             SortedList sParams = new SortedList();
-            ///TODO: Put in userID in PELList.
+
             if (Session["CampaignID"] == null)
                 return;
+
+            ddlRoles.Attributes.Add("OnChange", "DisplayRoles(this);");
 
             sParams.Add("@UserID", Session["UserID"].ToString());
             sParams.Add("@CampaignID", Session["CampaignID"].ToString());
@@ -96,10 +99,10 @@ namespace LarpPortal.PELs
                 sParams.Add("@UserID", iUserID.ToString());
                 DataSet dsEventInfo = Classes.cUtilities.LoadDataSet("uspGetMissedEvents", sParams, "LARPortal", Session["UserName"].ToString(), "PELList.GetMissedRegistrations");
 
-                ddlListToSelect.DataTextField = "EventName";
-                ddlListToSelect.DataValueField = "EventID";
-                ddlListToSelect.DataSource = dsEventInfo.Tables[0];
-                ddlListToSelect.DataBind();
+                ddlMissedEvents.DataTextField = "EventName";
+                ddlMissedEvents.DataValueField = "EventID";
+                ddlMissedEvents.DataSource = dsEventInfo.Tables[0];
+                ddlMissedEvents.DataBind();
 
                 if (dsEventInfo.Tables[1] != null)
                 {
@@ -117,6 +120,11 @@ namespace LarpPortal.PELs
                         ddlCharacterList.DataSource = dsEventInfo.Tables[1];
                         ddlCharacterList.DataBind();
                         lblCharacter.Visible = false;
+                        if (ddlCharacterList.Items.Count > 0)
+                        {
+                            ddlCharacterList.ClearSelection();
+                            ddlCharacterList.Items[0].Selected = true;
+                        }
                     }
                     if (dsEventInfo.Tables[2] != null)
                     {
@@ -125,29 +133,55 @@ namespace LarpPortal.PELs
                             ddlRoles.Visible = false;
                             lblRole.Text = dsEventInfo.Tables[2].Rows[0]["Description"].ToString();
                             lblRole.Visible = true;
+                            if ((lblRole.Text.ToUpper() == "PC") || (lblRole.Text.ToUpper() == "STAFF"))
+                            {
+                                divPCStaff.Visible = true;
+                                divNPC.Visible = false;
+                                divSendOther.Visible = false;
+                            }
+                            else
+                            {
+                                divPCStaff.Visible = false;
+                                divNPC.Visible = true;
+                                divSendOther.Visible = true;
+                            }
                         }
                         else
                         {
                             ddlRoles.Visible = true;
-                            ddlRoles.DataTextField = "RoleDescription";
+                            ddlRoles.DataTextField = "Description";
                             ddlRoles.DataValueField = "RoleAlignmentID";
                             ddlRoles.DataSource = dsEventInfo.Tables[2];
                             ddlRoles.DataBind();
                             lblRole.Visible = false;
+                            if (ddlRoles.Items.Count > 0)
+                            {
+                                ddlRoles.ClearSelection();
+                                ddlRoles.Items[0].Selected = true;
+
+                                if ((ddlRoles.SelectedItem.Text.ToUpper() == "PC") || (ddlRoles.SelectedItem.Text.ToUpper() == "STAFF"))
+                                {
+                                    divPCStaff.Style.Add("display", "block");
+                                    divNPC.Style.Add("display", "none");
+                                    divSendOther.Style.Add("display", "none");
+                                }
+                                else
+                                {
+                                    divPCStaff.Style.Add("display", "none");
+                                    divNPC.Style.Add("display", "block");
+                                    divSendOther.Style.Add("display", "block");
+                                }
+                            }
+                        }
+
+                        if (dsEventInfo.Tables[3] != null)
+                        {
+                            ddlSendToCampaign.DataTextField = "CampaignName";
+                            ddlSendToCampaign.DataValueField = "CampaignID";
+                            ddlSendToCampaign.DataSource = dsEventInfo.Tables[3];
+                            ddlSendToCampaign.DataBind();
                         }
                     }
-                }
-                if (lblCharacter.Text == "NPC")
-                {
-                    trNPC.Visible = true;
-                    trSendCPOther.Visible = true;
-                    trPCStaff.Visible = false;
-                }
-                else
-                {
-                    trNPC.Visible = false;
-                    trSendCPOther.Visible = false;
-                    trPCStaff.Visible = true;
                 }
             }
         }
@@ -161,12 +195,10 @@ namespace LarpPortal.PELs
                 Response.Redirect("PELEdit.aspx?RegistrationID=" + sRegistrationID, true);
         }
 
-        protected void ddlListToSelect_SelectedIndexChanged(object sender, EventArgs e)
+        protected void ddlMissedEvents_SelectedIndexChanged(object sender, EventArgs e)
         {
-            bool bIncludeReg = false;
-
             SortedList sParams = new SortedList();
-            sParams.Add("@EventID", ddlListToSelect.SelectedValue);
+            sParams.Add("@EventID", ddlMissedEvents.SelectedValue);
             int iUserID;
             if (Session["UserID"] != null)
             {
@@ -181,7 +213,6 @@ namespace LarpPortal.PELs
 
             if (dsEventInfo.Tables.Count >= 5)
             {
-                bIncludeReg = true;
                 dsEventInfo.Tables[3].TableName = "Character";
                 dsEventInfo.Tables[4].TableName = "Teams";
                 dsEventInfo.Tables[5].TableName = "Registration";
@@ -193,21 +224,11 @@ namespace LarpPortal.PELs
 
             foreach (DataRow dRow in dsEventInfo.Tables["EventInfo"].Rows)
             {
-                //hidCampaignName.Value = dRow["CampaignName"].ToString();
-                //hidCampaignEMail.Value = dRow["RegistrationNotificationEMail"].ToString();
+                ViewState["EventStartDate"] = dRow["StartDate"].ToString();
+                ViewState["EventStartTime"] = dRow["StartTime"].ToString();
+                ViewState["EventEndDate"] = dRow["EndDate"].ToString();
+                ViewState["EventEndTime"] = dRow["EndTime"].ToString();
             }
-
-            //if ((DateTime.Now >= dtEventRegOpenDateTime) &&
-            //    (DateTime.Now <= dtEventRegCloseDateTime))
-            //{
-            //    mvButtons.SetActiveView(vwRegisterButtons);
-            //    mvEventScheduledOpen.SetActiveView(vwEventRegistrationOpen);
-            //}
-            //else
-            //{
-            //    mvButtons.SetActiveView(vwRSVPButtons);
-            //    mvEventScheduledOpen.SetActiveView(vwEventRegistrationNotOpen);
-            //}
 
             if (dsEventInfo.Tables["Character"].Rows.Count > 0)
             {
@@ -218,9 +239,6 @@ namespace LarpPortal.PELs
                 ddlCharacterList.SelectedIndex = 0;
                 ddlCharacterList.Visible = true;
                 lblCharacter.Visible = false;
-
-                //hidCharAKA.Value = dsEventInfo.Tables["Character"].Rows[0]["CharacterAKA"].ToString();
-                //hidPlayerEMail.Value = dsEventInfo.Tables["Character"].Rows[0]["EMailAddress"].ToString();
             }
 
             if (dsEventInfo.Tables["Character"].Rows.Count == 1)
@@ -254,71 +272,117 @@ namespace LarpPortal.PELs
                 }
             }
 
-            ddlRoles_SelectedIndexChanged(null, null);
-
             ddlSendToCampaign.ClearSelection();
-
-            //hidRegistrationID.Value = "-1";
 
             foreach (DataRow dCharInfo in dsEventInfo.Tables["Character"].Rows)
             {
                 lblCharacter.Text = dCharInfo["CharacterAKA"].ToString().Trim();
             }
-
-            if (bIncludeReg)
-            {
-                foreach (DataRow dUserInfo in dsEventInfo.Tables["PlayerInfo"].Rows)
-                {
-                    //lblPlayerName.Text = dUserInfo["FirstName"].ToString().Trim() + " " + dUserInfo["LastName"].ToString().Trim();
-                    //lblEMail.Text = dUserInfo["EMailAddress"].ToString().Trim();
-                }
-
-            }
         }
 
-
-        protected void ddlRoles_SelectedIndexChanged(object sender, EventArgs e)
+        protected void btnCloseRegisterForEvent_Click(object sender, EventArgs e)
         {
-            if (ddlRoles.SelectedItem.Text == "PC")
-            {
-                trPCStaff.Visible = true;
-                trNPC.Visible = false;
-                trSendCPOther.Visible = false;
-            }
-            else
-            {
-                trPCStaff.Visible = false;
-                trNPC.Visible = true;
-                trSendCPOther.Visible = true;
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
+            SortedList sParam = new SortedList();
+            int iRegStatus = -1;
 
-                int uID = 0;
-                if (Session["UserID"] != null)
+            string sSQL = "select StatusID, StatusName from MDBStatus " +
+                "where StatusType like 'Registration' " +
+                    "and StatusName = 'Added Post Event'" +
+                    "and DateDeleted is null";
+            DataTable dtRegStatus = Classes.cUtilities.LoadDataTable(sSQL, sParam, "LARPortal", Session["UserName"].ToString(), "EventRegistration.btnRegister_Command",
+                Classes.cUtilities.LoadDataTableCommandType.Text);
+
+            if (dtRegStatus.Rows.Count > 0)
+                int.TryParse(dtRegStatus.Rows[0]["StatusID"].ToString(), out iRegStatus);
+
+            sParam = new SortedList();
+
+            int iRegistrationID = -1;
+            int iRoleAlignment = 0;
+            int iEventID = 0;
+            int.TryParse(ddlRoles.SelectedValue, out iRoleAlignment);
+            int.TryParse(ddlMissedEvents.SelectedValue, out iEventID);
+            int iCharacterID = 0;
+            int.TryParse(ddlCharacterList.SelectedValue, out iCharacterID);
+
+            sParam.Add("@RegistrationID", iRegistrationID);
+            sParam.Add("@UserID", Session["UserID"].ToString());
+            sParam.Add("@EventID", iEventID);
+            sParam.Add("@RoleAlignmentID", ddlRoles.SelectedValue);
+            sParam.Add("@CharacterID", ddlCharacterList.SelectedValue);
+            sParam.Add("@DateRegistered", DateTime.Now);
+            if (ddlRoles.SelectedItem.Text != "PC")
+                sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
+
+            sParam.Add("@RegistrationStatus", iRegStatus);
+            sParam.Add("@PartialEvent", false);
+            sParam.Add("@ExpectedArrivalDate", ViewState["EventStartDate"].ToString());
+            sParam.Add("@ExpectedArrivalTime", ViewState["EventStartTime"].ToString());
+            sParam.Add("@ExpectedDepartureDate", ViewState["EventEndDate"].ToString());
+            sParam.Add("@ExpectedDepartureTime", ViewState["EventEndTime"].ToString());
+
+            try
+            {
+                DataTable dtUser = Classes.cUtilities.LoadDataTable("uspRegisterForEvent", sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
+
+                foreach (DataRow dRegRecord in dtUser.Rows)
                 {
-                    if (int.TryParse(Session["UserID"].ToString(), out uID))
-                    {
-                        Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
-                        CampaignChoices.Load(uID);
-                        if (CampaignChoices.CountOfUserCampaigns == 0)
-                            Response.Redirect("~/NoCurrentCampaignAssociations.aspx");
-
-                        ddlSendToCampaign.DataTextField = "CampaignName";
-                        ddlSendToCampaign.DataValueField = "CampaignID";
-                        ddlSendToCampaign.DataSource = CampaignChoices.lsUserCampaigns;
-                        ddlSendToCampaign.DataBind();
-                        ddlSendToCampaign.Items.Add(new ListItem("Other", "-1"));
-                    }
+                    iRegistrationID = 0;
+                    int.TryParse(dRegRecord["RegistrationID"].ToString(), out iRegistrationID);
+                    InsertCPOpportunity(iRoleAlignment, iCharacterID, iEventID, iRegistrationID);
                 }
+
+                lblMessage.Text = "You have been registered for the event.";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+            }
+            catch (Exception ex)
+            {
+                string t = ex.Message;
+                lblMessage.Text = "There was a problem registering for the event. LARPortal support has been notified.";
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
             }
         }
 
+        protected void btnCloseMessage_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+        }
 
+        protected void InsertCPOpportunity(int RoleAlignment, int iCharacterID, int iEventID, int iRegistrationID)
+        {
+            int iCampaignID = 0;
+            int iUserID = 0;
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out iUserID);
+            if (Session["CampaignID"] != null)
+                int.TryParse(Session["CampaignID"].ToString(), out iCampaignID);
 
+            int iReasonID = 0;
+            switch (ddlRoles.SelectedItem.Text)
+            {
+                case "PC":
+                    iReasonID = 3;
+                    break;
+                case "NPC":
+                    iReasonID = 1;
+                    break;
+                case "Staff":
+                    RoleAlignment = 12;
+                    break;
+                default:
+                    break;
+            }
 
+            Classes.cPoints cPoints = new Classes.cPoints();
 
+            // Currently have no need to delete. The Opportunty should be there currently. Leaving in case we need it.
+            // cPoints.DeleteRegistrationCPOpportunity(iUserID, iRegistrationID);
 
-
-
-
+            cPoints.CreateRegistrationCPOpportunity(iUserID, iCampaignID, RoleAlignment, iCharacterID, iReasonID, iEventID, iRegistrationID);
+        }
     }
 }
