@@ -154,7 +154,7 @@
                     <div class="row Padding5" id="divSendOther" runat="server">
                         <div class="col-sm-4">&nbsp;</div>
                         <div class="col-sm-8 NoLeftPadding">
-                            <asp:TextBox ID="tbSendToCPOther" runat="server" CssClass="form-control col-lg-10" MaxLength="500" TextMode="MultiLine" />
+                            <asp:TextBox ID="tbSendToCPOther" runat="server" CssClass="form-control col-lg-10" style="padding: 0px;" MaxLength="500" TextMode="MultiLine" />
                         </div>
                     </div>
                 </div>
