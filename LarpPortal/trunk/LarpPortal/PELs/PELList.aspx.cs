@@ -184,6 +184,7 @@ namespace LarpPortal.PELs
                     }
                 }
             }
+            ddlMissedEvents_SelectedIndexChanged(null, null);
         }
 
         protected void gvPELList_RowCommand(object sender, GridViewCommandEventArgs e)
