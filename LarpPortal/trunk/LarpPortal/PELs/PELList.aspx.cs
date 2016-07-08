@@ -13,10 +13,13 @@ namespace LarpPortal.PELs
 {
     public partial class PELList : System.Web.UI.Page
     {
+
         protected void Page_PreRender(object sender, EventArgs e)
         {
             DataTable dtPELs = new DataTable();
             SortedList sParams = new SortedList();
+
+            tbSendToCPOther.Attributes.Add("PlaceHolder", "Enter any comments for staff.");
 
             if (Session["CampaignID"] == null)
                 return;
@@ -225,10 +228,24 @@ namespace LarpPortal.PELs
 
             foreach (DataRow dRow in dsEventInfo.Tables["EventInfo"].Rows)
             {
-                ViewState["EventStartDate"] = dRow["StartDate"].ToString();
-                ViewState["EventStartTime"] = dRow["StartTime"].ToString();
-                ViewState["EventEndDate"] = dRow["EndDate"].ToString();
-                ViewState["EventEndTime"] = dRow["EndTime"].ToString();
+                DateTime dtStartDate;
+                DateTime dtEndDate;
+
+                if ((DateTime.TryParse(dRow["StartDate"].ToString(), out dtStartDate)) &&
+                    (DateTime.TryParse(dRow["EndDate"].ToString(), out dtEndDate)))
+                {
+                    ViewState["EventStartDate"] = dtStartDate.ToShortDateString();
+                    ViewState["EventEndDate"] = dtEndDate.ToShortDateString();
+                    ViewState["EventStartTime"] = dRow["StartTime"].ToString();
+                    ViewState["EventEndTime"] = dRow["EndTime"].ToString();
+                }
+                else
+                {
+                    ViewState.Remove("EventStartDate");
+                    ViewState.Remove("EventEndDate");
+                    ViewState.Remove("EventStartTime");
+                    ViewState.Remove("EventEndTime");
+                }
             }
 
             if (dsEventInfo.Tables["Character"].Rows.Count > 0)
@@ -320,10 +337,17 @@ namespace LarpPortal.PELs
 
             sParam.Add("@RegistrationStatus", iRegStatus);
             sParam.Add("@PartialEvent", false);
-            sParam.Add("@ExpectedArrivalDate", ViewState["EventStartDate"].ToString());
-            sParam.Add("@ExpectedArrivalTime", ViewState["EventStartTime"].ToString());
-            sParam.Add("@ExpectedDepartureDate", ViewState["EventEndDate"].ToString());
-            sParam.Add("@ExpectedDepartureTime", ViewState["EventEndTime"].ToString());
+
+            if ((ViewState["EventStartDate"] != null) &&
+                (ViewState["EventStartTime"] != null) &&
+                (ViewState["EventEndDate"] != null) &&
+                (ViewState["EventEndTime"] != null))
+            {
+                sParam.Add("@ExpectedArrivalDate", ViewState["EventStartDate"].ToString());
+                sParam.Add("@ExpectedArrivalTime", ViewState["EventStartTime"].ToString());
+                sParam.Add("@ExpectedDepartureDate", ViewState["EventEndDate"].ToString());
+                sParam.Add("@ExpectedDepartureTime", ViewState["EventEndTime"].ToString());
+            }
 
             try
             {
@@ -338,6 +362,7 @@ namespace LarpPortal.PELs
 
                 lblMessage.Text = "You have been registered for the event.";
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+
             }
             catch (Exception ex)
             {
