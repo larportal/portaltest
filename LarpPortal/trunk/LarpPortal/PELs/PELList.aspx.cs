@@ -347,6 +347,11 @@ namespace LarpPortal.PELs
                 sParam.Add("@ExpectedArrivalTime", ViewState["EventStartTime"].ToString());
                 sParam.Add("@ExpectedDepartureDate", ViewState["EventEndDate"].ToString());
                 sParam.Add("@ExpectedDepartureTime", ViewState["EventEndTime"].ToString());
+
+                sParam.Add("@ActualArrivalDate", ViewState["EventStartDate"].ToString());
+                sParam.Add("@ActualArrivalTime", ViewState["EventStartTime"].ToString());
+                sParam.Add("@ActualDepartureDate", ViewState["EventEndDate"].ToString());
+                sParam.Add("@ActualDepartureTime", ViewState["EventEndTime"].ToString());
             }
 
             try
