@@ -76,7 +76,7 @@ namespace LarpPortal.Events
                     }
                     break;
 
-                case "DELETE":
+                case "DELETEEVENT":         // J.Bradshaw  Request # 1290    Was Delete which defaulted to the row delete command which isn't defined.
                     SortedList sDeleteParms = new SortedList();
                     sDeleteParms.Add("@RecordID", sEventID);
                     sDeleteParms.Add("@UserID", Session["UserID"].ToString());
