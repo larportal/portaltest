@@ -24,6 +24,7 @@ namespace LarpPortal.Classes
             CharacterID = -1;      // -1 Means that no character has been loaded. Will be a new character.
             TotalCP = 0;
             ProfilePicture = new cPicture();
+            AllowCharacterRebuild = false;              // JBradshaw 7/10/2016 Request #1293
         }
 
         public override string ToString()
@@ -73,6 +74,7 @@ namespace LarpPortal.Classes
         public string PlayerName { get; set; }
         public int PlayerID { get; set; }
         public string PlayerEMail { get; set; }
+        public Boolean AllowCharacterRebuild { get; set; }              // Added J.Bradshaw Request #1293
 
         public List<cPlace> Places = new List<cPlace>();
         public List<cCharacterDeath> Deaths = new List<cCharacterDeath>();
@@ -234,6 +236,10 @@ namespace LarpPortal.Classes
                     PlayerName = dRow["PlayerName"].ToString();
                     PlayerEMail = dRow["PlayerEMail"].ToString();
                 }
+
+                // J.Bradshaw  7/10/2016  Request #1293
+                if (bool.TryParse(dRow["AllowCharacterRebuild"].ToString(), out bTemp))
+                    AllowCharacterRebuild = bTemp;
             }
 
             foreach (DataRow dItems in dsCharacterInfo.Tables["CharacterItems"].Rows)
