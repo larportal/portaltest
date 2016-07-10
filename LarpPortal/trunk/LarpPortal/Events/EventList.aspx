@@ -58,7 +58,7 @@
                                                 </asp:TemplateField>
                                                 <asp:TemplateField ItemStyle-CssClass="LeftRightPadding">
                                                     <ItemTemplate>
-                                                        <asp:Button ID="btnDelete" Width="100px" runat="server" CommandArgument='<%# Eval("EventID") %>' CommandName='DELETE'
+                                                        <asp:Button ID="btnDelete" Width="100px" runat="server" CommandArgument='<%# Eval("EventID") %>' CommandName='DELETEEVENT'
                                                             Style="" Text='Delete' CssClass="StandardButton" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
