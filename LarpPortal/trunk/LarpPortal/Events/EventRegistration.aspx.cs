@@ -372,6 +372,8 @@ namespace LarpPortal.Events
                 ddlPaymentChoice.DataValueField = "PaymentTypeID";
                 ddlPaymentChoice.DataBind();
                 ddlPaymentChoice.Items.Insert(0, new ListItem("No Payment", "0"));
+                ddlPaymentChoice.ClearSelection();                                  // JBradshaw 7/10/2016   Request #1288
+                ddlPaymentChoice.Items[0].Selected = true;
 
                 DateTime dtArrivalDateTime = DateTime.MinValue;
                 DateTime dtDepartureDatetime = DateTime.MinValue;
