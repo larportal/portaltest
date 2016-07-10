@@ -85,8 +85,10 @@ namespace LarpPortal.Character
                             DataSet dsSkillSets = new DataSet();
                             SortedList sParam = new SortedList();
 
+                            // Request # 1293 Single Character Rebuild   J.Bradshaw 7/10/2016
                             Classes.cCampaignBase cCampaign = new Classes.cCampaignBase(cChar.CampaignID, Session["LoginName"].ToString(), Convert.ToInt32(Session["UserID"].ToString()));
-                            if (cCampaign.AllowCharacterRebuild)
+                            if ((cCampaign.AllowCharacterRebuild) ||
+                                (cChar.AllowCharacterRebuild))
                             {
                                 hidAllowCharacterRebuild.Value = "1";
                                 lblSkillsLocked.Visible = false;
