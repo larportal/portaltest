@@ -360,7 +360,7 @@
                                     <asp:ListItem Text="No" Value="false" />
                                 </asp:DropDownList>
                                 <asp:RequiredFieldValidator ID="rfvAutoApproveWaitlist" runat="server" ControlToValidate="ddlAutoApproveWaitlist" InitialValue=""
-                                    CssClass="ErrorDisplay" Text="* Enter Date" Display="Dynamic" />
+                                    CssClass="ErrorDisplay" Text="* Enter Value" Display="Dynamic" />
                             </div>
                         </div>
 
