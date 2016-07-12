@@ -110,7 +110,32 @@ namespace LarpPortal.Classes
         }
 
         private cPlayer()
-        {
+        {       // JBradshaw  7/11/2016  Added to make sure the values are defined.
+            Picture = new cPicture();
+            UserID = -1;
+            PlayerProfileID = -1;
+            AuthorName = "";
+            DateOfBirth = DateTime.Now;
+            GenderStandared = "";
+            GenderOther = "";
+            EmergencyContactName = "";
+            EmergencyContactPhoneID = -1;
+            EmergencyContactPhone = "";
+            MaxNumberOfEventsPerYear = 0;
+            CPPreferenceDefault = "";
+            CPDestinationDefault = -1;
+            PhotoPreference = -1;
+            PhotoPreferenceDescription = "";
+            UserPhoto = "";
+            SearchableProfile = false;
+            _RolePlayPercentage = 0;
+            _CombatPercentage = 0;
+            WriteUpLeadTimeNeeded = 0;
+            WriteUpLengthPreference = 0;
+            BackGroundKnowledge = "";
+            Comments = "";
+            DateAdded = DateTime.Now;
+            DateChanged = DateTime.Now;
         }
 
         public cPlayer(Int32 intUserId, string strUserName)
