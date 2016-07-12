@@ -42,6 +42,9 @@ namespace LarpPortal.Events
             DateTime dtTemp;
             int iTemp;
 
+            if (Request.QueryString["EventID"] == null)
+                Response.Redirect("EventList.aspx", true);
+
             if (!IsPostBack)
             {
                 SortedList sParams = new SortedList();
@@ -371,7 +374,7 @@ namespace LarpPortal.Events
         {
             bool bTemp;
 
-            string sSearchValue = "";
+            string sSearchValue = "No";
             if (oValue != DBNull.Value)
             {
                 if (bool.TryParse(oValue.ToString(), out bTemp))
@@ -380,6 +383,9 @@ namespace LarpPortal.Events
                     if (bTemp)
                         sSearchValue = "Yes";
                 }
+                else
+                    if (oValue.ToString() == "1")
+                        sSearchValue = "Yes";
             }
             ListItem SelectItem = ddlListToSet.Items.FindByText(sSearchValue);
             if (SelectItem != null)
