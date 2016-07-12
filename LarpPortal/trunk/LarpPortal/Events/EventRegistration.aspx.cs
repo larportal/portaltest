@@ -390,7 +390,10 @@ namespace LarpPortal.Events
                             lHousing.Selected = true;
                     }
                     if (ddlHousing.SelectedIndex < 0)
-                        ddlHousing.Items[0].Selected = true;
+                    {
+                        if (ddlHousing.Items.Count > 0)
+                            ddlHousing.Items[0].Selected = true;
+                    }
 
                     ddlPaymentChoice.ClearSelection();
                     if (dReg["EventPaymentTypeID"] != DBNull.Value)
