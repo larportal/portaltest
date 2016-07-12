@@ -398,7 +398,10 @@ namespace LarpPortal.Events
             SortedList sParams = new SortedList();
 
             sParams.Add("@UserID", Session["UserID"].ToString());
-            sParams.Add("@EventID", hidEventID.Value);
+            if (int.TryParse(hidEventID.Value, out iTemp))          // Making sure there is an event ID. If no event ID set it to -1.
+                sParams.Add("@EventID", iTemp);
+            else
+                sParams.Add("@EventID", "-1");
             sParams.Add("@CampaignID", Session["CampaignID"].ToString());
             sParams.Add("@EventName", tbEventName.Text.Trim());
             sParams.Add("@EventDescription", tbEventDescription.Text.Trim());
