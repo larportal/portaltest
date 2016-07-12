@@ -293,6 +293,15 @@ namespace LarpPortal.Character
 
             if (Session["SelectedCharacter"] != null)
             {
+                if ((tbAKA.Text.Length == 0) &&
+                    (tbFirstName.Text.Length == 0))
+                {
+                    // JBradshaw  7/11/2016    Request #1286     Must have at least first name or last name.
+                    lblmodalError.Text = "You must fill in at least the first name or the character AKA.";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openError();", true);
+                    return;
+                }
+
                 DataTable dtDesc = Session["CharDescriptors"] as DataTable;
 
                 int iCharID;
@@ -345,9 +354,9 @@ namespace LarpPortal.Character
 
                     cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
 
-                    string jsString = "alert('Character " + cChar.AKA + " has been saved.');";
-                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                            "MyApplication", jsString, true);
+                    // JBradshaw  7/11/2016    Request #1286     Changed over to bootstrap popup.
+                    lblmodalMessage.Text = "Character " + cChar.AKA + " has been saved.";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
                 }
             }
         }
@@ -481,6 +490,16 @@ namespace LarpPortal.Character
 
                 Response.Redirect("CharInfo.aspx");
             }
+        }
+
+        protected void btnCloseMessage_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeMessage();", true);
+        }
+
+        protected void btnCloseError_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeError();", true);
         }
     }
 }

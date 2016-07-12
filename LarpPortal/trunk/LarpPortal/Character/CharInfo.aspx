@@ -24,6 +24,33 @@
     </style>
 </asp:Content>
 
+<asp:Content ID="Scripts" runat="server" ContentPlaceHolderID="CharHeaderScripts">
+    <script type="text/javascript">
+
+        //  JBradshaw  7/11/2016    Request #1286     Changed over to bootstrap popup.
+        function openMessage() {
+            $('#modalMessage').modal('show');
+        }
+        function closeMessage() {
+            $('#modelMessage').hide();
+        }
+
+        function openError() {
+            $('#modalError').modal('show');
+        }
+        function closeError() {
+            $('#modelError').hide();
+        }
+    </script>
+
+    <script src="../Scripts/jquery-1.11.3.js"></script>
+    <script src="../Scripts/jquery-ui.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+</asp:Content>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="mainContent tab-content col-sm-12">
@@ -214,4 +241,42 @@
         </section>
     </div>
     <asp:Label ID="lblMessage" runat="server" />
+
+
+    <!-- JBradshaw  7/11/2016    Request #1286     Changed over to bootstrap popup.  -->
+    <div class="modal" id="modalError" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: red;">
+                    <a class="close" data-dismiss="modal" style="color: white;">×</a>
+                    LARPortal Character Info
+                </div>
+                <div class="modal-body" style="background-color: white;">
+                    <p>
+                        <asp:Label ID="lblmodalError" runat="server" /></p>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="btnCloseError" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseError_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalMessage" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" style="color: white;">×</a>
+                    LARPortal Character Info
+                </div>
+                <div class="modal-body" style="background-color: white;">
+                    <p>
+                        <asp:Label ID="lblmodalMessage" runat="server" /></p>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseMessage_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
