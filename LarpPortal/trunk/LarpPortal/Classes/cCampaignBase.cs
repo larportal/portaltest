@@ -27,6 +27,7 @@ namespace LarpPortal.Classes
         private Int32 _StyleID = -1;
         private string _StyleDescription = "";
         private Int32 _MaxNumberOfGenres = 1;
+        private Int32 _MaxNumberOfPeriods = 1;
         private string _PortalAccessType = "";
         private string _PortalAccessDescription = "";
         private Int32 _PrimaryOwnerID = -1;
@@ -101,6 +102,7 @@ namespace LarpPortal.Classes
         private string _Comments = "";
         private string _CampaignStyle = "";
         private string _GenreList = "";
+        private string _PeriodList = "";
         private string _TechLevelList = "";
         private string _MarketingLocation = "";
         private DateTime? _NextEventDate = null;
@@ -169,6 +171,11 @@ namespace LarpPortal.Classes
         {
             get { return _MaxNumberOfGenres; }
             set { _MaxNumberOfGenres = value; }
+        }
+        public Int32 MaxNumberOfPeriods
+        {
+            get { return _MaxNumberOfPeriods; }
+            set { _MaxNumberOfPeriods = value; }
         }
         public string PortalAccessType
         {
@@ -535,6 +542,11 @@ namespace LarpPortal.Classes
             get { return _GenreList;  }
             set { _GenreList = value; }
         }
+        public string PeriodList
+        {
+            get { return _PeriodList; }
+            set { _PeriodList = value; }
+        }
         public string TechLevelList
         {
             get { return _TechLevelList; }
@@ -672,6 +684,7 @@ namespace LarpPortal.Classes
                     if (int.TryParse(ldt.Rows[0]["MaximumCPPerYear"].ToString(), out iTemp))
                         _MaximumCPPerYear = iTemp;
                     _MaxNumberOfGenres = 4; //TODO-Rick-4 Limit campaigns to number of genres parameter
+                    _MaxNumberOfPeriods = 4; //TODO-Rick-4 Limit campaigns to number of periods parameter
                     if (double.TryParse(ldt.Rows[0]["MembershipFee"].ToString(), out dTemp))
                         _MembershipFee = dTemp;
                     _MembershipFeeFrequency = ldt.Rows[0]["MembershipFeeFrequency"].ToString().Trim();
@@ -743,6 +756,7 @@ namespace LarpPortal.Classes
                     _WebPageSelectionComments = ldt.Rows[0]["CampaignWebPageSelectionComments"].ToString().Trim();
                     _MarketingLocation = ldt.Rows[0]["MarketingLocation"].ToString().Trim();
                     GetGenres(strUserName);
+                    GetPeriods(strUserName);
                     GetTechLevels(strUserName);
                 }
             }
@@ -863,6 +877,27 @@ namespace LarpPortal.Classes
                     _GenreList = _GenreList + dRow["GenreName"].ToString();
                 else
                     _GenreList = _GenreList + ", " + dRow["GenreName"].ToString();
+                i = 2;
+            }
+        }
+
+        public void GetPeriods(string strUserName)
+        {
+            int i = 1;
+            string lsRoutineName = "cCampaignBase.GetPeriods";
+            string stStoredProc = "uspGetCampaignPeriodsByCampaignID";
+            _UserName = strUserName;
+            _PeriodList = "";
+            SortedList slParams = new SortedList();
+            slParams.Add("@CampaignID", _CampaignID);
+            DataTable dtPeriods = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
+
+            foreach (DataRow dRow in dtPeriods.Rows)
+            {
+                if (i == 1)
+                    _PeriodList = _PeriodList + dRow["PeriodName"].ToString();
+                else
+                    _PeriodList = _PeriodList + ", " + dRow["PeriodName"].ToString();
                 i = 2;
             }
         }

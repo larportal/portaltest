@@ -91,7 +91,7 @@ namespace LarpPortal
             string LineEnd2;    // Value for LineEnd for middle level choices
             string LineEnd3;    // Value for LineEnd for bottom level choices
             string LineEnd4;    // Value for choices with no indent
-            int liLinesNeeded = 53; // REPLACE WITH NUMBER OF MENU ITEMS NEEDED (base 0 base) - Controls left nav behavior
+            int liLinesNeeded = 60; // REPLACE WITH NUMBER OF MENU ITEMS NEEDED (base 0 base) - Controls left nav behavior
             bool SkipLine = false;
             DataTable LeftNavTable = new DataTable();
             LeftNavTable.Columns.Add("href_li");
@@ -141,7 +141,8 @@ namespace LarpPortal
                         break;
 
                     case 1:
-                        ReqPage = "/PageUnderConstruction.aspx";
+                        // WILL CHANGE TO DEMOGRAPHICS
+                        ReqPage = "/Campaigns/SetupDemographics.aspx";
                         if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
                         {
                             if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
@@ -156,7 +157,7 @@ namespace LarpPortal
                             SpanClass = SC2;
                             LineEnd = LineEnd2;
                             PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Info";
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Demographics";
                         }
                         else
                         {
@@ -166,7 +167,143 @@ namespace LarpPortal
                         }
                         break;
 
+
                     case 2:
+                        // WILL CHANGE TO PLAYER REQUIREMENTS
+                        ReqPage = "/Campaigns/SetupRequirements.aspx";
+                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
+                        {
+                            if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = ReqPage;
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Player Reqs";
+                        }
+                        else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
+                        }
+                        break;
+
+                    case 3:
+                        // WILL CHANGE TO CONTACTS
+                        ReqPage = "/Campaigns/SetupContacts.aspx";
+                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
+                        {
+                            if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = ReqPage;
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Contacts";
+                        }
+                        else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
+                        }
+                        break;
+
+                    case 4:
+                        // WILL CHANGE TO POLICIES
+                        ReqPage = "/Campaigns/SetupPolicies.aspx";
+                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
+                        {
+                            if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = ReqPage;
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Policies";
+                        }
+                        else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
+                        }
+                        break;
+
+                    case 5:
+                        // WILL CHANGE TO WEB PAGE DESCRIPTION
+                        ReqPage = "/Campaigns/SetupCampaignDescription.aspx";
+                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
+                        {
+                            if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = ReqPage;
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Description";
+                        }
+                        else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
+                        }
+                        break;
+
+                    case 6:
+                        // WILL CHANGE TO CUSTOM FIELDS
+                        ReqPage = "/Campaigns/SetupCustomFields.aspx";
+                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
+                        {
+                            if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = ReqPage;
+                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Custom Fields";
+                        }
+                        else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
+                        }
+                        break;
+
+                    case 7:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
                         {
@@ -193,7 +330,7 @@ namespace LarpPortal
 
                         break;
 
-                    case 3:
+                    case 8:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
                         {
@@ -220,7 +357,7 @@ namespace LarpPortal
 
                         break;
 
-                    case 4:
+                    case 9:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
                         {
@@ -246,7 +383,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 5:
+                    case 10:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
                         {
@@ -272,7 +409,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 6:
+                    case 11:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (PageName == "CAMPAIGNMESSAGES" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
                         {
@@ -296,7 +433,7 @@ namespace LarpPortal
                         LineText = "Campaign Messages";
                         break;
 
-                    case 7:
+                    case 12:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/4/"))
                         {
@@ -322,7 +459,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 8:
+                    case 13:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
                         {
@@ -348,7 +485,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 9:
+                    case 14:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
                         {
@@ -374,10 +511,10 @@ namespace LarpPortal
                         }
                         break;
 
-                    //Missing 10 - Rules
-                    //Missing 11 - Rules Section - iterative per section
+                    //Missing 15 - Rules
+                    //Missing 16 - Rules Section - iterative per section
 
-                    case 12:
+                    case 17:
                         ReqPage = "/PageUnderConstruction.aspx";
                         //This one is just a link?
                         if (PageName == "CALENDARVIEW")
@@ -395,11 +532,11 @@ namespace LarpPortal
                         LineText = "Calendar";
                         break;
 
-                    //Missing 13 - Special events
-                    //Missing 14 - Scheduling
-                    //Missing 15 - Event scheduling
+                    //Missing 18 - Special events
+                    //Missing 19 - Scheduling
+                    //Missing 20 - Event scheduling
 
-                    case 16:
+                    case 21:
                         ReqPage = "/Events/EventRegistration.aspx";
                         if (PageName == "EVENTS")
                         {
@@ -416,7 +553,7 @@ namespace LarpPortal
                         LineText = "Event Registrations/RSVP";
                         break;
 
-                    case 17:
+                    case 22:
                         ReqPage = "/Events/RegistrationApproval.aspx";
                         if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/37/")))
                         {
@@ -442,11 +579,11 @@ namespace LarpPortal
                         }
                         break;
 
-                    //Missing 18 - Shopping cart / payment
+                    //Missing 23 - Shopping cart / payment
 
-                    case 19:
+                    case 24:
                         ReqPage = "/events/eventlist";
-                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")  || PlayerRoles.Contains("/27/")))
                         {
                             if (PageName == "EVENTSSUPLANNING")
                             {
@@ -470,9 +607,9 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 20:
+                    case 25:
                         ReqPage = "/events/eventdefaults.aspx";
-                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/27/")))
                         {
                             if (PageName == "EVENTSSUDEFAULTS")
                             {
@@ -496,9 +633,9 @@ namespace LarpPortal
                         }
                         break;
 
-                    //Missing 21 - Setup scheduling
+                    //Missing 26 - Setup scheduling
 
-                    case 22:
+                    case 27:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
                         {
@@ -524,7 +661,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 23:
+                    case 28:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/33/"))
                         {
@@ -550,7 +687,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 24:
+                    case 29:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/11/"))
                         {
@@ -576,7 +713,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 25:
+                    case 30:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/22/"))
                         {
@@ -602,7 +739,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 26:
+                    case 31:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/16/"))
                         {
@@ -628,7 +765,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 27:
+                    case 32:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/34/"))
                         {
@@ -654,7 +791,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 28:
+                    case 33:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Events" && PlayerRoles.Contains("/35/"))
                         {
@@ -681,7 +818,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 29:
+                    case 34:
                         SkipLine = true;
                         //ReqPage = "/PageUnderConstruction.aspx";
                         //if (PageName == "CAMPAIGNCHARACTERS" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/5/") || PlayerRoles.Contains("/20/")))
@@ -706,7 +843,7 @@ namespace LarpPortal
                         //LineText = "Characters";
                         break;
 
-                    case 30:
+                    case 35:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
                         {
@@ -732,7 +869,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 31:
+                    case 36:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
                         {
@@ -758,7 +895,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 32:
+                    case 37:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
                         {
@@ -784,9 +921,9 @@ namespace LarpPortal
                         }
                         break;
 
-                    //Missing 33 - NPC Skills
+                    //Missing 38 - NPC Skills
 
-                    case 34:
+                    case 39:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
@@ -812,7 +949,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 35:
+                    case 40:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
@@ -838,7 +975,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 36:
+                    case 41:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
@@ -865,7 +1002,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 37:
+                    case 42:
                         ReqPage = "/PageUnderConstruction.aspx"; // = "/Roles/Roles.aspx";
                         if (PageName == "ROLES")
                         {
@@ -882,9 +1019,9 @@ namespace LarpPortal
                         LineText = "Roles";
                         break;
 
-                    //Missing 38 - My roles
+                    //Missing 43 - My roles
 
-                    case 39:
+                    case 44:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Roles" && PlayerRoles.Contains("/21/"))
                         {
@@ -910,7 +1047,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 40:
+                    case 45:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Roles" && PlayerRoles.Contains("/1/"))
                         {
@@ -937,7 +1074,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 41:
+                    case 46:
                         ReqPage = "/Points/PointsAssign.aspx";
                         PageName = "POINTS";
                         //if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
@@ -997,7 +1134,7 @@ namespace LarpPortal
                         //break;
                         //
 
-                    case 42:
+                    case 48:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
                         {
@@ -1023,9 +1160,9 @@ namespace LarpPortal
                         }
                         break;
 
-                    //Missing 43 - Modify game system points
+                    //Missing 49 - Modify game system points
 
-                    case 44:
+                    case 50:
                         ReqPage = "/PageUnderConstruction.aspx";    // = "/Points/PointsSetupNonStandard.aspx";
                         if (ActiveNav == "Points" && PlayerRoles.Contains("/34/"))
                         {
@@ -1051,7 +1188,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 45:
+                    case 51:
                         ReqPage = "/PageUnderConstruction.aspx";   // = "/Points/PointsAssign.aspx";
                         if (ActiveNav == "Points" && (PlayerRoles.Contains("/35/") || PlayerRoles.Contains("/28/")))
                         {
@@ -1077,7 +1214,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 46:
+                    case 52:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
                         {
@@ -1103,7 +1240,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 47:
+                    case 53:
                         ReqPage = "/PELs/PELList.aspx";
                         if (PageName == "PEL")
                         {
@@ -1120,7 +1257,7 @@ namespace LarpPortal
                         LineText = "PELs";
                         break;
 
-                    case 48:
+                    case 54:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "PEL" && PlayerRoles.Contains("/28/"))
                         {
@@ -1146,7 +1283,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 49:
+                    case 55:
                         ReqPage = "/PELs/PELApprovalList";
                         if (ActiveNav == "PEL" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/4/")))
                         {
@@ -1172,7 +1309,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    //case 50:
+                    //case 56:
                         //if (PageName == "PELApprove" && PlayerRoles.Contains("/28/"))
                         //{
                         //    ActiveState = " class=\"active\">";
@@ -1189,7 +1326,7 @@ namespace LarpPortal
                         //LineText = "&nbsp;&nbsp;&nbsp;PEL Approval";
                         //break;
 
-                    //case 51:
+                    //case 57:
                         //if (PageName == "PELEdit" && PlayerRoles.Contains("/28/"))
                         //{
                         //    ActiveState = " class=\"active\">";
@@ -1206,7 +1343,7 @@ namespace LarpPortal
                         //LineText = "&nbsp;&nbsp;&nbsp;PEL Edit";
                         //break;
 
-                    case 52:
+                    case 58:
                         ReqPage = "/PageUnderConstruction.aspx";
                         //Just a link?
                         if (PageName == "INVENTORY" && PlayerRoles.Contains("/36/"))
@@ -1224,7 +1361,7 @@ namespace LarpPortal
                         LineText = "Inventory/Props";
                         break;
 
-                    //case 38:
+                    //case 59:
                     //    //Just a link?
                     //    if (Session["ActiveLeftNav"].ToString() == "SiteLocationUse")
                     //    {
