@@ -41,7 +41,6 @@ namespace LarpPortal.Campaigns
 
         protected void LoadlblCampaignName()
         {
-            //placeholders for now
 
             LoadSavedData();
             LoadGenres();
@@ -58,8 +57,7 @@ namespace LarpPortal.Campaigns
                 UserID = iTemp;
             if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
                 CampaignID = iTemp;
-            Classes.cCampaignBase Campaigns = new Classes.cCampaignBase(CampaignID, UserName, UserID);
-            
+            Classes.cCampaignBase Campaigns = new Classes.cCampaignBase(CampaignID, UserName, UserID); 
             lblCampaignName.Text = Campaigns.CampaignName;
             lblOwner.Text = Campaigns.PrimaryOwnerName;
             tbDateStarted.Text = string.Format("{0:MMM d, yyyy}", Campaigns.StartDate);
@@ -107,10 +105,9 @@ namespace LarpPortal.Campaigns
                 UserID = iTemp;
             if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
                 CampaignID = iTemp;
-            Classes.cCampaignBase Genres = new Classes.cCampaignBase(CampaignID, UserName, UserID);
-            Genres.GetGenres(UserName);
-            lblGenres.Text = Genres.GenreList;
-            lblPeriods.Text = "Medievel (600-1600),Renaissance (1300-1600)";
+            Classes.cCampaignBase Periods = new Classes.cCampaignBase(CampaignID, UserName, UserID);
+            Periods.GetPeriods(UserName);
+            lblPeriods.Text = Periods.PeriodList;
         }
 
         protected void LoadddlCampaignStatus()
@@ -249,6 +246,11 @@ namespace LarpPortal.Campaigns
                     break;
 
             }
+        }
+
+        protected void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
