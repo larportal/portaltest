@@ -1,5 +1,22 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharAdd.aspx.cs" Inherits="LarpPortal.Character.CharAdd" %>
 
+<asp:Content ID="ScriptSection" runat="server" ContentPlaceHolderID="CharHeaderScripts">
+
+    <script type="text/javascript">
+        function openError() {
+            $('#modalError').modal('show');
+        }
+        function closeError() {
+            $('#modelError').hide();
+        }
+    </script>
+
+    <script src="../Scripts/jquery-1.11.3.js"></script>
+    <script src="../Scripts/jquery-ui.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+</asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="mainContent tab-content col-sm-12">
         <div id="character-info" class="character-info tab-pane active">
@@ -54,7 +71,7 @@
                             <div class="row">
                                 <div class="col-sm-8">&nbsp;</div>
                                 <div class="col-sm-2 NoRightPadding">
-                                    <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="StandardButton" OnClick="btnSave_Click" />
+                                    <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="StandardButton" Width="100px" OnClick="btnSave_Click" />
                                 </div>
                             </div>
                         </div>
@@ -84,6 +101,24 @@
                     </div>
                 </asp:View>
             </asp:MultiView>
+        </div>
+    </div>
+
+    <div class="modal" id="modalError" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: red;">
+                    <a class="close" data-dismiss="modal" style="color: white;">×</a>
+                    LARPortal Character Info
+                </div>
+                <div class="modal-body" style="background-color: white;">
+                    <p>
+                        <asp:Label ID="lblmodalError" runat="server" /></p>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="btnCloseError" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseError_Click" />
+                </div>
+            </div>
         </div>
     </div>
 </asp:Content>
