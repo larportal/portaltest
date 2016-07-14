@@ -51,21 +51,34 @@ namespace LarpPortal.Character
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-            SortedList sParam = new SortedList();
-            sParam.Add("@CampaignID", ddlUserCampaigns.SelectedValue);
-            sParam.Add("@CharacterAKA", tbCharacterName.Text.Trim());
-            sParam.Add("@UserID", Session["UserID"].ToString());
-            DataTable dtCharInfo = new DataTable();
-            dtCharInfo = Classes.cUtilities.LoadDataTable("prCreateNewCharacter", sParam, "LARPortal", Session["LoginName"].ToString(), lsRoutineName);
-
-            if ( dtCharInfo.Rows.Count > 0 )
+            if (tbCharacterName.Text.Trim().Length > 0)
             {
-                string sCharId = dtCharInfo.Rows[0]["CharacterID"].ToString();
-                Session["SelectedCharacter"] = sCharId;
-                Response.Redirect("CharInfo.aspx");
+                SortedList sParam = new SortedList();
+                sParam.Add("@CampaignID", ddlUserCampaigns.SelectedValue);
+                sParam.Add("@CharacterAKA", tbCharacterName.Text.Trim());
+                sParam.Add("@UserID", Session["UserID"].ToString());
+                DataTable dtCharInfo = new DataTable();
+                dtCharInfo = Classes.cUtilities.LoadDataTable("prCreateNewCharacter", sParam, "LARPortal", Session["LoginName"].ToString(), lsRoutineName);
+
+                if (dtCharInfo.Rows.Count > 0)
+                {
+                    string sCharId = dtCharInfo.Rows[0]["CharacterID"].ToString();
+                    Session["SelectedCharacter"] = sCharId;
+                    Response.Redirect("CharInfo.aspx");
+                }
+                else
+                    btnSave.Text = "Problem Saving the character....";
             }
             else
-                btnSave.Text = "Problem Saving the character....";
+            {
+                lblmodalError.Text = "You must enter the character nick name to save the character.";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openError();", true);
+            }
+        }
+
+        protected void btnCloseError_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeError();", true);
         }
     }
 }
