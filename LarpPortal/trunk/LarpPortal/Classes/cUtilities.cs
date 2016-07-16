@@ -75,7 +75,15 @@ namespace LarpPortal.Classes
                 {
                     for (int i = 0; i < slParameters.Count; i++)
                     {
-                        lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                        // Original code
+                        // lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                        // New code - JLB (via Rick) 7/16/2016
+                        SqlParameter NewParam = new SqlParameter();
+                        NewParam.ParameterName = slParameters.GetKey(i).ToString().Trim();
+                        if (slParameters.GetByIndex(i) != null)
+                            NewParam.Value = slParameters.GetByIndex(i).ToString().Trim();
+                        lcmd.Parameters.Add(NewParam);
+                        // End new code 7/16/2016
                     }
                 }
                 SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
@@ -155,7 +163,15 @@ namespace LarpPortal.Classes
                     }
                     else
                     {
-                        lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                        // Original code
+                        // lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                        // New code - JLB (via Rick) 7/16/2016
+                        SqlParameter NewParam = new SqlParameter();
+                        NewParam.ParameterName = slParameters.GetKey(i).ToString().Trim();
+                        if (slParameters.GetByIndex(i) != null)
+                            NewParam.Value = slParameters.GetByIndex(i).ToString().Trim();
+                        lcmd.Parameters.Add(NewParam);
+                        // End new code 7/16/2016
                     }
                 }
             }
@@ -209,7 +225,15 @@ namespace LarpPortal.Classes
             {
                 for (int i = 0; i < slParameters.Count; i++)
                 {
-                    lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                    // Original code
+                    // lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                    // New code - JLB (via Rick) 7/16/2016
+                    SqlParameter NewParam = new SqlParameter();
+                    NewParam.ParameterName = slParameters.GetKey(i).ToString().Trim();
+                    if (slParameters.GetByIndex(i) != null)
+                        NewParam.Value = slParameters.GetByIndex(i).ToString().Trim();
+                    lcmd.Parameters.Add(NewParam);
+                    // End new code 7/16/2016
                 }
             }
             try
@@ -251,7 +275,15 @@ namespace LarpPortal.Classes
             {
                 for (int i = 0; i < slParameters.Count; i++)
                 {
-                    lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                    // Original code
+                    // lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                    // New code - JLB (via Rick) 7/16/2016
+                    SqlParameter NewParam = new SqlParameter();
+                    NewParam.ParameterName = slParameters.GetKey(i).ToString().Trim();
+                    if (slParameters.GetByIndex(i) != null)
+                        NewParam.Value = slParameters.GetByIndex(i).ToString().Trim();
+                    lcmd.Parameters.Add(NewParam);
+                    // End new code 7/16/2016
                 }
             }
             try
@@ -382,7 +414,15 @@ namespace LarpPortal.Classes
                         }
                         else
                         {
-                            lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                            // Original code
+                            // lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                            // New code - JLB (via Rick) 7/16/2016
+                            SqlParameter NewParam = new SqlParameter();
+                            NewParam.ParameterName = slParameters.GetKey(i).ToString().Trim();
+                            if (slParameters.GetByIndex(i) != null)
+                                NewParam.Value = slParameters.GetByIndex(i).ToString().Trim();
+                            lcmd.Parameters.Add(NewParam);
+                            // End new code 7/16/2016
                         }
                     }
                 }
@@ -649,7 +689,15 @@ namespace LarpPortal.Classes
             {
                 for (int i = 0; i < slParameters.Count; i++)
                 {
-                    lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                    // Original code
+                    // lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                    // New code - JLB (via Rick) 7/16/2016
+                    SqlParameter NewParam = new SqlParameter();
+                    NewParam.ParameterName = slParameters.GetKey(i).ToString().Trim();
+                    if (slParameters.GetByIndex(i) != null)
+                        NewParam.Value = slParameters.GetByIndex(i).ToString().Trim();
+                    lcmd.Parameters.Add(NewParam);
+                    // End new code 7/16/2016
                 }
             }
             SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
@@ -695,7 +743,15 @@ namespace LarpPortal.Classes
             {
                 for (int i = 0; i < slParameters.Count; i++)
                 {
-                    lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                    // Original code
+                    // lcmd.Parameters.Add(new SqlParameter(slParameters.GetKey(i).ToString().Trim(), slParameters.GetByIndex(i).ToString().Trim()));
+                    // New code - JLB (via Rick) 7/16/2016
+                    SqlParameter NewParam = new SqlParameter();
+                    NewParam.ParameterName = slParameters.GetKey(i).ToString().Trim();
+                    if (slParameters.GetByIndex(i) != null)
+                        NewParam.Value = slParameters.GetByIndex(i).ToString().Trim();
+                    lcmd.Parameters.Add(NewParam);
+                    // End new code 7/16/2016
                 }
             }
             SqlDataAdapter ldsa = new SqlDataAdapter(lcmd);
