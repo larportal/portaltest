@@ -171,7 +171,7 @@ namespace LarpPortal
                     case 2:
                         // WILL CHANGE TO PLAYER REQUIREMENTS
                         ReqPage = "/Campaigns/SetupRequirements.aspx";
-                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
+                        if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
                             {
@@ -198,7 +198,7 @@ namespace LarpPortal
                     case 3:
                         // WILL CHANGE TO CONTACTS
                         ReqPage = "/Campaigns/SetupContacts.aspx";
-                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
+                        if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
                             {
@@ -225,7 +225,7 @@ namespace LarpPortal
                     case 4:
                         // WILL CHANGE TO POLICIES
                         ReqPage = "/Campaigns/SetupPolicies.aspx";
-                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
+                        if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
                             {
@@ -252,7 +252,7 @@ namespace LarpPortal
                     case 5:
                         // WILL CHANGE TO WEB PAGE DESCRIPTION
                         ReqPage = "/Campaigns/SetupCampaignDescription.aspx";
-                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/28/"))
+                        if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/32/")))
                         {
                             if (PageName == "CAMPAIGNINFOSUCAMPAIGNINFO")
                             {

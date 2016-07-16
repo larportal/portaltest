@@ -776,7 +776,7 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList();
                 // slParams.Add("@Parmeter1", strParameter1)
-                slParams.Add("@UserID", -_UserID);
+                slParams.Add("@UserID", _UserID);
                 slParams.Add("@CampaignID", _CampaignID);
                 slParams.Add("@CampaignName", _CampaignName);
                 slParams.Add("@CampaignStartDate", _StartDate);
