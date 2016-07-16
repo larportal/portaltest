@@ -202,6 +202,12 @@
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
     <Content Include="Campaigns\CampaignSetup.aspx" />
+    <Content Include="Campaigns\SetupCampaignDescription.aspx" />
+    <Content Include="Campaigns\SetupContacts.aspx" />
+    <Content Include="Campaigns\SetupCustomFields.aspx" />
+    <Content Include="Campaigns\SetupDemographics.aspx" />
+    <Content Include="Campaigns\SetupPolicies.aspx" />
+    <Content Include="Campaigns\SetupRequirements.aspx" />
     <Content Include="Character\CharAdd.aspx" />
     <Content Include="Character\CharCard.aspx" />
     <Content Include="Character\CharCardOrder.aspx" />
@@ -615,6 +621,48 @@
     </Compile>
     <Compile Include="Campaigns\CampaignSetup.aspx.designer.cs">
       <DependentUpon>CampaignSetup.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Campaigns\SetupCampaignDescription.aspx.cs">
+      <DependentUpon>SetupCampaignDescription.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Campaigns\SetupCampaignDescription.aspx.designer.cs">
+      <DependentUpon>SetupCampaignDescription.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Campaigns\SetupContacts.aspx.cs">
+      <DependentUpon>SetupContacts.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Campaigns\SetupContacts.aspx.designer.cs">
+      <DependentUpon>SetupContacts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Campaigns\SetupCustomFields.aspx.cs">
+      <DependentUpon>SetupCustomFields.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Campaigns\SetupCustomFields.aspx.designer.cs">
+      <DependentUpon>SetupCustomFields.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Campaigns\SetupDemographics.aspx.cs">
+      <DependentUpon>SetupDemographics.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Campaigns\SetupDemographics.aspx.designer.cs">
+      <DependentUpon>SetupDemographics.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Campaigns\SetupPolicies.aspx.cs">
+      <DependentUpon>SetupPolicies.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Campaigns\SetupPolicies.aspx.designer.cs">
+      <DependentUpon>SetupPolicies.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Campaigns\SetupRequirements.aspx.cs">
+      <DependentUpon>SetupRequirements.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Campaigns\SetupRequirements.aspx.designer.cs">
+      <DependentUpon>SetupRequirements.aspx</DependentUpon>
     </Compile>
     <Compile Include="Characters.master.cs">
       <DependentUpon>Characters.master</DependentUpon>

@@ -78,7 +78,7 @@ namespace LarpPortal
             string c11 = CampaignBase.PELSubmissionURL;  //PELURL
             string c12 = CampaignBase.PELNotificationEMail;    //PELEmail
             BuildContacts(c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12);
-            CampaignDescription.Text = CampaignBase.WebPageDescription;
+            CampaignDescription.Text = CampaignBase.WebPageDescription.Replace("\n", "<br>");
             txtMembershipFee.Text = CampaignBase.MembershipFee.ToString();
             txtFrequency.Text = CampaignBase.MembershipFeeFrequency;
             txtMinimumAge.Text = CampaignBase.MinimumAge.ToString();

@@ -666,7 +666,7 @@ namespace LarpPortal
                 intImageHeight = GS.GameSystemLogoHeight;
                 intImageWidth = GS.GameSystemLogoWidth;
                 strGameOrCampaignName = GS.GameSystemName;
-                lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
+                lblCampaignOverview.Text = GS.GameSystemWebPageDescription.Replace("\n", "<br>");
             }
             else  // Campaign
             {
@@ -687,7 +687,7 @@ namespace LarpPortal
                     intImageHeight = Cam.LogoHeight;
                     intImageWidth = Cam.LogoWidth;
                     strGameOrCampaignName = Cam.CampaignName;
-                    lblCampaignOverview.Text = Cam.WebPageDescription;
+                    lblCampaignOverview.Text = Cam.WebPageDescription.Replace("\n", "<br>");
                     lblGameSystem1.Text = "Game System: ";
                     lblGameSystem2.Text = " " + Cam.GameSystemName;
                     lblGenre1.Text = "Genre: " ;
@@ -737,7 +737,7 @@ namespace LarpPortal
                 strURL = GS.GameSystemURL;
                 strImage = "";
                 strGameOrCampaignName = GS.GameSystemName;
-                lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
+                lblCampaignOverview.Text = GS.GameSystemWebPageDescription.Replace("\n", "<br>");
             }
             else  // Campaign
             {
@@ -758,7 +758,7 @@ namespace LarpPortal
                     intImageWidth = Cam.LogoWidth;
                     intImageHeight = Cam.LogoHeight;
                     strGameOrCampaignName = Cam.CampaignName;
-                    lblCampaignOverview.Text = Cam.WebPageDescription;
+                    lblCampaignOverview.Text = Cam.WebPageDescription.Replace("\n", "<br>");
                     lblGameSystem1.Text = "Game System: ";
                     lblGameSystem2.Text = " " + Cam.GameSystemName;
                     lblGenre1.Text = "Genre: ";
@@ -811,7 +811,7 @@ namespace LarpPortal
                     strURL = GS.GameSystemURL;
                     strImage = "";
                     strGameOrCampaignName = GS.GameSystemName;
-                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
+                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription.Replace("\n", "<br>");
                 }
                 else  // Campaign
                 {
@@ -832,7 +832,7 @@ namespace LarpPortal
                         intImageHeight = Cam.LogoHeight;
                         intImageWidth = Cam.LogoWidth;
                         strGameOrCampaignName = Cam.CampaignName;
-                        lblCampaignOverview.Text = Cam.WebPageDescription;
+                        lblCampaignOverview.Text = Cam.WebPageDescription.Replace("\n", "<br>");
                         lblGameSystem1.Text = "Game System: ";
                         lblGameSystem2.Text = " " + Cam.GameSystemName;
                         lblGenre1.Text = "Genre: ";
@@ -886,7 +886,7 @@ namespace LarpPortal
                     strURL = GS.GameSystemURL;
                     strImage = "";
                     strGameOrCampaignName = GS.GameSystemName;
-                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
+                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription.Replace("\n", "<br>");
                 }
                 else  // Campaign
                 {
@@ -907,7 +907,7 @@ namespace LarpPortal
                         intImageHeight = Cam.LogoHeight;
                         intImageWidth = Cam.LogoWidth;
                         strGameOrCampaignName = Cam.CampaignName;
-                        lblCampaignOverview.Text = Cam.WebPageDescription;
+                        lblCampaignOverview.Text = Cam.WebPageDescription.Replace("\n", "<br>");
                         lblGameSystem1.Text = "Game System: ";
                         lblGameSystem2.Text = " " + Cam.GameSystemName;
                         lblGenre1.Text = "Genre: ";
@@ -961,7 +961,7 @@ namespace LarpPortal
                     strURL = GS.GameSystemURL;
                     strImage = "";
                     strGameOrCampaignName = GS.GameSystemName;
-                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
+                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription.Replace("\n", "<br>");
                 }
                 else  // Campaign
                 {
@@ -982,7 +982,7 @@ namespace LarpPortal
                         intImageHeight = Cam.LogoHeight;
                         intImageWidth = Cam.LogoWidth;
                         strGameOrCampaignName = Cam.CampaignName;
-                        lblCampaignOverview.Text = Cam.WebPageDescription;
+                        lblCampaignOverview.Text = Cam.WebPageDescription.Replace("\n", "<br>");
                         lblGameSystem1.Text = "Game System: ";
                         lblGameSystem2.Text = " " + Cam.GameSystemName;
                         lblGenre1.Text = "Genre: ";
@@ -1036,7 +1036,7 @@ namespace LarpPortal
                     strURL = GS.GameSystemURL;
                     strImage = "";
                     strGameOrCampaignName = GS.GameSystemName;
-                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription;
+                    lblCampaignOverview.Text = GS.GameSystemWebPageDescription.Replace("\n", "<br>");
                 }
                 else  // Campaign
                 {
@@ -1057,7 +1057,7 @@ namespace LarpPortal
                         intImageHeight = Cam.LogoHeight;
                         intImageWidth = Cam.LogoWidth;
                         strGameOrCampaignName = Cam.CampaignName;
-                        lblCampaignOverview.Text = Cam.WebPageDescription;
+                        lblCampaignOverview.Text = Cam.WebPageDescription.Replace("\n", "<br>");
                         lblGameSystem1.Text = "Game System: ";
                         lblGameSystem2.Text = " " + Cam.GameSystemName;
                         lblGenre1.Text = "Genre: ";
