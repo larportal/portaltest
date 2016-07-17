@@ -1,26 +1,22 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharCardCustomization.aspx.cs" Inherits="LarpPortal.Character.CharCardCustomization" EnableViewState="true" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharCardCustomization.aspx.cs" Inherits="LarpPortal.Character.CharCardCustomization" EnableViewState="true" ValidateRequest="false" %>
 
 <asp:Content ID="ScriptSection" ContentPlaceHolderID="CharHeaderScripts" runat="server">
 
     <style type="text/css">
-        th, tr:nth-child(even) > td
-        {
+        th, tr:nth-child(even) > td {
             background-color: #ffffff;
         }
 
-        .GridViewItem
-        {
+        .GridViewItem {
             padding-left: 5px;
             padding-right: 5px;
         }
 
-        .SpaceBelow
-        {
+        .SpaceBelow {
             padding-bottom: 20px;
         }
 
-        .RelationPanel
-        {
+        .RelationPanel {
             max-height: 250px;
             overflow: auto;
             width: auto;
@@ -31,10 +27,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="mainContent tab-content col-sm-12">
-        <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
+        <div class="row" style="padding-left: 15px; padding-top: 5px; padding-bottom: 1px;">
             <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Card Customization" />
         </div>
-        <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
+        <div class="row" style="padding-left: 15px; padding-bottom: 5px;">
             <table>
                 <tr style="vertical-align: middle;">
                     <td style="width: 10px"></td>
@@ -58,6 +54,11 @@
                     </td>
                 </tr>
             </table>
+            <div class="row">
+                <div align="right" style="padding-right: 35px;">
+                    <asp:Button ID="btnSaveCharacterTop" runat="server" CssClass="StandardButton" Width="150" Text="Save Changes" OnClick="btnSaveCharacter_Click" />
+                </div>
+            </div>
         </div>
 
         <div id="character-info" class="character-info tab-pane active">
@@ -70,7 +71,7 @@
                                 <div class="panelheader">
                                     <h2>Character Card Customization</h2>
                                     <div class="panel-body">
-                                        <div class="panel-container" style="height: 500px; overflow:auto;">
+                                        <div class="panel-container" style="height: 500px; overflow: auto;">
                                             <asp:GridView ID="gvSkills" runat="server" AutoGenerateColumns="false" OnRowCancelingEdit="gvSkills_RowCancelingEdit"
                                                 OnRowEditing="gvSkills_RowEditing" OnRowUpdating="gvSkills_RowUpdating" OnRowDataBound="gvSkills_RowDataBound" GridLines="None"
                                                 HeaderStyle-Wrap="false" CssClass="table table-striped table-hover table-condensed">

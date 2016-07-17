@@ -76,12 +76,13 @@
                 <div class="col-sm-12 NoPadding">
                     <h1 class="col-sm-12">Campaign Setup Information</h1>
                 </div>
-                <div class="row">
+<%--                <div class="row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2">
-                        <asp:Button ID="btnSaveChanges" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+                        <asp:Button ID="btnSaveChanges" runat="server" CssClass="StandardButton" Text="Save" OnClick="btnSaveChanges_Click" />
                     </div>
                 </div>
+                <div class="row"></div>--%>
                 <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
                     <asp:Panel ID="pnlWebPageDescription" runat="server">
                         <div class="col-lg-12 NoPadding" style="padding-left: 15px;">
@@ -95,16 +96,18 @@
                                                     <asp:TextBox ID="tbWebPageDescription" runat="server" TextMode="MultiLine" CssClass="col-sm-12 NoPadding" Rows="10" />
                                                 </div>
                                             </div>
+                                            <div class="row PrePostPadding"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </asp:Panel>
-                    <div class="row">
+                    <div class="row PrePostPadding"></div>
+                    <div class="row PrePostPadding">
                         <div class="col-sm-10"></div>
                         <div class="col-sm-2">
-                            <asp:Button ID="btnSaveRepeat" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+                            <asp:Button ID="btnSaveRepeat" runat="server" CssClass="StandardButton" Text="Save" OnClick="btnSaveChanges_Click" />
                         </div>
                     </div>
                 </div>

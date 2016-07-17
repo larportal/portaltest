@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="SetupContacts.aspx.cs" Inherits="LarpPortal.Campaigns.SetupContacts" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MemberStyles" runat="server">
     <style type="text/css">
         .TableTextBox {
@@ -76,12 +77,13 @@
                 <div class="col-sm-12 NoPadding">
                     <h1 class="col-sm-12">Campaign Setup Information</h1>
                 </div>
-                <div class="row">
+<%--                <div class="row">
                     <div class="col-sm-11"></div>
                     <div class="col-sm-1">
-                        <asp:Button ID="btnSaveChanges" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+                        <asp:Button ID="btnSaveChanges" runat="server" CssClass="StandardButton" Text="Save" OnClick="btnSaveChanges_Click" />
                     </div>
                 </div>
+                <div class="row PrePostPadding"></div>--%>
                 <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
                     <asp:Panel ID="pnlContact" runat="server">
                         <div class="col-sm-12 NoPadding" style="padding-left: 15px;">
@@ -95,13 +97,13 @@
                                                     Campagin Info Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbInfoRequestEmail" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbInfoRequestEmail" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Campaign URL:
                                                 </div>
                                                 <div class="col-sm-4 NoPadding">
-                                                    <asp:TextBox ID="tbCampaignURL" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbCampaignURL" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -109,13 +111,13 @@
                                                     Character History Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbCharacterHistoryEmail" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbCharacterHistoryEmail" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Character History URL:
                                                 </div>
                                                 <div class="col-sm-4 NoPadding">
-                                                    <asp:TextBox ID="tbCharacterHistoryURL" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbCharacterHistoryURL" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -123,13 +125,13 @@
                                                     Character Notification Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbCharacterNotificationEmail" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbCharacterNotificationEmail" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Character Generator URL:
                                                 </div>
                                                 <div class="col-sm-4 NoPadding">
-                                                    <asp:TextBox ID="tbCharacterGeneratorURL" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbCharacterGeneratorURL" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -137,13 +139,13 @@
                                                     CP Notification Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbCPEmail" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbCPEmail" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Rules URL:
                                                 </div>
                                                 <div class="col-sm-4 NoPadding">
-                                                    <asp:TextBox ID="tbRulesURL" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbRulesURL" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -151,13 +153,13 @@
                                                     Info Skill Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbInfoSkillEmail" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbInfoSkillEmail" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Info Skill URL:
                                                 </div>
                                                 <div class="col-sm-4 NoPadding">
-                                                    <asp:TextBox ID="tbInfoSkillURL" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbInfoSkillURL" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -165,13 +167,13 @@
                                                     Join Request Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbJoinRequestEmail" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbJoinRequestEmail" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Join Request URL:
                                                 </div>
                                                 <div class="col-sm-4 NoPadding">
-                                                    <asp:TextBox ID="tbJoinURL" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbJoinURL" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -179,13 +181,13 @@
                                                     PEL Notification Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbPELNotificationEmail" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbPELNotificationEmail" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     PEL Submission URL:
                                                 </div>
                                                 <div class="col-sm-4 NoPadding">
-                                                    <asp:TextBox ID="tbPELSubmissionURL" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbPELSubmissionURL" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -193,13 +195,13 @@
                                                     Production Skill Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbProductionSkillEmail" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbProductionSkillEmail" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Production Skill URL:
                                                 </div>
                                                 <div class="col-sm-4 NoPadding">
-                                                    <asp:TextBox ID="tbProductionSkillURL" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbProductionSkillURL" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -207,25 +209,27 @@
                                                     Registration Notification Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbRegistrationNotificationEmail" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbRegistrationNotificationEmail" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Registration URL:
                                                 </div>
                                                 <div class="col-sm-4 NoPadding">
-                                                    <asp:TextBox ID="tbRegistrationURL" runat="server" style="width:95%"></asp:TextBox>
+                                                    <asp:TextBox ID="tbRegistrationURL" runat="server" Style="width: 95%"></asp:TextBox>
                                                 </div>
                                             </div>
+                                            <div class="row PrePostPadding"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </asp:Panel>
-                    <div class="row">
-                    <div class="col-sm-11"></div>
-                    <div class="col-sm-1">
-                            <asp:Button ID="btnSaveRepeat" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+                    <div class="row PrePostPadding"></div>
+                    <div class="row PrePostPadding">
+                        <div class="col-sm-11"></div>
+                        <div class="col-sm-1">
+                            <asp:Button ID="btnSaveRepeat" runat="server" CssClass="StandardButton" Text="Save" OnClick="btnSaveChanges_Click" />
                         </div>
                     </div>
                 </div>
