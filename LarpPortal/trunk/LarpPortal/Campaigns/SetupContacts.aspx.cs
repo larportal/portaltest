@@ -21,22 +21,8 @@ namespace LarpPortal.Campaigns
         {
             if (!IsPostBack)
             {
-                LoadlblCampaignName();
-                LoadddlCampaignStatus();
-                LoadddlGameSystem();
-                LoadddlSite();
-                LoadddlSize();
-                LoadddlStyle();
-                LoadddlTechLevel();
+                LoadSavedData();
             }
-        }
-
-        protected void LoadlblCampaignName()
-        {
-
-            LoadSavedData();
-            LoadGenres();
-            LoadPeriods();
         }
 
         protected void LoadSavedData()
@@ -50,116 +36,57 @@ namespace LarpPortal.Campaigns
             if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
                 CampaignID = iTemp;
             Classes.cCampaignBase Campaigns = new Classes.cCampaignBase(CampaignID, UserName, UserID);
-        }
-
-        protected void LoadGenres()
-        {
-
-        }
-
-        protected void LoadPeriods()
-        {
-
-        }
-
-        protected void LoadddlCampaignStatus()
-        {
-
-        }
-
-        protected void LoadddlGameSystem()
-        {
-
-        }
-
-        protected void LoadddlSite()
-        {
-
-        }
-
-        protected void LoadddlSize()
-        {
-
-        }
-
-        protected void LoadddlStyle()
-        {
-
-        }
-
-        protected void LoadddlTechLevel()
-        {
-
-        }
-
-        protected void LoadddlFrequency()
-        {
-
-        }
-
-        protected void LoadddlWaiver()
-        {
-
-        }
-
-        protected void ddlCampaignStatus_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void ddlGameSystem_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void ddlPrimarySite_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void ddlStyle_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void ddlTechLevel_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void ddlSize_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void ddlFrequency_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void ddlWaiver_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnEditGenres_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void btnEditPeriods_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void rdolSections_SelectedIndexChanged(object sender, EventArgs e)
-        {
+            tbCampaignURL.Text = Campaigns.URL;
+            tbCharacterGeneratorURL.Text = Campaigns.CharacterGeneratorURL;
+            tbCharacterHistoryEmail.Text = Campaigns.CharacterHistoryNotificationEmail;
+            tbCharacterHistoryURL.Text = Campaigns.CharacterHistoryURL;
+            tbCharacterNotificationEmail.Text = Campaigns.CharacterNotificationEMail;
+            tbCPEmail.Text = Campaigns.CPNotificationEmail;
+            tbInfoRequestEmail.Text = Campaigns.InfoRequestEmail;
+            tbInfoSkillEmail.Text = Campaigns.InfoSkillEMail;
+            tbInfoSkillURL.Text = Campaigns.InfoSkillURL;
+            tbJoinRequestEmail.Text = Campaigns.JoinRequestEmail;
+            tbJoinURL.Text = Campaigns.JoinURL;
+            tbPELNotificationEmail.Text = Campaigns.PELNotificationEMail;
+            tbPELSubmissionURL.Text = Campaigns.PELSubmissionURL;
+            tbProductionSkillEmail.Text = Campaigns.ProductionSkillEMail;
+            tbProductionSkillURL.Text = Campaigns.ProductionSkillURL;
+            tbRegistrationNotificationEmail.Text = Campaigns.RegistrationNotificationEmail;
+            tbRegistrationURL.Text = Campaigns.RegistrationURL;
+            tbRulesURL.Text = Campaigns.RulesURL;
 
         }
 
         protected void btnSaveChanges_Click(object sender, EventArgs e)
         {
-
+            int iTemp = 0;
+            int UserID = 0;
+            int CampaignID = 0;
+            string UserName = Session["UserName"].ToString();
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
+                CampaignID = iTemp;
+            Classes.cCampaignBase Campaigns = new Classes.cCampaignBase(CampaignID, UserName, UserID);
+            Campaigns.URL = tbCampaignURL.Text;
+            Campaigns.CharacterGeneratorURL = tbCharacterGeneratorURL.Text;
+            Campaigns.CharacterHistoryNotificationEmail = tbCharacterHistoryEmail.Text;
+            Campaigns.CharacterHistoryURL = tbCharacterHistoryURL.Text;
+            Campaigns.CharacterNotificationEMail = tbCharacterNotificationEmail.Text;
+            Campaigns.CPNotificationEmail = tbCPEmail.Text;
+            Campaigns.InfoRequestEmail = tbInfoRequestEmail.Text;
+            Campaigns.InfoSkillEMail = tbInfoSkillEmail.Text;
+            Campaigns.InfoSkillURL = tbInfoSkillURL.Text;
+            Campaigns.JoinRequestEmail = tbJoinRequestEmail.Text;
+            Campaigns.JoinURL = tbJoinURL.Text;
+            Campaigns.PELNotificationEMail = tbPELNotificationEmail.Text;
+            Campaigns.PELSubmissionURL = tbPELSubmissionURL.Text;
+            Campaigns.ProductionSkillEMail = tbProductionSkillEmail.Text;
+            Campaigns.ProductionSkillURL = tbProductionSkillURL.Text;
+            Campaigns.RegistrationNotificationEmail = tbRegistrationNotificationEmail.Text;
+            Campaigns.RegistrationURL = tbRegistrationURL.Text;
+            Campaigns.RulesURL = tbRulesURL.Text;
+            Campaigns.Save();
         }
 
     }

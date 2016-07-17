@@ -47,6 +47,7 @@ namespace LarpPortal.Classes
         private Boolean _PlayerApprovalRequired = false;
         private Boolean _NPCApprovalRequired = false;
         private string _JoinRequestEmail = "";
+        private string _JoinURL = "";
         private Int32 _MinimumAge = -1;
         private Int32 _MinimumAgeWithSupervision = -1;
         private Int32 _MaximumCPPerYear = -1;
@@ -55,6 +56,8 @@ namespace LarpPortal.Classes
         private string _PELNotificationEMail = "";
         private Int32 _PelNotificationDeliveryPref = -1;
         private string _PELSubmissionURL = "";
+        private string _RegistrationNotificationEmail = "";
+        private string _RegistrationURL = "";
         private Int32 _CharacterApprovalLevel = -1;
         private string _CharacterNotificationEMail = "";
         private Int32 _CharacterNotificationDeliveryPref = -1;
@@ -272,6 +275,11 @@ namespace LarpPortal.Classes
             get { return _JoinRequestEmail; }
             set { _JoinRequestEmail = value; }
         }
+        public string JoinURL
+        {
+            get { return _JoinURL; }
+            set { _JoinURL = value; }
+        }
         public Int32 MinimumAge
         {
             get { return _MinimumAge; }
@@ -311,6 +319,16 @@ namespace LarpPortal.Classes
         {
             get { return _PELSubmissionURL; }
             set { _PELSubmissionURL = value; }
+        }
+        public string RegistrationNotificationEmail
+        {
+            get { return _RegistrationNotificationEmail; }
+            set { _RegistrationNotificationEmail = value; }
+        }
+        public string RegistrationURL
+        {
+            get { return _RegistrationURL; }
+            set { _RegistrationURL = value; }
         }
         public Int32 CharacterApprovalLevel
         {
@@ -673,6 +691,7 @@ namespace LarpPortal.Classes
                     _InfoSkillEMail = ldt.Rows[0]["InfoSkillEmail"].ToString().Trim();
                     _InfoSkillURL = ldt.Rows[0]["InfoSkillURL"].ToString().Trim();
                     _JoinRequestEmail = ldt.Rows[0]["JoinRequestEmail"].ToString().Trim();
+                    _JoinURL = ldt.Rows[0]["JoinURL"].ToString().Trim();
                     _Logo = ldt.Rows[0]["CampaignLogo"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["CampaignLogoHeight"].ToString(), out iTemp))
                         _LogoHeight = iTemp;
@@ -698,6 +717,8 @@ namespace LarpPortal.Classes
                         _PelNotificationDeliveryPref = iTemp;
                     _PELNotificationEMail = ldt.Rows[0]["PELNotificationEmail"].ToString().Trim();
                     _PELSubmissionURL = ldt.Rows[0]["PELSubmissionURL"].ToString().Trim();
+                    _RegistrationNotificationEmail = ldt.Rows[0]["RegistrationNotificationEmail"].ToString().Trim();
+                    _RegistrationURL = ldt.Rows[0]["RegistrationURL"].ToString().Trim();
                     if (bool.TryParse(ldt.Rows[0]["PlayerApprovalRequired"].ToString(), out bTemp))
                         _PlayerApprovalRequired = bTemp;
                     if (bool.TryParse(ldt.Rows[0]["NPCApprovalRequired"].ToString(), out bTemp))
@@ -805,6 +826,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@PlayerApprovalRequired", _PlayerApprovalRequired);
                 slParams.Add("@NPCApprovalRequired", _NPCApprovalRequired);
                 slParams.Add("@JoinRequestEmail", _JoinRequestEmail);
+                slParams.Add("@JoinURL", _JoinURL);
                 slParams.Add("@MinimumAge", _MinimumAge);
                 slParams.Add("@MinimumAgeWithSupervision", _MinimumAgeWithSupervision);
                 slParams.Add("@MaximumCPPerYear", _MaximumCPPerYear);
@@ -813,6 +835,8 @@ namespace LarpPortal.Classes
                 slParams.Add("@PELNotificationEmail", _PELNotificationEMail);
                 slParams.Add("@PELNotificationDeliveryPreference", _PelNotificationDeliveryPref);
                 slParams.Add("@PELSubmissionURL", _PELSubmissionURL);
+                slParams.Add("@RegistrationNotificationEmail", _RegistrationNotificationEmail);
+                slParams.Add("@RegistrationURL", _RegistrationURL);
                 slParams.Add("@CharacterApprovalLevel", _CharacterApprovalLevel);
                 slParams.Add("@CharacterNotificationEmail", _CharacterNotificationEMail);
                 slParams.Add("@CharacterNotificationDeliveryPreference", _CharacterNotificationDeliveryPref);
