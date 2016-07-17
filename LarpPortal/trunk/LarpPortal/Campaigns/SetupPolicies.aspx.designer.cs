@@ -13,15 +13,6 @@ namespace LarpPortal.Campaigns {
     public partial class SetupPolicies {
         
         /// <summary>
-        /// btnSaveChanges control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveChanges;
-        
-        /// <summary>
         /// pnlPolicy control.
         /// </summary>
         /// <remarks>
@@ -31,49 +22,121 @@ namespace LarpPortal.Campaigns {
         protected global::System.Web.UI.WebControls.Panel pnlPolicy;
         
         /// <summary>
-        /// TextBox2 control.
+        /// chkAllowCharacterRebuilds control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.CheckBox chkAllowCharacterRebuilds;
         
         /// <summary>
-        /// DropDownList3 control.
+        /// chkAllowCPDonation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList3;
+        protected global::System.Web.UI.WebControls.CheckBox chkAllowCPDonation;
         
         /// <summary>
-        /// TextBox6 control.
+        /// chkCrossCampaignPosting control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox6;
+        protected global::System.Web.UI.WebControls.CheckBox chkCrossCampaignPosting;
         
         /// <summary>
-        /// TextBox7 control.
+        /// chkShareLocationUseNotes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox7;
+        protected global::System.Web.UI.WebControls.CheckBox chkShareLocationUseNotes;
         
         /// <summary>
-        /// DropDownList4 control.
+        /// chkNPCApprovalRequired control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList4;
+        protected global::System.Web.UI.WebControls.CheckBox chkNPCApprovalRequired;
+        
+        /// <summary>
+        /// chkPCApprovalRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkPCApprovalRequired;
+        
+        /// <summary>
+        /// chkUseCampaignCharacters control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkUseCampaignCharacters;
+        
+        /// <summary>
+        /// ddlCharacterApprovalLevel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCharacterApprovalLevel;
+        
+        /// <summary>
+        /// ddlPELApprovalLevel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPELApprovalLevel;
+        
+        /// <summary>
+        /// tbEarlestCPApplicationYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbEarlestCPApplicationYear;
+        
+        /// <summary>
+        /// tbEventCharacterCap control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbEventCharacterCap;
+        
+        /// <summary>
+        /// tbMaximumCPPerYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbMaximumCPPerYear;
+        
+        /// <summary>
+        /// tbTotalCharacterCap control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbTotalCharacterCap;
         
         /// <summary>
         /// btnSaveRepeat control.

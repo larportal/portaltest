@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="SetupPolicies.aspx.cs" Inherits="LarpPortal.Campaigns.SetupPolicies" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MemberStyles" runat="server">
     <style type="text/css">
         .TableTextBox {
@@ -70,21 +71,22 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
-    <div class="mainContent tab-content col-lg-12 input-group">
+    <div class="mainContent tab-content col-lg-8 input-group">
         <section id="campaign-info" class="campaign-info tab-pane active">
             <div role="form" class="form-horizontal">
-                <div class="col-lg-12 NoPadding">
-                    <h1 class="col-lg-12">Campaign Setup Information</h1>
+                <div class="col-sm-12 NoPadding">
+                    <h1 class="col-sm-12">Campaign Setup Information</h1>
                 </div>
-                <div class="row">
-                    <div class="col-lg-11"></div>
-                    <div class="col-lg-1">
-                        <asp:Button ID="btnSaveChanges" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+<%--                <div class="row">
+                    <div class="col-sm-10"></div>
+                    <div class="col-sm-2">
+                        <asp:Button ID="btnSaveChanges" runat="server" CssClass="StandardButton" Text="Save" OnClick="btnSaveChanges_Click" />
                     </div>
                 </div>
+                <div class="row PrePostPadding"></div>--%>
                 <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
                     <asp:Panel ID="pnlPolicy" runat="server">
-                        <div class="col-lg-12 NoPadding" style="padding-left: 15px;">
+                        <div class="col-sm-12 NoPadding" style="padding-left: 15px;">
                             <div class="panel NoPadding" style="padding-top: 0px; padding-bottom: 0px; min-height: 50px;">
                                 <div class="panelheader NoPadding">
                                     <h2>Policies</h2>
@@ -92,39 +94,116 @@
                                         <div class="panel-container NoPadding">
                                             <div class="row PrePostPadding">
                                                 <div class="TableLabel col-sm-3">
-                                                    Allow Character Rebuild:
+                                                    Allow Character Rebuilds:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                                                    <asp:CheckBox ID="chkAllowCharacterRebuilds" runat="server" />
                                                 </div>
-                                                <div class="TableLabel col-lg-2">
+                                                <div class="TableLabel col-sm-3">
                                                     Allow CP Donation:
                                                 </div>
-                                                <div class="col-lg-3 NoPadding">
-                                                    <asp:DropDownList ID="DropDownList3" CssClass="NoPadding" runat="server" Style="z-index: 500; position: relative" OnSelectedIndexChanged="ddlFrequency_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:CheckBox ID="chkAllowCPDonation" runat="server" />
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
                                                 <div class="TableLabel col-sm-3">
-                                                    Annual Character Cap:
+                                                    Cross Campaign Posting:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="TextBox6" runat="server"></asp:TextBox>
+                                                    <asp:CheckBox ID="chkCrossCampaignPosting" runat="server" />
                                                 </div>
-                                                <div class="TableLabel col-lg-2">
-                                                    Cancellation Policy:
+                                                <div class="TableLabel col-sm-3">
+                                                    Share Location Use Notes:
                                                 </div>
-                                                <div class="col-lg-3 NoPadding">
-                                                    <asp:TextBox ID="TextBox7" runat="server"></asp:TextBox>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:CheckBox ID="chkShareLocationUseNotes" runat="server" />
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
                                                 <div class="TableLabel col-sm-3">
-                                                    CharacterApproval Level / CrossCampaignPosting / EarliestCPApplicationYear / EventCharacterCap / InfoSkillDeliveryPreference / MaximumCPPerYear / NPCApprovalRequired / PELApprovalLevel / PlayerApprovalRequired / ShareLocationUseNotes / TotalCharacterCap / UseCampaignCharacter
+                                                    NPC Approval Required:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:DropDownList ID="DropDownList4" CssClass="NoPadding" runat="server" Style="z-index: 500; position: relative" OnSelectedIndexChanged="ddlWaiver_SelectedIndexChanged" AutoPostBack="true"></asp:DropDownList>
+                                                    <asp:CheckBox ID="chkNPCApprovalRequired" runat="server" />
                                                 </div>
+                                                <div class="TableLabel col-sm-3">
+                                                    PC Approval Required:
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:CheckBox ID="chkPCApprovalRequired" runat="server" />
+                                                </div>
+                                            </div>
+                                            <div class="row PrePostPadding">
+                                                <div class="TableLabel col-sm-3">
+                                                    Use Campaign Characters:
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:CheckBox ID="chkUseCampaignCharacters" runat="server" />
+                                                </div>
+                                                <div class="TableLabel col-sm-3">
+                                                    
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="row PrePostPadding"></div>
+                                            <div class="row PrePostPadding">
+                                                <div class="TableLabel col-sm-3">
+                                                    Character Approval Level:
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:DropDownList ID="ddlCharacterApprovalLevel" runat="server">
+
+                                                    </asp:DropDownList>
+                                                </div>
+                                                <div class="TableLabel col-sm-3">
+                                                    PEL Approval Level:
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:DropDownList ID="ddlPELApprovalLevel" runat="server">
+
+                                                    </asp:DropDownList>
+                                                </div>
+                                            </div>
+                                            <div class="row PrePostPadding"></div>
+                                            <div class="row PrePostPadding">
+                                                <div class="TableLabel col-sm-3">
+                                                    Earliest Point Application Year:
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:TextBox ID="tbEarlestCPApplicationYear" runat="server" Style="width: 95%" AutoPostBack="true" OnTextChanged="tbEarlestCPApplicationYear_TextChanged">
+
+                                                    </asp:TextBox>
+                                                </div>
+                                                <div class="TableLabel col-sm-3">
+                                                    Event Character Cap:
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:TextBox ID="tbEventCharacterCap" runat="server" Style="width: 95%" AutoPostBack="true" OnTextChanged="tbEventCharacterCap_TextChanged">
+
+                                                    </asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="row PrePostPadding">
+                                                <div class="TableLabel col-sm-3">
+                                                    Max Points Per Year:
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:TextBox ID="tbMaximumCPPerYear" runat="server" Style="width: 95%" AutoPostBack="true" OnTextChanged="tbMaximumCPPerYear_TextChanged">
+
+                                                    </asp:TextBox>
+                                                </div>
+                                                <div class="TableLabel col-sm-3">
+                                                    Total Character Cap:
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:TextBox ID="tbTotalCharacterCap" runat="server" Style="width: 95%" AutoPostBack="true" OnTextChanged="tbTotalCharacterCap_TextChanged">
+
+                                                    </asp:TextBox>
+                                                </div>
+                                                <div class="row PrePostPadding"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -132,10 +211,11 @@
                             </div>
                         </div>
                     </asp:Panel>
-                    <div class="row">
+                    <div class="row PrePostPadding"></div>
+                    <div class="row PrePostPadding">
                         <div class="col-lg-11"></div>
                         <div class="col-lg-1">
-                            <asp:Button ID="btnSaveRepeat" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+                            <asp:Button ID="btnSaveRepeat" runat="server" CssClass="StandardButton" Text="Save" OnClick="btnSaveChanges_Click" />
                         </div>
                     </div>
                 </div>

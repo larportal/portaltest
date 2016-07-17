@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="SetupCustomFields.aspx.cs" Inherits="LarpPortal.Campaigns.SetupCustomFields" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="MemberStyles" runat="server">
     <style type="text/css">
         .TableTextBox {
@@ -77,12 +78,13 @@
                     <h1 class="col-sm-12">Campaign Setup Information</h1>
                 </div>
                 <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
-                    <div class="row">
+<%--                    <div class="row">
                         <div class="col-sm-10"></div>
                         <div class="col-sm-2">
-                            <asp:Button ID="btnSaveChanges" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+                            <asp:Button ID="btnSaveChanges" runat="server" CssClass="StandardButton" Text="Save" OnClick="btnSaveChanges_Click" />
                         </div>
                     </div>
+                    <div class="row"></div>--%>
                     <asp:Panel ID="pnlUserDefined" runat="server">
                         <div class="col-sm-12 NoPadding" style="padding-left: 15px;">
                             <div class="panel NoPadding" style="padding-top: 0px; padding-bottom: 0px; min-height: 50px;">
@@ -160,16 +162,18 @@
                                                     <asp:CheckBox ID="chkUseField5" runat="server" />
                                                 </div>
                                             </div>
+                                            <div class="row PrePostPadding"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </asp:Panel>
-                    <div class="row">
+                    <div class="row PrePostPadding"></div>
+                    <div class="row PrePostPadding">
                         <div class="col-sm-10"></div>
                         <div class="col-sm-2">
-                            <asp:Button ID="btnSaveRepeat" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+                            <asp:Button ID="btnSaveRepeat" runat="server" CssClass="StandardButton" Text="Save" OnClick="btnSaveChanges_Click" />
                         </div>
                     </div>
                 </div>
