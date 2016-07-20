@@ -2,47 +2,39 @@
 
 <asp:Content ID="EventStyles" runat="server" ContentPlaceHolderID="MemberStyles">
     <style type="text/css">
-        .TableTextBox
-        {
+        .TableTextBox {
             border: 1px solid black;
             padding-left: 5px;
             padding-right: 5px;
         }
 
-        th, tr:nth-child(even) > td
-        {
+        th, tr:nth-child(even) > td {
             background-color: transparent;
         }
 
-        .CharInfoTable
-        {
+        .CharInfoTable {
             border-collapse: collapse;
         }
 
-            .CharInfoTable td
-            {
+            .CharInfoTable td {
                 padding: 4px;
             }
 
-        div
-        {
+        div {
             border: 0px solid black;
         }
 
-        .NoPadding
-        {
+        .NoPadding {
             padding-left: 0px;
             padding-right: 0px;
         }
 
-        .TextEntry
-        {
+        .TextEntry {
             border: 1px solid black;
             padding: 0px;
         }
 
-        .PnlDesign
-        {
+        .PnlDesign {
             border: solid 1px #000000;
             height: 150px;
             width: 330px;
@@ -52,8 +44,7 @@
             font-family: Arial;
         }
 
-        .txtbox
-        {
+        .txtbox {
             background-image: url(../img/download.png);
             background-position: right top;
             background-repeat: no-repeat;
@@ -61,14 +52,12 @@
             border: 1px solid #A9A9A9;
         }
 
-        .container
-        {
+        .container {
             display: table;
             vertical-align: middle;
         }
 
-        .vertical-center-row
-        {
+        .vertical-center-row {
             display: table-cell;
             vertical-align: middle;
         }
@@ -137,11 +126,11 @@
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-sm-3">Select Event Date: </div>
                                                         <div class="col-sm-4 NoPadding" style="background-color: transparent;">
-                                                            <asp:DropDownList ID="ddlEventDate" CssClass="NoPadding" runat="server" style="z-index: 500; position:relative;" OnSelectedIndexChanged="ddlEventDate_SelectedIndexChanged" AutoPostBack="true">
+                                                            <asp:DropDownList ID="ddlEventDate" CssClass="NoPadding" runat="server" Style="z-index: 500; position: relative;" OnSelectedIndexChanged="ddlEventDate_SelectedIndexChanged" AutoPostBack="true">
                                                                 <asp:ListItem Text="9/4/2015" Value="9/4/2015" />
                                                             </asp:DropDownList>
                                                         </div>
-                                                        <div class="TableLabel col-lg-2" style="position:relative;">Event Status: </div>
+                                                        <div class="TableLabel col-lg-2" style="position: relative;">Event Status: </div>
                                                         <div class="col-lg-3 NoPadding">
                                                             <asp:Label ID="lblEventStatus" runat="server" />
                                                         </div>
@@ -422,9 +411,14 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row PrePostPadding" runat="server" id="divHousing">
-                                                                <div class="TableLabel col-lg-3">Housing Plan: </div>
+                                                                <div class="TableLabel col-lg-3">Reqstd Housing: </div>
                                                                 <div class="col-lg-3 NoPadding">
-                                                                    <asp:DropDownList ID="ddlHousing" runat="server" />
+                                                                    <asp:TextBox ID="tbReqstdHousing" runat="server" CssClass="TextEntry col-sm-12" />
+                                                                    <asp:Label ID="lblReqstdHousing" runat="server" />
+                                                                </div>
+                                                                <div class="TableLabel col-lg-3">Assign Housing:</div>
+                                                                <div class="col-sm-3 NoPadding">
+                                                                    <asp:Label ID="lblAssignHousing" runat="server" />
                                                                 </div>
                                                             </div>
                                                             <div class="row PrePostPadding">
@@ -481,11 +475,18 @@
                                         </div>
                                     </div>
                                     <asp:MultiView ID="mvButtons" runat="server">
+                                        <asp:View ID="vwAlreadyHappened" runat="server">
+                                            <div class="row col-lg-12 NoPadding" style="padding-top: 15px;">
+                                                <div class="col-lg-12 text-center">
+                                                    This event has already happened. You cannot change your registration after the event.
+                                                </div>
+                                            </div>
+                                        </asp:View>
                                         <asp:View ID="vwRSVPButtons" runat="server">
                                             <div class="row col-lg-12 NoPadding" style="padding-top: 15px;">
                                                 <div class="col-lg-12 text-center">
-                                                    Currently this event is not yet open for registration.<br />
-                                                    By letting the owners know whether you plan to attend an event you will help in planning.<br />
+                                                    <asp:Label ID="lblWhyRSVP" runat="server" Text="Currently this event is not yet open for registration.<br />By letting the owners know whether you plan to attend an event you will help in planning.<br />" />
+                                                    <asp:Label ID="lblClosedToPC" runat="server" Text="Event has been closed to new PC registration.<br />" />
                                                     <br />
                                                 </div>
                                             </div>
@@ -562,7 +563,8 @@
                 </div>
                 <div class="modal-body" style="background-color: white;">
                     <p>
-                        <asp:Label ID="lblRegistrationMessage" runat="server" /></p>
+                        <asp:Label ID="lblRegistrationMessage" runat="server" />
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <asp:Button ID="btnClose" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnClose_Click" />
