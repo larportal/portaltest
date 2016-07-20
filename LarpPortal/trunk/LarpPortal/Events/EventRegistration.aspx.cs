@@ -218,6 +218,8 @@ namespace LarpPortal.Events
                     lblEventEndDate.Text = string.Format("{0: MM/dd/yy hh:mm tt}", dtTemp);
                     dtEventEndDateTime = dtTemp;
                 }
+                ViewState["EventEndDateTime"] = dtTemp;
+
                 if (double.TryParse(dRow["CheckinPrice"].ToString(), out dTemp))
                     lblDoorPrice.Text = dTemp.ToString("C");
                 if (DateTime.TryParse(dRow["PELDeadlineDate"].ToString(), out dtTemp))
@@ -229,16 +231,27 @@ namespace LarpPortal.Events
                 SetCheckDisplay(dRow["CookingFacilitiesAvailable"], imgCookingAllowed);
             }
 
-            if ((DateTime.Now >= dtEventRegOpenDateTime) &&
-                (DateTime.Now <= dtEventRegCloseDateTime))
+            lblWhyRSVP.Visible = false;
+            lblClosedToPC.Visible = false;
+
+            if (DateTime.Now > dtEventEndDateTime)
             {
-                mvButtons.SetActiveView(vwRegisterButtons);
-                mvEventScheduledOpen.SetActiveView(vwEventRegistrationOpen);
+                mvButtons.SetActiveView(vwAlreadyHappened);
             }
             else
             {
-                mvButtons.SetActiveView(vwRSVPButtons);
-                mvEventScheduledOpen.SetActiveView(vwEventRegistrationNotOpen);
+                if ((DateTime.Now >= dtEventRegOpenDateTime) &&
+                    (DateTime.Now <= dtEventRegCloseDateTime))
+                {
+                    mvButtons.SetActiveView(vwRegisterButtons);
+                    mvEventScheduledOpen.SetActiveView(vwEventRegistrationOpen);
+                    lblWhyRSVP.Visible = true;
+                }
+                else
+                {
+                    mvButtons.SetActiveView(vwRSVPButtons);
+                    mvEventScheduledOpen.SetActiveView(vwEventRegistrationNotOpen);
+                }
             }
 
             tbArriveDate.Text = dtEventStartDateTime.ToString("MM/dd/yyyy");
@@ -269,20 +282,20 @@ namespace LarpPortal.Events
                 lblCharacter.Text = ddlCharacterList.Items[0].Text;
             }
 
-            ddlHousing.DataSource = new DataView(dsEventInfo.Tables["Housing"], "", "Description", DataViewRowState.CurrentRows);
-            ddlHousing.DataTextField = "Description";
-            ddlHousing.DataValueField = "HousingTypeID";
-            ddlHousing.DataBind();
+            //ddlHousing.DataSource = new DataView(dsEventInfo.Tables["Housing"], "", "Description", DataViewRowState.CurrentRows);
+            //ddlHousing.DataTextField = "Description";
+            //ddlHousing.DataValueField = "HousingTypeID";
+            //ddlHousing.DataBind();
 
-            ddlHousing.ClearSelection();
-            foreach (ListItem dHousing in ddlHousing.Items)
-            {
-                if (dHousing.Text.ToUpper().Contains("TEAM ONLY"))
-                {
-                    ddlHousing.ClearSelection();
-                    dHousing.Selected = true;
-                }
-            }
+            //ddlHousing.ClearSelection();
+            //foreach (ListItem dHousing in ddlHousing.Items)
+            //{
+            //    if (dHousing.Text.ToUpper().Contains("TEAM ONLY"))
+            //    {
+            //        ddlHousing.ClearSelection();
+            //        dHousing.Selected = true;
+            //    }
+            //}
 
             btnRegister.Text = "Register";
 
@@ -382,18 +395,22 @@ namespace LarpPortal.Events
                     hidRegistrationID.Value = dReg["RegistrationID"].ToString();
                     lblRegistrationStatus.Text = dReg["RegistrationStatus"].ToString();
 
-                    ddlHousing.ClearSelection();
-                    if (dReg["CampaignHousingTypeID"] != DBNull.Value)
-                    {
-                        ListItem lHousing = ddlHousing.Items.FindByValue(dReg["CampaignHousingTypeID"].ToString());
-                        if (lHousing != null)
-                            lHousing.Selected = true;
-                    }
-                    if (ddlHousing.SelectedIndex < 0)
-                    {
-                        if (ddlHousing.Items.Count > 0)
-                            ddlHousing.Items[0].Selected = true;
-                    }
+                    tbReqstdHousing.Text = dReg["ReqstdHousing"].ToString();
+                    lblReqstdHousing.Text = dReg["ReqstdHousing"].ToString();
+                    lblAssignHousing.Text = dReg["AssignHousing"].ToString();
+
+                    //ddlHousing.ClearSelection();
+                    //if (dReg["CampaignHousingTypeID"] != DBNull.Value)
+                    //{
+                    //    ListItem lHousing = ddlHousing.Items.FindByValue(dReg["CampaignHousingTypeID"].ToString());
+                    //    if (lHousing != null)
+                    //        lHousing.Selected = true;
+                    //}
+                    //if (ddlHousing.SelectedIndex < 0)
+                    //{
+                    //    if (ddlHousing.Items.Count > 0)
+                    //        ddlHousing.Items[0].Selected = true;
+                    //}
 
                     ddlPaymentChoice.ClearSelection();
                     if (dReg["EventPaymentTypeID"] != DBNull.Value)
@@ -580,7 +597,7 @@ namespace LarpPortal.Events
             sParam.Add("@DateRegistered", DateTime.Now);
             sParam.Add("@EventPaymentTypeID", ddlPaymentChoice.SelectedValue);
             sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
-            sParam.Add("@CampaignHousingTypeID", ddlHousing.SelectedValue);
+//            sParam.Add("@CampaignHousingTypeID", ddlHousing.SelectedValue);
             if (ddlRoles.SelectedItem.Text != "PC")
                 sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
             //            sParam.Add("@TeamID", ddlTeams.SelectedValue);
@@ -740,13 +757,13 @@ namespace LarpPortal.Events
             {
                 mvCharacters.SetActiveView(vwCharacter);
                 divTeams.Visible = true;
-                divHousing.Visible = true;
+//                divHousing.Visible = true;
             }
             else
             {
                 mvCharacters.SetActiveView(vwSendCPTo);
                 divTeams.Visible = false;
-                divHousing.Visible = false;
+//                divHousing.Visible = false;
 
                 int uID = 0;
                 if (Session["UserID"] != null)

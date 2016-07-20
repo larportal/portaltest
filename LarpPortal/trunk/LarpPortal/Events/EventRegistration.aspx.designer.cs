@@ -481,13 +481,31 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHousing;
         
         /// <summary>
-        /// ddlHousing control.
+        /// tbReqstdHousing control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlHousing;
+        protected global::System.Web.UI.WebControls.TextBox tbReqstdHousing;
+        
+        /// <summary>
+        /// lblReqstdHousing control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblReqstdHousing;
+        
+        /// <summary>
+        /// lblAssignHousing control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAssignHousing;
         
         /// <summary>
         /// mvMenu control.
@@ -607,6 +625,15 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.MultiView mvButtons;
         
         /// <summary>
+        /// vwAlreadyHappened control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwAlreadyHappened;
+        
+        /// <summary>
         /// vwRSVPButtons control.
         /// </summary>
         /// <remarks>
@@ -614,6 +641,24 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View vwRSVPButtons;
+        
+        /// <summary>
+        /// lblWhyRSVP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblWhyRSVP;
+        
+        /// <summary>
+        /// lblClosedToPC control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblClosedToPC;
         
         /// <summary>
         /// btnRSVPYes control.
