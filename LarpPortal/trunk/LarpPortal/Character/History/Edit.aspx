@@ -3,6 +3,24 @@
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
 
 <asp:Content ID="HistoryScripts" runat="server" ContentPlaceHolderID="CharHeaderScripts">
+    <script type="text/javascript">
+
+        //  JBradshaw  7/11/2016    Request #1286     Changed over to bootstrap popup.
+        function openMessage() {
+            $('#modalMessage').modal('show');
+        }
+        function closeMessage() {
+            $('#modelMessage').hide();
+        }
+    </script>
+
+    <script src="../../Scripts/jquery-1.11.3.js"></script>
+    <script src="../../Scripts/jquery-ui.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+
+
+
 </asp:Content>
 
 
@@ -74,7 +92,6 @@
                     <asp:HiddenField ID="hidPELTemplateID" runat="server" />
                     <asp:HiddenField ID="hidTextBoxEnabled" runat="server" Value="1" />
                     <asp:HiddenField ID="hidAutoSaveText" runat="server" />
-                    <asp:Label ID="lblSaveMessage" runat="server" Text="Starting...." />
                 </ContentTemplate>
                 <Triggers>
                     <asp:AsyncPostBackTrigger ControlID="Timer1" EventName="Tick" />
@@ -120,10 +137,7 @@
         <br />
 
         <div class="row col-sm-12" style="padding-left: 15px; margin-bottom: 20px; width: 100%;">
-            <div class="col-sm-4">
-                <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="StandardButton" Width="150px" OnClick="btnCancel_Click" />
-            </div>
-            <div class="col-sm-8" style="text-align: right;">
+            <div class="col-sm-12" style="text-align: right;">
                 <asp:Button ID="btnSubmit" runat="server" Text="Save And Submit" OnCommand="ProcessButton" CommandName="Submit" CssClass="StandardButton" Width="150px" />
                 <asp:Image ID="imgSpacer" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />
                 <asp:Button ID="btnSave" runat="server" Text="Save" OnCommand="ProcessButton" CommandName="Save" CssClass="StandardButton" Width="150px" />
@@ -132,4 +146,26 @@
         <br />
         <br />
     </div>
+
+    <div class="modal" id="modalMessage" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" style="color: white;">×</a>
+                    LARPortal Character Info
+                </div>
+                <div class="modal-body" style="background-color: white;">
+                    <p>
+                        <asp:Label ID="lblmodalMessage" runat="server" /></p>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseMessage_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<asp:HiddenField ID="hidNotificationEMail" runat="server" Value="" />
+
 </asp:Content>

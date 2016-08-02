@@ -59,6 +59,8 @@ namespace LarpPortal.Character.History
                     ckEditor.Text = cCharHist.History;
                     lblHistory.Text = cCharHist.History;
 
+                    hidNotificationEMail.Value = cCharHist.NotificationEMail;
+
                     if (cCharHist.DateSubmitted.HasValue)
                     {
                         ckEditor.Visible = false;
@@ -94,60 +96,44 @@ namespace LarpPortal.Character.History
                     cCharHist.Load(iCharID, iUserID);
                     cCharHist.History = ckEditor.Text;
                     if (e.CommandName.ToUpper() == "SUBMIT")
+                    {
                         cCharHist.DateSubmitted = DateTime.Now;
+                        lblmodalMessage.Text = "The character history has been submitted.";
+                    }
+                    else
+                        lblmodalMessage.Text = "The character history has been saved.";
 
                     cCharHist.Save(iCharID, iUserID, Session["UserName"].ToString());
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+                    SendSubmittedEmail();
+                    _Reload = true;
                 }
             }
         }
 
-        protected void btnCancel_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("PELList.aspx", true);
-        }
-
-        private void SendEmailPELSubmitted(string sEmailBody)
+        private void SendSubmittedEmail()
         {
             try
             {
-                if (ViewState["PELNotificationEMail"].ToString().Length > 0)
+                if (hidNotificationEMail.Value.Length > 0)
                 {
-                    string sPlayerName = ViewState["PlayerName"].ToString();
-                    string sCharacterName = "";
-                    if (ViewState["CharacterAKA"] != null)
-                        sCharacterName = ViewState["CharacterAKA"].ToString();
-
-                    string sEventDate = "";
-                    if (ViewState["EventDate"] != null)
-                    {
-                        DateTime dtTemp;
-                        if (DateTime.TryParse(ViewState["EventDate"].ToString(), out dtTemp))
-                            sEventDate = " that took place on " + ViewState["EventDate"].ToString();
-                    }
-
-                    string sEventName = ViewState["EventName"].ToString();
-                    string sPELNotificationEMail = ViewState["PELNotificationEMail"].ToString();
-
-                    string sSubject = "PEL Submitted: " + sPlayerName + " has submitted a PEL.";
-                    string sBody = sPlayerName + " has submitted a PEL for " + sCharacterName + " for the event " + sEventName + sEventDate + "<br><br>" +
-                        sEmailBody;
-
+                    string sSubject = "The character history submission: " + ddlCharacterSelector.SelectedItem.Text;
+                    string sBody = Session["UserName"].ToString() + " has submitted a character history for " + ddlCharacterSelector.SelectedItem.Text + ".<br>";
                     Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                    cEMS.SendMail(sSubject, sBody, sPELNotificationEMail, "" , "", "CharacterHistory", Session["Username"].ToString());
+                    cEMS.SendMail(sSubject, sBody, hidNotificationEMail.Value, "" , "", "CharacterHistory", Session["Username"].ToString());
                 }
             }
             catch (Exception ex)
             {
                 // Write the exception to error log and then throw it again...
                 Classes.ErrorAtServer lobjError = new Classes.ErrorAtServer();
-                lobjError.ProcessError(ex, "PELEdit.aspx.SendEmailPELSubmitted", "", Session.SessionID);
+                lobjError.ProcessError(ex, "CharacterEdit.aspx.SendSubmittedEmail", "", Session.SessionID);
             }
         }
 
         protected void Timer1_Tick(object sender, EventArgs e)
         {
             AutosaveAnswers();
-            lblSaveMessage.Text = "Saving at " + DateTime.Now.ToString();
         }
 
         protected void AutosaveAnswers()
@@ -221,6 +207,11 @@ namespace LarpPortal.Character.History
                 Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
                 _Reload = true;
             }
+        }
+
+        protected void btnCloseMessage_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeMessage();", true);
         }
     }
 }
