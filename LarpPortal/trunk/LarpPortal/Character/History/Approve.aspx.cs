@@ -23,8 +23,6 @@ namespace LarpPortal.Character.History
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            //if (!IsPostBack)
-            //{
             _dsHistory = new DataSet();
 
             double dCPEarned = 0.0;
@@ -59,41 +57,15 @@ namespace LarpPortal.Character.History
                     hidCampaignPlayerID.Value = iCampaignPlayerID.ToString();
 
                 int.TryParse(drHistory["CharacterID"].ToString(), out iCharacterID);
-                //Classes.cCharacter cChar = new Classes.cCharacter();
-                //cChar.LoadCharacter(iCharacterID);
                 hidCharacterAKA.Value = drHistory["CharacterAKA"].ToString();
                 imgPicture.ImageUrl = "/img/BlankProfile.png";    // Default it to this so if it is not set it will display the blank profile picture.
-                //if (cChar.ProfilePicture != null)
-                //    if (!string.IsNullOrEmpty(cChar.ProfilePicture.PictureURL))
-                //        imgPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
-                //imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
+
                 hidCharacterID.Value = iCharacterID.ToString();
                 hidCampaignID.Value = drHistory["CampaignID"].ToString();
 
                 lblHistory.Text = drHistory["CharacterHistory"].ToString();
 
-                //}
-                //else
-                //{
-                //    Classes.cPlayer PLDemography = null;
-
-                //    string uName = "";
-                //    if (!string.IsNullOrEmpty(Session["Username"].ToString()))
-                //        uName = Session["Username"].ToString();
-
-                //    PLDemography = new Classes.cPlayer(iUserID, uName);
-
-                //    imgPicture.ImageUrl = "/img/BlankProfile.png";    // Default it to this so if it is not set it will display the blank profile picture.
-                //    if (!string.IsNullOrEmpty(PLDemography.UserPhoto))
-                //        imgPicture.ImageUrl = PLDemography.UserPhoto;
-                //    imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
-                //}
-
                 lblCharacterInfo.Text = sCharacterInfo;
-
-                //                    int iTemp;
-                //if (int.TryParse(dsQuestions.Tables[0].Rows[0]["PELID"].ToString(), out iTemp))
-                //    hidPELID.Value = iTemp.ToString();
 
                 if (drHistory["DateHistoryApproved"] != DBNull.Value)
                 {
@@ -118,13 +90,6 @@ namespace LarpPortal.Character.History
                     DateTime dtTemp;
                     divQuestions.Attributes.Add("style", "max-height: 400px; overflow-y: auto; margin-right: 10px;");
                     double.TryParse(drHistory["CPEarn"].ToString(), out dCPEarned);
-                    //int iCampaignCPOpportunityDefaultID = 0;
-                    //if (int.TryParse(dsHistory.Tables[0].Rows[0]["CampaignCPOpportunityDefaultID"].ToString(), out iCampaignCPOpportunityDefaultID))
-                    //    hidCampaignCPOpportunityDefaultID.Value = iCampaignCPOpportunityDefaultID.ToString();
-                    //int iReasonID = 0;
-                    //if (int.TryParse(dsHistory.Tables[0].Rows[0]["ReasonID"].ToString(), out iReasonID))
-                    //    hidReasonID.Value = iReasonID.ToString();
-
                     if (DateTime.TryParse(drHistory["DateHistorySubmitted"].ToString(), out dtTemp))
                     {
                         lblEditMessage.Visible = true;
@@ -133,25 +98,9 @@ namespace LarpPortal.Character.History
                         hidSubmitDate.Value = dtTemp.ToShortDateString();
                     }
                 }
-                //if (hidCharacterID.Value.Length != 0)
-                //{
-                //    // Load the comments for this PEL so we can display them in DataItemBound.
-                //    SortedList sParamsForComments = new SortedList();
-                //    sParamsForComments.Add("@PELID", hidPELID.Value);
-                //    _dtPELComments = Classes.cUtilities.LoadDataTable("uspGetPELStaffComments", sParamsForComments, "LARPortal", Session["UserName"].ToString(),
-                //        "PELApprove.Page_PreRender");
-                //}
             }
 
-            //foreach (DataRow dRow in dsHistory.Tables[0].Rows)
-            //{
-            //    dRow["Answer"] = dRow["Answer"].ToString().Replace("\n", "<br>");
-            //}
-
             tbCPAwarded.Text = dCPEarned.ToString("0.0");
-            //DataView dvQuestions = new DataView(dsHistory.Tables[0], "", "SortOrder", DataViewRowState.CurrentRows);
-            //rptQuestions.DataSource = dvQuestions;
-            //rptQuestions.DataBind();
 
             if (_dsHistory.Tables[ADDENDUMS] != null)
             {
@@ -166,7 +115,6 @@ namespace LarpPortal.Character.History
                 dlComments.DataBind();
             }
         }
-        //        }
 
         protected void ProcessButton(object sender, CommandEventArgs e)
         {
@@ -181,9 +129,6 @@ namespace LarpPortal.Character.History
                 sParams.Add("@UserID", Session["UserID"].ToString());
                 sParams.Add("@CharacterID", iCharacterID);
 
-                //double dCPAwarded;
-                //if (double.TryParse(tbCPAwarded.Text, out dCPAwarded))
-                //    sParams.Add("@CPAwarded", dCPAwarded);
                 sParams.Add("@DateHistoryApproved", DateTime.Now);
 
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCHCharacters", sParams, "LARPortal", Session["UserName"].ToString());
@@ -208,7 +153,7 @@ namespace LarpPortal.Character.History
                 if (!DateTime.TryParse(hidSubmitDate.Value, out dtDateSubmitted))
                     dtDateSubmitted = DateTime.Now;
 
-//                Points.AssignHistoryPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, CampaignID, CPAwarded, dtDateSubmitted);
+                Points.AssignHistoryPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, CampaignID, CPAwarded, dtDateSubmitted);
             }
             else if (e.CommandName.ToUpper() == "REJECT")
             {
@@ -344,9 +289,6 @@ namespace LarpPortal.Character.History
                 if (!File.Exists(sProfileFileName))
                     dRow["UserPhoto"] = "/img/BlankProfile.png";
             }
-            //DataView dvComments = new DataView(_dtPELComments, "PELAnswerID = '" + sAnswerID + "'", "DateAdded desc", DataViewRowState.CurrentRows);
-            //dlComments.DataSource = dvComments;
-            //dlComments.DataBind();
         }
 
 
@@ -357,7 +299,6 @@ namespace LarpPortal.Character.History
                 DataRowView dr = (DataRowView)DataBinder.GetDataItem(e.Item);
                 string sAnswerID = dr["PELsAddendumID"].ToString();
 
-                //string sAnswerID = e.CommandArgument.ToString();
                 DataList dlComments = e.Item.FindControl("dlStaffComments") as DataList;
                 if (dlComments != null)
                 {
@@ -421,11 +362,6 @@ namespace LarpPortal.Character.History
                             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
                             DataTable dtAddResponse = Classes.cUtilities.LoadDataTable("uspInsUpdCHCharacterHistoryAddendumsStaffComments", sParams, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
-
-                            //SortedList sParamsForComments = new SortedList();
-                            //sParamsForComments.Add("@PELID", hidPELID.Value);
-                            //_dtAddendumComments = Classes.cUtilities.LoadDataTable("uspGetAddendumsStaffComments", sParamsForComments, "LARPortal", Session["UserName"].ToString(),
-                            //    "PELApprove.Page_PreRender");
 
                             DataList dlComments = e.Item.FindControl("dlStaffComments") as DataList;
                             GetAddendumComments(iAddendumID.ToString(), dtAddResponse, dlComments);
