@@ -120,6 +120,7 @@ namespace LarpPortal.Classes
         public DateTime? DateApproved { get; set; }
         public bool ClearSubmitted { get; set; }
         public bool ClearApproved { get; set; }
+        public string NotificationEMail { get; set; }
 
         public List<cCharacterHistoryAddendum> Addendums = new List<cCharacterHistoryAddendum>();
         public List<cCharacterHistoryAddendumsStaffComments> AddendumStaffComments = new List<cCharacterHistoryAddendumsStaffComments>();
@@ -129,6 +130,7 @@ namespace LarpPortal.Classes
         {
             ClearSubmitted = false;
             ClearApproved = false;
+            NotificationEMail = "support@LARPortal.com";
         }
 
         public void Load(int iCharacterID, int UserID = -1)
@@ -152,7 +154,11 @@ namespace LarpPortal.Classes
                     DateSubmitted = dtTemp;
                 if (DateTime.TryParse(dRow["DateHistoryApproved"].ToString(), out dtTemp))
                     DateApproved = dtTemp;
+                if (dRow["CharacterHistoryNotificationEmail"].ToString().Length > 0)
+                    NotificationEMail = dRow["CharacterHistoryNotificationEmail"].ToString().Trim();
             }
+
+            NotificationEMail = "jbradshaw@pobox.com";
 
             if (dsHistory.Tables.Count >= 2)
             {
