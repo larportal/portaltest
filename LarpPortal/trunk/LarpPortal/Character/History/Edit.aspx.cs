@@ -117,7 +117,7 @@ namespace LarpPortal.Character.History
             {
                 if (hidNotificationEMail.Value.Length > 0)
                 {
-                    string sSubject = "The character history submission: " + ddlCharacterSelector.SelectedItem.Text;
+                    string sSubject = "Character history submission for " + ddlCharacterSelector.SelectedItem.Text;
                     string sBody = Session["UserName"].ToString() + " has submitted a character history for " + ddlCharacterSelector.SelectedItem.Text + ".<br>";
                     Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
                     cEMS.SendMail(sSubject, sBody, hidNotificationEMail.Value, "" , "", "CharacterHistory", Session["Username"].ToString());
