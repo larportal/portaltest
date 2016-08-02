@@ -158,8 +158,6 @@ namespace LarpPortal.Classes
                     NotificationEMail = dRow["CharacterHistoryNotificationEmail"].ToString().Trim();
             }
 
-            NotificationEMail = "jbradshaw@pobox.com";
-
             if (dsHistory.Tables.Count >= 2)
             {
                 foreach (DataRow dRow in dsHistory.Tables[1].Rows)
