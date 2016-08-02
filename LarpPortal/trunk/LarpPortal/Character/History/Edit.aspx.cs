@@ -105,20 +105,22 @@ namespace LarpPortal.Character.History
 
                     cCharHist.Save(iCharID, iUserID, Session["UserName"].ToString());
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
-                    SendSubmittedEmail();
+                    SendSubmittedEmail(ckEditor.Text);
                     _Reload = true;
                 }
             }
         }
 
-        private void SendSubmittedEmail()
+        private void SendSubmittedEmail(string sHistory)
         {
             try
             {
                 if (hidNotificationEMail.Value.Length > 0)
                 {
+                    Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
                     string sSubject = "Character history submission for " + ddlCharacterSelector.SelectedItem.Text;
-                    string sBody = Session["UserName"].ToString() + " has submitted a character history for " + ddlCharacterSelector.SelectedItem.Text + ".<br>";
+                    string sBody = User.FirstName + " " + User.LastName + " has submitted a character history for " + ddlCharacterSelector.SelectedItem.Text + ".<br><br>" +
+                        sHistory;
                     Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
                     cEMS.SendMail(sSubject, sBody, hidNotificationEMail.Value, "" , "", "CharacterHistory", Session["Username"].ToString());
                 }
