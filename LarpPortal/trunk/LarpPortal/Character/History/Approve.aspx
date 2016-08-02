@@ -206,8 +206,8 @@
                     <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="StandardButton" Width="150px" OnClick="btnCancel_Click" />
                 </div>
                 <div class="col-sm-8" style="text-align: right;">
-                    <asp:Button ID="btnReject" runat="server" Text="Reject" CssClass="StandardButton LeftRightPadding" Width="100px" OnClick="btnReject_Click" />
-                    <asp:Button ID="btnApprove" runat="server" Text="Approve" CssClass="StandardButton NoRightPadding" Width="100px" CommandName="Approve" OnCommand="ProcessButton" />
+                    <asp:Button ID="btnReject" runat="server" Text="Needs Revision" ToolTip="By clicking this it will go back to the user for revisions." CssClass="StandardButton LeftRightPadding" Width="125px" OnClick="btnReject_Click" />
+                    <asp:Button ID="btnApprove" runat="server" Text="Approve" CssClass="StandardButton NoRightPadding" Width="125px" CommandName="Approve" OnCommand="ProcessButton" />
                 </div>
             </div>
             <br />
