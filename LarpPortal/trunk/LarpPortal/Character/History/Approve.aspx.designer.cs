@@ -229,40 +229,22 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.Button btnApprove;
         
         /// <summary>
-        /// hidCampaignCPOpportunityDefaultID control.
+        /// ckHistory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidCampaignCPOpportunityDefaultID;
+        protected global::CKEditor.NET.CKEditorControl ckHistory;
         
         /// <summary>
-        /// hidReasonID control.
+        /// btnSendMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidReasonID;
-        
-        /// <summary>
-        /// hidCampaignPlayerID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidCampaignPlayerID;
-        
-        /// <summary>
-        /// hidCharacterID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidCharacterID;
+        protected global::System.Web.UI.WebControls.Button btnSendMessage;
         
         /// <summary>
         /// hidCampaignID control.
@@ -292,13 +274,22 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.HiddenField hidEventID;
         
         /// <summary>
-        /// hidEventDesc control.
+        /// hidCharacterID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidEventDesc;
+        protected global::System.Web.UI.WebControls.HiddenField hidCharacterID;
+        
+        /// <summary>
+        /// hidEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidEmail;
         
         /// <summary>
         /// hidNotificationEMail control.
@@ -308,6 +299,33 @@ namespace LarpPortal.Character.History {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidNotificationEMail;
+        
+        /// <summary>
+        /// hidCampaignCPOpportunityDefaultID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidCampaignCPOpportunityDefaultID;
+        
+        /// <summary>
+        /// hidCampaignPlayerID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidCampaignPlayerID;
+        
+        /// <summary>
+        /// hidEventDesc control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidEventDesc;
         
         /// <summary>
         /// hidEventDate control.
@@ -335,5 +353,14 @@ namespace LarpPortal.Character.History {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidSubmitDate;
+        
+        /// <summary>
+        /// hidCampaignName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidCampaignName;
     }
 }

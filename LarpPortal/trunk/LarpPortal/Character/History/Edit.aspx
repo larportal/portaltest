@@ -4,8 +4,6 @@
 
 <asp:Content ID="HistoryScripts" runat="server" ContentPlaceHolderID="CharHeaderScripts">
     <script type="text/javascript">
-
-        //  JBradshaw  7/11/2016    Request #1286     Changed over to bootstrap popup.
         function openMessage() {
             $('#modalMessage').modal('show');
         }
@@ -18,9 +16,6 @@
     <script src="../../Scripts/jquery-ui.js"></script>
     <script src="../../Scripts/bootstrap.min.js"></script>
     <script src="../../Scripts/bootstrap.js"></script>
-
-
-
 </asp:Content>
 
 
@@ -152,7 +147,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <a class="close" data-dismiss="modal" style="color: white;">×</a>
-                    LARPortal Character Info
+                    LARPortal Character History
                 </div>
                 <div class="modal-body" style="background-color: white;">
                     <p>

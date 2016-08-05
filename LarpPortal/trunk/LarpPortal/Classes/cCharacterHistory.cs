@@ -121,6 +121,16 @@ namespace LarpPortal.Classes
         public bool ClearSubmitted { get; set; }
         public bool ClearApproved { get; set; }
         public string NotificationEMail { get; set; }
+        public string PlayerName { get; set; }
+        public string EmailAddress { get; set; }
+        public string CampaignName { get; set; }
+        public string CharacterAKA { get; set; }
+        public string CharacterFirstName { get; set; }
+        public string CharacterMiddleName { get; set; }
+        public string CharacterLastName { get; set; }
+        public double CPAwarded { get; set; }
+        public double CPEarn { get; set; }
+        public int CampaignPlayerID { get; set; }
 
         public List<cCharacterHistoryAddendum> Addendums = new List<cCharacterHistoryAddendum>();
         public List<cCharacterHistoryAddendumsStaffComments> AddendumStaffComments = new List<cCharacterHistoryAddendumsStaffComments>();
@@ -143,6 +153,7 @@ namespace LarpPortal.Classes
 
             int iTemp;
             DateTime dtTemp;
+            double dTemp = 0.0;
 
             DataSet dsHistory = cUtilities.LoadDataSet("uspGetCharacterHistory", sParam, "LARPortal", UserID.ToString(), lsRoutineName);
 
@@ -156,6 +167,29 @@ namespace LarpPortal.Classes
                     DateApproved = dtTemp;
                 if (dRow["CharacterHistoryNotificationEmail"].ToString().Length > 0)
                     NotificationEMail = dRow["CharacterHistoryNotificationEmail"].ToString().Trim();
+                PlayerName = dRow["PlayerName"].ToString();
+                EmailAddress = dRow["EmailAddress"].ToString();
+                CampaignName = dRow["CampaignName"].ToString();
+
+                CharacterAKA = dRow["CharacterID"].ToString();
+                CharacterFirstName = dRow["CharacterFirstName"].ToString();
+                CharacterMiddleName = dRow["CharacterMiddleName"].ToString();
+                CharacterLastName = dRow["CharacterLastName"].ToString();
+
+                if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
+                    CampaignPlayerID = iTemp;
+                else
+                    CampaignPlayerID = 0;
+
+                if (double.TryParse(dRow["CPAwarded"].ToString(), out dTemp))
+                    CPAwarded = dTemp;
+                else
+                    CPAwarded = 0;
+
+                if (double.TryParse(dRow["CPEarn"].ToString(), out dTemp))
+                    CPEarn = dTemp;
+                else
+                    CPEarn = 0;
             }
 
             if (dsHistory.Tables.Count >= 2)
