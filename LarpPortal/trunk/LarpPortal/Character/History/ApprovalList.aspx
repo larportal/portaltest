@@ -1,7 +1,21 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ApprovalList.aspx.cs" Inherits="LarpPortal.Character.History.ApprovalList" MasterPageFile="~/MemberCampaigns.master" %>
 
-<asp:Content ContentPlaceHolderID="MemberCampaignsContent" ID="PELList" runat="server">
+<asp:Content ContentPlaceHolderID="MemberStyles" ID="ApprovalListStyles" runat="server">
+    <script type="text/javascript">
+        function openMessage() {
+            $('#modalMessage').modal('show');
+        }
+        function closeMessage() {
+            $('#modelMessage').hide();
+        }
+    </script>
 
+    <script src="../../Scripts/jquery-1.11.3.js"></script>
+    <script src="../../Scripts/jquery-ui.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+</asp:Content>
+<asp:Content ContentPlaceHolderID="MemberCampaignsContent" ID="HistoryApprovalList" runat="server">
     <div class="mainContent tab-content col-sm-12">
         <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
             <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Histories" />

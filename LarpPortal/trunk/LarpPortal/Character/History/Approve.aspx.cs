@@ -48,9 +48,12 @@ namespace LarpPortal.Character.History
                 int.TryParse(drHistory["CharacterID"].ToString(), out iCharacterID);
                 int.TryParse(drHistory["CampaignPlayerID"].ToString(), out iUserID);
 
+                hidCampaignName.Value = drHistory["CampaignName"].ToString();
                 hidNotificationEMail.Value = drHistory["CharacterHistoryNotificationEmail"].ToString();
                 if (hidNotificationEMail.Value.Length == 0)
                     hidNotificationEMail.Value = "support@larportal.com";
+
+                hidEmail.Value = drHistory["EmailAddress"].ToString();
 
                 int iCampaignPlayerID = 0;
                 if (int.TryParse(drHistory["CampaignPlayerID"].ToString(), out iCampaignPlayerID))
@@ -64,6 +67,10 @@ namespace LarpPortal.Character.History
                 hidCampaignID.Value = drHistory["CampaignID"].ToString();
 
                 lblHistory.Text = drHistory["CharacterHistory"].ToString();
+                ckHistory.Text = "Staff has reopened the character history for " + hidCharacterAKA.Value + " for revisions.  Please make changes and resubmit the history.<br><br>" +
+                    "Thank you<br>" +
+                    drHistory["CampaignName"].ToString() + " staff<br><br>" +
+                    drHistory["CharacterHistory"].ToString();
 
                 lblCharacterInfo.Text = sCharacterInfo;
 
@@ -154,19 +161,13 @@ namespace LarpPortal.Character.History
                     dtDateSubmitted = DateTime.Now;
 
                 Points.AssignHistoryPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, CampaignID, CPAwarded, dtDateSubmitted);
+
+                Response.Redirect("ApprovalList.aspx", true);
             }
             else if (e.CommandName.ToUpper() == "REJECT")
             {
-                SortedList sParams = new SortedList();
-                sParams.Add("@UserID", Session["UserID"].ToString());
-                sParams.Add("@CharacterID", iCharacterID);
-                sParams.Add("@ClearHistorySubmitted", true);
-
-                Classes.cUtilities.PerformNonQuery("uspInsUpdCHCharacters", sParams, "LARPortal", Session["UserName"].ToString());
-                Session["UpdateHistoryMessage"] = "alert('The character history has been rejected.');";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
             }
-
-            Response.Redirect("ApprovalList.aspx", true);
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
@@ -395,7 +396,7 @@ namespace LarpPortal.Character.History
                 //string sProfileFileName = HttpContext.Current.Request.PhysicalApplicationPath + dRow["UserPhoto"].ToString();
                 //sProfileFileName = sProfileFileName.Replace("~/img/Player/", "img\\Player\\");
                 //if (!File.Exists(sProfileFileName))
-                    dRow["UserPhoto"] = "/img/BlankProfile.png";
+                dRow["UserPhoto"] = "/img/BlankProfile.png";
             }
 
             DataView dvComments = new DataView(_dsHistory.Tables[3], "CharacterHistoryAddendumID = '" + sAddendumID + "'", "DateAdded desc", DataViewRowState.CurrentRows);
@@ -528,12 +529,75 @@ namespace LarpPortal.Character.History
 
         protected void btnReject_Click(object sender, EventArgs e)
         {
-
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
         }
 
-        protected void btnApprove_Command(object sender, CommandEventArgs e)
+        protected void btnApprove_Click(object sender, EventArgs e)
         {
+            int iCharacterID = -1;
+            int iTemp;
+            if (int.TryParse(hidCharacterID.Value, out iTemp))
+                iCharacterID = iTemp;
 
+            SortedList sParams = new SortedList();
+            sParams.Add("@UserID", Session["UserID"].ToString());
+            sParams.Add("@CharacterID", iCharacterID);
+
+            sParams.Add("@DateHistoryApproved", DateTime.Now);
+
+            Classes.cUtilities.PerformNonQuery("uspInsUpdCHCharacters", sParams, "LARPortal", Session["UserName"].ToString());
+            Session["UpdateHistoryMessage"] = "alert('The character history has been approved.');";
+
+            Classes.cPoints Points = new Classes.cPoints();
+            int UserID = 0;
+            int CampaignPlayerID = 0;
+            int CharacterID = 0;
+            int CampaignCPOpportunityDefaultID = 0;
+            int CampaignID = 0;
+            double CPAwarded = 0.0;
+
+            int.TryParse(Session["UserID"].ToString(), out UserID);
+            int.TryParse(hidCampaignPlayerID.Value, out CampaignPlayerID);
+            int.TryParse(hidCharacterID.Value, out CharacterID);
+            int.TryParse(hidCampaignCPOpportunityDefaultID.Value, out CampaignCPOpportunityDefaultID);
+            int.TryParse(hidCampaignID.Value, out CampaignID);
+            double.TryParse(tbCPAwarded.Text, out CPAwarded);
+
+            DateTime dtDateSubmitted;
+            if (!DateTime.TryParse(hidSubmitDate.Value, out dtDateSubmitted))
+                dtDateSubmitted = DateTime.Now;
+
+            Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
+            string sSubject = "Character history for " + hidCharacterAKA.Value + " had been approved.";
+
+            string sBody = "The staff " + hidCampaignName.Value + " has approved the character history for " + hidCharacterAKA.Value + "<br><br>" +
+                "You have been awarded " + CPAwarded.ToString() + " CP.<br><br>Character History:<br><br>" +
+                ckHistory.Text;
+            string sEmailToSendTo = hidEmail.Value;
+            Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+            cEMS.SendMail(sSubject, sBody, sEmailToSendTo, "", "", "CharacterHistory", Session["Username"].ToString());
+
+            Points.AssignHistoryPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, CampaignID, CPAwarded, dtDateSubmitted);
+
+            Response.Redirect("ApprovalList.aspx", true);
+        }
+
+        protected void btnSendMessage_Click(object sender, EventArgs e)
+        {
+            SortedList sParams = new SortedList();
+            sParams.Add("@UserID", Session["UserID"].ToString());
+            sParams.Add("@CharacterID", hidCharacterID.Value);
+            sParams.Add("@ClearHistorySubmitted", true);
+
+            Classes.cUtilities.PerformNonQuery("uspInsUpdCHCharacters", sParams, "LARPortal", Session["UserName"].ToString());
+            Session["UpdateHistoryMessage"] = "alert('The character history has been sent back to the user.');";
+
+            Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
+            string sSubject = "Character history for " + hidCharacterAKA.Value + " needs revision";
+            Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+            cEMS.SendMail(sSubject, ckHistory.Text, hidEmail.Value, "", "", "CharacterHistory", Session["Username"].ToString());
+
+            Response.Redirect("ApprovalList.aspx", true);
         }
     }
 }

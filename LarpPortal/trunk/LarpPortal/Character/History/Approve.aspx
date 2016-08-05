@@ -1,5 +1,23 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Approve.aspx.cs" Inherits="LarpPortal.Character.History.Approve" MasterPageFile="~/MemberCampaigns.master" %>
 
+<%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
+
+<asp:Content ContentPlaceHolderID="MemberScripts" runat="server" ID="Scripts">
+    <script type="text/javascript">
+        function openMessage() {
+            $('#modalMessage').modal('show');
+        }
+        function closeMessage() {
+            $('#modelMessage').hide();
+        }
+    </script>
+
+    <script src="../../Scripts/jquery-1.11.3.js"></script>
+    <script src="../../Scripts/jquery-ui.js"></script>
+    <script src="../../Scripts/bootstrap.min.js"></script>
+    <script src="../../Scripts/bootstrap.js"></script>
+</asp:Content>
+
 <asp:Content ContentPlaceHolderID="MemberCampaignsContent" ID="PELList" runat="server">
     <style type="text/css">
         .div1 {
@@ -8,6 +26,17 @@
 
         th, tr:nth-child(even) > td {
             background-color: transparent;
+        }
+
+        @media (min-width: 768px) {
+            .modal-xl {
+                width: 90%;
+                max-width: 1200px;
+            }
+        }
+        editArea {
+            overflow: scroll;
+            height: 425px;
         }
     </style>
     <div class="mainContent tab-content col-sm-12">
@@ -126,7 +155,7 @@
                                 <table>
                                     <tr style="vertical-align: top;">
                                         <td>
-                                            <asp:Button ID="btnAddComment" runat="server" Text="Add Staff Only Comment" OnClick="btnAddComment_Click"  CssClass="StandardButton" Style="height: 20px;" /></td>
+                                            <asp:Button ID="btnAddComment" runat="server" Text="Add Staff Only Comment" OnClick="btnAddComment_Click" CssClass="StandardButton" Style="height: 20px;" /></td>
                                         <td>
                                             <asp:Panel ID="pnlCommentSection" runat="server" Visible="false" Style="vertical-align: top;">
                                                 <table>
@@ -148,7 +177,7 @@
                                                 </HeaderTemplate>
                                                 <ItemTemplate>
                                                     <tr style="vertical-align: top;" class="panel-body panel-container search-criteria">
-<%--                                                        <td class="LeftRightPadding" style="padding-bottom: 5px;">
+                                                        <%--                                                        <td class="LeftRightPadding" style="padding-bottom: 5px;">
                                                             <asp:Image runat="server" Width="50" Height="50" ImageUrl='<%# Eval("UserPhoto") %>' /></td>--%>
                                                         <td class="LeftRightPadding" style="padding-bottom: 5px;">
                                                             <asp:Label runat="server" Text='<%# Eval("UserName") %>' Font-Bold="true" /></td>
@@ -206,8 +235,9 @@
                     <asp:Button ID="btnCancel" runat="server" Text="Cancel" CssClass="StandardButton" Width="150px" OnClick="btnCancel_Click" />
                 </div>
                 <div class="col-sm-8" style="text-align: right;">
-                    <asp:Button ID="btnReject" runat="server" Text="Needs Revision" ToolTip="By clicking this it will go back to the user for revisions." CssClass="StandardButton LeftRightPadding" Width="125px" OnClick="btnReject_Click" />
-                    <asp:Button ID="btnApprove" runat="server" Text="Approve" CssClass="StandardButton NoRightPadding" Width="125px" CommandName="Approve" OnCommand="ProcessButton" />
+                    <asp:Button ID="btnReject" runat="server" Text="Needs Revision" ToolTip="By clicking this it will go back to the user for revisions."
+                        CssClass="StandardButton LeftRightPadding" Width="150px" OnClick="btnReject_Click" />
+                    <asp:Button ID="btnApprove" runat="server" Text="Approve" CssClass="StandardButton NoRightPadding" Width="150px" OnClick="btnApprove_Click" />
                 </div>
             </div>
             <br />
@@ -215,16 +245,36 @@
         </div>
     </div>
 
-    <asp:HiddenField ID="hidCampaignCPOpportunityDefaultID" runat="server" />
-    <asp:HiddenField ID="hidReasonID" runat="server" />
-    <asp:HiddenField ID="hidCampaignPlayerID" runat="server" />
-    <asp:HiddenField ID="hidCharacterID" runat="server" />
+    <div class="modal" id="modalMessage" role="dialog">
+        <div class="modal-dialog modal-xl"">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" style="color: white;">×</a>
+                    LARPortal Character History Needs Revisions
+                </div>
+                <div class="modal-body" style="background-color: white;">
+                    <p>
+                        <CKEditor:CKEditorControl ID="ckHistory" runat="server" Height="410px" />
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="btnSendMessage" runat="server" Text="Send Message" Width="150px" CssClass="StandardButton" OnClick="btnSendMessage_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
     <asp:HiddenField ID="hidCampaignID" runat="server" />
     <asp:HiddenField ID="hidCharacterAKA" runat="server" />
     <asp:HiddenField ID="hidEventID" runat="server" />
-    <asp:HiddenField ID="hidEventDesc" runat="server" />
+    <asp:HiddenField ID="hidCharacterID" runat="server" />
+    <asp:HiddenField ID="hidEmail" runat="server" />
     <asp:HiddenField ID="hidNotificationEMail" runat="server" />
+    <asp:HiddenField ID="hidCampaignCPOpportunityDefaultID" runat="server" />
+    <asp:HiddenField ID="hidCampaignPlayerID" runat="server" />
+    <asp:HiddenField ID="hidEventDesc" runat="server" />
     <asp:HiddenField ID="hidEventDate" runat="server" />
     <asp:HiddenField ID="hidPlayerName" runat="server" />
     <asp:HiddenField ID="hidSubmitDate" runat="server" />
+    <asp:HiddenField ID="hidCampaignName" runat="server" />
 </asp:Content>

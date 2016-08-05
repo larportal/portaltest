@@ -40,8 +40,11 @@ namespace LarpPortal.Character.History
 
             if (ddlCharacterName.SelectedIndex > 0)
             {
-                sRowFilter += " and (CharacterAKA = '" + ddlCharacterName.SelectedValue.Replace("'", "''") + "')";
-                sSelectedChar = ddlCharacterName.SelectedValue;
+                if (ddlCharacterName.SelectedValue.Length > 0)
+                {
+                    sRowFilter += " and (CharacterAKA = '" + ddlCharacterName.SelectedValue.Replace("'", "''") + "')";
+                    sSelectedChar = ddlCharacterName.SelectedValue;
+                }
             }
 
             if (dtCharHistory.Columns["ShortHistory"] == null)
@@ -59,11 +62,21 @@ namespace LarpPortal.Character.History
             gvHistoryList.DataSource = dvPELs;
             gvHistoryList.DataBind();
 
-            ddlCharacterName.DataSource = dvPELs;
-            ddlCharacterName.DataTextField = "CharacterAKA";
-            ddlCharacterName.DataValueField = "CharacterAKA";
-            ddlCharacterName.DataBind();
+            if (!IsPostBack)
+            {
+                ddlCharacterName.DataSource = dvPELs;
+                ddlCharacterName.DataTextField = "CharacterAKA";
+                ddlCharacterName.DataValueField = "CharacterAKA";
+                ddlCharacterName.DataBind();
 
+                if (dvPELs.Count > 1)
+                {
+                    ListItem liNoFilter = new ListItem();
+                    liNoFilter.Text = "No Filter";
+                    liNoFilter.Value = "";
+                    ddlCharacterName.Items.Insert(0, liNoFilter);
+                }
+            }
             return dtCharHistory;
         }
 
