@@ -7,144 +7,153 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LarpPortal.Campaigns {
+namespace LarpPortal.Events {
     
     
-    public partial class SetupPolicies {
+    public partial class EventPayment {
         
         /// <summary>
-        /// pnlPolicy control.
+        /// hidItemName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlPolicy;
+        protected global::System.Web.UI.WebControls.HiddenField hidItemName;
         
         /// <summary>
-        /// chkAllowCharacterRebuilds control.
+        /// lblHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkAllowCharacterRebuilds;
+        protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
-        /// chkAllowCPDonation control.
+        /// lblRegistrationText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkAllowCPDonation;
+        protected global::System.Web.UI.WebControls.Label lblRegistrationText;
         
         /// <summary>
-        /// chkShareLocationUseNotes control.
+        /// chkRegistration control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkShareLocationUseNotes;
+        protected global::System.Web.UI.WebControls.CheckBox chkRegistration;
         
         /// <summary>
-        /// chkNPCApprovalRequired control.
+        /// lblFoodText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkNPCApprovalRequired;
+        protected global::System.Web.UI.WebControls.Label lblFoodText;
         
         /// <summary>
-        /// chkUseCampaignCharacters control.
+        /// chkSaturdayBrunch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkUseCampaignCharacters;
+        protected global::System.Web.UI.WebControls.CheckBox chkSaturdayBrunch;
         
         /// <summary>
-        /// chkPCApprovalRequired control.
+        /// chkSaturdayDinner control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkPCApprovalRequired;
+        protected global::System.Web.UI.WebControls.CheckBox chkSaturdayDinner;
         
         /// <summary>
-        /// ddlPELApprovalLevel control.
+        /// chkSundayBrunch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlPELApprovalLevel;
+        protected global::System.Web.UI.WebControls.CheckBox chkSundayBrunch;
         
         /// <summary>
-        /// ddlCharacterApprovalLevel control.
+        /// chkAllMeals control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCharacterApprovalLevel;
+        protected global::System.Web.UI.WebControls.CheckBox chkAllMeals;
         
         /// <summary>
-        /// tbEarliestCPApplicationYear control.
+        /// btnCalculateOrder control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbEarliestCPApplicationYear;
+        protected global::System.Web.UI.WebControls.Button btnCalculateOrder;
         
         /// <summary>
-        /// tbEventCharacterCap control.
+        /// lblOrderTotalDisplay control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbEventCharacterCap;
+        protected global::System.Web.UI.WebControls.Label lblOrderTotalDisplay;
         
         /// <summary>
-        /// tbMaximumCPPerYear control.
+        /// lblOrderTotalSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbMaximumCPPerYear;
+        protected global::System.Web.UI.WebControls.Label lblOrderTotalSection;
         
         /// <summary>
-        /// tbTotalCharacterCap control.
+        /// btnPayPalTotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbTotalCharacterCap;
+        protected global::System.Web.UI.WebControls.ImageButton btnPayPalTotal;
         
         /// <summary>
-        /// tbCrossCampaignPosting control.
+        /// lblClosePayPalForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbCrossCampaignPosting;
+        protected global::System.Web.UI.WebControls.Label lblClosePayPalForm;
         
         /// <summary>
-        /// btnSaveRepeat control.
+        /// lblFooter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveRepeat;
+        protected global::System.Web.UI.WebControls.Label lblFooter;
+        
+        /// <summary>
+        /// btnClose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnClose;
     }
 }

@@ -688,8 +688,8 @@ namespace LarpPortal
                         break;
 
                     case 29:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "Events" && PlayerRoles.Contains("/11/"))
+                        ReqPage = "/Events/RegistrationHousing.aspx";
+                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/11/")))
                         {
                             if (PageName == "EVENTSASSIGNHOUSING")
                             {
@@ -895,35 +895,9 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 37:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
-                        {
-                            if (PageName == "CAMPAIGNCHARACTERHISTORY")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;&nbsp;NPC History";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
-                        break;
+                    //Missing 37 - NPC Skills
 
-                    //Missing 38 - NPC Skills
-
-                    case 39:
+                    case 38:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
@@ -949,7 +923,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 40:
+                    case 39:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
@@ -975,7 +949,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 41:
+                    case 40:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
                         {
@@ -1002,7 +976,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 42:
+                    case 41:
                         ReqPage = "/PageUnderConstruction.aspx"; // = "/Roles/Roles.aspx";
                         if (PageName == "ROLES")
                         {
@@ -1019,9 +993,9 @@ namespace LarpPortal
                         LineText = "Roles";
                         break;
 
-                    //Missing 43 - My roles
+                    //Missing 42 - My roles
 
-                    case 44:
+                    case 43:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Roles" && PlayerRoles.Contains("/21/"))
                         {
@@ -1047,7 +1021,7 @@ namespace LarpPortal
                         }
                         break;
 
-                    case 45:
+                    case 44:
                         ReqPage = "/PageUnderConstruction.aspx";
                         if (ActiveNav == "Roles" && PlayerRoles.Contains("/1/"))
                         {
@@ -1065,6 +1039,33 @@ namespace LarpPortal
                             PageName = ReqPage;
                             LineText = "&nbsp;&nbsp;&nbsp;Setup Roles";
                             LineEnd = LineEnd3;
+                        }
+                        else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
+                        }
+                        break;
+
+                    case 45:
+                        ReqPage = "/Character/History/ApprovalList.aspx";
+                        //if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
+                        if (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/"))
+                        {
+                            if (PageName == "CAMPAIGNCHARACTERHISTORY")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = ReqPage;
+                            LineText = "&nbsp;&nbsp;&nbsp;&nbsp;Approve Character Histories";
                         }
                         else
                         {

@@ -87,6 +87,11 @@ namespace LarpPortal.Campaigns
             Campaigns.RegistrationURL = tbRegistrationURL.Text;
             Campaigns.RulesURL = tbRulesURL.Text;
             Campaigns.Save();
+            string jsString = "alert('Campaign contact changes have been saved.');";
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                    "MyApplication",
+                    jsString,
+                    true);
         }
 
     }

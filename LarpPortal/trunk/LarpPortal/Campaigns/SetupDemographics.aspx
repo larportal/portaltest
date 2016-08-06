@@ -75,7 +75,7 @@
         <section id="campaign-info" class="campaign-info tab-pane active">
             <div role="form" class="form-horizontal">
                 <div class="col-lg-12 NoPadding">
-                    <h1 class="col-lg-12">Campaign Setup Information</h1>
+                    <h1 class="col-lg-12">Campaign Setup Information - Changes are currently disabled on this page</h1>
                 </div>
                 <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
                     <div class="row">
@@ -214,7 +214,7 @@
                                                     <asp:Label ID="lblGenres" runat="server" />
                                                 </div>
                                                 <div class="col-lg-2 NoPadding">
-                                                    <asp:Button ID="btnEditGenres" runat="server" CssClass="StandardButton" Text="Edit" OnClick="btnEditGenres_Click" />
+                                                    <asp:Button ID="btnEditGenres" runat="server" CssClass="StandardButton" Text="Change Genres" OnClick="btnEditGenres_Click" />
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -225,7 +225,7 @@
                                                     <asp:Label ID="lblPeriods" runat="server" />
                                                 </div>
                                                 <div class="col-lg-2 NoPadding">
-                                                    <asp:Button ID="btnEditPeriods" runat="server" CssClass="StandardButton" Text="Edit" OnClick="btnEditPeriods_Click" />
+                                                    <asp:Button ID="btnEditPeriods" runat="server" CssClass="StandardButton" Text="Change Periods" OnClick="btnEditPeriods_Click" />
                                                 </div>
                                             </div>
                                         </div>

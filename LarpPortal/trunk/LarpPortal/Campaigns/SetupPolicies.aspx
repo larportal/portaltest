@@ -71,7 +71,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MemberCampaignsContent" runat="server">
-    <div class="mainContent tab-content col-lg-8 input-group">
+    <div class="mainContent tab-content col-lg-10 input-group">
         <section id="campaign-info" class="campaign-info tab-pane active">
             <div role="form" class="form-horizontal">
                 <div class="col-sm-12 NoPadding">
@@ -107,31 +107,18 @@
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
-                                                    Cross Campaign Posting:
-                                                </div>
-                                                <div class="col-sm-3 NoPadding">
-                                                    <asp:CheckBox ID="chkCrossCampaignPosting" runat="server" />
-                                                </div>
+
                                                 <div class="TableLabel col-sm-3">
                                                     Share Location Use Notes:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:CheckBox ID="chkShareLocationUseNotes" runat="server" />
                                                 </div>
-                                            </div>
-                                            <div class="row PrePostPadding">
                                                 <div class="TableLabel col-sm-3">
                                                     NPC Approval Required:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:CheckBox ID="chkNPCApprovalRequired" runat="server" />
-                                                </div>
-                                                <div class="TableLabel col-sm-3">
-                                                    PC Approval Required:
-                                                </div>
-                                                <div class="col-sm-3 NoPadding">
-                                                    <asp:CheckBox ID="chkPCApprovalRequired" runat="server" />
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
@@ -142,27 +129,27 @@
                                                     <asp:CheckBox ID="chkUseCampaignCharacters" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-3">
-                                                    
+                                                    PC Approval Required:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    
+                                                    <asp:CheckBox ID="chkPCApprovalRequired" runat="server" />
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding"></div>
                                             <div class="row PrePostPadding">
                                                 <div class="TableLabel col-sm-3">
-                                                    Character Approval Level:
-                                                </div>
-                                                <div class="col-sm-3 NoPadding">
-                                                    <asp:DropDownList ID="ddlCharacterApprovalLevel" runat="server">
-
-                                                    </asp:DropDownList>
-                                                </div>
-                                                <div class="TableLabel col-sm-3">
                                                     PEL Approval Level:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:DropDownList ID="ddlPELApprovalLevel" runat="server">
+
+                                                    </asp:DropDownList>
+                                                </div>
+                                                <div class="TableLabel col-sm-3">
+                                                    Character Approval Level:
+                                                </div>
+                                                <div class="col-sm-3 NoPadding">
+                                                    <asp:DropDownList ID="ddlCharacterApprovalLevel" runat="server">
 
                                                     </asp:DropDownList>
                                                 </div>
@@ -173,7 +160,7 @@
                                                     Earliest Point Application Year:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbEarlestCPApplicationYear" runat="server" Style="width: 95%" AutoPostBack="true" OnTextChanged="tbEarlestCPApplicationYear_TextChanged">
+                                                    <asp:TextBox ID="tbEarliestCPApplicationYear" runat="server" Style="width: 95%" AutoPostBack="true" OnTextChanged="tbEarlestCPApplicationYear_TextChanged">
 
                                                     </asp:TextBox>
                                                 </div>
@@ -202,6 +189,14 @@
                                                     <asp:TextBox ID="tbTotalCharacterCap" runat="server" Style="width: 95%" AutoPostBack="true" OnTextChanged="tbTotalCharacterCap_TextChanged">
 
                                                     </asp:TextBox>
+                                                </div>
+                                                <div class="row PrePostPadding">
+                                                <div class="TableLabel col-sm-3">
+                                                    Cross Campaign Posting:
+                                                </div>
+                                                <div class="col-sm-9 NoPadding">
+                                                    <asp:TextBox ID="tbCrossCampaignPosting" runat="server" Style="width: 95%" TextMode="MultiLine" Rows="5" ></asp:TextBox>
+                                                </div>
                                                 </div>
                                                 <div class="row PrePostPadding"></div>
                                             </div>

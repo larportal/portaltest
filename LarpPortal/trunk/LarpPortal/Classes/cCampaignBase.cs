@@ -51,6 +51,7 @@ namespace LarpPortal.Classes
         private Int32 _MinimumAge = -1;
         private Int32 _MinimumAgeWithSupervision = -1;
         private Int32 _MaximumCPPerYear = -1;
+        private Int32 _EarliestCPApplicationYear = 0;
         private Boolean _AllowCPDonation = false;
         private Int32 _PELApprovalLevel = -1;
         private string _PELNotificationEMail = "";
@@ -75,7 +76,7 @@ namespace LarpPortal.Classes
         private string _RulesURL = "";
         private string _RulesFile = "";
         private string _CharacterGeneratorURL = "";
-        private string _ShareLocationUseNotes = "";
+        private bool _ShareLocationUseNotes = true;
         private Int32 _WorldID = -1;
         private Int32 _StatusID = -1;
         private string _StatusDescription = "";
@@ -108,6 +109,7 @@ namespace LarpPortal.Classes
         private string _PeriodList = "";
         private string _TechLevelList = "";
         private string _MarketingLocation = "";
+        private string _PrimarySiteZipCode = "";
         private DateTime? _NextEventDate = null;
         private int _CampaignRoleID = 0;
         private int _RoleID = 0;
@@ -295,6 +297,11 @@ namespace LarpPortal.Classes
             get { return _MaximumCPPerYear; }
             set { _MaximumCPPerYear = value; }
         }
+        public Int32 EarliestCPApplicationYear
+        {
+            get { return _EarliestCPApplicationYear; }
+            set { _EarliestCPApplicationYear = value; }
+        }
         public Boolean AllowCPDonation
         {
             get { return _AllowCPDonation; }
@@ -415,7 +422,7 @@ namespace LarpPortal.Classes
             get { return _CharacterGeneratorURL; }
             set { _CharacterGeneratorURL = value; }
         }
-        public string ShareLocationUseNotes
+        public bool ShareLocationUseNotes
         {
             get { return _ShareLocationUseNotes; }
             set { _ShareLocationUseNotes = value; }
@@ -579,6 +586,12 @@ namespace LarpPortal.Classes
             set { _MarketingLocation = value; }
         }
 
+        public string PrimarySiteZipCode
+        {
+            get { return _PrimarySiteZipCode; }
+            set { _PrimarySiteZipCode = value; }
+        }
+
         public DateTime? NextEventDate
         {
             get { return _NextEventDate; }
@@ -702,6 +715,8 @@ namespace LarpPortal.Classes
                     CampaignSizeRange = ldt.Rows[0]["CampaignSizeRange"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["MaximumCPPerYear"].ToString(), out iTemp))
                         _MaximumCPPerYear = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["EarliestCPApplicationYear"].ToString(), out iTemp))
+                        _EarliestCPApplicationYear = iTemp;
                     _MaxNumberOfGenres = 4; //TODO-Rick-4 Limit campaigns to number of genres parameter
                     _MaxNumberOfPeriods = 4; //TODO-Rick-4 Limit campaigns to number of periods parameter
                     if (double.TryParse(ldt.Rows[0]["MembershipFee"].ToString(), out dTemp))
@@ -723,7 +738,7 @@ namespace LarpPortal.Classes
                         _PlayerApprovalRequired = bTemp;
                     if (bool.TryParse(ldt.Rows[0]["NPCApprovalRequired"].ToString(), out bTemp))
                         _NPCApprovalRequired = bTemp;
-                    _PortalAccessDescription = ""; //TODO-Rick-4 Get portal access description from table - LOW priority because we "know" what it is and don't currently display it
+                    _PortalAccessDescription = ldt.Rows[0]["PortalAccessDescription"].ToString().Trim();
                     _PortalAccessType = ldt.Rows[0]["PortalAccessType"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["PrimaryOwnerID"].ToString(), out iTemp))
                         _PrimaryOwnerID = iTemp;
@@ -736,7 +751,10 @@ namespace LarpPortal.Classes
                         _ProjectedNumberOfEvents = iTemp;
                     _RulesFile = ldt.Rows[0]["CampaignRulesFile"].ToString().Trim();
                     _RulesURL = ldt.Rows[0]["CampaignRulesURL"].ToString().Trim();
-                    _ShareLocationUseNotes = ldt.Rows[0]["ShareLocationUseNotes"].ToString().Trim();
+                    // RP - 7/17/2016 - Changed ShareLocationUseNotes from string to boolean to match database
+                    //_ShareLocationUseNotes = ldt.Rows[0]["ShareLocationUseNotes"].ToString().Trim();
+                    if (bool.TryParse(ldt.Rows[0]["ShareLocationUseNotes"].ToString(), out bTemp))
+                        _ShareLocationUseNotes = bTemp;
                     if (DateTime.TryParse(ldt.Rows[0]["CampaignStartDate"].ToString(), out dtTemp))
                         _StartDate = dtTemp;
                     if (DateTime.TryParse(ldt.Rows[0]["DateChanged"].ToString(), out dtTemp))
@@ -775,6 +793,7 @@ namespace LarpPortal.Classes
                     _UserDefinedField5Value = ldt.Rows[0]["UserDefinedField5"].ToString().Trim();
                     _WebPageDescription = ldt.Rows[0]["CampaignWebPageDescription"].ToString().Trim();
                     _WebPageSelectionComments = ldt.Rows[0]["CampaignWebPageSelectionComments"].ToString().Trim();
+                    _PrimarySiteZipCode = ldt.Rows[0]["PrimarySiteZipCode"].ToString().Trim();
                     _MarketingLocation = ldt.Rows[0]["MarketingLocation"].ToString().Trim();
                     GetGenres(strUserName);
                     GetPeriods(strUserName);
@@ -830,6 +849,7 @@ namespace LarpPortal.Classes
                 slParams.Add("@MinimumAge", _MinimumAge);
                 slParams.Add("@MinimumAgeWithSupervision", _MinimumAgeWithSupervision);
                 slParams.Add("@MaximumCPPerYear", _MaximumCPPerYear);
+                slParams.Add("@EarliestCPApplicationYear", _EarliestCPApplicationYear);
                 slParams.Add("@AllowCPDonation", _AllowCPDonation);
                 slParams.Add("@PELApprovalLevel", _PELApprovalLevel);
                 slParams.Add("@PELNotificationEmail", _PELNotificationEMail);

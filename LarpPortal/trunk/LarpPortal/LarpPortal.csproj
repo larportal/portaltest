@@ -488,6 +488,7 @@
     <Content Include="Events\EventDefaults.aspx" />
     <Content Include="Events\EventEdit.aspx" />
     <Content Include="Events\EventList.aspx" />
+    <Content Include="Events\EventPayment.aspx" />
     <Content Include="Events\RegistrationHousing.aspx" />
     <Content Include="Events\RegistrationApproval.aspx" />
     <Content Include="General\MemberHome.aspx" />
@@ -516,9 +517,6 @@
     <Content Include="Reports\ReportTemplate.aspx" />
     <Content Include="Reports\SiteList.aspx" />
     <Content Include="Scripts\jquery-1.11.3.js" />
-    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
-    <Content Include="Scripts\jquery-2.0.3.js" />
-    <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
@@ -526,6 +524,7 @@
     <Content Include="StaffFunctions\CharHistoryApproval.aspx" />
     <Content Include="StaffFunctions\CharHistoryApprovalList.aspx" />
     <Content Include="Testing\TestCallToClass.aspx" />
+    <Content Include="Testing\TestPayPal.aspx" />
     <Content Include="WrathbornRegistration.aspx" />
     <Content Include="Events\EventRegistration.aspx" />
     <Content Include="SilverfireRegistration.aspx" />
@@ -746,7 +745,6 @@
     <Content Include="Bundle.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Site.Mobile.Master" />
-    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1208,6 +1206,13 @@
     <Compile Include="Events\EventList.aspx.designer.cs">
       <DependentUpon>EventList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Events\EventPayment.aspx.cs">
+      <DependentUpon>EventPayment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Events\EventPayment.aspx.designer.cs">
+      <DependentUpon>EventPayment.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Events\RegistrationHousing.aspx.cs">
       <DependentUpon>RegistrationHousing.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1372,6 +1377,13 @@
     </Compile>
     <Compile Include="Testing\TestCallToClass.aspx.designer.cs">
       <DependentUpon>TestCallToClass.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Testing\TestPayPal.aspx.cs">
+      <DependentUpon>TestPayPal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Testing\TestPayPal.aspx.designer.cs">
+      <DependentUpon>TestPayPal.aspx</DependentUpon>
     </Compile>
     <Compile Include="WrathbornRegistration.aspx.cs">
       <DependentUpon>WrathbornRegistration.aspx</DependentUpon>
