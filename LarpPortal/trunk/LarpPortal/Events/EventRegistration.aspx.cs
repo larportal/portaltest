@@ -22,6 +22,11 @@ namespace LarpPortal.Events
             ddlFullEvent.Attributes.Add("onchange", "ddl_changed(this);");
             ddlSendToCampaign.Attributes.Add("onChange", "ddlSendToCampaign(this);");
             tbSelectedMeals.Attributes.Add("placeholder", "Click to select the meals you want.");
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openPayPalWindow();", true);
+
+
+
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -144,7 +149,6 @@ namespace LarpPortal.Events
                     sParams.Add("@UserID", iUserID);
             }
             DataSet dsEventInfo = Classes.cUtilities.LoadDataSet("uspGetEventInfo", sParams, "LARPortal", Session["UserName"].ToString(), "EventRegistration.gvEvents_RowCommand");
-
 
             dsEventInfo.Tables[0].TableName = "EventInfo";
             dsEventInfo.Tables[1].TableName = "Housing";
@@ -394,6 +398,7 @@ namespace LarpPortal.Events
                 {
                     hidRegistrationID.Value = dReg["RegistrationID"].ToString();
                     lblRegistrationStatus.Text = dReg["RegistrationStatus"].ToString();
+                    hidRegistrationStatusID.Value = dReg["RegistrationStatusID"].ToString();
 
                     tbReqstdHousing.Text = dReg["ReqstdHousing"].ToString();
                     lblReqstdHousing.Text = dReg["ReqstdHousing"].ToString();
@@ -597,7 +602,9 @@ namespace LarpPortal.Events
             sParam.Add("@DateRegistered", DateTime.Now);
             sParam.Add("@EventPaymentTypeID", ddlPaymentChoice.SelectedValue);
             sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
-//            sParam.Add("@CampaignHousingTypeID", ddlHousing.SelectedValue);
+            sParam.Add("@ReqstdHousing ", tbReqstdHousing.Text);
+
+            //            sParam.Add("@CampaignHousingTypeID", ddlHousing.SelectedValue);
             if (ddlRoles.SelectedItem.Text != "PC")
                 sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
             //            sParam.Add("@TeamID", ddlTeams.SelectedValue);
@@ -639,7 +646,7 @@ namespace LarpPortal.Events
             // Always get the registration status regardless. The SP actually checks for if they are already approved.
             //            if ((hidRegistrationID.Value == "-1") || (sStatusToSearchFor == "Canceled"))
             {
-                if (sStatusToSearchFor != "")
+                if ((sStatusToSearchFor != "") && (hidRegistrationStatusID.Value.Length == 0))
                 {
                     SortedList sParams = new SortedList();
                     string sSQL = "select StatusID, StatusName from MDBStatus " +
@@ -655,6 +662,8 @@ namespace LarpPortal.Events
                             sParam.Add("@RegistrationStatus", iRegStatus);
                     }
                 }
+                else
+                    sParam.Add("@RegistrationStatus", hidRegistrationStatusID.Value);
             }
 
             bool bFullEvent = true;
@@ -696,6 +705,8 @@ namespace LarpPortal.Events
                 {
                     iRegistrationID = 0;
                     int.TryParse(dRegRecord["RegistrationID"].ToString(), out iRegistrationID);
+                    Session["RegistrationID"] = iRegistrationID;
+
                     InsertCPOpportunity(iRoleAlignment, iCharacterID, iEventID, iRegistrationID, bFullEvent, bActualRegistration);
 
                     SortedList sParamsClearMeals = new SortedList();
@@ -723,6 +734,9 @@ namespace LarpPortal.Events
 
                 lblRegistrationMessage.Text = sRegistrationMessage;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+
+                if ((bNewRegistration) && (ddlPaymentChoice.SelectedItem.Text.ToUpper() == "PAYPAL"))
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openPayPalWindow();", true);
 
                 ddlEventDate_SelectedIndexChanged(null, null);
             }
