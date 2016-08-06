@@ -40,15 +40,6 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.View vwPELs;
         
         /// <summary>
-        /// imgBlank1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgBlank1;
-        
-        /// <summary>
         /// ddlCharacterName control.
         /// </summary>
         /// <remarks>
@@ -65,6 +56,24 @@ namespace LarpPortal.Character.History {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image imgBlank2;
+        
+        /// <summary>
+        /// ddlStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlStatus;
+        
+        /// <summary>
+        /// imgBlank3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgBlank3;
         
         /// <summary>
         /// btnApproveAll control.

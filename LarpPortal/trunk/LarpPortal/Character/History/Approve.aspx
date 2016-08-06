@@ -18,7 +18,7 @@
     <script src="../../Scripts/bootstrap.js"></script>
 </asp:Content>
 
-<asp:Content ContentPlaceHolderID="MemberCampaignsContent" ID="PELList" runat="server">
+<asp:Content ContentPlaceHolderID="MemberCampaignsContent" ID="CharacterHistoryList" runat="server">
     <style type="text/css">
         .div1 {
             border: 1px solid black;
@@ -238,6 +238,7 @@
                     <asp:Button ID="btnReject" runat="server" Text="Needs Revision" ToolTip="By clicking this it will go back to the user for revisions."
                         CssClass="StandardButton LeftRightPadding" Width="150px" OnClick="btnReject_Click" />
                     <asp:Button ID="btnApprove" runat="server" Text="Approve" CssClass="StandardButton NoRightPadding" Width="150px" OnClick="btnApprove_Click" />
+                    <asp:Button ID="btnDone" runat="server" Text="Done" CssClass="StandardButton NoRightPadding" Width="150px" OnClick="btnDone_Click" />
                 </div>
             </div>
             <br />

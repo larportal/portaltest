@@ -229,6 +229,15 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.Button btnApprove;
         
         /// <summary>
+        /// btnDone control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDone;
+        
+        /// <summary>
         /// ckHistory control.
         /// </summary>
         /// <remarks>

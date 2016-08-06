@@ -17,18 +17,24 @@
 </asp:Content>
 <asp:Content ContentPlaceHolderID="MemberCampaignsContent" ID="HistoryApprovalList" runat="server">
     <div class="mainContent tab-content col-sm-12">
-        <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
+        <div class="row" style="padding-left: 15px; padding-top: 10px;">
             <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Histories" />
         </div>
-        <br />
 
         <asp:MultiView ID="mvPELs" runat="server" ActiveViewIndex="0">
             <asp:View ID="vwPELs" runat="server">
-                <div class="row" style="padding-left: 15px; padding-right: 15px;">
-                    <asp:Image ID="imgBlank1" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />
+                <div class="row" style="padding-left: 15px; padding-right: 15px; padding-top: 10px;">
+<%--                    <asp:Image ID="imgBlank1" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />--%>
                     Character Name:
                     <asp:DropDownList ID="ddlCharacterName" runat="server" AutoPostBack="true" />
                     <asp:Image ID="imgBlank2" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />
+                    Status:
+                    <asp:DropDownList ID="ddlStatus" runat="server" AutoPostBack="true">
+                        <asp:ListItem Text="No Filter" Value="" />
+                        <asp:ListItem Text="Approved Only" Value="A" />
+                        <asp:ListItem Text="Submitted Only" Value="S" />
+                    </asp:DropDownList>
+                    <asp:Image ID="imgBlank3" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />
                     <asp:Button ID="btnApproveAll" runat="server" Text="Approve All" CssClass="StandardButton" OnClick="btnApproveAll_Click" Width="125" Visible="false" />
                 </div>
 
@@ -57,12 +63,16 @@
                                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                                 <asp:BoundField DataField="CharacterAKA" HeaderText="Character" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
                                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
+
                                                 <asp:BoundField DataField="ShortHistory" HeaderText="History" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
+                                                    ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
+
+                                                <asp:BoundField DataField="HistoryStatus" HeaderText="Status" 
                                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                                 <asp:TemplateField ItemStyle-CssClass="LeftRightPadding">
                                                     <ItemTemplate>
                                                         <asp:Button ID="btnView" runat="server" CommandArgument='<%# Eval("CharacterID") %>' CommandName='View'
-                                                            Text='View' CssClass="StandardButton LeftRightPadding" />
+                                                            Text='View' CssClass="StandardButton LeftRightPadding" Width="100px" />
                                                     </ItemTemplate>
                                                 </asp:TemplateField>
                                             </Columns>

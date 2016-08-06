@@ -171,7 +171,7 @@ namespace LarpPortal.Classes
                 EmailAddress = dRow["EmailAddress"].ToString();
                 CampaignName = dRow["CampaignName"].ToString();
 
-                CharacterAKA = dRow["CharacterID"].ToString();
+                CharacterAKA = dRow["CharacterAKA"].ToString();
                 CharacterFirstName = dRow["CharacterFirstName"].ToString();
                 CharacterMiddleName = dRow["CharacterMiddleName"].ToString();
                 CharacterLastName = dRow["CharacterLastName"].ToString();

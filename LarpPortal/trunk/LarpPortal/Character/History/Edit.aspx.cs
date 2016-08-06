@@ -117,8 +117,9 @@ namespace LarpPortal.Character.History
                     Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
                     string sSubject = cHist.CampaignName + " character history from " + cHist.PlayerName + " - " + cHist.CharacterAKA;
 
-                    string sBody = User.FirstName + " " + User.LastName + " has submitted a character history for " + cHist.CharacterAKA + ".<br><br>" +
-                        sHistory;
+                    string sBody = (string.IsNullOrEmpty(User.NickName) ? User.FirstName : User.NickName) +
+                        " " + User.LastName + " has submitted a character history for " + cHist.CharacterAKA + ".<br><br>" +
+                         sHistory;
                     Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
                     cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "" , "", "CharacterHistory", Session["Username"].ToString());
                 }
