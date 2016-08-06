@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Data;
+using System.Data.SqlClient;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using LarpPortal.Classes;
 
 namespace LarpPortal.Campaigns
 {
@@ -22,9 +28,6 @@ namespace LarpPortal.Campaigns
             if (!IsPostBack)
             {
                 LoadlblCampaignName();
-                LoadddlCampaignStatus();
-                LoadddlGameSystem();
-                LoadddlSite();
                 LoadddlSize();
                 LoadddlStyle();
                 LoadddlTechLevel();
@@ -33,7 +36,6 @@ namespace LarpPortal.Campaigns
 
         protected void LoadlblCampaignName()
         {
-
             LoadSavedData();
             LoadGenres();
             LoadPeriods();
@@ -51,24 +53,22 @@ namespace LarpPortal.Campaigns
                 CampaignID = iTemp;
             Classes.cCampaignBase Campaigns = new Classes.cCampaignBase(CampaignID, UserName, UserID);
             lblCampaignName.Text = Campaigns.CampaignName;
+            lblLARPPortalType.Text = Campaigns.PortalAccessDescription;
             lblOwner.Text = Campaigns.PrimaryOwnerName;
             tbDateStarted.Text = string.Format("{0:MMM d, yyyy}", Campaigns.StartDate);
             tbExpectedEndDate.Text = string.Format("{0:MMM d, yyyy}", Campaigns.ProjectedEndDate);
-            tbCampaignZip.Text = "";
+            tbCampaignZip.Text = Campaigns.PrimarySiteZipCode;
             tbActualEndDate.Text = string.Format("{0:MMM d, yyyy}", Campaigns.ActualEndDate);
             tbAvgNoEvents.Text = "";
             tbEmergencyContact.Text = Campaigns.EmergencyEventContact;
             tbEmergencyPhone.Text = "";
+            LoadddlGameSystem(Campaigns.GameSystemID);
+            LoadddlCampaignStatus(Campaigns.StatusID);
+            LoadddlSite();
         }
 
         protected void LoadGenres()
         {
-            // To get a list of all genres available:
-            // uspGetGenres
-            // @GenreFilter = 0
-            // To get all genres for a campaign:
-            // uspGetCampaignGenresByCampaignID
-            // @CampaignID = CampaignID 
             int iTemp = 0;
             int UserID = 0;
             int CampaignID = 0;
@@ -84,11 +84,6 @@ namespace LarpPortal.Campaigns
 
         protected void LoadPeriods()
         {
-            // To get a list of all periods available:
-            // uspGetPeriods (no parameters necessary)
-            // To get a list of periods for a campaign:
-            // uspGetCampaignPeriodsByCampaignID
-            // @CampaignID = CampaignID
             int iTemp = 0;
             int UserID = 0;
             int CampaignID = 0;
@@ -102,24 +97,53 @@ namespace LarpPortal.Campaigns
             lblPeriods.Text = Periods.PeriodList;
         }
 
-        protected void LoadddlCampaignStatus()
+        protected void LoadddlCampaignStatus(int CurrentStatusID)
         {
-            // uspGetStatus
-            // @StatusType = 'Campaign'
-            // If 26 - Can't be changed by users
-            //StatusID	StatusType	StatusName
-            //1	        Campaign	Tentative
-            //2	        Campaign	Scheduled
-            //3	        Campaign	Active
-            //4	        Campaign	Past
-            //5	        Campaign	Complete
-            //26	    Campaign	LARP Portal Hold
-
+            int iTemp = 0;
+            int UserID = 0;
+            int CampaignID = 0;
+            string UserName = Session["UserName"].ToString();
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
+                CampaignID = iTemp;
+            string stStoredProc = "uspGetStatus";
+            SortedList sParams = new SortedList();
+            sParams.Add("@StatusType", "Campaign");
+            string stCallingMethod = "SetupDemographics.LoadddlCampaignStatus";
+            DataTable dtCampaignStatus = new DataTable();
+            dtCampaignStatus = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName, stCallingMethod);
+            ddlCampaignStatus.DataTextField = "StatusName";
+            ddlCampaignStatus.DataValueField = "StatusID";
+            ddlCampaignStatus.DataSource = dtCampaignStatus;
+            ddlCampaignStatus.DataBind();
+            ddlCampaignStatus.SelectedValue = CurrentStatusID.ToString();
+            if(CurrentStatusID == 26)
+            {
+                ddlCampaignStatus.Enabled = false;
+            }
         }
 
-        protected void LoadddlGameSystem()
+        protected void LoadddlGameSystem(int CurrentGameSystemID)
         {
-
+            int iTemp = 0;
+            int UserID = 0;
+            int CampaignID = 0;
+            string UserName = Session["UserName"].ToString();
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
+                CampaignID = iTemp;
+            string stStoredProc = "uspGetGameSystems";
+            SortedList sParams = new SortedList();
+            string stCallingMethod = "SetupDemographics.LoadddlGameSystems";
+            DataTable dtGameSystems = new DataTable();
+            dtGameSystems = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName, stCallingMethod);
+            ddlGameSystem.DataTextField = "GameSystemName";
+            ddlGameSystem.DataValueField = "GameSystemID";
+            ddlGameSystem.DataSource = dtGameSystems;
+            ddlGameSystem.DataBind();
+            ddlGameSystem.SelectedValue = CurrentGameSystemID.ToString();
         }
 
         protected void LoadddlSite()
@@ -154,7 +178,7 @@ namespace LarpPortal.Campaigns
 
         protected void ddlCampaignStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         protected void ddlGameSystem_SelectedIndexChanged(object sender, EventArgs e)
@@ -165,6 +189,7 @@ namespace LarpPortal.Campaigns
         protected void ddlPrimarySite_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+            ;// tbCampaignZip.Text = "updated value from site lookup";
         }
 
         protected void ddlStyle_SelectedIndexChanged(object sender, EventArgs e)
@@ -205,7 +230,36 @@ namespace LarpPortal.Campaigns
 
         protected void btnSaveChanges_Click(object sender, EventArgs e)
         {
-
+            int iTemp = 0;
+            int UserID = 0;
+            int CampaignID = 0;
+            string UserName = Session["UserName"].ToString();
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
+                CampaignID = iTemp;
+            Classes.cCampaignBase Campaigns = new Classes.cCampaignBase(CampaignID, UserName, UserID);
+            //Campaigns.fieldname = form.fieldname.value OR form.ddlfieldname.selectedvalue.toint32
+            Campaigns.GameSystemID = ddlGameSystem.SelectedValue.ToInt32();
+            Campaigns.StatusID = ddlCampaignStatus.SelectedValue.ToInt32();
+            //Campaigns.StartDate = tbDateStarted.
+            Campaigns.PrimarySiteZipCode = tbCampaignZip.Text;
+            //Campaigns.ProjectedEndDate = tbExpectedEndDate.
+            //Campaigns.PrimarySite = 
+            //Campaigns.ActualEndDate = tbActualEndDate.
+            //Campaigns.ProjectedNumberOfEvents = tbAvgNoEvents.Text.ToInt32(); Which one, this one or the one below?  Definitely missing something.
+            Campaigns.ProjectedNumberOfEvents = tbProjTotalNumEvents.Text.ToInt32();
+            Campaigns.EmergencyEventContact = tbEmergencyContact.Text;
+            //Campaigns.phone = tbEmergencyPhone.Text;
+            Campaigns.StyleID = ddlStyle.SelectedValue.ToInt32();
+            Campaigns.TechLevelID = ddlTechLevel.SelectedValue.ToInt32();
+            //Campaigns.Save();
+            //string jsString = "alert('Campaign demographic changes have been saved.');";
+            string jsString = "alert('Campaign demographic changes are currently disabled.');";
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                    "MyApplication",
+                    jsString,
+                    true);
         }
 
     }

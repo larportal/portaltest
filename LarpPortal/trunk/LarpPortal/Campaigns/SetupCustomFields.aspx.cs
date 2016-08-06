@@ -70,6 +70,11 @@ namespace LarpPortal.Campaigns
             Campaigns.UserDefinedField4Value = tbCustomField4.Text;
             Campaigns.UserDefinedField5Value = tbCustomField5.Text;
             Campaigns.Save();
+            string jsString = "alert('Campaign character custom changes have been saved.');";
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                    "MyApplication",
+                    jsString,
+                    true);
         }
 
     }

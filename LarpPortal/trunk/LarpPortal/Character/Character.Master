@@ -20,7 +20,7 @@
                         <ul class="nav nav-pills" "panel-wrapper list-unstyled scroll-500">
                             <li runat="server" id="liInfo"><a href="CharInfo.aspx" runat="server" id="hlCharInfo">Character Info</a></li>
                             <li runat="server" id="liSkills"><a href="CharSkills.aspx" runat="server" id="hlCharSkill">Character Skills</a></li>
-                            <li runat="server" id="liHistory"><a href="CharHistory.aspx">Character History</a></li>
+                            <li runat="server" id="liHistory"><a href="/Character/History/Edit.aspx">Character History</a></li>
                             <li runat="server" id="liRelationShips"><a href="CharRelationships.aspx" runat="server">Character Relationships</a></li>
                             <li runat="server" id="liPlaces"><a href="CharPlaces.aspx">Character Places</a></li>
                             <li runat="server" id="liItems"><a href="CharItems.aspx">Character Items</a></li>
@@ -30,8 +30,8 @@
                             <li runat="server" id="liCharCharOrder"><a href="CharCardOrder.aspx">Character Card Order</a></li>
                             <li runat="server" id="liCharacterCard"><a id="hlCharCard" href="CharCard.aspx" runat="server" target="_blank">Preview Character Card</a></li>
                             <li runat="server" id="liAddNewChar"><a href="CharAdd.aspx">Add New Character</a></li>
-                            <li runat="server" id="liPELs"><a href="../PELs/PELList">View PELs</a></li>
-                            <li runat="server" id="liEvents"><a href="../Events/EventRegistration">Register for an event</a></li>
+                            <li runat="server" id="liPELs"><a href="../../PELs/PELList">View PELs</a></li>
+                            <li runat="server" id="liEvents"><a href="../../Events/EventRegistration">Register for an event</a></li>
                         </ul>
                     </nav>
                 </div>

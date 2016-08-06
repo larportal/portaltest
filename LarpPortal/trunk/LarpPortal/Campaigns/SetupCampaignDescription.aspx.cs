@@ -52,6 +52,11 @@ namespace LarpPortal.Campaigns
             Classes.cCampaignBase Campaigns = new Classes.cCampaignBase(CampaignID, UserName, UserID);
             Campaigns.WebPageDescription = tbWebPageDescription.Text;
             Campaigns.Save();
+            string jsString = "alert('Campaign description changes have been saved.');";
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                    "MyApplication",
+                    jsString,
+                    true);
         }
 
     }
