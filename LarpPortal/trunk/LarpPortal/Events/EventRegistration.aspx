@@ -97,6 +97,14 @@
         function closeModal() {
             $('#myModal').hide();
         }
+
+        function openPayPalWindow() {
+            var win = window.open('/Events/EventPayment.aspx', '_blank');
+            win.focus();
+        }
+
+
+
     </script>
 
     <script src="../Scripts/jquery-1.11.3.js"></script>
@@ -577,4 +585,5 @@
     <asp:HiddenField ID="hidCampaignEMail" runat="server" />
     <asp:HiddenField ID="hidCharAKA" runat="server" />
     <asp:HiddenField ID="hidPlayerEMail" runat="server" />
+    <asp:HiddenField ID="hidRegistrationStatusID" runat="server" />
 </asp:Content>
