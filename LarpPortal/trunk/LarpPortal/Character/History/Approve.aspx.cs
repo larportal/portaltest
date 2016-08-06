@@ -23,6 +23,9 @@ namespace LarpPortal.Character.History
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+                                MethodBase lmth = MethodBase.GetCurrentMethod();
+                                string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
             _dsHistory = new DataSet();
 
             double dCPEarned = 0.0;
@@ -37,7 +40,7 @@ namespace LarpPortal.Character.History
             int iCharacterID = 0;
             int iUserID = 0;
 
-            _dsHistory = Classes.cUtilities.LoadDataSet("uspGetCharacterHistory", sParams, "LARPortal", Session["UserName"].ToString(), "PELEdit.Page_PreRender");
+            _dsHistory = Classes.cUtilities.LoadDataSet("uspGetCharacterHistory", sParams, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
 
             string sCharacterInfo = "";
             if (_dsHistory.Tables[CHARHISTORY].Rows.Count > 0)
@@ -74,11 +77,14 @@ namespace LarpPortal.Character.History
 
                 lblCharacterInfo.Text = sCharacterInfo;
 
+                btnDone.Visible = false;
+                btnApprove.Visible = true;
+
                 if (drHistory["DateHistoryApproved"] != DBNull.Value)
                 {
                     double.TryParse(drHistory["CPAwarded"].ToString(), out dCPEarned);
-                    btnApprove.Text = "Done";
-                    btnApprove.CommandName = "Done";
+                    //btnApprove.Text = "Done";
+                    //btnApprove.CommandName = "Done";
                     DateTime dtTemp;
                     if (DateTime.TryParse(drHistory["DateHistoryApproved"].ToString(), out dtTemp))
                     {
@@ -87,6 +93,8 @@ namespace LarpPortal.Character.History
                         TextBoxEnabled = false;
                         btnCancel.Visible = false;
                         btnReject.Visible = false;
+                        btnDone.Visible = true;
+                        btnApprove.Visible = false;
                     }
                 }
                 else if (drHistory["DateHistorySubmitted"] != DBNull.Value)
@@ -120,53 +128,6 @@ namespace LarpPortal.Character.History
                 DataView dvStaffComments = new DataView(_dsHistory.Tables[STAFFCOMMENTS], "", "DateAdded desc", DataViewRowState.CurrentRows);
                 dlComments.DataSource = dvStaffComments;
                 dlComments.DataBind();
-            }
-        }
-
-        protected void ProcessButton(object sender, CommandEventArgs e)
-        {
-            int iCharacterID = -1;
-            int iTemp;
-            if (int.TryParse(hidCharacterID.Value, out iTemp))
-                iCharacterID = iTemp;
-
-            if (e.CommandName.ToUpper() == "APPROVE")
-            {
-                SortedList sParams = new SortedList();
-                sParams.Add("@UserID", Session["UserID"].ToString());
-                sParams.Add("@CharacterID", iCharacterID);
-
-                sParams.Add("@DateHistoryApproved", DateTime.Now);
-
-                Classes.cUtilities.PerformNonQuery("uspInsUpdCHCharacters", sParams, "LARPortal", Session["UserName"].ToString());
-                Session["UpdateHistoryMessage"] = "alert('The character history has been approved.');";
-
-                Classes.cPoints Points = new Classes.cPoints();
-                int UserID = 0;
-                int CampaignPlayerID = 0;
-                int CharacterID = 0;
-                int CampaignCPOpportunityDefaultID = 0;
-                int CampaignID = 0;
-                double CPAwarded = 0.0;
-
-                int.TryParse(Session["UserID"].ToString(), out UserID);
-                int.TryParse(hidCampaignPlayerID.Value, out CampaignPlayerID);
-                int.TryParse(hidCharacterID.Value, out CharacterID);
-                int.TryParse(hidCampaignCPOpportunityDefaultID.Value, out CampaignCPOpportunityDefaultID);
-                int.TryParse(hidCampaignID.Value, out CampaignID);
-                double.TryParse(tbCPAwarded.Text, out CPAwarded);
-
-                DateTime dtDateSubmitted;
-                if (!DateTime.TryParse(hidSubmitDate.Value, out dtDateSubmitted))
-                    dtDateSubmitted = DateTime.Now;
-
-                Points.AssignHistoryPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, CampaignID, CPAwarded, dtDateSubmitted);
-
-                Response.Redirect("ApprovalList.aspx", true);
-            }
-            else if (e.CommandName.ToUpper() == "REJECT")
-            {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
             }
         }
 
@@ -570,9 +531,9 @@ namespace LarpPortal.Character.History
             Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
             string sSubject = "Character history for " + hidCharacterAKA.Value + " had been approved.";
 
-            string sBody = "The staff " + hidCampaignName.Value + " has approved the character history for " + hidCharacterAKA.Value + "<br><br>" +
-                "You have been awarded " + CPAwarded.ToString() + " CP.<br><br>Character History:<br><br>" +
-                ckHistory.Text;
+            string sBody = hidCampaignName.Value + " staff has approved the character history for " + hidCharacterAKA.Value + "<br><br>" +
+                "You have been awarded " + CPAwarded.ToString() + " CP.";
+                //"<br><br>Character History:<br><br>" + ckHistory.Text;
             string sEmailToSendTo = hidEmail.Value;
             Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
             cEMS.SendMail(sSubject, sBody, sEmailToSendTo, "", "", "CharacterHistory", Session["Username"].ToString());
@@ -595,8 +556,13 @@ namespace LarpPortal.Character.History
             Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
             string sSubject = "Character history for " + hidCharacterAKA.Value + " needs revision";
             Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-            cEMS.SendMail(sSubject, ckHistory.Text, hidEmail.Value, "", "", "CharacterHistory", Session["Username"].ToString());
+            cEMS.SendMail(sSubject, ckHistory.Text, hidEmail.Value, "", hidNotificationEMail.Value, "CharacterHistory", Session["Username"].ToString());
 
+            Response.Redirect("ApprovalList.aspx", true);
+        }
+
+        protected void btnDone_Click(object sender, EventArgs e)
+        {
             Response.Redirect("ApprovalList.aspx", true);
         }
     }

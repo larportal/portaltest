@@ -36,16 +36,38 @@ namespace LarpPortal.Character.History
 
             string sSelectedChar = "";
 
-            string sRowFilter = "(DateHistorySubmitted is not null) and (DateHistoryApproved is null)";
+            string sRowFilter = "";
 
             if (ddlCharacterName.SelectedIndex > 0)
             {
                 if (ddlCharacterName.SelectedValue.Length > 0)
                 {
-                    sRowFilter += " and (CharacterAKA = '" + ddlCharacterName.SelectedValue.Replace("'", "''") + "')";
+                    sRowFilter += "(CharacterAKA = '" + ddlCharacterName.SelectedValue.Replace("'", "''") + "')";
                     sSelectedChar = ddlCharacterName.SelectedValue;
                 }
+                ddlStatus.SelectedIndex = 0;
             }
+            else
+            {
+                switch (ddlStatus.SelectedValue)
+                {
+                    case "A":
+                        sRowFilter = "(DateHistoryApproved is not null)";
+                        break;
+
+                    case "S":
+                        sRowFilter = "(DateHistoryApproved is null) and (DateHistorySubmitted is not null)";
+                        break;
+
+                    default:
+                        sRowFilter = "(DateHistorySubmitted is not null)";
+                        break;
+                }
+            }
+
+
+            if (dtCharHistory.Columns["HistoryStatus"] == null)
+                dtCharHistory.Columns.Add("HistoryStatus", typeof(string));
 
             if (dtCharHistory.Columns["ShortHistory"] == null)
                 dtCharHistory.Columns.Add("ShortHistory", typeof(string));
@@ -56,6 +78,10 @@ namespace LarpPortal.Character.History
                     dRow["ShortHistory"] = dRow["CharacterHistory"].ToString().Substring(0, 95) + "...";
                 else
                     dRow["ShortHistory"] = dRow["CharacterHistory"].ToString();
+                if (dRow["DateHistoryApproved"] == DBNull.Value)
+                    dRow["HistoryStatus"] = "Submitted";
+                else
+                    dRow["HistoryStatus"] = "Approved";
             }
 
             DataView dvPELs = new DataView(dtCharHistory, sRowFilter, "CharacterAKA", DataViewRowState.CurrentRows);
