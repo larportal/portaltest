@@ -524,7 +524,6 @@
     <Content Include="StaffFunctions\CharHistoryApproval.aspx" />
     <Content Include="StaffFunctions\CharHistoryApprovalList.aspx" />
     <Content Include="Testing\TestCallToClass.aspx" />
-    <Content Include="Testing\TestPayPal.aspx" />
     <Content Include="WrathbornRegistration.aspx" />
     <Content Include="Events\EventRegistration.aspx" />
     <Content Include="SilverfireRegistration.aspx" />
@@ -1377,13 +1376,6 @@
     </Compile>
     <Compile Include="Testing\TestCallToClass.aspx.designer.cs">
       <DependentUpon>TestCallToClass.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Testing\TestPayPal.aspx.cs">
-      <DependentUpon>TestPayPal.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Testing\TestPayPal.aspx.designer.cs">
-      <DependentUpon>TestPayPal.aspx</DependentUpon>
     </Compile>
     <Compile Include="WrathbornRegistration.aspx.cs">
       <DependentUpon>WrathbornRegistration.aspx</DependentUpon>

@@ -31,6 +31,15 @@ namespace LarpPortal.Campaigns {
         protected global::System.Web.UI.WebControls.TextBox tbInfoRequestEmail;
         
         /// <summary>
+        /// chkInfoRequestEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkInfoRequestEmail;
+        
+        /// <summary>
         /// tbCampaignURL control.
         /// </summary>
         /// <remarks>
@@ -47,6 +56,15 @@ namespace LarpPortal.Campaigns {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbCharacterHistoryEmail;
+        
+        /// <summary>
+        /// chkCharacterHistoryEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkCharacterHistoryEmail;
         
         /// <summary>
         /// tbCharacterHistoryURL control.
@@ -67,6 +85,15 @@ namespace LarpPortal.Campaigns {
         protected global::System.Web.UI.WebControls.TextBox tbCharacterNotificationEmail;
         
         /// <summary>
+        /// chkCharacterNotificationEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkCharacterNotificationEmail;
+        
+        /// <summary>
         /// tbCharacterGeneratorURL control.
         /// </summary>
         /// <remarks>
@@ -83,6 +110,15 @@ namespace LarpPortal.Campaigns {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbCPEmail;
+        
+        /// <summary>
+        /// chkCPEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkCPEmail;
         
         /// <summary>
         /// tbRulesURL control.
@@ -103,6 +139,15 @@ namespace LarpPortal.Campaigns {
         protected global::System.Web.UI.WebControls.TextBox tbInfoSkillEmail;
         
         /// <summary>
+        /// chkInfoSkillEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkInfoSkillEmail;
+        
+        /// <summary>
         /// tbInfoSkillURL control.
         /// </summary>
         /// <remarks>
@@ -119,6 +164,15 @@ namespace LarpPortal.Campaigns {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbJoinRequestEmail;
+        
+        /// <summary>
+        /// chkJoinRequestEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkJoinRequestEmail;
         
         /// <summary>
         /// tbJoinURL control.
@@ -139,6 +193,15 @@ namespace LarpPortal.Campaigns {
         protected global::System.Web.UI.WebControls.TextBox tbPELNotificationEmail;
         
         /// <summary>
+        /// chkPELNotificationEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkPELNotificationEmail;
+        
+        /// <summary>
         /// tbPELSubmissionURL control.
         /// </summary>
         /// <remarks>
@@ -157,6 +220,15 @@ namespace LarpPortal.Campaigns {
         protected global::System.Web.UI.WebControls.TextBox tbProductionSkillEmail;
         
         /// <summary>
+        /// chkProductionSkillEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkProductionSkillEmail;
+        
+        /// <summary>
         /// tbProductionSkillURL control.
         /// </summary>
         /// <remarks>
@@ -173,6 +245,15 @@ namespace LarpPortal.Campaigns {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbRegistrationNotificationEmail;
+        
+        /// <summary>
+        /// chkREgistrationNotificationEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkREgistrationNotificationEmail;
         
         /// <summary>
         /// tbRegistrationURL control.
