@@ -22,11 +22,6 @@ namespace LarpPortal.Events
             ddlFullEvent.Attributes.Add("onchange", "ddl_changed(this);");
             ddlSendToCampaign.Attributes.Add("onChange", "ddlSendToCampaign(this);");
             tbSelectedMeals.Attributes.Add("placeholder", "Click to select the meals you want.");
-
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openPayPalWindow();", true);
-
-
-
         }
 
         protected void Page_PreRender(object sender, EventArgs e)

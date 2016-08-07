@@ -102,9 +102,6 @@
             var win = window.open('/Events/EventPayment.aspx', '_blank');
             win.focus();
         }
-
-
-
     </script>
 
     <script src="../Scripts/jquery-1.11.3.js"></script>
