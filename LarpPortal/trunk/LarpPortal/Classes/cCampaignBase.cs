@@ -116,6 +116,15 @@ namespace LarpPortal.Classes
         private string _RoleDescription = "";
         private Boolean _AutoApprove;
         private DateTime? _DateChanged = null;
+        private Boolean _ShowCampaignInfoEmail;
+        private Boolean _ShowCharacterHistoryEmail;
+        private Boolean _ShowCharacterNotificationEmail;
+        private Boolean _ShowCPNotificationEmail;
+        private Boolean _ShowInfoSkillEmail;
+        private Boolean _ShowJoinRequestEmail;
+        private Boolean _ShowPELNotificationEmail;
+        private Boolean _ShowProductionSkillEmail;
+        private Boolean _ShowRegistrationNotificationEmail;
 
         public Int32 CampaignID
         {
@@ -604,31 +613,85 @@ namespace LarpPortal.Classes
             set { _DateChanged = value; }
         }
 
-        private int CampaignRoleID
+        public int CampaignRoleID
         {
             get { return _CampaignRoleID; }
             set { _CampaignRoleID = value; }
         }
 
-        private int RoleID
+        public int RoleID
         {
             get { return _RoleID; }
             set { _RoleID = value; }
         }
 
-        private string RoleDescription
+        public string RoleDescription
         {
             get { return _RoleDescription; }
             set { _RoleDescription = value; }
         }
 
-        private Boolean AutoApprove
+        public Boolean AutoApprove
         {
             get { return _AutoApprove; }
             set { _AutoApprove = value; }
         }
 
-        private cCampaignBase()
+        public Boolean ShowCampaignInfoEmail
+        {
+            get { return _ShowCampaignInfoEmail; }
+            set { _ShowCampaignInfoEmail = value; }
+        }
+
+        public Boolean ShowCharacterHistoryEmail
+        {
+            get { return _ShowCharacterHistoryEmail; }
+            set { _ShowCharacterHistoryEmail = value; }
+        }
+
+        public Boolean ShowCharacterNotificationEmail
+        {
+            get { return _ShowCharacterNotificationEmail; }
+            set { _ShowCharacterNotificationEmail = value; }
+        }
+
+        public Boolean ShowCPNotificationEmail
+        {
+            get { return _ShowCPNotificationEmail; }
+            set { _ShowCPNotificationEmail = value; }
+        }
+
+        public Boolean ShowInfoSkillEmail
+        {
+            get { return _ShowInfoSkillEmail; }
+            set { _ShowInfoSkillEmail = value; }
+        }
+
+        public Boolean ShowJoinRequestEmail
+        {
+            get { return _ShowJoinRequestEmail; }
+            set { _ShowJoinRequestEmail = value; }
+        }
+
+        public Boolean ShowPELNotificationEmail
+        {
+            get { return _ShowPELNotificationEmail; }
+            set { _ShowPELNotificationEmail = value; }
+        }
+
+        public Boolean ShowProductionSkillEmail
+        {
+            get { return _ShowProductionSkillEmail; }
+            set { _ShowProductionSkillEmail = value; }
+        }
+
+        public Boolean ShowRegistrationNotificationEmail
+        {
+            get { return _ShowRegistrationNotificationEmail; }
+            set { _ShowRegistrationNotificationEmail = value; }
+        }
+
+        public cCampaignBase()
         {
 
         }
@@ -790,6 +853,24 @@ namespace LarpPortal.Classes
                     _UserDefinedField4Value = ldt.Rows[0]["UserDefinedField4"].ToString().Trim();
                     if (bool.TryParse(ldt.Rows[0]["UseUserDefinedField5"].ToString(), out bTemp))
                         _UserDefinedField5Use = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["ShowCampaignInfoEmail"].ToString(), out bTemp))
+                        _ShowCampaignInfoEmail = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["ShowCharacterHistoryEmail"].ToString(), out bTemp))
+                        _ShowCharacterHistoryEmail = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["ShowCharacterNotificationEmail"].ToString(), out bTemp))
+                        _ShowCharacterNotificationEmail = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["ShowCPNotificationEmail"].ToString(), out bTemp))
+                        _ShowCPNotificationEmail = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["ShowInfoSkillEmail"].ToString(), out bTemp))
+                        _ShowInfoSkillEmail = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["ShowJoinRequestEmail"].ToString(), out bTemp))
+                        _ShowJoinRequestEmail = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["ShowPELNotificationEmail"].ToString(), out bTemp))
+                        _ShowPELNotificationEmail = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["ShowProductionSkillEmail"].ToString(), out bTemp))
+                        _ShowProductionSkillEmail = bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["ShowRegistrationNotificationEmail"].ToString(), out bTemp))
+                        _ShowRegistrationNotificationEmail = bTemp;
                     _UserDefinedField5Value = ldt.Rows[0]["UserDefinedField5"].ToString().Trim();
                     _WebPageDescription = ldt.Rows[0]["CampaignWebPageDescription"].ToString().Trim();
                     _WebPageSelectionComments = ldt.Rows[0]["CampaignWebPageSelectionComments"].ToString().Trim();
@@ -891,6 +972,15 @@ namespace LarpPortal.Classes
                 slParams.Add("@UseUserDefinedField4", _UserDefinedField4Use);
                 slParams.Add("@UserDefinedField5", _UserDefinedField5Value);
                 slParams.Add("@UseUserDefinedField5", _UserDefinedField5Use);
+                slParams.Add("@ShowCampaignInfoEmail", ShowCampaignInfoEmail);
+				slParams.Add("@ShowCharacterHistoryEmail", ShowCharacterHistoryEmail);
+				slParams.Add("@ShowCharacterNotificationEmail", ShowCharacterNotificationEmail);
+				slParams.Add("@ShowCPNotificationEmail", ShowCPNotificationEmail);
+				slParams.Add("@ShowInfoSkillEmail", ShowInfoSkillEmail);
+				slParams.Add("@ShowJoinRequestEmail", ShowJoinRequestEmail);
+				slParams.Add("@ShowPELNotificationEmail", ShowPELNotificationEmail);
+				slParams.Add("@ShowProductionSkillEmail", ShowProductionSkillEmail);
+                slParams.Add("@ShowRegistrationNotificationEmail", ShowRegistrationNotificationEmail);
                 slParams.Add("@Comments", _Comments);
                 cUtilities.PerformNonQuery("uspInsUpdCMCampaigns", slParams, "LARPortal", _UserName);
                 blnReturn = true;

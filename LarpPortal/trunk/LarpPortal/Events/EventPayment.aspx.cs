@@ -23,66 +23,69 @@ namespace LarpPortal.Events
             int RegistrationID = 0;
             if(Session["RegistrationID"] == null)
             {
-                Session["RegistrationID"] = 8529;  // 8529 Rick Madrigal registration for testing.  Remove this line when being called
+                Session["RegistrationID"] = 0;  // 8529 Rick Madrigal registration for testing.  Remove this line when being called
             }
             int.TryParse(Session["RegistrationID"].ToString(), out RegistrationID);
-            if(RegistrationID == 0)
+            if (RegistrationID == 0)
             {
                 ClosePage();
             }
-            string strUserName = Session["UserName"].ToString();
-            lblRegistrationText.Text = "<p>Pay for Madrigal with PayPal!</p>";
-            lblRegistrationText.Text += "<p>As of 2011, Madrigal has changed our payment system so that there ";
-            lblRegistrationText.Text += "is no longer any Membership fee - insurance and overhead fees have ";
-            lblRegistrationText.Text += "been rolled into the event cost. This way, NPCs play for free!</p>";
-            lblRegistrationText.Text += "<p>This means that Adventure Weekends now cost $80, no matter when you register:</p>";
-            lblFoodText.Text = "<p>At the current campsite, meal services are available during Adventure Weekends, and may be paid for ahead of time or at check-in - ";
-            lblFoodText.Text += " please note that the camp staff cannot accept payment for meals during meal times:</p>";
-            if (RegistrationID == 0)
-            {
-                ClientScript.RegisterStartupScript(typeof(Page), "closePage", "window.open('close.html', '_self', null);", true);
-            }
             else
             {
-                string lsRoutineName = "EventPayment.PageLoad";
-                string stStoredProc = "uspGetPaymentPageCode";
-                int RoleAlignmentID = 0;
-                string CharacterAKA = "";
-                string EventName = "";
-                string CampaignName = "";
-                int PageCodeID = 0;
-                SortedList slParams = new SortedList();
-                slParams.Add("@RegistrationID", RegistrationID);
-                DataTable dtPaymentPageCode = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
-                if(dtPaymentPageCode.Rows.Count == 0)
+                string strUserName = Session["UserName"].ToString();
+                lblRegistrationText.Text = "<p>Pay for Madrigal with PayPal!</p>";
+                lblRegistrationText.Text += "<p>As of 2011, Madrigal has changed our payment system so that there ";
+                lblRegistrationText.Text += "is no longer any Membership fee - insurance and overhead fees have ";
+                lblRegistrationText.Text += "been rolled into the event cost. This way, NPCs play for free!</p>";
+                lblRegistrationText.Text += "<p>This means that Adventure Weekends now cost $80, no matter when you register:</p>";
+                lblFoodText.Text = "<p>At the current campsite, meal services are available during Adventure Weekends, and may be paid for ahead of time or at check-in - ";
+                lblFoodText.Text += " please note that the camp staff cannot accept payment for meals during meal times:</p>";
+                if (RegistrationID == 0)
                 {
-                    lblHeader.Text = "There are no online payment options for this campaign";
-                    lblHeader.Visible = true;
+                    ClientScript.RegisterStartupScript(typeof(Page), "closePage", "window.open('close.html', '_self', null);", true);
                 }
                 else
                 {
-                    foreach (DataRow dRow in dtPaymentPageCode.Rows)
+                    string lsRoutineName = "EventPayment.PageLoad";
+                    string stStoredProc = "uspGetPaymentPageCode";
+                    int RoleAlignmentID = 0;
+                    string CharacterAKA = "";
+                    string EventName = "";
+                    string CampaignName = "";
+                    int PageCodeID = 0;
+                    SortedList slParams = new SortedList();
+                    slParams.Add("@RegistrationID", RegistrationID);
+                    DataTable dtPaymentPageCode = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
+                    if (dtPaymentPageCode.Rows.Count == 0)
                     {
-                        int.TryParse(dRow["PaymentPageID"].ToString(), out PageCodeID);
-                        int.TryParse(dRow["RoleAlignmentID"].ToString(), out RoleAlignmentID);
-                        CharacterAKA = dRow["CharacterAKA"].ToString();
-                        EventName = dRow["EventName"].ToString();
-                        CampaignName = dRow["CampaignName"].ToString();
-                        switch (RoleAlignmentID)
-                        {
-                            case 2:
-                                CharacterAKA = "NPC";
-                                break;
-                            case 3:
-                                CharacterAKA = "Staff";
-                                break;
-                            default:
-                                CharacterAKA = "Character-" + CharacterAKA;
-                                break;
-                        }
-                        hidItemName.Value = EventName + " - " + CharacterAKA;
+                        lblHeader.Text = "There are no online payment options for this campaign";
+                        lblHeader.Visible = true;
                     }
-                    GetPageCode(PageCodeID, CharacterAKA, EventName, CampaignName);
+                    else
+                    {
+                        foreach (DataRow dRow in dtPaymentPageCode.Rows)
+                        {
+                            int.TryParse(dRow["PaymentPageID"].ToString(), out PageCodeID);
+                            int.TryParse(dRow["RoleAlignmentID"].ToString(), out RoleAlignmentID);
+                            CharacterAKA = dRow["CharacterAKA"].ToString();
+                            EventName = dRow["EventName"].ToString();
+                            CampaignName = dRow["CampaignName"].ToString();
+                            switch (RoleAlignmentID)
+                            {
+                                case 2:
+                                    CharacterAKA = "NPC";
+                                    break;
+                                case 3:
+                                    CharacterAKA = "Staff";
+                                    break;
+                                default:
+                                    CharacterAKA = "Character-" + CharacterAKA;
+                                    break;
+                            }
+                            hidItemName.Value = EventName + " - " + CharacterAKA;
+                        }
+                        GetPageCode(PageCodeID, CharacterAKA, EventName, CampaignName);
+                    }
                 }
             }
         }
@@ -166,12 +169,13 @@ namespace LarpPortal.Events
 
         protected void btnClose_Click(object sender, EventArgs e)
         {
-
+            ClosePage();
         }
 
         protected void ClosePage()
         {
-            ClientScript.RegisterStartupScript(typeof(Page), "closePage", "window.open('close.html', '_self', null);", true);
+            //ClientScript.RegisterStartupScript(typeof(Page), "closePage", "window.open('close.html', '_self', null);", true);
+            ClientScript.RegisterStartupScript(typeof(Page), "closePage", "window.close();", true);
         }
 
         protected void btnRegistration_Click(object sender, ImageClickEventArgs e)

@@ -67,6 +67,7 @@
             margin-right: 5px;
             margin-left: 15px;
         }
+
     </style>
 </asp:Content>
 
@@ -77,13 +78,6 @@
                 <div class="col-sm-12 NoPadding">
                     <h1 class="col-sm-12">Campaign Setup Information</h1>
                 </div>
-<%--                <div class="row">
-                    <div class="col-sm-11"></div>
-                    <div class="col-sm-1">
-                        <asp:Button ID="btnSaveChanges" runat="server" CssClass="StandardButton" Text="Save" OnClick="btnSaveChanges_Click" />
-                    </div>
-                </div>
-                <div class="row PrePostPadding"></div>--%>
                 <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
                     <asp:Panel ID="pnlContact" runat="server">
                         <div class="col-sm-12 NoPadding" style="padding-left: 15px;">
@@ -93,11 +87,22 @@
                                     <div class="panel-body NoPadding">
                                         <div class="panel-container NoPadding">
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
+                                                <div class="TableLabel col-sm-4"></div>
+                                                <div class="TableLabel col-sm-1-5">
+                                                    Show?
+                                                </div>
+                                                <div class="TableLabel col-sm-0-5"></div>
+                                                <div class="TableLabel col-sm-7"></div>
+                                            </div>
+                                            <div class="row PrePostPadding">
+                                                <div class="TableLabel col-sm-2">
                                                     Campagin Info Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:TextBox ID="tbInfoRequestEmail" runat="server" Style="width: 95%"></asp:TextBox>
+                                                </div>
+                                                <div class="col-sm-1 NoPadding">
+                                                    <asp:CheckBox ID="chkInfoRequestEmail" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Campaign URL:
@@ -107,11 +112,14 @@
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
+                                                <div class="TableLabel col-sm-2">
                                                     Character History Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:TextBox ID="tbCharacterHistoryEmail" runat="server" Style="width: 95%"></asp:TextBox>
+                                                </div>
+                                                <div class="col-sm-1 NoPadding">
+                                                    <asp:CheckBox ID="chkCharacterHistoryEmail" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Character History URL:
@@ -121,11 +129,14 @@
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
+                                                <div class="TableLabel col-sm-2">
                                                     Character Notification Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:TextBox ID="tbCharacterNotificationEmail" runat="server" Style="width: 95%"></asp:TextBox>
+                                                </div>
+                                                <div class="col-sm-1 NoPadding">
+                                                    <asp:CheckBox ID="chkCharacterNotificationEmail" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Character Generator URL:
@@ -135,11 +146,14 @@
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
+                                                <div class="TableLabel col-sm-2">
                                                     CP Notification Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:TextBox ID="tbCPEmail" runat="server" Style="width: 95%"></asp:TextBox>
+                                                </div>
+                                                <div class="col-sm-1 NoPadding">
+                                                    <asp:CheckBox ID="chkCPEmail" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Rules URL:
@@ -149,11 +163,14 @@
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
+                                                <div class="TableLabel col-sm-2">
                                                     Info Skill Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:TextBox ID="tbInfoSkillEmail" runat="server" Style="width: 95%"></asp:TextBox>
+                                                </div>
+                                                <div class="col-sm-1 NoPadding">
+                                                    <asp:CheckBox ID="chkInfoSkillEmail" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Info Skill URL:
@@ -163,11 +180,14 @@
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
+                                                <div class="TableLabel col-sm-2">
                                                     Join Request Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:TextBox ID="tbJoinRequestEmail" runat="server" Style="width: 95%"></asp:TextBox>
+                                                </div>
+                                                <div class="col-sm-1 NoPadding">
+                                                    <asp:CheckBox ID="chkJoinRequestEmail" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Join Request URL:
@@ -177,11 +197,14 @@
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
+                                                <div class="TableLabel col-sm-2">
                                                     PEL Notification Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:TextBox ID="tbPELNotificationEmail" runat="server" Style="width: 95%"></asp:TextBox>
+                                                </div>
+                                                <div class="col-sm-1 NoPadding">
+                                                    <asp:CheckBox ID="chkPELNotificationEmail" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     PEL Submission URL:
@@ -191,11 +214,14 @@
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
+                                                <div class="TableLabel col-sm-2">
                                                     Production Skill Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:TextBox ID="tbProductionSkillEmail" runat="server" Style="width: 95%"></asp:TextBox>
+                                                </div>
+                                                <div class="col-sm-1 NoPadding">
+                                                    <asp:CheckBox ID="chkProductionSkillEmail" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Production Skill URL:
@@ -205,11 +231,14 @@
                                                 </div>
                                             </div>
                                             <div class="row PrePostPadding">
-                                                <div class="TableLabel col-sm-3">
+                                                <div class="TableLabel col-sm-2">
                                                     Registration Notification Email:
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
                                                     <asp:TextBox ID="tbRegistrationNotificationEmail" runat="server" Style="width: 95%"></asp:TextBox>
+                                                </div>
+                                                <div class="col-sm-1 NoPadding">
+                                                    <asp:CheckBox ID="chkREgistrationNotificationEmail" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-sm-2">
                                                     Registration URL:
