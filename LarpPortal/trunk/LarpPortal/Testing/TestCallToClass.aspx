@@ -28,6 +28,10 @@
                                                     <asp:TableCell>
                                                         <asp:TextBox ID="txtValue01" runat="server"></asp:TextBox>
                                                     </asp:TableCell>
+                                                    <asp:TableCell>
+                                                        <asp:Button ID="btnValue01" runat="server" Visible="true" Text="Set Session Variable" OnClick="btnValue01_Click" />
+                                                        <asp:HyperLink ID="hplLinkToSite" runat="server" Text="Pay Now" NavigateURL="\Events\EventPayment.aspx" Target="_blank" Font-Underline="true" ></asp:HyperLink>
+                                                    </asp:TableCell>
                                                 </asp:TableRow>
                                                 <asp:TableRow>
                                                     <asp:TableCell HorizontalAlign="Right">

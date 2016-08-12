@@ -81,7 +81,7 @@
                     <div class="row">
                         <div class="col-lg-11"></div>
                         <div class="col-lg-1">
-                            <asp:Button ID="btnSaveChanges" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+                            <asp:Button ID="btnSaveChanges" runat="server" Visible="false" Text="Save" OnClick="btnSaveChanges_Click" />
                         </div>
                     </div>
                     <asp:Panel ID="pnlDemographics" runat="server">
@@ -134,7 +134,7 @@
                                                     Campaign Zip: 
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbCampaignZip" runat="server" />
+                                                    <asp:TextBox ID="tbCampaignZip" runat="server" Enabled="false" />
                                                 </div>
                                                 <div class="TableLabel col-lg-3" style="position: relative;">Exp.End Date: </div>
                                                 <div class="col-lg-3 NoPadding">
@@ -147,9 +147,13 @@
                                                     Primary Site: 
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:DropDownList ID="ddlPrimarySite" CssClass="NoPadding" runat="server" Style="z-index: 500; position: relative;" OnSelectedIndexChanged="ddlPrimarySite_SelectedIndexChanged" AutoPostBack="true">
+                                                    <asp:DropDownList ID="ddlPrimarySite" runat="server">
+
                                                     </asp:DropDownList>
                                                 </div>
+                                                <%--<div class="col-sm-1 NoPadding">
+                                                    <asp:Button ID="btnEditSite" runat="server" Text="Edit Sites" Visible="false" CssClass="StandardButton" OnClick="btnEditSite_Click" />
+                                                </div>--%>
                                                 <div class="TableLabel col-lg-3" style="position: relative;">Actual End Date: </div>
                                                 <div class="col-lg-3 NoPadding">
                                                     <asp:TextBox ID="tbActualEndDate" runat="server" CssClass="TableTextBox" />
@@ -238,6 +242,64 @@
                         <div class="col-lg-11"></div>
                         <div class="col-lg-1">
                             <asp:Button ID="btnSaveRepeat" runat="server" Text="Save" OnClick="btnSaveChanges_Click" />
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
+                    <asp:Panel ID="pnlSites" runat="server" Visible="false">
+                        <div class="col-lg-12 NoPadding">
+                            <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
+                                <div class="panelheader NoPadding">
+                                    <h2>Campaign Sites</h2>
+                                    <div class="panel-body NoPadding">
+                                        <div class="panel-container">
+                                            <div class="row PrePostPadding">
+ 
+                                            </div>
+                                            <div class="row PrePostPadding">
+
+                                            </div>
+                                            <div class="row PrePostPadding">
+
+                                            </div>
+                                            <div class="row PrePostPadding">
+
+                                            </div>
+                                            <div class="row PrePostPadding">
+
+                                            </div>
+                                            <div class="row PrePostPadding">
+
+                                            </div>
+                                            <div class="row PrePostPadding">
+
+                                            </div>
+                                            <div class="row PrePostPadding">
+
+                                            </div>
+                                            <div class="row PrePostPadding">
+
+                                            <div class="row PrePostPadding">
+
+                                            <div class="row PrePostPadding">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                                </div>
+                            </div>
+                    </asp:Panel>
+                    <div class="row">
+                        <div class="col-lg-11"></div>
+                        <div class="col-lg-1">
+                            <asp:Button ID="btnSaveSites" runat="server" Text="Save Sites" Visible="false" OnClick="btnSaveSites_Click"/>
                         </div>
                     </div>
                 </div>

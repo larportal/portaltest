@@ -58,6 +58,24 @@ namespace LarpPortal.Testing {
         protected global::System.Web.UI.WebControls.TextBox txtValue01;
         
         /// <summary>
+        /// btnValue01 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnValue01;
+        
+        /// <summary>
+        /// hplLinkToSite control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink hplLinkToSite;
+        
+        /// <summary>
         /// lblValue02 control.
         /// </summary>
         /// <remarks>

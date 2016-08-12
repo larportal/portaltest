@@ -262,5 +262,48 @@ namespace LarpPortal.Campaigns
                     true);
         }
 
+        protected void gvSites_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+
+        }
+
+        protected void gvSites_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+
+        }
+
+        protected void gvSites_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+
+        }
+
+        protected void gvSites_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+
+        }
+
+        protected void gvSites_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+
+        }
+
+        protected void btnEditSite_Click(object sender, EventArgs e)
+        {
+            pnlSites.Visible = true;
+            btnSaveSites.Visible = true;
+        }
+
+        protected void btnSaveSites_Click(object sender, EventArgs e)
+        {
+
+            string jsString = "alert('Site changes have been saved.');";
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                    "MyApplication",
+                    jsString,
+                    true);
+            pnlSites.Visible = false;
+            btnSaveSites.Visible = false;
+        }
+
     }
 }
