@@ -17,16 +17,15 @@ namespace LarpPortal.Testing
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            lblInstructions.Text = "Reasons: 1-NPC Entire / 7-NPC Partial / 17-NPC Setup/Cleanup / 3-PC Entire /";
-            lblInstructions.Text = lblInstructions.Text + " 8-PC Partial / 10-Prepay / 9-Preregister / 12-Staff Event";
-            //int UserID, int CampaignID, int RoleAlignment, int CharacterID, int ReasonID, int EventID, int RegistrationID
-            lblValue01.Text = "UserID-n/a: ";
-            lblValue02.Text = "CampaignID: ";
-            lblValue03.Text = "RoleAlignmentID: ";
-            lblValue04.Text = "CharacterID: ";
-            lblValue05.Text = "ReasonID: ";
-            lblValue06.Text = "EventID: ";
-            lblValue07.Text = "RegistrationID: ";
+            lblInstructions.Text = "Put in registration ID to test with PayPal page";
+            lblInstructions.Text += "";
+            lblValue01.Text = "RegistrationID: ";
+            lblValue02.Text = "";
+            lblValue03.Text = "";
+            lblValue04.Text = "";
+            lblValue05.Text = "";
+            lblValue06.Text = "";
+            lblValue07.Text = "";
             lblValue08.Text = "";
             lblValue09.Text = "";
             lblValue10.Text = "";
@@ -67,6 +66,11 @@ namespace LarpPortal.Testing
 
             Classes.cPoints Points = new Classes.cPoints();
             Points.CreateRegistrationCPOpportunity(Value01, Value02, Value03, Value04, Value05, Value06, Value07);
+        }
+
+        protected void btnValue01_Click(object sender, EventArgs e)
+        {
+            Session["RegistrationID"] = txtValue01.Text;
         }
     }
 }

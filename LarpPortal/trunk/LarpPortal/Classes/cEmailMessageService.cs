@@ -28,6 +28,7 @@ namespace LarpPortal.Classes
         /// <param name="Tos">Who to send email to. Use either , or ; between multiple emails.</param>
         /// <param name="ccs">Who to cc email to. Use either , or ; between multiple emails.</param>
         /// <param name="bccs">Who to bcc email to. Use either , or ; between multiple emails.</param>
+        /// <param name="CallingJob">The lookup value to use against table MDBSMTP.  Make sure this value is in that table or that you change it to use an appropriate value from that table</param>
         public void SendMail(string subject, string body, string Tos, string ccs, string bccs, string CallingJob, string UserName)
         {
             if (string.IsNullOrEmpty(Tos))
