@@ -400,7 +400,7 @@ namespace LarpPortal.Character.History
                 sBody += sCommentTable;
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                cEMS.SendMail(sSubject, sBody, hidNotificationEMail.Value, "", "", "CharHistoryStaffCommentsAddendum", Session["Username"].ToString());
+                cEMS.SendMail(sSubject, sBody, hidNotificationEMail.Value, "", "", "CharacterHistory", Session["Username"].ToString());
             }
         }
 
