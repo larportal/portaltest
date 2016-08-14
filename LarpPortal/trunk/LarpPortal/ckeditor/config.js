@@ -4,6 +4,10 @@
  */
 
 CKEDITOR.editorConfig = function (config) {
+    config.removeButtons = 'Source,Styles,Format,Image,Anchor,Subscript,Superscript,RemoveFormat';
+    config.removePlugins = 'elementspath';
+    config.resize_enabled = false;
+
     config.toolbarGroups = [
 		{ name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
 		{ name: 'clipboard', groups: ['clipboard', 'undo'] },
@@ -19,6 +23,4 @@ CKEDITOR.editorConfig = function (config) {
 		{ name: 'colors', groups: ['colors'] },
 		{ name: 'about', groups: ['about'] }
     ];
-
-    config.removeButtons = 'Source,Styles,Format,Image,Anchor,Subscript,Superscript,RemoveFormat';
 };
