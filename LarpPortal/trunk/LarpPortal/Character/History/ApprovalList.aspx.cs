@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -74,10 +75,13 @@ namespace LarpPortal.Character.History
 
             foreach (DataRow dRow in dtCharHistory.Rows)
             {
-                if (dRow["CharacterHistory"].ToString().Length > 100)
-                    dRow["ShortHistory"] = dRow["CharacterHistory"].ToString().Substring(0, 95) + "...";
+                string sRawHistory = dRow["CharacterHistory"].ToString();
+                string ScrubbedHistory = ScrubHtml(sRawHistory);
+
+                if (ScrubbedHistory.Length > 100)
+                    dRow["ShortHistory"] = ScrubbedHistory.Substring(0, 95) + "...";
                 else
-                    dRow["ShortHistory"] = dRow["CharacterHistory"].ToString();
+                    dRow["ShortHistory"] = ScrubbedHistory;
                 if (dRow["DateHistoryApproved"] == DBNull.Value)
                     dRow["HistoryStatus"] = "Submitted";
                 else
@@ -161,6 +165,13 @@ namespace LarpPortal.Character.History
             //        Points.AssignPELPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, EventID, dRow["EventName"].ToString(), ReasonID, CampaignID, CPAwarded, dtDateSubmitted);
             //    }
             //}
+        }
+
+        public string ScrubHtml(string value)
+        {
+            var step1 = Regex.Replace(value, @"<[^>]+>|&nbsp;", "").Trim();
+            var step2 = Regex.Replace(step1, @"\s{2,}", " ");
+            return step2;
         }
     }
 }

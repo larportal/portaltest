@@ -54,9 +54,28 @@ namespace LarpPortal.Character.History
 
                     ckEditor.Text = cCharHist.History;
                     lblHistory.Text = cCharHist.History;
-                    
 
                     hidNotificationEMail.Value = cCharHist.NotificationEMail;
+
+                    if (cCharHist.Addendums.Count > 0)
+                    {
+                        DataTable dtDispAdd = new DataTable();
+                        dtDispAdd.Columns.Add("Title", typeof(string));
+                        dtDispAdd.Columns.Add("Addendum", typeof(string));
+                        dtDispAdd.Columns.Add("DateAdded", typeof(DateTime));
+
+                        foreach (Classes.cCharacterHistoryAddendum cAdd in cCharHist.Addendums)
+                        {
+                            DataRow dNewRow = dtDispAdd.NewRow();
+                            dNewRow["Title"] = "Addendum added " + cAdd.DateAdded.ToString();
+                            dNewRow["Addendum"] = cAdd.Addendum;
+                            dNewRow["DateAdded"] = cAdd.DateAdded;
+                            dtDispAdd.Rows.Add(dNewRow);
+                        }
+                        DataView dvDispAdd = new DataView(dtDispAdd, "", "DateAdded desc", DataViewRowState.CurrentRows);
+                        rptAddendum.DataSource = dvDispAdd;
+                        rptAddendum.DataBind();
+                    }
 
                     if (cCharHist.DateSubmitted.HasValue)
                     {
@@ -64,6 +83,7 @@ namespace LarpPortal.Character.History
                         lblHistory.Visible = true;
                         btnSave.Visible = false;
                         btnSubmit.Visible = false;
+                        btnAddAddendum.Visible = true;
                     }
                     else
                     {
@@ -71,6 +91,7 @@ namespace LarpPortal.Character.History
                         lblHistory.Visible = false;
                         btnSave.Visible = true;
                         btnSubmit.Visible = true;
+                        btnAddAddendum.Visible = false;
                     }
                 }
             }
@@ -121,7 +142,7 @@ namespace LarpPortal.Character.History
                         " " + User.LastName + " has submitted a character history for " + cHist.CharacterAKA + ".<br><br>" +
                          sHistory;
                     Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                    cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "" , "", "CharacterHistory", Session["Username"].ToString());
+                    cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "", "", "CharacterHistory", Session["Username"].ToString());
                 }
             }
             catch (Exception ex)
@@ -139,11 +160,14 @@ namespace LarpPortal.Character.History
 
         protected void AutosaveAnswers()
         {
-            int iPELID = -1;
+//            int iPELID = -1;
             int iTemp = 0;
 
-            if (int.TryParse(hidPELID.Value, out iTemp))
-                iPELID = iTemp;
+            // Nothing to do....
+            iTemp = iTemp + 15;
+
+            //if (int.TryParse(hidPELID.Value, out iTemp))
+            //    iPELID = iTemp;
 
             //foreach (RepeaterItem item in rptQuestions.Items)
             //{
@@ -213,6 +237,20 @@ namespace LarpPortal.Character.History
         protected void btnCloseMessage_Click(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeMessage();", true);
+        }
+
+        protected void btnSaveAddendum_Click(object sender, EventArgs e)
+        {
+            int iCharID = 0;
+            int iUserID = 0;
+            if ((int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID)) &&
+                (int.TryParse(Session["UserID"].ToString(), out iUserID)))
+            {
+                Classes.cCharacterHistoryAddendum cHistAdd = new Classes.cCharacterHistoryAddendum(iCharID);
+                cHistAdd.Addendum = CKEAddendum.Text;
+                cHistAdd.Save(Session["UserName"].ToString(), iUserID);
+            }
+            _Reload = true;
         }
     }
 }
