@@ -599,6 +599,8 @@ namespace LarpPortal.Events
             sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
             sParam.Add("@ReqstdHousing ", tbReqstdHousing.Text);
 
+            hidCharAKA.Value = ddlCharacterList.SelectedItem.Text;
+
             //            sParam.Add("@CampaignHousingTypeID", ddlHousing.SelectedValue);
             if (ddlRoles.SelectedItem.Text != "PC")
                 sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
