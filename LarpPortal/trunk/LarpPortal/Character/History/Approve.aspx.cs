@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -21,113 +22,143 @@ namespace LarpPortal.Character.History
         const int ADDENDUMS = 2;
         const int STAFFADDENDUMCOMMENTS = 3;
 
+        private bool _RELOAD = true;
+
         protected void Page_PreRender(object sender, EventArgs e)
         {
-                                MethodBase lmth = MethodBase.GetCurrentMethod();
-                                string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-
-            _dsHistory = new DataSet();
-
-            double dCPEarned = 0.0;
-            if (Request.QueryString["CharacterID"] != null)
-                hidCharacterID.Value = Request.QueryString["CharacterID"];
-            else
-                Response.Redirect("ApprovalList.aspx", true);
-
-            SortedList sParams = new SortedList();
-            sParams.Add("@CharacterID", hidCharacterID.Value);
-
-            int iCharacterID = 0;
-            int iUserID = 0;
-
-            _dsHistory = Classes.cUtilities.LoadDataSet("uspGetCharacterHistory", sParams, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
-
-            string sCharacterInfo = "";
-            if (_dsHistory.Tables[CHARHISTORY].Rows.Count > 0)
+            if (_RELOAD)
             {
-                DataRow drHistory = _dsHistory.Tables[CHARHISTORY].Rows[0];
-                sCharacterInfo = "<b>Character: </b> " + drHistory["CharacterAKA"].ToString();
+                MethodBase lmth = MethodBase.GetCurrentMethod();
+                string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-                int.TryParse(drHistory["CharacterID"].ToString(), out iCharacterID);
-                int.TryParse(drHistory["CampaignPlayerID"].ToString(), out iUserID);
+                _dsHistory = new DataSet();
 
-                hidCampaignName.Value = drHistory["CampaignName"].ToString();
-                hidNotificationEMail.Value = drHistory["CharacterHistoryNotificationEmail"].ToString();
-                if (hidNotificationEMail.Value.Length == 0)
-                    hidNotificationEMail.Value = "support@larportal.com";
+                double dCPEarned = 0.0;
+                if (Request.QueryString["CharacterID"] != null)
+                    hidCharacterID.Value = Request.QueryString["CharacterID"];
+                else
+                    Response.Redirect("ApprovalList.aspx", true);
 
-                hidEmail.Value = drHistory["EmailAddress"].ToString();
+                SortedList sParams = new SortedList();
+                sParams.Add("@CharacterID", hidCharacterID.Value);
 
-                int iCampaignPlayerID = 0;
-                if (int.TryParse(drHistory["CampaignPlayerID"].ToString(), out iCampaignPlayerID))
-                    hidCampaignPlayerID.Value = iCampaignPlayerID.ToString();
+                int iCharacterID = 0;
+                int iUserID = 0;
 
-                int.TryParse(drHistory["CharacterID"].ToString(), out iCharacterID);
-                hidCharacterAKA.Value = drHistory["CharacterAKA"].ToString();
-                imgPicture.ImageUrl = "/img/BlankProfile.png";    // Default it to this so if it is not set it will display the blank profile picture.
+                _dsHistory = Classes.cUtilities.LoadDataSet("uspGetCharacterHistory", sParams, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
 
-                hidCharacterID.Value = iCharacterID.ToString();
-                hidCampaignID.Value = drHistory["CampaignID"].ToString();
-
-                lblHistory.Text = drHistory["CharacterHistory"].ToString();
-                ckHistory.Text = "Staff has reopened the character history for " + hidCharacterAKA.Value + " for revisions.  Please make changes and resubmit the history.<br><br>" +
-                    "Thank you<br>" +
-                    drHistory["CampaignName"].ToString() + " staff<br><br>" +
-                    drHistory["CharacterHistory"].ToString();
-
-                lblCharacterInfo.Text = sCharacterInfo;
-
-                btnDone.Visible = false;
-                btnApprove.Visible = true;
-
-                if (drHistory["DateHistoryApproved"] != DBNull.Value)
+                string sCharacterInfo = "";
+                if (_dsHistory.Tables[CHARHISTORY].Rows.Count > 0)
                 {
-                    double.TryParse(drHistory["CPAwarded"].ToString(), out dCPEarned);
-                    //btnApprove.Text = "Done";
-                    //btnApprove.CommandName = "Done";
-                    DateTime dtTemp;
-                    if (DateTime.TryParse(drHistory["DateHistoryApproved"].ToString(), out dtTemp))
+                    DataRow drHistory = _dsHistory.Tables[CHARHISTORY].Rows[0];
+                    sCharacterInfo = "<b>Character: </b> " + drHistory["CharacterAKA"].ToString();
+
+                    int.TryParse(drHistory["CharacterID"].ToString(), out iCharacterID);
+                    int.TryParse(drHistory["CampaignPlayerID"].ToString(), out iUserID);
+
+                    hidCampaignName.Value = drHistory["CampaignName"].ToString();
+                    hidNotificationEMail.Value = drHistory["CharacterHistoryNotificationEmail"].ToString();
+                    if (hidNotificationEMail.Value.Length == 0)
+                        hidNotificationEMail.Value = "support@larportal.com";
+
+                    hidEmail.Value = drHistory["EmailAddress"].ToString();
+
+                    int iCampaignPlayerID = 0;
+                    if (int.TryParse(drHistory["CampaignPlayerID"].ToString(), out iCampaignPlayerID))
+                        hidCampaignPlayerID.Value = iCampaignPlayerID.ToString();
+
+                    int.TryParse(drHistory["CharacterID"].ToString(), out iCharacterID);
+                    hidCharacterAKA.Value = drHistory["CharacterAKA"].ToString();
+                    imgPicture.ImageUrl = "/img/BlankProfile.png";    // Default it to this so if it is not set it will display the blank profile picture.
+
+                    hidCharacterID.Value = iCharacterID.ToString();
+                    hidCampaignID.Value = drHistory["CampaignID"].ToString();
+
+                    lblHistory.Text = drHistory["CharacterHistory"].ToString();
+                    ckHistory.Text = "Staff has reopened the character history for " + hidCharacterAKA.Value + " for revisions.  Please make changes and resubmit the history.<br><br>" +
+                        "Thank you<br>" +
+                        drHistory["CampaignName"].ToString() + " staff<br><br>" +
+                        drHistory["CharacterHistory"].ToString();
+
+                    lblCharacterInfo.Text = sCharacterInfo;
+
+                    btnDone.Visible = false;
+                    btnApprove.Visible = true;
+
+                    if (drHistory["DateHistoryApproved"] != DBNull.Value)
                     {
-                        lblEditMessage.Visible = true;
-                        lblEditMessage.Text = "<br>This history was approved on " + dtTemp.ToShortDateString() + " and cannot be edited.";
-                        TextBoxEnabled = false;
-                        btnCancel.Visible = false;
-                        btnReject.Visible = false;
-                        btnDone.Visible = true;
-                        btnApprove.Visible = false;
+                        double.TryParse(drHistory["CPAwarded"].ToString(), out dCPEarned);
+                        //btnApprove.Text = "Done";
+                        //btnApprove.CommandName = "Done";
+                        DateTime dtTemp;
+                        if (DateTime.TryParse(drHistory["DateHistoryApproved"].ToString(), out dtTemp))
+                        {
+                            lblEditMessage.Visible = true;
+                            lblEditMessage.Text = "<br>This history was approved on " + dtTemp.ToShortDateString() + " and cannot be edited.";
+                            TextBoxEnabled = false;
+                            btnCancel.Visible = false;
+                            btnReject.Visible = false;
+                            btnDone.Visible = true;
+                            btnApprove.Visible = false;
+                        }
+                    }
+                    else if (drHistory["DateHistorySubmitted"] != DBNull.Value)
+                    {
+                        btnApprove.Text = "Approve";
+                        btnApprove.CommandName = "Approve";
+                        btnReject.Visible = true;
+                        DateTime dtTemp;
+                        divQuestions.Attributes.Add("style", "max-height: 400px; overflow-y: auto; margin-right: 10px;");
+                        double.TryParse(drHistory["CPEarn"].ToString(), out dCPEarned);
+                        if (DateTime.TryParse(drHistory["DateHistorySubmitted"].ToString(), out dtTemp))
+                        {
+                            lblEditMessage.Visible = true;
+                            lblEditMessage.Text = "<br>This history was submitted on " + dtTemp.ToShortDateString();
+                            TextBoxEnabled = false;
+                            hidSubmitDate.Value = dtTemp.ToShortDateString();
+                        }
                     }
                 }
-                else if (drHistory["DateHistorySubmitted"] != DBNull.Value)
+
+                tbCPAwarded.Text = dCPEarned.ToString("0.0");
+
+                if (_dsHistory.Tables[ADDENDUMS] != null)
                 {
-                    btnApprove.Text = "Approve";
-                    btnApprove.CommandName = "Approve";
-                    btnReject.Visible = true;
-                    DateTime dtTemp;
-                    divQuestions.Attributes.Add("style", "max-height: 400px; overflow-y: auto; margin-right: 10px;");
-                    double.TryParse(drHistory["CPEarn"].ToString(), out dCPEarned);
-                    if (DateTime.TryParse(drHistory["DateHistorySubmitted"].ToString(), out dtTemp))
+                    //DataTable dtAddendums = new DataTable();
+
+                    //DataView dvAddendum = new DataView(_dsHistory.Tables[ADDENDUMS], "", "DateAdded desc", DataViewRowState.CurrentRows);
+                    //rptAddendum.DataSource = dvAddendum;
+                    //rptAddendum.DataBind();
+
+                    DataTable dtDispAdd = new DataTable();
+                    dtDispAdd.Columns.Add("AddendumID", typeof(string));
+                    dtDispAdd.Columns.Add("Title", typeof(string));
+                    dtDispAdd.Columns.Add("Addendum", typeof(string));
+                    dtDispAdd.Columns.Add("DateAdded", typeof(DateTime));
+
+                    foreach (DataRow dRow in _dsHistory.Tables[ADDENDUMS].Rows)
                     {
-                        lblEditMessage.Visible = true;
-                        lblEditMessage.Text = "<br>This history was submitted on " + dtTemp.ToShortDateString();
-                        TextBoxEnabled = false;
-                        hidSubmitDate.Value = dtTemp.ToShortDateString();
+                        DateTime dtTemp;
+                        DateTime.TryParse(dRow["DateAdded"].ToString(), out dtTemp);
+
+                        DataRow dNewRow = dtDispAdd.NewRow();
+                        dNewRow["AddendumID"] = dRow["CharacterHistoryAddendumID"].ToString();
+                        dNewRow["Title"] = "Addendum added " + dtTemp.ToString();
+                        dNewRow["Addendum"] = dRow["Addendum"];
+                        dNewRow["DateAdded"] = dtTemp;
+                        dtDispAdd.Rows.Add(dNewRow);
                     }
+                    DataView dvDispAdd = new DataView(dtDispAdd, "", "DateAdded desc", DataViewRowState.CurrentRows);
+                    rptAddendum.DataSource = dvDispAdd;
+                    rptAddendum.DataBind();
                 }
-            }
 
-            tbCPAwarded.Text = dCPEarned.ToString("0.0");
-
-            if (_dsHistory.Tables[ADDENDUMS] != null)
-            {
-                DataView dvAddendum = new DataView(_dsHistory.Tables[ADDENDUMS], "", "DateAdded desc", DataViewRowState.CurrentRows);
-                rptAddendum.DataSource = dvAddendum;
-                rptAddendum.DataBind();
-            }
-            if (_dsHistory.Tables[STAFFCOMMENTS] != null)
-            {
-                DataView dvStaffComments = new DataView(_dsHistory.Tables[STAFFCOMMENTS], "", "DateAdded desc", DataViewRowState.CurrentRows);
-                dlComments.DataSource = dvStaffComments;
-                dlComments.DataBind();
+                if (_dsHistory.Tables[STAFFCOMMENTS] != null)
+                {
+                    DataView dvStaffComments = new DataView(_dsHistory.Tables[STAFFCOMMENTS], "", "DateAdded desc", DataViewRowState.CurrentRows);
+                    dlComments.DataSource = dvStaffComments;
+                    dlComments.DataBind();
+                }
             }
         }
 
@@ -258,17 +289,17 @@ namespace LarpPortal.Character.History
         {
             if ((e.Item.ItemType == ListItemType.Item) || (e.Item.ItemType == ListItemType.AlternatingItem))
             {
-                DataRowView dr = (DataRowView)DataBinder.GetDataItem(e.Item);
-                string sAnswerID = dr["PELsAddendumID"].ToString();
+                //DataRowView dr = (DataRowView)DataBinder.GetDataItem(e.Item);
+                //string sAnswerID = dr["AddendumID"].ToString();
 
-                DataList dlComments = e.Item.FindControl("dlStaffComments") as DataList;
-                if (dlComments != null)
-                {
-                    GetAddendumComments(sAnswerID, _dsHistory.Tables[3], dlComments);
-                }
-                TextBox tbNewComment = (TextBox)e.Item.FindControl("tbNewStaffCommentAddendum");
-                if (tbNewComment != null)
-                    tbNewComment.Attributes.Add("PlaceHolder", "Enter comment here.");
+                //DataList dlComments = e.Item.FindControl("dlStaffComments") as DataList;
+                //if (dlComments != null)
+                //{
+                //    GetAddendumComments(sAnswerID, _dsHistory.Tables[3], dlComments);
+                //}
+                //TextBox tbNewComment = (TextBox)e.Item.FindControl("tbNewStaffCommentAddendum");
+                //if (tbNewComment != null)
+                //    tbNewComment.Attributes.Add("PlaceHolder", "Enter comment here.");
             }
         }
 
@@ -301,6 +332,7 @@ namespace LarpPortal.Character.History
                     Button btnAddComment = (Button)e.Item.FindControl("btnAddStaffComment");
                     if (btnAddComment != null)
                         btnAddComment.Visible = false;
+                    _RELOAD = false;
                 }
             }
             else if (e.CommandName.ToUpper() == "ADDCOMMENT")
@@ -423,6 +455,7 @@ namespace LarpPortal.Character.History
             imgStaffPicture.ImageUrl = pict;
 
             btnAddComment.Visible = false;
+            _RELOAD = false;
         }
 
         protected void btnSaveNewComment_Click(object sender, EventArgs e)
@@ -482,7 +515,7 @@ namespace LarpPortal.Character.History
                 sBody += sCommentTable;
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                cEMS.SendMail(sSubject, sBody, hidNotificationEMail.Value, "", "", "CharHistory Staff Comments", Session["Username"].ToString());
+                cEMS.SendMail(sSubject, sBody, hidNotificationEMail.Value, "", "", "CharacterHistory", Session["Username"].ToString());
             }
         }
 
@@ -533,7 +566,7 @@ namespace LarpPortal.Character.History
 
             string sBody = hidCampaignName.Value + " staff has approved the character history for " + hidCharacterAKA.Value + "<br><br>" +
                 "You have been awarded " + CPAwarded.ToString() + " CP.";
-                //"<br><br>Character History:<br><br>" + ckHistory.Text;
+            //"<br><br>Character History:<br><br>" + ckHistory.Text;
             string sEmailToSendTo = hidEmail.Value;
             Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
             cEMS.SendMail(sSubject, sBody, sEmailToSendTo, "", "", "CharacterHistory", Session["Username"].ToString());
@@ -565,5 +598,13 @@ namespace LarpPortal.Character.History
         {
             Response.Redirect("ApprovalList.aspx", true);
         }
+
+        public string ScrubHtml(string value)
+        {
+            var step1 = Regex.Replace(value, @"<[^>]+>|&nbsp;", "").Trim();
+            var step2 = Regex.Replace(step1, @"\s{2,}", " ");
+            return step2;
+        }
+
     }
 }

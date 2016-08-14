@@ -89,7 +89,7 @@
                                             <tr style="vertical-align: top;">
                                                 <td>
                                                     <asp:Button ID="btnAddStaffComment" runat="server" Text="Add Staff Only Comment" CommandName="EnterComment"
-                                                        CommandArgument='<%# Eval("PELsAddendumID") %>' CssClass="StandardButton" Style="height: 20px;" /></td>
+                                                        CommandArgument='<%# Eval("AddendumID") %>' CssClass="StandardButton" Style="height: 20px;" /></td>
                                                 <td>
                                                     <asp:Panel ID="pnlStaffCommentSection" runat="server" Visible="false" Style="vertical-align: top;">
                                                         <table>
@@ -100,14 +100,14 @@
                                                                     <asp:TextBox ID="tbNewStaffCommentAddendum" runat="server" TextMode="MultiLine" Rows="4" Columns="80" /></td>
                                                                 <td>
                                                                     <asp:Button ID="btnSaveNewStaffComment" runat="server" Text="Save" CssClass="StandardButton" Width="100" Height="20px"
-                                                                        CommandName="AddComment" CommandArgument='<%# Eval("PELsAddendumID") %>' /></td>
+                                                                        CommandName="AddComment" CommandArgument='<%# Eval("AddendumID") %>' /></td>
                                                                 <td>
                                                                     <asp:Button ID="btnCancelStaffComment" runat="server" Text="Cancel" CssClass="StandardButton" Width="100" Height="20px"
                                                                         CommandName="CancelComment" /></td>
                                                             </tr>
                                                         </table>
                                                     </asp:Panel>
-                                                    <asp:DataList ID="dlStaffComments" runat="server" AlternatingItemStyle-BackColor="linen">
+<%--                                                    <asp:DataList ID="dlStaffComments" runat="server" AlternatingItemStyle-BackColor="linen">
                                                         <HeaderTemplate>
                                                             <table>
                                                         </HeaderTemplate>
@@ -126,7 +126,7 @@
                                                         <FooterTemplate>
                                                             </table>
                                                         </FooterTemplate>
-                                                    </asp:DataList>
+                                                    </asp:DataList>--%>
                                                 </td>
                                             </tr>
                                         </table>

@@ -31,6 +31,15 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
+        /// btnAddAddendum control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddAddendum;
+        
+        /// <summary>
         /// ddlCharacterSelector control.
         /// </summary>
         /// <remarks>
@@ -94,13 +103,31 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.HiddenField hidAutoSaveText;
         
         /// <summary>
-        /// divHistory control.
+        /// CKEAddendum control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHistory;
+        protected global::CKEditor.NET.CKEditorControl CKEAddendum;
+        
+        /// <summary>
+        /// btnCancelAddendum control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelAddendum;
+        
+        /// <summary>
+        /// btnSaveAddendum control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveAddendum;
         
         /// <summary>
         /// rptAddendum control.
