@@ -709,7 +709,6 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@CampaignID", _CampaignID);
-
                 DataTable ldt = cUtilities.LoadDataTable("uspGetCampaignByCampaignID", slParams, "LARPortal", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
@@ -836,6 +835,8 @@ namespace LarpPortal.Classes
                     _TechLevelName = "";
                     if (int.TryParse(ldt.Rows[0]["TotalCharacterCap"].ToString(), out iTemp))
                         _TotalCharacterCPCap = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["CampaignAddress"].ToString(), out iTemp))
+                        _CampaignAddressID = iTemp;
                     _URL = ldt.Rows[0]["CampaignURL"].ToString().Trim();
                     if (bool.TryParse(ldt.Rows[0]["UseCampaignCharacters"].ToString(), out bTemp))
                         _UseCampaignCharacters = bTemp;
