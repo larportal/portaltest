@@ -621,8 +621,9 @@ namespace LarpPortal.Events
             switch (ddlRoles.SelectedItem.Text.ToUpper())
             {
                 case "NPC":
+                    hidCharAKA.Value = "";      // Rick - 8/16/2016 - Replace next line to emulate staff problem resolution
+                    // hidCharAKA.Value = ddlCharacterList.SelectedItem.Text;
                     sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
-                    hidCharAKA.Value = ddlCharacterList.SelectedItem.Text;
                     break;
 
                 case "PC":
