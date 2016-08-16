@@ -100,16 +100,19 @@ namespace LarpPortal.Events
                 DataRow drCampInfo = dtCampaignInfo.Rows[0];
 
                 strSubject = "";
-                if ( bNewRegistrion )
+                if (bNewRegistrion)
                     strSubject = "New " + drCampInfo["CampaignName"].ToString() + " event registration - " + lblPlayerName.Text;
                 else
                     strSubject = "Change to registration for " + lblPlayerName.Text + " for Campaign " + drCampInfo["CampaignName"].ToString();
 
                 string strBody;
                 strBody = lblPlayerName.Text + " has just registered for the upcoming " + drCampInfo["CampaignName"].ToString() + " event.  <br>" +
-                    "Email: " + hidPlayerEMail.Value + "<br>" +
-                    "Character: " + hidCharAKA.Value + "<br>" +
-                    "Payment Method: " + ddlPaymentChoice.SelectedItem.Text + "<br>" +
+                    "Email: " + hidPlayerEMail.Value + "<br>";
+
+                if (hidCharAKA.Value.Length > 0)
+                    strBody += "Character: " + hidCharAKA.Value + "<br>";
+
+                strBody += "Payment Method: " + ddlPaymentChoice.SelectedItem.Text + "<br>" +
                     "Player Comments: " + tbComments.Text;
 
                 string sCampaignEMail = drCampInfo["RegistrationNotificationEMail"].ToString();
@@ -273,6 +276,8 @@ namespace LarpPortal.Events
                 hidCharAKA.Value = dsEventInfo.Tables["Character"].Rows[0]["CharacterAKA"].ToString();
                 hidPlayerEMail.Value = dsEventInfo.Tables["Character"].Rows[0]["EMailAddress"].ToString();
             }
+            else
+                hidCharAKA.Value = "";
 
             if (dsEventInfo.Tables["Character"].Rows.Count == 1)
             {
@@ -430,6 +435,17 @@ namespace LarpPortal.Events
                     {
                         btnRegister.Text = "Change Registration";
                         btnRegister.Width = Unit.Pixel(200);
+                    }
+
+                    if (sRegistration == "APPROVED")
+                    {
+                        lblReqstdHousing.Visible = true;
+                        tbReqstdHousing.Visible = false;
+                    }
+                    else
+                    {
+                        lblReqstdHousing.Visible = false;
+                        tbReqstdHousing.Visible = true;
                     }
 
                     DateTime dtTemp;
@@ -599,11 +615,26 @@ namespace LarpPortal.Events
             sParam.Add("@PlayerCommentsToStaff", tbComments.Text.Trim());
             sParam.Add("@ReqstdHousing ", tbReqstdHousing.Text);
 
-            hidCharAKA.Value = ddlCharacterList.SelectedItem.Text;
-
             //            sParam.Add("@CampaignHousingTypeID", ddlHousing.SelectedValue);
-            if (ddlRoles.SelectedItem.Text != "PC")
-                sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
+
+            // If Staff person there is no character so blank it out so that it will not be included in the email.
+            switch (ddlRoles.SelectedItem.Text.ToUpper())
+            {
+                case "NPC":
+                    sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
+                    hidCharAKA.Value = ddlCharacterList.SelectedItem.Text;
+                    break;
+
+                case "PC":
+                    sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
+                    break;
+
+                case "STAFF":
+                    hidCharAKA.Value = "";
+                    sParam.Add("@NPCCampaignID", ddlSendToCampaign.SelectedValue);
+                    break;
+            }
+
             //            sParam.Add("@TeamID", ddlTeams.SelectedValue);
 
             //if (hidTeamMember.Value == "1")
@@ -768,13 +799,13 @@ namespace LarpPortal.Events
             {
                 mvCharacters.SetActiveView(vwCharacter);
                 divTeams.Visible = true;
-//                divHousing.Visible = true;
+                //                divHousing.Visible = true;
             }
             else
             {
                 mvCharacters.SetActiveView(vwSendCPTo);
                 divTeams.Visible = false;
-//                divHousing.Visible = false;
+                //                divHousing.Visible = false;
 
                 int uID = 0;
                 if (Session["UserID"] != null)
