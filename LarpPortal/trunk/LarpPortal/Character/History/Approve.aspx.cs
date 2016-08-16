@@ -74,7 +74,8 @@ namespace LarpPortal.Character.History
                     hidCharacterID.Value = iCharacterID.ToString();
                     hidCampaignID.Value = drHistory["CampaignID"].ToString();
 
-                    lblHistory.Text = drHistory["CharacterHistory"].ToString();
+                    lblHistory.Text = drHistory["CharacterHistory"].ToString().Replace("<ul>", @"<ul style=""list-style-type: disc;"">").Replace("<li>", @"<li style=""margin-left: 15px;"">");
+
                     ckHistory.Text = "Staff has reopened the character history for " + hidCharacterAKA.Value + " for revisions.  Please make changes and resubmit the history.<br><br>" +
                         "Thank you<br>" +
                         drHistory["CampaignName"].ToString() + " staff<br><br>" +

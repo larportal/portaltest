@@ -53,7 +53,7 @@ namespace LarpPortal.Character.History
                     cCharHist.Load(iCharID, iUserID);
 
                     ckEditor.Text = cCharHist.History;
-                    lblHistory.Text = cCharHist.History;
+                    lblHistory.Text = cCharHist.History.Replace("<ul>", @"<ul style=""list-style-type: disc;"">").Replace("<li>", @"<li style=""margin-left: 15px;"">");
 
                     hidNotificationEMail.Value = cCharHist.NotificationEMail;
 
