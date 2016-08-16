@@ -437,8 +437,8 @@ namespace LarpPortal.PELs
                 if (DateTime.TryParse(hidEventDate.Value, out dtTemp))
                     sEventDate = " that took place on " + dtTemp.ToShortDateString();
 
-                string sSubject = Session["UserName"].ToString() + " has added a comment to a PEL.";
-                string sBody = Session["UserName"].ToString() + " has added a comment to a PEL for " + hidPlayerName.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
+                string sSubject = Session["LoginName"].ToString() + " has added a comment to a PEL.";
+                string sBody = Session["LoginName"].ToString() + " has added a comment to a PEL for " + hidCharacterAKA.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
 
                 string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
 
@@ -596,8 +596,8 @@ namespace LarpPortal.PELs
                 if (DateTime.TryParse(hidEventDate.Value, out dtTemp))
                     sEventDate = " that took place on " + dtTemp.ToShortDateString();
 
-                string sSubject = Session["UserName"].ToString() + " has added a comment to a PEL Addendum.";
-                string sBody = Session["UserName"].ToString() + " has added a comment to a PEL Addendum for " + hidPlayerName.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
+                string sSubject = Session["LoginName"].ToString() + " has added a comment to a PEL Addendum.";
+                string sBody = Session["LoginName"].ToString() + " has added a comment to a PEL Addendum for " + hidCharacterAKA.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
 
                 string AddendumText = "";
                 string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";

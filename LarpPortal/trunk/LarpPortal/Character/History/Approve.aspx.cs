@@ -404,8 +404,8 @@ namespace LarpPortal.Character.History
         {
             if (hidCharacterID.Value.Length > 0)
             {
-                string sSubject = Session["UserName"].ToString() + " has added a comment to a character history addendum.";
-                string sBody = Session["UserName"].ToString() + " has added a comment to a character history addendum for " + hidPlayerName.Value + "<br><br>";
+                string sSubject = Session["LoginName"].ToString() + " has added a comment to a character history addendum.";
+                string sBody = Session["LoginName"].ToString() + " has added a comment to a character history addendum for " + hidCharacterAKA.Value + "<br><br>";
 
                 string AddendumText = "";
                 string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
@@ -495,8 +495,8 @@ namespace LarpPortal.Character.History
             DateTime dtTemp;
             if (hidCharacterID.Value.Length > 0)
             {
-                string sSubject = Session["UserName"].ToString() + " has added a comment to a character history.";
-                string sBody = Session["UserName"].ToString() + " has added a comment to a character history for " + hidPlayerName.Value + "<br><br>";
+                string sSubject = Session["LoginName"].ToString() + " has added a comment to a character history.";
+                string sBody = Session["LoginName"].ToString() + " has added a comment to a character history for " + hidCharacterAKA.Value + "<br><br>";
 
                 string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
 
