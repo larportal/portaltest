@@ -346,15 +346,6 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.HiddenField hidEventDate;
         
         /// <summary>
-        /// hidPlayerName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidPlayerName;
-        
-        /// <summary>
         /// hidSubmitDate control.
         /// </summary>
         /// <remarks>
