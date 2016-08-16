@@ -437,16 +437,16 @@ namespace LarpPortal.Events
                         btnRegister.Width = Unit.Pixel(200);
                     }
 
-                    if (sRegistration == "APPROVED")
-                    {
-                        lblReqstdHousing.Visible = true;
-                        tbReqstdHousing.Visible = false;
-                    }
-                    else
-                    {
+                    //if (sRegistration == "APPROVED")
+                    //{
+                    //    lblReqstdHousing.Visible = true;
+                    //    tbReqstdHousing.Visible = false;
+                    //}
+                    //else
+                    //{
                         lblReqstdHousing.Visible = false;
                         tbReqstdHousing.Visible = true;
-                    }
+                    //}
 
                     DateTime dtTemp;
                     if (DateTime.TryParse(dReg["EventPaymentDate"].ToString(), out dtTemp))
