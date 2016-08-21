@@ -117,13 +117,13 @@ namespace LarpPortal.Character.History
                     {
                         cCharHist.DateSubmitted = DateTime.Now;
                         lblmodalMessage.Text = "The character history has been submitted.";
+                        SendSubmittedEmail(ckEditor.Text, cCharHist);
                     }
                     else
                         lblmodalMessage.Text = "The character history has been saved.";
 
                     cCharHist.Save(iCharID, iUserID, Session["UserName"].ToString());
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
-                    SendSubmittedEmail(ckEditor.Text, cCharHist);
                     _Reload = true;
                 }
             }
