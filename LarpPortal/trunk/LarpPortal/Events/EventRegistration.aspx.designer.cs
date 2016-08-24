@@ -607,6 +607,15 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.DropDownList ddlPaymentChoice;
         
         /// <summary>
+        /// btnPayNow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPayNow;
+        
+        /// <summary>
         /// tbComments control.
         /// </summary>
         /// <remarks>
@@ -821,5 +830,14 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidRegistrationStatusID;
+        
+        /// <summary>
+        /// hidPayPalTypeID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidPayPalTypeID;
     }
 }

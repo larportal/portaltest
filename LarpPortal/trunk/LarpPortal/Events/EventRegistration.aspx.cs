@@ -332,6 +332,8 @@ namespace LarpPortal.Events
             ddlSendToCampaign.ClearSelection();
 
             hidRegistrationID.Value = "-1";
+            btnPayNow.Visible = false;
+            Session.Remove("RegistrationID");
 
             foreach (DataRow dCharInfo in dsEventInfo.Tables["Character"].Rows)
             {
@@ -404,6 +406,16 @@ namespace LarpPortal.Events
                     lblReqstdHousing.Text = dReg["ReqstdHousing"].ToString();
                     lblAssignHousing.Text = dReg["AssignHousing"].ToString();
 
+                    if (hidRegistrationID.Value != "-1")
+                    {
+                        Session["RegistrationID"] = hidRegistrationID.Value;
+                        DataView dvPayPal = new DataView(dsEventInfo.Tables["PaymentType"], "IsPayPal = 1", "", DataViewRowState.CurrentRows);
+                        if (dvPayPal.Count > 0)
+                            hidPayPalTypeID.Value = dvPayPal[0]["PaymentTypeID"].ToString();
+                        else
+                            hidPayPalTypeID.Value = "";
+                    }
+
                     //ddlHousing.ClearSelection();
                     //if (dReg["CampaignHousingTypeID"] != DBNull.Value)
                     //{
@@ -426,6 +438,13 @@ namespace LarpPortal.Events
                     }
                     if (ddlPaymentChoice.SelectedIndex < 0)
                         ddlPaymentChoice.Items[0].Selected = true;
+
+                    btnPayNow.Visible = true;
+
+                    if (ddlPaymentChoice.SelectedValue == hidPayPalTypeID.Value)
+                        btnPayNow.Attributes.Add("display", "");
+                    else
+                        btnPayNow.Attributes.Add("display", "none");
 
                     string sRegistration = dReg["RegistrationStatus"].ToString().ToUpper();
                     if ((sRegistration == "APPROVED") ||

@@ -102,6 +102,22 @@
             var win = window.open('/Events/EventPayment.aspx', '_blank');
             win.focus();
         }
+
+        function enablePayNowButton(ddlId)
+        {
+            var PayPalID = document.getElementById('<%= hidPayPalTypeID.ClientID%>').value;
+            var ControlName = document.getElementById(ddlId.id);
+            
+            if(ControlName.value == PayPalID) 
+            {
+                document.getElementById('<%= btnPayNow.ClientID %>').style.display = '';
+            }
+            else
+            {
+                document.getElementById('<%= btnPayNow.ClientID %>').style.display = 'none';
+            }
+        } 
+
     </script>
 
     <script src="../Scripts/jquery-1.11.3.js"></script>
@@ -464,7 +480,9 @@
                                                             <div class="row PrePostPadding">
                                                                 <div class="TableLabel col-lg-3">Payment Choice: </div>
                                                                 <div class="col-lg-4 NoPadding">
-                                                                    <asp:DropDownList ID="ddlPaymentChoice" runat="server" />
+                                                                    <asp:DropDownList ID="ddlPaymentChoice" runat="server" onChange="enablePayNowButton(this);"  />
+                                                                    <asp:Button ID="btnPayNow" runat="server" CssClass="StandardButton" Width="125" Text="Pay Now" 
+                                                                        OnClientClick="openPayPalWindow(); return false;" />
                                                                 </div>
                                                             </div>
                                                             <div class="row PrePostPadding">
@@ -583,4 +601,5 @@
     <asp:HiddenField ID="hidCharAKA" runat="server" />
     <asp:HiddenField ID="hidPlayerEMail" runat="server" />
     <asp:HiddenField ID="hidRegistrationStatusID" runat="server" />
+    <asp:HiddenField ID="hidPayPalTypeID" runat="server" />
 </asp:Content>
