@@ -26,6 +26,13 @@ namespace LarpPortal.Character
             if (!IsPostBack)
             {
                 string PageName = Path.GetFileName(Request.PhysicalPath).ToUpper();
+                PageName = Request.Url.AbsoluteUri.ToUpper();
+
+                if (Request.Url.AbsoluteUri.ToUpper().Contains("/TEAMS/"))
+                    ulTeams.Visible = true;
+                else
+                    ulTeams.Visible = false;
+
                 if (PageName.Contains("CHARINFO"))
                     liInfo.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARITEMS"))
@@ -50,6 +57,12 @@ namespace LarpPortal.Character
                     liCardCust.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARCARDORDER"))
                     liCharCharOrder.Attributes.Add("class", "active");
+                else if (PageName.Contains("MAINSCREEN"))
+                    liTeam.Attributes.Add("class", "active");
+                else if (PageName.Contains("CREATETEAM"))
+                    liCreateTeam.Attributes.Add("class", "active");
+                else if (PageName.Contains("/HISTORY/EDIT"))
+                    liHistory.Attributes.Add("class", "active");
 
                 if (Session["SelectedCharacter"] == null)
                 {
@@ -62,11 +75,15 @@ namespace LarpPortal.Character
                     if (dtCharacters.Rows.Count > 0)
                         Session["SelectedCharacter"] = dtCharacters.Rows[0]["CharacterID"].ToString();
                     else if (!PageName.Contains("CHARADD"))
-                        Response.Redirect("CharAdd.aspx");
+                        Response.Redirect("/Character/CharAdd.aspx");
                     oLog.AddLogMessage("Done loading the character IDs", "Characters.Master.Page_Load", "", Session.SessionID);
                 }
             }
             oLog.AddLogMessage("Done Character Master", "Characters.Master.Page_Load", "", Session.SessionID);
+
+
+            // This needs to be taken out when testing Teams.
+            liTeam.Visible = false;
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
