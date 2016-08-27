@@ -28,10 +28,10 @@ namespace LarpPortal.Character
                 string PageName = Path.GetFileName(Request.PhysicalPath).ToUpper();
                 PageName = Request.Url.AbsoluteUri.ToUpper();
 
-                if (Request.Url.AbsoluteUri.ToUpper().Contains("/TEAMS/"))
-                    ulTeams.Visible = true;
-                else
-                    ulTeams.Visible = false;
+                //if (Request.Url.AbsoluteUri.ToUpper().Contains("/TEAMS/"))
+                //    ulTeams.Visible = true;
+                //else
+                //    ulTeams.Visible = false;
 
                 if (PageName.Contains("CHARINFO"))
                     liInfo.Attributes.Add("class", "active");
@@ -83,7 +83,7 @@ namespace LarpPortal.Character
 
 
             // This needs to be taken out when testing Teams.
-            liTeam.Visible = false;
+            //liTeam.Visible = false;
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
