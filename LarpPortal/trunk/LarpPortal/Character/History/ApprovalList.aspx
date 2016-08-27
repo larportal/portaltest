@@ -34,8 +34,6 @@
                         <asp:ListItem Text="Approved Only" Value="A" />
                         <asp:ListItem Text="Submitted Only" Value="S" />
                     </asp:DropDownList>
-                    <asp:Image ID="imgBlank3" runat="server" ImageUrl="~/img/blank.gif" Height="0" Width="25" />
-                    <asp:Button ID="btnApproveAll" runat="server" Text="Approve All" CssClass="StandardButton" OnClick="btnApproveAll_Click" Width="125" Visible="false" />
                 </div>
 
                 <div class="row" style="padding-left: 15px; padding-right: 15px; padding-top: 10px;">

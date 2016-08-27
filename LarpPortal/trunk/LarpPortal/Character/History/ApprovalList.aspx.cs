@@ -21,11 +21,10 @@ namespace LarpPortal.Character.History
                 ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "MyApplication", jsString, true);
                 Session.Remove("UpdateHistoryMessage");
             }
-//            ViewState["PELsDisplayed"] = BindData();
             BindData();
         }
 
-        protected DataTable BindData()
+        protected void BindData()
         {
             SortedList sParams = new SortedList();
             DataTable dtCharHistory = new DataTable();
@@ -67,7 +66,6 @@ namespace LarpPortal.Character.History
                 }
             }
 
-
             if (dtCharHistory.Columns["HistoryStatus"] == null)
                 dtCharHistory.Columns.Add("HistoryStatus", typeof(string));
 
@@ -108,64 +106,12 @@ namespace LarpPortal.Character.History
                     ddlCharacterName.Items.Insert(0, liNoFilter);
                 }
             }
-            return dtCharHistory;
         }
 
         protected void gvHistoryList_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string sCharacterID = e.CommandArgument.ToString();
             Response.Redirect("Approve.aspx?CharacterID=" + sCharacterID, false);
-        }
-
-        protected void btnApproveAll_Click(object sender, EventArgs e)
-        {
-            //DataTable dtPELs = ViewState["PELsDisplayed"] as DataTable;
-
-            //DataView dvPELs = new DataView(dtPELs, "DateApproved is null", "", DataViewRowState.CurrentRows);
-            //foreach (DataRowView dRow in dvPELs)
-            //{
-            //    int iRegistrationID;
-            //    if (int.TryParse(dRow["RegistrationID"].ToString(), out iRegistrationID))
-            //    {
-            //        int iPELID;
-
-            //        int.TryParse(dRow["PELID"].ToString(), out iPELID);
-
-            //        SortedList sParams = new SortedList();
-            //        sParams.Add("@UserID", Session["UserID"].ToString());
-            //        sParams.Add("@PELID", iPELID);
-
-            //        double dCPAwarded;
-            //        if (double.TryParse(dRow["CPValue"].ToString(), out dCPAwarded))
-            //            sParams.Add("@CPAwarded", dCPAwarded);
-            //        sParams.Add("@DateApproved", DateTime.Now);
-
-            //        Classes.cUtilities.PerformNonQuery("uspInsUpdCMPELs", sParams, "LARPortal", Session["UserName"].ToString());
-
-            //        Classes.cPoints Points = new Classes.cPoints();
-            //        int UserID = 0;
-            //        int CampaignPlayerID = 0;
-            //        int CharacterID = 0;
-            //        int CampaignCPOpportunityDefaultID = 0;
-            //        int EventID = 0;
-            //        int ReasonID = 0;
-            //        int CampaignID = 0;
-            //        double CPAwarded = 0.0;
-            //        DateTime dtDateSubmitted = DateTime.Now;
-
-            //        int.TryParse(Session["UserID"].ToString(), out UserID);
-            //        int.TryParse(dRow["CampaignPlayerID"].ToString(), out CampaignPlayerID);
-            //        int.TryParse(dRow["CharacterID"].ToString(), out CharacterID);
-            //        int.TryParse(dRow["CampaignCPOpportunityDefaultID"].ToString(), out CampaignCPOpportunityDefaultID);
-            //        int.TryParse(dRow["ReasonID"].ToString(), out ReasonID);
-            //        int.TryParse(dRow["CampaignID"].ToString(), out CampaignID);
-            //        int.TryParse(dRow["EventID"].ToString(), out EventID);
-            //        double.TryParse(dRow["CPValue"].ToString(), out CPAwarded);
-            //        DateTime.TryParse(dRow["DateSubmitted"].ToString(), out dtDateSubmitted);
-
-            //        Points.AssignPELPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, EventID, dRow["EventName"].ToString(), ReasonID, CampaignID, CPAwarded, dtDateSubmitted);
-            //    }
-            //}
         }
 
         public string ScrubHtml(string value)
