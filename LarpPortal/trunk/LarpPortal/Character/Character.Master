@@ -20,7 +20,7 @@
                         <ul class="nav nav-pills" "panel-wrapper list-unstyled scroll-500">
                             <li runat="server" id="liInfo"><a href="/Character/CharInfo.aspx" runat="server" id="hlCharInfo">Character Info</a></li>
                             <li runat="server" id="liTeam"><a href="/Character/Teams/MainScreen.aspx" runat="server" id="hlCharTeam">Character Team</a>
-                                <ul class="nav nav-pills" runat="server" id="ulTeams" style="padding-left:20px;">
+                                <ul class="nav nav-pills" runat="server" id="ulTeams" style="padding-left:20px; display:none;">
                                     <li runat="server" id="liCreateTeam"><a href="/Character/Teams/CreateTeam.aspx" runat="server" id="hlCreateTeam">Create Team</a></li>
                                     <li runat="server" id="liJoinTeam"><a href="CharInfo.aspx" runat="server" id="hlJoinTeam">Join Team</a></li>
                                     <li runat="server" id="liUpdateTeams"><a href="CharInfo.aspx" runat="server" id="hlUpdateTeams">Update Teams</a></li>
