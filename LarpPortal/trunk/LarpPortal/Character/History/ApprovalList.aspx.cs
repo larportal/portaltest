@@ -21,7 +21,8 @@ namespace LarpPortal.Character.History
                 ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "MyApplication", jsString, true);
                 Session.Remove("UpdateHistoryMessage");
             }
-            ViewState["PELsDisplayed"] = BindData();
+//            ViewState["PELsDisplayed"] = BindData();
+            BindData();
         }
 
         protected DataTable BindData()
