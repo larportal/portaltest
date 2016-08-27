@@ -57,10 +57,10 @@ namespace LarpPortal.Character
                     liCardCust.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARCARDORDER"))
                     liCharCharOrder.Attributes.Add("class", "active");
-                else if (PageName.Contains("MAINSCREEN"))
-                    liTeam.Attributes.Add("class", "active");
-                else if (PageName.Contains("CREATETEAM"))
-                    liCreateTeam.Attributes.Add("class", "active");
+                //else if (PageName.Contains("MAINSCREEN"))
+                //    liTeam.Attributes.Add("class", "active");
+                //else if (PageName.Contains("CREATETEAM"))
+                //    liCreateTeam.Attributes.Add("class", "active");
                 else if (PageName.Contains("/HISTORY/EDIT"))
                     liHistory.Attributes.Add("class", "active");
 
