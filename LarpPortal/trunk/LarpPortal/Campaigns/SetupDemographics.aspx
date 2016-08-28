@@ -131,10 +131,11 @@
                                             </div>
                                             <div class="row PrePostPadding">
                                                 <div class="TableLabel col-sm-3">
-                                                    Campaign Zip: 
+                                                    <%--Campaign Zip:--%> 
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:TextBox ID="tbCampaignZip" runat="server" Enabled="false" />
+                                                    <%--<asp:TextBox ID="tbCampaignZip" runat="server" Enabled="false" />--%>
+                                                    <asp:HiddenField ID="hidCampaignZip" runat="server" />
                                                 </div>
                                                 <div class="TableLabel col-lg-3" style="position: relative;">Exp.End Date: </div>
                                                 <div class="col-lg-3 NoPadding">
@@ -147,8 +148,7 @@
                                                     Primary Site: 
                                                 </div>
                                                 <div class="col-sm-3 NoPadding">
-                                                    <asp:DropDownList ID="ddlPrimarySite" runat="server">
-
+                                                    <asp:DropDownList ID="ddlPrimarySite" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlPrimarySite_SelectedIndexChanged">
                                                     </asp:DropDownList>
                                                 </div>
                                                 <%--<div class="col-sm-1 NoPadding">
@@ -246,9 +246,6 @@
                     </div>
                 </div>
 
-
-
-
                 <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
                     <asp:Panel ID="pnlSites" runat="server" Visible="false">
                         <div class="col-lg-12 NoPadding">
@@ -260,46 +257,64 @@
                                             <div class="row PrePostPadding">
  
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </asp:Panel>
+                    <div class="row">
+                        <div class="col-lg-11"></div>
+                        <div class="col-lg-1">
+                            <asp:Button ID="btnSaveSites" runat="server" Text="Save Sites" Visible="false" OnClick="btnSaveSites_Click"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
+                    <asp:Panel ID="pnlEditGenres" runat="server" Visible="false">
+                        <div class="col-lg-12 NoPadding">
+                            <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
+                                <div class="panelheader NoPadding">
+                                    <h2>Campaign Genres</h2>
+                                    <div class="panel-body NoPadding">
+                                        <div class="panel-container">
                                             <div class="row PrePostPadding">
-
-                                            </div>
-                                            <div class="row PrePostPadding">
-
-                                            </div>
-                                            <div class="row PrePostPadding">
-
-                                            </div>
-                                            <div class="row PrePostPadding">
-
-                                            </div>
-                                            <div class="row PrePostPadding">
-
-                                            </div>
-                                            <div class="row PrePostPadding">
-
-                                            </div>
-                                            <div class="row PrePostPadding">
-
-                                            </div>
-                                            <div class="row PrePostPadding">
-
-                                            <div class="row PrePostPadding">
-
-                                            <div class="row PrePostPadding">
-
+ 
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                                </div>
-                            </div>
                     </asp:Panel>
                     <div class="row">
                         <div class="col-lg-11"></div>
                         <div class="col-lg-1">
-                            <asp:Button ID="btnSaveSites" runat="server" Text="Save Sites" Visible="false" OnClick="btnSaveSites_Click"/>
+                            <asp:Button ID="btnSaveGenres" runat="server" Text="Save Genres" Visible="false" OnClick="btnSaveGenres_Click"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
+                    <asp:Panel ID="pnlEditPeriods" runat="server" Visible="false">
+                        <div class="col-lg-12 NoPadding">
+                            <div class="panel" style="padding-top: 0px; padding-bottom: 0px;">
+                                <div class="panelheader NoPadding">
+                                    <h2>Campaign Periods</h2>
+                                    <div class="panel-body NoPadding">
+                                        <div class="panel-container">
+                                            <div class="row PrePostPadding">
+ 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </asp:Panel>
+                    <div class="row">
+                        <div class="col-lg-11"></div>
+                        <div class="col-lg-1">
+                            <asp:Button ID="btnSavePeriods" runat="server" Text="Save Periods" Visible="false" OnClick="btnSavePeriods_Click"/>
                         </div>
                     </div>
                 </div>

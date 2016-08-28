@@ -28,9 +28,6 @@ namespace LarpPortal.Campaigns
             if (!IsPostBack)
             {
                 LoadlblCampaignName();
-                LoadddlSize();
-                LoadddlStyle();
-                LoadddlTechLevel();
             }
         }
 
@@ -57,14 +54,17 @@ namespace LarpPortal.Campaigns
             lblOwner.Text = Campaigns.PrimaryOwnerName;
             tbDateStarted.Text = string.Format("{0:MMM d, yyyy}", Campaigns.StartDate);
             tbExpectedEndDate.Text = string.Format("{0:MMM d, yyyy}", Campaigns.ProjectedEndDate);
-            tbCampaignZip.Text = Campaigns.PrimarySiteZipCode;
+            hidCampaignZip.Value = Campaigns.PrimarySiteZipCode;
             tbActualEndDate.Text = string.Format("{0:MMM d, yyyy}", Campaigns.ActualEndDate);
             tbAvgNoEvents.Text = "";
             tbEmergencyContact.Text = Campaigns.EmergencyEventContact;
             tbEmergencyPhone.Text = "";
             LoadddlGameSystem(Campaigns.GameSystemID);
             LoadddlCampaignStatus(Campaigns.StatusID);
-            LoadddlSite();
+            LoadddlSite(Campaigns.CampaignAddressID);
+            LoadddlSize(Campaigns.MarketingCampaignSize);
+            LoadddlStyle(Campaigns.StyleID);
+            LoadddlTechLevel(Campaigns.TechLevelID);
         }
 
         protected void LoadGenres()
@@ -146,24 +146,96 @@ namespace LarpPortal.Campaigns
             ddlGameSystem.SelectedValue = CurrentGameSystemID.ToString();
         }
 
-        protected void LoadddlSite()
+        protected void LoadddlSite(int CurrentSiteID)
         {
-
+            int iTemp = 0;
+            int UserID = 0;
+            int CampaignID = 0;
+            string UserName = Session["UserName"].ToString();
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
+                CampaignID = iTemp;
+            string stStoredProc = "uspGetSites";
+            SortedList sParams = new SortedList();
+            string stCallingMethod = "SetupDemographics.LoadddlSite";
+            DataTable dtSites = new DataTable();
+            dtSites = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName, stCallingMethod);
+            dtSites.DefaultView.Sort = "SiteStateName asc";
+            ddlPrimarySite.DataTextField = "SiteStateName";
+            ddlPrimarySite.DataValueField = "SiteID";
+            ddlPrimarySite.DataSource = dtSites;
+            ddlPrimarySite.DataBind();
+            ddlPrimarySite.SelectedValue = CurrentSiteID.ToString();
         }
 
-        protected void LoadddlSize()
+        protected void LoadddlSize(int CurrentSize)
         {
-
+            int iTemp = 0;
+            int UserID = 0;
+            int CampaignID = 0;
+            string UserName = Session["UserName"].ToString();
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
+                CampaignID = iTemp;
+            string stStoredProc = "uspGetSizes";
+            SortedList sParams = new SortedList();
+            sParams.Add("@SizeFilter", 0);
+            string stCallingMethod = "SetupDemographics.LoadddlSize";
+            DataTable dtSizes = new DataTable();
+            dtSizes = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName, stCallingMethod);
+            ddlSize.DataTextField = "CampaignSizeRange";
+            ddlSize.DataValueField = "CampaignSizeID";
+            ddlSize.DataSource = dtSizes;
+            ddlSize.DataBind();
+            ddlSize.SelectedValue = CurrentSize.ToString();
         }
 
-        protected void LoadddlStyle()
+        protected void LoadddlStyle(int CurrentStyle)
         {
-
+            int iTemp = 0;
+            int UserID = 0;
+            int CampaignID = 0;
+            string UserName = Session["UserName"].ToString();
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
+                CampaignID = iTemp;
+            string stStoredProc = "uspGetStyles";
+            SortedList sParams = new SortedList();
+            sParams.Add("@StyleFilter", 0);
+            string stCallingMethod = "SetupDemographics.LoadddlStyle";
+            DataTable dtStyles = new DataTable();
+            dtStyles = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName, stCallingMethod);
+            ddlStyle.DataTextField = "StyleName";
+            ddlStyle.DataValueField = "StyleID";
+            ddlStyle.DataSource = dtStyles;
+            ddlStyle.DataBind();
+            ddlStyle.SelectedValue = CurrentStyle.ToString();
         }
 
-        protected void LoadddlTechLevel()
+        protected void LoadddlTechLevel(int CurrentTech)
         {
-
+            int iTemp = 0;
+            int UserID = 0;
+            int CampaignID = 0;
+            string UserName = Session["UserName"].ToString();
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
+                CampaignID = iTemp;
+            string stStoredProc = "uspGetTechLevels";
+            SortedList sParams = new SortedList();
+            sParams.Add("@TechLevelFilter", 0);
+            string stCallingMethod = "SetupDemographics.LoadddlTechLevel";
+            DataTable dtTech = new DataTable();
+            dtTech = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName, stCallingMethod);
+            ddlTechLevel.DataTextField = "TechLevelName";
+            ddlTechLevel.DataValueField = "TechLevelID";
+            ddlTechLevel.DataSource = dtTech;
+            ddlTechLevel.DataBind();
+            ddlTechLevel.SelectedValue = CurrentTech.ToString();
         }
 
         protected void LoadddlFrequency()
@@ -188,8 +260,22 @@ namespace LarpPortal.Campaigns
 
         protected void ddlPrimarySite_SelectedIndexChanged(object sender, EventArgs e)
         {
+            int iTemp = 0;
+            int UserID = 0;
+            int CampaignID = 0;
+            string UserName = Session["UserName"].ToString();
+            if (int.TryParse(Session["UserID"].ToString(), out iTemp))
+                UserID = iTemp;
+            if (int.TryParse(Session["CampaignID"].ToString(), out iTemp))
+                CampaignID = iTemp;
+            string stStoredProc = "uspGetSTSitesByID";
+            string stCallingMethod = "SetupDemographics.ddlPrimarySite_SelectedIndexChanged";
+            SortedList sParams = new SortedList();
+            sParams.Add("@intSiteID", ddlPrimarySite.SelectedValue);
+            DataTable dtSite = new DataTable();
+            dtSite = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserName, stCallingMethod);
+            hidCampaignZip.Value = dtSite.Rows[0]["PostalCode"].ToString().Trim();
 
-            ;// tbCampaignZip.Text = "updated value from site lookup";
         }
 
         protected void ddlStyle_SelectedIndexChanged(object sender, EventArgs e)
@@ -242,13 +328,19 @@ namespace LarpPortal.Campaigns
             //Campaigns.fieldname = form.fieldname.value OR form.ddlfieldname.selectedvalue.toint32
             Campaigns.GameSystemID = ddlGameSystem.SelectedValue.ToInt32();
             Campaigns.StatusID = ddlCampaignStatus.SelectedValue.ToInt32();
-            //Campaigns.StartDate = tbDateStarted.
-            Campaigns.PrimarySiteZipCode = tbCampaignZip.Text;
+            //Campaigns.StartDate = tbDateStarted.Text.ToString().to
+            Campaigns.StartDate = DateTime.Parse(tbDateStarted.Text);
+
+
+            Campaigns.PrimarySiteZipCode = hidCampaignZip.Value.ToString();
             //Campaigns.ProjectedEndDate = tbExpectedEndDate.
             //Campaigns.PrimarySite = 
             //Campaigns.ActualEndDate = tbActualEndDate.
             //Campaigns.ProjectedNumberOfEvents = tbAvgNoEvents.Text.ToInt32(); Which one, this one or the one below?  Definitely missing something.
-            Campaigns.ProjectedNumberOfEvents = tbProjTotalNumEvents.Text.ToInt32();
+            int ProjTotalNumEvents = 0;
+            if (int.TryParse(tbProjTotalNumEvents.Text, out iTemp))
+                ProjTotalNumEvents = iTemp;
+            Campaigns.ProjectedNumberOfEvents = ProjTotalNumEvents;
             Campaigns.EmergencyEventContact = tbEmergencyContact.Text;
             //Campaigns.phone = tbEmergencyPhone.Text;
             Campaigns.StyleID = ddlStyle.SelectedValue.ToInt32();
@@ -303,6 +395,16 @@ namespace LarpPortal.Campaigns
                     true);
             pnlSites.Visible = false;
             btnSaveSites.Visible = false;
+        }
+
+        protected void btnSaveGenres_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnSavePeriods_Click(object sender, EventArgs e)
+        {
+
         }
 
     }
