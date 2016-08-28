@@ -223,22 +223,22 @@ namespace LarpPortal.Reports
             form.Attributes["runat"] = "server";
             switch (ReportName)
             {
-                case "1":
+                case "Skill Count":
                     gvSkillCount.AllowPaging = false;
                     form.Controls.Add(gvSkillCount);
                     break;
 
-                case "2":
+                case "Skill Detail":
                     gvSkillDetail.AllowPaging = false;
                     form.Controls.Add(gvSkillDetail);
                     break;
 
-                case "3":
+                case "Skill Type Count":
                     gvSkillTypeCount.AllowPaging = false;
                     form.Controls.Add(gvSkillTypeCount);
                     break;
 
-                case "4":
+                case "Skill Type Detail":
                     gvSkillTypeDetail.AllowPaging = false;
                     form.Controls.Add(gvSkillTypeDetail);
                     break;

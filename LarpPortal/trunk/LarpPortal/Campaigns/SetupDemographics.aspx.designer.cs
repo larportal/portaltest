@@ -85,13 +85,13 @@ namespace LarpPortal.Campaigns {
         protected global::System.Web.UI.WebControls.TextBox tbDateStarted;
         
         /// <summary>
-        /// tbCampaignZip control.
+        /// hidCampaignZip control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbCampaignZip;
+        protected global::System.Web.UI.WebControls.HiddenField hidCampaignZip;
         
         /// <summary>
         /// tbExpectedEndDate control.
@@ -245,5 +245,41 @@ namespace LarpPortal.Campaigns {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSaveSites;
+        
+        /// <summary>
+        /// pnlEditGenres control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlEditGenres;
+        
+        /// <summary>
+        /// btnSaveGenres control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveGenres;
+        
+        /// <summary>
+        /// pnlEditPeriods control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlEditPeriods;
+        
+        /// <summary>
+        /// btnSavePeriods control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSavePeriods;
     }
 }

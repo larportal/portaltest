@@ -23,7 +23,7 @@ namespace LarpPortal
             if (!IsPostBack)
             {
                 SortedList sParam = new SortedList();
-                sParam.Add("@CampaignID", 33);
+                sParam.Add("@CampaignID", 1);
                 _dsSkills = Classes.cUtilities.LoadDataSet("uspGetCampaignSkillsWithNodes", sParam, "LARPortal", "SkillTable", "");
                 DataView dvTopNodes = new DataView(_dsSkills.Tables[0], "ParentSkillNodeID is null or ParentSkillNodeID= 0", "DisplayOrder", DataViewRowState.CurrentRows);
                 foreach (DataRowView dvRow in dvTopNodes)
