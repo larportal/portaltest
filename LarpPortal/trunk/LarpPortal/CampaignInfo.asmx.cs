@@ -64,28 +64,34 @@ namespace LarpPortal
                     }
 
                     DataView dvSkills = new DataView(dsResults.Tables[1], "PrerequisiteSkillNodeID is not null and ExcludeFromPurchase = false", "", DataViewRowState.CurrentRows);
-                    if (dvSkills.Count > 0)
+                    DataTable dtSkillList = dvSkills.ToTable(true, "SkillName");
+
+                    if (dtSkillList.Rows.Count > 0)
                     {
                         sCampaignInfo += "<br><br>";
-                        for (int i = 0; i < dvSkills.Count; i++)
+                        DataView dvSortedFields = new DataView(dtSkillList, "", "SkillName", DataViewRowState.CurrentRows);
+                        for (int i = 0; i < dvSortedFields.Count; i++)
                         {
                             if (i == 0)
-                                sCampaignInfo += "This skill requires you already have " + dvSkills[i]["SkillName"].ToString();
+                                sCampaignInfo += "This skill requires you already have " + dvSortedFields[i]["SkillName"].ToString();
                             else
-                                sCampaignInfo += ", " + dvSkills[i]["SkillName"].ToString();
+                                sCampaignInfo += ", " + dvSortedFields[i]["SkillName"].ToString();
                         }
                     }
 
                     dvSkills = new DataView(dsResults.Tables[1], "PrerequisiteSkillNodeID is not null and ExcludeFromPurchase = true", "", DataViewRowState.CurrentRows);
-                    if (dvSkills.Count > 0)
+                    dtSkillList = dvSkills.ToTable(true, "SkillName");
+
+                    if (dtSkillList.Rows.Count > 0)
                     {
                         sCampaignInfo += "<br><br>";
-                        for (int i = 0; i < dvSkills.Count; i++)
+                        DataView dvSortedFields = new DataView(dtSkillList, "", "SkillName", DataViewRowState.CurrentRows);
+                        for (int i = 0; i < dvSortedFields.Count; i++)
                         {
                             if (i == 0)
-                                sCampaignInfo += "You cannot buy this skill if you already have " + dvSkills[i]["SkillName"].ToString();
+                                sCampaignInfo += "You cannot buy this skill if you already have " + dvSortedFields[i]["SkillName"].ToString();
                             else
-                                sCampaignInfo += ", " + dvSkills[i]["SkillName"].ToString();
+                                sCampaignInfo += ", " + dvSortedFields[i]["SkillName"].ToString();
                         }
                     }
 
