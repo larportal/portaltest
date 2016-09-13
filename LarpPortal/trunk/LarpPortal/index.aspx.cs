@@ -244,7 +244,7 @@ namespace LarpPortal
             else
             {
                 if (txtLastLocation.Text == "")
-                    txtLastLocation.Text = "MemberDemographics.aspx";
+                    txtLastLocation.Text = "Profile/Demographics.aspx";
                 string FirstChar = txtLastLocation.Text.Substring(1, 1);
                 int LocationLength = txtLastLocation.Text.Length;
                 if (FirstChar == "/")

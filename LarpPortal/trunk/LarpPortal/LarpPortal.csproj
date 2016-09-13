@@ -491,6 +491,7 @@
     <Content Include="Events\EventPayment.aspx" />
     <Content Include="Events\RegistrationHousing.aspx" />
     <Content Include="Events\RegistrationApproval.aspx" />
+    <Content Include="FirstCampaign.aspx" />
     <Content Include="General\MemberHome.aspx" />
     <Content Include="img\aerune.jpg" />
     <Content Include="img\Ariath.JPG" />
@@ -505,6 +506,7 @@
     <Content Include="PELs\PELAddAddendum.aspx" />
     <Content Include="Profile\Demographics.aspx" />
     <Content Include="Profile\Security.aspx" />
+    <Content Include="Reports\CampaignPlayers.aspx" />
     <Content Include="Reports\CharacterSkillStats.aspx" />
     <Content Include="Reports\CheckIn.aspx" />
     <Content Include="Reports\PELDisplay.aspx" />
@@ -1226,6 +1228,13 @@
     <Compile Include="Events\RegistrationApproval.aspx.designer.cs">
       <DependentUpon>RegistrationApproval.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FirstCampaign.aspx.cs">
+      <DependentUpon>FirstCampaign.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FirstCampaign.aspx.designer.cs">
+      <DependentUpon>FirstCampaign.aspx</DependentUpon>
+    </Compile>
     <Compile Include="General\MemberHome.aspx.cs">
       <DependentUpon>MemberHome.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1267,6 +1276,13 @@
     </Compile>
     <Compile Include="Profile\Profile.Master.designer.cs">
       <DependentUpon>Profile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\CampaignPlayers.aspx.cs">
+      <DependentUpon>CampaignPlayers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\CampaignPlayers.aspx.designer.cs">
+      <DependentUpon>CampaignPlayers.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\CharacterSkillStats.aspx.cs">
       <DependentUpon>CharacterSkillStats.aspx</DependentUpon>
@@ -1891,6 +1907,7 @@
     <Folder Include="ckeditor\skins\office2003\images\" />
     <Folder Include="ckeditor\skins\v2\images\" />
     <Folder Include="ckeditor\themes\default\" />
+    <Folder Include="Documents\" />
     <Folder Include="Inventory\" />
     <Folder Include="Rules\" />
   </ItemGroup>
