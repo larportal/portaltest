@@ -21,6 +21,7 @@ namespace LarpPortal.Events
         {
             // Using session variable RegistrationID look up campaign, event, character
             int RegistrationID = 0;
+            Session["OnlinePayment"] = "Y";
             if(Session["RegistrationID"] == null)
             {
                 Session["RegistrationID"] = 0;  // 8529 Rick Madrigal registration for testing.  Remove this line when being called
@@ -58,8 +59,11 @@ namespace LarpPortal.Events
                     DataTable dtPaymentPageCode = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
                     if (dtPaymentPageCode.Rows.Count == 0)
                     {
+                        Session["OnlinePayment"] = "N";
                         lblHeader.Text = "There are no online payment options for this campaign";
                         lblHeader.Visible = true;
+                        lblRegistrationText.Text = "";
+                        HideOptions();
                     }
                     else
                     {
@@ -103,8 +107,11 @@ namespace LarpPortal.Events
             DataTable dtPaymentPageCode = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
             if (dtPaymentPageCode.Rows.Count == 0)
             {
+                Session["OnlinePayment"] = "N";
                 lblHeader.Text = "There are no online payment options for this campaign";
                 lblHeader.Visible = true;
+                lblRegistrationText.Text = "";
+                HideOptions();
             }
             else
             {
@@ -164,6 +171,24 @@ namespace LarpPortal.Events
                     }
 
                 }                
+            }
+        }
+
+        protected void HideOptions()
+        {
+            if (Session["OnlinePayment"].ToString() == "N")
+            {
+                lblFoodText.Visible = false;
+                lblOrderTotalDisplay.Visible = false;
+                lblOrderTotalSection.Visible = false;
+                lblRegistrationText.Visible = false;
+                btnCalculateOrder.Visible = false;
+                btnPayPalTotal.Visible = false;
+                chkAllMeals.Visible = false;
+                chkRegistration.Visible = false;
+                chkSaturdayBrunch.Visible = false;
+                chkSaturdayDinner.Visible = false;
+                chkSundayBrunch.Visible = false;
             }
         }
 

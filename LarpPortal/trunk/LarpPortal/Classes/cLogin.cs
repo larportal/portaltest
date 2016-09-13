@@ -48,6 +48,7 @@ namespace LarpPortal.Classes
         public string TestingResultsText { get; set; }
         public string ContactUsText { get; set; }
         public string TermsOfUseText { get; set; }
+        public string FirstCampaignWelcomeText { get; set; }
         public string LearnMoreText { get; set; }
         public List<cPageTab> lsPageTabs = new List<cPageTab>();
         public int PasswordValidation { get; set; }
@@ -188,6 +189,20 @@ namespace LarpPortal.Classes
             foreach (DataRow dRow in dsTermsOfUse.Tables["MDBParameters"].Rows)
             {
                 TermsOfUseText = dRow["Comments"].ToString();
+            }
+        }
+
+        public void getFirstCampaignWelcome()
+        {
+            string stStoredProc = "uspGetFirstCampaignWelcome";
+            string stCallingMethod = "cLogin.getFirstCampaignWelcome";
+            SortedList slParameters = new SortedList();
+            DataSet dsFirstCampaignWelcome = new DataSet();
+            dsFirstCampaignWelcome = cUtilities.LoadDataSet(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            dsFirstCampaignWelcome.Tables[0].TableName = "MDBParameters";
+            foreach (DataRow dRow in dsFirstCampaignWelcome.Tables["MDBParameters"].Rows)
+            {
+                FirstCampaignWelcomeText = dRow["Comments"].ToString();
             }
         }
 
