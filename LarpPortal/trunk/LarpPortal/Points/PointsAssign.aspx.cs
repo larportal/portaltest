@@ -711,6 +711,7 @@ namespace LarpPortal.Points
             BuildCPAuditTable(UserID);
             Session["AddCPStep"] = "A";
             ResetHiddenValues();
+            ResetDropDownListChoices();
         }
 
         protected void ddlCampaignPlayerLoad(string strUserName, int intCampaignID)
@@ -750,7 +751,122 @@ namespace LarpPortal.Points
             hidInsertReceivedByID.Value = UserID.ToString();
             hidInsertCPAssignmentDate.Value = DateTime.Now.ToString();
             hidInsertStaffComments.Value = "";
+            // RPierce - 9/17/2016 - add to resets
+            hidInsertCampaignCPOpportunityDefaultIDNPCEvent.Value = "";
+            hidInsertCampaignCPOpportunityDefaultIDNPCPEL.Value = "";
+            hidInsertCampaignCPOpportunityDefaultIDNPCSetup.Value = "";
+            //hidInsertCampaignPlayerID.Value = "";
+            hidInsertDescriptionNPCEvent.Value = "";
+            hidInsertDescriptionNPCPEL.Value = "";
+            hidInsertDescriptionNPCSetup.Value = "";
+            hidInsertDestinationCampaign.Value = "";
+            hidInsertDestinationCampaignLPType.Value = "";
+            hidInsertReasonIDNPCEvent.Value = "";
+            hidInsertReasonIDNPCPEL.Value = "";
+            hidInsertReasonIDNPCSetup.Value = "";
+            hidLastAddCPStep.Value = "";
+            // End of add to resets
             txtStaffComments.Text = "";
+         }
+
+        protected void ResetDropDownListChoices()
+        {
+            try
+            {
+                ddlAddSourceCampaign.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlAddOpportunityDefaultID.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlAddOpportunityDefaultIDC6.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlDestinationCampaign.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlSelectCharacterOrBankF0.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlSelectCharacterOrBankF1.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlSelectCharacterOrBankF2.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlSelectCharacterOrBankF3.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlSelectCharacterOrBankF4.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlSelectCharacterOrBankF6.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlSourceEventPC.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            chkNPCEvent.Checked = false;
+            chkPEL.Checked = false;
+            chkSetupCleanup.Checked = false;
+            txtOpportunityNotes.Text = "";
+            txtReceiptDate.Text = "";
+            txtCPF0.Text = "0";            
+            txtCPF1.Text = "0";
+            txtCPF2.Text = "0";
         }
 
         protected void ddlCampaignPlayer_SelectedIndexChanged(object sender, EventArgs e)
