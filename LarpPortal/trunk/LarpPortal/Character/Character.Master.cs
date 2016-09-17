@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -16,23 +17,36 @@ namespace LarpPortal.Character
     public partial class CharacterMaster : System.Web.UI.MasterPage
     {
         LogWriter oLog = new LogWriter();
+        string _UserName = "";
+        int _UserID = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+            if (Session["UserName"] != null)
+                _UserName = Session["UserName"].ToString();
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
+            if (_UserID == 0)
+                _UserID = -1;
+
             Session["ActiveTopNav"] = "Characters";
+        }
+
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
             oLog.AddLogMessage("Starting Character Master", "Character.Master.Page_Load", "", Session.SessionID);
 
+            string PageName = Path.GetFileName(Request.PhysicalPath).ToUpper();
+            PageName = Request.Url.AbsoluteUri.ToUpper();
+
             if (!IsPostBack)
             {
-                string PageName = Path.GetFileName(Request.PhysicalPath).ToUpper();
-                PageName = Request.Url.AbsoluteUri.ToUpper();
-
-                //if (Request.Url.AbsoluteUri.ToUpper().Contains("/TEAMS/"))
-                //    ulTeams.Visible = true;
-                //else
-                //    ulTeams.Visible = false;
-
                 if (PageName.Contains("CHARINFO"))
                     liInfo.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARITEMS"))
@@ -57,12 +71,14 @@ namespace LarpPortal.Character
                     liCardCust.Attributes.Add("class", "active");
                 else if (PageName.Contains("CHARCARDORDER"))
                     liCharCharOrder.Attributes.Add("class", "active");
-                //else if (PageName.Contains("MAINSCREEN"))
-                //    liTeam.Attributes.Add("class", "active");
-                //else if (PageName.Contains("CREATETEAM"))
-                //    liCreateTeam.Attributes.Add("class", "active");
                 else if (PageName.Contains("/HISTORY/EDIT"))
                     liHistory.Attributes.Add("class", "active");
+                else if (PageName.Contains("TEAMS/CREATETEAM"))
+                    liCreateTeam.Attributes.Add("class", "active");
+                else if (PageName.Contains("JOINTEAM"))
+                    liJoinTeam.Attributes.Add("class", "active");
+                else if (PageName.Contains("TEAMS/MANAGETEAM"))
+                    liManageTeam.Attributes.Add("class", "active");
 
                 if (Session["SelectedCharacter"] == null)
                 {
@@ -79,27 +95,30 @@ namespace LarpPortal.Character
                     oLog.AddLogMessage("Done loading the character IDs", "Characters.Master.Page_Load", "", Session.SessionID);
                 }
             }
+            if (PageName.Contains("/TEAMS/"))
+            {
+                if (Session["SelectedCharacter"] != null)
+                {
+                    int iCharID = 0;
+                    if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                    {
+                        SortedList slParameters = new SortedList();
+                        slParameters.Add("@CharacterID", iCharID.ToString());
+                        DataTable dtTeams = cUtilities.LoadDataTable("uspGetTeamsForCampaignAndCharacterInd", slParameters, "LARPortal", _UserName, lsRoutineName + ".CampaignAndCharacterInd");
+
+                        DataView dv = new DataView(dtTeams, "Approval = 1", "", DataViewRowState.CurrentRows);
+                        if (dv.Count > 0)
+                            liManageTeam.Visible = true;
+                        else
+                            liManageTeam.Visible = false;
+                    }
+                }
+                ulTeams.Visible = true;
+            }
+            else
+                ulTeams.Visible = false;
+
             oLog.AddLogMessage("Done Character Master", "Characters.Master.Page_Load", "", Session.SessionID);
-
-
-            // This needs to be taken out when testing Teams.
-            //liTeam.Visible = false;
         }
-
-        protected void Page_PreRender(object sender, EventArgs e)
-        {
-        }
-
-        //protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    if (ddlCharacterSelector.SelectedValue == "-1")
-        //        Response.Redirect("CharAdd.aspx");
-
-        //    if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
-        //    {
-        //        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-        //        Response.Redirect("CharInfo.aspx");
-        //    }
-        //}
     }
 }

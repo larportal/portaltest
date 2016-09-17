@@ -238,6 +238,10 @@
     <Content Include="Character\History\Edit.aspx" />
     <Content Include="Character\History\List.aspx" />
     <Content Include="Character\SkillTable.aspx" />
+    <Content Include="Character\Teams\JoinTeam.aspx" />
+    <Content Include="Character\Teams\ManageTeam.aspx" />
+    <Content Include="Character\Teams\CreateTeam.aspx" />
+    <Content Include="Character\Teams\MainScreen.aspx" />
     <Content Include="Character\WhichCharCardsToPrint.aspx" />
     <Content Include="ckeditor\adapters\jquery.js" />
     <Content Include="ckeditor\build-config.js" />
@@ -491,10 +495,11 @@
     <Content Include="Events\EventPayment.aspx" />
     <Content Include="Events\RegistrationHousing.aspx" />
     <Content Include="Events\RegistrationApproval.aspx" />
-    <Content Include="FirstCampaign.aspx" />
     <Content Include="General\MemberHome.aspx" />
     <Content Include="img\aerune.jpg" />
     <Content Include="img\Ariath.JPG" />
+    <Content Include="img\ArrowLeft.png" />
+    <Content Include="img\ArrowRight.png" />
     <Content Include="img\Checked-Checkbox-icon.png" />
     <Content Include="img\download.png" />
     <Content Include="img\logo\Logo_80_CrossoverTemp.jpg" />
@@ -1097,6 +1102,34 @@
     <Compile Include="Character\SkillTable.aspx.designer.cs">
       <DependentUpon>SkillTable.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Character\Teams\JoinTeam.aspx.cs">
+      <DependentUpon>JoinTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\Teams\JoinTeam.aspx.designer.cs">
+      <DependentUpon>JoinTeam.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\Teams\ManageTeam.aspx.cs">
+      <DependentUpon>ManageTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\Teams\ManageTeam.aspx.designer.cs">
+      <DependentUpon>ManageTeam.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\Teams\CreateTeam.aspx.cs">
+      <DependentUpon>CreateTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\Teams\CreateTeam.aspx.designer.cs">
+      <DependentUpon>CreateTeam.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\Teams\MainScreen.aspx.cs">
+      <DependentUpon>MainScreen.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\Teams\MainScreen.aspx.designer.cs">
+      <DependentUpon>MainScreen.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Character\WhichCharCardsToPrint.aspx.cs">
       <DependentUpon>WhichCharCardsToPrint.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1227,13 +1260,6 @@
     </Compile>
     <Compile Include="Events\RegistrationApproval.aspx.designer.cs">
       <DependentUpon>RegistrationApproval.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="FirstCampaign.aspx.cs">
-      <DependentUpon>FirstCampaign.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="FirstCampaign.aspx.designer.cs">
-      <DependentUpon>FirstCampaign.aspx</DependentUpon>
     </Compile>
     <Compile Include="General\MemberHome.aspx.cs">
       <DependentUpon>MemberHome.aspx</DependentUpon>

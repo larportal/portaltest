@@ -57,7 +57,7 @@
         <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
             <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Info" />
         </div>
-        <div class="row" style="padding-bottom: 10px;">
+        <div class="row" style="padding-bottom: 10px; padding-left: 15px;">
             <table>
                 <tr style="vertical-align: middle;">
                     <%--<td style="width: 10px"></td>--%>
