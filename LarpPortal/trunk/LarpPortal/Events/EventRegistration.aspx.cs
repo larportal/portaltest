@@ -878,7 +878,7 @@ namespace LarpPortal.Events
                         iReasonID = 7;
                     break;
                 case "Staff":
-                    RoleAlignment = 12;
+                    iReasonID = 12;
                     break;
                 default:
                     break;
