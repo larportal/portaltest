@@ -272,7 +272,6 @@ namespace LarpPortal.Character.Teams
                             sParams.Add("@CharacterID", iSelectedCharacter);
                             sParams.Add("@RoleID", iRoleApprove);
                             sParams.Add("@UserID", _iUserID);
-                            sParams.Add("@TeamMemberID", -1);
                             cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
                         }
                         else if (dRow["Member"].ToString() == "1")
@@ -282,7 +281,6 @@ namespace LarpPortal.Character.Teams
                             sParams.Add("@CharacterID", iSelectedCharacter);
                             sParams.Add("@RoleID", iRoleMember);
                             sParams.Add("@UserID", _iUserID);
-                            sParams.Add("@TeamMemberID", -1);
                             cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
                         }
                         else if (dRow["Requested"].ToString() == "1")
@@ -292,7 +290,6 @@ namespace LarpPortal.Character.Teams
                             sParams.Add("@CharacterID", iSelectedCharacter);
                             sParams.Add("@RoleID", iRoleRequested);
                             sParams.Add("@UserID", _iUserID);
-                            sParams.Add("@TeamMemberID", -1);
                             cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
                         }
                         else if (dRow["Invited"].ToString() == "1")
@@ -302,7 +299,6 @@ namespace LarpPortal.Character.Teams
                             sParams.Add("@CharacterID", iSelectedCharacter);
                             sParams.Add("@RoleID", iRoleInvite);
                             sParams.Add("@UserID", _iUserID);
-                            sParams.Add("@TeamMemberID", -1);
                             cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
                         }
                     }
