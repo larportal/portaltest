@@ -10,6 +10,13 @@
         function closeMessage() {
             $('#modalMessage').hide();
         }
+
+        function openError() {
+            $('#modalError').modal('show');
+        }
+        function closeError() {
+            $('#modelError').hide();
+        }
     </script>
 
     <script src="../../Scripts/jquery-1.11.3.js"></script>
@@ -178,6 +185,28 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" id="modalError" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: red;">
+                    <a class="close" data-dismiss="modal" style="color: white;">×</a>
+                    LARPortal Character Info
+                </div>
+                <div class="modal-body" style="background-color: white;">
+                    <p>
+                        <asp:Label ID="lblmodalError" runat="server" /></p>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="btnCloseError" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseError_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
 
     <asp:HiddenField ID="hidNotificationEMail" runat="server" Value="" />
     <asp:HiddenField ID="hidCampaignID" runat="server" Value="" />
