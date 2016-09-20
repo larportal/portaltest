@@ -140,11 +140,6 @@ namespace LarpPortal.Character.Teams
             }
         }
 
-        protected void btnCloseMessage_Click(object sender, EventArgs e)
-        {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeMessage();", true);
-        }
-
         protected void gvAvailable_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             string t = e.CommandArgument.ToString();
@@ -283,6 +278,19 @@ namespace LarpPortal.Character.Teams
                 (Session["TeamMembers"] != null))
             {
                 DataTable dtTeamMembers = Session["TeamMembers"] as DataTable;
+
+                if (!chkBoxApprover.Checked)
+                {
+                    DataView dv = new DataView(dtTeamMembers, "Approval", "", DataViewRowState.CurrentRows);
+                    if (dv.Count <= 1)
+                    {
+                        lblmodalError.Text = "There must be at least one person who has approval privileges.";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openError();", true);
+                        chkBoxApprover.Checked = true;
+                        return;
+                    }
+                }
+//                DataTable dtTeamMembers = Session["TeamMembers"] as DataTable;
                 DataRow[] dChar = dtTeamMembers.Select("CharacterID = " + hidCharacterID.Value);
 
                 foreach ( DataRow dRow in dChar)
@@ -358,6 +366,16 @@ namespace LarpPortal.Character.Teams
             lblChangesNotSaved.Visible = false;
             lblChangesNotSaved2.Visible = false;
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+        }
+
+        protected void btnCloseMessage_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeMessage();", true);
+        }
+
+        protected void btnCloseError_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeError();", true);
         }
     }
 }

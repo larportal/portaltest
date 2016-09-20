@@ -112,6 +112,24 @@ namespace LarpPortal.Character.Teams {
         protected global::System.Web.UI.WebControls.Button btnCloseMessage;
         
         /// <summary>
+        /// lblmodalError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblmodalError;
+        
+        /// <summary>
+        /// btnCloseError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCloseError;
+        
+        /// <summary>
         /// hidNotificationEMail control.
         /// </summary>
         /// <remarks>
