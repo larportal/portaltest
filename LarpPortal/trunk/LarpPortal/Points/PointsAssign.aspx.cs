@@ -227,6 +227,9 @@ namespace LarpPortal.Points
                 HiddenField hidAddID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidAddedByID");
                 HiddenField hidOppNotes = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidOpportunityNotes");
                 HiddenField hidExURL = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidExampleURL");
+                HiddenField hidRole = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidRole");
+                HiddenField hidNPCCampaignID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidNPCCampaignID");
+                HiddenField hidRegistrationID = (HiddenField)gvPoints.Rows[e.RowIndex].FindControl("hidRegistrationID");
                 Label lblEarnDesc = (Label)gvPoints.Rows[e.RowIndex].FindControl("lblEarnDescription");
                 int intCmpPlyrID = 0;
                 int intCharID = 0;
@@ -235,6 +238,11 @@ namespace LarpPortal.Points
                 int intOppDefID = 0;
                 int intRsnID = 0;
                 int intAddID = 0;
+                int intRole = 0;
+                int intNPCCampaignID = 0;
+                int intRegistrationID = 0;
+                int intCampaignID = 0;
+                int.TryParse(Session["CampaignID"].ToString(), out intCampaignID);
                 string strOppNotes = hidOppNotes.Value.ToString();
                 string strExURL = hidExURL.Value.ToString();
                 string strDesc = lblEarnDesc.Text;
@@ -252,6 +260,12 @@ namespace LarpPortal.Points
                     intRsnID = iTemp;
                 if (int.TryParse(hidAddID.Value.ToString(), out iTemp))
                     intAddID = iTemp;
+                if (int.TryParse(hidRole.Value.ToString(), out iTemp))
+                    intRole = iTemp;
+                if (int.TryParse(hidNPCCampaignID.Value.ToString(), out iTemp))
+                    intNPCCampaignID = iTemp;
+                if (int.TryParse(hidRegistrationID.Value.ToString(), out iTemp))
+                    intRegistrationID = iTemp;
                 string strComments = "";
                 if (Session["EditMode"].ToString() == "Edit")
                 {
@@ -275,7 +289,7 @@ namespace LarpPortal.Points
                 Classes.cPoints Point = new Classes.cPoints();
                 Point.UpdateCPOpportunity(UserID, intCPOpp, intCmpPlyrID, intCharID, intOppDefID, intEvntID,
                     strDesc, strOppNotes, strExURL, intRsnID, intAddID, CP, UserID,
-                    DateTime.Now, UserID, strComments);
+                    DateTime.Now, UserID, strComments, intRole, intNPCCampaignID, intCampaignID);
             }
             catch (Exception ex)
             {
@@ -316,6 +330,9 @@ namespace LarpPortal.Points
                     HiddenField hidAddID = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidAddedByID");
                     HiddenField hidOppNotes = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidOpportunityNotes");
                     HiddenField hidExURL = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidExampleURL");
+                    HiddenField hidRole = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidRole");
+                    HiddenField hidNPCCampaignID = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidNPCCampaignID");
+                    HiddenField hidRegistrationID = (HiddenField)gvPoints.Rows[gvrow.RowIndex].FindControl("hidRegistrationID");
                     Label lblEarnDesc = (Label)gvPoints.Rows[gvrow.RowIndex].FindControl("lblEarnDescription");
                     int intCmpPlyrID = 0;
                     int intCharID = 0;
@@ -324,6 +341,11 @@ namespace LarpPortal.Points
                     int intOppDefID = 0;
                     int intRsnID = 0;
                     int intAddID = 0;
+                    int intRole = 0;
+                    int intNPCCampaignID = 0;
+                    int intRegistrationID = 0;
+                    int intCampaignID = 0;
+                    int.TryParse(Session["CampaignID"].ToString(), out intCampaignID);
                     string strOppNotes = hidOppNotes.Value.ToString();
                     string strExURL = hidExURL.Value.ToString();
                     string strDesc = lblEarnDesc.Text;
@@ -341,6 +363,12 @@ namespace LarpPortal.Points
                         intRsnID = iTemp;
                     if (int.TryParse(hidAddID.Value.ToString(), out iTemp))
                         intAddID = iTemp;
+                    if (int.TryParse(hidRole.Value.ToString(), out iTemp))
+                        intRole = iTemp;
+                    if (int.TryParse(hidNPCCampaignID.Value.ToString(), out iTemp))
+                        intNPCCampaignID = iTemp;
+                    if (int.TryParse(hidRegistrationID.Value.ToString(), out iTemp))
+                        intRegistrationID = iTemp;
                     string strComments = "";
                     if (Session["EditMode"].ToString() == "Edit")
                     {
@@ -364,7 +392,7 @@ namespace LarpPortal.Points
                     Classes.cPoints Point = new Classes.cPoints();
                     Point.UpdateCPOpportunity(UserID, intCPOpp, intCmpPlyrID, intCharID, intOppDefID, intEvntID,
                         strDesc, strOppNotes, strExURL, intRsnID, intAddID, CP, UserID,
-                        DateTime.Now, UserID, strComments);
+                        DateTime.Now, UserID, strComments, intRole, intNPCCampaignID, intCampaignID);
                 }
                 catch (Exception ex)
                 {
