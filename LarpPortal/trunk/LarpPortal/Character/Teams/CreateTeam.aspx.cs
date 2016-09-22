@@ -76,38 +76,6 @@ namespace LarpPortal.Character.Teams
             }
         }
 
-        //protected void ProcessButton(object sender, CommandEventArgs e)
-        //{
-        //    //int iUserID = 0;
-        //    //if (Session["UserID"] != null)
-        //    //    int.TryParse(Session["UserID"].ToString(), out iUserID);
-        //    //iUserID = iUserID == 0 ? -1 : iUserID;
-
-        //    //if (Session["SelectedCharacter"] != null)
-        //    //{
-        //    //    string sSelected = Session["SelectedCharacter"].ToString();
-        //    //    int iCharID;
-        //    //    if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-        //    //    {
-        //    //        Classes.cCharacterHistory cCharHist = new Classes.cCharacterHistory();
-        //    //        cCharHist.Load(iCharID, iUserID);
-        //    //        cCharHist.History = ckEditor.Text;
-        //    //        if (e.CommandName.ToUpper() == "SUBMIT")
-        //    //        {
-        //    //            cCharHist.DateSubmitted = DateTime.Now;
-        //    //            lblmodalMessage.Text = "The character history has been submitted.";
-        //    //            SendSubmittedEmail(ckEditor.Text, cCharHist);
-        //    //        }
-        //    //        else
-        //    //            lblmodalMessage.Text = "The character history has been saved.";
-
-        //    //        cCharHist.Save(iCharID, iUserID, Session["UserName"].ToString());
-        //    //        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
-        //    //        _Reload = true;
-        //    //    }
-        //    //}
-        //}
-
         private void SendSubmittedEmail(string sHistory, Classes.cCharacterHistory cHist)
         {
             try
@@ -175,6 +143,10 @@ namespace LarpPortal.Character.Teams
                 slParameters.Add("@TeamTypeID", 1);
                 slParameters.Add("@CampaignID", CampaignID);
                 slParameters.Add("@StatusID", 16);  // Active
+
+                int iCharID;
+                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                    slParameters.Add("@CharacterID", iCharID);
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCMTeams", slParameters, "LARPortal", _UserName);
                 _Reload = true;
             }
