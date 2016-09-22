@@ -166,12 +166,15 @@ namespace LarpPortal.Character.Teams
             }
             else
             {
+                int CampaignID = 0;
+                Int32.TryParse(hidCampaignID.Value, out CampaignID);
                 slParameters = new SortedList();
                 slParameters.Add("@UserID", _iUserID);
-                slParameters.Add("@TeamID", "-1");
+                slParameters.Add("@TeamID", -1);
                 slParameters.Add("@TeamName", tbNewTeamName.Text);
-                slParameters.Add("@TeamTypeID", "1");
-                slParameters.Add("@CampaignID", hidCampaignID.Value);
+                slParameters.Add("@TeamTypeID", 1);
+                slParameters.Add("@CampaignID", CampaignID);
+                slParameters.Add("@StatusID", 16);  // Active
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCMTeams", slParameters, "LARPortal", _UserName);
                 _Reload = true;
             }

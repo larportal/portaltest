@@ -238,10 +238,10 @@
     <Content Include="Character\History\Edit.aspx" />
     <Content Include="Character\History\List.aspx" />
     <Content Include="Character\SkillTable.aspx" />
-    <Content Include="Character\Teams\JoinTeam.aspx" />
-    <Content Include="Character\Teams\ManageTeam.aspx" />
     <Content Include="Character\Teams\CreateTeam.aspx" />
+    <Content Include="Character\Teams\JoinTeam.aspx" />
     <Content Include="Character\Teams\MainScreen.aspx" />
+    <Content Include="Character\Teams\ManageTeam.aspx" />
     <Content Include="Character\WhichCharCardsToPrint.aspx" />
     <Content Include="ckeditor\adapters\jquery.js" />
     <Content Include="ckeditor\build-config.js" />
@@ -1102,20 +1102,6 @@
     <Compile Include="Character\SkillTable.aspx.designer.cs">
       <DependentUpon>SkillTable.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Character\Teams\JoinTeam.aspx.cs">
-      <DependentUpon>JoinTeam.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Character\Teams\JoinTeam.aspx.designer.cs">
-      <DependentUpon>JoinTeam.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Character\Teams\ManageTeam.aspx.cs">
-      <DependentUpon>ManageTeam.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Character\Teams\ManageTeam.aspx.designer.cs">
-      <DependentUpon>ManageTeam.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Character\Teams\CreateTeam.aspx.cs">
       <DependentUpon>CreateTeam.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1123,12 +1109,26 @@
     <Compile Include="Character\Teams\CreateTeam.aspx.designer.cs">
       <DependentUpon>CreateTeam.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Character\Teams\JoinTeam.aspx.cs">
+      <DependentUpon>JoinTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\Teams\JoinTeam.aspx.designer.cs">
+      <DependentUpon>JoinTeam.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Character\Teams\MainScreen.aspx.cs">
       <DependentUpon>MainScreen.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Character\Teams\MainScreen.aspx.designer.cs">
       <DependentUpon>MainScreen.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Character\Teams\ManageTeam.aspx.cs">
+      <DependentUpon>ManageTeam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Character\Teams\ManageTeam.aspx.designer.cs">
+      <DependentUpon>ManageTeam.aspx</DependentUpon>
     </Compile>
     <Compile Include="Character\WhichCharCardsToPrint.aspx.cs">
       <DependentUpon>WhichCharCardsToPrint.aspx</DependentUpon>
