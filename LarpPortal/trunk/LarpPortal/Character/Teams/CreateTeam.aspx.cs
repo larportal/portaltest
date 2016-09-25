@@ -135,7 +135,9 @@ namespace LarpPortal.Character.Teams
             else
             {
                 int CampaignID = 0;
+                int CharacterID = 0;
                 Int32.TryParse(hidCampaignID.Value, out CampaignID);
+                Int32.TryParse(Session["SelectedCharacter"].ToString(), out CharacterID);
                 slParameters = new SortedList();
                 slParameters.Add("@UserID", _iUserID);
                 slParameters.Add("@TeamID", -1);
