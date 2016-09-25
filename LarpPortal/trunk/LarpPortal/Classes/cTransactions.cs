@@ -48,6 +48,8 @@ namespace LarpPortal.Classes
         public int CPAuditCount { get; set; }
         public int StatusID { get; set; }
         public string StatusName { get; set; }
+        public decimal TotalCP { get; set; }
+        public decimal TotalCharacterCap { get; set; }
         //public List<cPageTab> lsPageTabs = new List<cPageTab>();
 
         /// <summary>
@@ -95,6 +97,8 @@ namespace LarpPortal.Classes
                     StatusID = iTemp;
                 if (decimal.TryParse(dRow["CPAmount"].ToString(), out dTemp))
                     CPAmount = dTemp;
+                if (decimal.TryParse(dRow["TotalCharacterCap"].ToString(), out dTemp))
+                    TotalCharacterCap = dTemp;
                 if (DateTime.TryParse(dRow["TransactionDate"].ToString(), out dtTemp))
                     TransactionDate = dtTemp;
                 if (DateTime.TryParse(dRow["CPApprovedDate"].ToString(), out dtTemp))

@@ -121,7 +121,7 @@
                                             <asp:Button ID="btnGotoCharacterSkills" runat="server" CssClass="StandardButton" Text=" UPDATE MY Characters " OnClick="btnGotoCharacterSkills_Click" Width="100%" Height="50px" Font-Size="Medium" />
                                         </div>
                                         <div style="text-align: left" class="text-justify vertical-center-row col-sm-9">
-                                            <asp:Label ID="lblGoToCharacterSkills" runat="server" Text="Add or maintain your character.  You can describe your character, buy skills, define your relationships, provide plot with information, and print your character card." Font-Size="Medium"></asp:Label>
+                                            <asp:Label ID="lblGoToCharacterSkills" runat="server" Text="Add or maintain your character.  You can describe your character, buy skills, join a team, define your relationships, provide plot with information, and print your character card." Font-Size="Medium"></asp:Label>
                                         </div>
                                     </div>
 

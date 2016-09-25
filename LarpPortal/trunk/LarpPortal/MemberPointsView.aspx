@@ -12,8 +12,8 @@
                 </div>
                 <div class="panel-body search-criteria" style="padding-bottom: 5px;">
                     <div style="max-height: 500px; overflow-y: auto;">
-                        <asp:GridView ID="gvPointsList" runat="server" AutoGenerateColumns="false" GridLines="None"
-                            CssClass="table table-striped table-hover table-condensed" BorderColor="Black" BorderStyle="Solid" BorderWidth="1">
+                        <asp:GridView ID="gvPointsList" runat="server" AutoGenerateColumns="false" GridLines="None" CssClass="table table-striped table-hover table-condensed" 
+                            BorderColor="Black" BorderStyle="Solid" BorderWidth="1" OnRowDataBound="gvPointsList_RowDataBound" OnRowCommand="gvPointsList_RowCommand">
                             <Columns>
                                 <asp:BoundField DataField="ReceiptDate" HeaderText=" Earn Date" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="false" HeaderStyle-Wrap="false"
                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
@@ -37,8 +37,34 @@
                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
                                 <asp:BoundField DataField="ReceivingPlayer" HeaderText="Transfer To" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
-                                <asp:BoundField DataField="CPApprovedDate" HeaderText="Approved" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
+                                <asp:BoundField DataField="CPApprovedDate" HeaderText="Approved" DataFormatString="{0: MM/dd/yyyy}" ItemStyle-Wrap="true" HeaderStyle-Wrap="false"
                                     ItemStyle-CssClass="LeftRightPadding" HeaderStyle-CssClass="LeftRightPadding" />
+                                <asp:TemplateField HeaderText="Apply To">
+                                    <ItemTemplate>
+                                        <asp:DropDownList ID="ddlCharacters" runat="server" Visible="true"/>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField ShowHeader="false">
+                                    <ItemTemplate>
+                                        <asp:Button ID="btnApplyBanked" runat="server" Visible="true" CommandName="ApplyBanked" Text="Apply" CssClass="StandardButton" 
+                                            CommandArgument="<%# ((GridViewRow) Container).RowIndex %>" ></asp:Button>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField ShowHeader="false">
+                                    <ItemTemplate>
+                                        <asp:HiddenField ID="hidSentToCampaignPlayerID" runat="server" Value='<%# Eval("SentToCampaignPlayerID") %>' />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField ShowHeader="false">
+                                    <ItemTemplate>
+                                        <asp:HiddenField ID="hidPlayerCPAuditID" runat="server" Value='<%# Eval("PlayerCPAuditID") %>' />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField ShowHeader="false">
+                                    <ItemTemplate>
+                                        <asp:HiddenField ID="hidTotalCharacterCap" runat="server" Value='<%# Eval("TotalCharacterCap") %>' />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
                     </div>
