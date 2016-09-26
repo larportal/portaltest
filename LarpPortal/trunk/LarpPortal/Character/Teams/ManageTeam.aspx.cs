@@ -158,6 +158,7 @@ namespace LarpPortal.Character.Teams
                         dv[0]["Invited"] = true;
                         dv[0]["Message"] = "Invited";
                         dv[0]["UpdateRecord"] = true;
+                        dv[0]["SendEMail"] = "Yes";
                     }
                     break;
 
@@ -210,6 +211,8 @@ namespace LarpPortal.Character.Teams
                     dtTeamMembers.Columns.Add("DisplayRevoke", typeof(string));
                 if (dtTeamMembers.Columns["Message"] == null)
                     dtTeamMembers.Columns.Add("Message", typeof(string));
+                if (dtTeamMembers.Columns["SendEMail"] == null)
+                    dtTeamMembers.Columns.Add("SendEMail", typeof(string));
 
                 if (dtTeamMembers.Columns["UpdateRecord"] == null)
                 {
@@ -255,7 +258,7 @@ namespace LarpPortal.Character.Teams
                 gvMembers.DataSource = dvMember;
                 gvMembers.DataBind();
 
-                DataView dvAvailable = new DataView(dtTeamMembers, "not Approval and not Member and not Invited", "CharacterAKA", DataViewRowState.CurrentRows);
+                DataView dvAvailable = new DataView(dtTeamMembers, "not Approval and not Member and not Invited", "Requested desc, CharacterAKA", DataViewRowState.CurrentRows);
                 gvAvailable.DataSource = dvAvailable;
                 gvAvailable.DataBind();
 
@@ -290,7 +293,6 @@ namespace LarpPortal.Character.Teams
                         return;
                     }
                 }
-//                DataTable dtTeamMembers = Session["TeamMembers"] as DataTable;
                 DataRow[] dChar = dtTeamMembers.Select("CharacterID = " + hidCharacterID.Value);
 
                 foreach ( DataRow dRow in dChar)
@@ -360,6 +362,31 @@ namespace LarpPortal.Character.Teams
                         sProcedureName = "uspDelCMTeamMembers";
 
                     cUtilities.PerformNonQuery(sProcedureName, sParams, "LARPortal", _UserName);
+
+                    if (dRow["SendEMail"].ToString().Length > 0)
+                    {
+                        sParams = new SortedList();
+                        sParams.Add("@TeamID", TeamID);
+                        DataView dvApprover = new DataView(dtTeamMembers, "CurrentUser = " + _iUserID.ToString(), "", DataViewRowState.CurrentRows);
+                        if (dvApprover.Count == 0)
+                        {
+                            dvApprover = new DataView(dtTeamMembers, "Approval = 1", "", DataViewRowState.CurrentRows);
+                        }
+                        if ( dvApprover.Count > 0 )
+                        {
+                            DataRowView dApprover = dvApprover[0];
+                            string sBody = dRow["CharacterAKA"].ToString() + "<br><br>" +
+                                dApprover["CharacterAKA"].ToString() + " has invited you to join the " + dApprover["TeamName"].ToString() + 
+                                " team.  To accept visit larportal.com and Go to Character > Join Team to accept or decline." +
+                                "<br><br>" +
+                                "Thanks!";
+                                string sSubject = dApprover["CharFullName"].ToString() + " has invited you to join " + dApprover["TeamName"].ToString() + " team.";
+
+                                Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+                                cEMS.SendMail(sSubject, sBody, dRow["EmailAddress"].ToString(), "", "", "Teams", _UserName);
+                            }
+                        dRow["SendEMail"] = "";
+                    }
                 }
             }
             lblmodalMessage.Text = "Changes have been saved.";
