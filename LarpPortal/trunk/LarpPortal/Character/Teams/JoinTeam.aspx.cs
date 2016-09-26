@@ -73,29 +73,29 @@ namespace LarpPortal.Character.Teams
             }
         }
 
-        private void SendSubmittedEmail(string sHistory, Classes.cCharacterHistory cHist)
-        {
-            try
-            {
-                if (hidNotificationEMail.Value.Length > 0)
-                {
-                    Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
-                    string sSubject = cHist.CampaignName + " character history from " + cHist.PlayerName + " - " + cHist.CharacterAKA;
+        //private void SendSubmittedEmail(string sHistory, Classes.cCharacterHistory cHist)
+        //{
+        //    try
+        //    {
+        //        if (hidNotificationEMail.Value.Length > 0)
+        //        {
+        //            Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
+        //            string sSubject = cHist.CampaignName + " character history from " + cHist.PlayerName + " - " + cHist.CharacterAKA;
 
-                    string sBody = (string.IsNullOrEmpty(User.NickName) ? User.FirstName : User.NickName) +
-                        " " + User.LastName + " has submitted a character history for " + cHist.CharacterAKA + ".<br><br>" +
-                         sHistory;
-                    Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                    cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "", "", "CharacterHistory", Session["Username"].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                // Write the exception to error log and then throw it again...
-                Classes.ErrorAtServer lobjError = new Classes.ErrorAtServer();
-                lobjError.ProcessError(ex, "CharacterEdit.aspx.SendSubmittedEmail", "", Session.SessionID);
-            }
-        }
+        //            string sBody = (string.IsNullOrEmpty(User.NickName) ? User.FirstName : User.NickName) +
+        //                " " + User.LastName + " has submitted a character history for " + cHist.CharacterAKA + ".<br><br>" +
+        //                 sHistory;
+        //            Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+        //            cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "", "", "CharacterHistory", Session["Username"].ToString());
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Write the exception to error log and then throw it again...
+        //        Classes.ErrorAtServer lobjError = new Classes.ErrorAtServer();
+        //        lobjError.ProcessError(ex, "CharacterEdit.aspx.SendSubmittedEmail", "", Session.SessionID);
+        //    }
+        //}
 
         protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -133,6 +133,7 @@ namespace LarpPortal.Character.Teams
                         dTeamRow["Approval"] = "0";
                         dTeamRow["Member"] = "0";
                         dTeamRow["Requested"] = "1";
+                        dTeamRow["SendEMail"] = "Yes";
                         break;
 
                     case "LEAVETEAM":
@@ -179,6 +180,9 @@ namespace LarpPortal.Character.Teams
 
                 if (dtTeams.Columns["Message"] == null)
                     dtTeams.Columns.Add("Message", typeof(string));
+
+                if (dtTeams.Columns["SendEMail"] == null)
+                    dtTeams.Columns.Add("SendEMail", typeof(string));
 
                 foreach (DataRow dRow in dtTeams.Rows)
                 {
@@ -256,54 +260,88 @@ namespace LarpPortal.Character.Teams
             DataTable dtTeams = Session["JoinTeamData"] as DataTable;
             foreach (DataRow dRow in dtTeams.Rows)
             {
-                if (dRow.RowState != DataRowState.Unchanged)
-                {
-                    string t = dRow["Approval"].ToString() + "/" + dRow["Member"].ToString() + "/" + dRow["Invited"].ToString() + "/" + dRow["Requested"].ToString();
+                string t = dRow["Approval"].ToString() + "/" + dRow["Member"].ToString() + "/" + dRow["Invited"].ToString() + "/" + dRow["Requested"].ToString();
 
-                    int iTeamID = 0;
-                    int iSelectedCharacter = 0;
-                    if ((int.TryParse(dRow["TeamID"].ToString(), out iTeamID)) &&
-                         (int.TryParse(Session["SelectedCharacter"].ToString(), out iSelectedCharacter)))
+                int iTeamID = 0;
+                int iSelectedCharacter = 0;
+                if ((int.TryParse(dRow["TeamID"].ToString(), out iTeamID)) &&
+                     (int.TryParse(Session["SelectedCharacter"].ToString(), out iSelectedCharacter)))
+                {
+                    if (dRow["Approval"].ToString() == "1")
                     {
-                        if (dRow["Approval"].ToString() == "1")
+                        sParams = new SortedList();
+                        sParams.Add("@TeamID", iTeamID);
+                        sParams.Add("@CharacterID", iSelectedCharacter);
+                        sParams.Add("@RoleID", iRoleApprove);
+                        sParams.Add("@UserID", _iUserID);
+                        cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
+                    }
+                    else if (dRow["Member"].ToString() == "1")
+                    {
+                        sParams = new SortedList();
+                        sParams.Add("@TeamID", iTeamID);
+                        sParams.Add("@CharacterID", iSelectedCharacter);
+                        sParams.Add("@RoleID", iRoleMember);
+                        sParams.Add("@UserID", _iUserID);
+                        cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
+                    }
+                    else if (dRow["Requested"].ToString() == "1")
+                    {
+                        sParams = new SortedList();
+                        sParams.Add("@TeamID", iTeamID);
+                        sParams.Add("@CharacterID", iSelectedCharacter);
+                        sParams.Add("@RoleID", iRoleRequested);
+                        sParams.Add("@UserID", _iUserID);
+                        cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
+
+                        // Now check to see if the person needs to have an email sent - only do it on the first time (the time they were invited)
+                        if (dRow["SendEMail"].ToString().Length > 0)
                         {
                             sParams = new SortedList();
                             sParams.Add("@TeamID", iTeamID);
-                            sParams.Add("@CharacterID", iSelectedCharacter);
-                            sParams.Add("@RoleID", iRoleApprove);
-                            sParams.Add("@UserID", _iUserID);
-                            cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
+                            DataTable dtTeamMembers = cUtilities.LoadDataTable("uspGetTeamMembers", sParams, "LARPortal", _UserName, lsRoutineName + ".GetTeamsForRequest");
+                            DataView dvChar = new DataView(dtTeamMembers, "CharacterID = " + iSelectedCharacter.ToString(), "", DataViewRowState.CurrentRows);
+                            if (dvChar.Count > 0)
+                            {
+                                DataRowView dChar = dvChar[0];
+                                DataView dvApprovers = new DataView(dtTeamMembers, "Approval = 1", "", DataViewRowState.CurrentRows);
+                                foreach (DataRowView dApprove in dvApprovers)
+                                {
+                                    string sBody = dApprove["CharacterAKA"].ToString() + "<br><br>" +
+                                        dChar["PlayerName"].ToString() + "'s character " + dChar["CharFullName"].ToString() + " has requested to join your " +
+                                        dApprove["TeamName"].ToString() + " team.  Visit larportal.com and Go to Character > Approve Member to accept or deny the request." +
+                                        "<br><br>" +
+                                        "Thanks!";
+                                    string sSubject = dChar["CharFullName"].ToString() + " has requested to join your " + dApprove["TeamName"].ToString() + " team.";
+
+                                    Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+                                    cEMS.SendMail(sSubject, sBody, dApprove["EmailAddress"].ToString(), "", "", "Teams", _UserName);
+                                }
+                            }
+                            dRow["SendEMail"] = "";
                         }
-                        else if (dRow["Member"].ToString() == "1")
-                        {
-                            sParams = new SortedList();
-                            sParams.Add("@TeamID", iTeamID);
-                            sParams.Add("@CharacterID", iSelectedCharacter);
-                            sParams.Add("@RoleID", iRoleMember);
-                            sParams.Add("@UserID", _iUserID);
-                            cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
-                        }
-                        else if (dRow["Requested"].ToString() == "1")
-                        {
-                            sParams = new SortedList();
-                            sParams.Add("@TeamID", iTeamID);
-                            sParams.Add("@CharacterID", iSelectedCharacter);
-                            sParams.Add("@RoleID", iRoleRequested);
-                            sParams.Add("@UserID", _iUserID);
-                            cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
-                        }
-                        else if (dRow["Invited"].ToString() == "1")
-                        {
-                            sParams = new SortedList();
-                            sParams.Add("@TeamID", iTeamID);
-                            sParams.Add("@CharacterID", iSelectedCharacter);
-                            sParams.Add("@RoleID", iRoleInvite);
-                            sParams.Add("@UserID", _iUserID);
-                            cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
-                        }
+                    }
+                    else if (dRow["Invited"].ToString() == "1")
+                    {
+                        sParams = new SortedList();
+                        sParams.Add("@TeamID", iTeamID);
+                        sParams.Add("@CharacterID", iSelectedCharacter);
+                        sParams.Add("@RoleID", iRoleInvite);
+                        sParams.Add("@UserID", _iUserID);
+                        cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
+                    }
+                    else
+                    {
+                        // Delete the record.
+                        sParams = new SortedList();
+                        sParams.Add("@TeamID", iTeamID);
+                        sParams.Add("@CharacterID", iSelectedCharacter);
+                        sParams.Add("@UserID", _iUserID);
+                        cUtilities.PerformNonQuery("uspDelCMTeamMembers", sParams, "LARPortal", _UserName);
                     }
                 }
             }
+            Session["JoinTeamData"] = dtTeams;
         }
 
         //protected void btnCreateTeam_Click(object sender, EventArgs e)

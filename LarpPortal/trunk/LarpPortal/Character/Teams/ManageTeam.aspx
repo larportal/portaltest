@@ -61,7 +61,7 @@
         <div id="character-info" class="character-info tab-pane active col-sm-12">
             <div class="row col-lg-12" style="padding-left: 15px; padding-top: 10px;">
                 <div class="col-lg-6" style="padding-left: 0px;">
-                    <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Teams" />
+                    <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Characters" />
                 </div>
                 <div class="col-lg-6 text-center">
                     <asp:Label ID="lblChangesNotSaved" runat="server" Font-Bold="true" Text="Changes have not been saved." Style="padding-right: 25px;" Visible="false" Font-Size="X-Large" />
@@ -95,7 +95,7 @@
                 <div class="col-lg-6">
                     <div class="panel col-lg-12" style="padding-top: 0px; padding-bottom: 0px; padding-left: 0px; padding-right: 0px;">
                         <div class="panelheader">
-                            <h2>Teams</h2>
+                            <h2>Members</h2>
                             <div class="panel-body">
                                 <div class="panel-container search-criteria" style="max-height: 400px; overflow-y: auto;">
                                     <asp:GridView ID="gvAvailable" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-hover table-condensed"
