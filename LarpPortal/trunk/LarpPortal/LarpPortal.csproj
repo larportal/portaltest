@@ -240,7 +240,6 @@
     <Content Include="Character\SkillTable.aspx" />
     <Content Include="Character\Teams\CreateTeam.aspx" />
     <Content Include="Character\Teams\JoinTeam.aspx" />
-    <Content Include="Character\Teams\MainScreen.aspx" />
     <Content Include="Character\Teams\ManageTeam.aspx" />
     <Content Include="Character\WhichCharCardsToPrint.aspx" />
     <Content Include="ckeditor\adapters\jquery.js" />
@@ -1115,13 +1114,6 @@
     </Compile>
     <Compile Include="Character\Teams\JoinTeam.aspx.designer.cs">
       <DependentUpon>JoinTeam.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Character\Teams\MainScreen.aspx.cs">
-      <DependentUpon>MainScreen.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Character\Teams\MainScreen.aspx.designer.cs">
-      <DependentUpon>MainScreen.aspx</DependentUpon>
     </Compile>
     <Compile Include="Character\Teams\ManageTeam.aspx.cs">
       <DependentUpon>ManageTeam.aspx</DependentUpon>
