@@ -422,9 +422,17 @@ namespace LarpPortal.PELs
                 if (!File.Exists(sProfileFileName))
                     dRow["UserPhoto"] = "/img/BlankProfile.png";
             }
-            DataView dvComments = new DataView(_dtPELComments, "PELAnswerID = '" + sAnswerID + "'", "DateAdded desc", DataViewRowState.CurrentRows);
-            dlComments.DataSource = dvComments;
-            dlComments.DataBind();
+            try
+            {
+                DataView dvComments = new DataView(_dtPELComments, "PELAnswerID = '" + sAnswerID + "'", "DateAdded desc", DataViewRowState.CurrentRows);
+                dlComments.DataSource = dvComments;
+                dlComments.DataBind();
+            }
+            catch
+            {
+
+            }
+
         }
 
 
