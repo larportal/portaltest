@@ -680,6 +680,20 @@ namespace LarpPortal.Events
                 case "UNREGISTER":
                     sStatusToSearchFor = "Canceled";
                     sRegistrationMessage = "Your registration has been canceled.";
+
+                    SortedList sParams = new SortedList();
+                    string sSQL = "select StatusID, StatusName from MDBStatus " +
+                        "where StatusType like 'Registration' and StatusName = 'Canceled' " +
+                            "and DateDeleted is null";
+                    DataTable dtRegStatus = Classes.cUtilities.LoadDataTable(sSQL, sParams, "LARPortal", Session["UserName"].ToString(), "EventRegistration.btnRegister_Command",
+                        Classes.cUtilities.LoadDataTableCommandType.Text);
+                    DataView dvRegStatus = new DataView(dtRegStatus, "StatusName = '" + sStatusToSearchFor + "'", "", DataViewRowState.CurrentRows);
+                    if (dvRegStatus.Count > 0)
+                    {
+                        int iRegStatus;
+                        if (int.TryParse(dvRegStatus[0]["StatusID"].ToString(), out iRegStatus))
+                            hidRegistrationStatusID.Value = iRegStatus.ToString();
+                    }
                     break;
 
                 case "REGISTER":

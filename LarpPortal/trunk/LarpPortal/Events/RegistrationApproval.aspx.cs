@@ -88,6 +88,15 @@ namespace LarpPortal.Events
             sParams.Add("@EventID", ddlEvent.SelectedValue);
             DataSet dsRegistrations = Classes.cUtilities.LoadDataSet("uspGetEventRegistrations", sParams, "LARPortal", Session["UserName"].ToString(), "RegistrationApproval.ddlEvent_SelectedIndexChanged");
 
+            if (dsRegistrations.Tables[1].Columns["DisplayEditButtons"] == null)
+            {
+                DataColumn dcDisplayEditButtons = new DataColumn();
+                dcDisplayEditButtons.ColumnName = "DisplayEditButtons";
+                dcDisplayEditButtons.DataType = typeof(Boolean);
+                dcDisplayEditButtons.DefaultValue = true;
+                dsRegistrations.Tables[1].Columns.Add(dcDisplayEditButtons);
+            }
+
             foreach (DataRow dEventInfo in dsRegistrations.Tables[0].Rows)
             {
                 string sEventInfo = "";
@@ -137,6 +146,9 @@ namespace LarpPortal.Events
                 }
                 if (dRow["RoleAlignmentDescription"].ToString() != "PC")
                     dRow["CharacterName"] = dRow["RoleAlignmentDescription"].ToString();
+
+                if (dRow["RegistrationStatus"].ToString().ToUpper() == "CANCELED")
+                    dRow["DisplayEditButtons"] = false;
             }
 
             gvRegistrations.DataSource = dsRegistrations.Tables[1];
