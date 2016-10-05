@@ -118,8 +118,9 @@
                                                 <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                     <ItemTemplate>
                                                         <asp:Button ID="btnApprove" runat="server" CommandName="Approve" Text="Approve" Width="100px" CssClass="StandardButton" 
-                                                            CommandArgument='<%# Eval("RegistrationID") %>' />
-                                                        <asp:Button ID="btnEdit" runat="server" CommandName="Edit" Text="Edit" Width="100px" CssClass="StandardButton" />
+                                                            CommandArgument='<%# Eval("RegistrationID") %>' Visible='<%# DataBinder.Eval(Container.DataItem,"DisplayEditButtons") %>' />
+                                                        <asp:Button ID="btnEdit" runat="server" CommandName="Edit" Text="Edit" Width="100px" CssClass="StandardButton" 
+                                                            Visible='<%# DataBinder.Eval(Container.DataItem,"DisplayEditButtons") %>' />
                                                     </ItemTemplate>
                                                     <EditItemTemplate>
                                                         <asp:Button ID="btnUpdate" runat="server" CommandName="Update" Text="Update" Width="100px" CssClass="StandardButton" />
