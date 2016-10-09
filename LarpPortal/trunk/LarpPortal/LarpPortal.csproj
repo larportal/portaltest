@@ -495,6 +495,7 @@
     <Content Include="Events\RegistrationHousing.aspx" />
     <Content Include="Events\RegistrationApproval.aspx" />
     <Content Include="General\MemberHome.aspx" />
+    <Content Include="img\aerune - Copy.jpg" />
     <Content Include="img\aerune.jpg" />
     <Content Include="img\Ariath.JPG" />
     <Content Include="img\ArrowLeft.png" />
