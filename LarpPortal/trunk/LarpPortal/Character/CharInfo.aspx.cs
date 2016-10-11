@@ -120,8 +120,41 @@ namespace LarpPortal.Character
                         tbDateLastEvent.Text = "??";
                         //                        tbType.Text = cChar.CharType.Description;
                         tbType.Text = cChar.CharType.Description;
-                        tbTeam.Text = "Team";
-                        lblTeam.Text = cChar.TeamName;
+
+                        if (cChar.Teams.Count == 0)
+                        {
+                            ddlTeamList.Visible = false;
+                            lblTeam.Visible = true;
+                            lblTeam.Text = "No Teams";
+                        }
+                        else if (cChar.Teams.Count == 1)
+                        {
+                            ddlTeamList.Visible = false;
+                            lblTeam.Visible = true;
+                            lblTeam.Text = cChar.TeamName;
+                        }
+                        else
+                        {
+                            ddlTeamList.Visible = true;
+                            lblTeam.Visible = false;
+                            ddlTeamList.DataSource = cChar.Teams;
+                            ddlTeamList.DataTextField = "TeamName";
+                            ddlTeamList.DataValueField = "TeamID";
+                            ddlTeamList.DataBind();
+
+                            ddlTeamList.ClearSelection();
+
+                            foreach (ListItem litem in ddlTeamList.Items)
+                            {
+                                litem.Selected = false;
+                                if (litem.Value == cChar.TeamID.ToString())
+                                    litem.Selected = true;
+                            }
+                            if (ddlTeamList.SelectedIndex < 0)
+                                ddlTeamList.SelectedIndex = 0;
+                        }
+                        //tbTeam.Text = "Team";
+                        //lblTeam.Text = cChar.TeamName;
                         tbNumOfDeaths.Text = cChar.Deaths.Count.ToString();
                        // lblNumOfDeaths.Text = cChar.Deaths.Count.ToString();
                         tbDOB.Text = cChar.DateOfBirth;
@@ -325,6 +358,13 @@ namespace LarpPortal.Character
 
                     //tbType.Text = cChar.CharType.Description;
                     //tbTeam.Text = "Team";
+
+                    // If the drop down list is visible, it means they belong to multiple teams so we need to check it.
+                    if (ddlTeamList.Visible)
+                    {
+                        if (int.TryParse(ddlTeamList.SelectedValue, out iTemp))
+                            cChar.TeamID = iTemp;
+                    }
 
                     cChar.DateOfBirth = tbDOB.Text;
                     if (ViewState["UserIDPicture"] != null)

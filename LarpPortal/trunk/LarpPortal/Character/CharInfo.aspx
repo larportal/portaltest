@@ -138,9 +138,9 @@
                                         <td colspan="1">
                                             <asp:TextBox ID="tbType" runat="server" BackColor="LightGray" Enabled="false" /></td>
                                         <td colspan="2"></td>
-                                        <td class="TableLabel">Team</td>
+                                        <td class="TableLabel">Primary Team</td>
                                         <td>
-                                            <asp:TextBox ID="tbTeam" runat="server" BackColor="LightGray" Enabled="false" />
+<asp:DropDownList ID="ddlTeamList" runat="server" />
                                             <asp:Label ID="lblTeam" runat="server" /></td>
                                         <td class="TableLabel"># of Deaths</td>
                                         <td>
