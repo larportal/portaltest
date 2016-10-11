@@ -89,6 +89,7 @@ namespace LarpPortal.Classes
         public cCharacterType CharType = new cCharacterType();
         public cCharacterStatus Status = new cCharacterStatus();
         public List<cSkillPool> SkillPools = new List<cSkillPool>();
+        public List<cTeamInfo> Teams = new List<cTeamInfo>();
 
         public int LoadCharacter(int CharacterIDToLoad)
         {
@@ -140,6 +141,7 @@ namespace LarpPortal.Classes
             dsCharacterInfo.Tables[16].TableName = "ProfilePicture";
             dsCharacterInfo.Tables[17].TableName = "CampaignInfo";
             dsCharacterInfo.Tables[18].TableName = "CHCharacterSkillsPoints";
+            dsCharacterInfo.Tables[19].TableName = "CMTeamMemberInfo";
 
             iNumCharacterRecords = dsCharacterInfo.Tables["CHCharacters"].Rows.Count;
 
@@ -222,7 +224,7 @@ namespace LarpPortal.Classes
                 if (int.TryParse(dRow["CharacterSkillSetID"].ToString(), out iTemp))
                     CharacterSkillSetID = iTemp;
 
-                if (int.TryParse(dRow["TeamID"].ToString(), out iTemp))
+                if (int.TryParse(dRow["PrimaryTeamID"].ToString(), out iTemp))
                 {
                     TeamID = iTemp;
                     TeamName = dRow["TeamName"].ToString();
@@ -620,6 +622,30 @@ namespace LarpPortal.Classes
                 SkillPools.Add(NewPool);
             }
 
+            // The only teams we want to do are teams where the person is an actual member.
+            DataView dvTeams = new DataView(dsCharacterInfo.Tables["CMTeamMemberInfo"], "Approval or Member", "", DataViewRowState.CurrentRows);
+            foreach (DataRowView dRow in dvTeams)
+            {
+                Classes.cTeamInfo NewTeam = new cTeamInfo();
+                NewTeam.TeamName = dRow["TeamName"].ToString();
+                NewTeam.RoleDescription = dRow["RoleDescription"].ToString();
+                if (int.TryParse(dRow["TeamID"].ToString(), out iTemp))
+                    NewTeam.TeamID = iTemp;
+                if (int.TryParse(dRow["CharacterID"].ToString(), out iTemp))
+                    NewTeam.CharacterID = iTemp;
+                if (int.TryParse(dRow["RoleID"].ToString(), out iTemp))
+                    NewTeam.RoleID = iTemp;
+                if (bool.TryParse(dRow["Approval"].ToString(), out bTemp))
+                    NewTeam.Approval = bTemp;
+                if (bool.TryParse(dRow["Member"].ToString(), out bTemp))
+                    NewTeam.Member = bTemp;
+                if (bool.TryParse(dRow["Requested"].ToString(), out bTemp))
+                    NewTeam.Requested = bTemp;
+                if (bool.TryParse(dRow["Invited"].ToString(), out bTemp))
+                    NewTeam.Invited = bTemp;
+                Teams.Add(NewTeam);
+            }
+
             return iNumCharacterRecords;
         }
 
@@ -668,6 +694,7 @@ namespace LarpPortal.Classes
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@Treasure", Treasure);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@Makeup", Makeup);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@PlayerComments", PlayerComments);
+                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@PrimaryTeamID", TeamID);
                     CmdCHCharacterInsUpd.Parameters.AddWithValue("@Comments", Comments);
 
                     CmdCHCharacterInsUpd.ExecuteNonQuery();
