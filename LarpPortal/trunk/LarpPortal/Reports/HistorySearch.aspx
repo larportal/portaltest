@@ -1,9 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Reports/Reporting.master" AutoEventWireup="true" CodeBehind="PELSearch.aspx.cs" Inherits="LarpPortal.Reports.PELSearch" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Reports/Reporting.master" AutoEventWireup="true" CodeBehind="HistorySearch.aspx.cs" Inherits="LarpPortal.Reports.HistorySearch" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ReportsContent" runat="server">
     <aside></aside>
     <div role="form" class="form-horizontal form-condensed">
         <div class="col-sm-12">
-            <h3 class="col-sm-12">PEL Keyword Search</h3>
+            <h3 class="col-sm-12">Character History Keyword Search</h3>
         </div>
         <asp:Panel ID="pnlParameters" runat="server" Visible="true">
             <div class="col-sm-12">
@@ -51,24 +51,21 @@
                             <div id="Div1" class="panel-wrapper" runat="server">
                                 <div class="panel">
                                     <div class="panelheader">
-                                        <h2>PEL Keyword Search Results</h2>
+                                        <h2>History Keyword Search Results</h2>
                                         <div class="panel-body">
                                             <div class="panel-container" style="height: 500px; overflow: auto;">
-                                                <asp:GridView ID="gvPELSearch" runat="server"
+                                                <asp:GridView ID="gvHistorySearch" runat="server"
                                                     AutoGenerateColumns="false"
-                                                    OnRowDataBound="gvPELSearch_RowDataBound"
+                                                    OnRowDataBound="gvHistorySearch_RowDataBound"
                                                     GridLines="None"
                                                     HeaderStyle-Wrap="false"
                                                     CssClass="table table-striped table-hover table-condensed"
                                                     >
                                                     <Columns>
-                                                        <asp:BoundField DataField="PlayerType" HeaderText="Type" />
-                                                        <asp:BoundField DataField="characteraka" HeaderText="Character" />
+                                                        <asp:BoundField DataField="CharacterAKA" HeaderText="Character" />
                                                         <asp:BoundField DataField="Player" HeaderText="Player" />
-                                                        <asp:BoundField DataField="EventDate" HeaderText="Event Date" />
-                                                        <asp:BoundField DataField="eventname" HeaderText="Event Description" />
-                                                        <asp:BoundField DataField="PELString" HeaderText="PEL String" />
-                                                        <asp:HyperLinkField DataNavigateUrlFields="Redirecter" Text="View complete PEL" Target="_blank" 
+                                                        <asp:BoundField DataField="HistoryString" HeaderText="History String" />
+                                                        <asp:HyperLinkField DataNavigateUrlFields="Redirecter" Text="View complete History" Target="_blank" 
                                                             ControlStyle-Font-Size="X-Small" ItemStyle-Wrap="false" 
                                                             ControlStyle-ForeColor="DarkBlue" ControlStyle-Font-Underline="true" />
                                                     </Columns>

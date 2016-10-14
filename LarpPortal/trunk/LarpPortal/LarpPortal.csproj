@@ -514,6 +514,8 @@
     <Content Include="Reports\CampaignPlayers.aspx" />
     <Content Include="Reports\CharacterSkillStats.aspx" />
     <Content Include="Reports\CheckIn.aspx" />
+    <Content Include="Reports\HistoryDisplay.aspx" />
+    <Content Include="Reports\HistorySearch.aspx" />
     <Content Include="Reports\PELDisplay.aspx" />
     <Content Include="Reports\CalendarReport.aspx" />
     <Content Include="Reports\CharacterCardPrint.aspx" />
@@ -1316,6 +1318,20 @@
     </Compile>
     <Compile Include="Reports\CheckIn.aspx.designer.cs">
       <DependentUpon>CheckIn.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\HistoryDisplay.aspx.cs">
+      <DependentUpon>HistoryDisplay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\HistoryDisplay.aspx.designer.cs">
+      <DependentUpon>HistoryDisplay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\HistorySearch.aspx.cs">
+      <DependentUpon>HistorySearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\HistorySearch.aspx.designer.cs">
+      <DependentUpon>HistorySearch.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\PELDisplay.aspx.cs">
       <DependentUpon>PELDisplay.aspx</DependentUpon>
