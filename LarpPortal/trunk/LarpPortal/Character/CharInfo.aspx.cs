@@ -124,19 +124,19 @@ namespace LarpPortal.Character
                         if (cChar.Teams.Count == 0)
                         {
                             ddlTeamList.Visible = false;
-                            lblTeam.Visible = true;
-                            lblTeam.Text = "No Teams";
+                            tbTeam.Visible = true;
+                            tbTeam.Text = "No Teams";
                         }
                         else if (cChar.Teams.Count == 1)
                         {
                             ddlTeamList.Visible = false;
-                            lblTeam.Visible = true;
-                            lblTeam.Text = cChar.TeamName;
+                            tbTeam.Visible = true;
+                            tbTeam.Text = cChar.TeamName;
                         }
                         else
                         {
                             ddlTeamList.Visible = true;
-                            lblTeam.Visible = false;
+                            tbTeam.Visible = false;
                             ddlTeamList.DataSource = cChar.Teams;
                             ddlTeamList.DataTextField = "TeamName";
                             ddlTeamList.DataValueField = "TeamID";

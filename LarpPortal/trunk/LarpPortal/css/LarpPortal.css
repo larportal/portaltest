@@ -66,9 +66,14 @@ Make sure this is the last CSS in the include list. If not some of these items m
     padding: 0px 0px 0px 0px;
 }
 
-[disabled] { /* Text and background colour, medium red on light yellow */
+/*[disabled] {   -- Text and background colour, medium red on light yellow
     color: #933;
     background-color: #ffc;
+}*/
+
+
+[disabled] {
+    background-color: #f0f0ef;
 }
 
 .control-label {
