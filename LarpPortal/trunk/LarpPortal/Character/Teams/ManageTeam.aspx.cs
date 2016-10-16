@@ -367,7 +367,8 @@ namespace LarpPortal.Character.Teams
                     {
                         sParams = new SortedList();
                         sParams.Add("@TeamID", TeamID);
-                        DataView dvApprover = new DataView(dtTeamMembers, "CurrentUser = " + _iUserID.ToString(), "", DataViewRowState.CurrentRows);
+                        // Fixed Current User filter. Using wrong field.
+                        DataView dvApprover = new DataView(dtTeamMembers, "CurrentUserID = " + _iUserID.ToString(), "", DataViewRowState.CurrentRows);
                         if (dvApprover.Count == 0)
                         {
                             dvApprover = new DataView(dtTeamMembers, "Approval = 1", "", DataViewRowState.CurrentRows);
