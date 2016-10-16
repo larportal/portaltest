@@ -2,23 +2,19 @@
 
 <asp:Content ID="Styles" runat="server" ContentPlaceHolderID="CharHeaderStyles">
     <style type="text/css">
-        .TableTextBox
-        {
+        .TableTextBox {
             border: 1px solid black;
         }
 
-        th, tr:nth-child(even) > td
-        {
+        th, tr:nth-child(even) > td {
             background-color: #ffffff;
         }
 
-        .CharInfoTable
-        {
+        .CharInfoTable {
             border-collapse: collapse;
         }
 
-            .CharInfoTable td
-            {
+            .CharInfoTable td {
                 padding: 4px;
             }
     </style>
@@ -127,7 +123,7 @@
                                             <asp:TextBox ID="tbHome" runat="server" CssClass="TableTextBox" /></td>
                                         <td class="TableLabel">Last Event</td>
                                         <td>
-                                            <asp:TextBox ID="tbDateLastEvent" runat="server" BackColor="LightGray" Enabled="false" /><asp:Label ID="lblDateLastEvent" runat="server" /></td>
+                                            <asp:TextBox ID="tbDateLastEvent" runat="server" Enabled="false" /><asp:Label ID="lblDateLastEvent" runat="server" /></td>
                                         <td>
                                             <asp:FileUpload ID="ulFile" runat="server" />
                                         </td>
@@ -136,15 +132,16 @@
                                     <tr>
                                         <td class="TableLabel">Type</td>
                                         <td colspan="1">
-                                            <asp:TextBox ID="tbType" runat="server" BackColor="LightGray" Enabled="false" /></td>
+                                            <asp:TextBox ID="tbType" runat="server" Enabled="false" /></td>
                                         <td colspan="2"></td>
                                         <td class="TableLabel">Primary Team</td>
                                         <td>
-<asp:DropDownList ID="ddlTeamList" runat="server" />
-                                            <asp:Label ID="lblTeam" runat="server" /></td>
+                                            <asp:DropDownList ID="ddlTeamList" runat="server" />
+                                            <asp:TextBox ID="tbTeam" runat="server" CssClass="col-sm-12" Enabled="false" />
+                                        </td>
                                         <td class="TableLabel"># of Deaths</td>
                                         <td>
-                                            <asp:TextBox ID="tbNumOfDeaths" runat="server" BackColor="LightGray" Enabled="false" /></td>
+                                            <asp:TextBox ID="tbNumOfDeaths" runat="server" Enabled="false" /></td>
                                         <td style="text-align: right;">
                                             <asp:Button ID="btnUpload" runat="server" Text="Upload" CssClass="StandardButton" OnClick="btnSavePicture_Click" Width="100" /></td>
                                     </tr>
@@ -161,7 +158,7 @@
                                             <asp:DropDownList ID="ddlRace" runat="server" /></td>
                                         <td class="TableLabel">DOD</td>
                                         <td>
-                                            <asp:TextBox ID="tbDOD" runat="server" BackColor="LightGray" Enabled="false" />
+                                            <asp:TextBox ID="tbDOD" runat="server" Enabled="false" />
                                             <asp:Label ID="lblDOD" runat="server" />
                                         </td>
                                         <th>
@@ -234,7 +231,7 @@
             </div>
 
             <div class="row" style="padding-left: 15px; text-align: right; padding-top: 10px;">
-                    <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="StandardButton" Width="100px" OnClick="btnSave_Click" />
+                <asp:Button ID="btnSave" runat="server" Text="Save" CssClass="StandardButton" Width="100px" OnClick="btnSave_Click" />
             </div>
 
 
@@ -253,7 +250,8 @@
                 </div>
                 <div class="modal-body" style="background-color: white;">
                     <p>
-                        <asp:Label ID="lblmodalError" runat="server" /></p>
+                        <asp:Label ID="lblmodalError" runat="server" />
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <asp:Button ID="btnCloseError" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseError_Click" />
@@ -271,7 +269,8 @@
                 </div>
                 <div class="modal-body" style="background-color: white;">
                     <p>
-                        <asp:Label ID="lblmodalMessage" runat="server" /></p>
+                        <asp:Label ID="lblmodalMessage" runat="server" />
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseMessage_Click" />

@@ -175,13 +175,13 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.DropDownList ddlTeamList;
         
         /// <summary>
-        /// lblTeam control.
+        /// tbTeam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblTeam;
+        protected global::System.Web.UI.WebControls.TextBox tbTeam;
         
         /// <summary>
         /// tbNumOfDeaths control.
