@@ -244,6 +244,7 @@ namespace LarpPortal.Character.Teams
                         dRow["DisplayInvite"] = "0";
                         dRow["DisplayAccept"] = "0";
                         dRow["DisplayRevoke"] = "1";
+                        dRow["Message"] = "Invited";
                     }
                     else
                     {
