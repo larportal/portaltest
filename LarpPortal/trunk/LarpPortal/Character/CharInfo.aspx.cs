@@ -131,7 +131,7 @@ namespace LarpPortal.Character
                         {
                             ddlTeamList.Visible = false;
                             tbTeam.Visible = true;
-                            tbTeam.Text = cChar.TeamName;
+                            tbTeam.Text = cChar.Teams[0].TeamName;
                         }
                         else
                         {
