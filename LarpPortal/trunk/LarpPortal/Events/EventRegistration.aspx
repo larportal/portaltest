@@ -103,20 +103,24 @@
             win.focus();
         }
 
-        function enablePayNowButton(ddlId)
-        {
+        function enablePayNowButton(ddlId) {
             var PayPalID = document.getElementById('<%= hidPayPalTypeID.ClientID%>').value;
             var ControlName = document.getElementById(ddlId.id);
-            
-            if(ControlName.value == PayPalID) 
-            {
+
+            if (ControlName.value == PayPalID) {
                 document.getElementById('<%= btnPayNow.ClientID %>').style.display = '';
             }
-            else
-            {
+            else {
                 document.getElementById('<%= btnPayNow.ClientID %>').style.display = 'none';
             }
-        } 
+        }
+
+        function openNoPCChar() {
+            $('#modalNoPCChar').modal('show');
+        }
+        function closeNoPCChar() {
+            $('#modalNoPCChar').hide();
+        }
 
     </script>
 
@@ -320,7 +324,7 @@
                                         <div class="panelheader NoPadding">
                                             <h2>Event Registration</h2>
                                             <div class="panel-body NoPadding">
-                                                <div class="panel-container NoPadding" style="padding: 5px 5px 5px 5px;">
+                                                <div class="panel-container NoPadding" style="padding: 5px 5px 5px 5px;" runat="server">
                                                     <div class="row PrePostPadding">
                                                         <div class="TableLabel col-lg-3">
                                                             My Current Status:
@@ -480,8 +484,8 @@
                                                             <div class="row PrePostPadding">
                                                                 <div class="TableLabel col-lg-3">Payment Choice: </div>
                                                                 <div class="col-lg-4 NoPadding">
-                                                                    <asp:DropDownList ID="ddlPaymentChoice" runat="server" onChange="enablePayNowButton(this);"  />
-                                                                    <asp:Button ID="btnPayNow" runat="server" CssClass="StandardButton" Width="125" Text="Pay Now" 
+                                                                    <asp:DropDownList ID="ddlPaymentChoice" runat="server" />
+                                                                    <asp:Button ID="btnPayNow" runat="server" CssClass="StandardButton" Width="125" Text="Pay Now"
                                                                         OnClientClick="openPayPalWindow(); return false;" />
                                                                 </div>
                                                             </div>
@@ -596,10 +600,38 @@
         </div>
     </div>
 
+    <div class="modal" id="modalNoPCChar" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: red;">
+                    <a class="close" data-dismiss="modal" style="color: white;">×</a>
+                    LARPortal Registration
+                </div>
+                <div class="modal-body" style="background-color: white;">
+                    <p>
+                        You do not have any PC Characters. In order to register for an event as a PC, you must first create one.<br />
+                        <br />
+                        Do you want to create a character now?
+                </div>
+                <div class="modal-footer">
+                    <div class="text-left col-lg-6">
+                        <asp:Button ID="btnStayAsNPC" runat="server" Text="Stay as NPC" Width="150px" CssClass="StandardButton" OnClick="btnStayAsNPC_Click" />
+                    </div>
+                    <div class="text-right col-lg-6">
+                        <asp:Button ID="btnCreateACharacter" runat="server" Text="Create Character" Width="150px" CssClass="StandardButton" OnClick="btnCreateACharacter_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <asp:HiddenField ID="hidCampaignName" runat="server" />
     <asp:HiddenField ID="hidCampaignEMail" runat="server" />
     <asp:HiddenField ID="hidCharAKA" runat="server" />
     <asp:HiddenField ID="hidPlayerEMail" runat="server" />
     <asp:HiddenField ID="hidRegistrationStatusID" runat="server" />
     <asp:HiddenField ID="hidPayPalTypeID" runat="server" />
+
+    <asp:HiddenField ID="hidHasPCChar" runat="server" />
+
 </asp:Content>
