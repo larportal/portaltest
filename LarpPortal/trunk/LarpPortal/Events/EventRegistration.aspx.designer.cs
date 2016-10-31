@@ -787,6 +787,24 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.Button btnClose;
         
         /// <summary>
+        /// btnStayAsNPC control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnStayAsNPC;
+        
+        /// <summary>
+        /// btnCreateACharacter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCreateACharacter;
+        
+        /// <summary>
         /// hidCampaignName control.
         /// </summary>
         /// <remarks>
@@ -839,5 +857,14 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidPayPalTypeID;
+        
+        /// <summary>
+        /// hidHasPCChar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidHasPCChar;
     }
 }

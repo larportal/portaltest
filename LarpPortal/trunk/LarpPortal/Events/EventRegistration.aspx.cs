@@ -22,6 +22,7 @@ namespace LarpPortal.Events
             ddlFullEvent.Attributes.Add("onchange", "ddl_changed(this);");
             ddlSendToCampaign.Attributes.Add("onChange", "ddlSendToCampaign(this);");
             tbSelectedMeals.Attributes.Add("placeholder", "Click to select the meals you want.");
+            ddlPaymentChoice.Attributes.Add("onChange", "enablePayNowButton(this);");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -277,7 +278,9 @@ namespace LarpPortal.Events
                 hidPlayerEMail.Value = dsEventInfo.Tables["Character"].Rows[0]["EMailAddress"].ToString();
             }
             else
+            {
                 hidCharAKA.Value = "";
+            }
 
             if (dsEventInfo.Tables["Character"].Rows.Count == 1)
             {
@@ -285,6 +288,11 @@ namespace LarpPortal.Events
                 lblCharacter.Visible = true;
                 lblCharacter.Text = ddlCharacterList.Items[0].Text;
             }
+
+            if (dsEventInfo.Tables["Character"].Rows.Count == 0)
+                hidHasPCChar.Value = "0";
+            else
+                hidHasPCChar.Value = "1";
 
             //ddlHousing.DataSource = new DataView(dsEventInfo.Tables["Housing"], "", "Description", DataViewRowState.CurrentRows);
             //ddlHousing.DataTextField = "Description";
@@ -310,6 +318,18 @@ namespace LarpPortal.Events
             ddlRoles.DataTextField = "Description";
             ddlRoles.DataValueField = "RoleAlignmentID";
             ddlRoles.DataBind();
+
+            // Make the button to stay and be an NPC invisible. Only want to display this is the person has the NPC role.
+            btnStayAsNPC.Visible = false;
+
+            foreach (DataRow dRole in dtJustRoleNames.Rows)
+            {
+                if ((dRole["Description"].ToString().ToUpper().Contains("NPC")) ||
+                    (dRole["Description"].ToString().ToUpper().Contains("STAFF")))
+                {
+                    btnStayAsNPC.Visible = true;
+                }
+            }
 
             if (dtJustRoleNames.Rows.Count == 1)
             {
@@ -463,8 +483,8 @@ namespace LarpPortal.Events
                     //}
                     //else
                     //{
-                        lblReqstdHousing.Visible = false;
-                        tbReqstdHousing.Visible = true;
+                    lblReqstdHousing.Visible = false;
+                    tbReqstdHousing.Visible = true;
                     //}
 
                     DateTime dtTemp;
@@ -831,6 +851,14 @@ namespace LarpPortal.Events
         {
             if (ddlRoles.SelectedItem.Text == "PC")
             {
+                if (hidHasPCChar.Value == "0")
+                {
+                    // The person has no character so we need to display the message saying they need to create the character.
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openNoPCChar();", true);
+                    _Reload = false;
+                    return;
+                }
+
                 mvCharacters.SetActiveView(vwCharacter);
                 divTeams.Visible = true;
                 //                divHousing.Visible = true;
@@ -903,6 +931,21 @@ namespace LarpPortal.Events
 
             if (bActualRegistration)
                 cPoints.CreateRegistrationCPOpportunity(iUserID, iCampaignID, RoleAlignment, iCharacterID, iReasonID, iEventID, iRegistrationID);
+        }
+
+        protected void btnCreateACharacter_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("../Character/CharAdd.aspx", true);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openNoPCChar();", true);
+            _Reload = false;
+            return;
+        }
+
+        protected void btnStayAsNPC_Click(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeNoPCChar();", true);
+            _Reload = false;
+            return;
         }
     }
 }
