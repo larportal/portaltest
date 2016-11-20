@@ -32,7 +32,10 @@ namespace LarpPortal
             int CampaignID = 0;
             int CharacterID = 0;
             if (Session["CampaignID"] != null)
+            {
                 CampaignID = (Session["CampaignID"].ToString().ToInt32());
+            }
+
             string CampaignDDL = "";
             if(Session["CampaignName"] != null)
                 CampaignDDL = Session["CampaignName"].ToString();
@@ -50,7 +53,12 @@ namespace LarpPortal
             {
                 // Find the status (fifth column 0 based).  If 'Banked' make the ddl and button visible
                 string stat = e.Row.Cells[4].Text;
-                if(stat != "Banked")
+                string spentat = e.Row.Cells[8].Text;
+                string currentcampaign = "";
+                if (Session["CampaignName"] != null)
+                    currentcampaign = Session["CampaignName"].ToString();
+                string currentcampaignid = Session["CampaignID"].ToString();
+                if(stat != "Banked" || spentat != currentcampaign)
                 {
                     e.Row.Cells[12].Visible = false;
                     e.Row.Cells[13].Visible = false;

@@ -39,6 +39,7 @@ namespace LarpPortal.Classes
         private double _TotalCharacterCap;
         private int _EarliestCPApplicationYear;
         private int _CampaignID;
+        private int _ReceivedFromCampaignID;
         private double _TotalCP;
         private int _PLAuditStatus;
 
@@ -171,6 +172,11 @@ namespace LarpPortal.Classes
         {
             get { return _CampaignID; }
             set { _CampaignID = value; }
+        }
+        public int ReceivedFromCampaignID
+        {
+            get { return _ReceivedFromCampaignID; }
+            set { _ReceivedFromCampaignID = value; }
         }
         public double TotalCP
         {
@@ -342,6 +348,7 @@ namespace LarpPortal.Classes
         public void AssignPELPoints(int UserID, int CampaignPlayer, int Character, int CampaignCPOpportunityDefault, int Event,
             string EventDescription, int Reason, int Campaign, double CPVal, DateTime RecptDate)
         {
+            int ReceivedFromCampaignID = _ReceivedFromCampaignID;
             string stStoredProc = "uspGetCampaignCPOpportunityByID";
             string stCallingMethod = "cPoints.AssignPELPoints.GetCPOpportunity";
             DataTable dtOppDefault = new DataTable();
@@ -427,6 +434,9 @@ namespace LarpPortal.Classes
             stStoredProc = "uspGetRegistrationByPlayer";
             stCallingMethod = "cPoints.AssignPELPoints.GetRegistration";
             int Reg = 0;
+            int RoleAlignment = 1;  // Assume PC by default
+            int NPCCampaignID = 0;
+            int TransferCampaignPlayerID = 0;
             DataTable dtReg = new DataTable();
             slParameters.Clear();
             slParameters.Add("@EventID", Event);
@@ -436,17 +446,53 @@ namespace LarpPortal.Classes
             {
                 if (int.TryParse(drowreg["RegistrationID"].ToString(), out iTemp))
                     Reg = iTemp;
+                if (int.TryParse(drowreg["RoleAlignmentID"].ToString(), out iTemp))
+                    RoleAlignment = iTemp;
+                if (int.TryParse(drowreg["NPCCampaignID"].ToString(), out iTemp))
+                    NPCCampaignID = iTemp;
+                if (int.TryParse(drowreg["TransferCampaignPlayerID"].ToString(), out iTemp))
+                    TransferCampaignPlayerID = iTemp;
             }
 
             // Call the routine to add the opportunity.  Create it already assigned (last two parameters both = 1)
-            InsUpdCPOpportunity(UserID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1,1, Reg);
+            // 11/17/2016 - Rick - Need branching logic to send CP to another chapter if requested for role alignments other than 1=PC
+            if (RoleAlignment != 1)
+            {   // Change parameters to match destination campaign
+                CampaignPlayer = TransferCampaignPlayerID;
+                Character = 0;
+                // Convert CampaignCPOpportunityDefault to destination campaign
+                stStoredProc = "uspConvertCampaignCPOpportunityDefaultID";
+                stCallingMethod = "cPoints.AssignPELPoints.GetCPOpportunityDefault";
+                DataTable dtOppDef = new DataTable();
+                slParameters.Clear();
+                slParameters.Add("@OldCampaignCPOpportunityDefaultID", CampaignCPOpportunityDefault);
+                slParameters.Add("@NewCampaignID", NPCCampaignID);
+                dtOppDef = cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+                foreach (DataRow drowOppDef in dtOppDef.Rows)
+                {
+                    if (int.TryParse(drowOppDef["CampaignCPOpportunityDefaultID"].ToString(), out iTemp))
+                        CampaignCPOpportunityDefault = iTemp;
+                }
+                _ReceivedFromCampaignID = Campaign;
+            }
+            InsUpdCPOpportunity(UserID, -1, CampaignPlayer, Character, CampaignCPOpportunityDefault, Event, strDescription, EventDescription, "", Reason, 21, UserID, CPVal, UserID, RecptDate, UserID, DateTime.Now, "", 1, 1, Reg);
 
             // Call the routine to check if CP can be assigned to character and if appropriate assign the CP
-            AddPointsToCharacter(Character, CPVal);
+            // 11/17/2016 - Rick - Only add points if character is not 0 (NPC/Staff transfer), otherwise set variables for banking
+            if (Character !=0)
+            {
+                AddPointsToCharacter(Character, CPVal); 
+            }
+            else
+            {
+                _PLAuditStatus = 60;    // Banked status
+            }
+
 
             // Call the routine to add the CP to the player CP audit log.  If assigned to character, create it spent otherwise
             //      create it banked (_PLPlayerAuditStatus)
             CreatePlayerCPLog(UserID, _CampaignCPOpportunityID, RecptDate, CPVal, Reason, CampaignPlayer, Character);
+            _ReceivedFromCampaignID = ReceivedFromCampaignID;
         }
 
         public void AddManualCPEntry(int UserID, int CampaignPlayerID, int CharacterID, int CampaignCPOpportunityDefaultID, int EventID, int CampaignID, string Description,
@@ -558,7 +604,7 @@ namespace LarpPortal.Classes
             slParameters.Add("@ReasonID", Reason);
             slParameters.Add("@CampaignCPOpportunityID", OpportunityID);
             slParameters.Add("@AddedBy", UserID);
-            slParameters.Add("@ReceivedFromCampaignID", _CampaignID);
+            slParameters.Add("@ReceivedFromCampaignID", _ReceivedFromCampaignID);
             // TODO - Rick - For now assume this isn't from one player passing to another
             slParameters.Add("@ReceivedFromPlayerCPAuditID", 0);
             slParameters.Add("@SentToCampaignPlayerID", CampaignPlayer);

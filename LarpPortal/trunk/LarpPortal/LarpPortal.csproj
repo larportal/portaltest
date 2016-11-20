@@ -1188,6 +1188,7 @@
     <Compile Include="Classes\cSiteImage.cs" />
     <Compile Include="Classes\cSitePolicy.cs" />
     <Compile Include="Classes\cSkillPool.cs" />
+    <Compile Include="Classes\cTeamInfo.cs" />
     <Compile Include="Classes\cTransaction.cs" />
     <Compile Include="Classes\cTransactions.cs" />
     <Compile Include="Classes\cURLPermission.cs" />
