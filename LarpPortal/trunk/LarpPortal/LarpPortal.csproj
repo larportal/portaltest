@@ -516,6 +516,7 @@
     <Content Include="Reports\CheckIn.aspx" />
     <Content Include="Reports\HistoryDisplay.aspx" />
     <Content Include="Reports\HistorySearch.aspx" />
+    <Content Include="Reports\InvoiceDetail.aspx" />
     <Content Include="Reports\PELDisplay.aspx" />
     <Content Include="Reports\CalendarReport.aspx" />
     <Content Include="Reports\CharacterCardPrint.aspx" />
@@ -1333,6 +1334,13 @@
     </Compile>
     <Compile Include="Reports\HistorySearch.aspx.designer.cs">
       <DependentUpon>HistorySearch.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\InvoiceDetail.aspx.cs">
+      <DependentUpon>InvoiceDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reports\InvoiceDetail.aspx.designer.cs">
+      <DependentUpon>InvoiceDetail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\PELDisplay.aspx.cs">
       <DependentUpon>PELDisplay.aspx</DependentUpon>

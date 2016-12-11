@@ -1,7 +1,29 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MemberCampaigns.master" AutoEventWireup="true" CodeBehind="PointsAssign.aspx.cs" Inherits="LarpPortal.Points.PointsAssign" %>
-
 <asp:Content ID="PointsStyles" runat="server" ContentPlaceHolderID="MemberStyles">
     <style type="text/css">
+        .modal
+        {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: black;
+            z-index: 99;
+            opacity: 0.8;
+            min-height: 100%;
+            width: 100%;
+        }
+        .loading
+        {
+            font-family: Arial;
+            font-size: 10pt;
+            border: 5px solid #67CFF5;
+            width: 200px;
+            height: 100px;
+            display: none;
+            position: fixed;
+            background-color: White;
+            z-index: 999;
+        }
         .TableTextBox {
             border: 1px solid black;
             padding-left: 5px;
@@ -118,8 +140,14 @@
                         &nbsp;
                     </div>
                     <div class="row">
+                        <%--<asp:ScriptManager ID="smAssignAll" runat="server" />--%>
                         <div style="padding-right: 20px;">
-                            <asp:Button ID="btnAssignAll" runat="server" CssClass="StandardButton" Width="75px" Text="Assign All" OnClick="btnAssignAll_Click" />
+                            <asp:UpdatePanel ID="upnlAssignAll" runat="server">
+                                <ContentTemplate>
+                                    <asp:Button ID="btnAssignAll" runat="server" Visible="true" CssClass="StandardButton" Width="75px" Text="Assign All" OnClick="btnAssignAll_Click" />
+                                    <asp:Label ID="lblAssignAll" runat="server" Visible="false" Width="75px" Text="Please wait"></asp:Label>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
                         </div>
                     </div>
                 </div>

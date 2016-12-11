@@ -76,6 +76,15 @@ namespace LarpPortal.Points {
         protected global::System.Web.UI.WebControls.Button btnAddNewOpportunity;
         
         /// <summary>
+        /// upnlAssignAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upnlAssignAll;
+        
+        /// <summary>
         /// btnAssignAll control.
         /// </summary>
         /// <remarks>
@@ -83,6 +92,15 @@ namespace LarpPortal.Points {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAssignAll;
+        
+        /// <summary>
+        /// lblAssignAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAssignAll;
         
         /// <summary>
         /// pnlAddHeader control.
