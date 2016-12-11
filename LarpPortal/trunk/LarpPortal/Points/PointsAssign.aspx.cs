@@ -309,11 +309,16 @@ namespace LarpPortal.Points
 
         protected void btnAssignAll_Click(object sender, EventArgs e)
         {
+            // Rick - 12/10/2016 - Hide button, show processing label, when done unhide button and rehide processing label
+            btnAssignAll.Visible = false;
+            lblAssignAll.Visible = true;
+
+
             foreach (GridViewRow gvrow in gvPoints.Rows)
             {
                 try
                 {
-                    
+
                     int index = gvPoints.EditIndex;
                     int iTemp;
                     int UserID = 0;
@@ -399,7 +404,16 @@ namespace LarpPortal.Points
                     string l = ex.Message;
                 }
             }
-                gvPoints.EditIndex = -1;
+            gvPoints.EditIndex = -1;
+
+            // Rick - 12/10/2016 Show processing complete pop-up and restore assign all button and label to default state
+            string jsString = "alert('All points applied.');";
+            ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                    "MyApplication",
+                    jsString,
+                    true);
+            btnAssignAll.Visible = true;
+            lblAssignAll.Visible = false;
             FillGrid(hidUserName.Value, hidCampaignID.Value);
         }
 

@@ -507,6 +507,7 @@ namespace LarpPortal.Classes
             // Call the routine to add the CP to the player CP audit log.  If assigned to character, create it spent otherwise
             //      create it banked (_PLPlayerAuditStatus)
             _CampaignID = CampaignID;
+            _ReceivedFromCampaignID = CampaignID;
             CreatePlayerCPLog(UserID, _CampaignCPOpportunityID, ReceiptDate, CPValue, ReasonID, CampaignPlayerID, CharacterID);
         }
 
@@ -642,7 +643,10 @@ namespace LarpPortal.Classes
                 AddPointsToCharacter(CharacterID, CPVal);
                 // Call the routine to add the CP to the player CP audit log.  If assigned to character, create it spent otherwise
                 //      create it banked (_PLPlayerAuditStatus)
+                int SaveReceivedFromCampaignID = _ReceivedFromCampaignID;
+                _ReceivedFromCampaignID = CampaignID;
                 CreatePlayerCPLog(UserID, CampaignCPOpportunityID, RecptDate, CPVal, ReasonID, CampaignPlayerID, CharacterID);
+                _ReceivedFromCampaignID = SaveReceivedFromCampaignID;
             }
             else
             {
