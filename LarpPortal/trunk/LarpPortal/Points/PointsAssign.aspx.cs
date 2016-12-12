@@ -809,6 +809,7 @@ namespace LarpPortal.Points
             hidLastAddCPStep.Value = "";
             // End of add to resets
             txtStaffComments.Text = "";
+
          }
 
         protected void ResetDropDownListChoices()
@@ -839,7 +840,23 @@ namespace LarpPortal.Points
             }
             try
             {
+                ddlSourceEvent.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
                 ddlDestinationCampaign.SelectedIndex = 0;
+            }
+            catch
+            {
+                // If I haven't set up this particular ddl yet I don't care, get on with it.
+            }
+            try
+            {
+                ddlDonationTypes.SelectedIndex = 0;
             }
             catch
             {
@@ -901,14 +918,32 @@ namespace LarpPortal.Points
             {
                 // If I haven't set up this particular ddl yet I don't care, get on with it.
             }
-            chkNPCEvent.Checked = false;
-            chkPEL.Checked = false;
-            chkSetupCleanup.Checked = false;
+            chkNPCEvent.Checked = true;
+            txtNPCEvent.Text = "";
+            chkPEL.Checked = true;
+            txtPEL.Text = "";
+            chkSetupCleanup.Checked = true;
+            txtSetupCleanup.Text = "";
             txtOpportunityNotes.Text = "";
             txtReceiptDate.Text = "";
             txtCPF0.Text = "0";            
             txtCPF1.Text = "0";
             txtCPF2.Text = "0";
+            // Make all the appopriate panels invisible again
+            //pnlAddSourceCampaign.Visible = false;
+            pnlAddOpportunityDefault.Visible = false;
+            pnlAddOpportunityDefaultC6.Visible = false;
+            pnlCPDestinationD6.Visible = false;
+            pnlNPCCheckboxes.Visible = false;
+            pnlCPDestinationD3.Visible = false;
+            pnlAddDonationCP.Visible = false;
+            pnlAddNonEventCP.Visible = false;
+            pnlAddPCLocalCP.Visible = false;
+            pnlAddNPCLocalCPStaying.Visible = false;
+            pnlAddNPCLocalCPGoingToLARPPortalCampaign.Visible = false;
+            pnlAddNPCLocalCPGoingToNonLARPPortalCampaign.Visible = false;
+            pnlAddNPCIncoming.Visible = false;
+            //pnlAddStaffComments.Visible = false;
         }
 
         protected void ddlCampaignPlayer_SelectedIndexChanged(object sender, EventArgs e)
