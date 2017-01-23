@@ -509,6 +509,7 @@
     <Content Include="img\Unchecked-Checkbox-icon.png" />
     <Content Include="Madrigal.aspx" />
     <Content Include="PELs\PELAddAddendum.aspx" />
+    <Content Include="Points\PointsEmail.aspx" />
     <Content Include="Profile\Demographics.aspx" />
     <Content Include="Profile\Security.aspx" />
     <Content Include="Reports\CampaignPlayers.aspx" />
@@ -1278,6 +1279,13 @@
     </Compile>
     <Compile Include="PELs\PELAddAddendum.aspx.designer.cs">
       <DependentUpon>PELAddAddendum.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Points\PointsEmail.aspx.cs">
+      <DependentUpon>PointsEmail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Points\PointsEmail.aspx.designer.cs">
+      <DependentUpon>PointsEmail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Profile\Demographics.aspx.cs">
       <DependentUpon>Demographics.aspx</DependentUpon>

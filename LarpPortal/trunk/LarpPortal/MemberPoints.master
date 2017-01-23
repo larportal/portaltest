@@ -12,13 +12,13 @@
                         <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
 						<ul class="nav nav-pills panel-wrapper list-unstyled scroll-500">
 							<li class="active"><a href="#view-points" data-toggle="pill" class="main-toggle">View Points</a></li>
-							<li><label class="tree-toggle"><a href="PageUnderConstruction.aspx" data-toggle="pill">Earn Points  <span class="caret"> </span></a></label>
+<%--							<li><label class="tree-toggle"><a href="PageUnderConstruction.aspx" data-toggle="pill">Earn Points  <span class="caret"> </span></a></label>
 								<ul class="tree nav nav-pills">
 									<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Standard</a></li>
 									<li><a href="PageUnderConstruction.aspx" data-toggle="pill">Non Standard</a></li>
 								</ul>
-							</li>
-							<li><a href="PageUnderConstruction.aspx" data-toggle="pill" class="main-toggle">Spend Points</a></li>
+							</li>--%>
+							<%--<li><a href="PageUnderConstruction.aspx" data-toggle="pill" class="main-toggle">Spend Points</a></li>--%>
 						</ul>
 					</div>
 

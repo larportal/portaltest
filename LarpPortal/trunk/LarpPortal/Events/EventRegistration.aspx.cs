@@ -111,7 +111,8 @@ namespace LarpPortal.Events
                     "Email: " + hidPlayerEMail.Value + "<br>";
 
                 if (hidCharAKA.Value.Length > 0)
-                    strBody += "Character: " + hidCharAKA.Value + "<br>";
+                    strBody += "Character: " + ddlCharacterList.SelectedItem.Text + "<br>";
+                    //strBody += "Character: " + hidCharAKA.Value + "<br>";
 
                 strBody += "Payment Method: " + ddlPaymentChoice.SelectedItem.Text + "<br>" +
                     "Player Comments: " + tbComments.Text;

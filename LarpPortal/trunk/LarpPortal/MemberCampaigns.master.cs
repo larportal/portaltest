@@ -304,232 +304,240 @@ namespace LarpPortal
                         break;
 
                     case 7:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
-                        {
-                            if (PageName == "CAMPIAGNINFOSUPEOPLE")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign People";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
-
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
+                    //    {
+                    //        if (PageName == "CAMPIAGNINFOSUPEOPLE")
+                    //        {
+                    //            ActiveState = " class=\"active\">";
+                    //        }
+                    //        else
+                    //        {
+                    //            ActiveState = ">";
+                    //        }
+                    //        TreeToggle = Toggle2;
+                    //        SpanClass = SC2;
+                    //        LineEnd = LineEnd2;
+                    //        PageName = ReqPage;
+                    //        LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign People";
+                    //    }
+                    //    else
+                    //    {
+                    //        if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                    //            Session["CurrentPagePermission"] = "False";
+                    //        SkipLine = true;
+                    //    }
+                        SkipLine = true;
                         break;
 
-                    case 8:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
-                        {
-                            if (PageName == "CAMPAIGNINFOSUPLACES")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Places";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
 
+                    case 8:
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (ActiveNav == "CampaignInfo" && PlayerRoles.Contains("/32/"))
+                    //    {
+                    //        if (PageName == "CAMPAIGNINFOSUPLACES")
+                    //        {
+                    //            ActiveState = " class=\"active\">";
+                    //        }
+                    //        else
+                    //        {
+                    //            ActiveState = ">";
+                    //        }
+                    //        TreeToggle = Toggle2;
+                    //        SpanClass = SC2;
+                    //        LineEnd = LineEnd2;
+                    //        PageName = ReqPage;
+                    //        LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Places";
+                    //    }
+                    //    else
+                    //    {
+                    //        if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                    //            Session["CurrentPagePermission"] = "False";
+                    //        SkipLine = true;
+                    //    }
+                        SkipLine = true;
                         break;
 
                     case 9:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
-                        {
-                            if (PageName == "CAMPAIGNINFOSURULES")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Rules";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
+                    //    {
+                    //        if (PageName == "CAMPAIGNINFOSURULES")
+                    //        {
+                    //            ActiveState = " class=\"active\">";
+                    //        }
+                    //        else
+                    //        {
+                    //            ActiveState = ">";
+                    //        }
+                    //        TreeToggle = Toggle2;
+                    //        SpanClass = SC2;
+                    //        LineEnd = LineEnd2;
+                    //        PageName = ReqPage;
+                    //        LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Rules";
+                    //    }
+                    //    else
+                    //    {
+                    //        if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                    //            Session["CurrentPagePermission"] = "False";
+                    //        SkipLine = true;
+                    //    }
+                        SkipLine = true;
                         break;
 
                     case 10:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
-                        {
-                            if (PageName == "CAMPAIGNINFOSURULESINDEX")
-                            {
-                                // ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd3;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Rules Index";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (ActiveNav == "CampaignInfo" && (PlayerRoles.Contains("/32/") || PlayerRoles.Contains("/5/")))
+                    //    {
+                    //        if (PageName == "CAMPAIGNINFOSURULESINDEX")
+                    //        {
+                    //            // ActiveState = " class=\"active\">";
+                    //        }
+                    //        else
+                    //        {
+                    //            ActiveState = ">";
+                    //        }
+                    //        TreeToggle = Toggle2;
+                    //        SpanClass = SC2;
+                    //        LineEnd = LineEnd3;
+                    //        PageName = ReqPage;
+                    //        LineText = "&nbsp;&nbsp;&nbsp;Set Up: Campaign Rules Index";
+                    //    }
+                    //    else
+                    //    {
+                    //        if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                    //            Session["CurrentPagePermission"] = "False";
+                    //        SkipLine = true;
+                    //    }
+                        SkipLine = true;
                         break;
 
                     case 11:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (PageName == "CAMPAIGNMESSAGES" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignMessages" + Toggle1b;
-                        if (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/"))
-                        {
-                            SpanClass = SC1;
-                        }
-                        else
-                        {
-                            SpanClass = SC2;
-                        }
-                        LineEnd = LineEnd1;
-                        PageName = ReqPage;
-                        LineText = "Campaign Messages";
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (PageName == "CAMPAIGNMESSAGES" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
+                    //    {
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    TreeToggle = Toggle2; // Toggle1a + "lblCampaignMessages" + Toggle1b;
+                    //    if (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/"))
+                    //    {
+                    //        SpanClass = SC1;
+                    //    }
+                    //    else
+                    //    {
+                    //        SpanClass = SC2;
+                    //    }
+                    //    LineEnd = LineEnd1;
+                    //    PageName = ReqPage;
+                    //    LineText = "Campaign Messages";
+                        SkipLine = true;
                         break;
 
                     case 12:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/4/"))
-                        {
-                            if (PageName == "CAMPAIGNMESSAGESVIEWPREV")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;View Previous";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/4/"))
+                    //    {
+                    //        if (PageName == "CAMPAIGNMESSAGESVIEWPREV")
+                    //        {
+                    //            ActiveState = " class=\"active\">";
+                    //        }
+                    //        else
+                    //        {
+                    //            ActiveState = ">";
+                    //        }
+                    //        TreeToggle = Toggle2;
+                    //        SpanClass = SC2;
+                    //        LineEnd = LineEnd2;
+                    //        PageName = ReqPage;
+                    //        LineText = "&nbsp;&nbsp;&nbsp;View Previous";
+                    //    }
+                    //    else
+                    //    {
+                    //        if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                    //            Session["CurrentPagePermission"] = "False";
+                    //        SkipLine = true;
+                    //    }
+                        SkipLine = true;
                         break;
 
                     case 13:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
-                        {
-                            if (PageName == "CAMPAIGNMESSAGESSENDNEW")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Send New";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
+                    //    {
+                    //        if (PageName == "CAMPAIGNMESSAGESSENDNEW")
+                    //        {
+                    //            ActiveState = " class=\"active\">";
+                    //        }
+                    //        else
+                    //        {
+                    //            ActiveState = ">";
+                    //        }
+                    //        TreeToggle = Toggle2;
+                    //        SpanClass = SC2;
+                    //        LineEnd = LineEnd2;
+                    //        PageName = ReqPage;
+                    //        LineText = "&nbsp;&nbsp;&nbsp;Send New";
+                    //    }
+                    //    else
+                    //    {
+                    //        if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                    //            Session["CurrentPagePermission"] = "False";
+                    //        SkipLine = true;
+                    //    }
+                        SkipLine = true;
                         break;
 
                     case 14:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
-                        {
-                            if (PageName == "CAMPAIGNMESSAGESPREVSCHEDULED")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd3;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Preview Scheduled";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (ActiveNav == "CampaignMessages" && PlayerRoles.Contains("/28/"))
+                    //    {
+                    //        if (PageName == "CAMPAIGNMESSAGESPREVSCHEDULED")
+                    //        {
+                    //            ActiveState = " class=\"active\">";
+                    //        }
+                    //        else
+                    //        {
+                    //            ActiveState = ">";
+                    //        }
+                    //        TreeToggle = Toggle2;
+                    //        SpanClass = SC2;
+                    //        LineEnd = LineEnd3;
+                    //        PageName = ReqPage;
+                    //        LineText = "&nbsp;&nbsp;&nbsp;Preview Scheduled";
+                    //    }
+                    //    else
+                    //    {
+                    //        if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                    //            Session["CurrentPagePermission"] = "False";
+                    //        SkipLine = true;
+                    //    }
+                        SkipLine = true;
                         break;
 
                     //Missing 15 - Rules
                     //Missing 16 - Rules Section - iterative per section
 
                     case 17:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        //This one is just a link?
-                        if (PageName == "CALENDARVIEW")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
-                        SpanClass = SC2;
-                        LineEnd = LineEnd4;
-                        PageName = ReqPage;
-                        LineText = "Calendar";
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    //This one is just a link?
+                    //    if (PageName == "CALENDARVIEW")
+                    //    {
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    TreeToggle = Toggle2; // Toggle1a + "lblCampaignEventSetup" + Toggle1b;
+                    //    SpanClass = SC2;
+                    //    LineEnd = LineEnd4;
+                    //    PageName = ReqPage;
+                    //    LineText = "Calendar";
+                        SkipLine = true;
                         break;
 
                     //Missing 18 - Special events
@@ -636,55 +644,57 @@ namespace LarpPortal
                     //Missing 26 - Setup scheduling
 
                     case 27:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
-                        {
-                            if (PageName == "EVENTSSUMARKETING")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Setup Marketing";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (ActiveNav == "Events" && (PlayerRoles.Contains("/3/") || PlayerRoles.Contains("/28/")))
+                    //    {
+                    //        if (PageName == "EVENTSSUMARKETING")
+                    //        {
+                    //            ActiveState = " class=\"active\">";
+                    //        }
+                    //        else
+                    //        {
+                    //            ActiveState = ">";
+                    //        }
+                    //        TreeToggle = Toggle2;
+                    //        SpanClass = SC2;
+                    //        LineEnd = LineEnd2;
+                    //        PageName = ReqPage;
+                    //        LineText = "&nbsp;&nbsp;&nbsp;Setup Marketing";
+                    //    }
+                    //    else
+                    //    {
+                    //        if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                    //            Session["CurrentPagePermission"] = "False";
+                    //        SkipLine = true;
+                    //    }
+                        SkipLine = true;
                         break;
 
                     case 28:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "Events" && PlayerRoles.Contains("/33/"))
-                        {
-                            if (PageName == "EVENTSSUFOODOPTIONS")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Setup Food Options";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                    //    ReqPage = "/PageUnderConstruction.aspx";
+                    //    if (ActiveNav == "Events" && PlayerRoles.Contains("/33/"))
+                    //    {
+                    //        if (PageName == "EVENTSSUFOODOPTIONS")
+                    //        {
+                    //            ActiveState = " class=\"active\">";
+                    //        }
+                    //        else
+                    //        {
+                    //            ActiveState = ">";
+                    //        }
+                    //        TreeToggle = Toggle2;
+                    //        SpanClass = SC2;
+                    //        LineEnd = LineEnd2;
+                    //        PageName = ReqPage;
+                    //        LineText = "&nbsp;&nbsp;&nbsp;Setup Food Options";
+                    //    }
+                    //    else
+                    //    {
+                    //        if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                    //            Session["CurrentPagePermission"] = "False";
+                    //        SkipLine = true;
+                    //    }
+                        SkipLine = true;
                         break;
 
                     case 29:
@@ -844,235 +854,244 @@ namespace LarpPortal
                         break;
 
                     case 35:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
-                        {
-                            if (LastLoggedInLocation == "CAMPIAGNINFOSUPEOPLE")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;NPC Info";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        //if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
+                        //{
+                        //    if (LastLoggedInLocation == "CAMPIAGNINFOSUPEOPLE")
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2;
+                        //    SpanClass = SC2;
+                        //    LineEnd = LineEnd2;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;NPC Info";
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
+                        SkipLine = true;
                         break;
 
                     case 36:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
-                        {
-                            if (PageName == "CAMPAIGNCHARACTERITEMS")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;NPC Items";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        //if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/20/")))
+                        //{
+                        //    if (PageName == "CAMPAIGNCHARACTERITEMS")
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2;
+                        //    SpanClass = SC2;
+                        //    LineEnd = LineEnd2;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;NPC Items";
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
                         break;
 
                     //Missing 37 - NPC Skills
 
                     case 38:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
-                        {
-                            if (PageName == "CAMPAIGNCHARACTERSUTRAITS")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Setup Traits & Attributes";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        //if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
+                        //{
+                        //    if (PageName == "CAMPAIGNCHARACTERSUTRAITS")
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2;
+                        //    SpanClass = SC2;
+                        //    LineEnd = LineEnd2;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;Setup Traits & Attributes";
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
                         break;
 
                     case 39:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
-                        {
-                            if (PageName == "CAMPAIGNCHARACTERSUSKILLTYPES")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Setup Skill Headers & Types";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        //if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
+                        //{
+                        //    if (PageName == "CAMPAIGNCHARACTERSUSKILLTYPES")
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2;
+                        //    SpanClass = SC2;
+                        //    LineEnd = LineEnd2;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;Setup Skill Headers & Types";
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
                         break;
 
                     case 40:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
-                        {
-                            if (PageName == "CAMPAIGNCHARACTERSUSKILLS")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd3;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Setup Skills";
-                            LineEnd = LineEnd3;
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        //if (ActiveNav == "CampaignCharacter" && PlayerRoles.Contains("/5/"))
+                        //{
+                        //    if (PageName == "CAMPAIGNCHARACTERSUSKILLS")
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2;
+                        //    SpanClass = SC2;
+                        //    LineEnd = LineEnd3;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;Setup Skills";
+                        //    LineEnd = LineEnd3;
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
                         break;
 
                     case 41:
-                        ReqPage = "/PageUnderConstruction.aspx"; // = "/Roles/Roles.aspx";
-                        if (PageName == "ROLES")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "lblCampaignRoles" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd1;
-                        PageName = ReqPage;
-                        LineText = "Roles";
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx"; // = "/Roles/Roles.aspx";
+                        //if (PageName == "ROLES")
+                        //{
+                        //    ActiveState = " class=\"active\">";
+                        //}
+                        //else
+                        //{
+                        //    ActiveState = ">";
+                        //}
+                        //TreeToggle = Toggle2; // Toggle1a + "lblCampaignRoles" + Toggle1b;
+                        //SpanClass = SC1;
+                        //LineEnd = LineEnd1;
+                        //PageName = ReqPage;
+                        //LineText = "Roles";
                         break;
 
                     //Missing 42 - My roles
 
                     case 43:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "Roles" && PlayerRoles.Contains("/21/"))
-                        {
-                            if (PageName == "ROLESASSIGNROLES")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Assign Roles";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        //if (ActiveNav == "Roles" && PlayerRoles.Contains("/21/"))
+                        //{
+                        //    if (PageName == "ROLESASSIGNROLES")
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2;
+                        //    SpanClass = SC2;
+                        //    LineEnd = LineEnd2;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;Assign Roles";
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
                         break;
 
                     case 44:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "Roles" && PlayerRoles.Contains("/1/"))
-                        {
-                            if (PageName == "ROLESSUROLES")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd3;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Setup Roles";
-                            LineEnd = LineEnd3;
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        //if (ActiveNav == "Roles" && PlayerRoles.Contains("/1/"))
+                        //{
+                        //    if (PageName == "ROLESSUROLES")
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2;
+                        //    SpanClass = SC2;
+                        //    LineEnd = LineEnd3;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;Setup Roles";
+                        //    LineEnd = LineEnd3;
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
                         break;
 
                     case 45:
-                        ReqPage = "/Character/History/ApprovalList.aspx";
-                        //if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
-                        if (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/"))
-                        {
-                            if (PageName == "CAMPAIGNCHARACTERHISTORY")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd2;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;&nbsp;Approve Character Histories";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        SkipLine = true;
+                        //ReqPage = "/Character/History/ApprovalList.aspx";
+                        ////if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
+                        //if (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/"))
+                        //{
+                        //    if (PageName == "CAMPAIGNCHARACTERHISTORY")
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2;
+                        //    SpanClass = SC2;
+                        //    LineEnd = LineEnd2;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;&nbsp;Approve Character Histories";
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
                         break;
 
                     case 46:
@@ -1190,7 +1209,7 @@ namespace LarpPortal
                         break;
 
                     case 51:
-                        ReqPage = "/PageUnderConstruction.aspx";   // = "/Points/PointsAssign.aspx";
+                        ReqPage = "/Points/PointsAssign.aspx";   // = "/Points/PointsAssign.aspx";
                         if (ActiveNav == "Points" && (PlayerRoles.Contains("/35/") || PlayerRoles.Contains("/28/")))
                         {
                             if (PageName == "POINTSASSIGN")
@@ -1216,29 +1235,30 @@ namespace LarpPortal
                         break;
 
                     case 52:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "Points" && PlayerRoles.Contains("/28/"))
-                        {
-                            if (PageName == "POINTSACCEPT")
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2;
-                            SpanClass = SC2;
-                            LineEnd = LineEnd3;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;Accept Points";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        //ReqPage = "/Points/PointsEmail.aspx";    // = "/Points/PointsEmail.aspx";
+                        //if (ActiveNav == "Points" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/15/")))
+                        //{
+                        //    if (PageName == "POINTSEMAIL")
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2;
+                        //    SpanClass = SC2;
+                        //    LineEnd = LineEnd3;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;Email Points";
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
+                        SkipLine = true;
                         break;
 
                     case 53:
@@ -1259,29 +1279,30 @@ namespace LarpPortal
                         break;
 
                     case 54:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        if (ActiveNav == "PEL" && PlayerRoles.Contains("/28/"))
-                        {
-                            if (PageName == "PELSU" && PlayerRoles.Contains("/28/"))
-                            {
-                                ActiveState = " class=\"active\">";
-                            }
-                            else
-                            {
-                                ActiveState = ">";
-                            }
-                            TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
-                            SpanClass = SC1;
-                            LineEnd = LineEnd4;
-                            PageName = ReqPage;
-                            LineText = "&nbsp;&nbsp;&nbsp;PEL Setup";
-                        }
-                        else
-                        {
-                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                                Session["CurrentPagePermission"] = "False";
-                            SkipLine = true;
-                        }
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        //if (ActiveNav == "PEL" && PlayerRoles.Contains("/28/"))
+                        //{
+                        //    if (PageName == "PELSU" && PlayerRoles.Contains("/28/"))
+                        //    {
+                        //        ActiveState = " class=\"active\">";
+                        //    }
+                        //    else
+                        //    {
+                        //        ActiveState = ">";
+                        //    }
+                        //    TreeToggle = Toggle2; // Toggle1a + "PELSetup" + Toggle1b;
+                        //    SpanClass = SC1;
+                        //    LineEnd = LineEnd4;
+                        //    PageName = ReqPage;
+                        //    LineText = "&nbsp;&nbsp;&nbsp;PEL Setup";
+                        //}
+                        //else
+                        //{
+                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                        //        Session["CurrentPagePermission"] = "False";
+                        //    SkipLine = true;
+                        //}
                         break;
 
                     case 55:
@@ -1345,21 +1366,22 @@ namespace LarpPortal
                         //break;
 
                     case 58:
-                        ReqPage = "/PageUnderConstruction.aspx";
-                        //Just a link?
-                        if (PageName == "INVENTORY" && PlayerRoles.Contains("/36/"))
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        TreeToggle = Toggle2; // Toggle1a + "lblInventoryProps" + Toggle1b;
-                        SpanClass = SC1;
-                        LineEnd = LineEnd4;
-                        PageName = ReqPage;
-                        LineText = "Inventory/Props";
+                        SkipLine = true;
+                        //ReqPage = "/PageUnderConstruction.aspx";
+                        ////Just a link?
+                        //if (PageName == "INVENTORY" && PlayerRoles.Contains("/36/"))
+                        //{
+                        //    ActiveState = " class=\"active\">";
+                        //}
+                        //else
+                        //{
+                        //    ActiveState = ">";
+                        //}
+                        //TreeToggle = Toggle2; // Toggle1a + "lblInventoryProps" + Toggle1b;
+                        //SpanClass = SC1;
+                        //LineEnd = LineEnd4;
+                        //PageName = ReqPage;
+                        //LineText = "Inventory/Props";
                         break;
 
                     //case 59:

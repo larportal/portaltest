@@ -5,8 +5,8 @@
         <section id="campaign-info" class="campaign-info tab-pane active">
             <div role="form" class="form-horizontal form-condensed">
                 <div class="col-sm-12">
-                    <h4 class="col-sm-6">Campaign Information -
-                        <asp:Label ID="lblTopCampaignName" runat="server"></asp:Label></h4>
+                    <h1 class="col-lg-12">Campaign Information -
+                        <asp:Label ID="lblTopCampaignName" runat="server"></asp:Label></h1>
                 </div>
                 <div class="col-sm-12">
                     <div class="col-sm-6">
