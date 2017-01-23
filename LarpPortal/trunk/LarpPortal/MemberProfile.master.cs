@@ -23,6 +23,7 @@ namespace LarpPortal
             string PageName;
             string LineText;
             int liLinesNeeded = 7;
+            liLinesNeeded = 2;
             DataTable LeftNavTable = new DataTable();
             LeftNavTable.Columns.Add("href_li");
             ActiveState = ">";
@@ -45,85 +46,7 @@ namespace LarpPortal
                         PageName = "MemberDemographics.aspx";
                         LineText = "Demographics";
                         break;
-                    case 2:
-                        if (Session["ActiveLeftNav"].ToString() == "PlayerResume")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //PageName = "PlayerResume.aspx";
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Player Resume";
-                        break;
-                    case 3:
-                        if (Session["ActiveLeftNav"].ToString() == "LARPResume")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //PageName = "LARPResume.aspx";
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "LARP Resume";
-                        break;
 
-                    case 4:
-                        if (Session["ActiveLeftNav"].ToString() == "Medical")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //PageName = "Medical.aspx";
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Medical";
-                        break;
-                    case 5:
-                        if (Session["ActiveLeftNav"].ToString() == "Waivers")
-                        {    
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //PageName = "Waivers.aspx";
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Waivers & Consent";
-                        break;
-                    case 6:
-                        if (Session["ActiveLeftNav"].ToString() == "Preferences")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //PageName = "Preferences.aspx";
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Player Preferences";
-                        break;
-                    case 7:
-                        if (Session["ActiveLeftNav"].ToString() == "Inventory")
-                        {
-                            ActiveState = " class=\"active\">";
-                        }
-                        else
-                        {
-                            ActiveState = ">";
-                        }
-                        //PageName = "Inventory.aspx";
-                        PageName = "PageUnderConstruction.aspx";
-                        LineText = "Player Inventory";
-                        break;
                     case 1:
                         if (Session["ActiveLeftNav"].ToString() == "Security")
                         {
@@ -136,6 +59,91 @@ namespace LarpPortal
                         PageName = "MemberSecurity.aspx";
                         LineText = "Security";
                         break;
+
+                    //case 2:
+                    //    if (Session["ActiveLeftNav"].ToString() == "PlayerResume")
+                    //    {
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    //PageName = "PlayerResume.aspx";
+                    //    PageName = "PageUnderConstruction.aspx";
+                    //    LineText = "Player Resume";
+                    //    break;
+
+                    //case 3:
+                    //    if (Session["ActiveLeftNav"].ToString() == "LARPResume")
+                    //    {
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    //PageName = "LARPResume.aspx";
+                    //    PageName = "PageUnderConstruction.aspx";
+                    //    LineText = "LARP Resume";
+                    //    break;
+
+                    //case 4:
+                    //    if (Session["ActiveLeftNav"].ToString() == "Medical")
+                    //    {
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    //PageName = "Medical.aspx";
+                    //    PageName = "PageUnderConstruction.aspx";
+                    //    LineText = "Medical";
+                    //    break;
+
+                    //case 5:
+                    //    if (Session["ActiveLeftNav"].ToString() == "Waivers")
+                    //    {    
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    //PageName = "Waivers.aspx";
+                    //    PageName = "PageUnderConstruction.aspx";
+                    //    LineText = "Waivers & Consent";
+                    //    break;
+
+                    //case 6:
+                    //    if (Session["ActiveLeftNav"].ToString() == "Preferences")
+                    //    {
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    //PageName = "Preferences.aspx";
+                    //    PageName = "PageUnderConstruction.aspx";
+                    //    LineText = "Player Preferences";
+                    //    break;
+
+                    //case 7:
+                    //    if (Session["ActiveLeftNav"].ToString() == "Inventory")
+                    //    {
+                    //        ActiveState = " class=\"active\">";
+                    //    }
+                    //    else
+                    //    {
+                    //        ActiveState = ">";
+                    //    }
+                    //    //PageName = "Inventory.aspx";
+                    //    PageName = "PageUnderConstruction.aspx";
+                    //    LineText = "Player Inventory";
+                    //    break;
+
                 }
                 hrefline = "<li" + ActiveState + "<a href=" + "\"" + PageName + "\"" + " data-toggle=" + "\"" + "pill" + "\"" + ">" + LineText + "</a></li>";
                 DataRow LeftNavRow = LeftNavTable.NewRow();

@@ -35,18 +35,18 @@ namespace LarpPortal.Profile
                     liDemographics.Attributes.Add("class", "active");
                 else if (PageName.Contains("SECURITY"))
                     liSecurity.Attributes.Add("class", "active");
-                else if (PageName.Contains("PLAYERRESUME"))
-                    liPlayerInventory.Attributes.Add("class", "active");
-                else if (PageName.Contains("LARPRESUME"))
-                    liLARPResume.Attributes.Add("class", "active");
-                else if (PageName.Contains("MEDICAL"))
-                    liMedical.Attributes.Add("class", "active");
-                else if (PageName.Contains("WAIVERSCONSENT"))
-                    liWaiversConsent.Attributes.Add("class", "active");
-                else if (PageName.Contains("PLAYERPREFERENCES"))
-                    liPlayerPreferences.Attributes.Add("class", "active");
-                else if (PageName.Contains("PLAYERINVENTORY"))
-                    liPlayerInventory.Attributes.Add("class", "active");
+                //else if (PageName.Contains("PLAYERRESUME"))
+                //    liPlayerInventory.Attributes.Add("class", "active");
+                //else if (PageName.Contains("LARPRESUME"))
+                //    liLARPResume.Attributes.Add("class", "active");
+                //else if (PageName.Contains("MEDICAL"))
+                //    liMedical.Attributes.Add("class", "active");
+                //else if (PageName.Contains("WAIVERSCONSENT"))
+                //    liWaiversConsent.Attributes.Add("class", "active");
+                //else if (PageName.Contains("PLAYERPREFERENCES"))
+                //    liPlayerPreferences.Attributes.Add("class", "active");
+                //else if (PageName.Contains("PLAYERINVENTORY"))
+                //    liPlayerInventory.Attributes.Add("class", "active");
             }
             oLog.AddLogMessage("Done Profile Master", lsRoutineName, "", Session.SessionID);
         }

@@ -76,60 +76,6 @@ namespace LarpPortal.Profile {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor hlSecurity;
         
         /// <summary>
-        /// liPlayerResume control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liPlayerResume;
-        
-        /// <summary>
-        /// liLARPResume control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liLARPResume;
-        
-        /// <summary>
-        /// liMedical control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liMedical;
-        
-        /// <summary>
-        /// liWaiversConsent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liWaiversConsent;
-        
-        /// <summary>
-        /// liPlayerPreferences control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liPlayerPreferences;
-        
-        /// <summary>
-        /// liPlayerInventory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liPlayerInventory;
-        
-        /// <summary>
         /// ProfileMain control.
         /// </summary>
         /// <remarks>

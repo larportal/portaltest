@@ -816,6 +816,7 @@ namespace LarpPortal.Points
         {
             try
             {
+                ddlAddSourceCampaign.Items.Insert(0, new ListItem("Select Campaign", "0"));
                 ddlAddSourceCampaign.SelectedIndex = 0;
             }
             catch
@@ -1012,6 +1013,7 @@ namespace LarpPortal.Points
 
         protected void ddlAddSourceCampaign_SelectedIndexChanged(object sender, EventArgs e)
         {
+            ddlAddSourceCampaign.Items.RemoveAt(0);
             DropdownListDefaultColors();
             Session["AddCPStep"] = "B";
             hidLastAddCPStep.Value = "B";
