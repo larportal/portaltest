@@ -84,6 +84,8 @@ namespace LarpPortal
             User.LastLoggedInCampaign = ddlUserCampaigns.SelectedItem.Value.ToInt32();
             Session["CampaignID"] = ddlUserCampaigns.SelectedItem.Value.ToInt32();
             Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
+            User.SetCharacterForCampaignUser(intUserID, ddlUserCampaigns.SelectedItem.Value.ToInt32());
+            Session["SelectedCharacter"] = User.LastLoggedInCharacter;
             User.Save();
             // Go get all roles for that campaign and load them into a session variable
             Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();

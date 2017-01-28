@@ -205,6 +205,7 @@
     <Content Include="bin\System.Web.Optimization.dll" />
     <Content Include="bin\System.Web.Providers.dll" />
     <Content Include="bin\WebGrease.dll" />
+    <Content Include="Calendar\CalendarRpt.aspx" />
     <Content Include="CampaignInfo.asmx" />
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
@@ -712,6 +713,7 @@
     <Content Include="WhatsNew.aspx" />
     <Content Include="WhatsNewDetail.aspx" />
     <Content Include="Profile\Profile.Master" />
+    <Content Include="Calendar\Calendars.master" />
     <None Include="Properties\PublishProfiles\LARPortal.pubxml" />
     <Content Include="Reports\Reporting.master" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -864,6 +866,20 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Calendar\CalendarRpt.aspx.cs">
+      <DependentUpon>CalendarRpt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calendar\CalendarRpt.aspx.designer.cs">
+      <DependentUpon>CalendarRpt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Calendar\Calendars.master.cs">
+      <DependentUpon>Calendars.master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calendar\Calendars.master.designer.cs">
+      <DependentUpon>Calendars.master</DependentUpon>
+    </Compile>
     <Compile Include="CampaignInfo.asmx.cs">
       <DependentUpon>CampaignInfo.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -1916,7 +1932,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Calendar\" />
     <Folder Include="ckeditor\images\" />
     <Folder Include="ckeditor\plugins\a11yhelp\lang\" />
     <Folder Include="ckeditor\plugins\about\dialogs\" />
