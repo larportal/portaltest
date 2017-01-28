@@ -363,6 +363,47 @@ namespace LarpPortal.Classes
                 lobjError.ProcessError(ex, lsRoutineName, _LoginName + lsRoutineName);
             }
         }
+
+        public void SetCampaignForCharacter(int UserID, int CharacterID)
+        {
+            int iTemp = 0;
+            string stStoredProc = "uspGetCampaignForCharacter";
+            string stCallingMethod = "cUser.SetCampaignsForCharacter";
+            SortedList slParams = new SortedList();
+            DataTable dtCampaign = new DataTable();
+            slParams.Add("@CharacterID", CharacterID);
+            dtCampaign = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", UserID.ToString(), stCallingMethod);
+            foreach (DataRow drow in dtCampaign.Rows)
+            {
+                if (int.TryParse(drow["CampaignID"].ToString(), out iTemp))
+                {
+                    if (iTemp != 0)
+                        _LastLoggedInCampaign = iTemp;
+                }
+            }
+        }
+
+        public void SetCharacterForCampaignUser(int UserID, int CampaignID)
+        {
+            int iTemp = 0;
+            string stStoredProc = "uspGetCharacterForCampaignUser";
+            string stCallingMethod = "cUser.SetCharacterForCampaignUser";
+            SortedList slParams = new SortedList();
+            DataTable dtCharacters = new DataTable();
+            slParams.Add("@UserID", UserID);
+            slParams.Add("@CampaignID", CampaignID);
+            dtCharacters = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", UserID.ToString(), stCallingMethod);
+            foreach (DataRow drow in dtCharacters.Rows)
+            {
+                if (int.TryParse(drow["CharacterID"].ToString(), out iTemp))
+                {
+                    if (iTemp != 0)
+                    {
+                        _LastLoggedInCharacter = iTemp;
+                    }
+                }
+            }
+        }
        
         public Boolean Save()
         {

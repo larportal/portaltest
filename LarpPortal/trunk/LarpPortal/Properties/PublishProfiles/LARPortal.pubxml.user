@@ -191,10 +191,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/06/2015 21:15:46</publishTime>
     </File>
     <File Include="bin/LarpPortal.dll">
-      <publishTime>12/11/2016 21:43:09</publishTime>
+      <publishTime>01/24/2017 10:22:34</publishTime>
     </File>
     <File Include="bin/LarpPortal.pdb">
-      <publishTime>12/11/2016 21:43:09</publishTime>
+      <publishTime>01/24/2017 10:22:33</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.FriendlyUrls.dll">
       <publishTime>05/19/2014 20:54:36</publishTime>
@@ -328,11 +328,17 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Bundle.config">
       <publishTime>05/19/2014 10:18:36</publishTime>
     </File>
+    <File Include="Calendar/CalendarRpt.aspx">
+      <publishTime>01/24/2017 10:17:28</publishTime>
+    </File>
+    <File Include="Calendar/Calendars.master">
+      <publishTime>01/23/2017 20:18:09</publishTime>
+    </File>
     <File Include="CampaignInfo.asmx">
       <publishTime>05/06/2015 18:46:24</publishTime>
     </File>
     <File Include="CampaignInfo.aspx">
-      <publishTime>07/11/2015 11:33:53</publishTime>
+      <publishTime>01/22/2017 15:08:44</publishTime>
     </File>
     <File Include="CampaignInfoSetup.aspx">
       <publishTime>02/04/2015 19:20:01</publishTime>
@@ -1685,7 +1691,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/13/2014 13:36:07</publishTime>
     </File>
     <File Include="MemberPoints.master">
-      <publishTime>04/25/2015 08:22:02</publishTime>
+      <publishTime>01/22/2017 18:12:28</publishTime>
     </File>
     <File Include="MemberPointsView.aspx">
       <publishTime>09/25/2016 13:45:29</publishTime>
@@ -1756,6 +1762,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Points/PointsAssign.aspx">
       <publishTime>12/11/2016 10:47:30</publishTime>
     </File>
+    <File Include="Points/PointsEmail.aspx">
+      <publishTime>01/07/2017 18:28:36</publishTime>
+    </File>
     <File Include="Points/PointsSetupNonStandard.aspx">
       <publishTime>08/10/2015 07:07:23</publishTime>
     </File>
@@ -1766,13 +1775,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/07/2016 20:36:28</publishTime>
     </File>
     <File Include="Profile/Profile.Master">
-      <publishTime>07/02/2016 18:44:49</publishTime>
+      <publishTime>01/22/2017 17:46:43</publishTime>
     </File>
     <File Include="Profile/Security.aspx">
       <publishTime>07/02/2016 18:44:49</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/LARPortal.pubxml.user">
-      <publishTime>12/11/2016 12:56:06</publishTime>
+      <publishTime>01/24/2017 09:21:42</publishTime>
     </File>
     <File Include="PublicCalendar.aspx">
       <publishTime>12/10/2014 21:37:31</publishTime>
@@ -2012,7 +2021,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/03/2015 12:47:57</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/11/2016 21:43:24</publishTime>
+      <publishTime>01/24/2017 10:22:48</publishTime>
     </File>
     <File Include="WebForm1.aspx">
       <publishTime>12/02/2014 20:09:36</publishTime>

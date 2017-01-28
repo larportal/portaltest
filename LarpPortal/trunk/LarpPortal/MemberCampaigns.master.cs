@@ -1067,31 +1067,30 @@ namespace LarpPortal
                         break;
 
                     case 45:
-                        SkipLine = true;
-                        //ReqPage = "/Character/History/ApprovalList.aspx";
-                        ////if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
-                        //if (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/"))
-                        //{
-                        //    if (PageName == "CAMPAIGNCHARACTERHISTORY")
-                        //    {
-                        //        ActiveState = " class=\"active\">";
-                        //    }
-                        //    else
-                        //    {
-                        //        ActiveState = ">";
-                        //    }
-                        //    TreeToggle = Toggle2;
-                        //    SpanClass = SC2;
-                        //    LineEnd = LineEnd2;
-                        //    PageName = ReqPage;
-                        //    LineText = "&nbsp;&nbsp;&nbsp;&nbsp;Approve Character Histories";
-                        //}
-                        //else
-                        //{
-                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                        //        Session["CurrentPagePermission"] = "False";
-                        //    SkipLine = true;
-                        //}
+                        ReqPage = "/Character/History/ApprovalList.aspx";
+                        //if (ActiveNav == "CampaignCharacter" && (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/")))
+                        if (PlayerRoles.Contains("/4/") || PlayerRoles.Contains("/28/"))
+                        {
+                            if (PageName == "CAMPAIGNCHARACTERHISTORY")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd2;
+                            PageName = ReqPage;
+                            LineText = "Approve Character Histories";
+                        }
+                        else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
+                        }
                         break;
 
                     case 46:
@@ -1235,30 +1234,29 @@ namespace LarpPortal
                         break;
 
                     case 52:
-                        //ReqPage = "/Points/PointsEmail.aspx";    // = "/Points/PointsEmail.aspx";
-                        //if (ActiveNav == "Points" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/15/")))
-                        //{
-                        //    if (PageName == "POINTSEMAIL")
-                        //    {
-                        //        ActiveState = " class=\"active\">";
-                        //    }
-                        //    else
-                        //    {
-                        //        ActiveState = ">";
-                        //    }
-                        //    TreeToggle = Toggle2;
-                        //    SpanClass = SC2;
-                        //    LineEnd = LineEnd3;
-                        //    PageName = ReqPage;
-                        //    LineText = "&nbsp;&nbsp;&nbsp;Email Points";
-                        //}
-                        //else
-                        //{
-                        //    if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
-                        //        Session["CurrentPagePermission"] = "False";
-                        //    SkipLine = true;
-                        //}
-                        SkipLine = true;
+                        ReqPage = "/Points/PointsEmail.aspx";    // = "/Points/PointsEmail.aspx";
+                        if (ActiveNav == "Points" && (PlayerRoles.Contains("/28/") || PlayerRoles.Contains("/15/")))
+                        {
+                            if (PageName == "POINTSEMAIL")
+                            {
+                                ActiveState = " class=\"active\">";
+                            }
+                            else
+                            {
+                                ActiveState = ">";
+                            }
+                            TreeToggle = Toggle2;
+                            SpanClass = SC2;
+                            LineEnd = LineEnd3;
+                            PageName = ReqPage;
+                            LineText = "&nbsp;&nbsp;&nbsp;Email Points";
+                        }
+                        else
+                        {
+                            if (LastLoggedInLocation == ReqPage && ReqPage != "/PageUnderConstruction.aspx")
+                                Session["CurrentPagePermission"] = "False";
+                            SkipLine = true;
+                        }
                         break;
 
                     case 53:
