@@ -313,7 +313,6 @@ namespace LarpPortal.Points
             btnAssignAll.Visible = false;
             lblAssignAll.Visible = true;
 
-
             foreach (GridViewRow gvrow in gvPoints.Rows)
             {
                 try
