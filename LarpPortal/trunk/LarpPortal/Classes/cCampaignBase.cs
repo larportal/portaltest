@@ -125,6 +125,8 @@ namespace LarpPortal.Classes
         private Boolean _ShowPELNotificationEmail;
         private Boolean _ShowProductionSkillEmail;
         private Boolean _ShowRegistrationNotificationEmail;
+        private double _PerPlayerInvoiceAmount = 0.00;
+        private string _BillingFrequency = "";
 
         public Int32 CampaignID
         {
@@ -691,6 +693,18 @@ namespace LarpPortal.Classes
             set { _ShowRegistrationNotificationEmail = value; }
         }
 
+        public double PerPlayerInvoiceAmount
+        {
+            get { return _PerPlayerInvoiceAmount; }
+            set { _PerPlayerInvoiceAmount = value; }
+        }
+
+        public string BillingFrequency
+        {
+            get { return _BillingFrequency; }
+            set { _BillingFrequency = value; }
+        }
+
         public cCampaignBase()
         {
 
@@ -783,6 +797,8 @@ namespace LarpPortal.Classes
                     _MaxNumberOfPeriods = 4; //TODO-Rick-4 Limit campaigns to number of periods parameter
                     if (double.TryParse(ldt.Rows[0]["MembershipFee"].ToString(), out dTemp))
                         _MembershipFee = dTemp;
+                    if (double.TryParse(ldt.Rows[0]["PerPlayerInvoiceAmount"].ToString(), out dTemp))
+                        _PerPlayerInvoiceAmount = dTemp;
                     _MembershipFeeFrequency = ldt.Rows[0]["MembershipFeeFrequency"].ToString().Trim();
                     if (int.TryParse(ldt.Rows[0]["MinimumAge"].ToString(), out iTemp))
                         _MinimumAge = iTemp;
@@ -877,6 +893,7 @@ namespace LarpPortal.Classes
                     _WebPageSelectionComments = ldt.Rows[0]["CampaignWebPageSelectionComments"].ToString().Trim();
                     _PrimarySiteZipCode = ldt.Rows[0]["PrimarySiteZipCode"].ToString().Trim();
                     _MarketingLocation = ldt.Rows[0]["MarketingLocation"].ToString().Trim();
+                    _BillingFrequency = ldt.Rows[0]["BillingFrequency"].ToString().Trim();
                     GetGenres(strUserName);
                     GetPeriods(strUserName);
                     GetTechLevels(strUserName);
@@ -982,6 +999,8 @@ namespace LarpPortal.Classes
 				slParams.Add("@ShowPELNotificationEmail", ShowPELNotificationEmail);
 				slParams.Add("@ShowProductionSkillEmail", ShowProductionSkillEmail);
                 slParams.Add("@ShowRegistrationNotificationEmail", ShowRegistrationNotificationEmail);
+                slParams.Add("@PerPlayerInvoiceAmount", _PerPlayerInvoiceAmount);
+                slParams.Add("@BillingFrequency", _BillingFrequency);
                 slParams.Add("@Comments", _Comments);
                 cUtilities.PerformNonQuery("uspInsUpdCMCampaigns", slParams, "LARPortal", _UserName);
                 blnReturn = true;

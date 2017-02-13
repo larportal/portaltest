@@ -633,11 +633,24 @@ namespace LarpPortal.Classes
             // If PC add points to character
             // If NPC/staff keeping points at this campaign, bank them here
             // If NPC/staff sending points to another campaign, bank them there if participating campaign, else flag it for email
-            if (RoleID == 1)
+            string stStoredProc = "uspGetCampaignByCampaignID";
+            string stCallingMethod = "cPoints.UpdateCPOpportunity";
+            DataTable dtNPCCampaign = new DataTable();
+            string PortalAccessType = "";
+            int OpportunityStatus = 21;     // Assume Complete.  We'll change as necessary.
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@CampaignID", NPCCampaignID);
+            dtNPCCampaign = Classes.cUtilities.LoadDataTable(stStoredProc, slParameters, "LARPortal", UserID.ToString(), stCallingMethod);
+            foreach (DataRow dRow in dtNPCCampaign.Rows)
+            {
+                PortalAccessType = dRow["PortalAccessType"].ToString();
+            }
+
+            if (RoleID == 1)        // PC - Add points to character
             {
                 // Call the routine to update the opportunity.  Create it already assigned (last two parameters both = 1)
                 InsUpdCPOpportunity(UserID, CampaignCPOpportunityID, CampaignPlayerID, CharacterID, CampaignOpportunityDefaultID, 
-                                EventID, DescriptionText, OppNotes, URL, ReasonID, 21, UserID, CPVal, UserID, RecptDate, UserID, 
+                                EventID, DescriptionText, OppNotes, URL, ReasonID, OpportunityStatus, UserID, CPVal, UserID, RecptDate, UserID, 
                                 DateTime.Now, StaffComments, 1, 1, 0);
                 // Call the routine to check if CP can be assigned to character and if appropriate assign the CP
                 AddPointsToCharacter(CharacterID, CPVal);
@@ -649,24 +662,43 @@ namespace LarpPortal.Classes
                 _ReceivedFromCampaignID = SaveReceivedFromCampaignID;
             }
             else
-            {
-                if(NPCCampaignID != CampaignID && NPCCampaignID != -1)
+            {                      // Non-PC
+                _PLAuditStatus = 60;
+                if (PortalAccessType != "S")
                 {
-                    // If NPC/Staff and the points are going somewhere bank them there
-                    // Set parameters for AddPointToBank function
-                    // Convert CampaignPlayer from this campaign to the destination = uspConvertCampaignPlayerID @OriginalCampaignPlayerID & @NewCampaignID
-                    string stStoredProc = "uspConvertCampaignPlayerID";
-                    string stCallingMethod = "PointsAssign.aspx.btnSaveNewOpportunityClick";
-                    int iTemp = 0;
-                    DataTable dtCampaignPlayers = new DataTable();
-                    SortedList sParams = new SortedList();
-                    sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
-                    sParams.Add("@NewCampaignID", NPCCampaignID);
-                    dtCampaignPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserID.ToString(), stCallingMethod);
-                    foreach (DataRow dRow in dtCampaignPlayers.Rows)
+                    OpportunityStatus = 68;     // Ready to send to a non-LP campaign via email
+                    _PLAuditStatus = 79;
+                }
+                if(NPCCampaignID != CampaignID && NPCCampaignID != -1)      // NOT staying where earned and not Campaign "Other"
+                {
+                    if (OpportunityStatus == 21)    
                     {
-                        if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
-                            CampaignPlayerID = iTemp;
+                        // If NPC/Staff and the points are going somewhere bank them there or email them there (depending on OpportunityStatus which
+                            // is based on PortalAccessType)
+                        // Set parameters for AddPointToBank function
+                        // Convert CampaignPlayer from this campaign to the destination = uspConvertCampaignPlayerID @OriginalCampaignPlayerID & @NewCampaignID
+                        stStoredProc = "uspConvertCampaignPlayerID";
+                        stCallingMethod = "PointsAssign.aspx.btnSaveNewOpportunityClick";
+                        int iTemp = 0;
+                        DataTable dtCampaignPlayers = new DataTable();
+                        SortedList sParams = new SortedList();
+                        sParams.Add("@OriginalCampaignPlayerID", CampaignPlayerID);
+                        sParams.Add("@NewCampaignID", NPCCampaignID);
+                        dtCampaignPlayers = Classes.cUtilities.LoadDataTable(stStoredProc, sParams, "LARPortal", UserID.ToString(), stCallingMethod);
+                        foreach (DataRow dRow in dtCampaignPlayers.Rows)
+                        {
+                            if (int.TryParse(dRow["CampaignPlayerID"].ToString(), out iTemp))
+                                CampaignPlayerID = iTemp;
+                        }
+                        // Assume that staff and NPC are going to a bank, at least for now
+                        AddPointsToBank(UserID, CampaignCPOpportunityID, CampaignPlayerID, CampaignOpportunityDefaultID, EventID, DescriptionText, OppNotes, URL,
+                            ReasonID, CPVal, ReceiptDate, StaffComments, CampaignID, RoleID, NPCCampaignID);
+                    }
+                    else
+                    {
+                        // This is going to be emailed.
+                        MarkPointsForEmail(UserID, CampaignCPOpportunityID, CampaignPlayerID, CampaignOpportunityDefaultID, EventID, DescriptionText, OppNotes, URL,
+                        ReasonID, CPVal, ReceiptDate, StaffComments, CampaignID, RoleID, NPCCampaignID, OpportunityStatus);
                     }
                 }
                 else
@@ -674,11 +706,13 @@ namespace LarpPortal.Classes
                     // Else (If NPC/Staff and the points are staying here or going to "other campaign" then bank here)
                     // Set parameters for AddPointToBank function
 
+                    // Assume that staff and NPC are going to a bank, at least for now
+                    AddPointsToBank(UserID, CampaignCPOpportunityID, CampaignPlayerID, CampaignOpportunityDefaultID, EventID, DescriptionText, OppNotes, URL,
+                        ReasonID, CPVal, ReceiptDate, StaffComments, CampaignID, RoleID, NPCCampaignID);
+
                 }
-                _PLAuditStatus = 60;
-                // Assume that staff and NPC are going to a bank, at least for now
-                AddPointsToBank(UserID, CampaignCPOpportunityID, CampaignPlayerID, CampaignOpportunityDefaultID, EventID, DescriptionText, OppNotes, URL,
-                    ReasonID, CPVal, ReceiptDate, StaffComments, CampaignID, RoleID, NPCCampaignID);
+
+
             }
         }
 
@@ -749,6 +783,20 @@ namespace LarpPortal.Classes
                 cUtilities.PerformNonQuery(stStoredProc, slParameters, "LARPortal", UserID.ToString());
             }  
         }
+
+        /// <summary>
+        /// This will mark an opportunity to set it ready to email to non-LARP Portal campaign
+        /// </summary>
+        public void MarkPointsForEmail(int UserID, int CampaignCPOpportunityID, int CampaignPlayerID, int CampaignOpportunityDefaultID,
+             int EventID, string DescriptionText, string OppNotes, string URL, int ReasonID, double CPVal, DateTime RecptDate, string StaffComments,
+             int CampaignID, int RoleID, int NPCCampaignID, int OppStatus)
+        {
+            InsUpdCPOpportunity(UserID, CampaignCPOpportunityID, CampaignPlayerID, 0, CampaignOpportunityDefaultID,
+                                           EventID, DescriptionText, OppNotes, URL, ReasonID, OppStatus, UserID, CPVal, UserID, RecptDate, UserID,
+                                           DateTime.Now, StaffComments, 1, 1, 0);
+            CreatePlayerCPLog(UserID, CampaignCPOpportunityID, RecptDate, CPVal, ReasonID, CampaignPlayerID, CharacterID);
+        }
+
 
         /// <summary>
         /// This will add points to a player's bank

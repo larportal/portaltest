@@ -31,15 +31,6 @@ namespace LarpPortal.Points {
         protected global::System.Web.UI.WebControls.DropDownList ddlCampaign;
         
         /// <summary>
-        /// btnDeleteAll control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDeleteAll;
-        
-        /// <summary>
         /// upnlAssignAll control.
         /// </summary>
         /// <remarks>
@@ -47,6 +38,15 @@ namespace LarpPortal.Points {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel upnlAssignAll;
+        
+        /// <summary>
+        /// btnPreview2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnPreview2;
         
         /// <summary>
         /// btnPreview control.
@@ -130,264 +130,57 @@ namespace LarpPortal.Points {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div2;
         
         /// <summary>
-        /// hidInsertCampaignPlayerID control.
+        /// hidTo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertCampaignPlayerID;
+        protected global::System.Web.UI.WebControls.HiddenField hidTo;
         
         /// <summary>
-        /// hidInsertCharacterID control.
+        /// hidSubject control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertCharacterID;
+        protected global::System.Web.UI.WebControls.HiddenField hidSubject;
         
         /// <summary>
-        /// hidInsertCampaignCPOpportunityDefaultID control.
+        /// hidBcc control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertCampaignCPOpportunityDefaultID;
+        protected global::System.Web.UI.WebControls.HiddenField hidBcc;
         
         /// <summary>
-        /// hidInsertCampaignCPOpportunityDefaultIDNPCEvent control.
+        /// hidBody control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertCampaignCPOpportunityDefaultIDNPCEvent;
+        protected global::System.Web.UI.WebControls.HiddenField hidBody;
         
         /// <summary>
-        /// hidInsertCampaignCPOpportunityDefaultIDNPCSetup control.
+        /// hidBodyAdditionalText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertCampaignCPOpportunityDefaultIDNPCSetup;
+        protected global::System.Web.UI.WebControls.HiddenField hidBodyAdditionalText;
         
         /// <summary>
-        /// hidInsertCampaignCPOpportunityDefaultIDNPCPEL control.
+        /// lblTest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertCampaignCPOpportunityDefaultIDNPCPEL;
-        
-        /// <summary>
-        /// hidInsertEventID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertEventID;
-        
-        /// <summary>
-        /// hidInsertCampaignID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertCampaignID;
-        
-        /// <summary>
-        /// hidInsertDescription control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertDescription;
-        
-        /// <summary>
-        /// hidInsertDescriptionNPCEvent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertDescriptionNPCEvent;
-        
-        /// <summary>
-        /// hidInsertDescriptionNPCSetup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertDescriptionNPCSetup;
-        
-        /// <summary>
-        /// hidInsertDescriptionNPCPEL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertDescriptionNPCPEL;
-        
-        /// <summary>
-        /// hidInsertDestinationCampaign control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertDestinationCampaign;
-        
-        /// <summary>
-        /// hidInsertDestinationCampaignLPType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertDestinationCampaignLPType;
-        
-        /// <summary>
-        /// hidInsertOpportunityNotes control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertOpportunityNotes;
-        
-        /// <summary>
-        /// hidInsertExampleURL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertExampleURL;
-        
-        /// <summary>
-        /// hidInsertReasonID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertReasonID;
-        
-        /// <summary>
-        /// hidInsertReasonIDNPCEvent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertReasonIDNPCEvent;
-        
-        /// <summary>
-        /// hidInsertReasonIDNPCSetup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertReasonIDNPCSetup;
-        
-        /// <summary>
-        /// hidInsertReasonIDNPCPEL control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertReasonIDNPCPEL;
-        
-        /// <summary>
-        /// hidInsertStatusID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertStatusID;
-        
-        /// <summary>
-        /// hidInsertAddedByID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertAddedByID;
-        
-        /// <summary>
-        /// hidInsertCPValue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertCPValue;
-        
-        /// <summary>
-        /// hidInsertApprovedByID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertApprovedByID;
-        
-        /// <summary>
-        /// hidInsertReceiptDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertReceiptDate;
-        
-        /// <summary>
-        /// hidInsertReceivedByID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertReceivedByID;
-        
-        /// <summary>
-        /// hidInsertCPAssignmentDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertCPAssignmentDate;
-        
-        /// <summary>
-        /// hidInsertStaffComments control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidInsertStaffComments;
-        
-        /// <summary>
-        /// hidLastAddCPStep control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidLastAddCPStep;
+        protected global::System.Web.UI.WebControls.Label lblTest;
     }
 }

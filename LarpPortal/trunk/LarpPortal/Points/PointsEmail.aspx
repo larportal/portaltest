@@ -96,7 +96,7 @@
             <div class="col-sm-12">
                 <div class="col-sm-4">
                     <div class="col-sm-12 form-group">
-                        <label for="ddlCampaign" class="col-sm-5 control-label">Campaign</label>
+                        <label for="ddlCampaign" class="col-sm-5 control-label">Send To Campaign</label>
                         <asp:DropDownList ID="ddlCampaign" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCampaign_SelectedIndexChanged">
                             <asp:ListItem Value="0" Text="Select Campaign"></asp:ListItem>
                         </asp:DropDownList>
@@ -107,7 +107,7 @@
                 <div class="col-sm-1">
                     <div class="row">
                         <div style="padding-right: 20px;">
-                            <asp:Button ID="btnDeleteAll" runat="server" CssClass="StandardButton" Width="77px" Text="Delete All" OnClick="btnDeleteAll_Click" />
+                            <%--<asp:Button ID="btnDeleteAll" runat="server" CssClass="StandardButton" Width="77px" Text="Delete All" OnClick="btnDeleteAll_Click" />--%>
                         </div>
                     </div>
                     <div class="row">
@@ -117,7 +117,8 @@
                         <div style="padding-right: 20px;">
                             <asp:UpdatePanel ID="upnlAssignAll" runat="server">
                                 <ContentTemplate>
-                                    <asp:Button ID="btnPreview" runat="server" Visible="true" CssClass="StandardButton" Width="75px" Text="Preview" OnClick="btnPreview_Click" />
+                                    <asp:Button ID="btnPreview2" runat="server" Visible="false" CssClass="StandardButton" Width="75px" Text="Preview2" OnClick="btnPreview2_Click" />
+                                    <asp:Button ID="btnPreview" runat="server" Visible="false" CssClass="StandardButton" Width="75px" Text="Preview" OnClick="btnPreview_Click" />
                                 </ContentTemplate>
                             </asp:UpdatePanel>
                         </div>
@@ -152,9 +153,9 @@
                                                     HeaderStyle-Wrap="false"
                                                     CssClass="table table-striped table-hover table-condensed">
                                                     <Columns>
-                                                        <asp:TemplateField HeaderText="Date">
+                                                        <asp:TemplateField HeaderText="Player Name">
                                                             <ItemTemplate>
-                                                                <asp:Label runat="server" Text='<%# Eval("EventDate") %>' />
+                                                                <asp:Label runat="server" Text='<%# Eval("PlayerName") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
 
@@ -164,40 +165,33 @@
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
 
-                                                        <asp:TemplateField HeaderText="Player Name" ItemStyle-Wrap="true">
+                                                        <asp:TemplateField HeaderText="Description" ItemStyle-Wrap="true">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblPlayerName" runat="server" Text='<%# Eval("PlayerName") %>' />
+                                                                <asp:Label ID="lblPlayerName" runat="server" Text='<%# Eval("Description") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
 
-
-                                                        <asp:TemplateField HeaderText="Character Name" ItemStyle-HorizontalAlign="center" ItemStyle-Wrap="false" ItemStyle-Width="100px">
+                                                        <asp:TemplateField HeaderText="To Campaign" ItemStyle-Wrap="true">
                                                             <ItemTemplate>
-                                                                <asp:Label runat="server" Text='<%# Eval("CharacterAKA") %>' />
+                                                                <asp:Label ID="lblEarnDescription" runat="server" Text='<%# Eval("CampaignName") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
 
-                                                        <asp:TemplateField HeaderText="Earn Description" ItemStyle-Wrap="true">
-                                                            <ItemTemplate>
-                                                                <asp:Label ID="lblEarnDescription" runat="server" Text='<%# Eval("Description") %>' />
-                                                            </ItemTemplate>
-                                                        </asp:TemplateField>
-
-                                                        <asp:TemplateField HeaderText="Value" ItemStyle-Wrap="true">
+                                                        <asp:TemplateField HeaderText="Points" ItemStyle-Wrap="true">
                                                             <ItemTemplate>
                                                                 <asp:Label ID="lblCPValue" runat="server" Text='<%# Eval("CPValue") %>' />
                                                             </ItemTemplate>
                                                             <EditItemTemplate>
-                                                                <asp:TextBox ID="txtCPValue" runat="server" Text='<%# Eval("CPValue") %>'></asp:TextBox>
+                                                                <asp:TextBox ID="txtCPValue" runat="server" Visible="true" Text='<%# Eval("CPValue") %>' BorderColor="Black" BorderStyle="Solid" BorderWidth="1" />
                                                             </EditItemTemplate>
                                                         </asp:TemplateField>
 
                                                         <asp:TemplateField HeaderText="Staff Comments">
                                                             <ItemTemplate>
-                                                                <asp:Label ID="lblStaffComments" runat="server" Visible="false" Text='<%# Eval("StaffComments") %>' />
+                                                                <asp:Label ID="lblStaffComments" runat="server" Text='<%# Eval("OpportunityStaffComments") %>' />
                                                             </ItemTemplate>
                                                             <EditItemTemplate>
-                                                                <asp:TextBox ID="tbStaffComments" runat="server" Visible="true" Text='<%# Eval("StaffComments") %>' BorderColor="Black" BorderStyle="Solid" BorderWidth="1" />
+                                                                <asp:TextBox ID="tbStaffComments" runat="server" Visible="true" Text='<%# Eval("OpportunityStaffComments") %>' BorderColor="Black" BorderStyle="Solid" BorderWidth="1" />
                                                             </EditItemTemplate>
                                                         </asp:TemplateField>
 
@@ -207,11 +201,11 @@
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
 
-                                                        <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
+                                                        <%--<asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                             <ItemTemplate>
                                                                 <asp:HiddenField ID="hidReceivedBy" runat="server" Value='<%# Eval("ReceiversName") %>' />
                                                             </ItemTemplate>
-                                                        </asp:TemplateField>
+                                                        </asp:TemplateField>--%>
 
                                                         <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                             <ItemTemplate>
@@ -273,11 +267,11 @@
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
 
-                                                        <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
+                                                        <%--<asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                             <ItemTemplate>
                                                                 <asp:HiddenField ID="hidRole" runat="server" Value='<%# Eval("Role") %>' />
                                                             </ItemTemplate>
-                                                        </asp:TemplateField>
+                                                        </asp:TemplateField>--%>
 
                                                         <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                             <ItemTemplate>
@@ -294,11 +288,11 @@
                                                         <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                                             <ItemTemplate>
                                                                 <asp:Button ID="btnEdit" runat="server" CommandName="Edit" Text="Edit" Width="75px" CssClass="StandardButton" />
-                                                                <asp:Button ID="btnAssign" runat="server" CommandName="Update" Text="Assign" Width="75px" CssClass="StandardButton" />
+                                                                <%--<asp:Button ID="btnAssign" runat="server" CommandName="Update" Text="Assign" Width="75px" CssClass="StandardButton" />--%>
                                                                 <asp:Button ID="btnDelete" runat="server" CommandName="Delete" Text="Delete" Width="75px" CssClass="StandardButton" />
                                                             </ItemTemplate>
                                                             <EditItemTemplate>
-                                                                <asp:Button ID="btnupdate2" runat="server" CommandName="Update" Text="Assign" Width="75px" CssClass="StandardButton" />
+                                                                <asp:Button ID="btnupdate2" runat="server" CommandName="Update" Text="Save" Width="75px" CssClass="StandardButton" />
                                                                 <asp:Button ID="btncancel2" runat="server" CommandName="Cancel" Text="Cancel" Width="75px" CssClass="StandardButton" />
                                                             </EditItemTemplate>
                                                         </asp:TemplateField>
@@ -317,7 +311,7 @@
 
             <%--Email preview panel--%>
             <section role="form">
-                <asp:Panel ID="pnlPreviewEmail" runat="server" Visible="false">
+                <asp:Panel ID="pnlPreviewEmail" runat="server">  <%--Need to make this visible="false" by default--%>
                     <div class="form-horizontal col-lg-6">
                         <div class="row">
                             <div id="Div2" class="panel-wrapper" runat="server">
@@ -325,39 +319,19 @@
                                     <div class="panelheader NoPadding">
                                         <h2>Preview Email</h2>
                                         <div class="panel-body NoPadding">
-                                            <asp:HiddenField ID="hidInsertCampaignPlayerID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertCharacterID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertCampaignCPOpportunityDefaultID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertCampaignCPOpportunityDefaultIDNPCEvent" runat="server" />
-                                            <asp:HiddenField ID="hidInsertCampaignCPOpportunityDefaultIDNPCSetup" runat="server" />
-                                            <asp:HiddenField ID="hidInsertCampaignCPOpportunityDefaultIDNPCPEL" runat="server" />
-                                            <asp:HiddenField ID="hidInsertEventID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertCampaignID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertDescription" runat="server" />
-                                            <asp:HiddenField ID="hidInsertDescriptionNPCEvent" runat="server" />
-                                            <asp:HiddenField ID="hidInsertDescriptionNPCSetup" runat="server" />
-                                            <asp:HiddenField ID="hidInsertDescriptionNPCPEL" runat="server" />
-                                            <asp:HiddenField ID="hidInsertDestinationCampaign" runat="server" />
-                                            <asp:HiddenField ID="hidInsertDestinationCampaignLPType" runat="server" />
-                                            <asp:HiddenField ID="hidInsertOpportunityNotes" runat="server" />
-                                            <asp:HiddenField ID="hidInsertExampleURL" runat="server" />
-                                            <asp:HiddenField ID="hidInsertReasonID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertReasonIDNPCEvent" runat="server" />
-                                            <asp:HiddenField ID="hidInsertReasonIDNPCSetup" runat="server" />
-                                            <asp:HiddenField ID="hidInsertReasonIDNPCPEL" runat="server" />
-                                            <asp:HiddenField ID="hidInsertStatusID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertAddedByID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertCPValue" runat="server" />
-                                            <asp:HiddenField ID="hidInsertApprovedByID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertReceiptDate" runat="server" />
-                                            <asp:HiddenField ID="hidInsertReceivedByID" runat="server" />
-                                            <asp:HiddenField ID="hidInsertCPAssignmentDate" runat="server" />
-                                            <asp:HiddenField ID="hidInsertStaffComments" runat="server" />
-                                            <asp:HiddenField ID="hidLastAddCPStep" runat="server" />
+                                            <asp:HiddenField ID="hidTo" runat="server" />
+                                            <asp:HiddenField ID="hidSubject" runat="server" />
+                                            <asp:HiddenField ID="hidBcc" runat="server" />
+                                            <asp:HiddenField ID="hidBody" runat="server" />
+                                            <asp:HiddenField ID="hidBodyAdditionalText" runat="server" />
                                             <div class="panel-container">
+                                                <div>
+                                                    <asp:Label ID="lblTest" runat="server" Text="Initial Text"></asp:Label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
