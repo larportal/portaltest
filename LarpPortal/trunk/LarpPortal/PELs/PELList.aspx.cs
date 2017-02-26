@@ -224,6 +224,9 @@ namespace LarpPortal.PELs
                 dsEventInfo.Tables[7].TableName = "RegistrationStatuses";
                 dsEventInfo.Tables[8].TableName = "Meals";
                 dsEventInfo.Tables[9].TableName = "PlayerInfo";
+                dsEventInfo.Tables[10].TableName = "CampaignPELs";
+                dsEventInfo.Tables[11].TableName = "EventPELs";
+                dsEventInfo.Tables[12].TableName = "AllCharactersForUser";
             }
 
             foreach (DataRow dRow in dsEventInfo.Tables["EventInfo"].Rows)
@@ -248,9 +251,10 @@ namespace LarpPortal.PELs
                 }
             }
 
-            if (dsEventInfo.Tables["Character"].Rows.Count > 0)
+            if (dsEventInfo.Tables["AllCharactersForUser"].Rows.Count > 0)
+//            if (dsEventInfo.Tables["Character"].Rows.Count > 0)
             {
-                ddlCharacterList.DataSource = dsEventInfo.Tables["Character"];
+                ddlCharacterList.DataSource = dsEventInfo.Tables["AllCharactersForUser"];            //["Character"];
                 ddlCharacterList.DataTextField = "CharacterAKA";
                 ddlCharacterList.DataValueField = "CharacterID";
                 ddlCharacterList.DataBind();
@@ -259,7 +263,8 @@ namespace LarpPortal.PELs
                 lblCharacter.Visible = false;
             }
 
-            if (dsEventInfo.Tables["Character"].Rows.Count == 1)
+            if (dsEventInfo.Tables["AllCharactersForUser"].Rows.Count == 1)
+//            if (dsEventInfo.Tables["Character"].Rows.Count == 1)
             {
                 ddlCharacterList.Visible = false;
                 lblCharacter.Visible = true;
@@ -292,7 +297,7 @@ namespace LarpPortal.PELs
 
             ddlSendToCampaign.ClearSelection();
 
-            foreach (DataRow dCharInfo in dsEventInfo.Tables["Character"].Rows)
+            foreach (DataRow dCharInfo in dsEventInfo.Tables["AllCharactersForUser"].Rows)
             {
                 lblCharacter.Text = dCharInfo["CharacterAKA"].ToString().Trim();
             }
