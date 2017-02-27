@@ -3,7 +3,7 @@
 <asp:Content ID="ScriptSection" runat="server" ContentPlaceHolderID="MemberScripts">
 
     <script type="text/javascript">
-        function DisplayRoles(DropDownListRoles) {
+<%--        function DisplayRoles(DropDownListRoles) {
             var Role = DropDownListRoles.options[DropDownListRoles.selectedIndex].text;
             if (Role != null) {
                 var trPCStaff = document.getElementById('<%= divPCStaff.ClientID %>');
@@ -20,21 +20,31 @@
                     trSendCPOther.style.display = 'block';
                 }
             }
-        }
+        }--%>
 
-        function closeRegistration() {
-            $('#modalRegistration').hide();
-        }
+        //function closeRegistration() {
+        //    $('#modalRegistration').hide();
+        //}
 
         function openMessage() {
             $('#modalMessage').modal('show');
+            return false;
         }
         function closeMessage() {
             $('#modalMessage').hide();
         }
 
+        //function openRegistration() {
+        //    $('#modalRegistration').modal('show');
+        //    return false;
+        //}
 
     </script>
+
+    <script src="../Scripts/jquery-1.11.3.js"></script>
+    <script src="../Scripts/jquery-ui.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
 
 </asp:Content>
 <asp:Content ContentPlaceHolderID="MemberCampaignsContent" ID="PELList" runat="server">
@@ -44,7 +54,7 @@
                 <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="PEL (Post Event Letter)" />
             </div>
             <div class="col-sm-6 text-right">
-                <button type="button" data-toggle="modal" data-target="#modalRegistration" class="StandardButton" style="width: 125px;">Missing Event?</button>
+                <asp:Button ID="btnMissedEvent" runat="server" CssClass="StandardButton" Width="125px" Text="Missing Event?" OnClick="btnMissedEvent_Click" />
             </div>
         </div>
         <div class="row" style="padding-left: 15px;">
@@ -105,13 +115,13 @@
         </div>
     </div>
 
-    <style type="text/css">
+<%--    <style type="text/css">
         .Padding5 {
             padding-top: 5px;
         }
-    </style>
+    </style>--%>
 
-    <div class="modal fade" id="modalRegistration" role="dialog">
+<%--    <div class="modal fade" id="modalRegistration" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -164,7 +174,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--%>
 
     <div class="modal" id="modalMessage" role="dialog">
         <div class="modal-dialog">
@@ -178,7 +188,7 @@
                         <asp:Label ID="lblMessage" runat="server" /></p>
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseMessage_Click" />
+                    <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClientClick="closeMessage(); return false;" />  <%-- OnClick="btnCloseMessage_Click" />--%>
                 </div>
             </div>
         </div>
