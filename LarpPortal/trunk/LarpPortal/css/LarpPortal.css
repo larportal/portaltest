@@ -1,5 +1,5 @@
 ﻿/* This was updated by Jeff on 3/6/2016   */
-
+/* Last updated 1/21/2017 Changed the margin left/right for button. */
 
 /*This style sheet is for all of the things specific for LarpPortal. If you want to override something, put it in here.
 
@@ -11,11 +11,14 @@ Make sure this is the last CSS in the include list. If not some of these items m
     border-width: 1px;
     border-style: solid;
     color: white;
-    margin-left: 5px;
-    margin-right: 5px;
     margin-top: 0px;
     margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
     border-radius: 4px;
+    padding-left: 0px;
+    padding-right: 0px;
+    min-width: 100px;
 }
 
 .StandardButton {
@@ -38,15 +41,21 @@ Make sure this is the last CSS in the include list. If not some of these items m
 
 
 .CancelButton {
-    background-repeat: repeat-x;
-    border-color: #b92c28;
-    background-image: linear-gradient(to bottom, #d9534f 0%, #c12e2a 100%);
+    background-color: #f62b2b;
+    background-image: -webkit-linear-gradient(top, #f62b2b, #d20202);
+    background-image: -moz-linear-gradient(top, #f62b2b, #d20202);
+    background-image: -ms-linear-gradient(top, #f62b2b, #d20202);
+    background-image: -o-linear-gradient(top, #f62b2b, #d20202);
+    background-image: linear-gradient(to bottom, #f62b2b, #d20202);
 }
 
     .CancelButton:hover,
     .CancelButton:focus {
-        background-color: #c12e2a;
-        background-position: 0 -15px;
+        background-color: #e40a0a;
+        background-image: -webkit-linear-gradient(top, #e40a0a, #9f0202);
+        background-image: -moz-linear-gradient(top, #e40a0a, #9f0202);
+        background-image: -ms-linear-gradient(top, #e40a0a, #9f0202);
+        background-image: -o-linear-gradient(top, #e40a0a, #9f0202);
     }
 
 .PrePostPadding {
@@ -118,7 +127,7 @@ input[type="radio"] {
     margin: 5px 0px 0px 0px;
 }
 
-.CheckBoxList {
+/*.CheckBoxList {
     display: inline-block;
     vertical-align: middle;
 }
@@ -127,7 +136,7 @@ input[type="radio"] {
         margin-bottom: 0px;
         font-size: 10pt;
         font-weight: 400 !important;
-    }
+    }*/
 
 .TextBox {
     border: 1px solid black;
@@ -505,3 +514,50 @@ input[type="radio"] {
     .CharInfoTable td {
         padding: 4px;
     }
+
+.LinkUnderline {
+    color: blue;
+    text-decoration: underline !important;
+}
+
+.tooltip.in {
+    opacity: 1.0;
+}
+
+
+
+
+
+.btn.btn-danger {
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    color: #ffffff;
+    background-color: #D9534F;
+    background-image: linear-gradient(to bottom, #fa5555, #C12E2A);
+    border-color: #B92C28 #B92C28 #B92C28;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    border-radius: 4px;
+    padding-left: 0px;
+    padding-right: 0px;
+    min-width: 100px;
+    min-height: 20px;
+    margin: 0px 10px 0px 10px;
+    padding: 1px 0px 1px 0px;
+}
+
+.btn.btn-danger:hover {
+    color: #ffffff;
+    background-color: #a00000;
+    background-image: linear-gradient(to bottom, #a00000, #a00000);
+    border-color: #000000 #000000 #000000;
+}
+
+
+.NoGutters {
+    padding-left: 0px;
+    padding-right: 0px;
+}
