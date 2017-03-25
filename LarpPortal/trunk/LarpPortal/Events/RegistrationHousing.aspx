@@ -105,6 +105,11 @@
                                                                 <asp:Label ID="lblHousing" runat="server" Text='<%# Eval("ReqstdHousing") %>' />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
+                                                        <asp:TemplateField HeaderText="Comments" SortExpression="PlayerCommentsToStaff" HeaderStyle-Font-Underline="true" HeaderStyle-ForeColor="Blue">
+                                                            <ItemTemplate>
+                                                                <asp:Label ID="lblComments" runat="server" Text='<%# Eval("PlayerCommentsToStaff") %>' />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                         <asp:TemplateField HeaderText="Assigned Housing" SortExpression="AssignHousing" HeaderStyle-Font-Underline="true" HeaderStyle-ForeColor="blue">
                                                             <ItemTemplate>
                                                                 <asp:TextBox ID="tbAssignHousing" runat="server" Text='<%# Eval("AssignHousing") %>' CssClass="TableTextBox" Width="150px" />
