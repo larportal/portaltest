@@ -13,22 +13,13 @@ namespace LarpPortal.Events {
     public partial class EventRegistration {
         
         /// <summary>
-        /// mvPlayerInfo control.
+        /// divEvents control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.MultiView mvPlayerInfo;
-        
-        /// <summary>
-        /// vwPlayerInfo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwPlayerInfo;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divEvents;
         
         /// <summary>
         /// ddlEventDate control.
@@ -38,186 +29,6 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlEventDate;
-        
-        /// <summary>
-        /// lblEventStatus control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEventStatus;
-        
-        /// <summary>
-        /// lblEventName control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEventName;
-        
-        /// <summary>
-        /// lblEventDescription control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEventDescription;
-        
-        /// <summary>
-        /// lblInGameLocation control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInGameLocation;
-        
-        /// <summary>
-        /// lblEventStartDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEventStartDate;
-        
-        /// <summary>
-        /// lblEventEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEventEndDate;
-        
-        /// <summary>
-        /// lblSiteLocation control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSiteLocation;
-        
-        /// <summary>
-        /// lblEventOpenDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblEventOpenDate;
-        
-        /// <summary>
-        /// lblPreRegPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPreRegPrice;
-        
-        /// <summary>
-        /// lblPreRegDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPreRegDate;
-        
-        /// <summary>
-        /// lblRegPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRegPrice;
-        
-        /// <summary>
-        /// lblPaymentDue control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPaymentDue;
-        
-        /// <summary>
-        /// lblDoorPrice control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDoorPrice;
-        
-        /// <summary>
-        /// lblInfoSkillDueDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInfoSkillDueDate;
-        
-        /// <summary>
-        /// lblPELDueDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPELDueDate;
-        
-        /// <summary>
-        /// imgPCFoodService control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgPCFoodService;
-        
-        /// <summary>
-        /// imgNPCFoodService control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgNPCFoodService;
-        
-        /// <summary>
-        /// imgCookingAllowed control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgCookingAllowed;
-        
-        /// <summary>
-        /// imgRefrigerator control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgRefrigerator;
-        
-        /// <summary>
-        /// imgMenu control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgMenu;
         
         /// <summary>
         /// lblRegistrationStatus control.
@@ -274,60 +85,6 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.Label lblEMail;
         
         /// <summary>
-        /// mvEventScheduledOpen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.MultiView mvEventScheduledOpen;
-        
-        /// <summary>
-        /// vwEventRegistrationNotOpen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwEventRegistrationNotOpen;
-        
-        /// <summary>
-        /// lblPaymentInstructions1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPaymentInstructions1;
-        
-        /// <summary>
-        /// vwEventRegistrationOpen control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwEventRegistrationOpen;
-        
-        /// <summary>
-        /// mvCharacters control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.MultiView mvCharacters;
-        
-        /// <summary>
-        /// vwCharacter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwCharacter;
-        
-        /// <summary>
         /// divCharacters control.
         /// </summary>
         /// <remarks>
@@ -353,15 +110,6 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlCharacterList;
-        
-        /// <summary>
-        /// vwSendCPTo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwSendCPTo;
         
         /// <summary>
         /// divSendCPTo control.
@@ -472,13 +220,13 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.Label lblNoTeams;
         
         /// <summary>
-        /// divHousing control.
+        /// divHousePref control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHousing;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHousePref;
         
         /// <summary>
         /// tbReqstdHousing control.
@@ -497,6 +245,15 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblReqstdHousing;
+        
+        /// <summary>
+        /// divHouseAssign control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHouseAssign;
         
         /// <summary>
         /// lblAssignHousing control.
@@ -625,31 +382,49 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.TextBox tbComments;
         
         /// <summary>
-        /// mvButtons control.
+        /// btnCancel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.MultiView mvButtons;
+        protected global::System.Web.UI.WebControls.Button btnCancel;
         
         /// <summary>
-        /// vwAlreadyHappened control.
+        /// btnChange control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwAlreadyHappened;
+        protected global::System.Web.UI.WebControls.Button btnChange;
         
         /// <summary>
-        /// vwRSVPButtons control.
+        /// btnRegister control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwRSVPButtons;
+        protected global::System.Web.UI.WebControls.Button btnRegister;
+        
+        /// <summary>
+        /// btnRSVPNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRSVPNo;
+        
+        /// <summary>
+        /// btnRSVP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRSVP;
         
         /// <summary>
         /// lblWhyRSVP control.
@@ -661,6 +436,15 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.Label lblWhyRSVP;
         
         /// <summary>
+        /// lblAlreadyHappened control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblAlreadyHappened;
+        
+        /// <summary>
         /// lblClosedToPC control.
         /// </summary>
         /// <remarks>
@@ -670,49 +454,202 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.Label lblClosedToPC;
         
         /// <summary>
-        /// btnRSVPYes control.
+        /// lblPastEvent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRSVPYes;
+        protected global::System.Web.UI.WebControls.Label lblPastEvent;
         
         /// <summary>
-        /// btnICannotAttend control.
+        /// lblEventStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnICannotAttend;
+        protected global::System.Web.UI.WebControls.Label lblEventStatus;
         
         /// <summary>
-        /// vwRegisterButtons control.
+        /// lblEventName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwRegisterButtons;
+        protected global::System.Web.UI.WebControls.Label lblEventName;
         
         /// <summary>
-        /// btnUnregister control.
+        /// lblEventDescription control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUnregister;
+        protected global::System.Web.UI.WebControls.Label lblEventDescription;
         
         /// <summary>
-        /// btnRegister control.
+        /// lblInGameLocation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRegister;
+        protected global::System.Web.UI.WebControls.Label lblInGameLocation;
+        
+        /// <summary>
+        /// lblEventStartDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEventStartDate;
+        
+        /// <summary>
+        /// lblEventEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEventEndDate;
+        
+        /// <summary>
+        /// lblSiteLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSiteLocation;
+        
+        /// <summary>
+        /// lblEventOpenDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEventOpenDate;
+        
+        /// <summary>
+        /// lblEventCloseDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblEventCloseDate;
+        
+        /// <summary>
+        /// lblPreRegPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPreRegPrice;
+        
+        /// <summary>
+        /// lblPreRegDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPreRegDate;
+        
+        /// <summary>
+        /// lblRegPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRegPrice;
+        
+        /// <summary>
+        /// lblPaymentDue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPaymentDue;
+        
+        /// <summary>
+        /// lblDoorPrice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblDoorPrice;
+        
+        /// <summary>
+        /// lblInfoSkillDueDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblInfoSkillDueDate;
+        
+        /// <summary>
+        /// lblPELDueDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPELDueDate;
+        
+        /// <summary>
+        /// imgPCFoodService control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgPCFoodService;
+        
+        /// <summary>
+        /// imgNPCFoodService control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgNPCFoodService;
+        
+        /// <summary>
+        /// imgCookingAllowed control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgCookingAllowed;
+        
+        /// <summary>
+        /// imgRefrigerator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgRefrigerator;
+        
+        /// <summary>
+        /// imgMenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgMenu;
         
         /// <summary>
         /// hidRegistrationID control.
@@ -742,31 +679,22 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.HiddenField hidTeamMember;
         
         /// <summary>
-        /// vwRegistered control.
+        /// divNoEvents control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwRegistered;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNoEvents;
         
         /// <summary>
-        /// vwError control.
+        /// divNoPriv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwError;
-        
-        /// <summary>
-        /// vwNoEvents control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View vwNoEvents;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNoPriv;
         
         /// <summary>
         /// lblRegistrationMessage control.
@@ -866,5 +794,50 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidHasPCChar;
+        
+        /// <summary>
+        /// hidRegOpen control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidRegOpen;
+        
+        /// <summary>
+        /// hidRegClose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidRegClose;
+        
+        /// <summary>
+        /// hidEventClose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidEventClose;
+        
+        /// <summary>
+        /// hidPELClose control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidPELClose;
+        
+        /// <summary>
+        /// hidCurrentRegStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidCurrentRegStatus;
     }
 }
