@@ -1,24 +1,36 @@
 ﻿<%@ Master Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="Calendars.master.cs" Inherits="LarpPortal.Calendars.Calendars" %>
+
 <%@ Register TagPrefix="UC1" TagName="UserCampaignDDL" Src="~/ucUserCampaignsDropDownList.ascx" %>
 
+<asp:Content ContentPlaceHolderID="HeaderScripts" runat="server" ID="ScriptSection">
+    <asp:ContentPlaceHolder ID="CalendarHeaderScripts" runat="server" />
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="HeaderStyles" runat="server" ID="StyleSection">
+    <asp:ContentPlaceHolder ID="CalendarHeaderStyles" runat="server" />
+</asp:Content>
+
 <asp:Content ID="LeftNavReports" ContentPlaceHolderID="MainPage" runat="server">
-    <asp:Table runat="server">
-        
-        <asp:TableRow>
-            <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
-              <div class="contentArea">
-				<nav class="userSubNav">
-					<div class="col-sm-12">
-                        <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
-					</div>
-				</nav>
-              </div>
-            </asp:TableCell>
-            <asp:TableCell verticalalign="Top">
-                <div class="col-sm-12">
-                    <asp:ContentPlaceHolder ID="ReportsContent" runat="server"></asp:ContentPlaceHolder>
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-xs-1" style="width: 227px;">
+                <div class="contentArea">
+                    <nav class="userSubNav">
+                        Select Campaigns:<br />
+                        <asp:DropDownList ID="ddlCampList" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCampList_SelectedIndexChanged" />
+
+                        <%--                        <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>--%>
+                        <br />
+                        <ul class="nav nav-pills panel-wrapper list-unstyled" style="width: 227px;">
+                            <li runat="server" id="liCampCalendar"><a href="/Calendar/CampaignCalendar.aspx" runat="server" id="hlCharInfo">Graphic Calendar</a></li>
+                            <li runat="server" id="liCalendarReport"><a href="/Calendar/CalendarRpt.aspx" runat="server" id="hlCalReport">Calendar Report</a></li>
+                        </ul>
+                    </nav>
                 </div>
-            </asp:TableCell>
-        </asp:TableRow>
-    </asp:Table>
+            </div>
+            <div class="col-lg-10 col-xs-12">
+                <asp:ContentPlaceHolder ID="ReportsContent" runat="server"></asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </div>
 </asp:Content>

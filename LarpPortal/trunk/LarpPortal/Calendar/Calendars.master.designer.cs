@@ -13,13 +13,67 @@ namespace LarpPortal.Calendars {
     public partial class Calendars {
         
         /// <summary>
-        /// ddlUserCampaigns control.
+        /// CalendarHeaderScripts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::LarpPortal.ucUserCampaignsDropDownList ddlUserCampaigns;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder CalendarHeaderScripts;
+        
+        /// <summary>
+        /// CalendarHeaderStyles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder CalendarHeaderStyles;
+        
+        /// <summary>
+        /// ddlCampList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCampList;
+        
+        /// <summary>
+        /// liCampCalendar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liCampCalendar;
+        
+        /// <summary>
+        /// hlCharInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor hlCharInfo;
+        
+        /// <summary>
+        /// liCalendarReport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liCalendarReport;
+        
+        /// <summary>
+        /// hlCalReport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor hlCalReport;
         
         /// <summary>
         /// ReportsContent control.
