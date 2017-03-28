@@ -876,7 +876,6 @@ namespace LarpPortal.Events
         protected void Register(object sender, CommandEventArgs e)
         {
             bool bNewRegistration = false;
-            bool bActualRegistration = false;
             string sRegistrationMessage = "";
 
             if ((hidRegistrationID.Value == "-1") || (hidRegistrationID.Value.Length == 0) ||
@@ -888,14 +887,13 @@ namespace LarpPortal.Events
             else
                 sRegistrationMessage = "Your registration has been updated.";
 
-
             int iRegistrationID = 0;
-            int.TryParse(hidRegistrationID.Value, out iRegistrationID);
             int iRoleAlignment = 0;
-            int.TryParse(ddlRoles.SelectedValue, out iRoleAlignment);
             int iEventID = 0;
-            int.TryParse(ddlEventDate.SelectedValue, out iEventID);
             int iCharacterID = 0;
+            int.TryParse(hidRegistrationID.Value, out iRegistrationID);
+            int.TryParse(ddlRoles.SelectedValue, out iRoleAlignment);
+            int.TryParse(ddlEventDate.SelectedValue, out iEventID);
             int.TryParse(ddlCharacterList.SelectedValue, out iCharacterID);
 
             SortedList sParam = new SortedList();
@@ -928,78 +926,8 @@ namespace LarpPortal.Events
                     break;
             }
 
-            //            sParam.Add("@TeamID", ddlTeams.SelectedValue);
-
-            //if (hidTeamMember.Value == "1")
             if (ddlTeams.Visible)
-                //                if (ddlTeams.SelectedIndex != 0)
                 sParam.Add("@TeamID", ddlTeams.SelectedValue);
-
-            //            string sStatusToSearchFor = "";
-            //            string sRegistrationMessage = "";
-
-            //switch (e.CommandName.ToString().ToUpper())
-            //{
-            //    case "RSVPATTEND":
-            //        sStatusToSearchFor = "RSVP-Plan to Attend";
-            //        sRegistrationMessage = "Thank you for RSVPing.";
-            //        break;
-
-            //    case "RSVPCANNOTATTEND":
-            //        sStatusToSearchFor = "RSVP-Cannot Attend";
-            //        sRegistrationMessage = "Thank you for RSVPing.";
-            //        break;
-
-            //    case "UNREGISTER":
-            //        sStatusToSearchFor = "Canceled";
-            //        sRegistrationMessage = "Your registration has been canceled.";
-
-            //        SortedList sParams = new SortedList();
-            //        string sSQL = "select StatusID, StatusName from MDBStatus " +
-            //            "where StatusType like 'Registration' and StatusName = 'Canceled' " +
-            //                "and DateDeleted is null";
-            //        DataTable dtRegStatus = Classes.cUtilities.LoadDataTable(sSQL, sParams, "LARPortal", _UserName, "EventRegistration.btnRegister_Command",
-            //            Classes.cUtilities.LoadDataTableCommandType.Text);
-            //        DataView dvRegStatus = new DataView(dtRegStatus, "StatusName = '" + sStatusToSearchFor + "'", "", DataViewRowState.CurrentRows);
-            //        if (dvRegStatus.Count > 0)
-            //        {
-            //            int iRegStatus;
-            //            if (int.TryParse(dvRegStatus[0]["StatusID"].ToString(), out iRegStatus))
-            //                hidRegistrationStatusID.Value = iRegStatus.ToString();
-            //        }
-            //        break;
-
-            //    case "REGISTER":
-            //        // TryToRegister is only valid if they aren't already registered. If that's true it ignores it.
-            //        sStatusToSearchFor = "TryToRegister";
-            //        sRegistrationMessage = "Thank you for registering for the event.";
-            //        bActualRegistration = true;
-            //        break;
-            //}
-
-
-            // Always get the registration status regardless. The SP actually checks for if they are already approved.
-            //            if ((hidRegistrationID.Value == "-1") || (sStatusToSearchFor == "Canceled"))
-            //{
-            //    if ((sStatusToSearchFor != "") && (hidRegistrationStatusID.Value.Length == 0))
-            //    {
-            //        SortedList sParams = new SortedList();
-            //        string sSQL = "select StatusID, StatusName from MDBStatus " +
-            //            "where StatusType like 'Registration' " +
-            //                "and DateDeleted is null";
-            //        DataTable dtRegStatus = Classes.cUtilities.LoadDataTable(sSQL, sParams, "LARPortal", _UserName, "EventRegistration.btnRegister_Command",
-            //            Classes.cUtilities.LoadDataTableCommandType.Text);
-            //        DataView dvRegStatus = new DataView(dtRegStatus, "StatusName = '" + sStatusToSearchFor + "'", "", DataViewRowState.CurrentRows);
-            //        if (dvRegStatus.Count > 0)
-            //        {
-            //            int iRegStatus;
-            //            if (int.TryParse(dvRegStatus[0]["StatusID"].ToString(), out iRegStatus))
-            //                sParam.Add("@RegistrationStatus", iRegStatus);
-            //        }
-            //    }
-            //    else
-            //        sParam.Add("@RegistrationStatus", hidRegistrationStatusID.Value);
-            //}
 
             bool bFullEvent = true;
             if (ddlFullEvent.SelectedValue == "N")
@@ -1042,7 +970,7 @@ namespace LarpPortal.Events
                     int.TryParse(dRegRecord["RegistrationID"].ToString(), out iRegistrationID);
                     Session["RegistrationID"] = iRegistrationID;
 
-                    InsertCPOpportunity(iRoleAlignment, iCharacterID, iEventID, iRegistrationID, bFullEvent, bActualRegistration);
+                    InsertCPOpportunity(iRoleAlignment, iCharacterID, iEventID, iRegistrationID, bFullEvent);
 
                     SortedList sParamsClearMeals = new SortedList();
                     sParamsClearMeals.Add("@RegistrationID", dRegRecord["RegistrationID"].ToString());
@@ -1135,7 +1063,7 @@ namespace LarpPortal.Events
             //Waiting Team Approval
 
             btnCancel.Visible = false;
-//            btnCancelRSVP.Visible = false;
+            //            btnCancelRSVP.Visible = false;
             btnChange.Visible = false;
             btnRegister.Visible = false;
             btnRSVP.Visible = false;
@@ -1156,26 +1084,26 @@ namespace LarpPortal.Events
                 btnRSVP.Visible = true;
                 btnRSVPNo.Visible = true;
 
-//                if (hidCurrentRegStatus.Value == "")
-//                {
-//                    // New registration.
-//                    btnRSVP.Visible = true;
-//                }
-//                else
-//                {
-//                    btnChange.Visible = true;
-////                    btnCancel.Visible = true;
+                //                if (hidCurrentRegStatus.Value == "")
+                //                {
+                //                    // New registration.
+                //                    btnRSVP.Visible = true;
+                //                }
+                //                else
+                //                {
+                //                    btnChange.Visible = true;
+                ////                    btnCancel.Visible = true;
 
-//                    if (hidCurrentRegStatus.Value == "64")      // They have already registered as a Plan To Attend.
-//                        btnCancelRSVP.Visible = true;
-//                    else
-//                        btnRSVP.Visible = true;
+                //                    if (hidCurrentRegStatus.Value == "64")      // They have already registered as a Plan To Attend.
+                //                        btnCancelRSVP.Visible = true;
+                //                    else
+                //                        btnRSVP.Visible = true;
 
-//                    // Assume person has already RSVP so they can either change it or cancel it.
-//                    //btnChange.Visible = true;
-//                    //btnCancelRSVP.Visible = true;
-//                    //btnRSVPNo.Visible = true;
-//                }
+                //                    // Assume person has already RSVP so they can either change it or cancel it.
+                //                    //btnChange.Visible = true;
+                //                    //btnCancelRSVP.Visible = true;
+                //                    //btnRSVPNo.Visible = true;
+                //                }
             }
             else
             {
@@ -1281,7 +1209,7 @@ namespace LarpPortal.Events
                     divHouseAssign.Visible = true;
                     divHousePref.Visible = true;
                     divTeams.Visible = true;
-                //    ddlCharacterList.Visible = true;
+                    //    ddlCharacterList.Visible = true;
                     divCharacters.Visible = true;
                 }
             }
@@ -1293,7 +1221,7 @@ namespace LarpPortal.Events
         //    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeModal();", true);
         //}
 
-        protected void InsertCPOpportunity(int RoleAlignment, int iCharacterID, int iEventID, int iRegistrationID, bool bFullEvent, bool bActualRegistration)
+        protected void InsertCPOpportunity(int RoleAlignment, int iCharacterID, int iEventID, int iRegistrationID, bool bFullEvent)
         {
             int iCampaignID = 0;
             if (Session["CampaignID"] != null)
@@ -1324,8 +1252,7 @@ namespace LarpPortal.Events
             Classes.cPoints cPoints = new Classes.cPoints();
             cPoints.DeleteRegistrationCPOpportunity(_UserID, iRegistrationID);
 
-            if (bActualRegistration)
-                cPoints.CreateRegistrationCPOpportunity(_UserID, iCampaignID, RoleAlignment, iCharacterID, iReasonID, iEventID, iRegistrationID);
+            cPoints.CreateRegistrationCPOpportunity(_UserID, iCampaignID, RoleAlignment, iCharacterID, iReasonID, iEventID, iRegistrationID);
         }
 
         protected void btnCreateACharacter_Click(object sender, EventArgs e)
