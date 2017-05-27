@@ -55,10 +55,10 @@ namespace LarpPortal.PELs
                     int.TryParse(dsQuestions.Tables[0].Rows[0]["CharacterID"].ToString(), out iCharacterID);
                     int.TryParse(dsQuestions.Tables[0].Rows[0]["UserID"].ToString(), out iUserID);
 
-                    sEventInfo += "&nbsp;&nbsp;<b>Player: </b> ";
+                    sEventInfo += "<br><b>Player: </b> ";
                     if (dsQuestions.Tables[0].Rows[0]["NickName"].ToString() != "")
                     {
-                        sEventInfo += dsQuestions.Tables[0].Rows[0]["NickName"].ToString();
+                        sEventInfo += dsQuestions.Tables[0].Rows[0]["NickName"].ToString() + " " + dsQuestions.Tables[0].Rows[0]["LastName"].ToString();
                         hidPlayerName.Value = dsQuestions.Tables[0].Rows[0]["NickName"].ToString();
                     }
                     else
@@ -66,6 +66,16 @@ namespace LarpPortal.PELs
                         sEventInfo += dsQuestions.Tables[0].Rows[0]["FirstName"].ToString() + " " + dsQuestions.Tables[0].Rows[0]["LastName"].ToString();
                         hidPlayerName.Value = dsQuestions.Tables[0].Rows[0]["FirstName"].ToString() + " " + dsQuestions.Tables[0].Rows[0]["LastName"].ToString();
                     }
+
+                    string sCharAKA = dsQuestions.Tables[0].Rows[0]["CharacterAKA"].ToString().Replace("'", "''");
+                    if (sCharAKA.Length > 0)
+                        sCharAKA = "PEL for " + sCharAKA;
+                    else
+                        sCharAKA = "PEL Comments";
+
+                    sEventInfo += " " + " <a href='mailto:" + dsQuestions.Tables[0].Rows[0]["PlayerEMailAddress"].ToString().Replace(@"""", @"""""") +
+                        "?Subject=" + sCharAKA +
+                        "' class='LinkUnderline' style='text-decoration: underline; color: blue;'>" + dsQuestions.Tables[0].Rows[0]["PlayerEMailAddress"].ToString() + "</a>";
 
                     hidPELNotificationEMail.Value = dsQuestions.Tables[0].Rows[0]["PELNotificationEMail"].ToString();
                     if (hidPELNotificationEMail.Value.Length == 0)
