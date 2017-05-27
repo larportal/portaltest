@@ -40,10 +40,12 @@ namespace LarpPortal.Classes
         private List<cUserCampaign> _UserCampaigns = new List<cUserCampaign>();
         private int _LastLoggedInCampaign = 0;
         private int _LastLoggedInCharacter = 0;
+        private string _LastLoggedInMyCharOrCamp = "";
         private Int32 _XRefNumber = -1;
         private string _Comments = "";
         private DateTime _DateAdded;
         private DateTime _DateChanged;
+
         
         //private cSecurity _cUserSecurity;
         private cBank _UserCPBank = new cBank();
@@ -77,7 +79,11 @@ namespace LarpPortal.Classes
             set { _LastLoggedInCharacter = value; }
         }
 
-
+        public string LastLoggedInMyCharOrCamp      // RGP - 5/27/2017
+        {
+            get { return _LastLoggedInMyCharOrCamp; }
+            set { _LastLoggedInMyCharOrCamp = value; }
+        }
 
         public Int32 XRefNumber
         {
@@ -255,6 +261,7 @@ namespace LarpPortal.Classes
                     _LastLoggedInCampaign = ldt.Rows[0]["LastLoggedInCampaign"].ToString().ToInt32();
 
                     _LastLoggedInCharacter = ldt.Rows[0]["LastLoggedInCharacter"].ToString().ToInt32();
+                    _LastLoggedInMyCharOrCamp = ldt.Rows[0]["LastLoggedInMyCharOrCamp"].ToString();
 
 		            _XRefNumber = ldt.Rows[0]["XRefNumber"].ToString().ToInt32();
 		            _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
@@ -435,6 +442,7 @@ namespace LarpPortal.Classes
                 //    _LastLoggedInCampaign = 0;
                 slParams.Add("@LastLoggedInCampaign", _LastLoggedInCampaign);
                 slParams.Add("@LastLoggedInCharacter", _LastLoggedInCharacter);     //JLB 07/11/2015 Save the last character selected.
+                slParams.Add("@LastLoggedInMyCharOrCamp", _LastLoggedInMyCharOrCamp);   //RGP 5/27/2017
                 slParams.Add("@XRefNumber", _XRefNumber);
                 slParams.Add("@Comments", _Comments);
                 slParams.Add("@LogonPassword", _LoginPassword);

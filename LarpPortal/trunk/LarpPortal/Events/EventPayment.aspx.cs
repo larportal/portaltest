@@ -60,7 +60,7 @@ namespace LarpPortal.Events
                     if (dtPaymentPageCode.Rows.Count == 0)
                     {
                         Session["OnlinePayment"] = "N";
-                        lblHeader.Text = "There are no online payment options for this campaign";
+                        lblHeader.Text = "There are no online payment options setup for this campaign.  Please visit the campaign website for payment instructions.";
                         lblHeader.Visible = true;
                         lblRegistrationText.Text = "";
                         HideOptions();
@@ -135,41 +135,11 @@ namespace LarpPortal.Events
                             lblFooter.Text = PageCode;
                             lblFooter.Visible = true;
                             break;
-                    //    case "Registration":
-                    //        lblRegistraton.Text = PageCode;
-                    //        lblRegistraton.Visible = true;
-                    //        //if (ButtonVisible == true)
-                    //            //btnRegistration.Visible = true;
-                    //        break;
-                    //    case "SaturdayBrunch":
-                    //        lblSaturdayBrunch.Text = PageCode;
-                    //        lblSaturdayBrunch.Visible = true;
-                    //        if (ButtonVisible == true)
-                    //            btnSaturdayBrunch.Visible = true;
-                    //        break;
-                    //    case "SaturdayDinner":
-                    //        lblSaturdayDinner.Text = PageCode;
-                    //        lblSaturdayDinner.Visible = true;
-                    //        if (ButtonVisible == true)
-                    //            btnSaturdayDinner.Visible = true;
-                    //        break;
-                    //    case "SundayBrunch":
-                    //        lblSundayBrunch.Text = PageCode;
-                    //        lblSundayBrunch.Visible = true;
-                    //        if (ButtonVisible == true)
-                    //            btnSundayBrunch.Visible = true;
-                    //        break;
-                    //    case "AllMeals":
-                    //        lblAllMeals.Text = PageCode;
-                    //        lblAllMeals.Visible = true;
-                    //        if (ButtonVisible == true)
-                    //            btnAllMeals.Visible = true;
-                    //        break;
+ 
                         default:
 
                             break;
                     }
-
                 }                
             }
         }
@@ -199,33 +169,7 @@ namespace LarpPortal.Events
 
         protected void ClosePage()
         {
-            //ClientScript.RegisterStartupScript(typeof(Page), "closePage", "window.open('close.html', '_self', null);", true);
             ClientScript.RegisterStartupScript(typeof(Page), "closePage", "window.close();", true);
-        }
-
-        protected void btnRegistration_Click(object sender, ImageClickEventArgs e)
-        {
-
-        }
-
-        protected void btnSaturdayBrunch_Click(object sender, ImageClickEventArgs e)
-        {
-
-        }
-
-        protected void btnSaturdayDinner_Click(object sender, ImageClickEventArgs e)
-        {
-
-        }
-
-        protected void btnSundayBrunch_Click(object sender, ImageClickEventArgs e)
-        {
-
-        }
-
-        protected void btnAllMeals_Click(object sender, ImageClickEventArgs e)
-        {
-
         }
 
         protected void btnCalculateOrder_Click(object sender, EventArgs e)
@@ -268,8 +212,8 @@ namespace LarpPortal.Events
                     TotalSectionHTML += "\" value=\"21\">";
                     TotalSectionHTML += "<input type=\"hidden\" name=\"amount_";
                     TotalSectionHTML += strCartCounter;
-                    TotalSectionHTML += "\" value=\"6\">";
-                    OrderTotal += 6;
+                    TotalSectionHTML += "\" value=\"9\">";
+                    OrderTotal += 9;
                 }
                 if(chkSaturdayDinner.Checked == true)
                 {
@@ -283,8 +227,8 @@ namespace LarpPortal.Events
                     TotalSectionHTML += "\" value=\"22\">";
                     TotalSectionHTML += "<input type=\"hidden\" name=\"amount_";
                     TotalSectionHTML += strCartCounter;
-                    TotalSectionHTML += "\" value=\"8\">";
-                    OrderTotal += 8;
+                    TotalSectionHTML += "\" value=\"9\">";
+                    OrderTotal += 9;
                 }
                 if(chkSundayBrunch.Checked == true)
                 {
@@ -298,8 +242,8 @@ namespace LarpPortal.Events
                     TotalSectionHTML += "\" value=\"23\">";
                     TotalSectionHTML += "<input type=\"hidden\" name=\"amount_";
                     TotalSectionHTML += strCartCounter;
-                    TotalSectionHTML += "\" value=\"6\">";
-                    OrderTotal += 6;
+                    TotalSectionHTML += "\" value=\"9\">";
+                    OrderTotal += 9;
                 }
                 if(chkAllMeals.Checked == true)
                 {
@@ -313,8 +257,8 @@ namespace LarpPortal.Events
                     TotalSectionHTML += "\" value=\"25\">";
                     TotalSectionHTML += "<input type=\"hidden\" name=\"amount_";
                     TotalSectionHTML += strCartCounter;
-                    TotalSectionHTML += "\" value=\"20\">";
-                    OrderTotal += 20;
+                    TotalSectionHTML += "\" value=\"27\">";
+                    OrderTotal += 27;
                 }
                 lblOrderTotalSection.Text = TotalSectionHTML;
                 lblOrderTotalSection.Visible = true;
@@ -336,7 +280,6 @@ namespace LarpPortal.Events
         {
 
         }
-
 
     }
 }

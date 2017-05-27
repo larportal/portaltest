@@ -17,7 +17,7 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(!IsPostBack)
+            if (!IsPostBack)
             {
 
             }
@@ -42,7 +42,7 @@ namespace LarpPortal
             ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
             ddlUserCampaigns.DataBind();
             ddlUserCampaigns.Items.Add(new ListItem("Add a new campaign", "-1"));
-            
+
             if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
             {
                 // Define Player roles here
@@ -79,14 +79,28 @@ namespace LarpPortal
             {
                 intUserID = Session["UserID"].ToString().ToInt32();
             }
-            Classes.cUser User = new Classes.cUser(Session["Username"].ToString(),"PasswordNotNeeded");
+            Classes.cUser User = new Classes.cUser(Session["Username"].ToString(), "PasswordNotNeeded");
             User.UserID = intUserID;
             User.LastLoggedInCampaign = ddlUserCampaigns.SelectedItem.Value.ToInt32();
             Session["CampaignID"] = ddlUserCampaigns.SelectedItem.Value.ToInt32();
             Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
             User.SetCharacterForCampaignUser(intUserID, ddlUserCampaigns.SelectedItem.Value.ToInt32());
             Session["SelectedCharacter"] = User.LastLoggedInCharacter;
+            User.LastLoggedInMyCharOrCamp = "M";    // 5/27/2017-RPierce - If switching campaign list, assume switching to my characters on character tab
             User.Save();
+            // 5/27/2018 - RPierce - Remove Campaign Character session variables
+            if (Session["CharacterCampaignCharID"] != null)
+                Session.Remove("CharacterCampaignCharID");
+            if (Session["CharacterSelectCampaign"] != null)
+                Session.Remove("CharacterSelectCampaign");
+            if (Session["CharacterSelectGroup"] != null)
+                Session.Remove("CharacterSelectGroup");
+            if (Session["CharacterSelectID"] != null)
+                Session.Remove("CharacterSelectID");
+            if (Session["CampaignsToEdit"] != null)
+                Session.Remove("CampaignsToEdit");
+            if (Session["MyCharacters"] != null)
+                Session.Remove("MyCharacters");
             // Go get all roles for that campaign and load them into a session variable
             Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
             Roles.Load(intUserID, 0, ddlUserCampaigns.SelectedItem.Value.ToInt32(), DateTime.Today);
@@ -97,8 +111,17 @@ namespace LarpPortal
             permissions.GetURLPermissions(Request.RawUrl, intUserID, Roles.PlayerRoleString);
             PagePermission = permissions._PagePermission;
             DefaultUnauthorizedURL = permissions._DefaultUnauthorizedURL;
+            string ReportCheck = Request.RawUrl.Substring(0, 8);
             if (PagePermission == true)
-                Response.Redirect(Request.RawUrl);
+                if (ReportCheck == "/Reports")
+                {
+                    Response.Redirect("/Reports/ReportsList.aspx");
+                }
+                else
+                {
+                    Response.Redirect(Request.RawUrl);
+                }
+
             else
                 Response.Redirect(DefaultUnauthorizedURL);
         }

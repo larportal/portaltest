@@ -24,7 +24,7 @@ namespace LarpPortal
             {
                 SortedList sParam = new SortedList();
                 sParam.Add("@CampaignID", 1);
-                _dsSkills = Classes.cUtilities.LoadDataSet("uspGetCampaignSkillsWithNodes", sParam, "LARPortal", "SkillTable", "");
+                _dsSkills = Classes.cUtilities.LoadDataSet("uspGetCampaignSkillsWithNodesForSkillTable", sParam, "LARPortal", "SkillTable", "");
                 DataView dvTopNodes = new DataView(_dsSkills.Tables[0], "ParentSkillNodeID is null or ParentSkillNodeID= 0", "DisplayOrder", DataViewRowState.CurrentRows);
                 foreach (DataRowView dvRow in dvTopNodes)
                 {

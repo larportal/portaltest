@@ -210,6 +210,7 @@ namespace LarpPortal
             txtUserID.Text = Login.MemberID.ToString();
             intUserID = Login.MemberID;
             Session["LoginName"] = Login.FirstName;
+            Session["UserFullName"] = Login.FirstName + " " + Login.LastName;
             Session["Username"] = Session["AttemptedUsername"];
             Session["LoginPassword"] = Session["AttemptedPassword"];
             Session["UserID"] = Login.MemberID;
