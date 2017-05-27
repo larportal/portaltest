@@ -629,7 +629,11 @@ namespace LarpPortal.Points
 
                 case "F5":
                     // TODO - Rick - NPC processing non-local to non-LARP Portal campaign via email
+                    // TODO - Add registration before adding opportunity
+
                     addOpportunityNotes = ddlAddSourceCampaign.SelectedItem + "-" + addOpportunityNotes;
+                    addStatusID = 68;   // set for sending email
+                    addEventID = 0;     // set for sending email
                     for (int i = 1; i < 4; i++)
                     {
                         // Set values for each of the NPC options and call PointAdd
@@ -643,9 +647,9 @@ namespace LarpPortal.Points
                                     int.TryParse(hidInsertCampaignCPOpportunityDefaultIDNPCEvent.Value, out addCampaignCPOpportunityDefaultID);
                                     addDescription = hidInsertDescriptionNPCEvent.Value.Trim();
                                     int.TryParse(hidInsertReasonIDNPCEvent.Value.ToString(), out addReasonID);
-                                    //PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
-                                    //    addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
-                                    //    addReceivedByID, addCPAssignmentDate, addStaffComments);
+                                    PointAdd.AddManualCPEntry(addUserID, addCampaignPlayerID, addCharacterID, addCampaignCPOpportunityDefaultID, addEventID, addCampaignID,
+                                        addDescription, addOpportunityNotes, addExampleURL, addReasonID, addStatusID, addAddedByID, addCPValue, addApprovedByID, addReceiptDate,
+                                        addReceivedByID, addCPAssignmentDate, addStaffComments);
                                 }
                                 break;
 

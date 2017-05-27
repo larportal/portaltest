@@ -206,6 +206,7 @@
     <Content Include="bin\System.Web.Providers.dll" />
     <Content Include="bin\WebGrease.dll" />
     <Content Include="Calendar\CalendarRpt.aspx" />
+    <Content Include="Calendar\CampaignCalendar.aspx" />
     <Content Include="CampaignInfo.asmx" />
     <Content Include="CampaignInfo.aspx" />
     <Content Include="CampaignInfoSetup.aspx" />
@@ -509,6 +510,7 @@
     <Content Include="img\uncheckbox.png" />
     <Content Include="img\Unchecked-Checkbox-icon.png" />
     <Content Include="Madrigal.aspx" />
+    <Content Include="PELs\MissingEvent.aspx" />
     <Content Include="PELs\PELAddAddendum.aspx" />
     <Content Include="Points\PointsEmail.aspx" />
     <Content Include="Profile\Demographics.aspx" />
@@ -879,6 +881,13 @@
     </Compile>
     <Compile Include="Calendar\Calendars.master.designer.cs">
       <DependentUpon>Calendars.master</DependentUpon>
+    </Compile>
+    <Compile Include="Calendar\CampaignCalendar.aspx.cs">
+      <DependentUpon>CampaignCalendar.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calendar\CampaignCalendar.aspx.designer.cs">
+      <DependentUpon>CampaignCalendar.aspx</DependentUpon>
     </Compile>
     <Compile Include="CampaignInfo.asmx.cs">
       <DependentUpon>CampaignInfo.asmx</DependentUpon>
@@ -1288,6 +1297,13 @@
     </Compile>
     <Compile Include="Madrigal.aspx.designer.cs">
       <DependentUpon>Madrigal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PELs\MissingEvent.aspx.cs">
+      <DependentUpon>MissingEvent.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PELs\MissingEvent.aspx.designer.cs">
+      <DependentUpon>MissingEvent.aspx</DependentUpon>
     </Compile>
     <Compile Include="PELs\PELAddAddendum.aspx.cs">
       <DependentUpon>PELAddAddendum.aspx</DependentUpon>

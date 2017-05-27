@@ -89,16 +89,16 @@
             <asp:Label ID="lblFoodText" runat="server" Text="FoodText"></asp:Label>
         </div>
         <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkSaturdayBrunch" runat="server" Text="Saturday Brunch ($6.00)" />
+            <asp:CheckBox ID="chkSaturdayBrunch" runat="server" Text="Saturday Brunch ($9.00)" />
         </div>
         <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkSaturdayDinner" runat="server" Text="Saturday Dinner ($8.00)" />
+            <asp:CheckBox ID="chkSaturdayDinner" runat="server" Text="Saturday Dinner ($9.00)" />
         </div>
         <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkSundayBrunch" runat="server" Text="Sunday Brunch ($6.00)" />
+            <asp:CheckBox ID="chkSundayBrunch" runat="server" Text="Sunday Brunch ($9.00)" />
         </div>
         <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkAllMeals" runat="server" Text="All three meals ($20.00)" />
+            <asp:CheckBox ID="chkAllMeals" runat="server" Text="All three meals ($27.00)" />
         </div>
         <div class="row PrePostPadding" runat="server">&nbsp;</div>
         <asp:Button ID="btnCalculateOrder" runat="server" CssClass="StandardButton" Text="Calculate Amount" OnClick="btnCalculateOrder_Click" />
