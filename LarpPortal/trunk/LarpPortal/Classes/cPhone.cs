@@ -20,6 +20,14 @@ namespace LarpPortal.Classes
     }
 
     [Serializable()]
+    public class cPhoneProvider
+    {
+        public int PhoneProviderID { get; set; }
+        public string ProviderName { get; set; }
+        public string ProviderGateway { get; set; }     // The provider gateway is what you put at the end of email address to send a text as an email; ex. 2035551212@vtext.com
+    }
+
+    [Serializable()]
     public class cPhone
     {
         private Int32 _UserID = -1;
@@ -33,6 +41,7 @@ namespace LarpPortal.Classes
         private string _Extension = "";
         private string _Comments = "";
         private string _UserName = "";
+        private int? _ProviderID = null;
 
         public bool IsPrimary { get; set; }
 
@@ -51,6 +60,7 @@ namespace LarpPortal.Classes
         }
 
         public List<cPhoneType> PhoneTypes = new List<cPhoneType>();
+        public List<cPhoneProvider> ProviderList = new List<cPhoneProvider>();
 
         public string PhoneType
         {
@@ -90,6 +100,31 @@ namespace LarpPortal.Classes
             get { return _Comments; }
             set { _Comments = value; }
         }
+        public string Provider
+        {
+            get
+            {
+                string ProvName = "";
+                if (ProviderList.Count > 0)
+                    if (ProviderID.HasValue)
+                        try
+                        {
+                            ProvName = ProviderList.Single(x => x.PhoneProviderID == ProviderID.Value).ProviderName;
+                        }
+                        catch
+                        {
+                            // Means the value wasn't found. Set it to blank.
+                            ProvName = "";
+                        }
+                return ProvName;
+            }
+        }
+
+        public int? ProviderID
+        {
+            get { return _ProviderID; }
+            set { _ProviderID = value; }
+        }
 
         public cPhone()
         {
@@ -98,6 +133,20 @@ namespace LarpPortal.Classes
             SortedList sParams = new SortedList();
 
             DataTable dtPhoneTypes = cUtilities.LoadDataTable("uspGetPhoneTypes", sParams, "LARPortal", "", "cPhone.Creator");
+
+            // Get the list of providers. This is used both for the lookup but also be available for the drop down list.     JBradshaw 5/26/2017
+            DataTable dtPhoneProv = cUtilities.LoadDataTable("uspGetPhoneProviders", sParams, "LARPortal", "", "cPhone.Creator.PhoneProviders");
+            ProviderList = new List<cPhoneProvider>();
+            foreach (DataRow dRow in dtPhoneProv.Rows)
+            {
+                cPhoneProvider Prov = new cPhoneProvider();
+                Prov.ProviderGateway = dRow["ProviderGateway"].ToString();
+                Prov.ProviderName = dRow["ProviderName"].ToString();
+                int iTemp;
+                if (int.TryParse(dRow["PhoneProviderID"].ToString(), out iTemp))
+                    Prov.PhoneProviderID = iTemp;
+                ProviderList.Add(Prov);
+            }
 
             PhoneTypes = new List<cPhoneType>();
             if (new DataView(dtPhoneTypes, "PhoneTypeID = 0", "", DataViewRowState.CurrentRows).Count == 0)
@@ -131,12 +180,12 @@ namespace LarpPortal.Classes
                 SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
                 slParams.Add("@intPhoneNumberID", _PhoneNumberID);
                 DataSet lds = cUtilities.LoadDataSet("uspGetPhoneNumber", slParams, "LARPortal", _UserName, lsRoutineName);
-                if (lds.Tables[0].Rows.Count > 0 )
+                if (lds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dRow = lds.Tables[0].Rows[0];
                     _PhoneTypeID = dRow["PhoneTypeID"].ToString().Trim().ToInt32();
                     if (dRow["PrimaryPhone"] != null) { IsPrimary = (bool)dRow["PrimaryPhone"]; }
-                    
+
                     _PhoneTypeDescription = dRow["PhoneType"].ToString();
                     _IDD = dRow["IDD"].ToString();
                     _CountryCode = dRow["CountryCode"].ToString();
@@ -144,6 +193,11 @@ namespace LarpPortal.Classes
                     _PhoneNumber = dRow["PhoneNumber"].ToString();
                     _Extension = dRow["Extension"].ToString();
                     _Comments = dRow["Comments"].ToString();
+                    int iTemp;
+                    if (int.TryParse(dRow["ProviderID"].ToString(), out iTemp))
+                        _ProviderID = iTemp;
+                    else
+                        _ProviderID = null;
                 }
                 if (lds.Tables.Count > 1)
                 {
@@ -154,6 +208,20 @@ namespace LarpPortal.Classes
                         NewPhoneNumber.PhoneTypeID = dRow["PhoneTypeID"].ToString().ToInt32();
                         NewPhoneNumber.PhoneType = dRow["PhoneType"].ToString();
                         PhoneTypes.Add(NewPhoneNumber);
+                    }
+                }
+                if (lds.Tables.Count > 2)
+                {
+                    ProviderList = new List<cPhoneProvider>();
+                    foreach (DataRow dRow in lds.Tables[2].Rows)
+                    {
+                        cPhoneProvider Prov = new cPhoneProvider();
+                        Prov.ProviderGateway = dRow["ProviderGateway"].ToString();
+                        Prov.ProviderName = dRow["ProviderName"].ToString();
+                        int iTemp;
+                        if (int.TryParse(dRow["PhoneProviderID"].ToString(), out iTemp))
+                            Prov.PhoneProviderID = iTemp;
+                        ProviderList.Add(Prov);
                     }
                 }
             }
@@ -169,7 +237,7 @@ namespace LarpPortal.Classes
 
         //    MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
         //    string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            
+
         //    try
         //    {
         //        SortedList slParams = new SortedList();
@@ -180,7 +248,7 @@ namespace LarpPortal.Classes
         //    {
         //        ErrorAtServer lobjError = new ErrorAtServer();
         //        lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
-                
+
         //    }            
         //}
 
@@ -237,7 +305,7 @@ namespace LarpPortal.Classes
         public static string ErrorDescription { get; private set; }
 
         public bool isValidPhoneNumber()
-        {            
+        {
             return isValidPhoneNumber(AreaCode + PhoneNumber, 10);
         }
 
@@ -287,6 +355,8 @@ namespace LarpPortal.Classes
                     slParams.Add("@AreaCode", _AreaCode + string.Empty);
                     slParams.Add("@PhoneNumber", _PhoneNumber + string.Empty);
                     slParams.Add("@Extension", _Extension + string.Empty);
+                    if (_ProviderID.HasValue)
+                        slParams.Add("@ProviderID", _ProviderID.Value);
                     slParams.Add("@Comments", _Comments + string.Empty);
                     blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBPhoneNumbers", slParams, "LARPortal", _UserName);
                 }
@@ -299,7 +369,7 @@ namespace LarpPortal.Classes
             }
             return blnReturn;
         }
-       
+
 
     }
 

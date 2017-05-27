@@ -11,7 +11,7 @@ using System.Web;
 namespace LarpPortal.Classes
 {
     [Serializable]
-    class cRelationship
+    public class cRelationship
     {
         public cRelationship()
         {

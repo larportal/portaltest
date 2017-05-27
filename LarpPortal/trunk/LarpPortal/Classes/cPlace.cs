@@ -28,7 +28,6 @@ namespace LarpPortal.Classes
         }
 
         public int CampaignPlaceID { get; set; }
-        public int CharacterID { get; set; }
         public int PlaceID { get; set; }
         public int PlaceTypeID { get; set; }
         public string PlaceName { get; set; }
@@ -44,82 +43,82 @@ namespace LarpPortal.Classes
         /// Save a place record to the database. Use this if you have a connection open.
         /// </summary>
         /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
-        public void Save(string sUserUpdating)
-        {
-            if (RecordStatus == RecordStatuses.Delete)
-            {
-                if (CampaignPlaceID != -1)
-                {
-                    SortedList sParam = new SortedList();
-                    sParam.Add("@RecordID", CampaignPlaceID);
-                    sParam.Add("@UserID", sUserUpdating);
-                    cUtilities.PerformNonQuery("uspDelCHCharacterPlaces", sParam, "LARPortal", sUserUpdating);
-                }
-            }
-            else
-            {
-                SortedList sParam = new SortedList();
-                sParam.Add("@CharacterPlaceID", CampaignPlaceID);
-                sParam.Add("@CharacterID", CharacterID);
-                sParam.Add("@PlaceID", PlaceID);
-                sParam.Add("@PlaceName", PlaceName.ToString());
-                sParam.Add("@LocatedInPlaceID", LocaleID);
-                sParam.Add("@StaffComments", StaffComments.ToString());
-                sParam.Add("@PlayerComments", Comments.ToString());
-                sParam.Add("@UserID", -1);
-                cUtilities.PerformNonQuery("uspInsUpdCHCharacterPlaces", sParam, "LARPortal", sUserUpdating);
-            }
-        }
+        //public void Save(int iUserID)
+        //{
+        //    if (RecordStatus == RecordStatuses.Delete)
+        //    {
+        //        if (CampaignPlaceID != -1)
+        //        {
+        //            SortedList sParam = new SortedList();
+        //            sParam.Add("@RecordID", CharacterPlaceID);
+        //            sParam.Add("@UserID", iUserID);
+        //            cUtilities.PerformNonQuery("uspDelCH", sParam, "LARPortal", iUserID.ToString());
+        //        }
+        //    }
+        //    else
+        //    {
+        //        SortedList sParam = new SortedList();
+        //        sParam.Add("@CharacterPlaceID", CharacterPlaceID);
+        //        sParam.Add("@CharacterID", CharacterID);
+        //        sParam.Add("@PlaceID", PlaceID);
+        //        sParam.Add("@PlaceName", PlaceName.ToString());
+        //        sParam.Add("@LocatedInPlaceID", LocaleID);
+        //        sParam.Add("@StaffComments", StaffComments.ToString());
+        //        sParam.Add("@PlayerComments", Comments.ToString());
+        //        sParam.Add("@UserID", -1);
+        //        cUtilities.PerformNonQuery("uspInsUpdCHCharacterPlaces", sParam, "LARPortal", iUserID.ToString());
+        //    }
+        //}
 
         /// <summary>
         /// Load a campaign place record. Make sure to set CampaignPlaceID to the record to load.  Use this if you don't have a connection open.
         /// </summary>
-        public void Load()
-        {
-            using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
-            {
-                connPortal.Open();
-                Load(connPortal);
-            }
-        }
+        //public void Load()
+        //{
+        //    using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
+        //    {
+        //        connPortal.Open();
+        //        Load(connPortal);
+        //    }
+        //}
 
         /// <summary>
         /// Load a campaign place record. Make sure to set CampaignPlaceID to the record to load.  Use this if you have a connection open.
         /// </summary>
         /// <param name="connPortal">SQL Connection to the portal.</param>
-        public void Load(SqlConnection connPortal)
-        {
-            if (CampaignPlaceID > 0)
-            {
-                SqlCommand CmdGetCampaignPlaceRecord = new SqlCommand("select * from CHCampaignPlaces where CampaignPlacesID = @CampaignPlaceID", connPortal);
-                CmdGetCampaignPlaceRecord.Parameters.AddWithValue("@CampaignPlaceID", CampaignPlaceID);
+        //public void Load(SqlConnection connPortal)
+        //{
+        //    if (CharacterPlaceID > 0)
+        //    {
+        //        SqlCommand CmdGetCampaignPlaceRecord = new SqlCommand("select * from CHCampaignPlaces where CampaignPlacesID = @CampaignPlaceID", connPortal);
+        //        CmdGetCampaignPlaceRecord.Parameters.AddWithValue("@CampaignPlaceID", CharacterPlaceID);
 
-                SqlDataAdapter SDAGetCampaignPlaceRecord = new SqlDataAdapter(CmdGetCampaignPlaceRecord);
-                DataTable dtCampaignPlaceRecord = new DataTable();
+        //        SqlDataAdapter SDAGetCampaignPlaceRecord = new SqlDataAdapter(CmdGetCampaignPlaceRecord);
+        //        DataTable dtCampaignPlaceRecord = new DataTable();
 
-                SDAGetCampaignPlaceRecord.Fill(dtCampaignPlaceRecord);
+        //        SDAGetCampaignPlaceRecord.Fill(dtCampaignPlaceRecord);
 
-                foreach (DataRow dRow in dtCampaignPlaceRecord.Rows)
-                {
-                    Comments = dRow["Comments"].ToString();
-                    StaffComments = dRow["StaffComments"].ToString();
-                    PlaceName = dRow["PlaceName"].ToString();
-                    Locale = dRow["Locale"].ToString();
-                    RulebookDescription = dRow["RulebookDescription"].ToString();
+        //        foreach (DataRow dRow in dtCampaignPlaceRecord.Rows)
+        //        {
+        //            Comments = dRow["Comments"].ToString();
+        //            StaffComments = dRow["StaffComments"].ToString();
+        //            PlaceName = dRow["PlaceName"].ToString();
+        //            Locale = dRow["Locale"].ToString();
+        //            RulebookDescription = dRow["RulebookDescription"].ToString();
 
-                    int iTemp;
-                    //if (int.TryParse(dRow["PlaceTypeID"].ToString(), out iTemp))
-                    //    PlaceTypeID = iTemp;
+        //            int iTemp;
+        //            //if (int.TryParse(dRow["PlaceTypeID"].ToString(), out iTemp))
+        //            //    PlaceTypeID = iTemp;
 
-                    if (int.TryParse(dRow["LocaleID"].ToString(), out iTemp))
-                        LocaleID = iTemp;
+        //            if (int.TryParse(dRow["LocaleID"].ToString(), out iTemp))
+        //                LocaleID = iTemp;
 
-                    if (int.TryParse(dRow["PlotLeadPerson"].ToString(), out iTemp))
-                        PlotLeadPerson = iTemp;
+        //            if (int.TryParse(dRow["PlotLeadPerson"].ToString(), out iTemp))
+        //                PlotLeadPerson = iTemp;
 
-                    RecordStatus = RecordStatuses.Active;
-                }
-            }
-        }
+        //            RecordStatus = RecordStatuses.Active;
+        //        }
+        //    }
+        //}
     }
 }

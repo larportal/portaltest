@@ -8,7 +8,7 @@ using System.Web;
 
 namespace LarpPortal.Classes
 {
-    class cCharacterType
+    public class cCharacterType
     {
         public cCharacterType()
         {

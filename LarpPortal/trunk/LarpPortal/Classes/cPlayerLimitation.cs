@@ -9,14 +9,11 @@ using System.Collections;
 
 namespace LarpPortal.Classes
 {
-    public class cPlayerMedical
+    public class cPlayerLimitation
     {
-        public Int32 PlayerMedicalID { get; set; }
+        public Int32 PlayerLimitationID { get; set; }
         public Int32 PlayerProfileID { get; set; }
-        public Int32 MedicalTypeID { get; set; }
-        public string MedicalTypeDescription { get; set; }
         public string Description { get; set; }
-        public string Medication { get; set; }
         public Boolean ShareInfo { get; set; }
         public Boolean PrintOnCard { get; set; }
         public DateTime? StartDate { get; set; }
@@ -24,14 +21,11 @@ namespace LarpPortal.Classes
         public string Comments { get; set; }
         public RecordStatuses RecordStatus { get; set; }
 
-        public cPlayerMedical()
+        public cPlayerLimitation()
         {
-            PlayerMedicalID = -1;
+            PlayerLimitationID = -1;
             PlayerProfileID = -1;
-            MedicalTypeID = -1;
-            MedicalTypeDescription = "";
             Description = "";
-            Medication = "";
             ShareInfo = false;
             PrintOnCard = false;
             StartDate = null;
@@ -40,23 +34,23 @@ namespace LarpPortal.Classes
             RecordStatus = RecordStatuses.Active;
         }
 
-        public cPlayerMedical(Int32 intPlayerMedicalID, string UserName)
+        public cPlayerLimitation(Int32 intPlayerLimitationID, string UserName)
         {
-            Load(intPlayerMedicalID, UserName);
+            Load(intPlayerLimitationID, UserName);
         }
 
-        public void Load(Int32 intPlayerMedicalID, string UserName)
+        public void Load(Int32 intPlayerLimitationID, string UserName)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-            PlayerMedicalID = intPlayerMedicalID;
+            PlayerLimitationID = intPlayerLimitationID;
 
             SortedList slParams = new SortedList();
-            slParams.Add("@PlayerMedicalID", intPlayerMedicalID);
+            slParams.Add("@PlayerLimitationID", intPlayerLimitationID);
             try
             {
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerMedicalByID", slParams, "LARPortal", UserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerLimitationsByID", slParams, "LARPortal", UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
                     int iTemp;
@@ -64,16 +58,12 @@ namespace LarpPortal.Classes
                     DateTime dtTemp;
                     DataRow dRow = ldt.Rows[0];
 
-                    if (int.TryParse(dRow["PlayerMedicalID"].ToString(), out iTemp))
-                        PlayerMedicalID = iTemp;
+                    if (int.TryParse(dRow["PlayerLimitationID"].ToString(), out iTemp))
+                        PlayerLimitationID = iTemp;
                     if (int.TryParse(dRow["PlayerProfileID"].ToString(), out iTemp))
                         PlayerProfileID = iTemp;
-                    if (int.TryParse(dRow["MedicalTypeID"].ToString(), out iTemp))
-                        MedicalTypeID = iTemp;
 
-//                    MedicalTypeDescription = dRow["MedicalTypeDescription"].ToString();
                     Description = dRow["Description"].ToString();
-                    Medication = dRow["Medication"].ToString();
                     if (bool.TryParse(dRow["ShareInfo"].ToString(), out bTemp))
                         ShareInfo = bTemp;
                     if (bool.TryParse(dRow["PrintOnCard"].ToString(), out bTemp))
@@ -108,25 +98,19 @@ namespace LarpPortal.Classes
                 {
                     SortedList slParams = new SortedList();
                     slParams.Add("@UserID", UserID);
-                    slParams.Add("@PlayerMedicalID", PlayerMedicalID);
+                    slParams.Add("@PlayerLimitationID", PlayerLimitationID);
                     slParams.Add("@PlayerProfileID", PlayerProfileID);
-                    slParams.Add("@MedicalTypeID", MedicalTypeID);
                     slParams.Add("@Description", Description);
-                    slParams.Add("@Medication", Medication);
                     slParams.Add("@ShareInfo", ShareInfo);
                     slParams.Add("@PrintOnCard", PrintOnCard);
 
                     if (StartDate.HasValue)
                         slParams.Add("@StartDate", StartDate.Value);
-                    else
-                        slParams.Add("@ClearStartDate", "1");
                     if (EndDate.HasValue)
                         slParams.Add("@EndDate", EndDate.Value);
-                    else
-                        slParams.Add("@ClearEndDate", "1");
                     slParams.Add("@Comments", Comments);
 
-                    cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerMedical", slParams, "LARPortal", UserName);
+                    cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerLimitations", slParams, "LARPortal", UserName);
                 }
                 catch (Exception ex)
                 {
@@ -145,8 +129,8 @@ namespace LarpPortal.Classes
             {
                 SortedList slParams = new SortedList();
                 slParams.Add("@UserID", UserID);
-                slParams.Add("@RecordID", PlayerMedicalID);
-                cUtilities.PerformNonQueryBoolean("uspDelPLPlayerMedical", slParams, "LARPortal", UserName);
+                slParams.Add("@RecordID", PlayerLimitationID);
+                cUtilities.PerformNonQueryBoolean("uspDelPLPlayerLimitations", slParams, "LARPortal", UserName);
             }
             catch (Exception ex)
             {

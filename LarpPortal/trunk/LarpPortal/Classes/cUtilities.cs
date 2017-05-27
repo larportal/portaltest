@@ -16,6 +16,7 @@ using Excel;
 // General comment: 7/19/2015 JBradshaw changed so if the routines that get a datatable/dataset get an error, it re-throws the error
 //                            so the calling routine knows that the call failed.
 //                  6/24/2016 JBradshaw Added WriteSQLAuditRecord.
+//                  4/27/2017 JBradshaw Added ReplaceQuotes.
 
 namespace LarpPortal.Classes
 {
@@ -369,7 +370,7 @@ namespace LarpPortal.Classes
                     ddlList.DataTextField = strTextValue;
                     ddlList.DataValueField = strDataValue;
                     ddlList.DataBind();
-               }
+                }
             }
             catch (Exception ex)
             {
@@ -544,6 +545,7 @@ namespace LarpPortal.Classes
 
         }
 
+        // JBradshaw 4/27/2017 Added handling of null datatypes.
         public static DataTable CreateDataTable<T>(IEnumerable<T> list)
         {
             Type type = typeof(T);
@@ -552,7 +554,7 @@ namespace LarpPortal.Classes
             DataTable dataTable = new DataTable();
             foreach (PropertyInfo info in properties)
             {
-                dataTable.Columns.Add(new DataColumn(info.Name, info.PropertyType));
+                dataTable.Columns.Add(new DataColumn(info.Name, Nullable.GetUnderlyingType(info.PropertyType) ?? info.PropertyType));
             }
 
             foreach (T entity in list)
@@ -560,7 +562,7 @@ namespace LarpPortal.Classes
                 object[] values = new object[properties.Length];
                 for (int i = 0; i < properties.Length; i++)
                 {
-                    values[i] = properties[i].GetValue(entity);
+                    values[i] = properties[i].GetValue(entity) ?? DBNull.Value;
                 }
 
                 dataTable.Rows.Add(values);
@@ -820,6 +822,11 @@ namespace LarpPortal.Classes
                 conn.Open();
                 WriteSQLAuditRecord(conn, strStoredProc, slParameters, strUserName, strCallingMethod);
             }
+        }
+
+        public static string ReplaceQuotes(object sOrig)
+        {
+            return sOrig.ToString().Replace("'", "\'").Replace("\"", "\\\"");
         }
     }
 }

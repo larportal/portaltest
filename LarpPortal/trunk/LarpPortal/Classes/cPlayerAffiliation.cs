@@ -10,42 +10,42 @@ using System.Collections;
 
 namespace LarpPortal.Classes
 {
-    public class cPlayerSkill
+    public class cPlayerAffiliation
     {
-        public Int32 PlayerSkillID { get; set; }
+        public Int32 PlayerAffiliationID { get; set; }
         public Int32 PlayerProfileID { get; set; }
-        public string SkillName { get; set; }
-        public string SkillLevel { get; set; }
+        public string AffiliationName { get; set; }
+        public string AffiliationRole { get; set; }
         public string PlayerComments { get; set; }
         public string Comments { get; set; }
         public RecordStatuses RecordStatus { get; set; }
 
-        public cPlayerSkill()
+        public cPlayerAffiliation()
         {
-            PlayerSkillID = -1;
+            PlayerAffiliationID = -1;
             PlayerProfileID = -1;
-            SkillName = "";
-            SkillLevel = "";
+            AffiliationName = "";
+            AffiliationRole = "";
             PlayerComments = "";
             Comments = "";
             RecordStatus = RecordStatuses.Active;
         }
 
-        public cPlayerSkill(Int32 intPlayerSkillID, string strUserName, Int32 intUserID)
+        public cPlayerAffiliation(Int32 iPlayerAffilID, string sUserName, Int32 iUserID)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            PlayerSkillID = intPlayerSkillID;
+            PlayerAffiliationID = iPlayerAffilID;
 
             SortedList slParams = new SortedList();
-            slParams.Add("@PlayerSkillID", intPlayerSkillID);
+            slParams.Add("@PlayerAffiliationID", iPlayerAffilID);
             try
             {
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerSkillsByID", slParams, "LARPortal", strUserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerAffiliationByID", slParams, "LARPortal", sUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-                    SkillName = ldt.Rows[0]["SkillName"].ToString();
-                    SkillLevel = ldt.Rows[0]["SkillLevel"].ToString();
+                    AffiliationName = ldt.Rows[0]["AffiliationName"].ToString();
+                    AffiliationRole = ldt.Rows[0]["AffiliationRole"].ToString();
                     PlayerComments = ldt.Rows[0]["PlayerComments"].ToString();
                     Comments = ldt.Rows[0]["Comments"].ToString();
 
@@ -59,7 +59,7 @@ namespace LarpPortal.Classes
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, strUserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, sUserName + lsRoutineName);
             }
         }
         public void Save(string UserName, int UserID)
@@ -75,13 +75,13 @@ namespace LarpPortal.Classes
                 {
                     SortedList slParams = new SortedList();
                     slParams.Add("@UserID", UserID);
-                    slParams.Add("@PlayerSkillID", PlayerSkillID);
+                    slParams.Add("@PlayerAffiliationID", PlayerAffiliationID);
                     slParams.Add("@PlayerProfileID", PlayerProfileID);
-                    slParams.Add("@SkillName", SkillName);
-                    slParams.Add("@SkillLevel", SkillLevel);
+                    slParams.Add("@AffiliationName", AffiliationName);
+                    slParams.Add("@AffiliationRole", AffiliationRole);
                     slParams.Add("@PlayerComments", PlayerComments);
                     slParams.Add("@Comments", Comments);
-                    cUtilities.PerformNonQuery("uspInsUpdPLPlayerSkills", slParams, "LARPortal", UserName);
+                    cUtilities.PerformNonQuery("uspInsUpdPLPlayerAffiliations", slParams, "LARPortal", UserName);
                 }
                 catch (Exception ex)
                 {
@@ -104,8 +104,8 @@ namespace LarpPortal.Classes
                 {
                     SortedList slParams = new SortedList();
                     slParams.Add("@UserID", UserID);
-                    slParams.Add("@RecordID", PlayerSkillID);
-                    cUtilities.PerformNonQuery("uspDelPLPlayerSkills", slParams, "LARPortal", UserName);
+                    slParams.Add("@RecordID", PlayerAffiliationID);
+                    cUtilities.PerformNonQuery("uspDelPLPlayerAffiliations", slParams, "LARPortal", UserName);
                 }
                 catch (Exception ex)
                 {
