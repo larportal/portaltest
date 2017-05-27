@@ -29,7 +29,7 @@
 
     <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-2 col-xs-6">
                 <div class="contentArea">
                     <nav class="userSubNav">
                         <UC1:UserCampaignDDL ID="ddlUserCampaigns" runat="server"></UC1:UserCampaignDDL>
@@ -38,7 +38,7 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-lg-10">
+            <div class="col-lg-10 col-xs-12">
                 <asp:ContentPlaceHolder ID="MemberCampaignsContent" runat="server"></asp:ContentPlaceHolder>
             </div>
         </div>
