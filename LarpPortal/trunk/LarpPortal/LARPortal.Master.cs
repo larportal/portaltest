@@ -18,6 +18,13 @@ namespace LarpPortal
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            HttpContext context = HttpContext.Current;
+            if (context.Request.Url.AbsoluteUri.ToUpper().Contains("BETA"))
+//                ) || (context.Request.IsLocal))
+            {
+//                MainBody.Attributes.Add("bgcolor", "LightCyan");
+                MainBody.Attributes.Add("style", "background-color: LightCyan");
+            }
             if(!IsPostBack)
             {
                 if (Session["CurrentPagePermission"].ToString() == "False")
