@@ -116,10 +116,6 @@
                 <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Campaign Calendar" />
             </div>
         </div>
-<%--        <div class="row" style="padding-bottom: 20px;">
-            Campaign:
-            <asp:DropDownList ID="ddlCampList" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCampList_SelectedIndexChanged" />
-        </div>--%>
         <div class="row" style="padding-left: -15px; padding-right: 0px;">
             <asp:Label ID="lblCalendar" runat="server" />
             <div class="panel" style="padding-top: 0px; padding-bottom: 0px;" id="divCalendar" runat="server">
