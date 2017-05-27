@@ -8,7 +8,7 @@ using System.Web;
 
 namespace LarpPortal.Classes
 {
-    class cRace
+    public class cRace
     {
         public cRace()
         {

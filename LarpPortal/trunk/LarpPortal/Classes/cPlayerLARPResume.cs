@@ -12,168 +12,130 @@ namespace LarpPortal.Classes
 {
     public class cPlayerLARPResume
     {
+        public int PlayerLARPResumeID { get; set; }
+        public int PlayerProfileID { get; set; }
+        public string GameSystem { get; set; }
+        public string Campaign { get; set; }
+        public string AuthorGM { get; set; }
+        public int StyleID { get; set; }
+        public string Style { get; set; }
+        public int GenreID { get; set; }
+        public string Genre { get; set; }
+        public int RoleID { get; set; }
+        public string Role { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public string PlayerComments { get; set; }
+        public string Comments { get; set; }
+        public RecordStatuses RecordStatus { get; set; }
 
-        private string _UserName = "";
-        private Int32 _UserID = -1;
-        private Int32 _PlayerLARPResumeID = -1;
-        private Int32 _PlayerProfileID = -1;
-        private string _GameSystem = "";
-        private string _Campaign = "";
-        private string _AuthorGM = "";
-        private Int32 _Style = -1;
-        private Int32 _Genre = -1;
-        private Int32 _RoleID = -1;
-        private DateTime _StartDate;
-        private DateTime? _EndDate;
-        private string _PlayerComments;
-        private string _Comments = "";
-        private DateTime _DateAdded;
-        private DateTime _DateChanged;
-
-        public Int32 PlayerLARPResumeID
+        public cPlayerLARPResume()
         {
-            get { return _PlayerLARPResumeID; }
-        }
-        public Int32 PlayerProfileID
-        {
-            get { return _PlayerProfileID; }
-        }
-        public string GameSystem
-        {
-            get { return _GameSystem; }
-            set { _GameSystem = value; }
-        }
-        public string Campaign
-        {   get { return _Campaign; }
-            set { _Campaign = value; }
-        }
-        public string AuthorGM
-        {
-            get { return _AuthorGM; }
-            set { _AuthorGM = value; }
-        }
-        public Int32 Styel
-        {
-            get { return _Style; }
-            set { _Style = value; }
-        }
-        public Int32 Genre
-        {
-            get { return _Genre; }
-            set { _Genre = value; }
-        }
-        public Int32 RoleID
-        {
-            get { return _RoleID; }
-            set { _RoleID = value; }
-        }
-        public DateTime StartDate
-        {
-            get { return _StartDate; }
-            set { _StartDate = value; }
-        }
-        public DateTime? EndDate
-        {
-            get { return _EndDate; }
-            set { _EndDate = value; }
-        }
-        public string PlayerComments
-        {
-            get { return _PlayerComments; }
-            set { _PlayerComments = value; }
-        }
-        public string Comments
-        {
-            get { return _Comments; }
-            set { _Comments = value; }
-        }
-        public DateTime DateAdded
-        {
-            get { return _DateAdded; }
-        }
-        public DateTime DateChanged
-        {
-            get { return _DateChanged; }
+            PlayerLARPResumeID = -1;
+            RecordStatus = RecordStatuses.Active;
         }
 
-
-
-        private cPlayerLARPResume()
+        public void Load(string UserName, Int32 intUserID)
         {
-
-        }
-
-        public cPlayerLARPResume(Int32 intPlayerLARPResumeID, Int32 intPlayerProfileID, string strUserName, Int32 intUserID)
-        {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            _PlayerLARPResumeID = intPlayerLARPResumeID;
-            _PlayerProfileID = intPlayerProfileID;
-            _UserName = strUserName;
-            _UserID = intUserID;
-            //so lets say we wanted to load data into this class from a sql query called uspGetSomeData thats take two paraeters @Parameter1 and @Parameter2
-            SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-            slParams.Add("@PlayerLARPResumeID", _PlayerLARPResumeID);
+
+            SortedList slParams = new SortedList();
+            slParams.Add("@PlayerLARPResumeID", PlayerLARPResumeID);
             try
             {
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerLARPResumeByID", slParams, "LarpPortal", _UserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerLARPResumeByID", slParams, "LARPortal", UserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-                      _PlayerProfileID = ldt.Rows[0]["PlayerProfileID"].ToString().ToInt32();
-                      _GameSystem =ldt.Rows[0]["GameSystem"].ToString();
-                      _Campaign = ldt.Rows[0]["Campaign"].ToString();
-                      _AuthorGM = ldt.Rows[0]["AuthorGM"].ToString();
-                    _Style = ldt.Rows[0]["Style"].ToString().ToInt32();
-                      _Genre = ldt.Rows[0]["Genre"].ToString().ToInt32();
-                      _RoleID = ldt.Rows[0]["RoleID"].ToString().ToInt32();
-                      _StartDate = Convert.ToDateTime(ldt.Rows[0]["StartDate"].ToString());
-                      _EndDate = Convert.ToDateTime(ldt.Rows[0]["EndDate"].ToString());
-                      _PlayerComments = ldt.Rows[0]["PlayerComments"].ToString();
-                      _Comments = ldt.Rows[0]["Comments"].ToString();
-                      _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
-                      _DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
+                    int iTemp;
+                    DateTime dtTemp;
+                    DataRow dRow = ldt.Rows[0];
+
+                    if (int.TryParse(dRow["PlayerProfileID"].ToString(), out iTemp))
+                        PlayerProfileID = iTemp;
+                    GameSystem = dRow["GameSystem"].ToString();
+                    Campaign = dRow["Campaign"].ToString();
+                    AuthorGM = dRow["AuthorGM"].ToString();
+                    Style = dRow["Style"].ToString();
+                    if (int.TryParse(dRow["StyleID"].ToString(), out iTemp))
+                        StyleID = iTemp;
+                    Genre = dRow["Genre"].ToString();
+                    if (int.TryParse(dRow["GenreID"].ToString(), out iTemp))
+                        GenreID = iTemp;
+                    Role = dRow["Role"].ToString();
+                    if (int.TryParse(dRow["RoleID"].ToString(), out iTemp))
+                        RoleID = iTemp;
+                    if (DateTime.TryParse(dRow["StartDate"].ToString(), out dtTemp))
+                        StartDate = dtTemp;
+                    if (DateTime.TryParse(dRow["EndDate"].ToString(), out dtTemp))
+                        EndDate = dtTemp;
+                    PlayerComments = dRow["PlayerComments"].ToString();
+                    Comments = dRow["Comments"].ToString();
                 }
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
             }
         }
-        public Boolean Save()
+
+        public void Save(string UserName, int UserID)
+        {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+            if (RecordStatus == RecordStatuses.Delete)
+            {
+                Delete(UserName, UserID);
+            }
+            else
+            {
+                try
+                {
+                    SortedList slParams = new SortedList();
+                    slParams.Add("@UserID", UserID);
+                    slParams.Add("@PlayerLARPResumeID", PlayerLARPResumeID);
+                    slParams.Add("@PlayerProfileID", PlayerProfileID);
+                    slParams.Add("@GameSystem", GameSystem);
+                    slParams.Add("@Campaign", Campaign);
+                    slParams.Add("@AuthorGM", AuthorGM);
+                    slParams.Add("@Style", StyleID);
+                    slParams.Add("@Genre", GenreID);
+                    slParams.Add("@RoleID", RoleID);
+                    if (StartDate.HasValue)
+                        slParams.Add("@StartDate", StartDate.Value);
+                    if (EndDate.HasValue)
+                        slParams.Add("@EndDate", EndDate.Value);
+                    slParams.Add("@PlayerComments", PlayerComments);
+                    slParams.Add("@Comments", Comments);
+                    cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerLARPResumes", slParams, "LARPortal", UserName);
+                }
+                catch (Exception ex)
+                {
+                    ErrorAtServer lobjError = new ErrorAtServer();
+                    lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
+                }
+            }
+        }
+
+        public void Delete(string UserName, int UserID)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            Boolean blnReturn = false;
+
             try
             {
                 SortedList slParams = new SortedList();
-                slParams.Add("@UserID", _UserID);
-                slParams.Add("@PlayerLARPResumeID", _PlayerLARPResumeID);
-                slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                slParams.Add("@GameSystem", _GameSystem);
-                slParams.Add("@Campaign", _Campaign);
-                slParams.Add("@AuthorGM", _AuthorGM);
-                slParams.Add("@Style", _Style);
-                slParams.Add("@Genre", _Genre);
-                slParams.Add("@RoleID", _RoleID);
-                slParams.Add("@StartDate", _StartDate);
-                slParams.Add("@EndDate", _EndDate);
-                slParams.Add("@PlayerComments", _PlayerComments);
-                slParams.Add("@Comments", _Comments);
-                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerLARPResumes", slParams, "LarpPoral", _UserName);
+                slParams.Add("@UserID", UserID);
+                slParams.Add("@RecordID", PlayerLARPResumeID);
+                cUtilities.PerformNonQueryBoolean("uspDelPLPlayerLARPResumes", slParams, "LARPortal", UserName);
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
-                blnReturn = false;
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
             }
-            return blnReturn;
         }
-       
-
     }
-
-
 }

@@ -58,7 +58,14 @@ namespace LarpPortal.Classes
         public string PictureFileName { get; set; }
         public string CreatedBy { get; set; }
         public int CharacterID { get; set; }
+        public int ProfileID { get; set; }
         public string Comments { get; set; }
+        /// <summary>
+        /// The type of picture it is (profile, logo, ...)
+        /// </summary>
+        public PictureTypes PictureType { get; set; }
+        public string FileExtension { get; set; }
+        public RecordStatuses RecordStatus { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUploaded { get; set; }
         public DateTime DateDeleted { get; set; }
@@ -70,13 +77,6 @@ namespace LarpPortal.Classes
                 return _URLDirectory + PictureType.ToString() + "/" + PictureFileName;
             }
         }
-
-
-        /// <summary>
-        /// The type of picture it is (profile, logo, ...)
-        /// </summary>
-        public PictureTypes PictureType { get; set; }
-        public RecordStatuses RecordStatus { get; set; }
 
 
         /// <summary>
@@ -201,6 +201,39 @@ namespace LarpPortal.Classes
                 if (int.TryParse(dRow[0].ToString(), out iTemp))
                     PictureID = iTemp;
             }
+        }
+
+
+
+        /// <summary>
+        /// 'Reserves' a picture record. This will get you the next ID in the database. Use the
+        /// id. Send in the picture type and file extension and this will also set the full file name.
+        /// </summary>
+        /// <param name="sUserID">User creating the new record.</param>
+        /// <param name="PicType">The type of file it is - Item, Profile, ...</param>
+        /// <param name="PicExtension">Extension of file that will be created.</param>
+        public void CreateNewPictureRecord(cPicture.PictureTypes PicType, string PicExtension, string sUserID)
+        {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+            SortedList sParam = new SortedList();
+            sParam.Add("@CreatedBy", sUserID);
+            sParam.Add("@PictureType", PicType.ToString());
+            sParam.Add("@PictureExtension", PicExtension);
+            DataTable dtNewPicture = new DataTable();
+            dtNewPicture = cUtilities.LoadDataTable("uspMDBPicturesNewPicture", sParam, "LARPortal", sUserID, lsRoutineName);
+
+            PictureType = PicType;
+            FileExtension = PicExtension;
+            int iTemp = 0;
+
+            foreach (DataRow dRow in dtNewPicture.Rows)
+            {
+                if (int.TryParse(dRow[0].ToString(), out iTemp))
+                    PictureID = iTemp;
+            }
+            PictureFileName = PictureType.ToString().ToUpper().Substring(0, 2) + iTemp.ToString("D10") + PicExtension;
         }
 
 

@@ -30,19 +30,36 @@ namespace LarpPortal.Classes
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string StaffComments { get; set; }
+
+        public string loginUserName { get; set; }
+        public string ActorFirstName { get; set; }
+        public string ActorMiddleName { get; set; }
+        public string ActorLastName { get; set; }
+        public string ActorNickName { get; set; }
         public string Comments { get; set; }
+        public string PlayerName
+        {
+            get
+            {
+                if (ActorNickName.ToString().Length > 0)
+                    return (ActorNickName + ' ' + ActorLastName).Trim();
+                else
+                    return (ActorFirstName + ' ' + ActorLastName).Trim();
+            }
+        }
+
         public RecordStatuses RecordStatus { get; set; }
 
         /// <summary>
         /// Save an actor record to the database. Use this if you don't already have a connection open.
         /// </summary>
         /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
-        public void Save(string sUserUpdating)
+        public void Save(int iUserID)
         {
             using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
             {
                 connPortal.Open();
-                Save(sUserUpdating, connPortal);
+                Save(iUserID, connPortal);
             }
         }
 
@@ -51,24 +68,27 @@ namespace LarpPortal.Classes
         /// </summary>
         /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
         /// <param name="connPortal">Already OPEN connection to the database.</param>
-        public void Save(string sUserUpdating, SqlConnection connPortal)
+        public void Save(int iUserID, SqlConnection connPortal)
         {
             if (RecordStatus == RecordStatuses.Delete)
             {
                 SqlCommand CmdDelCHCharacterActors = new SqlCommand("uspDelCHCharacterActors", connPortal);
                 CmdDelCHCharacterActors.CommandType = CommandType.StoredProcedure;
                 CmdDelCHCharacterActors.Parameters.AddWithValue("@RecordID", CharacterActorID);
-                CmdDelCHCharacterActors.Parameters.AddWithValue("@UserID", sUserUpdating);
+                CmdDelCHCharacterActors.Parameters.AddWithValue("@UserID", iUserID);
 
                 CmdDelCHCharacterActors.ExecuteNonQuery();
             }
             else
             {
+                if (CharacterActorID < 0)
+                    CharacterActorID = -1;
                 SqlCommand CmdInsUpdCHCharacterActors = new SqlCommand("uspInsUpdCHCharacterActors", connPortal);
                 CmdInsUpdCHCharacterActors.CommandType = CommandType.StoredProcedure;
                 CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@CharacterActorID", CharacterActorID);
                 CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@CharacterID", CharacterID);
-                CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@UserID", UserID);
+                CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@UserID", iUserID);
+                CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@PlayerUserID", UserID);
                 CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@StartDate", StartDate);
                 CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@EndDate", EndDate);
                 CmdInsUpdCHCharacterActors.Parameters.AddWithValue("@StaffComments", StaffComments);
@@ -98,6 +118,12 @@ namespace LarpPortal.Classes
                 {
                     StaffComments = dRow["StaffComments"].ToString();
                     Comments = dRow["Comments"].ToString();
+
+                    loginUserName = dRow["loginUserName"].ToString();
+                    ActorFirstName = dRow["FirstName"].ToString();
+                    ActorMiddleName = dRow["MiddleName"].ToString();
+                    ActorLastName = dRow["LastName"].ToString();
+                    ActorNickName = dRow["NickName"].ToString();
 
                     int iTemp;
                     if (int.TryParse(dRow["CharacterID"].ToString(), out iTemp))

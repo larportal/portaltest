@@ -8,7 +8,7 @@ using System.Web;
 
 namespace LarpPortal.Classes
 {
-    class cCharacterDeath
+    public class cCharacterDeath
     {
         public cCharacterDeath()
         {
@@ -33,12 +33,12 @@ namespace LarpPortal.Classes
         /// Save a character death record to the database. Use this if you don't already have a connection open.
         /// </summary>
         /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
-        public void Save(string sUserUpdating)
+        public void Save(int iUserID)
         {
             using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
             {
                 connPortal.Open();
-                Save(sUserUpdating, connPortal);
+                Save(iUserID, connPortal);
             }
         }
 
@@ -47,24 +47,27 @@ namespace LarpPortal.Classes
         /// </summary>
         /// <param name="sUserUpdating">Name of the user who is saving the record.</param>
         /// <param name="connPortal">Already OPEN connection to the database.</param>
-        public void Save(string sUserUpdating, SqlConnection connPortal)
+        public void Save(int iUserID, SqlConnection connPortal)
         {
             if (RecordStatus == RecordStatuses.Delete)
             {
                 SqlCommand CmdDelCHCharacterDeath = new SqlCommand("uspDelCHCharacterDeaths", connPortal);
                 CmdDelCHCharacterDeath.CommandType = CommandType.StoredProcedure;
-                CmdDelCHCharacterDeath.Parameters.AddWithValue("@CharacterDeathID", CharacterDeathID);
-                CmdDelCHCharacterDeath.Parameters.AddWithValue("@UserID", sUserUpdating);
+                CmdDelCHCharacterDeath.Parameters.AddWithValue("@RecordID", CharacterDeathID);
+                CmdDelCHCharacterDeath.Parameters.AddWithValue("@UserID", iUserID);
 
                 CmdDelCHCharacterDeath.ExecuteNonQuery();
             }
             else
             {
+                if (CharacterDeathID < 0)
+                    CharacterDeathID = -1;
+
                 SqlCommand CmdInsUpdCHCharacterDeath = new SqlCommand("uspInsUpdCHCharacterDeaths", connPortal);
                 CmdInsUpdCHCharacterDeath.CommandType = CommandType.StoredProcedure;
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@CharacterActorID", CharacterDeathID);
+                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@CharacterDeathID", CharacterDeathID);
                 CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@CharacterID", CharacterID);
-                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@UserID", sUserUpdating);
+                CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@UserID", iUserID);
                 CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@DeathDate", DeathDate);
                 CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@DeathPermanent", DeathPermanent);
                 CmdInsUpdCHCharacterDeath.Parameters.AddWithValue("@StaffComments", StaffComments);

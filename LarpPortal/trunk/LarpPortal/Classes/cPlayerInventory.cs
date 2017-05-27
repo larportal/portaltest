@@ -12,161 +12,158 @@ namespace LarpPortal.Classes
 {
     public class cPlayerInventory
     {
+        public Int32 PlayerInventoryID { get; set; }
+        public Int32 PlayerProfileID { get; set; }
+        public string Description { get; set; }
+        public Int32 InventoryTypeID { get; set; }
+        public string InventoryTypeDesc { get; set; }
+        public string Quantity { get; set; }
+        public string Size { get; set; }
+        public string PowerNeeded { get; set; }
+        public bool WillShare { get; set; }
+        public string InventoryNotes { get; set; }
+        public int ImageID { get; set; }
+        public string ImageURL { get; set; }
+        public cPicture InvImage { get; set; }
+        public string PlayerComments { get; set; }
+        public string Comments { get; set; }
+        public RecordStatuses RecordStatus { get; set; }
 
-        private string _UserName = "";
-        private Int32 _UserID = -1;
-        private Int32 _PlayerInventoryID = -1;
-        private Int32 _PlayerProfileID = -1;
-        private string _Description = "";
-        private Int32 _InventoryType = -1;
-        private string _Quantity = "";
-        private string _Size = "";
-        private string _PowerNeeded = "";
-        private Int32 _WillShare = -1;
-        private string _InventoryNotes = "";
-        private string _InventoryImage = "";
-        private string _Comments = "";
-        private DateTime _DateAdded;
-        private DateTime _DateChanged;
-
-        public Int32 PlayerInventoryID
+        public cPlayerInventory()
         {
-            get { return _PlayerInventoryID; }
-        }
-        public Int32 PlayerProfileID
-        {
-            get { return _PlayerProfileID; }
-        }
-        public string Description
-        {
-            get { return _Description; }
-            set { _Description = value; }
-        }
-        public Int32 InventoryType
-        {
-            get { return _InventoryType; }
-            set { _InventoryType = value; }
-        }
-        public string Quantity
-        {
-            get { return _Quantity; }
-            set { _Quantity = value; }
-        }
-        public string Size
-        {
-            get { return _Size; }
-            set { _Size = value; }
-        }
-        public string PowerNeeded
-        {
-            get { return _PowerNeeded; }
-            set { _PowerNeeded = value; }
-        }
-        public Int32 WillShare
-        {
-            get { return _WillShare; }
-            set { _WillShare = value; }
-        }
-        public string InventoryNotes
-        {
-            get { return _InventoryNotes; }
-            set { _InventoryNotes = value; }
-        }
-        public string InventoryImage
-        {
-            get { return _InventoryImage; }
-            set { _InventoryImage = value; }
-        }
-        public string Comments
-        {
-            get { return _Comments; }
-            set { _Comments = value; }
-        }
-        public DateTime DateAdded
-        {
-            get { return _DateAdded; }
-        }
-        public DateTime DateChanged
-        {
-            get { return _DateChanged; }
+            PlayerInventoryID = -1;
+            PlayerProfileID = -1;
+            Description = "";
+            InventoryTypeID = -1;
+            InventoryTypeDesc = "";
+            Quantity = "";
+            Size = "";
+            PowerNeeded = "";
+            WillShare = false;
+            InventoryNotes = "";
+//            InventoryImage = "";
+            InvImage = new cPicture();
+            PlayerComments = "";
+            Comments = "";
+            RecordStatus = RecordStatuses.Active;
         }
 
-
-
-        private cPlayerInventory()
+        public cPlayerInventory(Int32 intPlayerInventoryID, string strUserName, Int32 intUserID)
         {
-
-        }
-
-        public cPlayerInventory(Int32 intPlayerInventoryID, Int32 intPlayerProfileID, string strUserName, Int32 intUserID)
-        {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            _PlayerInventoryID = intPlayerInventoryID;
-            _PlayerProfileID = intPlayerProfileID;
-            _UserName = strUserName;
-            _UserID = intUserID;
-            //so lets say we wanted to load data into this class from a sql query called uspGetSomeData thats take two paraeters @Parameter1 and @Parameter2
-            SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-            slParams.Add("@PlayerInventoryID", _PlayerInventoryID);
+
+            PlayerInventoryID = intPlayerInventoryID;
+
+            SortedList slParams = new SortedList();
+            slParams.Add("@PlayerInventoryID", PlayerInventoryID);
             try
             {
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerInventoryByID", slParams, "LarpPortal", _UserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerInventoryByID", slParams, "LARPortal", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-                    _PlayerProfileID = ldt.Rows[0]["PlayerProfileID"].ToString().ToInt32();
-                    _Description = ldt.Rows[0]["Description"].ToString();
-                    _InventoryType = ldt.Rows[0]["InventoryTypeID"].ToString().ToInt32();
-                    _Quantity = ldt.Rows[0]["Quantity"].ToString();
-                    _Size = ldt.Rows[0]["Size"].ToString();
-                    _PowerNeeded = ldt.Rows[0]["PowerNeeded"].ToString();
-                    _WillShare = ldt.Rows[0]["WillShare"].ToString().ToInt32();
-                    _InventoryNotes = ldt.Rows[0]["InventoryNotes"].ToString();
-                    _InventoryImage = ldt.Rows[0]["InventoryImage"].ToString();
-                    _Comments = ldt.Rows[0]["Comments"].ToString();
-                    _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
-                    _DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
+                    Description = ldt.Rows[0]["Description"].ToString();
+                    Quantity = ldt.Rows[0]["Quantity"].ToString();
+                    Size = ldt.Rows[0]["Size"].ToString();
+                    PowerNeeded = ldt.Rows[0]["PowerNeeded"].ToString();
+                    InventoryNotes = ldt.Rows[0]["InventoryNotes"].ToString();
+//                  InventoryImage = ldt.Rows[0]["InventoryImage"].ToString();
+                    ImageURL = ldt.Rows[0]["ImageURL"].ToString();
+                    PlayerComments = ldt.Rows[0]["PlayerComments"].ToString();
+                    Comments = ldt.Rows[0]["Comments"].ToString();
+
+                    int iTemp;
+                    if (int.TryParse(ldt.Rows[0]["PlayerProfileID"].ToString(), out iTemp))
+                        PlayerProfileID = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["InventoryTypeID"].ToString(), out iTemp))
+                        InventoryTypeID = iTemp;
+                    if (int.TryParse(ldt.Rows[0]["ImageID"].ToString(), out iTemp))
+                        ImageID = iTemp;
+
+                    if (int.TryParse(ldt.Rows[0]["ImageID"].ToString(), out iTemp))
+                    {
+                        ImageID = iTemp;
+                        InvImage = new cPicture();
+                        InvImage.Load(iTemp, strUserName);
+                        
+                    }
+
+                    bool bTemp;
+                    if (bool.TryParse(ldt.Rows[0]["WillShare"].ToString(), out bTemp))
+                        WillShare = bTemp;
                 }
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, strUserName + lsRoutineName);
             }
         }
-        public Boolean Save()
+        public Boolean Save(string UserName, int UserID)
+        {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+            Boolean blnReturn = false;
+
+            if (RecordStatus == RecordStatuses.Delete)
+                Delete(UserName, UserID);
+            else
+            {
+                try
+                {
+                    SortedList slParams = new SortedList();
+                    slParams.Add("@UserID", UserID);
+                    slParams.Add("@PlayerInventoryID", PlayerInventoryID);
+                    slParams.Add("@PlayerProfileID", PlayerProfileID);
+                    slParams.Add("@Description", Description);
+                    slParams.Add("@InventoryTypeID", InventoryTypeID);
+                    slParams.Add("@Quantity", Quantity);
+                    slParams.Add("@Size", Size);
+                    slParams.Add("@PowerNeeded", PowerNeeded);
+                    if (WillShare)
+                        slParams.Add("@WillShare", 1);
+                    else
+                        slParams.Add("@WillShare", 0);
+                    slParams.Add("@InventoryNotes", InventoryNotes);
+                    slParams.Add("@InventoryImage", ImageURL);
+                    slParams.Add("@ImageID", ImageID);
+                    slParams.Add("@PlayerComments", PlayerComments);
+                    slParams.Add("@Comments", Comments);
+                    blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerInventory", slParams, "LARPortal", UserName);
+                }
+                catch (Exception ex)
+                {
+                    ErrorAtServer lobjError = new ErrorAtServer();
+                    lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
+                    blnReturn = false;
+                }
+            }
+
+            return blnReturn;
+        }
+
+        public void Delete(string UserName, int UserID)
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            Boolean blnReturn = false;
-            try
+
+            if (RecordStatus == RecordStatuses.Active)
+                Save(UserName, UserID);
+            else
             {
-                SortedList slParams = new SortedList();
-                slParams.Add("@UserID", _UserID);
-                slParams.Add("@PlayerInventoryID", _PlayerInventoryID);
-                slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                slParams.Add("@Description", _Description);
-                slParams.Add("@InventoryTypeID", _InventoryType);
-                slParams.Add("@Quantity", _Quantity);
-                slParams.Add("@Size", _Size);
-                slParams.Add("@PowerNeeded", _PowerNeeded);
-                slParams.Add("@WillShare", _WillShare);
-                slParams.Add("@InventoryNotes", _InventoryNotes);
-                slParams.Add("@InventoryImage", _InventoryImage);
-                slParams.Add("@Comments", _Comments);
-                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerInventory", slParams, "LarpPoral", _UserName);
+                try
+                {
+                    SortedList slParams = new SortedList();
+                    slParams.Add("@UserID", UserID);
+                    slParams.Add("@RecordID", PlayerInventoryID);
+                    cUtilities.PerformNonQuery("uspDelPLPlayerInventory", slParams, "LARPortal", UserName);
+                }
+                catch (Exception ex)
+                {
+                    ErrorAtServer lobjError = new ErrorAtServer();
+                    lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
+                }
             }
-            catch (Exception ex)
-            {
-                ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
-                blnReturn = false;
-            }
-            return blnReturn;
         }
-       
-
     }
-
-
 }

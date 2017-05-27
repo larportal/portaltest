@@ -17,14 +17,14 @@ namespace LarpPortal.Classes
         Delete
     };
 
-    class cCharacter
+    public class cCharacter
     {
         public cCharacter()
         {
             CharacterID = -1;      // -1 Means that no character has been loaded. Will be a new character.
             TotalCP = 0;
             ProfilePicture = new cPicture();
-            AllowCharacterRebuild = false;              // JBradshaw 7/10/2016 Request #1293
+            //            AllowCharacterRebuild = false;              // JBradshaw 7/10/2016 Request #1293
         }
 
         public override string ToString()
@@ -63,7 +63,7 @@ namespace LarpPortal.Classes
         public string Treasure { get; set; }
         public string Makeup { get; set; }
         public string PlayerComments { get; set; }
-        public string Comments { get; set; }
+        public string StaffComments { get; set; }
         public int ProfilePictureID { get; set; }
         public cPicture ProfilePicture { get; set; }
         public int CampaignID { get; set; }
@@ -74,9 +74,21 @@ namespace LarpPortal.Classes
         public string PlayerName { get; set; }
         public int PlayerID { get; set; }
         public string PlayerEMail { get; set; }
-        public Boolean AllowCharacterRebuild { get; set; }              // Added J.Bradshaw Request #1293
+        public DateTime? LatestEventDate { get; set; }
+        public bool VisibleToPCs { get; set; }
+        public Boolean AllowCharacterRebuild
+        {
+            get
+            {
+                if (AllowCharacterRebuildToDate.HasValue)
+                    if (AllowCharacterRebuildToDate >= DateTime.Now)
+                        return true;
+                return false;
+            }
+        }              // Added J.Bradshaw Request #1293
+        public DateTime? AllowCharacterRebuildToDate { get; set; }    // Added J.Bradshaw  3/12/2017
 
-        public List<cPlace> Places = new List<cPlace>();
+        public List<cCharacterPlace> Places = new List<cCharacterPlace>();
         public List<cCharacterDeath> Deaths = new List<cCharacterDeath>();
         public List<cActor> Actors = new List<cActor>();
         public List<cRelationship> Relationships = new List<cRelationship>();
@@ -108,6 +120,23 @@ namespace LarpPortal.Classes
             bool bTemp;
             DateTime dtTemp;
             double dTemp;
+
+            Places = new List<cCharacterPlace>();
+            Deaths = new List<cCharacterDeath>();
+            Actors = new List<cActor>();
+            Relationships = new List<cRelationship>();
+            Pictures = new List<cPicture>();
+            CharacterSkills = new List<cCharacterSkill>();
+            Descriptors = new List<cDescriptor>();
+            CharacterItems = new List<cCharacterItems>();
+
+            Race = new cRace();
+            CharType = new cCharacterType();
+            Status = new cCharacterStatus();
+            SkillPools = new List<cSkillPool>();
+            Teams = new List<cTeamInfo>();
+
+            DateTime? dtDateCharacterCreated = null;
 
             Dictionary<int, string> TableInfo = new Dictionary<int, string>();
 
@@ -215,7 +244,7 @@ namespace LarpPortal.Classes
                 Treasure = dRow["Treasure"].ToString();
                 Makeup = dRow["Makeup"].ToString();
                 PlayerComments = dRow["PlayerComments"].ToString();
-                Comments = dRow["Comments"].ToString();
+                StaffComments = dRow["Comments"].ToString();
 
                 if (int.TryParse(dRow["CampaignID"].ToString(), out iTemp))
                     CampaignID = iTemp;
@@ -239,9 +268,24 @@ namespace LarpPortal.Classes
                     PlayerEMail = dRow["PlayerEMail"].ToString();
                 }
 
+                if (DateTime.TryParse(dRow["LatestEventDate"].ToString(), out dtTemp))
+                    LatestEventDate = dtTemp;
+                else
+                    LatestEventDate = null;
+
+                if (bool.TryParse(dRow["VisibleToPCs"].ToString(), out bTemp))
+                    VisibleToPCs = bTemp;
+                else
+                    VisibleToPCs = true;
+
                 // J.Bradshaw  7/10/2016  Request #1293
-                if (bool.TryParse(dRow["AllowCharacterRebuild"].ToString(), out bTemp))
-                    AllowCharacterRebuild = bTemp;
+                //if (bool.TryParse(dRow["AllowCharacterRebuild"].ToString(), out bTemp))
+                //    AllowCharacterRebuild = bTemp;
+                if (DateTime.TryParse(dRow["AllowSkillRebuildToDate"].ToString(), out dtTemp))
+                    AllowCharacterRebuildToDate = dtTemp;
+
+                if (DateTime.TryParse(dRow["DateAdded"].ToString(), out dtTemp))
+                    dtDateCharacterCreated = dtTemp;
             }
 
             foreach (DataRow dItems in dsCharacterInfo.Tables["CharacterItems"].Rows)
@@ -288,26 +332,25 @@ namespace LarpPortal.Classes
 
             foreach (DataRow dPlaces in dsCharacterInfo.Tables["CHCharacterPlaces"].Rows)
             {
-                cPlace NewPlace = new cPlace()
+                cCharacterPlace NewPlace = new cCharacterPlace()
                 {
+                    CharacterPlaceID = -1,
+                    CharacterID = CharacterIDToLoad,
                     CampaignPlaceID = -1,
-
+                    LocaleID = -1,
                     PlaceName = dPlaces["PlaceName"].ToString(),
-                    Locale = dPlaces["Locale"].ToString(),
-                    //                            RulebookDescription = dPlaces["RulebookDescription"].ToString(),
-                    StaffComments = dPlaces["StaffComments"].ToString(),
                     Comments = dPlaces["PlayerComments"].ToString(),
                     RecordStatus = RecordStatuses.Active
                 };
 
                 if (int.TryParse(dPlaces["CharacterPlaceID"].ToString(), out iTemp))
-                    NewPlace.CampaignPlaceID = iTemp;
+                    NewPlace.CharacterPlaceID = iTemp;
+
+                if (int.TryParse(dPlaces["CharacterID"].ToString(), out iTemp))
+                    NewPlace.CharacterID = iTemp;
 
                 if (int.TryParse(dPlaces["PlaceID"].ToString(), out iTemp))
-                    NewPlace.PlaceID = iTemp;
-
-                if (int.TryParse(dPlaces["PlaceTypeID"].ToString(), out iTemp))
-                    NewPlace.PlaceTypeID = iTemp;
+                    NewPlace.CampaignPlaceID = iTemp;
 
                 if (int.TryParse(dPlaces["LocaleID"].ToString(), out iTemp))
                     NewPlace.LocaleID = iTemp;
@@ -326,6 +369,9 @@ namespace LarpPortal.Classes
                     RecordStatus = RecordStatuses.Active
                 };
 
+                if (int.TryParse(dDeaths["CharacterDeathID"].ToString(), out iTemp))
+                    NewDeath.CharacterDeathID = iTemp;
+
                 if (bool.TryParse(dDeaths["DeathPermanent"].ToString(), out bTemp))
                     NewDeath.DeathPermanent = bTemp;
 
@@ -343,10 +389,17 @@ namespace LarpPortal.Classes
                     UserID = -1,
                     StartDate = null,
                     EndDate = null,
+                    loginUserName = dActors["loginUserName"].ToString(),
+                    ActorFirstName = dActors["FirstName"].ToString(),
+                    ActorMiddleName = dActors["MiddleName"].ToString(),
+                    ActorLastName = dActors["LastName"].ToString(),
+                    ActorNickName = dActors["NickName"].ToString(),
                     StaffComments = dActors["StaffComments"].ToString(),
                     Comments = dActors["Comments"].ToString(),
                     RecordStatus = RecordStatuses.Active
                 };
+
+                NewActor.CharacterID = CharacterIDToLoad;
 
                 if (int.TryParse(dActors["CharacterActorID"].ToString(), out iTemp))
                     NewActor.CharacterActorID = iTemp;
@@ -463,17 +516,17 @@ namespace LarpPortal.Classes
                     SkillSetTypeDescription = dSkill["SkillSetTypeDescription"].ToString(),
                     SkillName = dSkill["SkillName"].ToString(),
                     SkillShortDescription = dSkill["SkillShortDescription"].ToString(),
-//                    SkillLongDescription = dSkill["SkillLongDescription"].ToString(),
+                    //                    SkillLongDescription = dSkill["SkillLongDescription"].ToString(),
                     CampaignSkillsStandardComments = dSkill["CampaignSkillsStandardComments"].ToString(),
-//                    SkillTypeDescription = dSkill["SkillTypeDescription"].ToString(),
+                    //                    SkillTypeDescription = dSkill["SkillTypeDescription"].ToString(),
                     SkillTypeComments = dSkill["SkillTypeComments"].ToString(),
                     PlayerDescription = dSkill["PlayerDescription"].ToString(),
                     PlayerIncant = dSkill["PlayerIncant"].ToString(),
                     SkillCardDescription = dSkill["SkillCardDescription"].ToString(),
                     SkillCardIncant = dSkill["SkillIncant"].ToString()
-            //if (SuppressCampaignDescription != null)
-            //if (SuppressCampaignIncant != null)
-            // DisplayOnCard
+                    //if (SuppressCampaignDescription != null)
+                    //if (SuppressCampaignIncant != null)
+                    // DisplayOnCard
                 };
 
 
@@ -504,8 +557,8 @@ namespace LarpPortal.Classes
                 if (int.TryParse(dSkill["SkillTypeID"].ToString(), out iTemp))
                     NewSkill.SkillTypeID = iTemp;
 
-//                if (int.TryParse(dSkill["SkillHeaderTypeID"].ToString(), out iTemp))
-//                    NewSkill.SkillHeaderTypeID = iTemp;
+                //                if (int.TryParse(dSkill["SkillHeaderTypeID"].ToString(), out iTemp))
+                //                    NewSkill.SkillHeaderTypeID = iTemp;
 
                 if (int.TryParse(dSkill["CharacterSkillSetID"].ToString(), out iTemp))
                     NewSkill.CharacterSkillSetID = iTemp;
@@ -651,117 +704,120 @@ namespace LarpPortal.Classes
 
         public string SaveCharacter(string sUserUpdating, int iUserID)
         {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
             string Timing;
 
             Timing = "Save character start: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
 
-            using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
+            SortedList sParams = new SortedList();
+            sParams.Add("@UserID", iUserID);
+            sParams.Add("@CharacterID", CharacterID);
+            sParams.Add("@CurrentUserID", CurrentUserID);
+            sParams.Add("@CharacterStatus", CharacterStatusID);
+            sParams.Add("@CharacterFirstName", FirstName);
+            sParams.Add("@CharacterMiddleName", MiddleName);
+            sParams.Add("@CharacterLastName", LastName);
+            sParams.Add("@CharacterAKA", AKA);
+            sParams.Add("@CharacterTitle", Title);
+            sParams.Add("@CharacterRace", Race.CampaignRaceID);
+            sParams.Add("@CharacterType", CharacterType);
+            sParams.Add("@PlotLeadPerson", PlotLeadPerson);
+            sParams.Add("@RulebookCharacter", RulebookCharacter);
+            sParams.Add("@CharacterHistory", CharacterHistory);
+            sParams.Add("@DateHistorySubmitted", DateHistorySubmitted);
+            sParams.Add("@DateHistoryApproved", DateHistoryApproved);
+            sParams.Add("@DateOfBirth", DateOfBirth);
+            sParams.Add("@WhereFrom", WhereFrom);
+            sParams.Add("@CurrentHome", CurrentHome);
+            sParams.Add("@CardPrintName", CardPrintName);
+            sParams.Add("@HousingListName", HousingListName);
+            sParams.Add("@StartDate", StartDate);
+            sParams.Add("@CharacterEmail", CharacterEmail);
+            sParams.Add("@TotalCP", TotalCP);
+            sParams.Add("@CharacterPhoto", CharacterPhoto);
+            sParams.Add("@Costuming", Costuming);
+            sParams.Add("@Weapons", Weapons);
+            sParams.Add("@Accessories", Accessories);
+            sParams.Add("@Items", Items);
+            sParams.Add("@Treasure", Treasure);
+            sParams.Add("@Makeup", Makeup);
+            sParams.Add("@PlayerComments", PlayerComments);
+            sParams.Add("@PrimaryTeamID", TeamID);
+            sParams.Add("@VisibleToPCs", VisibleToPCs);
+            sParams.Add("@Comments", StaffComments);
+
+            DataTable dtCharInfo = cUtilities.LoadDataTable("uspInsUpdCHCharacters", sParams, "LARPortal", sUserUpdating, lsRoutineName + ".uspInsUpdCHCharacters");
+
+            Timing += ", character record update done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+
+            sParams = new SortedList();
+
+            sParams.Add("@UserID", iUserID);
+            sParams.Add("@CharacterID", CharacterID);
+            if (AllowCharacterRebuild)
+
+                sParams.Add("@CharacterRebuildDate", AllowCharacterRebuildToDate);
+            else
+                sParams.Add("@ClearDate", 1);
+
+            DataTable dtSkillSets = cUtilities.LoadDataTable("uspSetCharacterRebuildToDate", sParams, "LARPortal", sUserUpdating, lsRoutineName + ".uspSetCharacterRebuildToDate");
+
+            foreach (cPicture Picture in Pictures)
             {
-                connPortal.Open();
+                Picture.CharacterID = CharacterID;
+                if (Picture.RecordStatus == RecordStatuses.Delete)
+                    Picture.Delete(sUserUpdating);
+                else
+                    Picture.Save(sUserUpdating);
+            }
 
-                using (SqlCommand CmdCHCharacterInsUpd = new SqlCommand("uspInsUpdCHCharacters", connPortal))
-                {
-                    CmdCHCharacterInsUpd.CommandType = CommandType.StoredProcedure;
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@UserID", iUserID);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterID", CharacterID);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CurrentUserID", CurrentUserID);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterStatus", CharacterStatusID);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterFirstName", FirstName);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterMiddleName", MiddleName);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterLastName", LastName);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterAKA", AKA);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterTitle", Title);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterRace", Race.CampaignRaceID);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterType", CharacterType);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@PlotLeadPerson", PlotLeadPerson);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@RulebookCharacter", RulebookCharacter);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterHistory", CharacterHistory);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@DateHistorySubmitted", DateHistorySubmitted);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@DateHistoryApproved", DateHistoryApproved);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@DateOfBirth", DateOfBirth);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@WhereFrom", WhereFrom);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CurrentHome", CurrentHome);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CardPrintName", CardPrintName);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@HousingListName", HousingListName);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@StartDate", StartDate);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterEmail", CharacterEmail);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@TotalCP", TotalCP);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@CharacterPhoto", CharacterPhoto);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@Costuming", Costuming);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@Weapons", Weapons);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@Accessories", Accessories);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@Items", Items);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@Treasure", Treasure);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@Makeup", Makeup);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@PlayerComments", PlayerComments);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@PrimaryTeamID", TeamID);
-                    CmdCHCharacterInsUpd.Parameters.AddWithValue("@Comments", Comments);
+            if (ProfilePicture != null)
+                if (ProfilePicture.RecordStatus == RecordStatuses.Delete)
+                    ProfilePicture.Delete(sUserUpdating);
+                else
+                    ProfilePicture.Save(sUserUpdating);
 
-                    CmdCHCharacterInsUpd.ExecuteNonQuery();
-                }
+            foreach (cCharacterSkill Skill in CharacterSkills)
+            {
+                Skill.CharacterSkillSetID = CharacterSkillSetID;
+                if (Skill.RecordStatus == RecordStatuses.Delete)
+                    Skill.Delete(sUserUpdating, iUserID);
+                else
+                    Skill.Save(sUserUpdating, iUserID);
+            }
 
-                Timing += ", character record update done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+            Timing += ", skills update done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
 
-                foreach (cPicture Picture in Pictures)
-                {
-                    Picture.CharacterID = CharacterID;
-                    if (Picture.RecordStatus == RecordStatuses.Delete)
-                        Picture.Delete(sUserUpdating);
-                    else
-                        Picture.Save(sUserUpdating);
-                }
+            foreach (cDescriptor Desc in Descriptors)
+            {
+                Desc.CharacterSkillSetID = CharacterSkillSetID;
+                if (Desc.RecordStatus == RecordStatuses.Delete)
+                    Desc.Delete(sUserUpdating, iUserID);
+                else
+                    Desc.Save(sUserUpdating, iUserID);
+            }
 
-                if (ProfilePicture != null)
-                    if (ProfilePicture.RecordStatus == RecordStatuses.Delete)
-                        ProfilePicture.Delete(sUserUpdating);
-                    else
-                        ProfilePicture.Save(sUserUpdating);
+            foreach (cCharacterPlace Place in Places)
+            {
+                Place.CharacterID = CharacterID;
+                Place.Save(iUserID);
+            }
 
-                foreach (cCharacterSkill Skill in CharacterSkills)
-                {
-                    Skill.CharacterSkillSetID = CharacterSkillSetID;
-                    if (Skill.RecordStatus == RecordStatuses.Delete)
-                        Skill.Delete(sUserUpdating, iUserID);
-                    else
-                        Skill.Save(sUserUpdating, iUserID);
-                }
+            foreach (cCharacterDeath Death in Deaths)
+            {
+                Death.Save(iUserID);
+            }
 
-                Timing += ", skills update done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");
+            foreach (cActor Actor in Actors)
+            {
+                Actor.Save(iUserID);
+            }
 
-                foreach (cDescriptor Desc in Descriptors)
-                {
-                    Desc.CharacterSkillSetID = CharacterSkillSetID;
-                    if (Desc.RecordStatus == RecordStatuses.Delete)
-                        Desc.Delete(sUserUpdating, iUserID);
-                    else
-                        Desc.Save(sUserUpdating, iUserID);
-                }
-
-                foreach (cPlace Place in Places)
-                {
-                    Place.CharacterID = CharacterID;
-                    if (Place.RecordStatus == RecordStatuses.Delete)
-                    {
-                        //   Place.Delete(sUserUpdating);
-                    }
-                    else
-                        Place.Save(sUserUpdating);
-                }
-
-                //              foreach (cCharacterDeath Death in Deaths)
-                //              {
-                //   //               Death.Save(sUserUpdating, connPortal);
-                //              }
-
-                //              foreach (cActor Actor in Actors)
-                //              {
-                // //                 Actor.Save(sUserUpdating, connPortal);
-                //              }
-
-                foreach (cRelationship Relat in Relationships)
-                {
-                    Relat.Save(sUserUpdating, iUserID);
-                }
+            foreach (cRelationship Relat in Relationships)
+            {
+                Relat.Save(sUserUpdating, iUserID);
             }
 
             Timing += ", character save done: " + DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss.fff tt");

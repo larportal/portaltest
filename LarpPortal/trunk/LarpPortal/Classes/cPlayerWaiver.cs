@@ -12,152 +12,233 @@ namespace LarpPortal.Classes
 {
     public class cPlayerWaiver
     {
+        public int PlayerWaiverID { get; set; }
+        public int PlayerProfileID { get; set; }
+        public DateTime? AcceptedDate { get; set; }
+        public DateTime? DeclinedDate { get; set; }
+        public int? DeclineApprovedByID { get; set; }
+        public string WaiverImage { get; set; }
+        public string PlayerNotes { get; set; }
+        public string StaffNotes { get; set; }
+        public string Comments { get; set; }
+        public int WaiverID { get; set; }
+        public int? SourceID { get; set; }
+        public string WaiverText { get; set; }
+        public string WaiverNotes { get; set; }
+        public bool? RequiredToPlay { get; set; }
+        public DateTime? WaiverStartDate { get; set; }
+        public DateTime? WaiverEndDate { get; set; }
+        public string WaiverComments { get; set; }
+        public int? WaiverTypeID { get; set; }
+        public string WaiverType { get; set; }
+        public string WaiverTypeComments { get; set; }
+        public string CampaignName { get; set; }
+        public string WaiverStatus { get; set; }
+        public DateTime? WaiverStatusDate { get; set; }
+        public RecordStatuses RecordStatus { get; set; }
 
-        private string _UserName = "";
-        private Int32 _UserID = -1;
-        private Int32 _PlayerWaiverID = -1;
-        private Int32 _PlayerProfileID = -1;
-        private Int32 _WaiverID = -1;
-        private DateTime? _AcceptedDate;
-        private string _WaiverImage;
-        private DateTime? _DeclinedDate;
-        private Int32 _DeclineApprovedBy;
-        private string _PlayerNotes = "";
-        private string _StaffNotes = "";
-        private string _Comments = "";
-        private DateTime _DateAdded;
-        private DateTime _DateChanged;
-
-        public Int32 PlayerWaiverID
+        public cPlayerWaiver()
         {
-            get { return _PlayerWaiverID; }
-        }
-        public Int32 PlayerProfileID
-        {
-            get { return _PlayerProfileID; }
-        }
-        public Int32 WaiverID
-        {
-            get { return _WaiverID; }
-            set { _WaiverID = value; }
-        }
-        public DateTime? AccpetedDate
-        {
-            get { return _AcceptedDate; }
-            set { _AcceptedDate = value; }
-        }
-        public string WaiverImage
-        {
-            get { return _WaiverImage; }
-            set { _WaiverImage = value; }
-        }
-        public DateTime? DeclinedDate
-        {
-            get { return _DeclinedDate; }
-            set { _DeclinedDate = value; }
-        }
-        public Int32 DeclineApprovedBy
-        {
-            get { return _DeclineApprovedBy; }
-            set { _DeclineApprovedBy = value; }
-        }
-        public string PlayerNotes
-        {
-            get { return _PlayerNotes; }
-            set { _PlayerNotes = value; }
-        }
-        public string StaffNotes
-        {
-            get { return _StaffNotes; }
-            set { _StaffNotes = value; }
-        }
-        public string Comments
-        {
-            get { return _Comments; }
-            set { _Comments = value; }
-        }
-        public DateTime DateAdded
-        {
-            get { return _DateAdded; }
-        }
-        public DateTime DateChanged
-        {
-            get { return _DateChanged; }
+            PlayerWaiverID = -1;
+            PlayerProfileID = -1;
+            AcceptedDate = null;
+            DeclinedDate = null;
+            DeclineApprovedByID = null;
+            WaiverImage = "";
+            PlayerNotes = "";
+            StaffNotes = "";
+            Comments = "";
+            WaiverID = -1;
+            SourceID = null;
+            WaiverText = "";
+            WaiverNotes = "";
+            RequiredToPlay = null;
+            WaiverStartDate = null;
+            WaiverEndDate = null;
+            WaiverComments = "";
+            WaiverTypeID = null;
+            WaiverType = "";
+            WaiverTypeComments = "";
+            CampaignName = "";
+            WaiverStatus = "";
+            WaiverStatusDate = null;
+            RecordStatus = RecordStatuses.Active;
         }
 
-
-
-        private cPlayerWaiver()
+        public cPlayerWaiver(Int32 intPlayerWaiverID, string strUserName)
         {
-
+            Load(intPlayerWaiverID, strUserName);
         }
 
-        public cPlayerWaiver(Int32 intPlayerWaiverID, Int32 intPlayerProfileID, string strUserName, Int32 intUserID)
+        public void Load(Int32 intPlayerWaiverID, string strUserName)
         {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            _PlayerWaiverID = intPlayerWaiverID;
-            _PlayerProfileID = intPlayerProfileID;
-            _UserName = strUserName;
-            _UserID = intUserID;
-            //so lets say we wanted to load data into this class from a sql query called uspGetSomeData thats take two paraeters @Parameter1 and @Parameter2
-            SortedList slParams = new SortedList(); // I use a sortedlist  wich is a C# hash table to store the paramter and value
-            slParams.Add("@PlayerWaiverID", _PlayerWaiverID);
+
+            PlayerProfileID = -1;
+            AcceptedDate = null;
+            DeclinedDate = null;
+            DeclineApprovedByID = null;
+            WaiverImage = "";
+            PlayerNotes = "";
+            StaffNotes = "";
+            Comments = "";
+            WaiverID = -1;
+            SourceID = null;
+            WaiverText = "";
+            WaiverNotes = "";
+            RequiredToPlay = null;
+            WaiverStartDate = null;
+            WaiverEndDate = null;
+            WaiverComments = "";
+            WaiverTypeID = null;
+            WaiverType = "";
+            WaiverTypeComments = "";
+            CampaignName = "";
+            WaiverStatus = "";
+            WaiverStatusDate = null;
+            RecordStatus = RecordStatuses.Active;
+
+            PlayerWaiverID = intPlayerWaiverID;
+
+            SortedList slParams = new SortedList();
+            slParams.Add("@PlayerWaiverID", PlayerWaiverID);
             try
             {
-                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerWaiverByID", slParams, "LarpPortal", _UserName, lsRoutineName);
+                DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerWaiverByID", slParams, "LARPortal", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
-                      _PlayerProfileID = ldt.Rows[0]["PlayerProfileID"].ToString().ToInt32();
-                      _AcceptedDate = Convert.ToDateTime(ldt.Rows[0]["AcceptedDate"].ToString());
-                      _WaiverImage = ldt.Rows[0]["WaiverImage"].ToString();
-                      _DeclinedDate = Convert.ToDateTime(ldt.Rows[0]["DeclinedDate"].ToString());
-                      _DeclineApprovedBy = ldt.Rows[0]["DeclineApprovedByID"].ToString().ToInt32();
-                      _PlayerNotes = ldt.Rows[0]["PlayerNotes"].ToString();
-                      _StaffNotes = ldt.Rows[0]["StaffNotes"].ToString();
-                      _Comments = ldt.Rows[0]["Comments"].ToString();
-                      _DateAdded = Convert.ToDateTime(ldt.Rows[0]["DateAdded"].ToString());
-                      _DateChanged = Convert.ToDateTime(ldt.Rows[0]["DateChanged"].ToString());
+                    DataRow ldr = ldt.Rows[0];
+
+                    WaiverImage = ldr["WaiverImage"].ToString();
+                    PlayerNotes = ldr["PlayerNotes"].ToString();
+                    StaffNotes = ldr["StaffNotes"].ToString();
+                    Comments = ldr["Comments"].ToString();
+                    WaiverText = ldr["WaiverText"].ToString();
+                    WaiverNotes = ldr["WaiverNotes"].ToString();
+                    WaiverComments = ldr["WaiverComments"].ToString();
+                    WaiverType = ldr["WaiverTypeDescription"].ToString();
+                    WaiverTypeComments = ldr["WaiverTypeComments"].ToString();
+                    WaiverStatus = ldr["WaiverStatus"].ToString();
+                    CampaignName = ldr["CampaignName"].ToString();
+
+                    DateTime dtTemp;
+
+                    if (DateTime.TryParse(ldr["AcceptedDate"].ToString(), out dtTemp))
+                        AcceptedDate = dtTemp;
+                    else
+                        AcceptedDate = null;
+                    if (DateTime.TryParse(ldr["DeclinedDate"].ToString(), out dtTemp))
+                        DeclinedDate = dtTemp;
+                    else
+                        DeclinedDate = null;
+                    if (DateTime.TryParse(ldr["WaiverStartDate"].ToString(), out dtTemp))
+                        WaiverStartDate = dtTemp;
+                    else
+                        WaiverStartDate = null;
+                    if (DateTime.TryParse(ldr["WaiverEndDate"].ToString(), out dtTemp))
+                        WaiverEndDate = dtTemp;
+                    else
+                        WaiverEndDate = null;
+                    if (DateTime.TryParse(ldr["WaiverStatusDate"].ToString(), out dtTemp))
+                        WaiverStatusDate = dtTemp;
+                    else
+                        WaiverStatusDate = null;
+
+                    int iTemp;
+                    if (int.TryParse(ldr["DeclineApprovedByID"].ToString(), out iTemp))
+                        DeclineApprovedByID = iTemp;
+                    else
+                        DeclineApprovedByID = null;
+                    if (int.TryParse(ldr["WaiverID"].ToString(), out iTemp))
+                        WaiverID = iTemp;
+                    if (int.TryParse(ldr["SourceID"].ToString(), out iTemp))
+                        SourceID = iTemp;
+                    else
+                        SourceID = null;
+                    if (int.TryParse(ldr["WaiverTypeID"].ToString(), out iTemp))
+                        WaiverTypeID = iTemp;
+                    else
+                        WaiverTypeID = null;
+                    if (int.TryParse(ldr["PlayerProfileID"].ToString(), out iTemp))
+                        PlayerProfileID = iTemp;
+
+                    bool bTemp;
+                    if (bool.TryParse(ldr["RequiredToPlay"].ToString(), out bTemp))
+                        RequiredToPlay = bTemp;
+                    else
+                        RequiredToPlay = false;
                 }
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
+                lobjError.ProcessError(ex, lsRoutineName, strUserName + lsRoutineName);
+                throw ex;
             }
         }
-        public Boolean Save()
+        public void Save(string UserName, int UserID)
         {
-            MethodBase lmth = MethodBase.GetCurrentMethod();   // this is where we use refelection to store the name of the method and class to use it to report errors
+            MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-            Boolean blnReturn = false;
+
             try
             {
-                SortedList slParams = new SortedList();
-                slParams.Add("@UserID", _UserID);
-                slParams.Add("@PlayerWaiverID", _PlayerWaiverID);
-                slParams.Add("@PlayerProfileID", _PlayerProfileID);
-                slParams.Add("@WaiverID", _WaiverID);
-                slParams.Add("@AcceptedDate", _AcceptedDate);
-                slParams.Add("@WaiverImage", _WaiverImage);
-                slParams.Add("@DeclinedDate", _DeclinedDate);
-                slParams.Add("@DeclineApprovedByID", _DeclineApprovedBy);
-                slParams.Add("@PlayerNotes", _PlayerNotes);
-                slParams.Add("@StaffNotes", _StaffNotes);
-                slParams.Add("@Comments", _Comments);
-                blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdPLPlayerWaivers", slParams, "LarpPoral", _UserName);
+                if (RecordStatus == RecordStatuses.Delete)
+                    Delete(UserName, UserID);
+                else
+                {
+                    SortedList slParams = new SortedList();
+                    slParams.Add("@UserID", UserID);
+                    slParams.Add("@PlayerWaiverID", PlayerWaiverID);
+                    slParams.Add("@WaiverID", WaiverID);
+                    slParams.Add("@PlayerProfileID", PlayerProfileID);
+                    if (AcceptedDate.HasValue)
+                        slParams.Add("@AcceptedDate", AcceptedDate.Value);
+                    else
+                        slParams.Add("@ClearAcceptedDate", 1);
+                    if (DeclinedDate.HasValue)
+                        slParams.Add("@DeclinedDate", DeclinedDate.Value);
+                    else
+                        slParams.Add("@ClearDeclinedDate", 1);
+
+                    slParams.Add("@WaiverImage", WaiverImage);
+                    if (DeclineApprovedByID.HasValue)
+                        slParams.Add("@DeclineApprovedByID", DeclineApprovedByID.Value);
+                    else
+                        slParams.Add("@ClearDeclineApprovedByID", 1);
+                    slParams.Add("@PlayerNotes", PlayerNotes);
+                    slParams.Add("@StaffNotes", StaffNotes);
+                    slParams.Add("@Comments", Comments);
+
+                    cUtilities.PerformNonQuery("uspInsUpdPLPlayerWaivers", slParams, "LARPortal", UserName);
+                }
             }
             catch (Exception ex)
             {
                 ErrorAtServer lobjError = new ErrorAtServer();
-                lobjError.ProcessError(ex, lsRoutineName, _UserName + lsRoutineName);
-                blnReturn = false;
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
+                throw ex;
             }
-            return blnReturn;
         }
-       
 
+        public void Delete(string UserName, int UserID)
+        {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+            try
+            {
+                SortedList slParams = new SortedList();
+                slParams.Add("@UserID", UserID);
+                slParams.Add("@RecordID", PlayerWaiverID);
+                cUtilities.PerformNonQuery("uspDelPLPlayerWaivers", slParams, "LARPortal", UserName);
+            }
+            catch (Exception ex)
+            {
+                ErrorAtServer lobjError = new ErrorAtServer();
+                lobjError.ProcessError(ex, lsRoutineName, UserName + lsRoutineName);
+            }
+        }
     }
-
-
 }
