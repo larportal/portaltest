@@ -15,156 +15,80 @@ namespace LarpPortal.Character
     public partial class CharCardCustomization : System.Web.UI.Page
     {
         private DataTable _dtPlaces = new DataTable();
+        private string _UserName = "";
+        private int _UserID = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UserName"] != null)
+                _UserName = Session["UserName"].ToString();
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
+            oCharSelect.CharacterChanged += oCharSelect_CharacterChanged;
+
             if (!IsPostBack)
             {
                 Session.Remove("SkillList");
-                SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", "CharacterMaster.Page_Load");
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
-
-                if (ddlCharacterSelector.Items.Count > 0)
-                {
-                    ddlCharacterSelector.ClearSelection();
-
-                    if (Session["SelectedCharacter"] != null)
-                    {
-                        string sSelectedCharacter = Session["SelectedCharacter"].ToString();
-                        DataRow[] drValue = dtCharacters.Select("CharacterID = " + Session["SelectedCharacter"].ToString());
-                        foreach (DataRow dRow in drValue)
-                        {
-                            DateTime DateChanged;
-                            if (DateTime.TryParse(dRow["DateChanged"].ToString(), out DateChanged))
-                                lblUpdateDate.Text = DateChanged.ToShortDateString();
-                            else
-                                lblUpdateDate.Text = "Unknown";
-                            lblCampaign.Text = dRow["CampaignName"].ToString();
-                        }
-                        string sCurrentUser = Session["SelectedCharacter"].ToString();
-                        foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
-                        {
-                            if (sCurrentUser == liAvailableUser.Value)
-                                liAvailableUser.Selected = true;
-                            else
-                                liAvailableUser.Selected = false;
-                        }
-                    }
-                    else
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-
-                    if (ddlCharacterSelector.SelectedIndex == 0)
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-                    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
-                }
-                else
-                    Response.Redirect("CharAdd.aspx");
             }
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                MethodBase lmth = MethodBase.GetCurrentMethod();
-                string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-                showgrid();
-            }
+            oCharSelect.LoadInfo();
+            ShowGrid();
         }
 
-        protected void btnSaveCharacter_Click(object sender, EventArgs e)
+        protected void btnSave_Click(object sender, EventArgs e)
         {
-            int iCharID;
-            if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+            oCharSelect.LoadInfo();
+            if (oCharSelect.CharacterID.HasValue)
             {
                 if (Session["SkillList"] != null)
                 {
-                    using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
+                    DataTable dtSkills = Session["SkillList"] as DataTable;
+                    bool bTemp;
+                    foreach (DataRow dRow in dtSkills.Rows)
                     {
-                        conn.Open();
+                        SortedList sParams = new SortedList();
+                        sParams.Add("@CharacterSkillID", dRow["CharacterSkillID"].ToString());
+                        if (bool.TryParse(dRow["CardDisplayDescription"].ToString(), out bTemp))
+                            sParams.Add("@CardDisplayDescription", bTemp);
+                        else
+                            sParams.Add("@CardDisplayDescription", true);
 
-                        DataTable dtSkills = Session["SkillList"] as DataTable;
-                        foreach (DataRow dRow in dtSkills.Rows)
-                        {
-                            string s = Session["UserID"].ToString();
+                        if (bool.TryParse(dRow["CardDisplayIncant"].ToString(), out bTemp))
+                            sParams.Add("@CardDisplayIncant", bTemp);
+                        else
+                            sParams.Add("@CardDisplayIncant", true);
 
-                            using (SqlCommand CmdUpdate = new SqlCommand("uspInsUpdCHCharacterSkills", conn))
-                            {
-                                CmdUpdate.CommandType = CommandType.StoredProcedure;
-                                CmdUpdate.Parameters.AddWithValue("@CharacterSkillID", dRow["CharacterSkillID"].ToString());
+                        sParams.Add("@PlayerDescription", dRow["PlayerDescription"].ToString());
+                        sParams.Add("@PlayerIncant", dRow["PlayerIncant"].ToString());
+                        sParams.Add("@UserID", _UserID);
 
-                                bool bTemp;
-                                if (bool.TryParse(dRow["CardDisplayDescription"].ToString(), out bTemp))
-                                    CmdUpdate.Parameters.AddWithValue("@CardDisplayDescription", bTemp);
-                                else
-                                    CmdUpdate.Parameters.AddWithValue("@CardDisplayDescription", true);
-
-                                if (bool.TryParse(dRow["CardDisplayIncant"].ToString(), out bTemp))
-                                    CmdUpdate.Parameters.AddWithValue("@CardDisplayIncant", bTemp);
-                                else
-                                    CmdUpdate.Parameters.AddWithValue("@CardDisplayIncant", true);
-
-                                CmdUpdate.Parameters.AddWithValue("@PlayerDescription", dRow["PlayerDescription"].ToString());
-                                CmdUpdate.Parameters.AddWithValue("@PlayerIncant", dRow["PlayerIncant"].ToString());
-                                CmdUpdate.Parameters.AddWithValue("@UserID", Convert.ToInt32(Session["UserID"].ToString()));
-
-                                try
-                                {
-                                    CmdUpdate.ExecuteNonQuery();
-                                }
-                                catch (Exception ex)
-                                {
-                                    string t = ex.Message;
-                                }
-                            }
-                        }
-
-                        string jsString = "alert('Character " + ddlCharacterSelector.SelectedItem.Text + " has been saved.');";
-                        ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                                "MyApplication",
-                                jsString,
-                                true);
+                        Classes.cUtilities.PerformNonQuery("uspInsUpdCHCharacterSkills", sParams, "LARPortal", _UserName);
                     }
+
+                    lblmodalMessage.Text = "Character " + oCharSelect.CharacterInfo.AKA + " has been saved.";
+                    btnCloseMessage.Attributes.Add("data-dismiss", "modal");
+                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "MyApplication", "openMessage();", true);
                 }
             }
         }
 
 
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("CharAdd.aspx");
-
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
-            {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                Response.Redirect("CharInfo.aspx");
-            }
-        }
-
         protected void gvSkills_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvSkills.EditIndex = -1;
-            showgrid();
+            ShowGrid();
         }
 
         protected void gvSkills_RowEditing(object sender, GridViewEditEventArgs e)
         {
             gvSkills.EditIndex = e.NewEditIndex;
-            showgrid();
+            ShowGrid();
         }
 
         protected void gvSkills_RowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -203,7 +127,7 @@ namespace LarpPortal.Character
             }
 
             gvSkills.EditIndex = -1;
-            showgrid();
+            ShowGrid();
         }
 
         protected void gvSkills_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -215,35 +139,21 @@ namespace LarpPortal.Character
                     DataRowView dRow = e.Row.DataItem as DataRowView;
 
                     string t = dRow["CardDisplayIncant"].ToString();
-                    //if (dRow["DisplayDesc"].ToString().ToUpper().StartsWith("D"))
-                    //{
-                    //    CheckBox cbDisplayDesc = (CheckBox)e.Row.FindControl("cbDisplayDesc");
-                    //    if (cbDisplayDesc != null)
-                    //        cbDisplayDesc.Checked = true;
-                    //}
-                    //if (dRow["DisplayIncant"].ToString().ToUpper().StartsWith("D"))
-                    //{
-                    //    CheckBox cbDisplayIncant = (CheckBox)e.Row.FindControl("cbDisplayIncant");
-                    //    if (cbDisplayIncant != null)
-                    //        cbDisplayIncant.Checked = true;
-                    //}
                 }
             }
         }
 
-        private void showgrid()
+        private void ShowGrid()
         {
+            oCharSelect.LoadInfo();
+
             if (Session["SkillList"] == null)
             {
-                int iCharID;
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                if (oCharSelect.CharacterID.HasValue)
                 {
-                    Classes.cCharacter cChar = new Classes.cCharacter();
-                    cChar.LoadCharacter(iCharID);
-
                     DataTable dtCharactersForCampaign = new DataTable();
                     SortedList sParam = new SortedList();
-                    sParam.Add("@CharacterID", iCharID);
+                    sParam.Add("@CharacterID", oCharSelect.CharacterID.Value);
                     dtCharactersForCampaign = Classes.cUtilities.LoadDataTable("uspGetCharacterSkillSet", sParam, "LARPortal", Session["LoginName"].ToString(), "");
 
                     bool bTemp = false;
@@ -264,6 +174,56 @@ namespace LarpPortal.Character
             DataView dvSkills = new DataView(dtSkills, "", "DisplayOrder", DataViewRowState.CurrentRows);
             gvSkills.DataSource = dvSkills;
             gvSkills.DataBind();
+        }
+
+        protected void oCharSelect_CharacterChanged(object sender, EventArgs e)
+        {
+            oCharSelect.LoadInfo();
+
+            if (oCharSelect.CharacterInfo != null)
+            {
+                if (oCharSelect.CharacterID.HasValue)
+                {
+                    Classes.cUser UserInfo = new Classes.cUser(_UserName, "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                    UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                    UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                    UserInfo.Save();
+                }
+                Session.Remove("SkillList");
+            }
+        }
+
+        protected void gvSkills_DataBound(object sender, EventArgs e)
+        {
+            oCharSelect.LoadInfo();
+
+            if ((oCharSelect.CharacterInfo.CharacterType != 1) && (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters))
+            {
+                btnSave.Enabled = false;
+                btnSave.CssClass = "btn-default";
+                btnSave.Style["background-color"] = "grey";
+                btnSaveTop.Enabled = false;
+                btnSaveTop.CssClass = "btn-default";
+                btnSaveTop.Style["background-color"] = "grey";
+
+                int NumColumns = gvSkills.Columns.Count;
+                if (NumColumns > 0)
+                    gvSkills.Columns[NumColumns - 1].Visible = false;
+            }
+            else
+            {
+                btnSave.Enabled = true;
+                btnSave.Style["background-color"] = null;
+                btnSave.CssClass = "StandardButton";
+                btnSaveTop.Enabled = true;
+                btnSaveTop.Style["background-color"] = null;
+                btnSaveTop.CssClass = "StandardButton";
+
+                int NumColumns = gvSkills.Columns.Count;
+                if (NumColumns > 0)
+                    gvSkills.Columns[NumColumns - 1].Visible = true;
+            }
         }
     }
 }

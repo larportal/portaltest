@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="JoinTeam.aspx.cs" Inherits="LarpPortal.Character.Teams.JoinTeam" MasterPageFile="~/Character/Character.Master" %>
 
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
+<%@ Register TagPrefix="CharSelecter" TagName="CSelect" Src="~/controls/CharacterSelect.ascx" %>
+
 
 <asp:Content ID="HistoryScripts" runat="server" ContentPlaceHolderID="CharHeaderScripts">
     <script type="text/javascript">
@@ -53,7 +55,7 @@
     </style>
 </asp:Content>
 
-<asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="PELList" runat="server">
+<asp:Content ContentPlaceHolderID="CharHeaderMain" ID="PELList" runat="server">
     <div class="mainContent tab-content col-sm-12">
         <div id="character-info" class="character-info tab-pane active col-sm-12">
             <div class="row col-lg-12" style="padding-left: 15px; padding-top: 10px;">
@@ -62,10 +64,11 @@
                 </div>
             </div>
 
-            <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
-                <div class="row col-lg-12">
-                    <b>Selected Character: </b>
-                    <asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" />
+            <div class="row col-sm-12" style="padding-bottom: 15px; padding-left: 15px; padding-right: 0px;">
+                <div class="col-sm-10" style="padding-left: 0px; padding-right: 0px;">
+                    <CharSelecter:CSelect ID="oCharSelect" runat="server" />
+                </div>
+                <div class="col-sm-2">
                 </div>
             </div>
 
@@ -84,11 +87,11 @@
                                             <asp:TemplateField ItemStyle-Wrap="false" ItemStyle-CssClass="text-right" ItemStyle-Width="250">
                                                 <ItemTemplate>
                                                     <asp:Button ID="btnJoin" runat="server" CssClass="StandardButton" Text="Join Team" Width="100px"
-                                                        Visible='<%# Eval("DisplayJoin") == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="JoinTeam" OnClientClick="setScrollValue();" />
+                                                        Visible='<%# Eval("Join") == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="JoinTeam" OnClientClick="setScrollValue();" />
                                                     <asp:Button ID="btnAccept" runat="server" CssClass="StandardButton" Text="Accept" Width="100px"
-                                                        Visible='<%# Eval("DisplayAccept") == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="AcceptInvite" OnClientClick="setScrollValue();" />
+                                                        Visible='<%# Eval("Accept") == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="AcceptInvite" OnClientClick="setScrollValue();" />
                                                     <asp:Button ID="btnDecline" runat="server" CssClass="StandardButton" Text="Decline" Width="100px"
-                                                        Visible='<%# Eval("DisplayAccept") == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="DeclineInvite" OnClientClick="setScrollValue();" />
+                                                        Visible='<%# Eval("Accept") == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="DeclineInvite" OnClientClick="setScrollValue();" />
                                                 </ItemTemplate>
                                             </asp:TemplateField>
                                         </Columns>
@@ -104,31 +107,31 @@
                         <div class="panelheader">
                             <h2>Current Teams</h2>
                             <div class="panel-body">
-                                    <div class="panel-container search-criteria" style="max-height: 300px; overflow-y: auto;">
-                                        <div class="row col-lg-12" style="padding-right: 0px;">
-                                            <asp:GridView ID="gvMembers" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-hover table-condensed" GridLines="none"
-                                                ShowHeader="false" OnRowCommand="gvAvailable_RowCommand">
-                                                <Columns>
-                                                    <asp:BoundField DataField="TeamName" HeaderText="Character" />
-                                                    <asp:BoundField DataField="Message" HeaderText="" ItemStyle-HorizontalAlign="Right" />
-                                                    <asp:TemplateField ItemStyle-Width="150" ItemStyle-HorizontalAlign="right">
-                                                        <ItemTemplate>
-                                                            <asp:Button ID="btnLeave" runat="server" CssClass="StandardButton" Text="Leave" Width="100px"
-                                                                Visible='<%# Eval("DisplayLeave") == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="LeaveTeam" OnClientClick="setScrollValue();" />
-                                                            <asp:Button ID="btnCancel" runat="server" CssClass="StandardButton" Text="Cancel" Width="100px"
-                                                                Visible='<%# Eval("Requested").ToString() == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="CancelRequest" OnClientClick="setScrollValue();" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
-                                        </div>
+                                <div class="panel-container search-criteria" style="max-height: 300px; overflow-y: auto;">
+                                    <div class="row col-lg-12" style="padding-right: 0px;">
+                                        <asp:GridView ID="gvMembers" runat="server" AutoGenerateColumns="false" CssClass="table table-striped table-hover table-condensed" GridLines="none"
+                                            ShowHeader="false" OnRowCommand="gvAvailable_RowCommand" Visible="true">
+                                            <Columns>
+                                                <asp:BoundField DataField="TeamName" HeaderText="Character" />
+                                                <asp:BoundField DataField="Message" HeaderText="" ItemStyle-HorizontalAlign="Right" />
+                                                <asp:TemplateField ItemStyle-Width="150" ItemStyle-HorizontalAlign="right">
+                                                    <ItemTemplate>
+                                                        <asp:Button ID="btnLeave" runat="server" CssClass="StandardButton" Text="Leave" Width="100px"
+                                                            Visible='<%# Eval("DisplayLeave") == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="LeaveTeam" OnClientClick="setScrollValue();" />
+                                                        <asp:Button ID="btnCancel" runat="server" CssClass="StandardButton" Text="Cancel" Width="100px"
+                                                            Visible='<%# Eval("Requested").ToString() == "1" %>' CommandArgument='<%# Eval("TeamID") %>' CommandName="CancelRequest" OnClientClick="setScrollValue();" />
+                                                    </ItemTemplate>
+                                                </asp:TemplateField>
+                                            </Columns>
+                                        </asp:GridView>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row text-right col-lg-12" style="padding-right: 0px;">
+<%--                    <div class="text-right col-lg-12" style="padding-right: 0px;">
                         <asp:Button ID="btnSave" runat="server" Width="100px" Text="Save" CssClass="StandardButton" Style="padding-right: 0px; margin-right: 0px; margin-top: 10px;" OnClick="btnSave_Click" />
-                    </div>
+                    </div>--%>
                 </div>
             </div>
         </div>
@@ -147,7 +150,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseMessage_Click" />
+                    <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" />
                 </div>
             </div>
         </div>
@@ -155,7 +158,6 @@
 
     <asp:HiddenField ID="hidNotificationEMail" runat="server" Value="" />
     <asp:HiddenField ID="hidCampaignID" runat="server" Value="" />
-
     <asp:HiddenField ID="hidScollPosition" runat="server" Value="" />
 
     <script type="text/javascript">

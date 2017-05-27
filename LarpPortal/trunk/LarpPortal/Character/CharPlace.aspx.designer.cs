@@ -40,6 +40,15 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.UpdatePanel upSkill;
         
         /// <summary>
+        /// tdCampaignPlaces control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell tdCampaignPlaces;
+        
+        /// <summary>
         /// pnlTreeView control.
         /// </summary>
         /// <remarks>
@@ -49,13 +58,13 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Panel pnlTreeView;
         
         /// <summary>
-        /// tvSkills control.
+        /// tvCampaignPlaces control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TreeView tvSkills;
+        protected global::System.Web.UI.WebControls.TreeView tvCampaignPlaces;
         
         /// <summary>
         /// gvPlaces control.
@@ -67,6 +76,15 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.GridView gvPlaces;
         
         /// <summary>
+        /// hidCharacterPlaceID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidCharacterPlaceID;
+        
+        /// <summary>
         /// hidCampaignPlaceID control.
         /// </summary>
         /// <remarks>
@@ -74,15 +92,6 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidCampaignPlaceID;
-        
-        /// <summary>
-        /// hidNonCampPlaceID control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidNonCampPlaceID;
         
         /// <summary>
         /// mvAddingItems control.
@@ -202,6 +211,15 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Label lblCampaignLocale;
         
         /// <summary>
+        /// hidCampaignLocaleID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hidCampaignLocaleID;
+        
+        /// <summary>
         /// tbCampaignPlayerComments control.
         /// </summary>
         /// <remarks>
@@ -227,14 +245,5 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCampaignSave;
-        
-        /// <summary>
-        /// btnSave control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSave;
     }
 }

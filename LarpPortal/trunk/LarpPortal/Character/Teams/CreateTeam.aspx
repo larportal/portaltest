@@ -1,6 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CreateTeam.aspx.cs" Inherits="LarpPortal.Character.Teams.CreateTeam" MasterPageFile="~/Character/Character.Master" %>
 
 <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
+<%@ Register TagPrefix="CharSelecter" TagName="CSelect" Src="~/controls/CharacterSelect.ascx" %>
 
 <asp:Content ID="HistoryScripts" runat="server" ContentPlaceHolderID="CharHeaderScripts">
     <script type="text/javascript">
@@ -41,7 +42,7 @@
     </style>
 </asp:Content>
 
-<asp:Content ContentPlaceHolderID="ContentPlaceHolder1" ID="PELList" runat="server">
+<asp:Content ContentPlaceHolderID="CharHeaderMain" ID="PELList" runat="server">
     <div class="mainContent tab-content col-sm-12">
         <div id="character-info" class="character-info tab-pane active col-sm-12">
             <div class="row col-lg-12" style="padding-left: 15px; padding-top: 10px;">
@@ -50,10 +51,11 @@
                 </div>
             </div>
 
-            <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
-                <div class="row col-lg-12">
-                    <b>Selected Character: </b>
-                    <asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" />
+            <div class="row col-sm-12" style="padding-bottom: 15px; padding-left: 15px; padding-right: 0px;">
+                <div class="col-sm-10" style="padding-left: 0px; padding-right: 0px;">
+                    <CharSelecter:CSelect ID="oCharSelect" runat="server" />
+                </div>
+                <div class="col-sm-2">
                 </div>
             </div>
 
@@ -79,13 +81,13 @@
                 <div class="col-sm-0-5">&nbsp;</div>
                 <div class="col-lg-5 text-right">
                     <div class="row col-lg-12">
-                        <asp:TextBox ID="tbNewTeamName" runat="server" CssClass="form-control TableTextBox col-lg-12" Style="padding-left: 10px; padding-right: 10px;" />
+                        <asp:TextBox ID="tbNewTeamName" runat="server" CssClass="form-control TableTextBox col-lg-12" Style="padding-left: 10px; padding-right: 10px; padding-top: 0px; padding-bottom: 0px;" />
                     </div>
                     <div class="row col-lg-12 text-right" style="padding-top: 20px;">
                         <asp:Button ID="btnCreateTeam" runat="server" Width="150" Text="Create Team" CssClass="StandardButton" OnClick="btnCreateTeam_Click" />
                     </div>
                     <div class="row col-lg-12 text-center" style="padding-top: 40px;">
-                        <asp:RequiredFieldValidator ID="rfvNewTeamName" runat="server" Font-Size="20pt" Font-Bold="true" Font-Italic="true" 
+                        <asp:RequiredFieldValidator ID="rfvNewTeamName" runat="server" Font-Size="20pt" Font-Bold="true" Font-Italic="true"
                             ControlToValidate="tbNewTeamName" Text="You must enter a team name" Display="Dynamic" />
                         <asp:Label ID="lblAlreadyExists" runat="server" Text="That team already exists" Font-Size="20px" Visible="false" />
                     </div>
@@ -100,7 +102,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <a class="close" data-dismiss="modal" style="color: white;">×</a>
-                    LARPortal Character History
+                    LARPortal Team Creation
                 </div>
                 <div class="modal-body" style="background-color: white;">
                     <p>
@@ -108,7 +110,7 @@
                     </p>
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseMessage_Click" />
+                    <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClientClick="return false;" />
                 </div>
             </div>
         </div>

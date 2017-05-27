@@ -22,40 +22,22 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
-        /// ddlCharacterSelector control.
+        /// oCharSelect control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCharacterSelector;
+        protected global::LarpPortal.controls.CharacterSelect oCharSelect;
         
         /// <summary>
-        /// lblCampaign control.
+        /// btnSaveTop control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCampaign;
-        
-        /// <summary>
-        /// lblUpdateDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUpdateDate;
-        
-        /// <summary>
-        /// btnSaveCharacterTop control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveCharacterTop;
+        protected global::System.Web.UI.WebControls.Button btnSaveTop;
         
         /// <summary>
         /// Div1 control.
@@ -76,12 +58,30 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.GridView gvSkills;
         
         /// <summary>
-        /// btnSaveCharacter control.
+        /// btnSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveCharacter;
+        protected global::System.Web.UI.WebControls.Button btnSave;
+        
+        /// <summary>
+        /// lblmodalMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblmodalMessage;
+        
+        /// <summary>
+        /// btnCloseMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCloseMessage;
     }
 }

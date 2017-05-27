@@ -22,33 +22,6 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.Timer Timer1;
         
         /// <summary>
-        /// lblHeader control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblHeader;
-        
-        /// <summary>
-        /// btnAddAddendum control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddAddendum;
-        
-        /// <summary>
-        /// ddlCharacterSelector control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCharacterSelector;
-        
-        /// <summary>
         /// upAutoSave control.
         /// </summary>
         /// <remarks>
@@ -103,6 +76,33 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.HiddenField hidAutoSaveText;
         
         /// <summary>
+        /// lblHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblHeader;
+        
+        /// <summary>
+        /// oCharSelect control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::LarpPortal.controls.CharacterSelect oCharSelect;
+        
+        /// <summary>
+        /// btnAddAddendum control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddAddendum;
+        
+        /// <summary>
         /// CKEAddendum control.
         /// </summary>
         /// <remarks>
@@ -139,6 +139,15 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.Repeater rptAddendum;
         
         /// <summary>
+        /// divHistory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHistory;
+        
+        /// <summary>
         /// ckEditor control.
         /// </summary>
         /// <remarks>
@@ -157,6 +166,24 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.Label lblHistory;
         
         /// <summary>
+        /// divNoCharacter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNoCharacter;
+        
+        /// <summary>
+        /// divSaveButtons control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSaveButtons;
+        
+        /// <summary>
         /// btnSubmit control.
         /// </summary>
         /// <remarks>
@@ -164,15 +191,6 @@ namespace LarpPortal.Character.History {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSubmit;
-        
-        /// <summary>
-        /// imgSpacer control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgSpacer;
         
         /// <summary>
         /// btnSave control.

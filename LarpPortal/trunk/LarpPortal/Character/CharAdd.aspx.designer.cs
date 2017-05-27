@@ -40,6 +40,51 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.DropDownList ddlUserCampaigns;
         
         /// <summary>
+        /// divPlayerType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPlayerType;
+        
+        /// <summary>
+        /// ddlCharacterType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlCharacterType;
+        
+        /// <summary>
+        /// divPlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPlayer;
+        
+        /// <summary>
+        /// ddlPlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPlayer;
+        
+        /// <summary>
+        /// rfvddlPlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvddlPlayer;
+        
+        /// <summary>
         /// tbCharacterName control.
         /// </summary>
         /// <remarks>
@@ -47,6 +92,15 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbCharacterName;
+        
+        /// <summary>
+        /// rfvCharacterName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvCharacterName;
         
         /// <summary>
         /// btnSave control.
@@ -67,13 +121,13 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.View vwNoCampaigns;
         
         /// <summary>
-        /// lblmodalError control.
+        /// lblmodalMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblmodalError;
+        protected global::System.Web.UI.WebControls.Label lblmodalMessage;
         
         /// <summary>
         /// btnCloseError control.
@@ -83,5 +137,14 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCloseError;
+        
+        /// <summary>
+        /// oCharSelect control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::LarpPortal.controls.CharacterSelect oCharSelect;
     }
 }

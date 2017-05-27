@@ -26,6 +26,8 @@ namespace LarpPortal.Character.Teams
             if (_iUserID == 0)
                 _iUserID = -1;
             tbNewTeamName.Attributes.Add("PlaceHolder", "Name of new team");
+            oCharSelect.CharacterChanged += oCharSelect_CharacterChanged;
+            btnCloseMessage.Attributes.Add("data-dismiss", "modal");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -33,46 +35,23 @@ namespace LarpPortal.Character.Teams
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-            if (Session["SelectedCharacter"] == null)
+            oCharSelect.LoadInfo();
+
+            if (!oCharSelect.CharacterID.HasValue)
                 Response.Redirect("../CharInfo.aspx", true);
 
             if ((!IsPostBack) || (_Reload))
             {
+                hidCampaignID.Value = oCharSelect.CharacterInfo.CampaignID.ToString();
+
                 SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", lsRoutineName + ".GetCharacterIDsByUserID");
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
+                slParameters.Add("@CampaignID", oCharSelect.CharacterInfo.CampaignID);
 
-                int iCharID;
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-                {
-                    ddlCharacterSelector.ClearSelection();
-                    foreach (ListItem li in ddlCharacterSelector.Items)
-                    {
-                        if (li.Value == iCharID.ToString())
-                        {
-                            ddlCharacterSelector.ClearSelection();
-                            li.Selected = true;
-                        }
-                    }
+                DataTable dtTeams = Classes.cUtilities.LoadDataTable("uspGetTeamsByCampaignID", slParameters, "LARPortal", _UserName, lsRoutineName + ".GetTeamsByCampaignID");
 
-                    Classes.cCharacter cChar = new Classes.cCharacter();
-                    cChar.LoadCharacter(iCharID);
-
-                    hidCampaignID.Value = cChar.CampaignID.ToString();
-
-                    slParameters = new SortedList();
-                    slParameters.Add("@CampaignID", cChar.CampaignID);
-                    DataTable dtTeams = Classes.cUtilities.LoadDataTable("uspGetTeamsByCampaignID", slParameters, "LARPortal", _UserName, lsRoutineName + ".GetTeamsByCampaignID");
-
-                    DataView dvTeams = new DataView(dtTeams, "", "TeamName", DataViewRowState.CurrentRows);
-                    gvList.DataSource = dvTeams;
-                    gvList.DataBind();
-                }
+                DataView dvTeams = new DataView(dtTeams, "", "TeamName", DataViewRowState.CurrentRows);
+                gvList.DataSource = dvTeams;
+                gvList.DataBind();
             }
         }
 
@@ -82,14 +61,14 @@ namespace LarpPortal.Character.Teams
             {
                 if (hidNotificationEMail.Value.Length > 0)
                 {
-                    Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
+                    Classes.cUser User = new Classes.cUser(_UserName, "PasswordNotNeeded");
                     string sSubject = cHist.CampaignName + " character history from " + cHist.PlayerName + " - " + cHist.CharacterAKA;
 
                     string sBody = (string.IsNullOrEmpty(User.NickName) ? User.FirstName : User.NickName) +
                         " " + User.LastName + " has submitted a character history for " + cHist.CharacterAKA + ".<br><br>" +
                          sHistory;
                     Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                    cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "", "", "CharacterHistory", Session["Username"].ToString());
+                    cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "", "", "CharacterHistory", _UserName);
                 }
             }
             catch (Exception ex)
@@ -97,18 +76,6 @@ namespace LarpPortal.Character.Teams
                 // Write the exception to error log and then throw it again...
                 Classes.ErrorAtServer lobjError = new Classes.ErrorAtServer();
                 lobjError.ProcessError(ex, "CharacterEdit.aspx.SendSubmittedEmail", "", Session.SessionID);
-            }
-        }
-
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("../CharAdd.aspx");
-
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
-            {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                _Reload = true;
             }
         }
 
@@ -121,6 +88,8 @@ namespace LarpPortal.Character.Teams
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+            oCharSelect.LoadInfo();
 
             SortedList slParameters = new SortedList();
             slParameters.Add("@CampaignID", hidCampaignID.Value);
@@ -135,9 +104,7 @@ namespace LarpPortal.Character.Teams
             else
             {
                 int CampaignID = 0;
-                int CharacterID = 0;
                 Int32.TryParse(hidCampaignID.Value, out CampaignID);
-                Int32.TryParse(Session["SelectedCharacter"].ToString(), out CharacterID);
                 slParameters = new SortedList();
                 slParameters.Add("@UserID", _iUserID);
                 slParameters.Add("@TeamID", -1);
@@ -145,11 +112,31 @@ namespace LarpPortal.Character.Teams
                 slParameters.Add("@TeamTypeID", 1);
                 slParameters.Add("@CampaignID", CampaignID);
                 slParameters.Add("@StatusID", 16);  // Active
-
-                int iCharID;
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-                    slParameters.Add("@CharacterID", iCharID);
+                slParameters.Add("@CharacterID", oCharSelect.CharacterID.Value);
                 Classes.cUtilities.PerformNonQuery("uspInsUpdCMTeams", slParameters, "LARPortal", _UserName);
+
+                lblmodalMessage.Text = "The team " + tbNewTeamName.Text + " has been created.<br><br>" +
+                    "You are the manager of the team.";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+                tbNewTeamName.Text = "";
+                _Reload = true;
+            }
+        }
+
+        protected void oCharSelect_CharacterChanged(object sender, EventArgs e)
+        {
+            oCharSelect.LoadInfo();
+
+            if (oCharSelect.CharacterInfo != null)
+            {
+                if (oCharSelect.CharacterID.HasValue)
+                {
+                    Classes.cUser UserInfo = new Classes.cUser(_UserName, "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                    UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                    UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                    UserInfo.Save();
+                }
                 _Reload = true;
             }
         }

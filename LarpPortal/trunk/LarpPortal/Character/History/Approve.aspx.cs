@@ -22,7 +22,18 @@ namespace LarpPortal.Character.History
         const int ADDENDUMS = 2;
         const int STAFFADDENDUMCOMMENTS = 3;
 
+        private string _UserName = "";
+        private int _UserID = 0;
+
         private bool _RELOAD = true;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Session["UserName"] != null)
+                _UserName = Session["UserName"].ToString();
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
+        }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
@@ -83,6 +94,12 @@ namespace LarpPortal.Character.History
 
                     lblCharacterInfo.Text = sCharacterInfo;
 
+                    lblPlayedBy.Text = "";
+                    string sPlayerInfo = "<b>Played by: </b> " + drHistory["PlayerName"].ToString() + " <a href='mailto:" + drHistory["EMailAddress"].ToString().Replace(@"""", @"""""") +
+                        "?Subject=Character History for " + drHistory["CharacterAKA"].ToString().Replace("'", "''") +
+                        "' class='LinkUnderline' style='text-decoration: underline; color: blue;'>" + drHistory["EMailAddress"].ToString() + "</a>";
+                    lblPlayedBy.Text = sPlayerInfo;
+
                     btnDone.Visible = false;
                     btnApprove.Visible = true;
 
@@ -95,7 +112,7 @@ namespace LarpPortal.Character.History
                         if (DateTime.TryParse(drHistory["DateHistoryApproved"].ToString(), out dtTemp))
                         {
                             lblEditMessage.Visible = true;
-                            lblEditMessage.Text = "<br>This history was approved on " + dtTemp.ToShortDateString() + " and cannot be edited.";
+                            lblEditMessage.Text = "This history was approved on " + dtTemp.ToShortDateString() + " and cannot be edited.";
                             TextBoxEnabled = false;
                             btnCancel.Visible = false;
                             btnReject.Visible = false;
@@ -114,7 +131,7 @@ namespace LarpPortal.Character.History
                         if (DateTime.TryParse(drHistory["DateHistorySubmitted"].ToString(), out dtTemp))
                         {
                             lblEditMessage.Visible = true;
-                            lblEditMessage.Text = "<br>This history was submitted on " + dtTemp.ToShortDateString();
+                            lblEditMessage.Text = "This history was submitted on " + dtTemp.ToShortDateString();
                             TextBoxEnabled = false;
                             hidSubmitDate.Value = dtTemp.ToShortDateString();
                         }
@@ -168,112 +185,6 @@ namespace LarpPortal.Character.History
             Response.Redirect("ApprovalList.aspx", true);
         }
 
-        //protected void rptQuestions_ItemCommand(object source, RepeaterCommandEventArgs e)
-        //{
-        //    string i = e.CommandArgument.ToString();
-        //    if (e.CommandName.ToUpper() == "ENTERCOMMENT")
-        //    {
-        //        Panel pnlNewCommentPanel = (Panel)e.Item.FindControl("pnlCommentSection");
-        //        if (pnlNewCommentPanel != null)
-        //        {
-        //            pnlNewCommentPanel.Visible = true;
-        //            Image imgPlayerImage = (Image)e.Item.FindControl("imgProfilePicture");
-        //            if (imgPlayerImage != null)
-        //            {
-        //                string uName = "";
-        //                int uID = 0;
-
-        //                if (Session["Username"] != null)
-        //                    uName = Session["Username"].ToString();
-        //                if (Session["UserID"] != null)
-        //                    int.TryParse(Session["UserID"].ToString(), out uID);
-
-        //                Classes.cPlayer PLDemography = new Classes.cPlayer(uID, uName);
-        //                string pict = PLDemography.UserPhoto;
-        //                imgPicture.Attributes["onerror"] = "this.src='~/img/BlankProfile.png';";
-        //                imgPlayerImage.ImageUrl = pict;
-        //            }
-
-        //            Button btnAddComment = (Button)e.Item.FindControl("btnAddComment");
-        //            if (btnAddComment != null)
-        //                btnAddComment.Visible = false;
-        //        }
-        //    }
-        //    else if (e.CommandName.ToUpper() == "ADDCOMMENT")
-        //    {
-        //        int iAnswerID;
-        //        if (int.TryParse(e.CommandArgument.ToString(), out iAnswerID))
-        //        {
-        //            TextBox tbNewComment = (TextBox)e.Item.FindControl("tbNewComment");
-        //            if (tbNewComment != null)
-        //            {
-        //                if (tbNewComment.Text.Length > 0)
-        //                {
-        //                    SortedList sParams = new SortedList();
-        //                    sParams.Add("@UserID", Session["UserID"]);
-        //                    sParams.Add("@PELAnswerID", iAnswerID);
-        //                    sParams.Add("@PELStaffCommentID", "-1");
-        //                    sParams.Add("@CommenterID", Session["UserID"]);
-        //                    sParams.Add("@StaffComments", tbNewComment.Text.Trim());
-
-        //                    MethodBase lmth = MethodBase.GetCurrentMethod();
-        //                    string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-
-        //                    DataTable dtAddResponse = Classes.cUtilities.LoadDataTable("uspInsUpdCHCharacterHistoryStaffComments", sParams, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
-
-        //                    //SortedList sParamsForComments = new SortedList();
-        //                    //sParamsForComments.Add("@CharacterID", hidPELID.Value);
-        //                    //_dtPELComments = Classes.cUtilities.LoadDataTable("uspGetPELStaffComments", sParamsForComments, "LARPortal", Session["UserName"].ToString(),
-        //                    //    "PELApprove.Page_PreRender");
-
-
-        //                    DataList dlComments = e.Item.FindControl("dlComments") as DataList;
-        //                    GetComments(iAnswerID.ToString(), dlComments);
-        //                    SendStaffCommentEMail(dtAddResponse);
-        //                }
-        //            }
-        //            Panel pnlCommentSection = (Panel)e.Item.FindControl("pnlCommentSection");
-        //            if (pnlCommentSection != null)
-        //                pnlCommentSection.Visible = false;
-        //            Button btnAddComment = (Button)e.Item.FindControl("btnAddComment");
-        //            if (btnAddComment != null)
-        //                btnAddComment.Visible = true;
-        //        }
-        //    }
-        //    else if (e.CommandName.ToUpper() == "CANCELCOMMENT")
-        //    {
-        //        Panel pnlCommentSection = (Panel)e.Item.FindControl("pnlCommentSection");
-        //        if (pnlCommentSection != null)
-        //            pnlCommentSection.Visible = false;
-        //        Button btnAddComment = (Button)e.Item.FindControl("btnAddComment");
-        //        if (btnAddComment != null)
-        //            btnAddComment.Visible = false;
-        //    }
-        //}
-
-        //public void rptQuestions_ItemDataBound(Object Sender, RepeaterItemEventArgs e)
-        //{
-        //    if ((e.Item.ItemType == ListItemType.Item) || (e.Item.ItemType == ListItemType.AlternatingItem))
-        //    {
-        //        DataRowView dr = (DataRowView)DataBinder.GetDataItem(e.Item);
-        //        string sAnswerID = dr["PELAnswerID"].ToString();
-
-        //        DataList dlComments = e.Item.FindControl("dlComments") as DataList;
-        //        if (dlComments != null)
-        //        {
-        //            GetComments(sAnswerID, dlComments);
-        //        }
-        //        TextBox tbNewComment = (TextBox)e.Item.FindControl("tbNewComment");
-        //        if (tbNewComment != null)
-        //            tbNewComment.Attributes.Add("PlaceHolder", "Enter comment here.");
-        //    }
-        //}
-
-        //protected void btnAddComment_Command(object sender, CommandEventArgs e)
-        //{
-
-        //}
-
         protected void GetComments(string sAnswerID, DataTable dtComments)
         {
             foreach (DataRow dRow in dtComments.Rows)
@@ -290,17 +201,6 @@ namespace LarpPortal.Character.History
         {
             if ((e.Item.ItemType == ListItemType.Item) || (e.Item.ItemType == ListItemType.AlternatingItem))
             {
-                //DataRowView dr = (DataRowView)DataBinder.GetDataItem(e.Item);
-                //string sAnswerID = dr["AddendumID"].ToString();
-
-                //DataList dlComments = e.Item.FindControl("dlStaffComments") as DataList;
-                //if (dlComments != null)
-                //{
-                //    GetAddendumComments(sAnswerID, _dsHistory.Tables[3], dlComments);
-                //}
-                //TextBox tbNewComment = (TextBox)e.Item.FindControl("tbNewStaffCommentAddendum");
-                //if (tbNewComment != null)
-                //    tbNewComment.Attributes.Add("PlaceHolder", "Enter comment here.");
             }
         }
 
@@ -534,6 +434,9 @@ namespace LarpPortal.Character.History
             if (int.TryParse(hidCharacterID.Value, out iTemp))
                 iCharacterID = iTemp;
 
+            Classes.cCharacter cChar = new Classes.cCharacter();
+            cChar.LoadCharacter(iCharacterID);
+
             SortedList sParams = new SortedList();
             sParams.Add("@UserID", Session["UserID"].ToString());
             sParams.Add("@CharacterID", iCharacterID);
@@ -571,6 +474,12 @@ namespace LarpPortal.Character.History
             string sEmailToSendTo = hidEmail.Value;
             Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
             cEMS.SendMail(sSubject, sBody, sEmailToSendTo, "", "", "CharacterHistory", Session["Username"].ToString());
+
+            Classes.cSendNotifications SendNot = new Classes.cSendNotifications();
+            SendNot.SubjectText = sSubject;
+            SendNot.EMailBody = sBody;
+            SendNot.NotifyType = Classes.cNotificationTypes.HISTORYAPPROVE;
+            SendNot.SendNotification(cChar.CurrentUserID, _UserName);
 
             Points.AssignHistoryPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, CampaignID, CPAwarded, dtDateSubmitted);
 

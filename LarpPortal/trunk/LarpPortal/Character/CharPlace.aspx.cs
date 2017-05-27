@@ -4,6 +4,7 @@ using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -12,81 +13,70 @@ namespace LarpPortal.Character
 {
     public partial class CharPlace : System.Web.UI.Page
     {
-        protected DataTable _dsCampaignPlaces = new DataTable();
+        protected DataTable _dtCampaignPlaces = new DataTable();
+        private string _UserName = "";
+        private int _UserID = 0;
+        private bool _Reload = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-                tvSkills.Attributes.Add("onclick", "postBackByObject()");
+            tvCampaignPlaces.Attributes.Add("onclick", "postBackByObject()");
+            if (Session["UserName"] != null)
+                _UserName = Session["UserName"].ToString();
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
         }
-
-        DataTable dtCharPlaces = null;
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                ViewState["NewRecCounter"] = 0;
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
+            if (Session["CharPlaceReadOnly"] != null)
+                tdCampaignPlaces.Visible = false;
+            else
+                tdCampaignPlaces.Visible = true;
+
+            if ((!IsPostBack) || (_Reload))
+            {
                 if (Session["CurrentCharacter"] == null)
                     Session["CurrentCharacter"] = -1;
-                if (Session["SelectedCharacter"] == null)
-                    Session["SelectedCharacter"] = -1;
 
-                if (Session["SelectedCharacter"] != null)
+                if (Session["PlaceCharacterID"] != null)
                 {
                     string sCurrent = Session["CurrentCharacter"].ToString();
-                    string sSelected = Session["SelectedCharacter"].ToString();
-                    if ((!IsPostBack) || (Session["CurrentCharacter"].ToString() != Session["SelectedCharacter"].ToString()))
+                    string sSelected = Session["PlaceCharacterID"].ToString();
+                    if ((!IsPostBack) || (sCurrent != sSelected) || (_Reload))
                     {
                         int iCharID;
-                        if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                        if (int.TryParse(Session["PlaceCharacterID"].ToString(), out iCharID))
                         {
+                            tvCampaignPlaces.Nodes.Clear();
+
                             Classes.cCharacter cChar = new Classes.cCharacter();
                             cChar.LoadCharacter(iCharID);
 
-                            dtCharPlaces = Classes.cUtilities.CreateDataTable(cChar.Places);
-                            Session["CurrentCharacter"] = Session["SelectedCharacter"];
+                            Session["CurrentCharacter"] = iCharID;
                             Session["CharacterPlaces"] = cChar.Places;
 
                             DataSet dsCampaignPlaces = new DataSet();
                             SortedList sParam = new SortedList();
                             sParam.Add("@CampaignID", cChar.CampaignID);
-                            dsCampaignPlaces = Classes.cUtilities.LoadDataSet("uspGetCampaignPlaces", sParam, "LARPortal", Session["LoginName"].ToString(), "");
+                            dsCampaignPlaces = Classes.cUtilities.LoadDataSet("uspGetCampaignPlaces", sParam, "LARPortal", Session["LoginName"].ToString(), lsRoutineName + ".uspGetCampaignPlaces");
 
-                            _dsCampaignPlaces = dsCampaignPlaces.Tables[0];
-                            Session["CampaignPlaces"] = _dsCampaignPlaces;
+                            _dtCampaignPlaces = dsCampaignPlaces.Tables[0];
+                            Session["CampaignPlaces"] = _dtCampaignPlaces;
 
                             ddlNonCampLocalePlaces.DataTextField = "PlaceName";
                             ddlNonCampLocalePlaces.DataValueField = "CampaignPlaceID";
                             ddlNonCampLocalePlaces.DataSource = dsCampaignPlaces.Tables[0];
                             ddlNonCampLocalePlaces.DataBind();
 
-                            if (dtCharPlaces.Columns["ShowButton"] == null)
-                                dtCharPlaces.Columns.Add(new DataColumn("ShowButton", typeof(Boolean)));
-
-                            foreach (DataRow dRow in dtCharPlaces.Rows)
-                            {
-                                dRow["Showbutton"] = true;
-                                string t = dRow["PlaceID"].ToString();
-
-                                if (dRow["PlaceID"].ToString() != "0")
-                                {
-                                    DataView dvCampaignPlace = new DataView(_dsCampaignPlaces, "CampaignPlaceID = " + dRow["PlaceID"].ToString(), "", DataViewRowState.CurrentRows);
-                                    if (dvCampaignPlace.Count > 0)
-                                    {
-                                        dRow["ShowButton"] = false;
-                                        dRow["Comments"] = dvCampaignPlace[0]["Locale"].ToString();
-                                    }
-                                }
-                            }
-
-                            Session["CharPlaces"] = dtCharPlaces;
-                            gvPlaces.DataSource = dtCharPlaces;
+                            gvPlaces.DataSource = cChar.Places;
                             gvPlaces.DataBind();
 
                             TreeNode MainNode = new TreeNode("Skills");
-                            DataView dvTopNodes = new DataView(_dsCampaignPlaces, "LocaleID = 0", "", DataViewRowState.CurrentRows);
+                            DataView dvTopNodes = new DataView(_dtCampaignPlaces, "LocaleID = 0", "", DataViewRowState.CurrentRows);
                             foreach (DataRowView dvRow in dvTopNodes)
                             {
                                 TreeNode NewNode = new TreeNode();
@@ -98,19 +88,31 @@ namespace LarpPortal.Character
                                     NewNode.Value = iNodeID.ToString();
                                     PopulateTreeView(iNodeID, NewNode);
                                     NewNode.Expanded = false;
-                                    tvSkills.Nodes.Add(NewNode);
+                                    tvCampaignPlaces.Nodes.Add(NewNode);
                                 }
                             }
-//                            ListSkills();
                         }
                     }
                 }
+            }
+
+            if (Session["CharPlaceReadOnly"] != null)
+            {
+                btnAddNonCampPlace.Visible = false;
+                gvPlaces.Columns[gvPlaces.Columns.Count - 1].Visible = false;
+                gvPlaces.Columns[gvPlaces.Columns.Count - 2].Visible = false;
+            }
+            else
+            {
+                btnAddNonCampPlace.Visible = true;
+                gvPlaces.Columns[gvPlaces.Columns.Count - 1].Visible = true;
+                gvPlaces.Columns[gvPlaces.Columns.Count - 2].Visible = true;
             }
         }
 
         private void PopulateTreeView(int parentId, TreeNode parentNode)
         {
-            DataView dvChild = new DataView(_dsCampaignPlaces, "LocaleID = " + parentId.ToString(), "PlaceName", DataViewRowState.CurrentRows);
+            DataView dvChild = new DataView(_dtCampaignPlaces, "LocaleID = " + parentId.ToString(), "PlaceName", DataViewRowState.CurrentRows);
             foreach (DataRowView dr in dvChild)
             {
                 int iNodeID;
@@ -127,222 +129,220 @@ namespace LarpPortal.Character
             }
         }
 
-        protected void btnSave_Click(object sender, EventArgs e)
-        {
-            int iCharID;
-            if (Session["SelectedCharacter"] != null)
-            {
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-                {
-                    Classes.cCharacter Char = new Classes.cCharacter();
-                    Char.LoadCharacter(iCharID);
-
-                    List<Classes.cPlace> NewList = Session["CharacterPlaces"] as List<Classes.cPlace>;
-
-                    // If there are any new places, they will have a negative number. (Only way to keep them unique.)
-                    // If negative, change them to -1 so the system will create the record.
-
-                    foreach (Classes.cPlace Place in NewList)
-                        if (Place.CampaignPlaceID < 0)
-                            Place.CampaignPlaceID = -1;
-                    Char.Places.Clear();
-                    Char.Places.AddRange(NewList);
-                    Char.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
-                    string jsString = "alert('Character " + Char.AKA + " has been saved.');";
-                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                            "MyApplication",
-                            jsString,
-                            true);
-                }
-            }
-        }
-
         protected void gvPlaces_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            switch (e.CommandName.ToUpper())
+            int iCharacterID;
+            if (int.TryParse(Session["PlaceCharacterID"].ToString(), out iCharacterID))
             {
-                case "DELETEITEM":
-                    {
-                        int iPlaceID;
-                        if (int.TryParse(e.CommandArgument.ToString(), out iPlaceID))
+                switch (e.CommandName.ToUpper())
+                {
+                    case "DELETEITEM":
                         {
-                            List<Classes.cPlace> Places = Session["CharacterPlaces"] as List<Classes.cPlace>;
-                            var CharPlac = Places.Find(x => x.CampaignPlaceID == iPlaceID);
-                            if (CharPlac != null)
+                            int iCharacterPlaceID;
+                            if (int.TryParse(e.CommandArgument.ToString(), out iCharacterPlaceID))
                             {
-                                Places.Remove(CharPlac);
-                                Session["CharacterPlaces"] = Places;
-                                BindPlaces(Places);
+                                Classes.cCharacterPlace cPlaceToDelete = new Classes.cCharacterPlace();
+                                cPlaceToDelete.CharacterPlaceID = iCharacterPlaceID;
+                                cPlaceToDelete.RecordStatus = Classes.RecordStatuses.Delete;
+                                cPlaceToDelete.Save(_UserID);
+                                _Reload = true;
                             }
+                            break;
                         }
-                        break;
-                    }
 
-                case "EDITITEM":
-                    {
-                        int iPlaceID;
-                        if (int.TryParse(e.CommandArgument.ToString(), out iPlaceID))
+                    case "EDITITEM":
                         {
-                            List<Classes.cPlace> Places = Session["CharacterPlaces"] as List<Classes.cPlace>;
-                            var CharPlac = Places.Find(x => x.CampaignPlaceID == iPlaceID);
-                            if (CharPlac != null)
+                            int iCharacterPlaceID;
+                            if (int.TryParse(e.CommandArgument.ToString(), out iCharacterPlaceID))
                             {
-                                if (CharPlac.LocaleID == -1)
-                                {
-                                    hidNonCampPlaceID.Value = iPlaceID.ToString();
-                                    hidCampaignPlaceID.Value = "";
-                                    tbNonCampPlaceName.Text = CharPlac.PlaceName;
-                                    tbNonCampPlayerComments.Text = CharPlac.Comments;
-                                    ddlNonCampLocalePlaces.SelectedIndex = -1;
+                                Classes.cCharacterPlace PlaceToEdit = new Classes.cCharacterPlace();
+                                PlaceToEdit.CharacterPlaceID = iCharacterPlaceID;
+                                PlaceToEdit.Load(_UserName);
 
+                                if (!PlaceToEdit.CampaignPlaceID.HasValue)
+                                {
+                                    hidCharacterPlaceID.Value = iCharacterPlaceID.ToString();
+                                    hidCampaignPlaceID.Value = "";
+                                    tbNonCampPlaceName.Text = PlaceToEdit.PlaceName;
+                                    tbNonCampPlayerComments.Text = PlaceToEdit.Comments;
+
+                                    ddlNonCampLocalePlaces.ClearSelection();
                                     foreach (ListItem li in ddlNonCampLocalePlaces.Items)
                                     {
-                                        if (li.Value == CharPlac.LocaleID.ToString())
+                                        if (li.Value == PlaceToEdit.LocaleID.ToString())
+                                        {
+                                            ddlNonCampLocalePlaces.ClearSelection();
                                             li.Selected = true;
+                                        }
                                     }
                                     mvAddingItems.SetActiveView(vwNonCampaignPlace);
                                 }
                                 else
                                 {
-                                    hidNonCampPlaceID.Value = "";
-                                    hidCampaignPlaceID.Value = iPlaceID.ToString();
-                                    lblCampaignPlaceName.Text = CharPlac.PlaceName;
-                                    lblCampaignLocale.Text = CharPlac.Locale;
-                                    tbCampaignPlayerComments.Text = CharPlac.Comments;
+                                    hidCharacterPlaceID.Value = iCharacterPlaceID.ToString();
+                                    hidCampaignPlaceID.Value = PlaceToEdit.CampaignPlaceID.ToString();
+                                    lblCampaignPlaceName.Text = PlaceToEdit.PlaceName;
+                                    lblCampaignLocale.Text = PlaceToEdit.LocaleName;
+                                    tbCampaignPlayerComments.Text = PlaceToEdit.Comments;
 
                                     mvAddingItems.SetActiveView(vwCampaignPlace);
                                 }
                             }
+                            _Reload = true;
+                            break;
                         }
-                        break;
-                    }
-
+                }
             }
         }
-
-#region NonCampRoutines
+        #region NonCampRoutines
         protected void btnAddNonCampPlace_Click(object sender, EventArgs e)
         {
-            int NewRecCounter = Convert.ToInt32(ViewState["NewRecCounter"]);
-            NewRecCounter--;
-            hidNonCampPlaceID.Value = NewRecCounter.ToString();
             hidCampaignPlaceID.Value = "";
-
-            ViewState["NewRecCounter"] = NewRecCounter;
-
+            hidCharacterPlaceID.Value = "-1";
             mvAddingItems.SetActiveView(vwNonCampaignPlace);
         }
 
         protected void btnNonCampSave_Click(object sender, EventArgs e)
         {
-            List<Classes.cPlace> Places = Session["CharacterPlaces"] as List<Classes.cPlace>;
+            int iCharacterID;
+            int.TryParse(Session["PlaceCharacterID"].ToString(), out iCharacterID);
 
             int iPlaceID;
 
-            if (int.TryParse(hidNonCampPlaceID.Value, out iPlaceID))
+            if (int.TryParse(hidCharacterPlaceID.Value, out iPlaceID))
             {
-                var CharPlac = Places.Find(x => x.CampaignPlaceID == iPlaceID);
-                if (CharPlac != null)
+                if (iPlaceID != -1)
                 {
-                    CharPlac.PlaceName = tbNonCampPlaceName.Text;
-                    CharPlac.Comments = tbNonCampPlayerComments.Text;
+                    Classes.cCharacterPlace PlaceToSave = new Classes.cCharacterPlace();
+                    PlaceToSave.CharacterPlaceID = iPlaceID;
+                    PlaceToSave.Load(_UserName);
+
+                    PlaceToSave.CampaignPlaceID = null;
+                    PlaceToSave.PlaceName = tbNonCampPlaceName.Text;
+                    PlaceToSave.Comments = tbNonCampPlayerComments.Text;
+
                     int iLocaleID;
                     if (int.TryParse(ddlNonCampLocalePlaces.SelectedValue, out iLocaleID))
                     {
-                        CharPlac.LocaleID = iLocaleID;
-                        CharPlac.Locale = ddlNonCampLocalePlaces.SelectedItem.Text;
+                        PlaceToSave.LocaleID = iLocaleID;
+                        PlaceToSave.LocaleName = ddlNonCampLocalePlaces.SelectedItem.Text;
                     }
+
+                    PlaceToSave.Save(_UserID);
                 }
                 else
                 {
-                    Classes.cPlace NewPlace = new Classes.cPlace();
-                    NewPlace.CampaignPlaceID = iPlaceID;
+                    Classes.cCharacterPlace NewPlace = new Classes.cCharacterPlace();
+                    NewPlace.CharacterPlaceID = iPlaceID;
 
-                    NewPlace.PlaceID = -1;
+                    NewPlace.CampaignPlaceID = null;
                     NewPlace.PlaceName = tbNonCampPlaceName.Text;
                     NewPlace.Comments = tbNonCampPlayerComments.Text;
                     int iLocaleID;
                     if (int.TryParse(ddlNonCampLocalePlaces.SelectedValue, out iLocaleID))
                     {
                         NewPlace.LocaleID = iLocaleID;
-                        NewPlace.Locale = ddlNonCampLocalePlaces.SelectedItem.Text;
                     }
-                    Places.Add(NewPlace);
+                    NewPlace.CharacterID = iCharacterID;
+                    NewPlace.Save(_UserID);
                 }
             }
-            Session["CharacterPlaces"] = Places;
             tbNonCampPlaceName.Text = "";
             tbNonCampPlayerComments.Text = "";
             ddlNonCampLocalePlaces.SelectedIndex = -1;
+            hidCharacterPlaceID.Value = "";
+            hidCampaignPlaceID.Value = "";
+            hidCampaignLocaleID.Value = "";
 
-            BindPlaces(Places);
-
+            _Reload = true;
             mvAddingItems.SetActiveView(vwNewItemButton);
         }
 
-#endregion
+        #endregion
 
-#region CampaignPlaceRoutines
-        protected void tvSkills_SelectedNodeChanged(object sender, EventArgs e)
+        #region CampaignPlaceRoutines
+        protected void tvCampaignPlaces_SelectedNodeChanged(object sender, EventArgs e)
         {
-            if (tvSkills.SelectedNode != null)
+            int iCharacterID;
+            int.TryParse(Session["PlaceCharacterID"].ToString(), out iCharacterID);
+
+            if (Session["CharPlaceReadOnly"] != null)
+                return;
+
+            if ((tvCampaignPlaces.SelectedNode != null) &&
+                (Session["CampaignPlaces"] != null))
             {
                 DataTable dtCampaignPlaces = Session["CampaignPlaces"] as DataTable;
 
+                hidCharacterPlaceID.Value = "-1";
+                hidCampaignPlaceID.Value = "-1";
+
                 int iSelectedPlace;
-                int.TryParse(tvSkills.SelectedNode.Value, out iSelectedPlace);
-                int NewRecCounter;
-                if (int.TryParse(ViewState["NewRecCounter"].ToString(), out NewRecCounter))
+                int.TryParse(tvCampaignPlaces.SelectedNode.Value, out iSelectedPlace);
+
+                DataView dvPlaces = new DataView(dtCampaignPlaces, "CampaignPlaceID = " + iSelectedPlace.ToString(), "", DataViewRowState.CurrentRows);
+                foreach (DataRowView dRow in dvPlaces)
                 {
-                    NewRecCounter--;
-                    ViewState["NewRecCounter"] = NewRecCounter;
-                    hidCampaignPlaceID.Value = NewRecCounter.ToString();
-
-                    Classes.cPlace NewRec = new Classes.cPlace();
-                    NewRec.PlaceID = iSelectedPlace;
-                    NewRec.CampaignPlaceID = NewRecCounter;
-
-                    DataView dvPlaces = new DataView(dtCampaignPlaces, "CampaignPlaceID = " + iSelectedPlace.ToString(), "", DataViewRowState.CurrentRows);
-                    foreach (DataRowView dRow in dvPlaces)
-                    {
-                        lblCampaignPlaceName.Text = dRow["PlaceName"].ToString();
-                        lblCampaignLocale.Text = dRow["Locale"].ToString();
-                        tbCampaignPlayerComments.Text = "";
-                        NewRec.Locale = dRow["Locale"].ToString(); ;
-                        NewRec.PlaceName = dRow["PlaceName"].ToString();
-                        NewRec.LocaleID = Convert.ToInt32(dRow["LocaleID"].ToString());
-                    }
-                    List<Classes.cPlace> Places = Session["CharacterPlaces"] as List<Classes.cPlace>;
-                    Places.Add(NewRec);
-                    Session["CharacterPlaces"] = Places;
-                    mvAddingItems.SetActiveView(vwCampaignPlace);
+                    hidCampaignPlaceID.Value = iSelectedPlace.ToString();
+                    lblCampaignPlaceName.Text = dRow["PlaceName"].ToString();
+                    lblCampaignLocale.Text = dRow["Locale"].ToString();
+                    hidCampaignLocaleID.Value = dRow["LocaleID"].ToString();
+                    tbCampaignPlayerComments.Text = "";
                 }
+
+                BindPlaces();
+                mvAddingItems.SetActiveView(vwCampaignPlace);
             }
         }
 
         protected void btnCampaignSave_Click(object sender, EventArgs e)
         {
-            List<Classes.cPlace> Places = Session["CharacterPlaces"] as List<Classes.cPlace>;
+            int iCharacterID;
+            int.TryParse(Session["PlaceCharacterID"].ToString(), out iCharacterID);
 
-            int iCampaignPlaceID;
-            if ( int.TryParse(hidCampaignPlaceID.Value, out iCampaignPlaceID))
+            int iCharacterPlaceID;
+            if (int.TryParse(hidCharacterPlaceID.Value, out iCharacterPlaceID))
             {
-                var CharPlac = Places.Find(x => x.CampaignPlaceID == iCampaignPlaceID);
+                Classes.cCharacter cChar = new Classes.cCharacter();
+                cChar.LoadCharacter(iCharacterID);
+
+                var CharPlac = cChar.Places.Find(x => x.CharacterPlaceID == iCharacterPlaceID);
                 if (CharPlac != null)
                 {
                     CharPlac.PlaceName = lblCampaignPlaceName.Text;
                     CharPlac.Comments = tbCampaignPlayerComments.Text;
-                    CharPlac.Locale = lblCampaignLocale.Text;
+                    CharPlac.LocaleName = lblCampaignLocale.Text;
+                    CharPlac.Save(_UserID);
                 }
-                Session["CharacterPlaces"] = Places;
-                BindPlaces(Places);
+                else
+                {
+                    int iCampaignPlaceID;
+                    Classes.cCharacterPlace cNewPlace = new Classes.cCharacterPlace();
+
+                    if (int.TryParse(hidCampaignPlaceID.Value, out iCampaignPlaceID))
+                        cNewPlace.CampaignPlaceID = iCampaignPlaceID;
+                    else
+                        cNewPlace.CampaignPlaceID = null;
+                    cNewPlace.CharacterID = iCharacterID;
+
+                    cNewPlace.PlaceName = lblCampaignPlaceName.Text;
+                    cNewPlace.Comments = tbCampaignPlayerComments.Text;
+                    int iLocaleID;
+
+                    if (int.TryParse(hidCampaignLocaleID.Value, out iLocaleID))
+                        cNewPlace.LocaleID = iLocaleID;
+
+                    cNewPlace.Save(_UserID);
+                }
+
+                BindPlaces();
                 mvAddingItems.SetActiveView(vwNewItemButton);
             }
             else
                 mvAddingItems.SetActiveView(vwNewItemButton);
         }
 
-#endregion
+        #endregion
 
         protected void btnCancelAdding_Click(object sender, EventArgs e)
         {
@@ -350,16 +350,16 @@ namespace LarpPortal.Character
         }
 
 
-        public void BindPlaces(List<Classes.cPlace> Places)
+        public void BindPlaces()
         {
-            dtCharPlaces = Classes.cUtilities.CreateDataTable(Places);
-
-            DataTable dtCampaignPlaces = Session["CampaignPlaces"] as DataTable;
-            if (dtCharPlaces.Columns["ShowButton"] == null)
-                dtCharPlaces.Columns.Add(new DataColumn("ShowButton", typeof(Boolean)));
-
-            gvPlaces.DataSource = dtCharPlaces;
-            gvPlaces.DataBind();
+            int iCharacterID;
+            if (int.TryParse(Session["PlaceCharacterID"].ToString(), out iCharacterID))
+            {
+                Classes.cCharacter cChar = new Classes.cCharacter();
+                cChar.LoadCharacter(iCharacterID);
+                gvPlaces.DataSource = cChar.Places;
+                gvPlaces.DataBind();
+            }
         }
     }
 }

@@ -14,8 +14,6 @@ namespace LarpPortal.Character.Teams
 {
     public partial class ManageTeam : System.Web.UI.Page
     {
-        bool _Reload = false;
-
         string _UserName = "";
         int _iUserID = 0;
 
@@ -27,6 +25,9 @@ namespace LarpPortal.Character.Teams
                 int.TryParse(Session["UserID"].ToString(), out _iUserID);
             if (_iUserID == 0)
                 _iUserID = -1;
+            oCharSelect.CharacterChanged += oCharSelect_CharacterChanged;
+            btnCloseMessage.Attributes.Add("data-dismiss", "modal");
+            btnCloseError.Attributes.Add("data-dismiss", "modal");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -34,72 +35,48 @@ namespace LarpPortal.Character.Teams
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-            if (Session["SelectedCharacter"] == null)
-                Response.Redirect("../CharInfo.aspx", true);
+            oCharSelect.LoadInfo();
 
-            if ((ViewState["Reload"] == null) ||
-                (_Reload))
-            //            if ((!IsPostBack) || (_Reload))
+            if (!IsPostBack)
             {
-                ViewState["Reload"] = "Y";
                 SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                DataTable dtCharacters = cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", lsRoutineName + ".GetCharacterIDsByUserID");
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
+                slParameters.Add("@CharacterID", oCharSelect.CharacterID.Value);
+                DataTable dtTeamList = cUtilities.LoadDataTable("uspGetTeamMembers", slParameters, "LARPortal", _UserName, lsRoutineName + ".GetTeams");
 
-                int iCharID;
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                DataTable dtTeams = new DataView(dtTeamList, "Approval", "TeamName", DataViewRowState.CurrentRows).ToTable();
+                ddlTeams.DataSource = dtTeams;
+                ddlTeams.DataTextField = "TeamName";
+                ddlTeams.DataValueField = "TeamID";
+                ddlTeams.DataBind();
+
+                if (dtTeams.Rows.Count > 0)
                 {
-                    ddlCharacterSelector.ClearSelection();
-                    foreach (ListItem li in ddlCharacterSelector.Items)
+                    ddlTeams.ClearSelection();
+                    ddlTeams.Items[0].Selected = true;
+                    hidTeamID.Value = ddlTeams.SelectedValue;
+                    if (dtTeams.Rows.Count == 1)
                     {
-                        if (li.Value == iCharID.ToString())
-                        {
-                            ddlCharacterSelector.ClearSelection();
-                            li.Selected = true;
-                        }
+                        lblTeamName.Text = ddlTeams.SelectedItem.Text;
+                        lblTeamName.Visible = true;
+                        ddlTeams.Visible = false;
                     }
+                }
+                else
+                {
+                    Response.Redirect("/Character/Teams/JoinTeam.aspx", true);
+                }
+            }
 
-                    slParameters = new SortedList();
-                    slParameters.Add("@CharacterID", iCharID.ToString());
-                    DataTable dtTeamList = cUtilities.LoadDataTable("uspGetTeamMembers", slParameters, "LARPortal", _UserName, lsRoutineName + ".GetTeams");
+            if ((!IsPostBack) || (Session["TeamMembers"] == null))
+            {
+                if (ddlTeams.SelectedValue != null)
+                {
+                    SortedList slParameters = new SortedList();
+                    slParameters.Add("@TeamID", ddlTeams.SelectedValue);
+                    DataTable dtTeamMembers = cUtilities.LoadDataTable("uspGetTeamMembers", slParameters, "LARPortal", _UserName, lsRoutineName + ".GetMembers");
+                    Session["TeamMembers"] = dtTeamMembers;
 
-                    DataTable dtTeams = new DataView(dtTeamList, "Approval", "TeamName", DataViewRowState.CurrentRows).ToTable();
-                    ddlTeams.DataSource = dtTeams;
-                    ddlTeams.DataTextField = "TeamName";
-                    ddlTeams.DataValueField = "TeamID";
-                    ddlTeams.DataBind();
-
-                    if (dtTeams.Rows.Count > 0)
-                    {
-                        ddlTeams.ClearSelection();
-                        ddlTeams.Items[0].Selected = true;
-                        hidTeamID.Value = ddlTeams.SelectedValue;
-                        if (dtTeams.Rows.Count == 1)
-                        {
-                            lblTeamName.Text = ddlTeams.SelectedItem.Text;
-                            lblTeamName.Visible = true;
-                            ddlTeams.Visible = false;
-                        }
-                    }
-                    else
-                    {
-                        Response.Redirect("/Character/Teams/JoinTeam.aspx", true);
-                    }
-
-                    if (ddlTeams.SelectedValue != null)
-                    {
-                        slParameters = new SortedList();
-                        slParameters.Add("@TeamID", ddlTeams.SelectedValue);
-                        DataTable dtTeamMembers = cUtilities.LoadDataTable("uspGetTeamMembers", slParameters, "LARPortal", _UserName, lsRoutineName + ".GetMembers");
-                        Session["TeamMembers"] = dtTeamMembers;
-
-                        BindData();
-                    }
+                    BindData();
                 }
             }
         }
@@ -110,14 +87,14 @@ namespace LarpPortal.Character.Teams
             {
                 if (hidNotificationEMail.Value.Length > 0)
                 {
-                    Classes.cUser User = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
+                    Classes.cUser User = new Classes.cUser(_UserName, "PasswordNotNeeded");
                     string sSubject = cHist.CampaignName + " character history from " + cHist.PlayerName + " - " + cHist.CharacterAKA;
 
                     string sBody = (string.IsNullOrEmpty(User.NickName) ? User.FirstName : User.NickName) +
                         " " + User.LastName + " has submitted a character history for " + cHist.CharacterAKA + ".<br><br>" +
                          sHistory;
                     Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                    cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "", "", "CharacterHistory", Session["Username"].ToString());
+                    cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "", "", "CharacterHistory", _UserName);
                 }
             }
             catch (Exception ex)
@@ -125,18 +102,6 @@ namespace LarpPortal.Character.Teams
                 // Write the exception to error log and then throw it again...
                 Classes.ErrorAtServer lobjError = new Classes.ErrorAtServer();
                 lobjError.ProcessError(ex, "CharacterEdit.aspx.SendSubmittedEmail", "", Session.SessionID);
-            }
-        }
-
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("../CharAdd.aspx");
-
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
-            {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                _Reload = true;
             }
         }
 
@@ -209,10 +174,17 @@ namespace LarpPortal.Character.Teams
                     dtTeamMembers.Columns.Add("DisplayAccept", typeof(string));
                 if (dtTeamMembers.Columns["DisplayRevoke"] == null)
                     dtTeamMembers.Columns.Add("DisplayRevoke", typeof(string));
+                if (dtTeamMembers.Columns["DisplayCancelRevoke"] == null)
+                    dtTeamMembers.Columns.Add("DisplayCancelRevoke", typeof(string));
+                if (dtTeamMembers.Columns["EnableRevoke"] == null)
+                    dtTeamMembers.Columns.Add("EnableRevoke", typeof(string));
+
                 if (dtTeamMembers.Columns["Message"] == null)
                     dtTeamMembers.Columns.Add("Message", typeof(string));
                 if (dtTeamMembers.Columns["SendEMail"] == null)
                     dtTeamMembers.Columns.Add("SendEMail", typeof(string));
+                if (dtTeamMembers.Columns["ShowInMember"] == null)
+                    dtTeamMembers.Columns.Add("ShowInMember", typeof(string));
 
                 if (dtTeamMembers.Columns["UpdateRecord"] == null)
                 {
@@ -223,6 +195,14 @@ namespace LarpPortal.Character.Teams
 
                 foreach (DataRow dRow in dtTeamMembers.Rows)
                 {
+                    dRow["ShowInMember"] = "N";
+                    dRow["DisplayInvite"] = "0";
+                    dRow["DisplayApprove"] = "0";       // 1
+                    dRow["DisplayAccept"] = "0";
+                    dRow["DisplayRevoke"] = "0";
+                    dRow["DisplayCancelRevoke"] = "0";
+                    dRow["EnableRevoke"] = "0";
+
                     if (((bool)dRow["Approval"]) ||
                         ((bool)dRow["Member"]))
                     {
@@ -230,13 +210,15 @@ namespace LarpPortal.Character.Teams
                         dRow["DisplayApprove"] = "0";
                         dRow["DisplayRevoke"] = "1";
                         dRow["DisplayAccept"] = "0";
+                        dRow["ShowInMember"] = "Y";
                     }
                     else if ((bool)dRow["Requested"])
                     {
                         dRow["DisplayInvite"] = "0";
-                        dRow["DisplayApprove"] = "1";
+                        dRow["DisplayApprove"] = "0";       // 1
                         dRow["DisplayAccept"] = "1";
                         dRow["DisplayRevoke"] = "0";
+                        dRow["ShowInMember"] = "Y";
                     }
                     else if ((bool)dRow["Invited"])
                     {
@@ -255,11 +237,20 @@ namespace LarpPortal.Character.Teams
                     }
                 }
 
-                DataView dvMember = new DataView(dtTeamMembers, "Approval or Member or Invited", "CharacterAKA", DataViewRowState.CurrentRows);
+                DataView dvApprovers = new DataView(dtTeamMembers, "Approval", "", DataViewRowState.CurrentRows);
+                if (dvApprovers.Count == 1)
+                {
+                    // Means there is only one approver so we are going to disable the button.
+                    dvApprovers[0]["DisplayRevoke"] = "0";
+                    dvApprovers[0]["DisplayCancelRevoke"] = "1";
+                    dvApprovers[0]["EnableRevoke"] = "1";
+                }
+
+                DataView dvMember = new DataView(dtTeamMembers, "ShowInMember = 'Y'", "CharacterAKA", DataViewRowState.CurrentRows);
                 gvMembers.DataSource = dvMember;
                 gvMembers.DataBind();
 
-                DataView dvAvailable = new DataView(dtTeamMembers, "not Approval and not Member and not Invited", "Requested desc, CharacterAKA", DataViewRowState.CurrentRows);
+                DataView dvAvailable = new DataView(dtTeamMembers, "ShowInMember <> 'Y'", "Requested desc, CharacterAKA", DataViewRowState.CurrentRows);
                 gvAvailable.DataSource = dvAvailable;
                 gvAvailable.DataBind();
 
@@ -285,8 +276,8 @@ namespace LarpPortal.Character.Teams
 
                 if (!chkBoxApprover.Checked)
                 {
-                    DataView dv = new DataView(dtTeamMembers, "Approval", "", DataViewRowState.CurrentRows);
-                    if (dv.Count <= 1)
+                    DataView dv = new DataView(dtTeamMembers, "Approval and CharacterID <> " + hidCharacterID.Value, "", DataViewRowState.CurrentRows);
+                    if (dv.Count == 0)
                     {
                         lblmodalError.Text = "There must be at least one person who has approval privileges.";
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openError();", true);
@@ -296,7 +287,7 @@ namespace LarpPortal.Character.Teams
                 }
                 DataRow[] dChar = dtTeamMembers.Select("CharacterID = " + hidCharacterID.Value);
 
-                foreach ( DataRow dRow in dChar)
+                foreach (DataRow dRow in dChar)
                 {
                     dRow["Approval"] = chkBoxApprover.Checked;
                     dRow["UpdateRecord"] = true;
@@ -374,19 +365,19 @@ namespace LarpPortal.Character.Teams
                         {
                             dvApprover = new DataView(dtTeamMembers, "Approval = 1", "", DataViewRowState.CurrentRows);
                         }
-                        if ( dvApprover.Count > 0 )
+                        if (dvApprover.Count > 0)
                         {
                             DataRowView dApprover = dvApprover[0];
                             string sBody = dRow["CharacterAKA"].ToString() + "<br><br>" +
-                                dApprover["CharacterAKA"].ToString() + " has invited you to join the " + dApprover["TeamName"].ToString() + 
+                                dApprover["CharacterAKA"].ToString() + " has invited you to join the " + dApprover["TeamName"].ToString() +
                                 " team.  To accept visit larportal.com and Go to Character > Join Team to accept or decline." +
                                 "<br><br>" +
                                 "Thanks!";
-                                string sSubject = dApprover["CharFullName"].ToString() + " has invited you to join " + dApprover["TeamName"].ToString() + " team.";
+                            string sSubject = dApprover["CharFullName"].ToString() + " has invited you to join " + dApprover["TeamName"].ToString() + " team.";
 
-                                Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                                cEMS.SendMail(sSubject, sBody, dRow["EmailAddress"].ToString(), "", "", "Teams", _UserName);
-                            }
+                            Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
+                            cEMS.SendMail(sSubject, sBody, dRow["EmailAddress"].ToString(), "", "", "Teams", _UserName);
+                        }
                         dRow["SendEMail"] = "";
                     }
                 }
@@ -394,19 +385,30 @@ namespace LarpPortal.Character.Teams
             lblmodalMessage.Text = "Changes have been saved.";
             lblChangesNotSaved.Visible = false;
             lblChangesNotSaved2.Visible = false;
+            Session.Remove("TeamMembers");
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
         }
 
-        protected void btnCloseMessage_Click(object sender, EventArgs e)
+        protected void oCharSelect_CharacterChanged(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeMessage();", true);
+            oCharSelect.LoadInfo();
+
+            if (oCharSelect.CharacterInfo != null)
+            {
+                if (oCharSelect.CharacterID.HasValue)
+                {
+                    Classes.cUser UserInfo = new Classes.cUser(_UserName, "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                    UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                    UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                    UserInfo.Save();
+                }
+            }
         }
 
-        protected void btnCloseError_Click(object sender, EventArgs e)
+        protected void ddlTeams_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeError();", true);
+            Session.Remove("TeamMembers");
         }
     }
 }
-
-

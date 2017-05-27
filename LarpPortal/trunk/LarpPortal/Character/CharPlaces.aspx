@@ -1,38 +1,24 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharPlaces.aspx.cs" Inherits="LarpPortal.Character.CharPlaces" EnableViewState="true" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharPlaces.aspx.cs" Inherits="LarpPortal.Character.CharPlaces" EnableEventValidation="false" %>
+<%@ Register TagPrefix="CharSelecter" TagName="CSelect" Src="~/controls/CharacterSelect.ascx" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
+<asp:Content ID="Content1" ContentPlaceHolderID="CharHeaderMain" runat="server">
     <div class="mainContent tab-content col-lg-12">
         <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
             <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Places" />
         </div>
-        <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
-            <table>
-                <tr style="vertical-align: middle;">
-                    <td style="width: 10px"></td>
-                    <td>
-                        <b>Selected Character:</b>
-                    </td>
-                    <td style="padding-left: 10px;">
-                        <asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" />
-                    </td>
-                    <td style="padding-left: 20px;">
-                        <b>Campaign:</b>
-                    </td>
-                    <td style="padding-left: 10px;">
-                        <asp:Label ID="lblCampaign" runat="server" Text="" />
-                    </td>
-                    <td style="padding-left: 20px;">
-                        <b>Last Update:</b>
-                    </td>
-                    <td style="padding-left: 10px;">
-                        <asp:Label ID="lblUpdateDate" runat="server" />
-                    </td>
-                </tr>
-            </table>
+
+        <div class="row col-sm-12" style="padding-bottom: 20px; padding-left: 15px; padding-right: 0px;">
+            <%-- border: 1px solid black;">--%>
+            <div class="col-sm-10" style="padding-left: 0px; padding-right: 0px;">
+                <CharSelecter:CSelect ID="oCharSelect" runat="server" />
+            </div>
+            <div class="col-sm-2">
+<%--                Here.--%>
+            </div>
         </div>
 
-        <div class="row" style="padding-left: 15px;">
+        <br />
+        <div class="row" style="padding-left: 15px; padding-top: 20px;">
             <div class="panel" style="padding-top: 5px;">
                 <div class="panelheader">
                     <h2>Places</h2>

@@ -34,6 +34,7 @@
                 max-width: 1200px;
             }
         }
+
         editArea {
             overflow: scroll;
             height: 425px;
@@ -42,29 +43,23 @@
     <div class="mainContent tab-content col-sm-12">
         <div id="character-info" class="character-info tab-pane active col-sm-12">
             <div class="row col-lg-12" style="padding-left: 15px; padding-top: 10px;">
-                <table class="col-lg-12">
-                    <tr>
-                        <td style="width: 80%;">
-                            <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character History" />
-                        </td>
-                        <td rowspan="4" style="width: 20%; text-align: right;">
-                            <asp:Image ID="imgPicture" runat="server" Width="100px" Height="100px" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <asp:Label ID="lblEditMessage" runat="server" Font-Size="18px" Style="font-weight: 500" Visible="false" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <asp:Label ID="lblCharacterInfo" runat="server" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                    </tr>
-                </table>
+                <div class="col-xs-9">
+                    <div class="row col-xs-12 NoPadding">
+                        <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character History" />
+                    </div>
+                    <div class="row col-xs-12 NoPadding">
+                        <asp:Label ID="lblEditMessage" runat="server" Font-Size="18px"  Style="font-weight: 500" />
+                    </div>
+                    <div class="row col-xs-12 NoPadding">
+                        <asp:Label ID="lblCharacterInfo" runat="server" />
+                    </div>
+                    <div class="row col-xs-12 NoPadding">
+                        <asp:Label ID="lblPlayedBy" runat="server" />
+                    </div>
+                </div>
+                <div class="col-xs-3 NoPadding text-right" style="padding-right: 5px;">
+                    <asp:Image ID="imgPicture" runat="server" Width="100px" Height="100px" />
+                </div>
             </div>
             <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
             </div>
@@ -107,7 +102,7 @@
                                                             </tr>
                                                         </table>
                                                     </asp:Panel>
-<%--                                                    <asp:DataList ID="dlStaffComments" runat="server" AlternatingItemStyle-BackColor="linen">
+                                                    <%--                                                    <asp:DataList ID="dlStaffComments" runat="server" AlternatingItemStyle-BackColor="linen">
                                                         <HeaderTemplate>
                                                             <table>
                                                         </HeaderTemplate>

@@ -274,13 +274,22 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liEvents;
         
         /// <summary>
-        /// ContentPlaceHolder1 control.
+        /// CharHeaderMain control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder CharHeaderMain;
+        
+        /// <summary>
+        /// oCharSelect control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::LarpPortal.controls.CharacterSelect oCharSelect;
         
         /// <summary>
         /// Master property.

@@ -22,15 +22,6 @@ namespace LarpPortal.Character.History {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
-        /// imgPicture control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgPicture;
-        
-        /// <summary>
         /// lblEditMessage control.
         /// </summary>
         /// <remarks>
@@ -47,6 +38,24 @@ namespace LarpPortal.Character.History {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblCharacterInfo;
+        
+        /// <summary>
+        /// lblPlayedBy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPlayedBy;
+        
+        /// <summary>
+        /// imgPicture control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgPicture;
         
         /// <summary>
         /// divQuestions control.

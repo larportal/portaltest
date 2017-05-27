@@ -12,115 +12,91 @@ namespace LarpPortal.Character
 {
     public partial class CharRelationships : System.Web.UI.Page
     {
-        private DataTable _dtPlaces = new DataTable();
+        private string _UserName = "";
+        private int _UserID = 0;
+        private bool _Reload = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UserName"] != null)
+                _UserName = Session["UserName"].ToString();
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
+            oCharSelect.CharacterChanged += oCharSelect_CharacterChanged;
+
             if (!IsPostBack)
             {
-                ViewState["NewRecID"] = 0;
-                SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", "CharacterMaster.Page_Load");
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
-
-                if (ddlCharacterSelector.Items.Count > 0)
-                {
-                    ddlCharacterSelector.ClearSelection();
-
-                    if (Session["SelectedCharacter"] != null)
-                    {
-                        DataRow[] drValue = dtCharacters.Select("CharacterID = " + Session["SelectedCharacter"].ToString());
-                        foreach (DataRow dRow in drValue)
-                        {
-                            DateTime DateChanged;
-                            if (DateTime.TryParse(dRow["DateChanged"].ToString(), out DateChanged))
-                                lblUpdateDate.Text = DateChanged.ToShortDateString();
-                            else
-                                lblUpdateDate.Text = "Unknown";
-                            lblCampaign.Text = dRow["CampaignName"].ToString();
-                        }
-                        string sCurrentUser = Session["SelectedCharacter"].ToString();
-                        foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
-                        {
-                            if (sCurrentUser == liAvailableUser.Value)
-                                liAvailableUser.Selected = true;
-                            else
-                                liAvailableUser.Selected = false;
-                        }
-                    }
-                    else
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-
-                    if (ddlCharacterSelector.SelectedIndex == 0)
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-                    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
-                }
-                else
-                    Response.Redirect("CharAdd.aspx");
             }
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            oCharSelect.LoadInfo();
+
+            if ((!IsPostBack) || (_Reload))
             {
                 MethodBase lmth = MethodBase.GetCurrentMethod();
                 string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-                if (Session["SelectedCharacter"] != null)
+                if (oCharSelect.CharacterID.HasValue)
                 {
-                    int iCharID;
-                    if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                    DataTable dtCharactersForCampaign = new DataTable();
+                    SortedList sParam = new SortedList();
+                    sParam.Add("@CampaignID", oCharSelect.CharacterInfo.CampaignID);
+                    dtCharactersForCampaign = Classes.cUtilities.LoadDataTable("prGetCharactersForCampaign", sParam, "LARPortal", Session["LoginName"].ToString(), "");
+
+                    DataView dvCharactersForCampaign = new DataView(dtCharactersForCampaign, "", "CharacterAKA", DataViewRowState.CurrentRows);
+                    gvList.DataSource = dvCharactersForCampaign;
+                    gvList.DataBind();
+
+                    sParam = new SortedList();
+                    DataTable dtRelations = new DataTable();
+                    dtRelations = Classes.cUtilities.LoadDataTable("select * from CHRelationTypes", sParam, "LARPortal", Session["LoginName"].ToString(),
+                        lsRoutineName, Classes.cUtilities.LoadDataTableCommandType.Text);
+                    DataView dvRelations = new DataView(dtRelations, "", "RelationDescription", DataViewRowState.CurrentRows);
+                    ddlRelationship.DataTextField = "RelationDescription";
+                    ddlRelationship.DataValueField = "RelationTypeID";
+                    ddlRelationship.DataSource = dvRelations;
+                    ddlRelationship.DataBind();
+                    ddlRelationship.Visible = true;
+
+                    ddlRelationship.Attributes.Add("OnChange", "CheckForOther();");
+                    tbOther.Style["display"] = "none";
+
+                    ddlRelationshipNonChar.DataTextField = "RelationDescription";
+                    ddlRelationshipNonChar.DataValueField = "RelationTypeID";
+                    ddlRelationshipNonChar.DataSource = dvRelations;
+                    ddlRelationshipNonChar.DataBind();
+                    ddlRelationshipNonChar.Visible = true;
+
+                    ddlRelationshipNonChar.Attributes.Add("OnChange", "CheckForOtherNonChar();");
+                    tbOtherNonChar.Style["display"] = "none";
+
+                    BindRelat();
+
+                    if ((oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters) &&
+                        (oCharSelect.CharacterInfo.CharacterType != 1))
                     {
-                        Classes.cCharacter cChar = new Classes.cCharacter();
-                        cChar.LoadCharacter(iCharID);
+                        btnAddNewRelate.Visible = false;
+                        divList.Visible = false;
 
-                        DataTable dtCharactersForCampaign = new DataTable();
-                        SortedList sParam = new SortedList();
-                        sParam.Add("@CampaignID", cChar.CampaignID);
-                        dtCharactersForCampaign = Classes.cUtilities.LoadDataTable("prGetCharactersForCampaign", sParam, "LARPortal", Session["LoginName"].ToString(), "");
+                        if (gvRelationships.Columns.Count > 2)
+                        {
+                            gvRelationships.Columns[gvRelationships.Columns.Count - 1].Visible = false;
+                            gvRelationships.Columns[gvRelationships.Columns.Count - 2].Visible = false;
+                        }
+                    }
+                    else
+                    {
+                        btnAddNewRelate.Visible = true;
+                        divList.Visible = true;
 
-                        DataView dvCharactersForCampaign = new DataView(dtCharactersForCampaign, "", "CharacterAKA", DataViewRowState.CurrentRows);
-                        gvList.DataSource = dvCharactersForCampaign;
-                        gvList.DataBind();
-
-                        sParam = new SortedList();
-                        DataTable dtRelations = new DataTable();
-                        dtRelations = Classes.cUtilities.LoadDataTable("select * from CHRelationTypes", sParam, "LARPortal", Session["LoginName"].ToString(),
-                            lsRoutineName, Classes.cUtilities.LoadDataTableCommandType.Text);
-                        DataView dvRelations = new DataView(dtRelations, "", "RelationDescription", DataViewRowState.CurrentRows);
-                        ddlRelationship.DataTextField = "RelationDescription";
-                        ddlRelationship.DataValueField = "RelationTypeID";
-                        ddlRelationship.DataSource = dvRelations;
-                        ddlRelationship.DataBind();
-                        ddlRelationship.Visible = true;
-
-                        ddlRelationship.Attributes.Add("OnChange", "CheckForOther();");
-                        tbOther.Style["display"] = "none";
-
-                        ddlRelationshipNonChar.DataTextField = "RelationDescription";
-                        ddlRelationshipNonChar.DataValueField = "RelationTypeID";
-                        ddlRelationshipNonChar.DataSource = dvRelations;
-                        ddlRelationshipNonChar.DataBind();
-                        ddlRelationshipNonChar.Visible = true;
-
-                        ddlRelationshipNonChar.Attributes.Add("OnChange", "CheckForOtherNonChar();");
-                        tbOtherNonChar.Style["display"] = "none";
-
-                        ViewState["Rel"] = cChar.Relationships;
-
-                        BindRelat(cChar.Relationships);
+                        if (gvRelationships.Columns.Count > 2)
+                        {
+                            gvRelationships.Columns[gvRelationships.Columns.Count - 1].Visible = true;
+                            gvRelationships.Columns[gvRelationships.Columns.Count - 2].Visible = true;
+                        }
+                        gvList.SelectedIndexChanged += gvList_SelectedIndexChanged;
                     }
                 }
             }
@@ -171,35 +147,26 @@ namespace LarpPortal.Character
 
         protected void btnSaveNonChar_Click(object sender, EventArgs e)
         {
-            int NewRecID = (int)ViewState["NewRecID"];
-            NewRecID--;
-            ViewState["NewRecID"] = NewRecID;
-
-            List<Classes.cRelationship> Rel = new List<Classes.cRelationship>();
-
-            if (ViewState["Rel"] != null)
-                Rel = ViewState["Rel"] as List<Classes.cRelationship>;
+            oCharSelect.LoadInfo();
 
             Classes.cRelationship NewRel = new Classes.cRelationship();
 
-            if (hidRelateID.Value != "")
+            int iRelID;
+            if (int.TryParse(hidRelateID.Value, out iRelID))
             {
-                int iRelID;
-                if (!int.TryParse(hidRelateID.Value, out iRelID))
-                    return;
-
-                NewRel = Rel.Find(x => x.CharacterRelationshipID == iRelID);
-                if (NewRel == null)
-                    return;
+                NewRel = oCharSelect.CharacterInfo.Relationships.Find(x => x.CharacterRelationshipID == iRelID);
             }
             else
             {
-                NewRel = new Classes.cRelationship();
-                NewRel.CharacterRelationshipID = NewRecID;
+                NewRel.CharacterRelationshipID = -1;
+                NewRel.RelationCharacterID = -1;
+                NewRel.Name = tbCharacterName.Text;
+                NewRel.CharacterID = oCharSelect.CharacterID.Value;
             }
 
             NewRel.RelationTypeID = Convert.ToInt32(ddlRelationshipNonChar.SelectedValue);
             NewRel.RelationCharacterID = -1;
+            NewRel.CharacterID = oCharSelect.CharacterID.Value;
 
             if (ddlRelationshipNonChar.SelectedItem.Text.ToUpper() == "OTHER")
             {
@@ -210,15 +177,12 @@ namespace LarpPortal.Character
             else
                 NewRel.RelationDescription = ddlRelationshipNonChar.SelectedItem.Text;
 
-            NewRel.CharacterRelationshipID = NewRecID;
             NewRel.Name = tbCharacterName.Text;
             NewRel.PlayerComments = tbPlayerCommentsNonChar.Text;
 
-            if (hidRelateID.Value == "")
-                Rel.Add(NewRel);
+            NewRel.Save(_UserName, _UserID);
 
-            BindRelat(Rel);
-            ViewState["Rel"] = Rel;
+            BindRelat();
             hidRelateID.Value = "";
             mvAddingRelationship.SetActiveView(vwNewRelateButton);
         }
@@ -230,38 +194,30 @@ namespace LarpPortal.Character
 
         protected void btnSaveExistingRelate_Click(object sender, EventArgs e)
         {
-            int NewRecID = (int)ViewState["NewRecID"];
-            NewRecID--;
-            ViewState["NewRecID"] = NewRecID;
-
-            List<Classes.cRelationship> Rel = new List<Classes.cRelationship>();
-
-            if (ViewState["Rel"] != null)
-                Rel = ViewState["Rel"] as List<Classes.cRelationship>;
+            oCharSelect.LoadInfo();
 
             Classes.cRelationship NewRel = new Classes.cRelationship();
-
-            if (hidRelateID.Value != "")
+            int iRelID;
+            if (int.TryParse(hidRelateID.Value, out iRelID))
             {
-                int iRelID;
-                if (!int.TryParse(hidRelateID.Value, out iRelID))
-                    return;
-
-                NewRel = Rel.Find(x => x.CharacterRelationshipID == iRelID);
-                if (NewRel == null)
-                    return;
+                NewRel = oCharSelect.CharacterInfo.Relationships.Find(x => x.CharacterRelationshipID == iRelID);
             }
             else
             {
-                NewRel = new Classes.cRelationship();
-                NewRel.CharacterRelationshipID = NewRecID;
-                NewRel.Name = (gvList.SelectedRow.FindControl("lblCharacterAKA") as Label).Text;
+                NewRel.CharacterRelationshipID = -1;
+
+                if (gvList.SelectedRow != null)
+                {
+                    NewRel.Name = (gvList.SelectedRow.FindControl("lblCharacterAKA") as Label).Text;
+                }
                 int iRelationCharID;
                 if (int.TryParse(gvList.SelectedDataKey.Value.ToString(), out iRelationCharID))
                     NewRel.RelationCharacterID = iRelationCharID;
+                NewRel.CharacterID = oCharSelect.CharacterID.Value;
             }
 
             NewRel.RelationTypeID = Convert.ToInt32(ddlRelationship.SelectedValue);
+
             if (ddlRelationship.SelectedItem.Text.ToUpper() == "OTHER")
             {
                 NewRel.RelationDescription = tbOther.Text;
@@ -273,46 +229,32 @@ namespace LarpPortal.Character
 
             NewRel.PlayerComments = tbPlayerComments.Text;
 
-            if (hidRelateID.Value == "")
-                Rel.Add(NewRel);
-
-            BindRelat(Rel);
-            ViewState["Rel"] = Rel;
+            NewRel.Save(_UserName, _UserID);
+            BindRelat();
             hidRelateID.Value = "";
             mvAddingRelationship.SetActiveView(vwNewRelateButton);
         }
 
-        private void BindRelat(List<Classes.cRelationship> Rel)
+        private void BindRelat()
         {
-            if (Rel.Count > 0)
-            {
-                DataTable dtRelat = Classes.cUtilities.CreateDataTable(Rel);
-                int DeleteStatus = (int) Enum.Parse(typeof(Classes.RecordStatuses), Classes.RecordStatuses.Delete.ToString());
-                DataView dvRelat = new DataView(dtRelat, "RecordStatus <> " + DeleteStatus.ToString(), "", DataViewRowState.CurrentRows);
+            oCharSelect.LoadInfo();
 
-                gvRelationships.DataSource = dvRelat;
-            }
-            else
-                gvRelationships.DataSource = null;
-
+            gvRelationships.DataSource = oCharSelect.CharacterInfo.Relationships;
             gvRelationships.DataBind();
         }
 
         protected void gvRelationships_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            oCharSelect.LoadInfo();
+
             switch (e.CommandName.ToUpper())
             {
                 case "EDITITEM":
                     {
-                        List<Classes.cRelationship> Rel = new List<Classes.cRelationship>();
-
-                        if (ViewState["Rel"] != null)
-                            Rel = ViewState["Rel"] as List<Classes.cRelationship>;
-
                         int iRelID;
                         if (int.TryParse(e.CommandArgument.ToString(), out iRelID))
                         {
-                            var CharRel = Rel.Find(x => x.CharacterRelationshipID == iRelID);
+                            var CharRel = oCharSelect.CharacterInfo.Relationships.Find(x => x.CharacterRelationshipID == iRelID);
                             if (CharRel != null)
                             {
                                 hidRelateID.Value = iRelID.ToString();
@@ -373,22 +315,14 @@ namespace LarpPortal.Character
                         int iRelID;
                         if (int.TryParse(e.CommandArgument.ToString(), out iRelID))
                         {
-                            List<Classes.cRelationship> Rel = new List<Classes.cRelationship>();
-
-                            if (ViewState["Rel"] != null)
-                                Rel = ViewState["Rel"] as List<Classes.cRelationship>;
-
-                            var CharRel = Rel.Find(x => x.CharacterRelationshipID == iRelID);
+                            var CharRel = oCharSelect.CharacterInfo.Relationships.Find(x => x.CharacterRelationshipID == iRelID);
                             if (CharRel != null)
                             {
-                                if (CharRel.CharacterRelationshipID < 0)
-                                    Rel.Remove(CharRel);
-                                else
-                                    CharRel.RecordStatus = Classes.RecordStatuses.Delete;
-                                BindRelat(Rel);
-                                ViewState["Rel"] = Rel;
+                                CharRel.RecordStatus = Classes.RecordStatuses.Delete;
+                                CharRel.Save(_UserName, _UserID);
                                 hidRelateID.Value = "";
                                 mvAddingRelationship.SetActiveView(vwNewRelateButton);
+                                _Reload = true;
                             }
                         }
                     }
@@ -396,51 +330,22 @@ namespace LarpPortal.Character
             }
         }
 
-        protected void btnSaveCharacter_Click(object sender, EventArgs e)
+        protected void oCharSelect_CharacterChanged(object sender, EventArgs e)
         {
-            List<Classes.cRelationship> Rel = new List<Classes.cRelationship>();
+            oCharSelect.LoadInfo();
 
-            if (ViewState["Rel"] != null)
+            if (oCharSelect.CharacterInfo != null)
             {
-                Rel = ViewState["Rel"] as List<Classes.cRelationship>;
-                int iCharID;
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                if (oCharSelect.CharacterID.HasValue)
                 {
-                    Classes.cCharacter cChar = new Classes.cCharacter();
-                    cChar.LoadCharacter(iCharID);
-
-                    for (int i = 0; i < Rel.Count; i++)
-                    {
-                        if (Rel[i].CharacterRelationshipID < 0)
-                            Rel[i].CharacterRelationshipID = -1;
-                        Rel[i].CharacterID = iCharID;
-                    }
-
-                    //foreach (Classes.cRelationship Relat in Rel)
-                    //{
-                    //    if (Relat.RelationCharacterID < 0)
-                    //        Relat.RelationCharacterID = -1;
-                    //    Relat.CharacterID = iCharID;
-                    //}
-
-                    cChar.Relationships = Rel;
-                    cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
-                    string jsString = "alert('Character " + cChar.AKA + " has been saved.');";
-                    ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                            "MyApplication", jsString, true);
+                    Classes.cUser UserInfo = new Classes.cUser(_UserName, "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                    UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                    UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                    UserInfo.Save();
                 }
-            }
-        }
-
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("CharAdd.aspx");
-
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
-            {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                Response.Redirect("CharInfo.aspx");
+                mvAddingRelationship.SetActiveView(vwNewRelateButton);
+                _Reload = true;
             }
         }
     }

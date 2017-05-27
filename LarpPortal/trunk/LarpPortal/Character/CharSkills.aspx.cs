@@ -15,91 +15,94 @@ namespace LarpPortal.Character
 {
     public partial class CharSkills : System.Web.UI.Page
     {
-        LogWriter oLog = new LogWriter();
-
         protected void Page_Load(object sender, EventArgs e)
         {
-            oLog.AddLogMessage("Starting page load for CharSkills", "CharSkills.Page_Load", "", Session.SessionID);
             if (!IsPostBack)
             {
                 ViewState["CurrentCharacter"] = "";
-
-                SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                oLog.AddLogMessage("Getting Character IDs By UserID", "CharSkills.Page_Load", "", Session.SessionID);
-                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", "CharacterMaster.Page_Load");
-                oLog.AddLogMessage("Done Getting Character IDs By UserID", "CharSkills.Page_Load", "", Session.SessionID);
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
-
-                if (ddlCharacterSelector.Items.Count > 0)
-                {
-                    ddlCharacterSelector.ClearSelection();
-
-                    if (Session["SelectedCharacter"] != null)
-                    {
-                        DataRow[] drValue = dtCharacters.Select("CharacterID = " + Session["SelectedCharacter"].ToString());
-                        foreach (DataRow dRow in drValue)
-                        {
-                            DateTime DateChanged;
-                            if (DateTime.TryParse(dRow["DateChanged"].ToString(), out DateChanged))
-                                lblUpdateDate.Text = DateChanged.ToShortDateString();
-                            else
-                                lblUpdateDate.Text = "Unknown";
-                            lblCampaign.Text = dRow["CampaignName"].ToString();
-                        }
-                        string sCurrentUser = Session["SelectedCharacter"].ToString();
-                        foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
-                        {
-                            if (sCurrentUser == liAvailableUser.Value)
-                                liAvailableUser.Selected = true;
-                            else
-                                liAvailableUser.Selected = false;
-                        }
-                    }
-                    else
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-
-                    if (ddlCharacterSelector.SelectedIndex == 0)
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-                    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
-                }
-                else
-                    Response.Redirect("CharAdd.aspx");
             }
-            oLog.AddLogMessage("Ending page load for CharSkills", "CharSkills.Page_Load", "", Session.SessionID);
+            oCharSelect.CharacterChanged += oCharSelect_CharacterChanged;
+            btnCloseMessage.Attributes.Add("data-dismiss", "modal");
+            btnCloseError.Attributes.Add("data-dismiss", "modal");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            oLog.AddLogMessage("Done with PreRender", "CharSkills.Page_PreRender", "", Session.SessionID);
-        }
+            oCharSelect.LoadInfo();
+            if (oCharSelect.CharacterID.HasValue)
+                Session["CharSkillCharacterID"] = oCharSelect.CharacterID.Value;
 
-        protected void Page_Unload(object sender, EventArgs e)
-        {
-            oLog.AddLogMessage("Closing the page", "CharSkills.Page_Unload", "", Session.SessionID);
-        }
+            if (!IsPostBack)
+                oCharSelect_CharacterChanged(null, null);
 
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("CharAdd.aspx");
+            btnSave.Enabled = true;
+            btnSave.Style["background-color"] = null;
+            btnSave.CssClass = "StandardButton";
 
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
+            if (Session["CharSkillReadOnly"] != null)
+                if (Session["CharSkillReadOnly"].ToString() == "Y")
+                {
+                    btnSave.Enabled = false;
+                    btnSave.CssClass = "btn-default";
+                    btnSave.Style["background-color"] = "grey";
+                }
+
+            if (Session["SkillSavedMessage"] != null)
             {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                Response.Redirect("CharInfo.aspx");
+                lblmodalMessage.Text = Session["SkillSavedMessage"].ToString();
+                Session.Remove("SkillSavedMessage");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
             }
+        }
+
+        protected void oCharSelect_CharacterChanged(object sender, EventArgs e)
+        {
+            oCharSelect.LoadInfo();
+
+            if (oCharSelect.CharacterID.HasValue)
+            {
+                Session["CharSkillCharacterID"] = oCharSelect.CharacterID.Value;
+                Session["ReloadCharacter"] = "Y";
+                if ((oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters) &&
+                    (oCharSelect.CharacterInfo.CharacterType != 1))
+                {
+                    divExcl.Visible = false;
+                    Session["CharSkillReadOnly"] = "Y";
+                    btnSave.Enabled = false;
+                    btnSave.CssClass = "btn-default";
+                    btnSave.Style["background-color"] = "grey";
+                    lblSpacer.Text = "<br>";
+                }
+                else
+                {
+                    divExcl.Visible = true;
+                    Session["CharSkillReadOnly"] = "N";
+                    btnSave.Enabled = true;
+                    btnSave.Style["background-color"] = null;
+                    btnSave.CssClass = "StandardButton";
+                    lblSpacer.Text = "<br><br>";
+                }
+
+                Classes.cUser UserInfo = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
+                UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                UserInfo.Save();
+            }
+        }
+
+        protected void cbxShowExclusions_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbxShowExclusions.Checked)
+                Session["SkillShowExclusions"] = "Y";
+            else
+                if (Session["SkillShowExclusions"] != null)
+                    Session.Remove("SkillShowExclusions");
+        }
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            Session["CharSaveSkills"] = "Y";
         }
     }
 }
-    

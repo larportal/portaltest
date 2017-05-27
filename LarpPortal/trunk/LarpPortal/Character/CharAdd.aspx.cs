@@ -12,39 +12,52 @@ namespace LarpPortal.Character
 {
     public partial class CharAdd : System.Web.UI.Page
     {
+        private string _UserName = "";
+        private int _UserID = 0;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
+            {
                 tbCharacterName.Attributes.Add("PlaceHolder", "The nickname for the character.");
+            }
+
+            if (Session["UserName"] != null)
+                _UserName = Session["UserName"].ToString();
+            if (Session["UserID"] != null)
+            {
+                int iUserID;
+                if (int.TryParse(Session["UserID"].ToString(), out iUserID))
+                    _UserID = iUserID;
+            }
+
+            btnCloseError.Attributes.Add( "data-dismiss", "modal");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            ddlUserCampaigns.SelectedIndex = 0;
-            ddlUserCampaigns.Items.Clear();
-            string uName = "";
-            int uID = 0;
-            if (Session["Username"] != null)
-                uName = Session["Username"].ToString();
-            if (Session["UserID"] != null)
-                Int32.TryParse(Session["UserID"].ToString(), out uID);
-
-            Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
-            CampaignChoices.Load(uID);
-
-            if (CampaignChoices.CountOfUserCampaigns == 0)
+            if (!IsPostBack)
             {
-                mvCharacterCreate.SetActiveView(vwNoCampaigns);
-            }
-            else
-            {
-                ddlUserCampaigns.DataTextField = "CampaignName";
-                ddlUserCampaigns.DataValueField = "CampaignID";
-                ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
-                ddlUserCampaigns.DataBind();
+                ddlUserCampaigns.SelectedIndex = 0;
+                ddlUserCampaigns.Items.Clear();
+                Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
+                CampaignChoices.Load(_UserID);
+
+                if (CampaignChoices.CountOfUserCampaigns == 0)
+                {
+                    mvCharacterCreate.SetActiveView(vwNoCampaigns);
+                }
+                else
+                {
+                    DataView dvCampaigns = new DataView(Classes.cUtilities.CreateDataTable(CampaignChoices.lsUserCampaigns), "", "CampaignName", DataViewRowState.CurrentRows);
+                    ddlUserCampaigns.DataTextField = "CampaignName";
+                    ddlUserCampaigns.DataValueField = "CampaignID";
+                    ddlUserCampaigns.DataSource = dvCampaigns;
+                    ddlUserCampaigns.DataBind();
+                    ddlUserCampaigns_SelectedIndexChanged(null, null);
+                }
             }
         }
-
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
@@ -53,32 +66,118 @@ namespace LarpPortal.Character
 
             if (tbCharacterName.Text.Trim().Length > 0)
             {
+                // Reset the user control so it will load the characters the next time it's used.
+                oCharSelect.Reset();
+
                 SortedList sParam = new SortedList();
                 sParam.Add("@CampaignID", ddlUserCampaigns.SelectedValue);
                 sParam.Add("@CharacterAKA", tbCharacterName.Text.Trim());
-                sParam.Add("@UserID", Session["UserID"].ToString());
+                sParam.Add("@RoleAlignmentID", ddlCharacterType.SelectedValue);
+                sParam.Add("@UserID", _UserID);
+                if (ddlCharacterType.SelectedValue != "1")      // Non PC Character.
+                    sParam.Add("@CurrentUserID", ddlPlayer.SelectedValue);
+
                 DataTable dtCharInfo = new DataTable();
-                dtCharInfo = Classes.cUtilities.LoadDataTable("prCreateNewCharacter", sParam, "LARPortal", Session["LoginName"].ToString(), lsRoutineName);
+                dtCharInfo = Classes.cUtilities.LoadDataTable("uspInsCreateNewCharacter", sParam, "LARPortal", _UserName, lsRoutineName);
 
                 if (dtCharInfo.Rows.Count > 0)
                 {
-                    string sCharId = dtCharInfo.Rows[0]["CharacterID"].ToString();
-                    Session["SelectedCharacter"] = sCharId;
-                    Response.Redirect("CharInfo.aspx");
+                    if (ddlCharacterType.SelectedValue == "1")
+                    {
+                        string sCharId = dtCharInfo.Rows[0]["CharacterID"].ToString();
+                        Session["SelectedCharacterID"] = sCharId;
+                        Response.Redirect("CharInfo.aspx");
+                    }
+                    else
+                    {
+                        tbCharacterName.Text = "";
+                        ddlPlayer.SelectedIndex = 0;
+                        lblmodalMessage.Text = "The character has been created..";
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+                    }
                 }
                 else
-                    btnSave.Text = "Problem Saving the character....";
-            }
-            else
-            {
-                lblmodalError.Text = "You must enter the character nick name to save the character.";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openError();", true);
+                {
+                    lblmodalMessage.Text = "There a problem saving the character. The technical staff has been contacted.";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+                }
             }
         }
 
-        protected void btnCloseError_Click(object sender, EventArgs e)
+        //protected void btnCloseError_Click(object sender, EventArgs e)
+        //{
+        //    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeError();", true);
+        //}
+
+        protected void ddlUserCampaigns_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeError();", true);
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+            SortedList sParams = new SortedList();
+            sParams.Add("@UserID", _UserID);
+            sParams.Add("@CampaignID", ddlUserCampaigns.SelectedValue);
+
+            DataTable dtEditCampaigns = Classes.cUtilities.LoadDataTable("uspGetPrivCampaignCharacterEdit", sParams, "LARPortal", _UserName, lsRoutineName + ".GetPrivs");
+            DataView dvEditCampaigns = new DataView(dtEditCampaigns, "CampaignID = " + ddlUserCampaigns.SelectedValue, "", DataViewRowState.CurrentRows);
+
+            sParams = new SortedList();
+            sParams.Add("@UserID", _UserID);
+            sParams.Add("@CampaignID", ddlUserCampaigns.SelectedValue);
+            DataTable dtCampaignRoles = Classes.cUtilities.LoadDataTable("uspGetUserCampaignRoleInfo", sParams, "LARPortal", _UserName, lsRoutineName + ".GetRoleInfo");
+
+            int PCCount = dtCampaignRoles.Select("RoleDescription LIKE '%PC%' and RoleAlignmentDesc = 'PC'").Length;
+
+            ddlCharacterType.ClearSelection();
+
+            if (dvEditCampaigns.Count == 0)
+            {
+                divPlayer.Visible = false;
+                if (PCCount > 0)
+                {
+                    ddlCharacterType.SelectedValue = "1";
+                    divPlayerType.Visible = false;
+                }
+            }
+            else
+            {
+                // Only go get the players if the user can choose type. Do this here because we only need to do it once.
+                divPlayerType.Visible = true;
+                divPlayer.Visible = true;
+
+                sParams = new SortedList();
+                sParams.Add("@CampaignID", ddlUserCampaigns.SelectedValue);
+                DataTable dtNPCPlayers = Classes.cUtilities.LoadDataTable("uspGetCampaignNPCPlayers", sParams, "LARPortal", _UserName, lsRoutineName + ".GetPlayers");
+
+                if (dtNPCPlayers.Columns["DisplayValue"] == null)
+                    dtNPCPlayers.Columns.Add(new DataColumn("DisplayValue", typeof(string)));
+
+                foreach (DataRow dRow in dtNPCPlayers.Rows)
+                {
+                    if (dRow["NickName"].ToString().Length > 0)
+                        dRow["DisplayValue"] = dRow["NickName"].ToString();
+                    else
+                        dRow["DisplayValue"] = dRow["FirstName"].ToString();
+                    dRow["DisplayValue"] += " " + dRow["LastName"].ToString() + " - " + dRow["loginUserName"].ToString();
+                }
+                DataView dvNPCPlayers = new DataView(dtNPCPlayers, "", "LastName, FirstName, LoginUserName", DataViewRowState.CurrentRows);
+                ddlPlayer.DataSource = dvNPCPlayers;
+                ddlPlayer.DataTextField = "DisplayValue";
+                ddlPlayer.DataValueField = "UserID";
+                ddlPlayer.DataBind();
+                ddlPlayer.Items.Insert(0, new ListItem("Select Player...", ""));
+                ddlPlayer.ClearSelection();
+                ddlPlayer.Items[0].Selected = true;
+                ddlCharacterType_SelectedIndexChanged(null, null);
+            }
+        }
+
+        protected void ddlCharacterType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlCharacterType.SelectedValue == "2")
+                divPlayer.Visible = true;
+            else
+                divPlayer.Visible = false;
         }
     }
 }

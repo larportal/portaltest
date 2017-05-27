@@ -1,13 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharAdd.aspx.cs" Inherits="LarpPortal.Character.CharAdd" %>
 
-<asp:Content ID="ScriptSection" runat="server" ContentPlaceHolderID="CharHeaderScripts">
+<%@ Register TagPrefix="CharSelecter" TagName="CSelect" Src="~/controls/CharacterSelect.ascx" %>
 
+<asp:Content ID="ScriptSection" runat="server" ContentPlaceHolderID="CharHeaderScripts">
     <script type="text/javascript">
-        function openError() {
-            $('#modalError').modal('show');
+        function openMessage() {
+            $('#modalMessage').modal('show');
         }
-        function closeError() {
-            $('#modelError').hide();
+        function closeMessage() {
+            $('#modalMessage').hide();
         }
     </script>
 
@@ -15,9 +16,9 @@
     <script src="../Scripts/jquery-ui.js"></script>
     <script src="../Scripts/bootstrap.min.js"></script>
     <script src="../Scripts/bootstrap.js"></script>
-
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+<asp:Content ID="Content2" ContentPlaceHolderID="CharHeaderMain" runat="server">
     <div class="mainContent tab-content col-sm-12">
         <div id="character-info" class="character-info tab-pane active">
             <asp:MultiView ID="mvCharacterCreate" runat="server" ActiveViewIndex="0">
@@ -34,7 +35,36 @@
                                     <label for="ddlCampaign" class="control-label">Campaign</label>
                                 </div>
                                 <div class="col-sm-4">
-                                    <asp:DropDownList ID="ddlUserCampaigns" runat="server" CssClass="form-control" />
+                                    <asp:DropDownList ID="ddlUserCampaigns" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlUserCampaigns_SelectedIndexChanged" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12" runat="server" id="divPlayerType">
+                            <div class="row">
+                                <div class="col-sm-3 text-right NoRightPadding">
+                                    <label for="ddlCharacterType" class="control-label">Character Type</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <asp:DropDownList ID="ddlCharacterType" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterType_SelectedIndexChanged">
+                                        <asp:ListItem Text="PC" Value="1" Selected="true" />
+                                        <asp:ListItem Text="NPC" Value="2" />
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12" runat="server" id="divPlayer">
+                            <div class="row">
+                                <div class="col-sm-3 text-right NoRightPadding">
+                                    <label for="ddlPlayer" class="control-label">Player</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <asp:DropDownList ID="ddlPlayer" runat="server" CssClass="form-control" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <asp:RequiredFieldValidator ID="rfvddlPlayer" runat="server" ControlToValidate="ddlPlayer" InitialValue=""
+                                        ErrorMessage="* Required" Font-Bold="true" Font-Italic="true" ForeColor="Red" Display="Dynamic" />
                                 </div>
                             </div>
                         </div>
@@ -46,6 +76,10 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <asp:TextBox ID="tbCharacterName" runat="server" CssClass="form-control" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <asp:RequiredFieldValidator ID="rfvCharacterName" runat="server" ControlToValidate="tbCharacterName" InitialValue=""
+                                        ErrorMessage="* Required" Font-Bold="true" Font-Italic="true" ForeColor="Red" Display="Dynamic" Font-Size="larger" />
                                 </div>
                             </div>
                         </div>
@@ -104,21 +138,25 @@
         </div>
     </div>
 
-    <div class="modal" id="modalError" role="dialog">
+    <div class="modal" id="modalMessage" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: red;">
+                <div class="modal-header">
                     <a class="close" data-dismiss="modal" style="color: white;">×</a>
                     LARPortal Character Info
                 </div>
                 <div class="modal-body" style="background-color: white;">
                     <p>
-                        <asp:Label ID="lblmodalError" runat="server" /></p>
+                        <asp:Label ID="lblmodalMessage" runat="server" />
+                    </p>
                 </div>
                 <div class="modal-footer">
-                    <asp:Button ID="btnCloseError" runat="server" Text="Close" Width="150px" CssClass="StandardButton" OnClick="btnCloseError_Click" />
+                    <asp:Button ID="btnCloseError" runat="server" Text="Close" Width="150px" CssClass="StandardButton" />
                 </div>
             </div>
         </div>
     </div>
+
+    <CharSelecter:CSelect ID="oCharSelect" runat="server" Visible="false" />
+
 </asp:Content>

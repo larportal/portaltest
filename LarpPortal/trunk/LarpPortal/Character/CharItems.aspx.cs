@@ -13,107 +13,99 @@ namespace LarpPortal.Character
 {
     public partial class CharItems : System.Web.UI.Page
     {
-//        public string PictureDirectory = "../Pictures";
+        private string _UserName = "";
+        private int _UserID = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UserName"] != null)
+                _UserName = Session["UserName"].ToString();
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
+            oCharSelect.CharacterChanged += oCharSelect_CharacterChanged;
+
             if (ViewState["CurrentCharacter"] == null)
                 ViewState["CurrentCharacter"] = "";
             if (Session["Items"] == null)
                 Session["Items"] = "";
             if (!IsPostBack)
             {
-                SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", "CharacterMaster.Page_Load");
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
-
-                if (ddlCharacterSelector.Items.Count > 0)
-                {
-                    ddlCharacterSelector.ClearSelection();
-
-                    if (Session["SelectedCharacter"] != null)
-                    {
-                        DataRow[] drValue = dtCharacters.Select("CharacterID = " + Session["SelectedCharacter"].ToString());
-                        foreach (DataRow dRow in drValue)
-                        {
-                            DateTime DateChanged;
-                            if (DateTime.TryParse(dRow["DateChanged"].ToString(), out DateChanged))
-                                lblUpdateDate.Text = DateChanged.ToShortDateString();
-                            else
-                                lblUpdateDate.Text = "Unknown";
-                            lblCampaign.Text = dRow["CampaignName"].ToString();
-                        }
-                        string sCurrentUser = Session["SelectedCharacter"].ToString();
-                        foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
-                        {
-                            if (sCurrentUser == liAvailableUser.Value)
-                                liAvailableUser.Selected = true;
-                            else
-                                liAvailableUser.Selected = false;
-                        }
-                    }
-                    else
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-
-                    if (ddlCharacterSelector.SelectedIndex == 0)
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-                    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
-                }
-                else
-                    Response.Redirect("CharAdd.aspx");
             }
         }
-
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            // Type comes from Chcharactertype - type
-            // select * from mdbStatus for Status
+            oCharSelect.LoadInfo();
 
-            // 
-            if (Session["SelectedCharacter"] != null)
+            if (oCharSelect.CharacterID.HasValue)
             {
-                string sCurrent = ViewState["CurrentCharacter"].ToString();
-                string sSelected = Session["SelectedCharacter"].ToString();
-                if ((!IsPostBack) || (ViewState["CurrentCharacter"].ToString() != Session["SelectedCharacter"].ToString()))
+                tbCostume.Text = oCharSelect.CharacterInfo.Costuming;
+                lblCostume.Text = oCharSelect.CharacterInfo.Costuming;
+                tbWeapons.Text = oCharSelect.CharacterInfo.Weapons;
+                lblWeapons.Text = oCharSelect.CharacterInfo.Weapons;
+                tbMakeup.Text = oCharSelect.CharacterInfo.Makeup;
+                lblMakeup.Text = oCharSelect.CharacterInfo.Makeup;
+                tbAccessories.Text = oCharSelect.CharacterInfo.Accessories;
+                lblAccessories.Text = oCharSelect.CharacterInfo.Accessories;
+                tbOtherItems.Text = oCharSelect.CharacterInfo.Items;
+                lblOtherItems.Text = oCharSelect.CharacterInfo.Items;
+
+                if ((oCharSelect.CharacterInfo.CharacterType != 1) && (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters))
                 {
-                    int iCharID;
-                    if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-                    {
-                        Classes.cCharacter cChar = new Classes.cCharacter();
-                        cChar.LoadCharacter(iCharID);
+                    btnSave.Enabled = false;
+                    btnSave.CssClass = "btn-default";
+                    btnSave.Style["background-color"] = "grey";
+                    btnSaveTop.Enabled = false;
+                    btnSaveTop.CssClass = "btn-default";
+                    btnSaveTop.Style["background-color"] = "grey";
 
-                        tbCostume.Text = cChar.Costuming;
-                        tbWeapons.Text = cChar.Weapons;
-                        tbMakeup.Text = cChar.Makeup;
-                        tbAccessories.Text = cChar.Accessories;
-                        tbOtherItems.Text = cChar.Items;
-
-                        DataTable dtPictures = new DataTable();
-                        dtPictures = Classes.cUtilities.CreateDataTable(cChar.Pictures);
-                        Session["Items"] = cChar.Pictures;
-
-                        string sFilter = "RecordStatus <> '" + ((int)Classes.RecordStatuses.Delete).ToString() + "' and " +
-                            "PictureType = " + ((int)Classes.cPicture.PictureTypes.Item).ToString();
-                        DataView dvPictures = new DataView(dtPictures, sFilter, "", DataViewRowState.CurrentRows);
-                        dlItems.DataSource = dvPictures;
-                        dlItems.DataBind();
-                    }
-                    ViewState["CurrentCharacter"] = Session["SelectedCharacter"];
+                    tbCostume.Visible = false;
+                    lblCostume.Visible = true;
+                    tbWeapons.Visible = false;
+                    lblWeapons.Visible = true;
+                    tbMakeup.Visible = false;
+                    lblMakeup.Visible = true;
+                    tbAccessories.Visible = false;
+                    lblAccessories.Visible = true;
+                    tbOtherItems.Visible = false;
+                    lblOtherItems.Visible = true;
+                    divAddPicture.Visible = false;
                 }
+                else
+                {
+                    btnSave.Enabled = true;
+                    btnSave.Style["background-color"] = null;
+                    btnSave.CssClass = "StandardButton";
+                    btnSaveTop.Enabled = true;
+                    btnSaveTop.Style["background-color"] = null;
+                    btnSaveTop.CssClass = "StandardButton";
+
+                    tbCostume.Visible = true;
+                    lblCostume.Visible = false;
+                    tbWeapons.Visible = true;
+                    lblWeapons.Visible = false;
+                    tbMakeup.Visible = true;
+                    lblMakeup.Visible = false;
+                    tbAccessories.Visible = true;
+                    lblAccessories.Visible = false;
+                    tbOtherItems.Visible = true;
+                    lblOtherItems.Visible = false;
+                    divAddPicture.Visible = true;
+                }
+
+                DataTable dtPictures = new DataTable();
+                dtPictures = Classes.cUtilities.CreateDataTable(oCharSelect.CharacterInfo.Pictures);
+                Session["Items"] = oCharSelect.CharacterInfo.Pictures;
+
+                string sFilter = "RecordStatus <> '" + ((int)Classes.RecordStatuses.Delete).ToString() + "' and " +
+                    "PictureType = " + ((int)Classes.cPicture.PictureTypes.Item).ToString();
+                DataView dvPictures = new DataView(dtPictures, sFilter, "", DataViewRowState.CurrentRows);
+                dlItems.DataSource = dvPictures;
+                dlItems.DataBind();
             }
+            ViewState["CurrentCharacter"] = oCharSelect.CharacterID.Value;
         }
+
 
         protected void btnUpload_Click(object sender, EventArgs e)
         {
@@ -134,9 +126,12 @@ namespace LarpPortal.Character
                 string FinalFileName = NewPicture.PictureLocalName; // Path.Combine(Server.MapPath(Path.GetDirectoryName(NewPicture.PictureLocalName)), filename);
                 fuItem.SaveAs(FinalFileName);
 
-                int iTemp;
-                if (int.TryParse(ViewState["CurrentCharacter"].ToString(), out iTemp))
-                    NewPicture.CharacterID = iTemp;
+                //int iTemp;
+                //if (int.TryParse(ViewState["CurrentCharacter"].ToString(), out iTemp))
+                //    NewPicture.CharacterID = iTemp;
+
+                if (oCharSelect.CharacterID.HasValue)
+                    NewPicture.CharacterID = oCharSelect.CharacterID.Value;
 
                 NewPicture.Save(sUser);
 
@@ -150,7 +145,6 @@ namespace LarpPortal.Character
                 //if ( dtPictures.Columns["PictureURL"] == null )
                 //    dtPictures.Columns.Add(new DataColumn("PictureURL", typeof(string)));
 
-                //foreach ( 
                 string sFilter = "RecordStatus <> '" + ((int)Classes.RecordStatuses.Delete).ToString() + "' and " +
                     "PictureType = " + ((int)Classes.cPicture.PictureTypes.Item).ToString();
                 DataView dvPictures = new DataView(dtPictures, sFilter, "", DataViewRowState.CurrentRows);
@@ -159,29 +153,21 @@ namespace LarpPortal.Character
             }
         }
 
-        protected void btnSubmit_Click(object sender, EventArgs e)
+        protected void btnSave_Click(object sender, EventArgs e)
         {
-            Classes.cCharacter cChar = new Classes.cCharacter();
-
-            int iCharNum;
-
-            if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharNum))
+            oCharSelect.LoadInfo();
+            if (oCharSelect.CharacterID.HasValue)
             {
-                cChar.LoadCharacter(iCharNum);
-
-                cChar.Costuming = tbCostume.Text;
-                cChar.Makeup = tbMakeup.Text;
-                cChar.Weapons = tbWeapons.Text;
-                cChar.Items = tbOtherItems.Text;
-                cChar.Accessories = tbAccessories.Text;
-                cChar.Pictures = Session["Items"] as List<Classes.cPicture>;
-
-                cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
-                string jsString = "alert('Character " + cChar.AKA + " has been saved.');";
-                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
-                        "MyApplication",
-                        jsString,
-                        true);
+                oCharSelect.CharacterInfo.Costuming = tbCostume.Text;
+                oCharSelect.CharacterInfo.Makeup = tbMakeup.Text;
+                oCharSelect.CharacterInfo.Weapons = tbWeapons.Text;
+                oCharSelect.CharacterInfo.Items = tbOtherItems.Text;
+                oCharSelect.CharacterInfo.Accessories = tbAccessories.Text;
+                oCharSelect.CharacterInfo.Pictures = Session["Items"] as List<Classes.cPicture>;
+                oCharSelect.CharacterInfo.SaveCharacter(_UserName, _UserID);
+                lblmodalMessage.Text = "Character " + oCharSelect.CharacterInfo.AKA + " has been saved.";
+                btnCloseMessage.Attributes.Add("data-dismiss", "modal");
+                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), "MyApplication", "openMessage();", true);
             }
         }
 
@@ -208,19 +194,19 @@ namespace LarpPortal.Character
             }
         }
 
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
+        protected void oCharSelect_CharacterChanged(object sender, EventArgs e)
         {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("CharAdd.aspx");
-
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
+            if (oCharSelect.CharacterInfo != null)
             {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                Response.Redirect("CharInfo.aspx");
+                if (oCharSelect.CharacterID.HasValue)
+                {
+                    Classes.cUser UserInfo = new Classes.cUser(_UserName, "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                    UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                    UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                    UserInfo.Save();
+                }
             }
         }
-
-
-
     }
 }
