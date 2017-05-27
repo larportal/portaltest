@@ -131,7 +131,7 @@ namespace LarpPortal
                         LineText = "Menu Item TBD 8";
                         break;
                 }
-                hrefline = "<li" + ActiveState + "<a href=" + "\"" + PageName + "\"" + " data-toggle=" + "\"" + "pill" + "\"" + ">" + LineText + "</a></li>";
+                hrefline = "<li style=\"width: 227px;\"" + ActiveState + "<a href=" + "\"" + PageName + "\"" + " data-toggle=" + "\"" + "pill" + "\"" + ">" + LineText + "</a></li>";
                 DataRow LeftNavRow = LeftNavTable.NewRow();
                 LeftNavRow["href_li"] = hrefline;
                 LeftNavTable.Rows.Add(LeftNavRow);
