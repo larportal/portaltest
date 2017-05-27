@@ -645,6 +645,7 @@ namespace LarpPortal.controls
                 }
         }
 
+
         public void Reset()
         {
             if (Session["CharacterCampaignCharID"] != null)
