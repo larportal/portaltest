@@ -2,6 +2,7 @@
 
 <%@ MasterType VirtualPath="~/LARPortal.Master" %>
 
+<%@ Register TagPrefix="CharSelecter" TagName="CSelect" Src="~/controls/CharacterSelect.ascx" %>
 
 <asp:Content ContentPlaceHolderID="HeaderScripts" runat="server" ID="ScriptSection">
     <asp:ContentPlaceHolder ID="CharHeaderScripts" runat="server" />
@@ -17,24 +18,24 @@
             <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
                 <div class="contentArea">
                     <nav class="userSubNav">
-                        <ul class="nav nav-pills" "panel-wrapper list-unstyled scroll-500">
+                        <ul class="nav nav-pills" "panel-wrapper list-unstyled scroll-500" style="width: 227px;">
                             <li runat="server" id="liInfo"><a href="/Character/CharInfo.aspx" runat="server" id="hlCharInfo">Character Info</a></li>
-                            <li runat="server" id="liTeam"><a href="/Character/Teams/JoinTeam.aspx" runat="server" id="hlCharTeam">Character Teams<span class="caret"></span></a>
+                            <li runat="server" id="liTeam"><a href="/Character/Teams/JoinTeam.aspx" runat="server" id="hlCharTeam">Teams<span class="caret"></span></a>
                                 <ul class="nav nav-pills" runat="server" id="ulTeams" style="padding-left:20px;">
                                     <li runat="server" id="liCreateTeam"><a href="/Character/Teams/CreateTeam.aspx" runat="server" id="hlCreateTeam">Create Team</a></li>
                                     <li runat="server" id="liJoinTeam"><a href="/Character/Teams/JoinTeam.aspx" runat="server" id="hlJoinTeam">Join Team</a></li>
                                     <li runat="server" id="liManageTeam"><a href="/Character/Teams/ManageTeam.aspx" runat="server" id="hlMemberStatus">Manage A Team</a></li>
                                 </ul>
                             </li>
-                            <li runat="server" id="liSkills"><a href="/Character/CharSkills.aspx" runat="server" id="hlCharSkill">Character Skills</a></li>
-                            <li runat="server" id="liHistory"><a href="/Character/History/Edit.aspx">Character History</a></li>
-                            <li runat="server" id="liRelationShips"><a href="/Character/CharRelationships.aspx" runat="server">Character Relationships</a></li>
-                            <li runat="server" id="liPlaces"><a href="/Character/CharPlaces.aspx">Character Places</a></li>
-                            <li runat="server" id="liItems"><a href="/Character/CharItems.aspx">Character Items</a></li>
-                            <li runat="server" id="liRequests"><a>Character Requests</a></li>
-                            <li runat="server" id="liGoals"><a href="CharUserDefined.aspx">Character Goals & Preferences</a></li>
-                            <li runat="server" id="liCardCust"><a href="/Character/CharCardCustomization.aspx">Character Card Customization</a></li>
-                            <li runat="server" id="liCharCharOrder"><a href="/Character/CharCardOrder.aspx">Character Card Order</a></li>
+                            <li runat="server" id="liSkills"><a href="/Character/CharSkills.aspx" runat="server" id="hlCharSkill">Skills</a></li>
+                            <li runat="server" id="liHistory"><a href="/Character/History/Edit.aspx">History</a></li>
+                            <li runat="server" id="liRelationShips"><a href="/Character/CharRelationships.aspx" runat="server">Relationships</a></li>
+                            <li runat="server" id="liPlaces"><a href="/Character/CharPlaces.aspx">Places</a></li>
+                            <li runat="server" id="liItems"><a href="/Character/CharItems.aspx">Items</a></li>
+                            <li runat="server" id="liRequests" style="display: none;"><a>Requests</a></li>
+                            <li runat="server" id="liGoals"><a href="/Character/CharUserDefined.aspx">Goals & Preferences</a></li>
+                            <li runat="server" id="liCardCust"><a href="/Character/CharCardCustomization.aspx">Card Customization</a></li>
+                            <li runat="server" id="liCharCharOrder"><a href="/Character/CharCardOrder.aspx">Card Order</a></li>
                             <li runat="server" id="liCharacterCard"><a id="hlCharCard" href="/Character/CharCard.aspx" runat="server" target="_blank">Preview Character Card</a></li>
                             <li runat="server" id="liAddNewChar"><a href="/Character/CharAdd.aspx">Add New Character</a></li>
                             <li runat="server" id="liPELs"><a href="../../PELs/PELList">View PELs</a></li>
@@ -44,9 +45,41 @@
                 </div>
             </asp:TableCell>
             <asp:TableCell VerticalAlign="Top" Style="text-align: left; padding-left: 5px;">
-                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" />
+                <asp:ContentPlaceHolder ID="CharHeaderMain" runat="server" />
             </asp:TableCell>
         </asp:TableRow>
     </asp:Table>
+
+
+
+
+
+
+
+
+
+
+
+
+                <CharSelecter:CSelect ID="oCharSelect" runat="server" Visible="false" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </asp:Content>

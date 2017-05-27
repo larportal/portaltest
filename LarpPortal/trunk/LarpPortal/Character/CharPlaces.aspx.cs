@@ -13,76 +13,54 @@ namespace LarpPortal.Character
     public partial class CharPlaces : System.Web.UI.Page
     {
         private DataTable _dtPlaces = new DataTable();
+        private string _UserName = "";
+        private int _UserID = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UserName"] != null)
+                _UserName = Session["UserName"].ToString();
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
+            oCharSelect.CharacterChanged += oCharSelect_CharacterChanged;
+
             if (!IsPostBack)
             {
-                SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", "CharacterMaster.Page_Load");
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
-
-                if (ddlCharacterSelector.Items.Count > 0)
-                {
-                    ddlCharacterSelector.ClearSelection();
-
-                    if (Session["SelectedCharacter"] != null)
-                    {
-                        DataRow[] drValue = dtCharacters.Select("CharacterID = " + Session["SelectedCharacter"].ToString());
-                        foreach (DataRow dRow in drValue)
-                        {
-                            DateTime DateChanged;
-                            if (DateTime.TryParse(dRow["DateChanged"].ToString(), out DateChanged))
-                                lblUpdateDate.Text = DateChanged.ToShortDateString();
-                            else
-                                lblUpdateDate.Text = "Unknown";
-                            lblCampaign.Text = dRow["CampaignName"].ToString();
-                        }
-                        string sCurrentUser = Session["SelectedCharacter"].ToString();
-                        foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
-                        {
-                            if (sCurrentUser == liAvailableUser.Value)
-                                liAvailableUser.Selected = true;
-                            else
-                                liAvailableUser.Selected = false;
-                        }
-                    }
-                    else
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-
-                    if (ddlCharacterSelector.SelectedIndex == 0)
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-                    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
-                }
-                else
-                    Response.Redirect("CharAdd.aspx");
+                oCharSelect_CharacterChanged(null, null);
             }
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            oCharSelect.LoadInfo();
+            if (oCharSelect.CharacterID.HasValue)
+                Session["PlaceCharacterID"] = oCharSelect.CharacterID.Value;
         }
 
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
+        protected void oCharSelect_CharacterChanged(object sender, EventArgs e)
         {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("CharAdd.aspx");
+            oCharSelect.LoadInfo();
 
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
+            if (oCharSelect.CharacterInfo != null)
             {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                Response.Redirect("CharInfo.aspx");
+                if (oCharSelect.CharacterID.HasValue)
+                {
+                    Classes.cUser UserInfo = new Classes.cUser(_UserName, "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                    UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                    UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                    UserInfo.Save();
+                    Session["PlaceCharacterID"] = oCharSelect.CharacterID.Value;
+                    if ((oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters) &&
+                        (oCharSelect.CharacterInfo.CharacterType != 1))
+                        Session["CharPlaceReadOnly"] = "Y";
+                    else
+                        Session.Remove("CharPlaceReadOnly");
+
+                }
+                else
+                    Session.Remove("PlaceCharacterID");
+//                _Reload = true;
             }
         }
     }

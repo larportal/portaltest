@@ -14,11 +14,11 @@ namespace LarpPortal.Character
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["SelectedCharacter"] != null)
+            if (Request.QueryString["CharacterID"] != null)
             {
                 Classes.cCharacter cChar = new Classes.cCharacter();
                 int iCharID = 0;
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                if (int.TryParse(Request.QueryString["CharacterID"], out iCharID))
                 {
                     cChar.LoadCharacter(iCharID);
                     lblCharName.Text = cChar.AKA + " - " + cChar.CampaignName;
@@ -34,8 +34,6 @@ namespace LarpPortal.Character
                     lblOrigin.Text = cChar.WhereFrom;
                     lblPlayerName.Text = "";
 
-                    //lblTotalCP.Text = cChar.TotalCP.ToString("0.00");
-
                     DataTable dtCharacterSkills = new DataTable();
                     SortedList sParams = new SortedList();
                     sParams.Add("@CharacterID", cChar.CharacterID);
@@ -45,17 +43,8 @@ namespace LarpPortal.Character
 
                     dtCharacterSkills = Classes.cUtilities.LoadDataTable("uspGetCharCardSkills", sParams, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
 
-                    //DataTable dtSkills = Classes.cUtilities.CreateDataTable(cChar.CharacterSkills);
                     if (dtCharacterSkills.Columns["FullDescription"] == null)
                         dtCharacterSkills.Columns.Add(new DataColumn("FullDescription", typeof(string)));
-                    //if (dtSkills.Columns["DisplaySkill"] == null)
-                    //{
-                    //    DataColumn dcDisplaySkill = new DataColumn();       // Need to define the column and then attributes because want the default value to be true.
-                    //    dcDisplaySkill.ColumnName = "DisplaySkill";
-                    //    dcDisplaySkill.DataType = typeof(Boolean);
-                    //    dcDisplaySkill.DefaultValue = true;
-                    //    dtSkills.Columns.Add(dcDisplaySkill);
-                    //}
 
                     Classes.cSkillPool skDefault = cChar.SkillPools.Find(x => x.DefaultPool == true);
                     object oCPSpent;
@@ -133,9 +122,6 @@ namespace LarpPortal.Character
                         tblCharInfo.Rows.Add(dTotalRow);
                     }
 
-
-
-
                     double CPCost;
                     double CPSpent = 0.0;
 
@@ -143,15 +129,6 @@ namespace LarpPortal.Character
                     {
                         if (double.TryParse(dSkillRow["CPCostPaid"].ToString(), out CPCost))
                             CPSpent += CPCost;
-
-                    //    DataView dvPreReqs = new DataView(dsCampaignSkills.Tables[1], "CampaignSkillsStandardID = " + dSkillRow["CampaignSkillsStandardID"].ToString() + 
-                    //        " and SuppressPrerequisiteSkill = 1", "", DataViewRowState.CurrentRows);
-                    //    foreach (DataRowView dPreReq in dvPreReqs)
-                    //    {
-                    //        DataRow[] drPreReq = dtSkills.Select("CampaignSkillsStandardID = " + dPreReq["PreRequisiteSkillID"].ToString());
-                    //        foreach (DataRow d in drPreReq)
-                    //            d["DisplaySkill"] = false;
-                    //    }
 
                         string FullDesc = "";
                         bool bDisplay;
@@ -186,9 +163,6 @@ namespace LarpPortal.Character
                         dSkillRow["FullDescription"] = FullDesc;
                     }
 
-                    //lblCPSpent.Text = CPSpent.ToString("0.00");
-                    //lblCPAvail.Text = (cChar.TotalCP - CPSpent).ToString("0.00");
-
                     Dictionary<string, string> NonCost = new Dictionary<string, string>();
 
                     foreach (Classes.cDescriptor Desc in cChar.Descriptors)
@@ -205,7 +179,6 @@ namespace LarpPortal.Character
                             NonCost[KeyValue] = NonCost[KeyValue].Substring(0, NonCost[KeyValue].Length - 2);
                     }
 
-//                    DataView dvSkills = new DataView(dtCharacterSkills, "", "DisplayOrder", DataViewRowState.CurrentRows);
                     gvSkills.DataSource = dtCharacterSkills;
                     gvSkills.DataBind();
 

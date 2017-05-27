@@ -14,8 +14,6 @@ namespace LarpPortal.Character.Teams
 {
     public partial class JoinTeam : System.Web.UI.Page
     {
-        bool _Reload = false;
-
         string _UserName = "";
         int _iUserID = 0;
 
@@ -27,6 +25,7 @@ namespace LarpPortal.Character.Teams
                 int.TryParse(Session["UserID"].ToString(), out _iUserID);
             if (_iUserID == 0)
                 _iUserID = -1;
+            btnCloseMessage.Attributes.Add("data-dismiss", "modal");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
@@ -34,42 +33,15 @@ namespace LarpPortal.Character.Teams
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-            if (Session["SelectedCharacter"] == null)
-                Response.Redirect("../CharInfo.aspx", true);
+            oCharSelect.LoadInfo();
 
-            if ((ViewState["Reload"] == null) ||
-                (_Reload))
+            if (oCharSelect.CharacterID.HasValue)
             {
-                ViewState["Reload"] = "Y";
                 SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", lsRoutineName + ".GetCharacterIDsByUserID");
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
+                slParameters.Add("@CharacterID", oCharSelect.CharacterID.Value);
+                DataTable dtTeams = cUtilities.LoadDataTable("uspGetTeamsForCampaignAndCharacterInd", slParameters, "LARPortal", _UserName, lsRoutineName + ".CampaignAndCharacterInd");
 
-                int iCharID;
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-                {
-                    ddlCharacterSelector.ClearSelection();
-                    foreach (ListItem li in ddlCharacterSelector.Items)
-                    {
-                        if (li.Value == iCharID.ToString())
-                        {
-                            ddlCharacterSelector.ClearSelection();
-                            li.Selected = true;
-                        }
-                    }
-
-                    slParameters = new SortedList();
-                    slParameters.Add("@CharacterID", iCharID.ToString());
-                    DataTable dtTeams = cUtilities.LoadDataTable("uspGetTeamsForCampaignAndCharacterInd", slParameters, "LARPortal", _UserName, lsRoutineName + ".CampaignAndCharacterInd");
-
-                    Session["JoinTeamData"] = dtTeams;
-                    BindData();
-                }
+                BindData();
             }
         }
 
@@ -97,296 +69,160 @@ namespace LarpPortal.Character.Teams
         //    }
         //}
 
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
+        protected void oCharSelect_CharacterChanged(object sender, EventArgs e)
         {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("../CharAdd.aspx");
+            oCharSelect.LoadInfo();
 
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
+            if (oCharSelect.CharacterInfo != null)
             {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                _Reload = true;
+                if (oCharSelect.CharacterID.HasValue)
+                {
+                    Classes.cUser UserInfo = new Classes.cUser(_UserName, "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                    UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                    UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                    UserInfo.Save();
+                }
             }
-        }
-
-        protected void btnCloseMessage_Click(object sender, EventArgs e)
-        {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeMessage();", true);
         }
 
         protected void gvAvailable_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            string t = e.CommandArgument.ToString();
-            string j = e.CommandName;
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-            DataTable dtTeams = Session["JoinTeamData"] as DataTable;
-            DataRow[] dTeams = dtTeams.Select("TeamID = " + e.CommandArgument.ToString());
+            oCharSelect.LoadInfo();
 
-            if (dTeams.Length > 0)
+            SortedList sParams = new SortedList();
+
+            int iTeamID;
+            int.TryParse(e.CommandArgument.ToString(), out iTeamID);
+
+            if (e.CommandName.ToUpper() == "LEAVETEAM")
             {
-                DataRow dTeamRow = dTeams[0];
+                sParams = new SortedList();
+                sParams.Add("@TeamID", iTeamID);
+                sParams.Add("@CharacterID", oCharSelect.CharacterID.Value);
+                DataTable dtCurrentMembers = cUtilities.LoadDataTable("uspGetTeamMemberCounts", sParams, "LARPortal", _UserName, lsRoutineName + ".uspGetTeamMemberCounts");
 
-                switch (e.CommandName.ToUpper())
+                DataView dvApprovers = new DataView(dtCurrentMembers, "Approvers = 1 and CharApprover = 1", "", DataViewRowState.CurrentRows);
+                if (dvApprovers.Count == 1)
                 {
-                    case "JOINTEAM":
-                        dTeamRow["Invited"] = "0";
-                        dTeamRow["Approval"] = "0";
-                        dTeamRow["Member"] = "0";
-                        dTeamRow["Requested"] = "1";
-                        dTeamRow["SendEMail"] = "Yes";
-                        break;
-
-                    case "LEAVETEAM":
-                        dTeamRow["Member"] = "0";
-                        dTeamRow["Approval"] = "0";
-                        dTeamRow["Invited"] = "0";
-                        dTeamRow["Requested"] = "0";
-                        break;
-
-                    case "ACCEPTINVITE":
-                        dTeamRow["Invited"] = "0";
-                        dTeamRow["Member"] = "1";
-                        dTeamRow["Requested"] = "0";
-                        dTeamRow["Approval"] = "0";
-                        break;
-
-                    case "DECLINEINVITE":
-                    case "CANCELREQUEST":
-                        dTeamRow["Invited"] = "0";
-                        dTeamRow["Member"] = "0";
-                        dTeamRow["Approval"] = "0";
-                        dTeamRow["Requested"] = "0";
-                        break;
+                    // There is only a single approver and this character is them - can't remove them.
+                    lblmodalMessage.Text = "This character is the only approver for the team. Since it's the only approver it cannot be removed.<br><br>" +
+                        "To remove this character assign another character the approval right and then this can be deleted.";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+                    return;
                 }
-                Session["JoinTeamData"] = dtTeams;
-                BindData();
+
+                DataView dvMember = new DataView(dtCurrentMembers, "Members = 1 and CharMember = 1", "", DataViewRowState.CurrentRows);
+                if (dvMember.Count == 1)
+                {
+                    // There is only a single member and this character is them - can't remove them.
+                    lblmodalMessage.Text = "This character is the only member of the team. Since it's the only member it cannot be removed.<br><br>" +
+                        "To remove this character add another character and then this can be deleted.";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
+                    return;
+                }
+            }
+
+            string sStatus = "";
+
+            if (e.CommandName.ToUpper() == "JOINTEAM")
+                sStatus = "Team Member Requested";
+            else if (e.CommandName.ToUpper() == "ACCEPTINVITE")
+                sStatus = "Team Member";
+            else if ((e.CommandName.ToUpper() == "DECLINEINVITE") ||
+                     (e.CommandName.ToUpper() == "LEAVETEAM") ||
+                     (e.CommandName.ToUpper() == "CANCELREQUEST"))
+                sStatus = "DEL";
+
+            if (sStatus == "DEL")
+            {
+
+
+
+                sParams = new SortedList();
+                sParams.Add("@TeamID", iTeamID);
+                sParams.Add("@CharacterID", oCharSelect.CharacterID.Value);
+                sParams.Add("@UserID", _iUserID);
+                cUtilities.PerformNonQuery("uspDelCMTeamMembers", sParams, "LARPortal", _UserName);
+            }
+            else
+            {
+                string sSQL = "select RoleID from MDBRoles where RoleTier = 'Team' and DateDeleted is null and RoleDescription like '%" + sStatus + "%'";
+                DataTable dtRoles = Classes.cUtilities.LoadDataTable(sSQL, sParams, "LARPortal", _UserName, lsRoutineName, cUtilities.LoadDataTableCommandType.Text);
+
+                if (dtRoles.Rows.Count > 0)
+                {
+                    int iRoleID;
+                    if (int.TryParse(dtRoles.Rows[0]["RoleID"].ToString(), out iRoleID))
+                    {
+                        sParams = new SortedList();
+                        sParams.Add("@TeamID", iTeamID);
+                        sParams.Add("@CharacterID", oCharSelect.CharacterID.Value);
+                        sParams.Add("@RoleID", iRoleID);
+                        sParams.Add("@UserID", _iUserID);
+                        cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
+                    }
+                }
             }
         }
 
         public void BindData()
         {
-            if (Session["JoinTeamData"] != null)
-            {
-                DataTable dtTeams = Session["JoinTeamData"] as DataTable;
-
-                if (dtTeams.Columns["DisplayAccept"] == null)
-                    dtTeams.Columns.Add("DisplayAccept", typeof(string));
-
-                if (dtTeams.Columns["DisplayJoin"] == null)
-                    dtTeams.Columns.Add("DisplayJoin", typeof(string));
-
-                if (dtTeams.Columns["DisplayLeave"] == null)
-                    dtTeams.Columns.Add("DisplayLeave", typeof(string));
-
-                if (dtTeams.Columns["Message"] == null)
-                    dtTeams.Columns.Add("Message", typeof(string));
-
-                if (dtTeams.Columns["SendEMail"] == null)
-                    dtTeams.Columns.Add("SendEMail", typeof(string));
-
-                foreach (DataRow dRow in dtTeams.Rows)
-                {
-                    if ((dRow["Approval"].ToString() == "1") ||
-                        (dRow["Member"].ToString() == "1"))
-                    {
-                        dRow["Message"] = "";
-                        dRow["DisplayJoin"] = "0";
-                        dRow["DisplayAccept"] = "0";
-                        dRow["DisplayLeave"] = "1";
-                    }
-                    else if (dRow["Requested"].ToString() == "1")
-                    {
-                        dRow["Message"] = "Request Pending";
-                        dRow["DisplayAccept"] = "0";
-                        dRow["DisplayJoin"] = "0";
-                        dRow["DisplayLeave"] = "0";
-                    }
-                    else if (dRow["Invited"].ToString() == "1")
-                    {
-                        dRow["Message"] = "Invited";
-                        dRow["DisplayAccept"] = "1";
-                        dRow["DisplayJoin"] = "0";
-                        dRow["DisplayLeave"] = "0";
-                    }
-                    else
-                    {
-                        dRow["Message"] = "";
-                        dRow["DisplayAccept"] = "0";
-                        dRow["DisplayJoin"] = "1";
-                        dRow["DisplayLeave"] = "0";
-                    }
-                }
-
-                DataView dvMember = new DataView(dtTeams, "Approval = 1 or Member = 1 or Requested = 1", "TeamName", DataViewRowState.CurrentRows);
-                gvMembers.DataSource = dvMember;
-                gvMembers.DataBind();
-
-                DataView dvAvailable = new DataView(dtTeams, "Approval = 0 and Member = 0 and Requested = 0", "TeamName", DataViewRowState.CurrentRows);
-                gvAvailable.DataSource = dvAvailable;
-                gvAvailable.DataBind();
-
-                Session["JoinTeamData"] = dtTeams;
-            }
-        }
-
-        protected void btnSave_Click(object sender, EventArgs e)
-        {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
 
-            DataTable dtStatuses = new DataTable();
-            SortedList sParams = new SortedList();
-            dtStatuses = cUtilities.LoadDataTable("select RoleID, RoleDescription, RoleTier from MDBRoles where RoleTier = 'Team' and DateDeleted is null", sParams, "LARPortal", _UserName,
-                lsRoutineName, cUtilities.LoadDataTableCommandType.Text);
+            SortedList slParameters = new SortedList();
+            slParameters.Add("@CharacterID", oCharSelect.CharacterID.Value);
+            DataTable dtTeams = cUtilities.LoadDataTable("uspGetTeamsForCampaignAndCharacterInd", slParameters, "LARPortal", _UserName, lsRoutineName + ".CampaignAndCharacterInd");
 
-            int iRoleApprove = -1;
-            int iRoleMember = -1;
-            int iRoleInvite = -1;
-            int iRoleRequested = -1;
+            if (dtTeams.Columns["Accept"] == null)
+                dtTeams.Columns.Add("Accept", typeof(string));
 
-            foreach (DataRow dRow in dtStatuses.Rows)
-            {
-                string RoleDesc = dRow["RoleDescription"].ToString().ToUpper();
-                if (RoleDesc.Contains("APPROVAL"))
-                    int.TryParse(dRow["RoleID"].ToString(), out iRoleApprove);
-                else if (RoleDesc.Contains("REQUESTED"))
-                    int.TryParse(dRow["RoleID"].ToString(), out iRoleRequested);
-                else if (RoleDesc.Contains("INVITED"))
-                    int.TryParse(dRow["RoleID"].ToString(), out iRoleInvite);
-                else
-                    int.TryParse(dRow["RoleID"].ToString(), out iRoleMember);
-            }
+            if (dtTeams.Columns["Join"] == null)
+                dtTeams.Columns.Add("Join", typeof(string));
 
-            DataTable dtTeams = Session["JoinTeamData"] as DataTable;
+            if (dtTeams.Columns["Message"] == null)
+                dtTeams.Columns.Add("Message", typeof(string));
+
+            if (dtTeams.Columns["SendEMail"] == null)
+                dtTeams.Columns.Add("SendEMail", typeof(string));
+
+            if (dtTeams.Columns["DisplayLeave"] == null)
+                dtTeams.Columns.Add("DisplayLeave", typeof(string));
+
             foreach (DataRow dRow in dtTeams.Rows)
             {
-                string t = dRow["Approval"].ToString() + "/" + dRow["Member"].ToString() + "/" + dRow["Invited"].ToString() + "/" + dRow["Requested"].ToString();
-
-                int iTeamID = 0;
-                int iSelectedCharacter = 0;
-                if ((int.TryParse(dRow["TeamID"].ToString(), out iTeamID)) &&
-                     (int.TryParse(Session["SelectedCharacter"].ToString(), out iSelectedCharacter)))
+                dRow["Message"] = "";
+                dRow["Accept"] = "0";
+                if (dRow["Requested"].ToString() == "1")
                 {
-                    if (dRow["Approval"].ToString() == "1")
-                    {
-                        sParams = new SortedList();
-                        sParams.Add("@TeamID", iTeamID);
-                        sParams.Add("@CharacterID", iSelectedCharacter);
-                        sParams.Add("@RoleID", iRoleApprove);
-                        sParams.Add("@UserID", _iUserID);
-                        cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
-                    }
-                    else if (dRow["Member"].ToString() == "1")
-                    {
-                        sParams = new SortedList();
-                        sParams.Add("@TeamID", iTeamID);
-                        sParams.Add("@CharacterID", iSelectedCharacter);
-                        sParams.Add("@RoleID", iRoleMember);
-                        sParams.Add("@UserID", _iUserID);
-                        cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
-                    }
-                    else if (dRow["Requested"].ToString() == "1")
-                    {
-                        sParams = new SortedList();
-                        sParams.Add("@TeamID", iTeamID);
-                        sParams.Add("@CharacterID", iSelectedCharacter);
-                        sParams.Add("@RoleID", iRoleRequested);
-                        sParams.Add("@UserID", _iUserID);
-                        cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
-
-                        // Now check to see if the person needs to have an email sent - only do it on the first time (the time they were invited)
-                        if (dRow["SendEMail"].ToString().Length > 0)
-                        {
-                            sParams = new SortedList();
-                            sParams.Add("@TeamID", iTeamID);
-                            DataTable dtTeamMembers = cUtilities.LoadDataTable("uspGetTeamMembers", sParams, "LARPortal", _UserName, lsRoutineName + ".GetTeamsForRequest");
-                            DataView dvChar = new DataView(dtTeamMembers, "CharacterID = " + iSelectedCharacter.ToString(), "", DataViewRowState.CurrentRows);
-                            if (dvChar.Count > 0)
-                            {
-                                DataRowView dChar = dvChar[0];
-                                DataView dvApprovers = new DataView(dtTeamMembers, "Approval = 1", "", DataViewRowState.CurrentRows);
-                                foreach (DataRowView dApprove in dvApprovers)
-                                {
-                                    string sBody = dApprove["CharacterAKA"].ToString() + "<br><br>" +
-                                        dChar["PlayerName"].ToString() + "'s character " + dChar["CharFullName"].ToString() + " has requested to join your " +
-                                        dApprove["TeamName"].ToString() + " team.  Visit larportal.com and Go to Character > Approve Member to accept or deny the request." +
-                                        "<br><br>" +
-                                        "Thanks!";
-                                    string sSubject = dChar["CharFullName"].ToString() + " has requested to join your " + dApprove["TeamName"].ToString() + " team.";
-
-                                    Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                                    cEMS.SendMail(sSubject, sBody, dApprove["EmailAddress"].ToString(), "", "", "Teams", _UserName);
-                                }
-                            }
-                            dRow["SendEMail"] = "";
-                        }
-                    }
-                    else if (dRow["Invited"].ToString() == "1")
-                    {
-                        sParams = new SortedList();
-                        sParams.Add("@TeamID", iTeamID);
-                        sParams.Add("@CharacterID", iSelectedCharacter);
-                        sParams.Add("@RoleID", iRoleInvite);
-                        sParams.Add("@UserID", _iUserID);
-                        cUtilities.PerformNonQuery("uspInsUpdCMTeamMembers", sParams, "LARPortal", _UserName);
-                    }
-                    else
-                    {
-                        // Delete the record.
-                        sParams = new SortedList();
-                        sParams.Add("@TeamID", iTeamID);
-                        sParams.Add("@CharacterID", iSelectedCharacter);
-                        sParams.Add("@UserID", _iUserID);
-                        cUtilities.PerformNonQuery("uspDelCMTeamMembers", sParams, "LARPortal", _UserName);
-                    }
+                    dRow["Message"] = "Request Pending";
+                    dRow["Join"] = "0";
+                    dRow["Accept"] = "1";
+                }
+                else if (dRow["Invited"].ToString() == "1")
+                {
+                    dRow["Message"] = "Invited";
+                    dRow["Join"] = "0";
+                    dRow["Accept"] = "1";
+                }
+                else
+                {
+                    dRow["Join"] = "1";
+                    dRow["DisplayLeave"] = "1";
                 }
             }
-            Session["JoinTeamData"] = dtTeams;
+
+            DataView dvMember = new DataView(dtTeams, "Approval = 1 or Member = 1 or Requested = 1", "TeamName", DataViewRowState.CurrentRows);
+            gvMembers.DataSource = dvMember;
+            gvMembers.DataBind();
+
+            DataView dvAvailable = new DataView(dtTeams, "Approval = 0 and Member = 0 and Requested = 0", "TeamName", DataViewRowState.CurrentRows);
+            gvAvailable.DataSource = dvAvailable;
+            gvAvailable.DataBind();
         }
-
-        //protected void btnCreateTeam_Click(object sender, EventArgs e)
-        //{
-        //    MethodBase lmth = MethodBase.GetCurrentMethod();
-        //    string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-
-        //    SortedList slParameters = new SortedList();
-        //    slParameters.Add("@CampaignID", hidCampaignID.Value);
-        //    DataTable dtTeams = Classes.cUtilities.LoadDataTable("uspGetTeamsByCampaignID", slParameters, "LARPortal", _UserName, lsRoutineName);
-
-        //    DataView dvTeams = new DataView(dtTeams, "TeamName = '" + tbNewTeamName.Text.Replace("'", "''") + "'", "", DataViewRowState.CurrentRows);
-
-        //    if (dvTeams.Count > 0)
-        //    {
-        //        lblAlreadyExists.Visible = true;
-        //    }
-        //    else
-        //    {
-        //        slParameters = new SortedList();
-        //        slParameters.Add("@UserID", _iUserID);
-        //        slParameters.Add("@TeamID", "-1");
-        //        slParameters.Add("@TeamName", tbNewTeamName.Text);
-        //        slParameters.Add("@TeamTypeID", "1");
-        //        slParameters.Add("@CampaignID", hidCampaignID.Value);
-        //        Classes.cUtilities.PerformNonQuery("uspInsUpdCMTeams", slParameters, "LARPortal", _UserName);
-        //        _Reload = true;
-        //    }
-        //}
-
-        //private void BindData()
-        //{
-        //    DataTable dtTeams = Session["JoinTeamData"] as DataTable;
-
-        //            DataView dvAvail = new DataView(dtTeams, "MemberOfTeam = 0", "TeamName", DataViewRowState.CurrentRows);
-        //            gvAvailable.DataSource = dvAvail;
-        //            gvAvailable.DataBind();
-
-        //            DataView dvMember = new DataView(dtTeams, "MemberOfTeam = 1", "TeamName", DataViewRowState.CurrentRows);
-        //            gvMembers.DataSource = dvMember;
-        //            gvMembers.DataBind();
-
-        //}
-
     }
 }
-
-

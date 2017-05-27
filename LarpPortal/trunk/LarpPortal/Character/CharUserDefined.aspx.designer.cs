@@ -22,31 +22,22 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
-        /// ddlCharacterSelector control.
+        /// oCharSelect control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCharacterSelector;
+        protected global::LarpPortal.controls.CharacterSelect oCharSelect;
         
         /// <summary>
-        /// lblCampaign control.
+        /// btnSaveTop control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCampaign;
-        
-        /// <summary>
-        /// lblUpdateDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUpdateDate;
+        protected global::System.Web.UI.WebControls.Button btnSaveTop;
         
         /// <summary>
         /// divUserDef1 control.
@@ -76,6 +67,15 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.TextBox tbUserField1;
         
         /// <summary>
+        /// lblUserField1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUserField1;
+        
+        /// <summary>
         /// divUserDef2 control.
         /// </summary>
         /// <remarks>
@@ -101,6 +101,15 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbUserField2;
+        
+        /// <summary>
+        /// lblUserField2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUserField2;
         
         /// <summary>
         /// divUserDef3 control.
@@ -130,6 +139,15 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.TextBox tbUserField3;
         
         /// <summary>
+        /// lblUserField3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUserField3;
+        
+        /// <summary>
         /// divUserDef4 control.
         /// </summary>
         /// <remarks>
@@ -155,6 +173,15 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbUserField4;
+        
+        /// <summary>
+        /// lblUserField4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUserField4;
         
         /// <summary>
         /// divUserDef5 control.
@@ -184,6 +211,15 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.TextBox tbUserField5;
         
         /// <summary>
+        /// lblUserField5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUserField5;
+        
+        /// <summary>
         /// btnSave control.
         /// </summary>
         /// <remarks>
@@ -191,5 +227,23 @@ namespace LarpPortal.Character {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSave;
+        
+        /// <summary>
+        /// lblmodalMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblmodalMessage;
+        
+        /// <summary>
+        /// btnCloseMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCloseMessage;
     }
 }

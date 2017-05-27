@@ -16,7 +16,6 @@ namespace LarpPortal.Character
 {
     public partial class CharacterMaster : System.Web.UI.MasterPage
     {
-        LogWriter oLog = new LogWriter();
         string _UserName = "";
         int _UserID = 0;
 
@@ -39,8 +38,6 @@ namespace LarpPortal.Character
         {
             MethodBase lmth = MethodBase.GetCurrentMethod();
             string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-
-            oLog.AddLogMessage("Starting Character Master", "Character.Master.Page_Load", "", Session.SessionID);
 
             string PageName = Path.GetFileName(Request.PhysicalPath).ToUpper();
             PageName = Request.Url.AbsoluteUri.ToUpper();
@@ -79,21 +76,6 @@ namespace LarpPortal.Character
                     liJoinTeam.Attributes.Add("class", "active");
                 else if (PageName.Contains("TEAMS/MANAGETEAM"))
                     liManageTeam.Attributes.Add("class", "active");
-
-                if (Session["SelectedCharacter"] == null)
-                {
-                    SortedList slParameters = new SortedList();
-                    slParameters.Add("@intUserID", Session["UserID"].ToString());
-                    oLog.AddLogMessage("About to load the character IDs", "Characters.Master.Page_Load", "", Session.SessionID);
-                    DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                        "LARPortal", "Character", "CharacterMaster.Page_Load");
-
-                    if (dtCharacters.Rows.Count > 0)
-                        Session["SelectedCharacter"] = dtCharacters.Rows[0]["CharacterID"].ToString();
-                    else if (!PageName.Contains("CHARADD"))
-                        Response.Redirect("/Character/CharAdd.aspx");
-                    oLog.AddLogMessage("Done loading the character IDs", "Characters.Master.Page_Load", "", Session.SessionID);
-                }
             }
             if (PageName.Contains("/TEAMS/"))
             {
@@ -118,7 +100,10 @@ namespace LarpPortal.Character
             else
                 ulTeams.Visible = false;
 
-            oLog.AddLogMessage("Done Character Master", "Characters.Master.Page_Load", "", Session.SessionID);
+            oCharSelect.LoadInfo();
+            if (oCharSelect != null)
+                if (oCharSelect.CharacterID.HasValue)
+                    hlCharCard.HRef = "/Character/CharCard.aspx?CharacterID=" + oCharSelect.CharacterID.Value;
         }
     }
 }

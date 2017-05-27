@@ -77,7 +77,7 @@
 </asp:Content>
 
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="CharHeaderMain" runat="server">
 
     <asp:UpdatePanel ID="upPanel" runat="server">
         <ContentTemplate>

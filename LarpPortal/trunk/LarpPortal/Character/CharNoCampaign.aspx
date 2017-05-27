@@ -3,7 +3,7 @@
 <asp:Content ID="Styles" runat="server" ContentPlaceHolderID="CharHeaderStyles">
 </asp:Content>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="Content2" ContentPlaceHolderID="CharHeaderMain" runat="server">
 
     <div class="mainContent tab-content col-sm-12">
         <div id="Div1" class="character-info tab-pane active">

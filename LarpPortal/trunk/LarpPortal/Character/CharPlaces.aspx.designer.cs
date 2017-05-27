@@ -22,30 +22,12 @@ namespace LarpPortal.Character {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
-        /// ddlCharacterSelector control.
+        /// oCharSelect control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCharacterSelector;
-        
-        /// <summary>
-        /// lblCampaign control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCampaign;
-        
-        /// <summary>
-        /// lblUpdateDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUpdateDate;
+        protected global::LarpPortal.controls.CharacterSelect oCharSelect;
     }
 }

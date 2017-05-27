@@ -1,26 +1,37 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Character/Character.master" AutoEventWireup="true" CodeBehind="CharCardOrder.aspx.cs" Inherits="LarpPortal.Character.CharCardOrder" EnableViewState="true" %>
 
-<asp:Content ID="ScriptSection" ContentPlaceHolderID="CharHeaderScripts" runat="server">
+<%@ Register TagPrefix="CharSelecter" TagName="CSelect" Src="~/controls/CharacterSelect.ascx" %>
+
+<asp:Content ID="ScriptSection" runat="server" ContentPlaceHolderID="CharHeaderScripts">
+    <script type="text/javascript">
+        function openMessage() {
+            $('#modalMessage').modal('show');
+        }
+    </script>
+
+    <script src="../Scripts/jquery-1.11.3.js"></script>
+    <script src="../Scripts/jquery-ui.js"></script>
+    <script src="../Scripts/bootstrap.min.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+</asp:Content>
+
+<asp:Content ID="StyleSection" ContentPlaceHolderID="CharHeaderStyles" runat="server">
 
     <style type="text/css">
-        th, tr:nth-child(even) > td
-        {
+        th, tr:nth-child(even) > td {
             background-color: #ffffff;
         }
 
-        .GridViewItem
-        {
+        .GridViewItem {
             padding-left: 5px;
             padding-right: 5px;
         }
 
-        .SpaceBelow
-        {
+        .SpaceBelow {
             padding-bottom: 20px;
         }
 
-        .RelationPanel
-        {
+        .RelationPanel {
             max-height: 250px;
             overflow: auto;
             width: auto;
@@ -29,35 +40,20 @@
     </style>
 </asp:Content>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="Content1" ContentPlaceHolderID="CharHeaderMain" runat="server">
     <div class="mainContent tab-content col-sm-12">
         <div class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
             <asp:Label ID="lblHeader" runat="server" Font-Size="24px" Style="font-weight: 500" Text="Character Card Sort Order" />
         </div>
-        <div class="row" style="padding-left: 15px; padding-bottom: 10px;">
-            <table>
-                <tr style="vertical-align: middle;">
-                    <td style="width: 10px"></td>
-                    <td>
-                        <b>Selected Character:</b>
-                    </td>
-                    <td style="padding-left: 10px;">
-                        <asp:DropDownList ID="ddlCharacterSelector" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlCharacterSelector_SelectedIndexChanged" />
-                    </td>
-                    <td style="padding-left: 20px;">
-                        <b>Campaign:</b>
-                    </td>
-                    <td style="padding-left: 10px;">
-                        <asp:Label ID="lblCampaign" runat="server" Text="" />
-                    </td>
-                    <td style="padding-left: 20px;">
-                        <b>Last Update:</b>
-                    </td>
-                    <td style="padding-left: 10px;">
-                        <asp:Label ID="lblUpdateDate" runat="server" />
-                    </td>
-                </tr>
-            </table>
+
+        <div class="row col-sm-12" style="padding-bottom: 0px; padding-left: 15px; padding-right: 0px;">
+            <%-- border: 1px solid black;">--%>
+            <div class="col-sm-10" style="padding-left: 0px; padding-right: 0px;">
+                <CharSelecter:CSelect ID="oCharSelect" runat="server" />
+            </div>
+            <div class="col-sm-2 text-right">
+                <asp:Button ID="btnTopSave" runat="server" CssClass="StandardButton" Width="100" Text="Save Changes" OnClick="btnSaveCharacter_Click" />
+            </div>
         </div>
 
         <div id="character-info" class="character-info tab-pane active">
@@ -69,8 +65,8 @@
                                 <div class="panelheader">
                                     <h2>Character Card Display Order</h2>
                                     <div class="panel-body">
-                                        <div class="panel-container" style="height: 500px; overflow:auto;">
-                                            <asp:GridView ID="gvSkills" runat="server" AutoGenerateColumns="false" OnRowDataBound="gvSkills_RowDataBound" GridLines="None"
+                                        <div class="panel-container" style="height: 500px; overflow: auto;">
+                                            <asp:GridView ID="gvSkills" runat="server" AutoGenerateColumns="false" GridLines="None"
                                                 HeaderStyle-Wrap="false" CssClass="table table-striped table-hover table-condensed">
                                                 <Columns>
                                                     <asp:TemplateField>
@@ -94,12 +90,15 @@
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
+                                                <EmptyDataTemplate>
+                                                    <span style="color: red; font-weight: bold; font-size: 24px;">The character has no skills defined.</span>
+                                                </EmptyDataTemplate>
                                             </asp:GridView>
                                         </div>
                                         <div class="panel-container">
                                             <div class="row">
-                                                <div align="right" style="padding-right: 20px;">
-                                                    <asp:Button ID="btnSaveCharacter" runat="server" CssClass="StandardButton" Width="150" Text="Save Changes" OnClick="btnSaveCharacter_Click" />
+                                                <div class="text-right" style="padding-right: 20px;">
+                                                    <asp:Button ID="btnSaveCharacter" runat="server" CssClass="StandardButton" Width="100" Text="Save Changes" OnClick="btnSaveCharacter_Click" />
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -116,4 +115,22 @@
         </div>
     </div>
 
+    <div class="modal" id="modalMessage" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal" style="color: white;">×</a>
+                    LARPortal Character Card Order
+                </div>
+                <div class="modal-body" style="background-color: white;">
+                    <p>
+                        <asp:Label ID="lblmodalMessage" runat="server" />
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <asp:Button ID="btnCloseMessage" runat="server" Text="Close" Width="150px" CssClass="StandardButton" />
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>

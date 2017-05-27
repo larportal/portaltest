@@ -14,255 +14,65 @@ namespace LarpPortal.Character
 {
     public partial class CharInfo : System.Web.UI.Page
     {
-        public string PictureDirectory = "../Pictures";
+        public bool _Reload = false;
+        private string _UserName = "";
+        private int _UserID = -1;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            btnCloseError.Attributes.Add("data-dismiss", "modal");
+            btnCloseMessage.Attributes.Add("data-dismiss", "modal");
+            ddlAllowRebuild.Attributes.Add("onchange", "ddlRebuildSetVisible();");
+            tbRebuildToDate.Attributes.Add("placeholder", "MM/DD/YYYY");
+
             if (!IsPostBack)
             {
-                ViewState["CurrentCharacter"] = "";
+                tbRebuildToDate.Style["display"] = "none";
+                lblExpiresOn.Style["display"] = "none";
                 tbFirstName.Attributes.Add("Placeholder", "First Name");
                 tbLastName.Attributes.Add("Placeholder", "Last Name");
                 lblMessage.Text = "";
-                ViewState["NewRecCounter"] = -1;
 
-                SortedList slParameters = new SortedList();
-                slParameters.Add("@intUserID", Session["UserID"].ToString());
-                DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
-                    "LARPortal", "Character", "CharacterMaster.Page_Load");
-                ddlCharacterSelector.DataTextField = "CharacterAKA";
-                ddlCharacterSelector.DataValueField = "CharacterID";
-                ddlCharacterSelector.DataSource = dtCharacters;
-                ddlCharacterSelector.DataBind();
+                ViewState["NewRecCounter"] = (int)-1;
 
-                if (Session["SelectedCharacter"] == null)
-                {
-                    if (dtCharacters.Rows.Count > 0)
-                    {
-                        int iCharacterID = 0;
-                        if (int.TryParse(dtCharacters.Rows[0]["LastLoggedInCharacter"].ToString(), out iCharacterID))
-                            Session["SelectedCharacter"] = iCharacterID;
-                    }
-                }
-
-                if (ddlCharacterSelector.Items.Count > 0)
-                {
-                    ddlCharacterSelector.ClearSelection();
-
-                    if (Session["SelectedCharacter"] != null)
-                    {
-                        DataRow[] drValue = dtCharacters.Select("CharacterID = " + Session["SelectedCharacter"].ToString());
-                        foreach (DataRow dRow in drValue)
-                        {
-                            DateTime DateChanged;
-                            if (DateTime.TryParse(dRow["DateChanged"].ToString(), out DateChanged))
-                                lblUpdateDate.Text = DateChanged.ToShortDateString();
-                            else
-                                lblUpdateDate.Text = "Unknown";
-                            lblCampaign.Text = dRow["CampaignName"].ToString();
-                        }
-                        string sCurrentUser = Session["SelectedCharacter"].ToString();
-                        foreach (ListItem liAvailableUser in ddlCharacterSelector.Items)
-                        {
-                            if (sCurrentUser == liAvailableUser.Value)
-                                liAvailableUser.Selected = true;
-                            else
-                                liAvailableUser.Selected = false;
-                        }
-                    }
-
-                    if (ddlCharacterSelector.SelectedIndex == 0)
-                    {
-                        ddlCharacterSelector.Items[0].Selected = true;
-                        Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-                    }
-                    ddlCharacterSelector.Items.Add(new ListItem("Add a new character", "-1"));
-                }
-                else
-                    Response.Redirect("CharAdd.aspx");
+                oCharSelect.WhichSelected = controls.CharacterSelect.Selected.MyCharacters;
             }
+            if (Session["UserName"] != null)
+                _UserName = Session["UserName"].ToString();
+            if (Session["UserID"] != null)
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
+            oCharSelect.CharacterChanged += oCharSelect_CharacterChanged;
+            btnCancelActor.Attributes.Add("data-dismiss", "modal");
+            btnCancelCharDeath.Attributes.Add("data-dismiss", "modal");
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            if (Session["SelectedCharacter"] != null)
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+            if (!IsPostBack)
             {
-                string sCurrent = ViewState["CurrentCharacter"].ToString();
-                string sSelected = Session["SelectedCharacter"].ToString();
-                if ((!IsPostBack) || (ViewState["CurrentCharacter"].ToString() != Session["SelectedCharacter"].ToString()))
+                SortedList sParams = new SortedList();
+                sParams.Add("@StatusType", "Character");
+                Classes.cUtilities.LoadDropDownList(ddlStatus, "uspGetStatus", sParams, "StatusName", "StatusID", "LARPortal", _UserName, lsRoutineName);
+                lblStatus.Visible = false;
+                ddlStatus.Visible = true;
+            }
+
+            oCharSelect.LoadInfo();
+
+            if (hidActorDateProblems.Value.Length > 0)
+                lblDateProblem.Visible = true;
+            else
+                lblDateProblem.Visible = false;
+
+            if ((oCharSelect.CharacterID != null) && (oCharSelect.CharacterInfo != null))
+            {
+                int iSelectedCharID = oCharSelect.CharacterID.Value;
+                if ((!IsPostBack) || (_Reload))
                 {
-                    int iCharID;
-                    if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
-                    {
-                        Classes.cCharacter cChar = new Classes.cCharacter();
-                        DateTime dStart = DateTime.Now;
-                        cChar.LoadCharacter(iCharID);
-                        DateTime dEnd = DateTime.Now;
-
-                        double num = (dEnd - dStart).TotalMilliseconds;
-
-                        if (cChar.CampaignID == 0)
-                            Response.Redirect("CharNoCampaign.aspx", true);
-
-                        //lblHeader.Text = "Character Info - " + cChar.AKA + " - " + cChar.CampaignName;
-
-                        Session["CharDesc"] = cChar.Descriptors;
-                        ViewState["ProfilePictureID"] = cChar.ProfilePictureID;
-
-                        tbFirstName.Text = cChar.FirstName;
-                        tbMiddleName.Text = cChar.MiddleName;
-                        tbLastName.Text = cChar.LastName;
-
-                        tbOrigin.Text = cChar.CurrentHome;
-                        //tbStatus.Text = cChar.Status.StatusName;
-                        tbAKA.Text = cChar.AKA;
-                        tbHome.Text = cChar.CurrentHome;
-                        tbDateLastEvent.Text = "??";
-                        //                        tbType.Text = cChar.CharType.Description;
-                        tbType.Text = cChar.CharType.Description;
-
-                        if (cChar.Teams.Count == 0)
-                        {
-                            ddlTeamList.Visible = false;
-                            tbTeam.Visible = true;
-                            tbTeam.Text = "No Teams";
-                        }
-                        else if (cChar.Teams.Count == 1)
-                        {
-                            ddlTeamList.Visible = false;
-                            tbTeam.Visible = true;
-                            tbTeam.Text = cChar.Teams[0].TeamName;
-                        }
-                        else
-                        {
-                            ddlTeamList.Visible = true;
-                            tbTeam.Visible = false;
-                            ddlTeamList.DataSource = cChar.Teams;
-                            ddlTeamList.DataTextField = "TeamName";
-                            ddlTeamList.DataValueField = "TeamID";
-                            ddlTeamList.DataBind();
-
-                            ddlTeamList.ClearSelection();
-
-                            foreach (ListItem litem in ddlTeamList.Items)
-                            {
-                                litem.Selected = false;
-                                if (litem.Value == cChar.TeamID.ToString())
-                                    litem.Selected = true;
-                            }
-                            if (ddlTeamList.SelectedIndex < 0)
-                                ddlTeamList.SelectedIndex = 0;
-                        }
-                        //tbTeam.Text = "Team";
-                        //lblTeam.Text = cChar.TeamName;
-                        tbNumOfDeaths.Text = cChar.Deaths.Count.ToString();
-                       // lblNumOfDeaths.Text = cChar.Deaths.Count.ToString();
-                        tbDOB.Text = cChar.DateOfBirth;
-                        //                        tbRace.Text = cChar.Race.Description;
-                        if (cChar.Deaths.Count > 0)
-                        {
-                            Classes.cCharacterDeath LastDeath = cChar.Deaths.OrderByDescending(t => t.DeathDate).First();
-                            tbDOD.Text = LastDeath.DeathDate.Value.ToShortDateString();
-                            lblDOD.Text = LastDeath.DeathDate.Value.ToShortDateString();
-                        }
-
-                        tbAKA.Text = cChar.AKA;
-                        tbDOB.Text = cChar.DateOfBirth;
-                        //if (cChar.Deaths.Count > 0)
-                        //    if (cChar.Deaths[0].DeathDate.HasValue)
-                        //        tbDOD.Text = cChar.Deaths[0].DeathDate.Value.ToShortDateString();
-                        tbHome.Text = cChar.CurrentHome;
-                        tbNumOfDeaths.Text = cChar.Deaths.Count().ToString();
-                        tbOrigin.Text = cChar.WhereFrom;
-                        //                        tbRace.Text = cChar.Race.Description;
-
-                        DataTable dtCharDescriptors = new DataTable();
-                        dtCharDescriptors = Classes.cUtilities.CreateDataTable(cChar.Descriptors);
-                        Session["CharDescriptors"] = cChar.Descriptors;
-                        BindData();
-
-                        if (cChar.ProfilePicture != null)
-                        {
-                            ViewState["UserIDPicture"] = cChar.ProfilePicture;
-                            imgCharacterPicture.ImageUrl = cChar.ProfilePicture.PictureURL;
-                            imgCharacterPicture.Visible = true;
-                            btnClearPicture.Visible = true;
-                        }
-                        else
-                        {
-                            imgCharacterPicture.Visible = false;
-                            btnClearPicture.Visible = false;
-                        }
-
-                        Classes.cCampaignRaces Races = new Classes.cCampaignRaces();
-                        Races.CampaignID = cChar.CampaignID;
-                        Races.Load(Session["LoginName"].ToString());
-                        DataTable dtRaces = Classes.cUtilities.CreateDataTable(Races.RaceList);
-                        ddlRace.DataSource = dtRaces;
-                        ddlRace.DataTextField = "FullRaceName";
-                        ddlRace.DataValueField = "CampaignRaceID";
-                        ddlRace.DataBind();
-                        ddlRace.SelectedIndex = 0;
-                        foreach (ListItem dItems in ddlRace.Items)
-                        {
-                            if (dItems.Value == cChar.Race.CampaignRaceID.ToString())
-                                dItems.Selected = true;
-                            else
-                                dItems.Selected = false;
-                        }
-
-                        //ToDo JLB Character Status.
-                        DataTable dtStatus = new DataTable();
-
-                        using (SqlConnection connPortal = new SqlConnection(ConfigurationManager.ConnectionStrings["LARPortal"].ConnectionString))
-                        {
-                            connPortal.Open();
-                            using (SqlCommand CmdGetStatus = new SqlCommand("select * from MDBStatus", connPortal))
-                            {
-                                SqlDataAdapter SDAGetStatus = new SqlDataAdapter(CmdGetStatus);
-                                SDAGetStatus.Fill(dtStatus);
-                            }
-                        }
-
-                        DataView dvCharStatus = new DataView(dtStatus, "StatusType = 'Character'", "StatusName", DataViewRowState.CurrentRows);
-                        ddlStatus.DataSource = dvCharStatus;
-                        ddlStatus.DataTextField = "StatusName";
-                        ddlStatus.DataValueField = "StatusID";
-                        ddlStatus.DataBind();
-
-                        ddlStatus.SelectedIndex = -1;
-                        foreach (ListItem liStatus in ddlStatus.Items)
-                        {
-                            if (liStatus.Value == cChar.Status.StatusID.ToString())
-                            {
-                                liStatus.Selected = true;
-                                lblStatus.Text = liStatus.Text;
-                            }
-                            else
-                                liStatus.Selected = false;
-                        }
-
-                        MethodBase lmth = MethodBase.GetCurrentMethod();
-                        string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
-
-                        SortedList sParam = new SortedList();
-                        sParam.Add("@CampaignID", cChar.CampaignID);
-                        DataTable dtDescriptors = Classes.cUtilities.LoadDataTable("uspGetCampaignAttributesStandard",
-                            sParam, "LARPortal", Session["UserName"].ToString(), lsRoutineName);
-
-                        DataView dvDescriptors = new DataView(dtDescriptors, "", "CharacterDescriptor", DataViewRowState.CurrentRows);
-                        ddlDescriptor.DataTextField = "CharacterDescriptor";
-                        ddlDescriptor.DataValueField = "CampaignAttributeStandardID";
-                        ddlDescriptor.DataSource = dtDescriptors;
-                        ddlDescriptor.DataBind();
-
-                        if (dtDescriptors.Rows.Count > 0)
-                        {
-                            ddlDescriptor.SelectedIndex = 0;
-                            ddlDescriptor_SelectedIndexChanged(null, null);
-                        }
-                    }
-                    ViewState["CurrentCharacter"] = Session["SelectedCharacter"];
+                    DisplayCharacter(oCharSelect.CharacterInfo);
                 }
             }
         }
@@ -280,9 +90,7 @@ namespace LarpPortal.Character
                     string sExtension = Path.GetExtension(ulFile.FileName);
                     NewPicture.PictureFileName = "CP" + NewPicture.PictureID.ToString("D10") + sExtension;
 
-                    int iCharacterID = 0;
-                    int.TryParse(ViewState["CurrentCharacter"].ToString(), out iCharacterID);
-                    NewPicture.CharacterID = iCharacterID;
+                    NewPicture.CharacterID = oCharSelect.CharacterID.Value;
 
                     string LocalName = NewPicture.PictureLocalName;
 
@@ -310,21 +118,21 @@ namespace LarpPortal.Character
         {
             if (ViewState["UserIDPicture"] != null)
                 ViewState["PictureDeleted"] = "Y";
-            //                ViewState.Remove("UserIDPicture");
             imgCharacterPicture.Visible = false;
             btnClearPicture.Visible = false;
 
             SortedList sParam = new SortedList();
-            sParam.Add("@CharacterID", Session["SelectedCharacter"].ToString());
-
-            Classes.cUtilities.LoadDataTable("uspClearCharacterProfilePicture", sParam, "LARPortal", Session["UserID"].ToString(), "CharInfo.btnClearPicture"); 
+            sParam.Add("@CharacterID", oCharSelect.CharacterID.Value);
+            Classes.cUtilities.LoadDataTable("uspClearCharacterProfilePicture", sParam, "LARPortal", _UserName, "CharInfo.btnClearPicture");
         }
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
             int iTemp;
 
-            if (Session["SelectedCharacter"] != null)
+            oCharSelect.LoadInfo();
+
+            if ((oCharSelect.CharacterID != null) && (oCharSelect.CharacterInfo != null))
             {
                 if ((tbAKA.Text.Length == 0) &&
                     (tbFirstName.Text.Length == 0))
@@ -335,78 +143,470 @@ namespace LarpPortal.Character
                     return;
                 }
 
-                DataTable dtDesc = Session["CharDescriptors"] as DataTable;
+                Classes.cCharacter cChar = new Classes.cCharacter();
+                cChar.LoadCharacter(oCharSelect.CharacterID.Value);
 
-                int iCharID;
-                if (int.TryParse(Session["SelectedCharacter"].ToString(), out iCharID))
+                cChar.FirstName = tbFirstName.Text;
+                cChar.MiddleName = tbMiddleName.Text;
+                cChar.LastName = tbLastName.Text;
+
+                cChar.CurrentHome = tbOrigin.Text;
+
+                cChar.AllowCharacterRebuildToDate = null;
+
+                if (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.CampaignCharacters)
                 {
-                    Classes.cCharacter cChar = new Classes.cCharacter();
-                    cChar.LoadCharacter(iCharID);
-
-                    cChar.FirstName = tbFirstName.Text;
-                    cChar.MiddleName = tbMiddleName.Text;
-                    cChar.LastName = tbLastName.Text;
-
-                    cChar.CurrentHome = tbOrigin.Text;
-                    // TODO JLB   cChar.Status.StatusName = tbStatus.Text;
-                    //                  cChar.Status.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
                     cChar.CharacterStatusID = Convert.ToInt32(ddlStatus.SelectedValue);
+                    cChar.CharacterType = Convert.ToInt32(ddlCharType.SelectedValue);
 
-                    cChar.AKA = tbAKA.Text;
-                    cChar.CurrentHome = tbHome.Text;
-                    cChar.WhereFrom = tbOrigin.Text;
-
-                    //tbType.Text = cChar.CharType.Description;
-                    //tbTeam.Text = "Team";
-
-                    // If the drop down list is visible, it means they belong to multiple teams so we need to check it.
-                    if (ddlTeamList.Visible)
+                    if (ddlAllowRebuild.SelectedValue == "Y")
                     {
-                        if (int.TryParse(ddlTeamList.SelectedValue, out iTemp))
-                            cChar.TeamID = iTemp;
-                    }
-
-                    cChar.DateOfBirth = tbDOB.Text;
-                    if (ViewState["UserIDPicture"] != null)
-                    {
-                        cChar.ProfilePicture = ViewState["UserIDPicture"] as Classes.cPicture;
-                        if (ViewState["PictureDeleted"] != null)
-                            cChar.ProfilePicture.RecordStatus = Classes.RecordStatuses.Delete;
+                        tbRebuildToDate.Style["display"] = "inline";
+                        lblExpiresOn.Style["display"] = "inline";
+                        DateTime dtTemp;
+                        if (DateTime.TryParse(tbRebuildToDate.Text, out dtTemp))
+                            cChar.AllowCharacterRebuildToDate = dtTemp;
                     }
                     else
-                        cChar.ProfilePicture = null;
-
-                    if (ddlRace.SelectedIndex > -1)
                     {
-                        cChar.Race = new Classes.cRace();
-                        int.TryParse(ddlRace.SelectedValue, out iTemp);
-                        cChar.Race.CampaignRaceID = iTemp;
+                        tbRebuildToDate.Style["display"] = "none";
+                        lblExpiresOn.Style["display"] = "none";
                     }
-
-                    cChar.Descriptors = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-                    foreach (Classes.cDescriptor Item in cChar.Descriptors)
-                    {
-                        Item.CharacterSkillSetID = cChar.CharacterSkillSetID;
-                        // Put in check for negative values. Replace anything less than 0 with -1 so it will be updated/added. JBradshaw  4/20/15
-                        if (Item.CharacterAttributesBasicID < 0)
-                            Item.CharacterAttributesBasicID = -1;
-                    }
-
-                    cChar.SaveCharacter(Session["UserName"].ToString(), (int)Session["UserID"]);
-
-                    // JBradshaw  7/11/2016    Request #1286     Changed over to bootstrap popup.
-                    lblmodalMessage.Text = "Character " + cChar.AKA + " has been saved.";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
                 }
+
+                if (ddlVisible.SelectedValue == "1")
+                    cChar.VisibleToPCs = true;
+                else
+                    cChar.VisibleToPCs = false;
+
+                cChar.AKA = tbAKA.Text;
+                cChar.CurrentHome = tbHome.Text;
+                cChar.WhereFrom = tbOrigin.Text;
+
+                // If the drop down list is visible, it means they belong to multiple teams so we need to check it.
+                if (ddlTeamList.Visible)
+                {
+                    if (int.TryParse(ddlTeamList.SelectedValue, out iTemp))
+                        cChar.TeamID = iTemp;
+                }
+
+                cChar.DateOfBirth = tbDOB.Text;
+                if (ViewState["UserIDPicture"] != null)
+                {
+                    cChar.ProfilePicture = ViewState["UserIDPicture"] as Classes.cPicture;
+                    if (ViewState["PictureDeleted"] != null)
+                        cChar.ProfilePicture.RecordStatus = Classes.RecordStatuses.Delete;
+                }
+                else
+                    cChar.ProfilePicture = null;
+
+                if (ddlRace.SelectedIndex > -1)
+                {
+                    cChar.Race = new Classes.cRace();
+                    int.TryParse(ddlRace.SelectedValue, out iTemp);
+                    cChar.Race.CampaignRaceID = iTemp;
+                }
+
+                if (ddlAllowRebuild.SelectedValue == "Y")
+                {
+                    DateTime dtTemp;
+                    if (DateTime.TryParse(tbRebuildToDate.Text, out dtTemp))
+                        cChar.AllowCharacterRebuildToDate = dtTemp;
+                }
+                else
+                    cChar.AllowCharacterRebuildToDate = new DateTime(1900, 1, 1);
+
+                if (cChar.CharacterType != 1)       // Means it's not a PC so we need to check who is the current actor.
+                {
+                    var LastActor = cChar.Actors.OrderByDescending(x => x.StartDate).ToList();
+                    if (LastActor == null)
+                        cChar.CurrentUserID = _UserID;
+                    else
+                    {
+                        if (LastActor.Count > 0)
+                        {
+                            cChar.CurrentUserID = LastActor[0].UserID;
+                        }
+                    }
+                }
+
+                cChar.StaffComments = tbStaffComments.Text;
+
+                cChar.SaveCharacter(_UserName, _UserID);
+                // JBradshaw  7/11/2016    Request #1286     Changed over to bootstrap popup.
+                lblmodalMessage.Text = "Character " + cChar.AKA + " has been saved.";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openMessage();", true);
             }
         }
 
+        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            oCharSelect.LoadInfo();
+
+            if (oCharSelect.CharacterInfo != null)
+            {
+                if (oCharSelect.CharacterID.HasValue)
+                {
+                    Classes.cUser UserInfo = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                    UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                    UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                    UserInfo.Save();
+                }
+                _Reload = true;
+            }
+        }
+
+        protected void oCharSelect_CharacterChanged(object sender, EventArgs e)
+        {
+            oCharSelect.LoadInfo();
+
+            if (oCharSelect.CharacterInfo != null)
+            {
+                if (oCharSelect.CharacterID.HasValue)
+                {
+                    Classes.cUser UserInfo = new Classes.cUser(_UserName, "PasswordNotNeeded");
+                    UserInfo.LastLoggedInCampaign = oCharSelect.CharacterInfo.CampaignID;
+                    UserInfo.LastLoggedInCharacter = oCharSelect.CharacterID.Value;
+                    UserInfo.LastLoggedInMyCharOrCamp = (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters ? "M" : "C");
+                    UserInfo.Save();
+                }
+                _Reload = true;
+            }
+        }
+
+        private void DisplayCharacter(Classes.cCharacter CharInfo)
+        {
+            MethodBase lmth = MethodBase.GetCurrentMethod();
+            string lsRoutineName = lmth.DeclaringType + "." + lmth.Name;
+
+            hidCharacterID.Value = CharInfo.CharacterID.ToString();
+            ViewState["ProfilePictureID"] = CharInfo.ProfilePictureID;
+
+            tbFirstName.Text = CharInfo.FirstName;
+            tbMiddleName.Text = CharInfo.MiddleName;
+            tbLastName.Text = CharInfo.LastName;
+
+            tbOrigin.Text = CharInfo.CurrentHome;
+            tbAKA.Text = CharInfo.AKA;
+            tbHome.Text = CharInfo.CurrentHome;
+            if (CharInfo.LatestEventDate.HasValue)
+                lblDateLastEvent.Text = CharInfo.LatestEventDate.Value.ToString("MM/dd/yyyy");
+            else
+                lblDateLastEvent.Text = "";
+
+            tbType.Text = CharInfo.CharType.Description;
+
+            if (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.CampaignCharacters)
+            {
+                ddlVisible.Visible = true;
+                ddlAllowRebuild.Visible = true;
+                lblAllowSkillRebuild.Visible = true;
+                lblVisibleRelationship.Visible = true;
+                lblExpiresOn.Visible = true;
+                tbType.Visible = false;
+                ddlCharType.SelectedValue = CharInfo.CharType.CharacterTypeID.ToString();
+                ddlCharType.Visible = true;
+
+                divAddDeath.Attributes["class"] = "show text-right";
+                divAddActor.Attributes["class"] = "show text-right";
+                lblStatus.Visible = false;
+                ddlStatus.Visible = true;
+                ddlAllowRebuild.Visible = true;
+                lblAllowSkillRebuild.Visible = true;
+
+                if (CharInfo.AllowCharacterRebuild)
+                {
+                    ddlAllowRebuild.SelectedValue = "Y";
+                    tbRebuildToDate.Text = CharInfo.AllowCharacterRebuildToDate.Value.ToShortDateString();
+                    tbRebuildToDate.Style["display"] = "inline";
+                    lblExpiresOn.Style["display"] = "inline";
+                }
+                else
+                {
+                    ddlAllowRebuild.SelectedValue = "N";
+                    tbRebuildToDate.Text = "";
+                    tbRebuildToDate.Style["display"] = "none";
+                    lblExpiresOn.Style["display"] = "none";
+                }
+
+                // This is me being overly cautious. If the status is not found I'm not sure what will happen.
+                try
+                {
+                    ddlStatus.SelectedValue = CharInfo.Status.StatusID.ToString();
+                }
+                catch
+                {
+                    ddlStatus.ClearSelection();
+                    foreach (ListItem litem in ddlStatus.Items)
+                    {
+                        if (litem.Text.ToUpper() == "ACTIVE")
+                            litem.Selected = true;
+                    }
+                }
+            }
+            else
+            {
+                ddlStatus.Visible = false;
+                lblStatus.Visible = true;
+                tbType.Visible = true;
+                ddlCharType.Visible = false;
+                lblStatus.Text = CharInfo.Status.StatusName;
+                ddlVisible.Visible = false;
+                lblVisibleRelationship.Visible = false;
+                ddlAllowRebuild.Visible = false;
+                lblAllowSkillRebuild.Visible = false;
+                lblExpiresOn.Visible = false;
+                divAddDeath.Attributes["class"] = "hide";
+                divAddActor.Attributes["class"] = "hide";
+            }
+
+
+            if (oCharSelect.CharacterInfo.CharacterType == 1)         // 1 = PC.
+            {
+                if (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters)
+                {
+                    divNonCost.Attributes["class"] = "col-sm-6";
+                    divDeaths.Attributes["class"] = "col-sm-6";
+                    divPlayer.Attributes["class"] = "hide";
+                    divActors.Attributes["class"] = "hide";
+                }
+                else
+                {
+                    divNonCost.Attributes["class"] = "col-sm-4";
+                    divDeaths.Attributes["class"] = "col-sm-4";
+                    divActors.Attributes["class"] = "hide";
+                    divPlayer.Attributes["class"] = "col-sm-4";
+                }
+            }
+            else
+            {
+                divNonCost.Attributes["class"] = "col-sm-4";
+                divDeaths.Attributes["class"] = "col-sm-4";
+                divActors.Attributes["class"] = "col-sm-4";
+                divPlayer.Attributes["class"] = "hide";
+
+                SortedList sParams = new SortedList();
+                sParams.Add("@CampaignID", oCharSelect.CharacterInfo.CampaignID);
+                DataTable dtPlayers = new DataTable();
+                dtPlayers = Classes.cUtilities.LoadDataTable("uspGetCampaignPlayers", sParams, "LARPortal", _UserName, lsRoutineName);
+
+                DataView dvPlayers = new DataView(dtPlayers, "", "PlayerFirstLastName", DataViewRowState.CurrentRows);
+                ddlActorName.DataSource = dvPlayers;
+                ddlActorName.DataTextField = "PlayerFirstLastName";
+                ddlActorName.DataValueField = "UserID";
+                ddlActorName.DataBind();
+                ddlActorName.Items.Insert(0, new ListItem("", "-1"));
+            }
+
+            if (CharInfo.VisibleToPCs)
+                ddlVisible.SelectedValue = "1";
+            else
+                ddlVisible.SelectedValue = "0";
+
+            if (CharInfo.Teams.Count == 0)
+            {
+                ddlTeamList.Visible = false;
+                tbTeam.Visible = true;
+                tbTeam.Text = "No Teams";
+            }
+            else if (CharInfo.Teams.Count == 1)
+            {
+                ddlTeamList.Visible = false;
+                tbTeam.Visible = true;
+                tbTeam.Text = CharInfo.Teams[0].TeamName;
+            }
+            else
+            {
+                ddlTeamList.Visible = true;
+                tbTeam.Visible = false;
+                ddlTeamList.DataSource = CharInfo.Teams;
+                ddlTeamList.DataTextField = "TeamName";
+                ddlTeamList.DataValueField = "TeamID";
+                ddlTeamList.DataBind();
+
+                ddlTeamList.ClearSelection();
+
+                foreach (ListItem litem in ddlTeamList.Items)
+                {
+                    if (litem.Value == CharInfo.TeamID.ToString())
+                    {
+                        ddlTeamList.ClearSelection();
+                        litem.Selected = true;
+                    }
+                }
+                if (ddlTeamList.SelectedIndex < 0)
+                    ddlTeamList.SelectedIndex = 0;
+            }
+
+            tbDOB.Text = CharInfo.DateOfBirth;
+
+            tbAKA.Text = CharInfo.AKA;
+            tbDOB.Text = CharInfo.DateOfBirth;
+            tbHome.Text = CharInfo.CurrentHome;
+            tbNumOfDeaths.Text = CharInfo.Deaths.Count().ToString();
+            tbOrigin.Text = CharInfo.WhereFrom;
+
+            DataTable dtCharDescriptors = new DataTable();
+            dtCharDescriptors = Classes.cUtilities.CreateDataTable(CharInfo.Descriptors);
+            BindDescriptors();
+
+            if (CharInfo.ProfilePicture != null)
+            {
+                ViewState["UserIDPicture"] = CharInfo.ProfilePicture;
+                imgCharacterPicture.ImageUrl = CharInfo.ProfilePicture.PictureURL;
+                imgCharacterPicture.Visible = true;
+                btnClearPicture.Visible = true;
+            }
+            else
+            {
+                imgCharacterPicture.Visible = false;
+                btnClearPicture.Visible = false;
+            }
+
+            Classes.cCampaignRaces Races = new Classes.cCampaignRaces();
+            Races.CampaignID = CharInfo.CampaignID;
+            Races.Load(Session["LoginName"].ToString());
+            DataTable dtRaces = Classes.cUtilities.CreateDataTable(Races.RaceList);
+            ddlRace.DataSource = dtRaces;
+            ddlRace.DataTextField = "FullRaceName";
+            ddlRace.DataValueField = "CampaignRaceID";
+            ddlRace.DataBind();
+            if (ddlRace.Items.Count > 0)
+            {
+                ddlRace.SelectedIndex = 0;
+                foreach (ListItem dItems in ddlRace.Items)
+                {
+                    if (dItems.Value == CharInfo.Race.CampaignRaceID.ToString())
+                    {
+                        dItems.Selected = true;
+                        tbRace.Text = dItems.Text;
+                    }
+                    else
+                        dItems.Selected = false;
+                }
+            }
+
+            SortedList sParam = new SortedList();
+            sParam.Add("@CampaignID", CharInfo.CampaignID);
+            DataTable dtDescriptors = Classes.cUtilities.LoadDataTable("uspGetCampaignAttributesStandard",
+                sParam, "LARPortal", _UserName, lsRoutineName + ".GetCampaignAttributesStandard");
+
+            DataView dvDescriptors = new DataView(dtDescriptors, "", "CharacterDescriptor", DataViewRowState.CurrentRows);
+            ddlDescriptor.DataTextField = "CharacterDescriptor";
+            ddlDescriptor.DataValueField = "CampaignAttributeStandardID";
+            ddlDescriptor.DataSource = dtDescriptors;
+            ddlDescriptor.DataBind();
+
+            if (dtDescriptors.Rows.Count > 0)
+            {
+                ddlDescriptor.SelectedIndex = 0;
+                ddlDescriptor_SelectedIndexChanged(null, null);
+            }
+
+            tbStaffComments.Text = CharInfo.StaffComments;
+            if (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters)
+                divStaffComments.Visible = false;
+            else
+                divStaffComments.Visible = true;
+
+            BindActors(CharInfo.Actors);
+
+            if (CharInfo.Actors.Count > 0)
+            {
+                var LatestActor = CharInfo.Actors.OrderByDescending(x => x.StartDate).ToList();
+                lblPlayer.Text = "Currently played by " + LatestActor[0].loginUserName + " - ";
+                if (LatestActor[0].ActorNickName.Length > 0)
+                    lblPlayer.Text += LatestActor[0].ActorNickName;
+                else
+                    lblPlayer.Text += LatestActor[0].ActorFirstName;
+                lblPlayer.Text += " " + LatestActor[0].ActorLastName;
+            }
+
+            BindDeaths(CharInfo.Deaths);
+
+            ReadOnlyFields();
+        }
+
+        protected void ReadOnlyFields()
+        {
+            if ((oCharSelect.CharacterInfo.CharacterType != 1) && (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters))
+            {
+                btnSave.Enabled = false;
+                btnSave.CssClass = "btn-default";
+                btnSave.Style["background-color"] = "grey";
+                btnSaveTop.Enabled = false;
+                btnSaveTop.CssClass = "btn-default";
+                btnSaveTop.Style["background-color"] = "grey";
+                divCharDev.Visible = false;
+                tbFirstName.Enabled = false;
+                tbFirstName.CssClass = "";
+                if (tbFirstName.Text.Length == 0)
+                    tbFirstName.Text = " ";
+                tbMiddleName.Enabled = false;
+                tbMiddleName.CssClass = "";
+                if (tbMiddleName.Text.Length == 0)
+                    tbMiddleName.Text = " ";
+                tbLastName.Enabled = false;
+                tbLastName.CssClass = "";
+                if (tbLastName.Text.Length == 0)
+                    tbLastName.Text = " ";
+                tbDOB.Enabled = false;
+                tbDOB.CssClass = "";
+                tbHome.Enabled = false;
+                tbHome.CssClass = "";
+                tbOrigin.Enabled = false;
+                tbOrigin.CssClass = "";
+                tbAKA.Enabled = false;
+                tbAKA.CssClass = "";
+                ddlRace.Visible = false;
+                tbRace.Visible = true;
+                ulFile.Visible = false;
+                btnUpload.Visible = false;
+                btnClearPicture.Visible = false;
+                lblProfilePictureText.Visible = false;
+            }
+            else
+            {
+                btnSave.Enabled = true;
+                btnSave.Style["background-color"] = null;
+                btnSave.CssClass = "StandardButton";
+                btnSaveTop.Enabled = true;
+                btnSaveTop.Style["background-color"] = null;
+                btnSaveTop.CssClass = "StandardButton";
+                divCharDev.Visible = true;
+                tbFirstName.Enabled = true;
+                tbFirstName.CssClass = "TableTextBox";
+                tbMiddleName.Enabled = true;
+                tbMiddleName.CssClass = "TableTextBox";
+                tbLastName.Enabled = true;
+                tbLastName.CssClass = "TableTextBox";
+                tbOrigin.Enabled = true;
+                tbOrigin.CssClass = "TableTextBox";
+                tbDOB.Enabled = true;
+                tbDOB.CssClass = "TableTextBox";
+                tbHome.Enabled = true;
+                tbHome.CssClass = "TableTextBox";
+                tbAKA.Enabled = true;
+                tbAKA.CssClass = "TableTextBox";
+                ddlRace.Visible = true;
+                tbRace.Visible = false;
+                ulFile.Visible = true;
+                btnUpload.Visible = true;
+                lblProfilePictureText.Visible = true;
+            }
+        }
+
+        #region Descriptors
+
         protected void ddlDescriptor_SelectedIndexChanged(object sender, EventArgs e)
         {
+            oCharSelect.LoadInfo();
+
             int iCampaignAttributeStandardID;
 
             List<Classes.cDescriptor> Desc = new List<Classes.cDescriptor>();
-            Desc = Session["CharDesc"] as List<Classes.cDescriptor>;
+            Desc = oCharSelect.CharacterInfo.Descriptors;
 
             if (int.TryParse(ddlDescriptor.SelectedValue, out iCampaignAttributeStandardID))
             {
@@ -430,116 +630,221 @@ namespace LarpPortal.Character
             }
         }
 
-        //protected void gvDescriptors_RowEditing(object sender, GridViewEditEventArgs e)
-        //{
-
-        //}
-
-        protected void gvDescriptors_RowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            //    int index = Convert.ToInt32(e.RowIndex);
-            //    List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-            //    Desc[index].RecordStatus = Classes.RecordStatuses.Delete;
-            //    Session["CharDescriptors"] = Desc;
-            //    BindData();
-        }
-
-
-        protected void BindData()
-        {
-            uint key = 0;
-            try
-            {
-                key = (uint)(Classes.RecordStatuses)Enum.Parse(typeof(Classes.RecordStatuses), Classes.RecordStatuses.Delete.ToString());
-            }
-            catch (ArgumentException)
-            {
-                //unknown string or s is null
-            }
-
-            List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-
-            DataTable dtCharDescriptors = new DataTable();
-            dtCharDescriptors = Classes.cUtilities.CreateDataTable(Desc);
-            DataView dvCharDescriptors = new DataView(dtCharDescriptors, "RecordStatus = 0 ", "", DataViewRowState.CurrentRows);
-
-            gvDescriptors.DataSource = null;
-            gvDescriptors.DataSource = dvCharDescriptors;
-            gvDescriptors.DataBind();
-        }
-
         protected void btnAddDesc_Click(object sender, EventArgs e)
         {
-            List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
+            oCharSelect.LoadInfo();
+
             Classes.cDescriptor NewDesc = new Classes.cDescriptor();
             NewDesc.DescriptorValue = ddlName.SelectedItem.Text;
             int CampaignAttStandardID;
             int CampaignAttDescriptorID;
             NewDesc.CharacterDescriptor = ddlDescriptor.SelectedItem.Text;
 
-            int NewRecCounter = Convert.ToInt32(ViewState["NewRecCounter"]);
-            NewRecCounter--;
-            ViewState["NewRecCounter"] = NewRecCounter;
-
             if (int.TryParse(ddlDescriptor.SelectedValue, out CampaignAttStandardID))
                 NewDesc.CampaignAttributeStandardID = CampaignAttStandardID;
             if (int.TryParse(ddlName.SelectedValue, out CampaignAttDescriptorID))
                 NewDesc.CampaignAttributeDescriptorID = CampaignAttDescriptorID;
-            NewDesc.CharacterAttributesBasicID = NewRecCounter;
+            NewDesc.CharacterAttributesBasicID = -1;
             NewDesc.RecordStatus = Classes.RecordStatuses.Active;
+            NewDesc.CharacterSkillSetID = oCharSelect.CharacterInfo.CharacterSkillSetID;
 
-            Desc.Add(NewDesc);
-            Session["CharDescriptors"] = Desc;
-            BindData();
+            NewDesc.Save(_UserName, _UserID);
+            BindDescriptors();
         }
 
-        protected void gvDescriptors_RowCommand(object sender, GridViewCommandEventArgs e)
+        protected void BindDescriptors()
         {
-            if (e.CommandName.ToUpper() == "DELETEDESC")
+            oCharSelect.LoadInfo();
+
+            gvDescriptors.DataSource = null;
+            gvDescriptors.DataSource = oCharSelect.CharacterInfo.Descriptors;
+            gvDescriptors.DataBind();
+        }
+
+        protected void btnDeleteDesc_Click(object sender, EventArgs e)
+        {
+            int iDescID;
+            if (int.TryParse(hidDescID.Value, out iDescID))
             {
-                int iValueToDelete;
-                if (int.TryParse(e.CommandArgument.ToString(), out iValueToDelete))
+                Classes.cDescriptor cDesc = new Classes.cDescriptor();
+                cDesc.CharacterAttributesBasicID = iDescID;
+                cDesc.RecordStatus = Classes.RecordStatuses.Delete;
+                cDesc.Delete(_UserName, _UserID);
+                _Reload = true;
+            }
+        }
+
+        #endregion
+
+        #region Actors
+
+        protected void btnSaveActor_Click(object sender, EventArgs e)
+        {
+            oCharSelect.LoadInfo();
+
+            List<Classes.cActor> cActors = oCharSelect.CharacterInfo.Actors;
+            int iCharacterActorID;
+            if (int.TryParse(hidActorID.Value, out iCharacterActorID))
+            {
+                Classes.cActor NewActor = new Classes.cActor();
+                NewActor.CharacterActorID = iCharacterActorID;
+                NewActor.CharacterID = Convert.ToInt32(hidCharacterID.Value);
+                NewActor.Comments = tbActorComments.Text;
+                NewActor.StaffComments = tbActorStaffComments.Text;
+                DateTime dtActorStartDate;
+                if (DateTime.TryParse(tbActorStartDate.Text, out dtActorStartDate))
+                    NewActor.StartDate = dtActorStartDate;
+                DateTime dtActorEndDate;
+                if (DateTime.TryParse(tbActorEndDate.Text, out dtActorEndDate))
+                    NewActor.EndDate = dtActorEndDate;
+                NewActor.RecordStatus = Classes.RecordStatuses.Active;
+                if (ddlActorName.SelectedIndex >= 0)
                 {
-                    List<Classes.cDescriptor> Desc = Session["CharDescriptors"] as List<Classes.cDescriptor>;
-                    var FoundList = Desc.Find(x => x.CharacterAttributesBasicID == iValueToDelete);
-                    if (FoundList != null)
-                        FoundList.RecordStatus = Classes.RecordStatuses.Delete;
-                    Session["CharDescriptors"] = Desc;
-                    BindData();
+                    int iActorID;
+                    if (int.TryParse(ddlActorName.SelectedValue, out iActorID))
+                    {
+                        NewActor.loginUserName = ddlActorName.SelectedItem.Text;
+                        NewActor.UserID = iActorID;
+                    }
+                }
+
+                // If the record is already in the list, remove it so we don't have duplicates.
+                cActors.RemoveAll(x => x.CharacterActorID == iCharacterActorID);
+
+                cActors.Add(NewActor);
+
+                // Now we go through and check all of the records for overlaps.
+                var ActorList = cActors.OrderBy(x => x.StartDate).ToList();
+                hidActorDateProblems.Value = "";
+
+                if (ActorList.Count > 1)
+                {
+                    // Now we get convoluted. Go through and check each record against the next record.
+                    // If the end date of the first record is null, make it 1 day less than the start
+                    // of the next record.
+                    // if Rec2.StartDate < Rec1.EndDate = raise problem.
+                    // Screen will already not allow the end date to be before the start date.
+                    for (int i = 0; i < (ActorList.Count - 1); i++)
+                    {
+                        // If the current record has no end date, fill it in with the date before the start of the next record.
+                        if (!ActorList[i].EndDate.HasValue)
+                            ActorList[i].EndDate = ActorList[i + 1].StartDate.Value.AddDays(-1);
+
+                        if (ActorList[i + 1].StartDate < ActorList[i].EndDate)
+                        {
+                            hidActorDateProblems.Value = "Y";
+                            lblmodalError.Text = "With this change there are actors with overlapping dates.<br>Please reenter the corrected dates.";
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openError();", true);
+                        }
+                    }
+                }
+
+                if (hidActorDateProblems.Value == "")
+                    NewActor.Save(_UserID);
+
+                _Reload = true;
+            }
+        }
+
+        protected void btnDeleteActor_Click(object sender, EventArgs e)
+        {
+            int iCharacterActorID;
+            if (int.TryParse(hidDeleteActorID.Value, out iCharacterActorID))
+            {
+                Classes.cActor cActor = new Classes.cActor();
+                cActor.CharacterActorID = iCharacterActorID;
+                cActor.RecordStatus = Classes.RecordStatuses.Delete;
+                cActor.Save(_UserID);
+                _Reload = true;
+            }
+        }
+
+        protected void BindActors(List<Classes.cActor> Actors)
+        {
+            var ActorList = Actors.FindAll(x => x.RecordStatus == Classes.RecordStatuses.Active).OrderBy(x => x.StartDate).ToList();
+            gvActors.DataSource = ActorList;
+            gvActors.DataBind();
+        }
+
+        protected void gvActors_DataBound(object sender, EventArgs e)
+        {
+            if (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters)
+            {
+                gvActors.Columns[4].Visible = false;
+                gvActors.Columns[5].Visible = false;
+            }
+            else
+            {
+                gvActors.Columns[4].Visible = true;
+                gvActors.Columns[5].Visible = true;
+            }
+        }
+
+        #endregion
+
+        #region Deaths
+
+        protected void btnSaveCharDeath_Click(object sender, EventArgs e)
+        {
+            oCharSelect.LoadInfo();
+
+            if (oCharSelect.CharacterID.HasValue)
+            {
+                int iDeathID;
+                if (int.TryParse(hidDeathID.Value, out iDeathID))
+                {
+                    Classes.cCharacterDeath cDeath = new Classes.cCharacterDeath();
+                    cDeath.CharacterDeathID = iDeathID;
+                    cDeath.CharacterID = oCharSelect.CharacterID.Value;
+                    cDeath.Comments = tbDeathComments.Text;
+                    DateTime dtDeathDate;
+                    if (DateTime.TryParse(tbDeathDate.Text, out dtDeathDate))
+                        cDeath.DeathDate = dtDeathDate;
+                    cDeath.DeathPermanent = cbxDeathPerm.Checked;
+                    cDeath.RecordStatus = Classes.RecordStatuses.Active;
+                    cDeath.StaffComments = tbDeathStaffComments.Text;
+
+                    cDeath.Save(_UserID);
+                    _Reload = true;
                 }
             }
         }
 
-        protected void ddlCharacterSelector_SelectedIndexChanged(object sender, EventArgs e)
+        protected void btnDeleteDeath_Click(object sender, EventArgs e)
         {
-            if (ddlCharacterSelector.SelectedValue == "-1")
-                Response.Redirect("CharAdd.aspx");
-
-            if (Session["SelectedCharacter"].ToString() != ddlCharacterSelector.SelectedValue)
+            int iDeathID;
+            if (int.TryParse(hidDeleteDeathID.Value, out iDeathID))
             {
-                Session["SelectedCharacter"] = ddlCharacterSelector.SelectedValue;
-
-                // Save the character so it will be the last logged in character.
-                int iLoggedInChar = 0;
-                if (int.TryParse(ddlCharacterSelector.SelectedValue, out iLoggedInChar))
-                {
-                    Classes.cUser UserInfo = new Classes.cUser(Session["UserName"].ToString(), "PasswordNotNeeded");
-                    UserInfo.LastLoggedInCharacter = iLoggedInChar;
-                    UserInfo.Save();
-                }
-
-                Response.Redirect("CharInfo.aspx");
+                Classes.cCharacterDeath cDeath = new Classes.cCharacterDeath();
+                cDeath.CharacterDeathID = iDeathID;
+                cDeath.RecordStatus = Classes.RecordStatuses.Delete;
+                cDeath.Save(_UserID);
+                _Reload = true;
             }
         }
 
-        protected void btnCloseMessage_Click(object sender, EventArgs e)
+        protected void BindDeaths(List<Classes.cCharacterDeath> Deaths)
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeMessage();", true);
+            var DeathList = Deaths.FindAll(x => x.RecordStatus == Classes.RecordStatuses.Active).OrderBy(x => x.DeathDate).ToList();
+
+            gvDeaths.DataSource = DeathList;
+            gvDeaths.DataBind();
         }
 
-        protected void btnCloseError_Click(object sender, EventArgs e)
+        protected void gvDeaths_DataBound(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "closeError();", true);
+            if (oCharSelect.WhichSelected == controls.CharacterSelect.Selected.MyCharacters)
+            {
+                gvDeaths.Columns[3].Visible = false;
+                gvDeaths.Columns[4].Visible = false;
+            }
+            else
+            {
+                gvDeaths.Columns[3].Visible = true;
+                gvDeaths.Columns[4].Visible = true;
+            }
         }
+
+        #endregion
     }
 }
