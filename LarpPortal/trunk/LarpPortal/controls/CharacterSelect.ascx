@@ -14,5 +14,4 @@
     <asp:Label ID="lblSelectedCharCampaign" runat="server" Text="" />
     <asp:HiddenField ID="hidNumMyChar" runat="server" Value="0" />
     <asp:HiddenField ID="hidNumMyCamp" runat="server" Value="0" />
-
 </div>
