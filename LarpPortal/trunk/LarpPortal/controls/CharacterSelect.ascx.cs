@@ -151,6 +151,11 @@ namespace LarpPortal.controls
                 slParameters.Add("@intUserID", Session["UserID"].ToString());
                 DataTable dtCharacters = LarpPortal.Classes.cUtilities.LoadDataTable("uspGetCharacterIDsByUserID", slParameters,
                     "LARPortal", _UserName, lsRoutineName + ".uspGetCharacterIDsByUserID");
+
+                // If the person has no characters force it to charadd.
+                if (dtCharacters.Rows.Count == 0)
+                    Response.Redirect("~/Character/CharAdd.aspx", true);
+
                 dtMyCharacters = new DataView(dtCharacters, "", "CharacterAKA", DataViewRowState.CurrentRows).ToTable(true, "CharacterAKA", "CharacterID");
                 Session["MyCharacters"] = dtMyCharacters;
             }
