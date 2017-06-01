@@ -111,16 +111,16 @@ namespace LarpPortal.Character
             strBody = strBody + "History Text:<br>" + tbHistory.Text;
             strBody = strBody.Replace(System.Environment.NewLine, "<br />");
 
-            Classes.cSendNotifications Notifications = new Classes.cSendNotifications();
-            Classes.cEmailMessageService SubmitCharacterHistory = new Classes.cEmailMessageService();
-            try
-            {
-                SubmitCharacterHistory.SendMail(strSubject, strBody, strTo, strPlayerEmail, "", "CharacterHistory", _UserName);
-            }
-            catch (Exception)
-            {
+            //Classes.cSendNotifications Notifications = new Classes.cSendNotifications();
+            //Classes.cEmailMessageService SubmitCharacterHistory = new Classes.cEmailMessageService();
+            //try
+            //{
+            //    SubmitCharacterHistory.SendMail(strSubject, strBody, strTo, strPlayerEmail, "", "CharacterHistory", _UserName);
+            //}
+            //catch (Exception)
+            //{
 
-            }
+            //}
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)

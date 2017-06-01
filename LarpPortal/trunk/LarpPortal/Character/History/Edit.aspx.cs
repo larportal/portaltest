@@ -152,11 +152,11 @@ namespace LarpPortal.Character.History
                     Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
                     cEMS.SendMail(sSubject, sBody, cHist.NotificationEMail, "", "", "CharacterHistory", _UserName);
                 }
-                Classes.cSendNotifications SendNot = new Classes.cSendNotifications();
-                SendNot.SubjectText = sSubject;
-                SendNot.EMailBody = sBody;
-                SendNot.NotifyType = Classes.cNotificationTypes.HISTORYSUBMIT;
-                SendNot.SendNotification(_UserID, _UserName);
+                //Classes.cSendNotifications SendNot = new Classes.cSendNotifications();
+                //SendNot.SubjectText = sSubject;
+                //SendNot.EMailBody = sBody;
+                //SendNot.NotifyType = Classes.cNotificationTypes.HISTORYSUBMIT;
+                //SendNot.SendNotification(_UserID, _UserName);
             }
             catch (Exception ex)
             {

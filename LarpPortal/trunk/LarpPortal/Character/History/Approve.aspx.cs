@@ -475,11 +475,11 @@ namespace LarpPortal.Character.History
             Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
             cEMS.SendMail(sSubject, sBody, sEmailToSendTo, "", "", "CharacterHistory", Session["Username"].ToString());
 
-            Classes.cSendNotifications SendNot = new Classes.cSendNotifications();
-            SendNot.SubjectText = sSubject;
-            SendNot.EMailBody = sBody;
-            SendNot.NotifyType = Classes.cNotificationTypes.HISTORYAPPROVE;
-            SendNot.SendNotification(cChar.CurrentUserID, _UserName);
+            //Classes.cSendNotifications SendNot = new Classes.cSendNotifications();
+            //SendNot.SubjectText = sSubject;
+            //SendNot.EMailBody = sBody;
+            //SendNot.NotifyType = Classes.cNotificationTypes.HISTORYAPPROVE;
+            //SendNot.SendNotification(cChar.CurrentUserID, _UserName);
 
             Points.AssignHistoryPoints(UserID, CampaignPlayerID, CharacterID, CampaignCPOpportunityDefaultID, CampaignID, CPAwarded, dtDateSubmitted);
 
