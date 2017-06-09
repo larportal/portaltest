@@ -49,6 +49,7 @@ namespace LarpPortal.Events
                     if (DateTime.TryParse(dRow["StartDate"].ToString(), out dtTemp))
                     {
                         dRow["DisplayValue"] = dRow["EventName"].ToString() + " " + dtTemp.ToShortDateString();
+                        dtTemp = dtTemp.AddDays(3);
                         if ((dtTemp > DateTime.Today) &&
                             (dtTemp <= dtMostReventEvent))
                         {
