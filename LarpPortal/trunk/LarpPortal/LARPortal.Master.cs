@@ -45,9 +45,38 @@ namespace LarpPortal
                 }
                 else
                 {
-                    if (PageName.Contains("Error") || PageName.Contains("WhatsNewDetail") || PageName.Contains("Reports/") || PageName.Contains("EventPayment") || PageName.Contains("PageUnderConstruction"))
+                    int ExclusionCount = 0;
+                    if (Session["ExclusionCount"] == null)
+                        Session["ExclusionCount"] = 0;
+                    if (Session["PageName"] == null)
                     {
-                        // Do nothing
+                        Session["PageName"] = PageName;
+                    }
+                    else
+                    {
+                        if(Session["PageName"] == PageName)
+                        {
+                            Int32.TryParse(Session["ExclusionCount"].ToString(), out ExclusionCount);
+                        }
+                        else
+                        {
+                            string lsRoutineName = "LARPortal.Master.PageNameContainCheck";
+                            string stStoredProc = "uspCheckForExclusion";
+                            string strUserName = Session["UserName"].ToString();
+                            SortedList slParams = new SortedList();
+                            slParams.Add("@CompareString", PageName);
+                            slParams.Add("@ExclusionType", "LastLoggedInLocation");
+                            DataTable dtExclusionCheck = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
+                            foreach (DataRow dRow in dtExclusionCheck.Rows)
+                            {
+                                Int32.TryParse(dRow["Exclude"].ToString(), out ExclusionCount);
+                            }
+                        }
+                    }
+                    //if (PageName.Contains("Error") || PageName.Contains("WhatsNewDetail") || PageName.Contains("Reports/") || PageName.Contains("EventPayment") || PageName.Contains("PageUnderConstruction"))
+                    if (ExclusionCount > 0)
+                    {
+                        // It met at least one exclusion criteria.  Do nothing.
                     }
                     else
                     {
