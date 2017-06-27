@@ -495,8 +495,8 @@ namespace LarpPortal.Character
                 if (PoolItem.DefaultPool)       // We've already taken care of this before.
                     continue;
 
-                if (PoolItem.TotalPoints > 0)
-                {
+                //if (PoolItem.TotalPoints > 0)
+                //{
                     foreach (DataRowView dItem in new DataView(dtSkillCosts, "PoolID = " + PoolItem.PoolID.ToString(), "SortOrder", DataViewRowState.CurrentRows))
                     {
                         NewRow = dtDisplay.NewRow();
@@ -556,7 +556,7 @@ namespace LarpPortal.Character
                     NewRow["SortOrder"] = -1;
                     NewRow["Color"] = PoolItem.PoolDisplayColor;
                     dtDisplay.Rows.Add(NewRow);
-                }
+                //}
             }
             DataView dvSkillCost = new DataView(dtDisplay, "", "MainSort, SortOrder", DataViewRowState.CurrentRows);
             gvCostList.DataSource = dvSkillCost;
