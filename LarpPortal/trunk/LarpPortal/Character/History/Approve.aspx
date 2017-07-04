@@ -270,7 +270,7 @@
     <asp:HiddenField ID="hidCampaignPlayerID" runat="server" />
     <asp:HiddenField ID="hidEventDesc" runat="server" />
     <asp:HiddenField ID="hidEventDate" runat="server" />
-<%--    <asp:HiddenField ID="hidPlayerName" runat="server" />--%>
     <asp:HiddenField ID="hidSubmitDate" runat="server" />
     <asp:HiddenField ID="hidCampaignName" runat="server" />
+    <asp:HiddenField ID="hidAuthorName" runat="server" />
 </asp:Content>
