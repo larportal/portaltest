@@ -14,18 +14,19 @@
 <asp:Content ContentPlaceHolderID="MainPage" runat="server" ID="ProfileMainPage">
     <asp:Table ID="Table2" runat="server" BorderColor="Black" BorderStyle="Solid" BorderWidth="0" GridLines="none" Width="100%">
         <asp:TableRow>
-            <asp:TableCell Wrap="false" VerticalAlign="Top" Width="227">
+            <asp:TableCell Wrap="false" VerticalAlign="Top" Width="250" style="padding-right: 25px;">
                 <div class="contentArea">
                     <nav class="userSubNav">
                         <ul class="nav nav-pills" "panel-wrapper list-unstyled scroll-500">
-                            <li runat="server" id="liDemographics"><a href="Demographics.aspx" runat="server" id="hlDemographics">Demographics</a></li>
-                            <li runat="server" id="liSecurity"><a href="Security.aspx" runat="server" id="hlSecurity">Security</a></li>
-<%--                            <li runat="server" id="liPlayerResume"><a href="../PageUnderConstruction.aspx">Player Resume</a></li>
-                            <li runat="server" id="liLARPResume"><a href="../PageUnderConstruction.aspx" runat="server">LARP Resume</a></li>
-                            <li runat="server" id="liMedical"><a href="../PageUnderConstruction.aspx">Medical</a></li>
-                            <li runat="server" id="liWaiversConsent"><a href="../PageUnderConstruction.aspx">Waivers &amp; Consent</a></li>
-                            <li runat="server" id="liPlayerPreferences"><a href="../PageUnderConstruction.aspx">Player Preferences</a></li>
-                            <li runat="server" id="liPlayerInventory"><a href="../PageUnderConstruction.aspx">Player Inventory</a></li>--%>
+                            <li runat="server" id="liProfile"><a href="Profile.aspx" runat="server" id="hlProfile">Profile</a></li>
+                            <li runat="server" id="liRoles"><a href="PlayerRoles.aspx">Roles</a></li>
+                            <li runat="server" id="liPlayerPerferences"><a href="PlayerPreferences.aspx">Preferences</a></li>
+                            <li runat="server" id="liWaiversConsent"><a href="Waivers.aspx">Waivers &amp; Consent</a></li>
+                            <li runat="server" id="liLARPResume"><a href="LARPResume.aspx" runat="server">LARP Resume</a></li>
+                            <li runat="server" id="liResume"><a href="Resume.aspx" runat="server">Work Resume</a></li>
+                            <li runat="server" id="liMedical"><a href="Medical.aspx">Medical Info</a></li>
+                            <li runat="server" id="liSecurity"><a href="Security.aspx" runat="server" id="hlSecurity">System Security</a></li>
+                            <li runat="server" id="liInventory"><a href="PlayerInventory.aspx">Player Inventory</a></li>
                         </ul>
                     </nav>
                 </div>

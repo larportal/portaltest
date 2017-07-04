@@ -40,22 +40,76 @@ namespace LarpPortal.Profile {
         protected global::System.Web.UI.WebControls.Table Table2;
         
         /// <summary>
-        /// liDemographics control.
+        /// liProfile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liDemographics;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liProfile;
         
         /// <summary>
-        /// hlDemographics control.
+        /// hlProfile control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor hlDemographics;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor hlProfile;
+        
+        /// <summary>
+        /// liRoles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liRoles;
+        
+        /// <summary>
+        /// liPlayerPerferences control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liPlayerPerferences;
+        
+        /// <summary>
+        /// liWaiversConsent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liWaiversConsent;
+        
+        /// <summary>
+        /// liLARPResume control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liLARPResume;
+        
+        /// <summary>
+        /// liResume control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liResume;
+        
+        /// <summary>
+        /// liMedical control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liMedical;
         
         /// <summary>
         /// liSecurity control.
@@ -74,6 +128,15 @@ namespace LarpPortal.Profile {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor hlSecurity;
+        
+        /// <summary>
+        /// liInventory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liInventory;
         
         /// <summary>
         /// ProfileMain control.

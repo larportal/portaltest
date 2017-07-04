@@ -616,6 +616,11 @@ namespace LarpPortal.Profile
                     {
                         UpdatedPhone.PhoneTypeID = ddlPhoneType.SelectedValue.ToInt32();
                     }
+                    DropDownList ddlProviderList = (DropDownList)gvPhoneNumbers.Rows[e.RowIndex].FindControl("ddlProviderList");
+                    if (ddlProviderList != null)
+                    {
+                        UpdatedPhone.ProviderID = ddlProviderList.SelectedValue.ToInt32();
+                    }
                     RadioButton rbPrimary = (RadioButton)gvPhoneNumbers.Rows[e.RowIndex].FindControl("rbPrimary");
                     if (rbPrimary != null)
                     {
@@ -686,7 +691,30 @@ namespace LarpPortal.Profile
                             }
                         }
                     }
+                    DropDownList ddlProviderList = (DropDownList)e.Row.FindControl("ddlProviderList");
+                    if (ddlProviderList != null)
+                    {
+                        if (clPhoneNumbers.Count > 0)
+                        {
+                            ddlProviderList.DataTextField = "ProviderName";
+                            ddlProviderList.DataValueField = "PhoneProviderID";
 
+                            ddlProviderList.DataSource = clPhoneNumbers[0].ProviderList;
+                            ddlProviderList.DataBind();
+
+                            ddlProviderList.ClearSelection();
+
+                            cPhone SourcePhone = e.Row.DataItem as cPhone;
+                            foreach (ListItem lItem in ddlProviderList.Items)
+                            {
+                                if (lItem.Value == SourcePhone.ProviderID.ToString())
+                                {
+                                    ddlProviderList.ClearSelection();
+                                    lItem.Selected = true;
+                                }
+                            }
+                        }
+                    }
                     TextBox tbTemp;
 
                     tbTemp = (TextBox)e.Row.FindControl("tbAreaCode");
