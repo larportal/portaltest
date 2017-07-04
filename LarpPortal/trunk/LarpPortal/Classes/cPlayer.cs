@@ -307,11 +307,13 @@ namespace LarpPortal.Classes
                 {
                     cPlayerInventory cItem = new cPlayerInventory
                     {
+                        ItemName = ldr["ItemName"].ToString(),
                         Description = ldr["Description"].ToString(),
                         InventoryTypeDesc = ldr["InventoryTypeDescription"].ToString(),
                         Quantity = ldr["Quantity"].ToString(),
                         Size = ldr["Size"].ToString(),
                         PowerNeeded = ldr["PowerNeeded"].ToString(),
+                        Location = ldr["Location"].ToString(),
                         InventoryNotes = ldr["InventoryNotes"].ToString(),
                         ImageURL = ldr["ImageURL"].ToString(),
                         PlayerComments = ldr["PlayerComments"].ToString(),
