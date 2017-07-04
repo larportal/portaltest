@@ -213,7 +213,7 @@ namespace LarpPortal.Classes
                 {
                     slParams.Add("@RecordID", AddressID);
                     slParams.Add("@UserID", userID);
-                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("upsDelMDBAddresses", slParams, "LARPortal", UserName);
+                    bUpdateComplete = cUtilities.PerformNonQueryBoolean("uspDelMDBAddresses", slParams, "LARPortal", UserName);
                 }
                 else
                 {
