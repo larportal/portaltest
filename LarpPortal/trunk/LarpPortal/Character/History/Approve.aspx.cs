@@ -50,6 +50,12 @@ namespace LarpPortal.Character.History
                 else
                     Response.Redirect("ApprovalList.aspx", true);
 
+                Classes.cUser UserInfo = new Classes.cUser(_UserName, "NOPASSWORD");
+                if (UserInfo.NickName.Length > 0)
+                    hidAuthorName.Value = UserInfo.NickName + " " + UserInfo.LastName;
+                else
+                    hidAuthorName.Value = UserInfo.FirstName + " " + UserInfo.LastName;
+
                 SortedList sParams = new SortedList();
                 sParams.Add("@CharacterID", hidCharacterID.Value);
 
@@ -305,8 +311,10 @@ namespace LarpPortal.Character.History
         {
             if (hidCharacterID.Value.Length > 0)
             {
-                string sSubject = Session["LoginName"].ToString() + " has added a comment to a character history addendum.";
-                string sBody = Session["LoginName"].ToString() + " has added a comment to a character history addendum for " + hidCharacterAKA.Value + "<br><br>";
+                //string sSubject = Session["LoginName"].ToString() + " has added a comment to a character history addendum.";
+                //string sBody = Session["LoginName"].ToString() + " has added a comment to a character history addendum for " + hidCharacterAKA.Value + "<br><br>";
+                string sSubject = hidAuthorName.Value + " has added a comment to a character history addendum.";
+                string sBody = hidAuthorName.Value + " has added a comment to a character history addendum for " + hidCharacterAKA.Value + "<br><br>";
 
                 string AddendumText = "";
                 string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
@@ -396,8 +404,10 @@ namespace LarpPortal.Character.History
             DateTime dtTemp;
             if (hidCharacterID.Value.Length > 0)
             {
-                string sSubject = Session["LoginName"].ToString() + " has added a comment to a character history.";
-                string sBody = Session["LoginName"].ToString() + " has added a comment to a character history for " + hidCharacterAKA.Value + "<br><br>";
+                //string sSubject = Session["LoginName"].ToString() + " has added a comment to a character history.";
+                //string sBody = Session["LoginName"].ToString() + " has added a comment to a character history for " + hidCharacterAKA.Value + "<br><br>";
+                string sSubject = hidAuthorName.Value + " has added a comment to a character history.";
+                string sBody = hidAuthorName.Value + " has added a comment to a character history for " + hidCharacterAKA.Value + "<br><br>";
 
                 string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
 

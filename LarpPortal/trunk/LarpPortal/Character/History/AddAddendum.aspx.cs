@@ -15,6 +15,17 @@ namespace LarpPortal.Character.History
     {
         public bool TextBoxEnabled = true;
 
+        private string _UserName = "";
+        private int _UserID = 0;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Session["Username"].ToString()))
+                _UserName = Session["Username"].ToString();
+            if (!string.IsNullOrEmpty(Session["UserID"].ToString()))
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
+        }
+
         protected void Page_PreRender(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -26,6 +37,12 @@ namespace LarpPortal.Character.History
                     hidRegistrationID.Value = Request.QueryString["RegistrationID"];
                 else
                     Response.Redirect("PELApprovalList.aspx", true);
+
+                Classes.cUser UserInfo = new Classes.cUser(_UserName, "NOPASSWORD");
+                if (UserInfo.NickName.Length > 0)
+                    hidAuthorName.Value = UserInfo.NickName + " " + UserInfo.LastName;
+                else
+                    hidAuthorName.Value = UserInfo.FirstName + " " + UserInfo.LastName;
 
                 SortedList sParams = new SortedList();
                 sParams.Add("@RegistrationID", hidRegistrationID.Value);
@@ -201,8 +218,11 @@ namespace LarpPortal.Character.History
                 if (DateTime.TryParse(hidEventDate.Value, out dtTemp))
                     sEventDate = " that took place on " + dtTemp.ToShortDateString();
 
-                string sSubject = Session["UserName"].ToString() + " has added an addendum to a PEL.";
-                string sBody = Session["UserName"].ToString() + " has added an addendum to a PEL for the event " + hidEventDesc.Value + sEventDate + "<br><br>" +
+                //string sSubject = Session["UserName"].ToString() + " has added an addendum to a PEL.";
+                //string sBody = Session["UserName"].ToString() + " has added an addendum to a PEL for the event " + hidEventDesc.Value + sEventDate + "<br><br>" +
+                //    AddendumText.Replace(Environment.NewLine, "<br>");
+                string sSubject = hidAuthorName.Value + " has added an addendum to a PEL.";
+                string sBody = hidAuthorName.Value + " has added an addendum to a PEL for the event " + hidEventDesc.Value + sEventDate + "<br><br>" +
                     AddendumText.Replace(Environment.NewLine, "<br>");
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
