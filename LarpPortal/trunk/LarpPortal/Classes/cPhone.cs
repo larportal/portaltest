@@ -356,7 +356,16 @@ namespace LarpPortal.Classes
                     slParams.Add("@PhoneNumber", _PhoneNumber + string.Empty);
                     slParams.Add("@Extension", _Extension + string.Empty);
                     if (_ProviderID.HasValue)
-                        slParams.Add("@ProviderID", _ProviderID.Value);
+                    {
+                        int iMobileType = PhoneTypes.First(x => x.PhoneType.ToUpper().StartsWith("MOBIL")).PhoneTypeID;
+                        if (iMobileType == _PhoneTypeID)
+                            slParams.Add("@ProviderID", _ProviderID.Value);
+                        else
+                            slParams.Add("@ClearProviderID", 1);
+                    }
+                    else
+                        slParams.Add("@ClearProviderID", 1);
+
                     slParams.Add("@Comments", _Comments + string.Empty);
                     blnReturn = cUtilities.PerformNonQueryBoolean("uspInsUpdMDBPhoneNumbers", slParams, "LARPortal", _UserName);
                 }

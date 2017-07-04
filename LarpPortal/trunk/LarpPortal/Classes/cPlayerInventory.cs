@@ -15,11 +15,13 @@ namespace LarpPortal.Classes
         public Int32 PlayerInventoryID { get; set; }
         public Int32 PlayerProfileID { get; set; }
         public string Description { get; set; }
+        public string ItemName { get; set; }
         public Int32 InventoryTypeID { get; set; }
         public string InventoryTypeDesc { get; set; }
         public string Quantity { get; set; }
         public string Size { get; set; }
         public string PowerNeeded { get; set; }
+        public string Location { get; set; }
         public bool WillShare { get; set; }
         public string InventoryNotes { get; set; }
         public int ImageID { get; set; }
@@ -34,11 +36,13 @@ namespace LarpPortal.Classes
             PlayerInventoryID = -1;
             PlayerProfileID = -1;
             Description = "";
+            ItemName = "";
             InventoryTypeID = -1;
             InventoryTypeDesc = "";
             Quantity = "";
             Size = "";
             PowerNeeded = "";
+            Location = "";
             WillShare = false;
             InventoryNotes = "";
 //            InventoryImage = "";
@@ -62,10 +66,12 @@ namespace LarpPortal.Classes
                 DataTable ldt = cUtilities.LoadDataTable("uspGetPlayerInventoryByID", slParams, "LARPortal", strUserName, lsRoutineName);
                 if (ldt.Rows.Count > 0)
                 {
+                    ItemName = ldt.Rows[0]["ItemName"].ToString();
                     Description = ldt.Rows[0]["Description"].ToString();
                     Quantity = ldt.Rows[0]["Quantity"].ToString();
                     Size = ldt.Rows[0]["Size"].ToString();
                     PowerNeeded = ldt.Rows[0]["PowerNeeded"].ToString();
+                    Location = ldt.Rows[0]["Location"].ToString();
                     InventoryNotes = ldt.Rows[0]["InventoryNotes"].ToString();
 //                  InventoryImage = ldt.Rows[0]["InventoryImage"].ToString();
                     ImageURL = ldt.Rows[0]["ImageURL"].ToString();
@@ -85,7 +91,6 @@ namespace LarpPortal.Classes
                         ImageID = iTemp;
                         InvImage = new cPicture();
                         InvImage.Load(iTemp, strUserName);
-                        
                     }
 
                     bool bTemp;
@@ -115,11 +120,13 @@ namespace LarpPortal.Classes
                     slParams.Add("@UserID", UserID);
                     slParams.Add("@PlayerInventoryID", PlayerInventoryID);
                     slParams.Add("@PlayerProfileID", PlayerProfileID);
+                    slParams.Add("@ItemName", ItemName);
                     slParams.Add("@Description", Description);
                     slParams.Add("@InventoryTypeID", InventoryTypeID);
                     slParams.Add("@Quantity", Quantity);
                     slParams.Add("@Size", Size);
                     slParams.Add("@PowerNeeded", PowerNeeded);
+                    slParams.Add("@Location", Location);
                     if (WillShare)
                         slParams.Add("@WillShare", 1);
                     else
