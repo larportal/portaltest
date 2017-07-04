@@ -103,10 +103,13 @@
                                         <td class="TableLabel">DOB</td>
                                         <td>
                                             <asp:TextBox ID="tbDOB" runat="server" CssClass="TableTextBox" /></td>
-                                        <td class="TableLabel">Birthplace</td>
+                                        <td colspan="2">
+                                            &nbsp;
+                                        </td>
+<%--                                        <td class="TableLabel">Birthplace</td>
                                         <td>
                                             <asp:TextBox ID="tbBirthPlace" runat="server" CssClass="TableTextBox" />
-                                        </td>
+                                        </td>--%>
                                         <td>
                                             <asp:FileUpload ID="ulFile" runat="server" />
                                         </td>
@@ -146,15 +149,11 @@
                                         <td class="TableLabel">Name</td>
                                         <td class="col-sm-2" colspan="3">
                                             <asp:TextBox ID="tbEmergencyName" runat="server" CssClass="TableTextBox" />
-                                            <asp:RequiredFieldValidator ID="rfvEmergencyName" runat="server" ControlToValidate="tbEmergencyName" Font-Italic="true"
-                                                ForeColor="Red" Font-Bold="true" Text="* Required" Display="Dynamic" />
                                         </td>
                                         <td class="TableLabel">Phone</td>
                                         <td colspan="4">
                                             <asp:TextBox ID="tbEmergencyPhone" runat="server" CssClass="TableTextBox col-sm-2" Columns="15" />
-                                            <ajaxToolkit:MaskedEditExtender ID="meeEmergencyPhone" runat="server" TargetControlID="tbEmergencyPhone" Mask="(999) 999-9999" />
-                                            <asp:RequiredFieldValidator ID="rfvEmergencyPhone" runat="server" ControlToValidate="tbEmergencyPhone" Font-Italic="true"
-                                                ForeColor="Red" Font-Bold="true" Text="* Required" Display="Dynamic" />
+                                            <ajaxToolkit:MaskedEditExtender ID="meeEmergencyPhone" runat="server" TargetControlID="tbEmergencyPhone" ClearMaskOnLostFocus="false" Mask="(999) 999-9999" />
                                             <asp:RegularExpressionValidator ID="revEmergencyPhone" runat="server" ValidationExpression="^[\s\S]{10}$" ControlToValidate="tbEmergencyPhone"
                                                 ErrorMessage="* Enter all 10 digits of the phone number." Font-Italic="true" ForeColor="Red" Font-Bold="true" Display="Dynamic" />
                                         </td>
@@ -330,6 +329,14 @@
                                                 <asp:RadioButton runat="server" ID="rbPrimary" Checked='<%# Eval("IsPrimary") %>' />
                                             </EditItemTemplate>
                                         </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Provider">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" Text='<%# Eval("Provider") %>' />
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <asp:DropDownList runat="server" ID="ddlProviderList" />
+                                            </EditItemTemplate>
+                                        </asp:TemplateField>
                                         <asp:TemplateField ShowHeader="false" ItemStyle-Wrap="false" ItemStyle-HorizontalAlign="right">
                                             <ItemTemplate>
                                                 <asp:Button ID="btnEdit" runat="server" CommandName="Edit" Text="Edit" Width="100px" CssClass="StandardButton" />
@@ -407,7 +414,7 @@
                                     </Columns>
                                 </asp:GridView>
                                 <div style="width: 100%; text-align: right; padding-top: 10px; padding-bottom: 0px; margin-bottom: 10px; padding-right: 0px; margin-right: 0px;">
-                                    <asp:Button ID="btnAddEmail" runat="server" Text="Add Phone Number" Width="150px" CssClass="StandardButton" OnClick="btnAddEmail_Click"
+                                    <asp:Button ID="btnAddEmail" runat="server" Text="Add EMail" Width="150px" CssClass="StandardButton" OnClick="btnAddEmail_Click"
                                         Style="padding-right: 0px; margin-right: 0px;" />
                                 </div>
                             </div>
@@ -429,7 +436,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <a class="close" data-dismiss="modal" style="color: white;">×</a>
-                    Character History
+                    Profile Demographics
                 </div>
                 <div class="modal-body" style="background-color: white;">
                     <p>

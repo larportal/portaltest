@@ -10,7 +10,7 @@
 namespace LarpPortal.Profile {
     
     
-    public partial class Demographics {
+    public partial class LARPResume {
         
         /// <summary>
         /// lblHeader control.
@@ -22,273 +22,210 @@ namespace LarpPortal.Profile {
         protected global::System.Web.UI.WebControls.Label lblHeader;
         
         /// <summary>
-        /// lblErrorMessage1 control.
+        /// gvResumeItems control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorMessage1;
+        protected global::System.Web.UI.WebControls.GridView gvResumeItems;
         
         /// <summary>
-        /// btnSave1 control.
+        /// btnAddResumeItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSave1;
+        protected global::System.Web.UI.WebControls.Button btnAddResumeItem;
         
         /// <summary>
-        /// tbFirstName control.
+        /// tbLARPResumeComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbFirstName;
+        protected global::System.Web.UI.WebControls.TextBox tbLARPResumeComments;
         
         /// <summary>
-        /// tbMiddleInit control.
+        /// btnSaveComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbMiddleInit;
+        protected global::System.Web.UI.WebControls.Button btnSaveComments;
         
         /// <summary>
-        /// tbLastName control.
+        /// lblModalMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbLastName;
+        protected global::System.Web.UI.WebControls.Label lblModalMessage;
         
         /// <summary>
-        /// imgPlayerImage control.
+        /// tbStartDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgPlayerImage;
+        protected global::System.Web.UI.WebControls.TextBox tbStartDate;
         
         /// <summary>
-        /// ddlGender control.
+        /// ceStartMonthYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlGender;
+        protected global::AjaxControlToolkit.CalendarExtender ceStartMonthYear;
         
         /// <summary>
-        /// tbGenderOther control.
+        /// tbEndDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbGenderOther;
+        protected global::System.Web.UI.WebControls.TextBox tbEndDate;
         
         /// <summary>
-        /// tbDOB control.
+        /// ceEndMonthYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbDOB;
+        protected global::AjaxControlToolkit.CalendarExtender ceEndMonthYear;
         
         /// <summary>
-        /// ulFile control.
+        /// tbGameSystem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.FileUpload ulFile;
+        protected global::System.Web.UI.WebControls.TextBox tbGameSystem;
         
         /// <summary>
-        /// tbUserName control.
+        /// tbCampaign control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbUserName;
+        protected global::System.Web.UI.WebControls.TextBox tbCampaign;
         
         /// <summary>
-        /// tbNickName control.
+        /// tbAuthorGM control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbNickName;
+        protected global::System.Web.UI.WebControls.TextBox tbAuthorGM;
         
         /// <summary>
-        /// tbPenName control.
+        /// ddlStyle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbPenName;
+        protected global::System.Web.UI.WebControls.DropDownList ddlStyle;
         
         /// <summary>
-        /// btnUpload control.
+        /// ddlGenre control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUpload;
+        protected global::System.Web.UI.WebControls.DropDownList ddlGenre;
         
         /// <summary>
-        /// tbForumName control.
+        /// ddlRole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbForumName;
+        protected global::System.Web.UI.WebControls.DropDownList ddlRole;
         
         /// <summary>
-        /// btnClearPicture control.
+        /// tbComments control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClearPicture;
+        protected global::System.Web.UI.WebControls.TextBox tbComments;
         
         /// <summary>
-        /// tbEmergencyName control.
+        /// hidPlayerLARPResumeID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbEmergencyName;
+        protected global::System.Web.UI.WebControls.HiddenField hidPlayerLARPResumeID;
         
         /// <summary>
-        /// tbEmergencyPhone control.
+        /// btnSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbEmergencyPhone;
+        protected global::System.Web.UI.WebControls.Button btnSave;
         
         /// <summary>
-        /// meeEmergencyPhone control.
+        /// lblDeleteMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.MaskedEditExtender meeEmergencyPhone;
+        protected global::System.Web.UI.WebControls.Label lblDeleteMessage;
         
         /// <summary>
-        /// revEmergencyPhone control.
+        /// btnCancelDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator revEmergencyPhone;
+        protected global::System.Web.UI.WebControls.Button btnCancelDelete;
         
         /// <summary>
-        /// gvAddresses control.
+        /// hidDeleteResumeItemID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvAddresses;
+        protected global::System.Web.UI.WebControls.HiddenField hidDeleteResumeItemID;
         
         /// <summary>
-        /// btnAddAddress control.
+        /// btnDeleteResumeItem control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddAddress;
+        protected global::System.Web.UI.WebControls.Button btnDeleteResumeItem;
         
         /// <summary>
-        /// gvPhoneNumbers control.
+        /// hidPlayerProfileID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPhoneNumbers;
-        
-        /// <summary>
-        /// btnAddPhoneNumber control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddPhoneNumber;
-        
-        /// <summary>
-        /// gvEmails control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvEmails;
-        
-        /// <summary>
-        /// btnAddEmail control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddEmail;
-        
-        /// <summary>
-        /// lblErrorMessage2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorMessage2;
-        
-        /// <summary>
-        /// btnSave2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSave2;
-        
-        /// <summary>
-        /// lblMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblMessage;
-        
-        /// <summary>
-        /// btnClose control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnClose;
+        protected global::System.Web.UI.WebControls.HiddenField hidPlayerProfileID;
     }
 }
