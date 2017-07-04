@@ -16,6 +16,16 @@ namespace LarpPortal.PELs
         public bool TextBoxEnabled = true;
         private DataTable _dtPELComments = new DataTable();
         private DataTable _dtAddendumComments = null;
+        private string _UserName = "";
+        private int _UserID = 0;
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Session["Username"].ToString()))
+                _UserName = Session["Username"].ToString();
+            if (!string.IsNullOrEmpty(Session["UserID"].ToString()))
+                int.TryParse(Session["UserID"].ToString(), out _UserID);
+        }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
@@ -28,6 +38,12 @@ namespace LarpPortal.PELs
                     hidRegistrationID.Value = Request.QueryString["RegistrationID"];
                 else
                     Response.Redirect("PELApprovalList.aspx", true);
+
+                Classes.cUser UserInfo = new Classes.cUser(_UserName, "NOPASSWORD");
+                if (UserInfo.NickName.Length > 0)
+                    hidAuthorName.Value = UserInfo.NickName + " " + UserInfo.LastName;
+                else
+                    hidAuthorName.Value = UserInfo.FirstName + " " + UserInfo.LastName;
 
                 SortedList sParams = new SortedList();
                 sParams.Add("@RegistrationID", hidRegistrationID.Value);
@@ -79,7 +95,7 @@ namespace LarpPortal.PELs
 
                     hidPELNotificationEMail.Value = dsQuestions.Tables[0].Rows[0]["PELNotificationEMail"].ToString();
                     if (hidPELNotificationEMail.Value.Length == 0)
-                        hidPELNotificationEMail.Value = "support@larportal.com,jbradshaw@pobox.com";
+                        hidPELNotificationEMail.Value = "support@larportal.com";
 
                     int iCampaignPlayerID = 0;
                     if (int.TryParse(dsQuestions.Tables[0].Rows[0]["CampaignPlayerID"].ToString(), out iCampaignPlayerID))
@@ -104,11 +120,11 @@ namespace LarpPortal.PELs
                     {
                         Classes.cPlayer PLDemography = null;
 
-                        string uName = "";
-                        if (!string.IsNullOrEmpty(Session["Username"].ToString()))
-                            uName = Session["Username"].ToString();
+                        //string uName = "";
+                        //if (!string.IsNullOrEmpty(Session["Username"].ToString()))
+                        //    uName = Session["Username"].ToString();
 
-                        PLDemography = new Classes.cPlayer(iUserID, uName);
+                        PLDemography = new Classes.cPlayer(_UserID, _UserName);
 
                         imgPicture.ImageUrl = "/img/BlankProfile.png";    // Default it to this so if it is not set it will display the blank profile picture.
                         if (!string.IsNullOrEmpty(PLDemography.UserPhoto))
@@ -202,7 +218,7 @@ namespace LarpPortal.PELs
 
                     rptAddendum.DataSource = dtNewAddendum;
                     rptAddendum.DataBind();
-               }
+                }
 
             }
         }
@@ -455,8 +471,10 @@ namespace LarpPortal.PELs
                 if (DateTime.TryParse(hidEventDate.Value, out dtTemp))
                     sEventDate = " that took place on " + dtTemp.ToShortDateString();
 
-                string sSubject = Session["LoginName"].ToString() + " has added a comment to a PEL.";
-                string sBody = Session["LoginName"].ToString() + " has added a comment to a PEL for " + hidCharacterAKA.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
+                //string sSubject = Session["LoginName"].ToString() + " has added a comment to a PEL.";
+                //string sBody = Session["LoginName"].ToString() + " has added a comment to a PEL for " + hidCharacterAKA.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
+                string sSubject = hidAuthorName.Value + " has added a comment to a PEL.";
+                string sBody = hidAuthorName.Value + " has added a comment to a PEL for " + hidCharacterAKA.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
 
                 string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
 
@@ -475,10 +493,7 @@ namespace LarpPortal.PELs
                 sBody += sCommentTable;
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                //if ( System.Diagnostics.Debugger.IsAttached )
-                //    cEMS.SendMail(sSubject, sBody, "jbradshaw@pobox.com", "", "");
-                //else
-                    cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "", "PELComments", Session["Username"].ToString());
+                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "", "PELComments", Session["Username"].ToString());
             }
         }
 
@@ -614,8 +629,10 @@ namespace LarpPortal.PELs
                 if (DateTime.TryParse(hidEventDate.Value, out dtTemp))
                     sEventDate = " that took place on " + dtTemp.ToShortDateString();
 
-                string sSubject = Session["LoginName"].ToString() + " has added a comment to a PEL Addendum.";
-                string sBody = Session["LoginName"].ToString() + " has added a comment to a PEL Addendum for " + hidCharacterAKA.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
+                //string sSubject = Session["LoginName"].ToString() + " has added a comment to a PEL Addendum.";
+                //string sBody = Session["LoginName"].ToString() + " has added a comment to a PEL Addendum for " + hidCharacterAKA.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
+                string sSubject = hidAuthorName.Value + " has added a comment to a PEL Addendum.";
+                string sBody = hidAuthorName.Value + " has added a comment to a PEL Addendum for " + hidCharacterAKA.Value + " for the event " + hidEventDesc.Value + sEventDate + "<br><br>";
 
                 string AddendumText = "";
                 string sCommentTable = "<table border='1'><tr><th>Date Added</th><th>Added By</th><th>Comment</th></tr>";
@@ -637,14 +654,11 @@ namespace LarpPortal.PELs
 
                 sBody += "The original addendum was:<br>" + AddendumText.Replace("\n", "<br>") + "<br><br>";
                 sBody += "The comments for the addendum are newest first:<br><br>";
-                
+
                 sBody += sCommentTable;
 
                 Classes.cEmailMessageService cEMS = new Classes.cEmailMessageService();
-                //if ( System.Diagnostics.Debugger.IsAttached )
-                //    cEMS.SendMail(sSubject, sBody, "jeffrey.bradshaw@quixeltech.com", "", "");
-                //else
-                    cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "","PELComments", Session["Username"].ToString());
+                cEMS.SendMail(sSubject, sBody, hidPELNotificationEMail.Value, "", "", "PELComments", Session["Username"].ToString());
             }
         }
     }
