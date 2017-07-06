@@ -19,7 +19,7 @@ namespace LarpPortal.Points
         {
             if (!IsPostBack)
             {
-                txtAdditionalPlayers.Attributes.Add("Placeholder", "e.g. Name:John Doe Event: Event 7 Points: 1.5: Name:Jane Doe Event: Event 6-One Day Points:0.5:");
+                txtAdditionalPlayers.Attributes.Add("Placeholder", "e.g. Name:John Doe Event: Event 7 Points: 1.5: Name:Jane Smith Event: May 23, 2017-One Day Points:0.5:");
                 int CurrentCampaignID = Convert.ToInt32(Session["CampaignID"]);
                 // ********** When we send, calling job is going to be PointsEmail which is entry in MDBSMTP table **********
                 ddlCampaignLoad(CurrentCampaignID);
@@ -395,6 +395,7 @@ namespace LarpPortal.Points
                 ddlRegistrant.Enabled = false;
                 ddlEvent.Enabled = false;
                 ddlDescription.Enabled = false;
+                //FillGrid(hidUserName.Value, hidCampaignID.Value);
             }
 
         }
@@ -490,8 +491,7 @@ namespace LarpPortal.Points
                 }
             }
             gvPoints.EditIndex = -1;
-            FillGrid(hidUserName.Value, ddlCampaign.SelectedValue);
-            //Page_PreRender(btnAddNewReg_Click, 
+            FillGrid(hidUserName.Value, hidCampaignID.Value);
         }
 
         protected void AddNewPointsTentative(string strComboID)
@@ -674,6 +674,10 @@ namespace LarpPortal.Points
 
                 sParams.Add("@FromEmailAddress", txtAlternateFromEmail.Text);
             }
+            if(hidAlternateTo.Value != "")
+            {
+                sParams.Add("@AlternateToEmail", hidAlternateTo.Value);
+            }
             sParams.Add("@FromUserID", UserID);
             sParams.Add("@CCEmail", txtAdditionalCcs.Text);
             if (txtNewSubject.Text != "")
@@ -703,6 +707,7 @@ namespace LarpPortal.Points
 
         protected void btnPreviewUpdate_Click(object sender, EventArgs e)
         {
+            lblEmailFailed.Visible = false;
             if (txtAdditionalPlayers.Text != "")
             {
                 hidAdditionalPlayers.Value = txtAdditionalPlayers.Text;
@@ -712,6 +717,23 @@ namespace LarpPortal.Points
             {
                 hidCc.Value = txtAdditionalCcs.Text;
                 //txtAdditionalCcs.Text = "";
+                if (hidEmailTo.Value == "")
+                {
+                    hidEmailTo.Value = txtAdditionalCcs.Text;
+                    hidAlternateTo.Value = txtAdditionalCcs.Text;
+                    txtAdditionalCcs.Text = "";
+                    hidCc.Value = "";
+                    //hidAlternateTo.Value = txtAdditionalCcs.Text;
+                }
+            }
+            if (hidEmailTo.Value == "")
+            {
+                string jsString = "alert('There is no To: address.  Please enter email for additional recipients.');";
+                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                        "MyApplication",
+                        jsString,
+                        true);
+                return;
             }
             if (txtNewSubject.Text != "")
             {
@@ -743,6 +765,7 @@ namespace LarpPortal.Points
             hidCc.Value = "";
             hidSubject.Value = hidSubjectOriginal.Value;
             hidBodyAdditionalText.Value = "";
+            hidEmailTo.Value = "";
         }
 
         protected void btnSendEmail_Click(object sender, EventArgs e)
@@ -763,6 +786,10 @@ namespace LarpPortal.Points
                 pnlPreviewEmail.Visible = false;
                 ddlCampaign.SelectedIndex = 0;
                 ddlCampaign.Enabled = true;
+                btnCancel.Visible = false;
+                btnSendEmail.Visible = false;
+                btnPreviewUpdate.Visible = false;
+                hidEmailTo.Value = "";
                 FillGrid(hidUserName.Value, hidCampaignID.Value);
             }
             else
@@ -776,6 +803,16 @@ namespace LarpPortal.Points
         {
             lblEmailFailed.Text = "";
             string strTo = hidEmailTo.Value;
+            if (strTo == "")
+            {
+                string jsString = "alert('There is no To: address.  Please enter email for additional recipients.');";
+                ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(),
+                        "MyApplication",
+                        jsString,
+                        true);
+                lblEmailFailed.Text = "There is no To: address.  Please enter email for additional recipients.";
+                return;
+            }
             string strCC = hidEmailCC.Value;
             string strBCC = hidEmailBCC.Value;
             string strSubject = hidEmailSubject.Value;

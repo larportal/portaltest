@@ -409,6 +409,7 @@
                                         <h2>Preview Email</h2>
                                         <div class="panel-body NoPadding">
                                             <asp:HiddenField ID="hidTo" runat="server" Value="Email Of Receiving Campaign" />
+                                            <asp:HiddenField ID="hidAlternateTo" runat="server" Value="" />
                                             <asp:HiddenField ID="hidSubjectOriginal" runat="server" Value="CP from {FromCampaign} to {ToCampaign}" />
                                             <asp:HiddenField ID="hidSubject" runat="server" Value="CP from {FromCampaign} to {ToCampaign}" />
                                             <asp:HiddenField ID="hidCc" runat="server" Value="" />
@@ -447,7 +448,7 @@
                                                     </div>
                                                     <div class="row col-lg-12">
                                                         <asp:Label ID="lblAdditionalPlayers" runat="server" AssociatedControlID="txtAdditionalPlayers">
-                                                            Additional Players (Type Name:player's name,Event:event name,Point:point value with a colon after the CP.  Repeat for each.)
+                                                            Additional Players (Type Name:player's name Event:event name Points:point value with a colon after the point amount.  Repeat for each for each person.)
                                                         </asp:Label>
                                                         <asp:TextBox ID="txtAdditionalPlayers" runat="server" CssClass="col-lg-12" TextMode="MultiLine"></asp:TextBox>
                                                     </div>

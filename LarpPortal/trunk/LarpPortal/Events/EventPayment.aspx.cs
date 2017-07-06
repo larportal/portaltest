@@ -54,13 +54,14 @@ namespace LarpPortal.Events
                     string EventName = "";
                     string CampaignName = "";
                     int PageCodeID = 0;
+                    int CampaignID = 0;
                     SortedList slParams = new SortedList();
                     slParams.Add("@RegistrationID", RegistrationID);
                     DataTable dtPaymentPageCode = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
                     if (dtPaymentPageCode.Rows.Count == 0)
                     {
                         Session["OnlinePayment"] = "N";
-                        lblHeader.Text = "There are no online payment options setup for this campaign.  Please visit the campaign website for payment instructions.";
+                        lblHeader.Text = "There are no LARP Portal online payment options for this campaign.  Please check the campaign website.";
                         lblHeader.Visible = true;
                         lblRegistrationText.Text = "";
                         HideOptions();
@@ -71,9 +72,11 @@ namespace LarpPortal.Events
                         {
                             int.TryParse(dRow["PaymentPageID"].ToString(), out PageCodeID);
                             int.TryParse(dRow["RoleAlignmentID"].ToString(), out RoleAlignmentID);
+                            int.TryParse(dRow["CampaignID"].ToString(), out CampaignID);
                             CharacterAKA = dRow["CharacterAKA"].ToString();
                             EventName = dRow["EventName"].ToString();
                             CampaignName = dRow["CampaignName"].ToString();
+
                             switch (RoleAlignmentID)
                             {
                                 case 2:
@@ -88,13 +91,13 @@ namespace LarpPortal.Events
                             }
                             hidItemName.Value = EventName + " - " + CharacterAKA;
                         }
-                        GetPageCode(PageCodeID, CharacterAKA, EventName, CampaignName);
+                        GetPageCode(PageCodeID, CharacterAKA, EventName, CampaignName, RegistrationID, CampaignID, RoleAlignmentID);
                     }
                 }
             }
         }
 
-        protected void GetPageCode(int PaymentPageID, string CharacterAKA, string EventName, string CampaignName)
+        protected void GetPageCode(int PaymentPageID, string CharacterAKA, string EventName, string CampaignName, int RegistrationID, int CampaignID, int RoleAlignmentID)
         {
             string lsRoutineName = "EventPayment.PageLoad.PaymentPageCode";
             string stStoredProc = "uspGetPaymentPageTypeCode";
@@ -107,11 +110,7 @@ namespace LarpPortal.Events
             DataTable dtPaymentPageCode = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
             if (dtPaymentPageCode.Rows.Count == 0)
             {
-                Session["OnlinePayment"] = "N";
-                lblHeader.Text = "There are no online payment options for this campaign";
-                lblHeader.Visible = true;
-                lblRegistrationText.Text = "";
-                HideOptions();
+                RedirectToCampaignSpecificURL(CampaignID, CharacterAKA, EventName, CampaignName, RoleAlignmentID);
             }
             else
             {
@@ -144,6 +143,33 @@ namespace LarpPortal.Events
             }
         }
 
+        protected void RedirectToCampaignSpecificURL(int CampaignID, string CharacterAKA, string EventName, string CampaignName, int RoleAlignmentID)
+        {
+            string lsRoutineName = "EventPayment.RedirectToCampaignSpecificURL";
+            string stStoredProc = "uspGetPaymentPageRedirectURL";
+            string strUserName = Session["UserName"].ToString();
+            string PaymentPageURL = "";
+            SortedList slParams = new SortedList();
+            slParams.Add("@CampaignID", CampaignID);
+            DataTable dtPaymentPageCode = cUtilities.LoadDataTable(stStoredProc, slParams, "LARPortal", strUserName, lsRoutineName);
+            if (dtPaymentPageCode.Rows.Count != 0)
+            {
+                foreach (DataRow dRow in dtPaymentPageCode.Rows)
+                {
+                    PaymentPageURL = dRow["PaymentPageURL"].ToString();
+                    Response.Redirect(PaymentPageURL);
+                }
+            }
+            else
+            {
+                Session["OnlinePayment"] = "N";
+                lblHeader.Text = "There are no LARP Portal online payment options for this campaign.  Please check the campaign website.";
+                lblHeader.Visible = true;
+                lblRegistrationText.Text = "";
+                HideOptions();
+            }
+        }
+
         protected void HideOptions()
         {
             if (Session["OnlinePayment"].ToString() == "N")
@@ -154,6 +180,7 @@ namespace LarpPortal.Events
                 lblRegistrationText.Visible = false;
                 btnCalculateOrder.Visible = false;
                 btnPayPalTotal.Visible = false;
+                lblPaymentNote.Visible = false;
                 chkAllMeals.Visible = false;
                 chkRegistration.Visible = false;
                 chkSaturdayBrunch.Visible = false;
@@ -265,6 +292,7 @@ namespace LarpPortal.Events
                 lblOrderTotalDisplay.Text = "Your total is $" + OrderTotal.ToString();
                 lblOrderTotalDisplay.Visible = true;
                 btnPayPalTotal.Visible = true;
+                lblPaymentNote.Visible = true;
             }
             else
             {
