@@ -19,39 +19,38 @@ namespace LarpPortal
         {
             if (!IsPostBack)
             {
+                ddlUserCampaigns.SelectedIndex = 0;
+                ddlUserCampaigns.Items.Clear();
+                string uName = "";
+                int uID = 0;
+                if (Session["Username"] != null)
+                    uName = Session["Username"].ToString();
+                if (Session["UserID"] != null)
+                    uID = (Session["UserID"].ToString().ToInt32());
+                Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
+                CampaignChoices.Load(uID);
+                if (CampaignChoices.CountOfUserCampaigns == 0)
+                    Response.Redirect("~/NoCurrentCampaignAssociations.aspx");
+                ddlUserCampaigns.DataTextField = "CampaignName";
+                ddlUserCampaigns.DataValueField = "CampaignID";
+                ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
+                ddlUserCampaigns.DataBind();
 
+                if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
+                {
+                    // Define Player roles here
+                    Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
+                    Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
+                    Roles.Load(uID, 0, ddlUserCampaigns.SelectedItem.Value.ToInt32(), DateTime.Today);
+                    Session["PlayerRoleString"] = Roles.PlayerRoleString;
+                    Response.Redirect(Request.RawUrl);
+                }
             }
         }
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            ddlUserCampaigns.SelectedIndex = 0;
-            ddlUserCampaigns.Items.Clear();
-            string uName = "";
-            int uID = 0;
-            if (Session["Username"] != null)
-                uName = Session["Username"].ToString();
-            if (Session["UserID"] != null)
-                uID = (Session["UserID"].ToString().ToInt32());
-            Classes.cUserCampaigns CampaignChoices = new Classes.cUserCampaigns();
-            CampaignChoices.Load(uID);
-            if (CampaignChoices.CountOfUserCampaigns == 0)
-                Response.Redirect("~/NoCurrentCampaignAssociations.aspx");
-            ddlUserCampaigns.DataTextField = "CampaignName";
-            ddlUserCampaigns.DataValueField = "CampaignID";
-            ddlUserCampaigns.DataSource = CampaignChoices.lsUserCampaigns;
-            ddlUserCampaigns.DataBind();
-            ddlUserCampaigns.Items.Add(new ListItem("Add a new campaign", "-1"));
 
-            if (Session["CampaignName"].ToString() != ddlUserCampaigns.SelectedItem.Text.ToString())
-            {
-                // Define Player roles here
-                Session["CampaignName"] = ddlUserCampaigns.SelectedItem.Text.ToString();
-                Classes.cPlayerRoles Roles = new Classes.cPlayerRoles();
-                Roles.Load(uID, 0, ddlUserCampaigns.SelectedItem.Value.ToInt32(), DateTime.Today);
-                Session["PlayerRoleString"] = Roles.PlayerRoleString;
-                Response.Redirect(Request.RawUrl);
-            }
         }
 
         protected void ddlReorderList()

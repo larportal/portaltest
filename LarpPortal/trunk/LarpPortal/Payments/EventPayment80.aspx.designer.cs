@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LarpPortal.Events {
+namespace LarpPortal.Payments {
     
     
-    public partial class EventPayment {
+    public partial class EventPayment80 {
         
         /// <summary>
         /// hidItemName control.
@@ -128,15 +128,6 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton btnPayPalTotal;
-        
-        /// <summary>
-        /// lblPaymentNote control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPaymentNote;
         
         /// <summary>
         /// lblClosePayPalForm control.

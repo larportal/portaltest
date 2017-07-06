@@ -488,6 +488,7 @@
     <Content Include="ckeditor\skins\moono\readme.md" />
     <Content Include="ckeditor\styles.js" />
     <Content Include="ContactUs.aspx" />
+    <Content Include="controls\CharacterSelect.ascx" />
     <Content Include="Crossover.aspx" />
     <Content Include="css\Images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Events\EventDefaults.aspx" />
@@ -510,6 +511,9 @@
     <Content Include="img\uncheckbox.png" />
     <Content Include="img\Unchecked-Checkbox-icon.png" />
     <Content Include="Madrigal.aspx" />
+    <Content Include="Payments\EventPayment102.aspx" />
+    <Content Include="Payments\EventPayment33.aspx" />
+    <Content Include="Payments\EventPayment80.aspx" />
     <Content Include="PELs\MissingEvent.aspx" />
     <Content Include="PELs\PELAddAddendum.aspx" />
     <Content Include="Points\PointsEmail.aspx" />
@@ -1172,6 +1176,7 @@
     <Compile Include="Classes\cCharacterDeath.cs" />
     <Compile Include="Classes\cCharacterHistory.cs" />
     <Compile Include="Classes\cCharacterItems.cs" />
+    <Compile Include="Classes\cCharacterPlace.cs" />
     <Compile Include="Classes\cCharacterRelationship.cs" />
     <Compile Include="Classes\cCharacterSkill.cs" />
     <Compile Include="Classes\cCharacterSkillSets.cs" />
@@ -1194,8 +1199,10 @@
     <Compile Include="Classes\cPicture.cs" />
     <Compile Include="Classes\cPlace.cs" />
     <Compile Include="Classes\cPlayer.cs" />
+    <Compile Include="Classes\cPlayerAffiliation.cs" />
     <Compile Include="Classes\cPlayerInventory.cs" />
     <Compile Include="Classes\cPlayerLARPResume.cs" />
+    <Compile Include="Classes\cPlayerLimitation.cs" />
     <Compile Include="Classes\cPlayerMedical.cs" />
     <Compile Include="Classes\cPlayerOccasionExceptions.cs" />
     <Compile Include="Classes\cPlayerRole.cs" />
@@ -1234,6 +1241,13 @@
     </Compile>
     <Compile Include="ContactUs.aspx.designer.cs">
       <DependentUpon>ContactUs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="controls\CharacterSelect.ascx.cs">
+      <DependentUpon>CharacterSelect.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="controls\CharacterSelect.ascx.designer.cs">
+      <DependentUpon>CharacterSelect.ascx</DependentUpon>
     </Compile>
     <Compile Include="Crossover.aspx.cs">
       <DependentUpon>Crossover.aspx</DependentUpon>
@@ -1297,6 +1311,27 @@
     </Compile>
     <Compile Include="Madrigal.aspx.designer.cs">
       <DependentUpon>Madrigal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Payments\EventPayment102.aspx.cs">
+      <DependentUpon>EventPayment102.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Payments\EventPayment102.aspx.designer.cs">
+      <DependentUpon>EventPayment102.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Payments\EventPayment33.aspx.cs">
+      <DependentUpon>EventPayment33.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Payments\EventPayment33.aspx.designer.cs">
+      <DependentUpon>EventPayment33.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Payments\EventPayment80.aspx.cs">
+      <DependentUpon>EventPayment80.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Payments\EventPayment80.aspx.designer.cs">
+      <DependentUpon>EventPayment80.aspx</DependentUpon>
     </Compile>
     <Compile Include="PELs\MissingEvent.aspx.cs">
       <DependentUpon>MissingEvent.aspx</DependentUpon>

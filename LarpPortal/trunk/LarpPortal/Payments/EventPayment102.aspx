@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="EventPayment.aspx.cs" Inherits="LarpPortal.Events.EventPayment" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="EventPayment102.aspx.cs" Inherits="LarpPortal.Payments.EventPayment102" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeaderStyles" runat="server">
     <style type="text/css">
         .TableTextBox {
@@ -114,9 +113,6 @@
                 <asp:ImageButton ID="btnPayPalTotal" runat="server" ImageUrl="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" PostBackUrl="https://secure.paypal.com/cgi-bin/webscr" Visible="false" OnClick="btnPayPalTotal_Click" />
             </div>
             <div>
-                <asp:Label ID="lblPaymentNote" runat="server" Visible="false">NOTE: Payments will only reflect on your registration in LARP Portal once staff has applied the payment.  This usually happens the week before the event.</asp:Label>
-            </div>
-            <div>
                 <asp:Label ID="lblClosePayPalForm" runat="server" Text="</form>"></asp:Label>
             </div>
         </div>
@@ -132,4 +128,3 @@
         </div>
     </div>
 </asp:Content>
-
