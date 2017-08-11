@@ -510,6 +510,7 @@
     <Content Include="img\logo\Logo_96_Temet-Nosce.jpg" />
     <Content Include="img\uncheckbox.png" />
     <Content Include="img\Unchecked-Checkbox-icon.png" />
+    <Content Include="Index1.aspx" />
     <Content Include="Madrigal.aspx" />
     <Content Include="Payments\EventPayment102.aspx" />
     <Content Include="Payments\EventPayment33.aspx" />
@@ -518,7 +519,16 @@
     <Content Include="PELs\PELAddAddendum.aspx" />
     <Content Include="Points\PointsEmail.aspx" />
     <Content Include="Profile\Demographics.aspx" />
+    <Content Include="Profile\LARPResume.aspx" />
+    <Content Include="Profile\Medical.aspx" />
+    <Content Include="Profile\PlayerInventory.aspx" />
+    <Content Include="Profile\PlayerPreferences.aspx" />
+    <Content Include="Profile\PlayerRoles.aspx" />
+    <Content Include="Profile\Profile.aspx" />
+    <Content Include="Profile\Resume.aspx" />
     <Content Include="Profile\Security.aspx" />
+    <Content Include="Profile\SuperPlayerRoles.aspx" />
+    <Content Include="Profile\Waivers.aspx" />
     <Content Include="Reports\CampaignPlayers.aspx" />
     <Content Include="Reports\CharacterSkillStats.aspx" />
     <Content Include="Reports\CheckIn.aspx" />
@@ -1305,6 +1315,13 @@
     <Compile Include="General\MemberHome.aspx.designer.cs">
       <DependentUpon>MemberHome.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Index1.aspx.cs">
+      <DependentUpon>Index1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Index1.aspx.designer.cs">
+      <DependentUpon>Index1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Madrigal.aspx.cs">
       <DependentUpon>Madrigal.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1361,6 +1378,55 @@
     <Compile Include="Profile\Demographics.aspx.designer.cs">
       <DependentUpon>Demographics.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Profile\LARPResume.aspx.cs">
+      <DependentUpon>LARPResume.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\LARPResume.aspx.designer.cs">
+      <DependentUpon>LARPResume.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\Medical.aspx.cs">
+      <DependentUpon>Medical.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\Medical.aspx.designer.cs">
+      <DependentUpon>Medical.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\PlayerInventory.aspx.cs">
+      <DependentUpon>PlayerInventory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\PlayerInventory.aspx.designer.cs">
+      <DependentUpon>PlayerInventory.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\PlayerPreferences.aspx.cs">
+      <DependentUpon>PlayerPreferences.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\PlayerPreferences.aspx.designer.cs">
+      <DependentUpon>PlayerPreferences.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\PlayerRoles.aspx.cs">
+      <DependentUpon>PlayerRoles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\PlayerRoles.aspx.designer.cs">
+      <DependentUpon>PlayerRoles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\Profile.aspx.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\Profile.aspx.designer.cs">
+      <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\Resume.aspx.cs">
+      <DependentUpon>Resume.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\Resume.aspx.designer.cs">
+      <DependentUpon>Resume.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Profile\Security.aspx.cs">
       <DependentUpon>Security.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1374,6 +1440,20 @@
     </Compile>
     <Compile Include="Profile\Profile.Master.designer.cs">
       <DependentUpon>Profile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\SuperPlayerRoles.aspx.cs">
+      <DependentUpon>SuperPlayerRoles.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\SuperPlayerRoles.aspx.designer.cs">
+      <DependentUpon>SuperPlayerRoles.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Profile\Waivers.aspx.cs">
+      <DependentUpon>Waivers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Profile\Waivers.aspx.designer.cs">
+      <DependentUpon>Waivers.aspx</DependentUpon>
     </Compile>
     <Compile Include="Reports\CampaignPlayers.aspx.cs">
       <DependentUpon>CampaignPlayers.aspx</DependentUpon>

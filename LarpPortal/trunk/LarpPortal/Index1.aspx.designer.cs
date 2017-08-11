@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace LarpPortal.Payments {
+namespace LarpPortal {
     
     
-    public partial class EventPayment33 {
+    public partial class Index1 {
         
         /// <summary>
         /// frmHidFields control.
@@ -22,15 +22,6 @@ namespace LarpPortal.Payments {
         protected global::System.Web.UI.HtmlControls.HtmlForm frmHidFields;
         
         /// <summary>
-        /// lblPlayerEventCharacter control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPlayerEventCharacter;
-        
-        /// <summary>
         /// lblPageText control.
         /// </summary>
         /// <remarks>
@@ -40,39 +31,48 @@ namespace LarpPortal.Payments {
         protected global::System.Web.UI.WebControls.Label lblPageText;
         
         /// <summary>
-        /// lblPayPalForm control.
+        /// ddlCampaign control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblPayPalForm;
+        protected global::System.Web.UI.WebControls.DropDownList ddlCampaign;
         
         /// <summary>
-        /// hidItemName control.
+        /// cblRole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hidItemName;
+        protected global::System.Web.UI.WebControls.CheckBoxList cblRole;
         
         /// <summary>
-        /// ImageButton1 control.
+        /// hidRole control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
+        protected global::System.Web.UI.WebControls.HiddenField hidRole;
         
         /// <summary>
-        /// Button1 control.
+        /// hidCampaign control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.HiddenField hidCampaign;
+        
+        /// <summary>
+        /// btnSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSave;
     }
 }

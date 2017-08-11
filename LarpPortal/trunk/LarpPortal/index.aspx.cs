@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using LarpPortal.Classes;
-using System.Net;
-using System.Net.Mail;
 
 namespace LarpPortal
 {
@@ -162,6 +157,7 @@ namespace LarpPortal
                     }
                     else  // Valid member.  Login.
                     {
+
                         Login.CheckForEmail(Login.MemberID);
                         MemberLogin(Session["AttemptedUsername"].ToString(), Session["AttemptedPassword"].ToString());
                     }
@@ -200,6 +196,7 @@ namespace LarpPortal
                 PasswordToUse = AttemptedPassword;
             Login.Load(txtUserName.Text, PasswordToUse);
             int intUserID;
+            int NumberOfCampaigns = 0;
             string WhereAreYouGoing;
             Session["MemberEmailAddress"] = Login.Email;
             Session["SecurityRole"] = Login.SecurityRoleID;
@@ -209,6 +206,7 @@ namespace LarpPortal
             txtLastCampaign.Text = Login.LastLoggedInCampaign.ToString();
             txtUserID.Text = Login.MemberID.ToString();
             intUserID = Login.MemberID;
+            NumberOfCampaigns = Login.NumberOfCampaigns;
             Session["LoginName"] = Login.FirstName;
             Session["UserFullName"] = Login.FirstName + " " + Login.LastName;
             Session["Username"] = Session["AttemptedUsername"];
@@ -237,6 +235,9 @@ namespace LarpPortal
             Login.LoginAudit(Login.MemberID, txtUserName.Text,txtPassword.Text, txtIPAddress, txtBrowser, txtBrowserVersion, txtPlatform, txtOSVersion);
             Session["WebPage"] = Login.LastLoggedInLocation;
             Session["LastLoggedInLocation"] = Login.LastLoggedInLocation;
+            // If no campaigns on My Campaign list (i.e. no CMCampaignPlayers records for UserID) send them to campaign pick page
+            if(NumberOfCampaigns < 1)
+                Response.Redirect("~/Index1.aspx");
             // Go to the default or last page visited
             if(Session["WebPage"] == null)
             {

@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Data;
-using LarpPortal.Classes;
-using System.Reflection;
 using System.Collections;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Net.Mail;
 
 namespace LarpPortal.Classes
 {
@@ -68,6 +61,7 @@ namespace LarpPortal.Classes
         public string SecurityAnswer2 { get; set; }
         public string SecurityAnswer3 { get; set; }
         public string CharacterID { get; set; }
+        public int NumberOfCampaigns { get; set; }
 
         /// <summary>
         /// This will check the parameters table of the site to see if the site is in test mode or production mode
@@ -326,6 +320,8 @@ namespace LarpPortal.Classes
                     LoginCount = iTemp;
                 if (int.TryParse(dRow["UserSecurityID"].ToString(), out iTemp))
                     UserSecurityID = iTemp;
+                if (int.TryParse(dRow["NumberOfCampaigns"].ToString(), out iTemp))
+                    NumberOfCampaigns = iTemp;
                 if (DateTime.TryParse(dRow["SecurityLockoutDate"].ToString(), out dtTemp))
                     SecurityLockoutDate = dtTemp;
                 MemberID = UserID;
