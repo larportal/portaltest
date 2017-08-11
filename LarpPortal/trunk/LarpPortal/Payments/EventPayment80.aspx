@@ -1,130 +1,80 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LARPortal.Master" AutoEventWireup="true" CodeBehind="EventPayment80.aspx.cs" Inherits="LarpPortal.Payments.EventPayment80" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="HeaderStyles" runat="server">
-    <style type="text/css">
-        .TableTextBox {
-            border: 1px solid black;
-            padding-left: 5px;
-            padding-right: 5px;
-        }
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EventPayment80.aspx.cs" Inherits="LarpPortal.Payments.EventPayment80" %>
 
-        th, tr:nth-child(even) > td {
-            background-color: transparent;
-        }
+<!DOCTYPE html>
 
-        .CampaignInfoTable {
-            border-collapse: collapse;
-        }
-
-            .CampaignInfoTable td {
-                padding: 4px;
-            }
-
-        div {
-            border: 0px solid black;
-        }
-
-        .row {
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-
-        .NoPadding {
-            padding-left: 0px;
-            padding-right: 0px;
-        }
-
-        .TextEntry {
-            border: 1px solid black;
-            padding: 0px;
-        }
-
-        .PnlDesign {
-            border: solid 1px #000000;
-            height: 150px;
-            width: 330px;
-            overflow-y: scroll;
-            background-color: white;
-            font-size: 15px;
-            font-family: Arial;
-        }
-
-        .txtbox {
-            background-image: url(../img/download.png);
-            background-position: right top;
-            background-repeat: no-repeat;
-            cursor: pointer;
-            border: 1px solid #A9A9A9;
-        }
-
-        .container {
-            display: table;
-            vertical-align: middle;
-        }
-
-        .vertical-center-row {
-            display: table-cell;
-            vertical-align: middle;
-        }
-
-        .spaced input[type="radio"] {
-            margin-right: 5px;
-            margin-left: 15px;
-        }
-    </style>
-</asp:Content>
-
-<asp:Content ID="Content2" ContentPlaceHolderID="MainPage" runat="server">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+</head>
+<body>
     <div class="contentArea">
         <aside></aside>
-        <asp:HiddenField ID="hidItemName" runat="server" />
-        <asp:Label ID="lblHeader" runat="server"></asp:Label>
-        <div class="row PrePostPadding">
-            <asp:Label ID="lblRegistrationText" runat="server" Text="RegistrationText"></asp:Label>
-        </div>
-        <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkRegistration" runat="server" Text="Add registration payment ($80.00)" />
-        </div>
-        <div class="row PrePostPadding">
-            <asp:Label ID="lblFoodText" runat="server" Text="FoodText"></asp:Label>
-        </div>
-        <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkSaturdayBrunch" runat="server" Text="Saturday Brunch ($9.00)" />
-        </div>
-        <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkSaturdayDinner" runat="server" Text="Saturday Dinner ($9.00)" />
-        </div>
-        <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkSundayBrunch" runat="server" Text="Sunday Brunch ($9.00)" />
-        </div>
-        <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkAllMeals" runat="server" Text="All three meals ($27.00)" />
-        </div>
-        <div class="row PrePostPadding" runat="server">&nbsp;</div>
-        <asp:Button ID="btnCalculateOrder" runat="server" CssClass="StandardButton" Text="Calculate Amount" OnClick="btnCalculateOrder_Click" />
-        <div class="row PrePostPadding" runat="server">&nbsp;</div>
-        <div class="row PrePostPadding" runat="server">
-            <div>
-                <asp:Label ID="lblOrderTotalDisplay" runat="server" Visible="false"></asp:Label><br />
-            </div>
-            <div>
-                <asp:Label ID="lblOrderTotalSection" runat="server" Visible="false"></asp:Label>
-            </div>
-            <div>
-                <asp:ImageButton ID="btnPayPalTotal" runat="server" ImageUrl="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" PostBackUrl="https://secure.paypal.com/cgi-bin/webscr" Visible="false" OnClick="btnPayPalTotal_Click" />
-            </div>
-            <div>
-                <asp:Label ID="lblClosePayPalForm" runat="server" Text="</form>"></asp:Label>
-            </div>
-        </div>
+        <div class="mainContent tab-content col-lg-6 input-group">
+            <section id="campaign-info" class="campaign-info tab-pane active">
+                <form id="frmHidFields" runat="server">
+                    <div role="form" class="form-horizontal">
+                        <div class="col-sm-12 NoPadding">
+                            <h1 class="col-sm-12">Crossover - Event Registration Payment</h1>
+                        </div>
+                        <div class="row col-sm-12 NoPadding" style="padding-left: 25px;">
+                            <div class="col-lg-12 NoPadding" style="padding-left: 15px;">
+                                <div class="panel NoPadding" style="padding-top: 0px; padding-bottom: 0px; min-height: 50px;">
+                                    <div class="panelheader NoPadding">
+                                        <h2>
+                                            <asp:Label ID="lblPlayerEventCharacter" runat="server" Text="Player - Event - Character"></asp:Label></h2>
+                                    </div>
+                                    <div class="panel-body NoPadding">
+                                        <div class="panel-container NoPadding">
+                                            <asp:Label ID="lblPageText" runat="server">
+                                                Crossover events are $80 if paid in advance, or $85 if you pay less than three weeks before the event. 
+                                                You can pay through PayPal, or by cash or check at the door.<br /><br />
+                                                We ask that if you pay in the last few days before an event, please use cash or check at the door, since there
+                                                 is a delay before we can access PayPal funds to pay the site fee.<br /><br />
+                                                If you need to make other arrangements, or have questions, please 
+                                                <a href="https://sites.google.com/site/crossoverrules/home/contact-info">contact us by email.</a><br /><br />
+                                                If you'd rather pay from the Crossover site <a href="https://sites.google.com/site/crossoverrules/home/event-payment">click here.</a><br /><br />
+                                            </asp:Label>
+                                            <asp:Label ID="lblEarlyOrLate" runat="server">Crossover Event (Paid in advance)</asp:Label>
+                                            <div class="paypalWrapper">
+                                                <div class="errors hidden checkoutErrors">
+                                                    <div class="paypalButtonContainer ani_cta_none">
+                                                        <div class="bgradient">
+                                                            <div class="paypalButton">
+                                                                <asp:Label ID="lblPayPalForm" runat="server" Text="lblPayPalForm text here"></asp:Label>
+                                                                <%--<asp:TextBox ID="tbPayPalFormCode" runat="server" Text="" TextMode="MultiLine"></asp:TextBox>--%>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%--<div class="row PrePostPadding" runat="server">&nbsp;</div>--%>
+                                            <%--<asp:Button ID="btnCalculateOrder" runat="server" CssClass="StandardButton" Text="Calculate Amount" Visible="false" OnClick="btnCalculateOrder_Click" />--%>
+                                            <%--<div class="row PrePostPadding" runat="server">&nbsp;</div>--%>
+                                            <div class="row PrePostPadding" runat="server">
+                                                <div>
+                                                    <asp:HiddenField ID="hidItemName" runat="server" />
+                                                    <%--<asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="https://www.paypalobjects.com/webstatic/en_AU/i/buttons/btn_paywith_primary_s.png" PostBackUrl="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=PYM9SG4S63CX2" Visible="true" OnClick="btnPayPalTotal_Click" />--%>
+                                                    <asp:Label ID="lblImageButton" runat="server"></asp:Label><br /><br /><br />
+                                                    Food service payments can be made to Suhayma <a href="https://www.paypal.me/Suhayma" rel="nofollow">here.</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-        <asp:Label ID="lblFooter" runat="server" Visible="false"></asp:Label>
-
-        <div class="row PrePostPadding">&nbsp;</div>
-        <div class="row PrePostPadding">
-            <div class="col-sm-11"></div>
-            <div class="col-sm-1">
-                <asp:Button ID="btnClose" runat="server" CssClass="StandardButton" Text="Close" OnClick="btnClose_Click" />
-            </div>
+                        <div class="row PrePostPadding">&nbsp;</div>
+                        <div class="row PrePostPadding">
+                            <div class="col-sm-11"></div>
+                            <div class="col-sm-1">
+                                <asp:Button ID="Button1" runat="server" CssClass="StandardButton" Text="Close" OnClick="btnClose_Click" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
         </div>
     </div>
-</asp:Content>
+</body>
+</html>

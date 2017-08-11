@@ -206,6 +206,7 @@ namespace LarpPortal
                 PasswordToUse = AttemptedPassword;
             Login.Load(txtUserName.Text, PasswordToUse);
             int intUserID;
+            int NumberOfCampaigns = 0;
             string WhereAreYouGoing;
             // vvvvv CUSTOM LANDING PAGE CHANGES vvvvv
             bool IncludeNPCCharacters = false;
@@ -219,6 +220,7 @@ namespace LarpPortal
             // ^^^^^ CUSTOM LANDING PAGE CHANGES ^^^^^
             txtUserID.Text = Login.MemberID.ToString();
             intUserID = Login.MemberID;
+            NumberOfCampaigns = Login.NumberOfCampaigns;
             Session["LoginName"] = Login.FirstName;
             Session["Username"] = Session["AttemptedUsername"];
             Session["LoginPassword"] = Session["AttemptedPassword"];
@@ -247,6 +249,9 @@ namespace LarpPortal
             Login.LoginAudit(Login.MemberID, txtUserName.Text, txtPassword.Text, txtIPAddress, txtBrowser, txtBrowserVersion, txtPlatform, txtOSVersion);
             Session["WebPage"] = Login.LastLoggedInLocation;
             Session["LastLoggedInLocation"] = Login.LastLoggedInLocation;
+            // If no campaigns on My Campaign list (i.e. no CMCampaignPlayers records for UserID) send them to campaign pick page
+            if (NumberOfCampaigns < 1)
+                Response.Redirect("~/Index1.aspx");
             // Go to the default or last page visited
             if (Session["WebPage"] == null)
             {
