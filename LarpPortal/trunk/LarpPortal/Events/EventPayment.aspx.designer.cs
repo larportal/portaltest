@@ -49,13 +49,13 @@ namespace LarpPortal.Events {
         protected global::System.Web.UI.WebControls.CheckBox chkRegistration;
         
         /// <summary>
-        /// lblFoodText control.
+        /// lblFoodTextOld control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFoodText;
+        protected global::System.Web.UI.WebControls.Label lblFoodTextOld;
         
         /// <summary>
         /// chkSaturdayBrunch control.
@@ -146,6 +146,15 @@ namespace LarpPortal.Events {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblClosePayPalForm;
+        
+        /// <summary>
+        /// lblFoodText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFoodText;
         
         /// <summary>
         /// lblFooter control.

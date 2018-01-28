@@ -39,8 +39,24 @@ namespace LarpPortal.Events
                 lblRegistrationText.Text += "is no longer any Membership fee - insurance and overhead fees have ";
                 lblRegistrationText.Text += "been rolled into the event cost. This way, NPCs play for free!</p>";
                 lblRegistrationText.Text += "<p>This means that Adventure Weekends now cost $80, no matter when you register:</p>";
-                lblFoodText.Text = "<p>At the current campsite, meal services are available during Adventure Weekends, and may be paid for ahead of time or at check-in - ";
-                lblFoodText.Text += " please note that the camp staff cannot accept payment for meals during meal times:</p>";
+                lblFoodText.Text = "At Camp Woodstock meal services are available directly through the site.<br>";
+                lblFoodText.Text += "Go to  www.campwoodstock.org.<br>";
+                lblFoodText.Text += "Click big orange REGISTER FOR CAMP button at the bottom.<br>";
+                lblFoodText.Text += "First time fill out new user sign-in. Subsequent times just login.<br>";
+                lblFoodText.Text += "Click Start application button under Weekend Group: Chimera<br>";
+                lblFoodText.Text += "Click Continue button<br>";
+                lblFoodText.Text += "If you are handling registration for multiple people, create each person under your account. It will take 2 adults and as many children as you want. Just list additional people as children.<br>";
+                lblFoodText.Text += "When you’re done press Continue button.<br>";
+                lblFoodText.Text += "Under each person’s tab select the meals they’re getting by clicking show details link.<br>";
+                lblFoodText.Text += "When you’re done press Continue button.<br>";
+                lblFoodText.Text += "Fill in forms for allergies if any (note: email additional allergies information is on the page)<br>";
+                lblFoodText.Text += "Fill in your name and contact info (the person paying) and click Complete this Form button.<br>";
+                lblFoodText.Text += "Choose your payment option (MasterCard, Visa, Discover or American Express).<br>";
+                lblFoodText.Text += "Click Continue button.<br>";
+                lblFoodText.Text += "Fill in credit card info.<br>";
+                lblFoodText.Text += "Click Submit Application button.";
+                //lblFoodText.Text = "<p>At the current campsite, meal services are available during Adventure Weekends, and may be paid for ahead of time or at check-in - ";
+                //lblFoodText.Text += " please note that the camp staff cannot accept payment for meals during meal times:</p>";
                 if (RegistrationID == 0)
                 {
                     ClientScript.RegisterStartupScript(typeof(Page), "closePage", "window.open('close.html', '_self', null);", true);

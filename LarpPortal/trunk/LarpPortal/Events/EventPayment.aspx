@@ -86,19 +86,19 @@
             <asp:CheckBox ID="chkRegistration" runat="server" Text="Add registration payment ($80.00)" />
         </div>
         <div class="row PrePostPadding">
-            <asp:Label ID="lblFoodText" runat="server" Text="FoodText"></asp:Label>
+            <asp:Label ID="lblFoodTextOld" runat="server" Text="FoodText" Visible="false"></asp:Label>
         </div>
         <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkSaturdayBrunch" runat="server" Text="Saturday Brunch ($9.00)" />
+            <asp:CheckBox ID="chkSaturdayBrunch" runat="server" Text="Saturday Brunch ($9.00)" Visible="false" />
         </div>
         <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkSaturdayDinner" runat="server" Text="Saturday Dinner ($9.00)" />
+            <asp:CheckBox ID="chkSaturdayDinner" runat="server" Text="Saturday Dinner ($9.00)" Visible="false" />
         </div>
         <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkSundayBrunch" runat="server" Text="Sunday Brunch ($9.00)" />
+            <asp:CheckBox ID="chkSundayBrunch" runat="server" Text="Sunday Brunch ($9.00)" Visible="false" />
         </div>
         <div class="row PrePostPadding">
-            <asp:CheckBox ID="chkAllMeals" runat="server" Text="All three meals ($27.00)" />
+            <asp:CheckBox ID="chkAllMeals" runat="server" Text="All three meals ($27.00)" Visible="false" />
         </div>
         <div class="row PrePostPadding" runat="server">&nbsp;</div>
         <asp:Button ID="btnCalculateOrder" runat="server" CssClass="StandardButton" Text="Calculate Amount" OnClick="btnCalculateOrder_Click" />
@@ -120,6 +120,10 @@
                 <asp:Label ID="lblClosePayPalForm" runat="server" Text="</form>"></asp:Label>
             </div>
         </div>
+        <div class="row PrePostPadding">
+            <asp:Label ID="lblFoodText" runat="server" Text="FoodText" Visible="true"></asp:Label>
+        </div>
+ 
 
         <asp:Label ID="lblFooter" runat="server" Visible="false"></asp:Label>
 
