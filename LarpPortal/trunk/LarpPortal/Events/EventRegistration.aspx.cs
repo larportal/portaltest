@@ -156,7 +156,8 @@ namespace LarpPortal.Events
 
                 string strBody;
                 strBody = lblPlayerName.Text + " has just registered for the upcoming " + drCampInfo["CampaignName"].ToString() + " event.  <br>" +
-                    "Email: " + hidPlayerEMail.Value + "<br>";
+                    "Email: " + hidPlayerEMail.Value + "<br>" +
+                    "Event: " + ddlEventDate.SelectedItem.Text + "<br>";
 
                 if (hidCharAKA.Value.Length > 0)
                     strBody += "Character: " + ddlCharacterList.SelectedItem.Text + "<br>";
